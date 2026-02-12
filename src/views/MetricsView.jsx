@@ -3,6 +3,10 @@ import {
   FileText, MessageSquare, Globe, Target, TrendingUp, TrendingDown, Minus,
   Loader2, AlertCircle, RefreshCw, ArrowUp, ArrowDown, BarChart3
 } from 'lucide-react'
+import {
+  BarChart as RechartsBarChart, Bar, PieChart as RechartsPieChart, Pie, Cell,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+} from 'recharts'
 import { useAeoMetrics, AI_ENGINES } from '../hooks/useAeoMetrics'
 
 /* ── Reusable Components ── */
@@ -40,28 +44,40 @@ function MetricCard({ title, value, change, changeLabel, icon, iconBg, iconColor
   )
 }
 
-function BarChart({ data, maxValue, height = 200 }) {
-  if (!data?.length) return null
-  const max = maxValue || Math.max(...data.map(d => d.value), 1)
+function CustomTooltip({ active, payload, label }) {
+  if (!active || !payload?.length) return null
   return (
-    <div className="flex items-end gap-1.5" style={{ height }}>
-      {data.map((item, i) => (
-        <div key={i} className="flex-1 flex flex-col items-center gap-1">
-          <div className="w-full relative flex items-end" style={{ height: height - 24 }}>
-            <div
-              className="w-full rounded-t-md transition-all duration-500"
-              style={{
-                height: `${Math.max((item.value / max) * 100, 2)}%`,
-                backgroundColor: item.color || 'var(--color-phase-1)',
-                animationDelay: `${i * 50}ms`,
-              }}
-              title={`${item.label}: ${item.value}`}
-            />
-          </div>
-          <span className="text-[10px] text-text-tertiary truncate w-full text-center">{item.label}</span>
-        </div>
+    <div style={{
+      background: 'var(--bg-card)', border: '1px solid var(--border-default)',
+      borderRadius: 8, padding: '8px 12px', fontSize: 12, boxShadow: 'var(--shadow-md)',
+    }}>
+      <p style={{ color: 'var(--text-tertiary)', marginBottom: 4, fontWeight: 600 }}>{label}</p>
+      {payload.map((entry, i) => (
+        <p key={i} style={{ color: entry.color || entry.fill, fontWeight: 500 }}>
+          {entry.name || 'Value'}: {entry.value?.toLocaleString()}
+        </p>
       ))}
     </div>
+  )
+}
+
+function BarChart({ data, maxValue, height = 200 }) {
+  if (!data?.length) return null
+  const chartData = data.map((d, i) => ({ name: d.label, value: d.value, fill: d.color || 'var(--color-phase-1)' }))
+  return (
+    <ResponsiveContainer width="100%" height={height}>
+      <RechartsBarChart data={chartData} barSize={28}>
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" />
+        <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
+        <YAxis tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} domain={[0, maxValue || 'auto']} />
+        <Tooltip content={<CustomTooltip />} />
+        <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+          {chartData.map((entry, i) => (
+            <Cell key={i} fill={entry.fill} />
+          ))}
+        </Bar>
+      </RechartsBarChart>
+    </ResponsiveContainer>
   )
 }
 
@@ -86,23 +102,30 @@ function PieChart({ data, size = 160 }) {
   let total = data.reduce((s, d) => s + d.value, 0)
   if (total === 0) return null
 
-  let cumulative = 0
-  const gradientParts = data.map(d => {
-    const start = cumulative
-    cumulative += (d.value / total) * 360
-    return `${d.color} ${start}deg ${cumulative}deg`
-  })
+  const chartData = data.map(d => ({ name: d.label, value: d.value, color: d.color }))
+  const outerR = size / 2 - 10
+  const innerR = outerR * 0.55
 
   return (
     <div className="flex items-center gap-6">
-      <div
-        className="rounded-full flex-shrink-0"
-        style={{
-          width: size,
-          height: size,
-          background: `conic-gradient(${gradientParts.join(', ')})`,
-        }}
-      />
+      <ResponsiveContainer width={size} height={size}>
+        <RechartsPieChart>
+          <Pie
+            data={chartData}
+            cx="50%"
+            cy="50%"
+            innerRadius={innerR}
+            outerRadius={outerR}
+            paddingAngle={3}
+            dataKey="value"
+          >
+            {chartData.map((entry, i) => (
+              <Cell key={i} fill={entry.color} />
+            ))}
+          </Pie>
+          <Tooltip content={<CustomTooltip />} />
+        </RechartsPieChart>
+      </ResponsiveContainer>
       <div className="space-y-2">
         {data.map((d, i) => (
           <div key={i} className="flex items-center gap-2">
@@ -376,15 +399,18 @@ function OverviewTab({ metrics, rangeMetrics }) {
       {rangeMetrics.length > 1 && (
         <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
           <h3 className="font-heading text-[13px] font-bold mb-4 text-text-primary">Score Trend</h3>
-          <BarChart
-            data={rangeMetrics.slice(-14).map(m => ({
-              label: new Date(m.timestamp).toLocaleDateString('en', { month: 'short', day: 'numeric' }),
-              value: m.overallScore || 0,
-              color: m.overallScore >= 70 ? 'var(--color-success)' : m.overallScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)',
-            }))}
-            height={160}
-            maxValue={100}
-          />
+          <ResponsiveContainer width="100%" height={160}>
+            <LineChart data={rangeMetrics.slice(-14).map(m => ({
+              date: new Date(m.timestamp).toLocaleDateString('en', { month: 'short', day: 'numeric' }),
+              score: m.overallScore || 0,
+            }))}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" />
+              <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
+              <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
+              <Tooltip content={<CustomTooltip />} />
+              <Line type="monotone" dataKey="score" stroke="var(--color-phase-1)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-phase-1)' }} name="AEO Score" />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       )}
     </div>

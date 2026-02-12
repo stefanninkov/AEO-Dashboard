@@ -15,6 +15,8 @@ import AnalyzerView from './views/AnalyzerView'
 import DocsView from './views/DocsView'
 import TestingView from './views/TestingView'
 import MetricsView from './views/MetricsView'
+import CompetitorsView from './views/CompetitorsView'
+import SettingsView from './views/SettingsView'
 import EmailReportDialog from './components/EmailReportDialog'
 import { generateReport } from './utils/generateReport'
 import { phases } from './data/aeo-checklist'
@@ -160,9 +162,9 @@ function AuthenticatedApp({ user, onSignOut }) {
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         const tag = document.activeElement?.tagName
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
-        const views = ['dashboard', 'checklist', 'process', 'analyzer', 'metrics', 'docs', 'testing']
+        const views = ['dashboard', 'competitors', 'checklist', 'process', 'analyzer', 'metrics', 'docs', 'testing', 'settings']
         const num = parseInt(e.key)
-        if (num >= 1 && num <= 7) {
+        if (num >= 1 && num <= 9) {
           setActiveView(views[num - 1])
         }
       }
@@ -285,6 +287,23 @@ function AuthenticatedApp({ user, onSignOut }) {
           <TestingView
             activeProject={activeProject}
             updateProject={updateProject}
+          />
+        )
+      case 'competitors':
+        return (
+          <CompetitorsView
+            activeProject={activeProject}
+            updateProject={updateProject}
+          />
+        )
+      case 'settings':
+        return (
+          <SettingsView
+            activeProject={activeProject}
+            updateProject={updateProject}
+            deleteProject={deleteProject}
+            user={user}
+            setActiveView={setActiveView}
           />
         )
       default:

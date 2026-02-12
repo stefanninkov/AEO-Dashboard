@@ -37,6 +37,15 @@ const DEFAULT_PROJECT_DATA = {
   metricsHistory: [],
   lastMetricsRun: null,
   notes: '',
+  competitors: [],
+  competitorAnalysis: null,
+  lastCompetitorRun: null,
+  settings: {
+    monitoringEnabled: false,
+    monitoringInterval: '7d',
+    notifyOnScoreChange: false,
+    notifyThreshold: 10,
+  },
 }
 
 /* ── localStorage Projects (Dev Mode) ── */

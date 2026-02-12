@@ -1,17 +1,20 @@
 import {
   Zap, LayoutDashboard, CheckSquare, GitBranch, Zap as ZapIcon,
-  BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, User, Plus
+  BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, User, Plus,
+  Users, Settings
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'competitors', label: 'Competitors', icon: Users },
   { id: 'checklist', label: 'Checklist', icon: CheckSquare },
   { id: 'process', label: 'Process Map', icon: GitBranch },
   { id: 'analyzer', label: 'Analyzer', icon: ZapIcon },
   { id: 'metrics', label: 'Metrics', icon: BarChart3 },
   { id: 'docs', label: 'Documentation', icon: BookOpen },
   { id: 'testing', label: 'Testing', icon: FlaskConical },
+  { id: 'settings', label: 'Settings', icon: Settings },
 ]
 
 export default function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut }) {
