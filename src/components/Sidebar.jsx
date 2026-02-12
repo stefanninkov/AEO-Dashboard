@@ -4,21 +4,20 @@ import {
   Users, Settings
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
-import HintBadge from './HintBadge'
 
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, hint: 'Overview of all your AEO metrics and progress' },
-  { id: 'competitors', label: 'Competitors', icon: Users, hint: 'Compare your AEO performance against competitors' },
-  { id: 'checklist', label: 'Checklist', icon: CheckSquare, hint: 'Track 200+ AEO tasks across 7 phases' },
-  { id: 'process', label: 'Process Map', icon: GitBranch, hint: 'Visual flowchart of the AEO optimization process' },
-  { id: 'analyzer', label: 'Analyzer', icon: ZapIcon, hint: 'AI-powered analysis of your website\'s AEO readiness' },
-  { id: 'metrics', label: 'Metrics', icon: BarChart3, hint: 'Detailed metrics about your AI engine visibility' },
-  { id: 'docs', label: 'Documentation', icon: BookOpen, hint: 'In-depth guides for every AEO task' },
-  { id: 'testing', label: 'Testing', icon: FlaskConical, hint: 'Test your content across AI platforms' },
-  { id: 'settings', label: 'Settings', icon: Settings, hint: 'Manage your profile, API key, and project settings' },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'competitors', label: 'Competitors', icon: Users },
+  { id: 'checklist', label: 'Checklist', icon: CheckSquare },
+  { id: 'process', label: 'Process Map', icon: GitBranch },
+  { id: 'analyzer', label: 'Analyzer', icon: ZapIcon },
+  { id: 'metrics', label: 'Metrics', icon: BarChart3 },
+  { id: 'docs', label: 'Documentation', icon: BookOpen },
+  { id: 'testing', label: 'Testing', icon: FlaskConical },
+  { id: 'settings', label: 'Settings', icon: Settings },
 ]
 
-export default function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, hintsMode }) {
+export default function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut }) {
   const { theme, toggleTheme } = useTheme()
 
   return (
@@ -50,16 +49,15 @@ export default function Sidebar({ activeView, setActiveView, onNewProject, user,
           const Icon = item.icon
           const isActive = activeView === item.id
           return (
-            <HintBadge key={item.id} hint={item.hint} active={hintsMode} position="right">
-              <button
-                onClick={() => setActiveView(item.id)}
-                className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-                style={{ width: '100%' }}
-              >
-                <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
-                {item.label}
-              </button>
-            </HintBadge>
+            <button
+              key={item.id}
+              onClick={() => setActiveView(item.id)}
+              className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+              style={{ width: '100%' }}
+            >
+              <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+              {item.label}
+            </button>
           )
         })}
       </nav>

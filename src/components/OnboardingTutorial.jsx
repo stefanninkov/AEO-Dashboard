@@ -1,55 +1,166 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Zap, ArrowRight, X, Compass, Search, CheckSquare, LayoutDashboard, Rocket } from 'lucide-react'
+import {
+  Zap, ArrowRight, X, Compass, Search, CheckSquare, LayoutDashboard, Rocket,
+  BarChart3, Users, GitBranch, BookOpen, FlaskConical, Settings, TrendingUp, Target
+} from 'lucide-react'
 
 const STEPS = [
+  // ── Getting Started ──
   {
     id: 'welcome',
     title: 'Welcome to AEO Dashboard!',
-    description: 'Answer Engine Optimization made simple. Let\'s take a quick tour to help you get started.',
+    description: 'Answer Engine Optimization made simple. This tour will walk you through every section of the app so you know exactly where everything is.',
     icon: <Zap size={24} />,
-    target: null, // centered modal, no spotlight
+    target: null,
     position: 'center',
+    view: null,
   },
   {
     id: 'sidebar',
     title: 'Navigate the App',
-    description: 'Use the sidebar to switch between views. Dashboard gives you an overview, Checklist tracks your tasks, and Analyzer scans your site.',
+    description: 'The sidebar gives you quick access to all 9 sections of the app. Pro tip: press number keys 1-9 on your keyboard to jump between views instantly.',
     icon: <Compass size={24} />,
     target: '.sidebar',
     position: 'right',
+    view: 'dashboard',
   },
   {
     id: 'project-switcher',
     title: 'Manage Projects',
-    description: 'Switch between projects or create new ones here. Each project tracks a different website\'s AEO progress independently.',
+    description: 'Switch between projects or create new ones here. Each project tracks a different website\'s AEO progress independently — with its own checklist, metrics, and analysis.',
     icon: <LayoutDashboard size={24} />,
     target: '.top-bar-row-1 .relative',
     position: 'bottom',
+    view: 'dashboard',
   },
   {
     id: 'search',
     title: 'Quick Search',
-    description: 'Use search (Ctrl+K) to instantly find checklist items, documentation, and navigate anywhere in the app.',
+    description: 'Press Ctrl+K (or Cmd+K on Mac) to instantly search across checklist items, documentation, competitors, and navigate anywhere in the app.',
     icon: <Search size={24} />,
     target: '.search-container',
     position: 'bottom',
+    view: 'dashboard',
   },
+  {
+    id: 'progress',
+    title: 'Track Overall Progress',
+    description: 'The progress bar shows your total AEO completion percentage. The colored phase badges below break it down by each of the 7 AEO phases.',
+    icon: <TrendingUp size={24} />,
+    target: '.top-bar-progress',
+    position: 'bottom',
+    view: 'dashboard',
+  },
+
+  // ── Dashboard ──
+  {
+    id: 'dashboard-overview',
+    title: 'Dashboard Overview',
+    description: 'Your command center. View stat cards, charts, phase progress, and quick actions. Switch between Overview, Citations, Prompts, and Chatbots sub-tabs for different metric views.',
+    icon: <LayoutDashboard size={24} />,
+    target: '.stat-card',
+    position: 'bottom',
+    view: 'dashboard',
+  },
+
+  // ── Checklist ──
   {
     id: 'checklist',
-    title: 'Track Your Progress',
-    description: 'The checklist has 200+ AEO tasks across 7 phases. Check items off as you optimize your site for AI engines.',
+    title: 'AEO Checklist',
+    description: '200+ optimization tasks organized across 7 phases. Check items off as you implement them. Each item can be AI-verified against your live site, or manually marked as done.',
     icon: <CheckSquare size={24} />,
-    target: '.quick-actions-grid',
-    position: 'top',
+    target: '.checklist-stats-grid',
+    position: 'bottom',
+    view: 'checklist',
   },
+
+  // ── Competitors ──
+  {
+    id: 'competitors',
+    title: 'Competitor Tracking',
+    description: 'Add competitors by name and URL to benchmark your AEO performance. Run analysis to compare scores, see heat maps of strengths/weaknesses, and get AI-generated competitive insights.',
+    icon: <Users size={24} />,
+    target: 'input[placeholder="e.g. TechLeader"]',
+    position: 'bottom',
+    view: 'competitors',
+  },
+
+  // ── Process Map ──
+  {
+    id: 'process',
+    title: 'AEO Process Map',
+    description: 'A visual roadmap of all 7 AEO phases — from Technical Foundation to Ongoing Optimization. Each phase shows steps, deliverables, and links to detailed documentation.',
+    icon: <GitBranch size={24} />,
+    target: null,
+    position: 'center',
+    view: 'process',
+  },
+
+  // ── Analyzer ──
+  {
+    id: 'analyzer',
+    title: 'Site Analyzer',
+    description: 'Enter any URL and AI will scan it for AEO readiness — checking schema markup, content structure, technical SEO, and authority signals. You\'ll get a score from 0-100 with specific recommendations.',
+    icon: <Zap size={24} />,
+    target: 'input[placeholder="https://example.com"]',
+    position: 'bottom',
+    view: 'analyzer',
+  },
+
+  // ── Metrics ──
+  {
+    id: 'metrics',
+    title: 'Detailed Metrics',
+    description: 'Run analysis to get citation counts, prompt visibility, and AI engine breakdowns over time. Track how your site appears in ChatGPT, Perplexity, Google AI Overviews, and more.',
+    icon: <BarChart3 size={24} />,
+    target: null,
+    position: 'center',
+    view: 'metrics',
+  },
+
+  // ── Documentation ──
+  {
+    id: 'docs',
+    title: 'Documentation Library',
+    description: 'In-depth guides for every AEO task in the checklist. Search by keyword or filter by phase. Click any item to open a detailed overlay with step-by-step instructions.',
+    icon: <BookOpen size={24} />,
+    target: 'input[placeholder="Search documentation..."]',
+    position: 'bottom',
+    view: 'docs',
+  },
+
+  // ── Testing ──
+  {
+    id: 'testing',
+    title: 'Testing & Monitoring',
+    description: 'Track target queries across AI platforms (ChatGPT, Perplexity, Google AIO, Bing Copilot, Claude). Set up auto-monitoring, follow weekly/monthly testing routines, and use quick links to validation tools.',
+    icon: <FlaskConical size={24} />,
+    target: null,
+    position: 'center',
+    view: 'testing',
+  },
+
+  // ── Settings ──
+  {
+    id: 'settings',
+    title: 'Settings & API Key',
+    description: 'Configure your profile, set your Anthropic API key (required for the Analyzer and AI verification), manage project settings, and access destructive actions like resetting data.',
+    icon: <Settings size={24} />,
+    target: null,
+    position: 'center',
+    view: 'settings',
+  },
+
+  // ── Final ──
   {
     id: 'get-started',
-    title: 'You\'re All Set!',
-    description: 'Start by entering your website URL and running the Analyzer. It will scan your site and give you an AEO score with recommendations.',
+    title: 'You\'re Ready!',
+    description: 'Start by setting your API key in Settings, then enter your website URL in the Analyzer. It will scan your site and give you an AEO score with actionable recommendations. Good luck!',
     icon: <Rocket size={24} />,
     target: null,
     position: 'center',
-    cta: 'Go to Analyzer',
+    view: null,
+    cta: 'Start Analyzing',
   },
 ]
 
@@ -68,23 +179,39 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
     }
     const el = document.querySelector(currentStep.target)
     if (el) {
-      const rect = el.getBoundingClientRect()
-      setSpotlightRect({
-        top: rect.top - 8,
-        left: rect.left - 8,
-        width: rect.width + 16,
-        height: rect.height + 16,
-      })
+      // Scroll the element into view within .content-scroll
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      // Wait for scroll to settle, then measure
+      setTimeout(() => {
+        const rect = el.getBoundingClientRect()
+        setSpotlightRect({
+          top: rect.top - 8,
+          left: rect.left - 8,
+          width: rect.width + 16,
+          height: rect.height + 16,
+        })
+      }, 400)
     } else {
       setSpotlightRect(null)
     }
   }, [currentStep])
 
   useEffect(() => {
-    updateSpotlight()
+    // Delay spotlight update if we might be waiting for a view to mount
+    const delay = currentStep.view ? 500 : 100
+    const timer = setTimeout(updateSpotlight, delay)
     window.addEventListener('resize', updateSpotlight)
-    return () => window.removeEventListener('resize', updateSpotlight)
-  }, [updateSpotlight])
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('resize', updateSpotlight)
+    }
+  }, [updateSpotlight, currentStep])
+
+  const navigateToStep = (nextStep, currentView) => {
+    if (nextStep.view && nextStep.view !== currentView && setActiveView) {
+      setActiveView(nextStep.view)
+    }
+  }
 
   const handleNext = () => {
     if (step === STEPS.length - 1) {
@@ -92,19 +219,27 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
       return
     }
     setAnimating(true)
+    const nextStep = STEPS[step + 1]
+    const currentView = STEPS[step].view
+    navigateToStep(nextStep, currentView)
+    const delay = nextStep.view && nextStep.view !== currentView ? 350 : 150
     setTimeout(() => {
       setStep(s => s + 1)
       setAnimating(false)
-    }, 150)
+    }, delay)
   }
 
   const handlePrev = () => {
     if (step === 0) return
     setAnimating(true)
+    const prevStep = STEPS[step - 1]
+    const currentView = STEPS[step].view
+    navigateToStep(prevStep, currentView)
+    const delay = prevStep.view && prevStep.view !== currentView ? 350 : 150
     setTimeout(() => {
       setStep(s => s - 1)
       setAnimating(false)
-    }, 150)
+    }, delay)
   }
 
   const handleComplete = () => {
@@ -122,7 +257,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
     if (setActiveView) setActiveView('analyzer')
   }
 
-  // Calculate card position based on spotlight
+  // Calculate card position based on spotlight (clamped to viewport)
   const getCardStyle = () => {
     if (currentStep.position === 'center' || !spotlightRect) {
       return {
@@ -133,29 +268,38 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
     }
     const { position } = currentStep
     const margin = 16
+    const cardW = 360
+    const cardH = 280
 
     if (position === 'right') {
       return {
-        top: spotlightRect.top,
-        left: spotlightRect.left + spotlightRect.width + margin,
+        top: Math.min(spotlightRect.top, window.innerHeight - cardH),
+        left: Math.min(spotlightRect.left + spotlightRect.width + margin, window.innerWidth - cardW),
       }
     }
     if (position === 'bottom') {
       return {
-        top: spotlightRect.top + spotlightRect.height + margin,
-        left: spotlightRect.left,
+        top: Math.min(spotlightRect.top + spotlightRect.height + margin, window.innerHeight - cardH),
+        left: Math.min(spotlightRect.left, window.innerWidth - cardW),
       }
     }
     if (position === 'top') {
       return {
-        bottom: window.innerHeight - spotlightRect.top + margin,
-        left: spotlightRect.left,
+        bottom: Math.max(window.innerHeight - spotlightRect.top + margin, 20),
+        left: Math.min(spotlightRect.left, window.innerWidth - cardW),
       }
     }
     return {
-      top: spotlightRect.top + spotlightRect.height + margin,
-      left: spotlightRect.left,
+      top: Math.min(spotlightRect.top + spotlightRect.height + margin, window.innerHeight - cardH),
+      left: Math.min(spotlightRect.left, window.innerWidth - cardW),
     }
+  }
+
+  // Section label for step groups
+  const getSectionLabel = () => {
+    if (step <= 4) return 'Getting Started'
+    if (step <= 13) return 'Exploring the App'
+    return "Let's Go"
   }
 
   return (
@@ -208,13 +352,23 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
           <X size={16} />
         </button>
 
-        {/* Step counter */}
-        <p style={{
-          fontSize: 11, fontWeight: 600, color: 'var(--text-disabled)',
-          textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 12,
-        }}>
-          Step {step + 1} of {STEPS.length}
-        </p>
+        {/* Section label + Step counter */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <span style={{
+            fontSize: 10, fontWeight: 700, color: 'var(--color-phase-1)',
+            textTransform: 'uppercase', letterSpacing: '0.5px',
+            padding: '2px 6px', borderRadius: 4,
+            background: 'rgba(255,107,53,0.1)',
+          }}>
+            {getSectionLabel()}
+          </span>
+          <span style={{
+            fontSize: 10, fontWeight: 600, color: 'var(--text-disabled)',
+            textTransform: 'uppercase', letterSpacing: '0.5px',
+          }}>
+            {step + 1} / {STEPS.length}
+          </span>
+        </div>
 
         {/* Icon */}
         <div style={{
@@ -244,11 +398,17 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
 
         {/* Footer: dots + buttons */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          {/* Dots */}
-          <div className="onboarding-dots">
-            {STEPS.map((_, i) => (
-              <div key={i} className={`onboarding-dot${i === step ? ' active' : ''}`} />
-            ))}
+          {/* Progress bar instead of dots (better for 15 steps) */}
+          <div style={{
+            flex: 1, maxWidth: 100, height: 3, borderRadius: 2,
+            background: 'var(--border-subtle)', marginRight: 12,
+          }}>
+            <div style={{
+              height: '100%', borderRadius: 2,
+              background: 'var(--color-phase-1)',
+              width: `${((step + 1) / STEPS.length) * 100}%`,
+              transition: 'width 300ms ease',
+            }} />
           </div>
 
           {/* Buttons */}

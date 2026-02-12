@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
-  RefreshCw, Download, Mail, HelpCircle
+  RefreshCw, Download, Mail
 } from 'lucide-react'
-import HintBadge from './HintBadge'
 
 const TYPE_COLORS = {
   Navigation: 'var(--color-phase-1)',
@@ -28,8 +27,6 @@ export default function TopBar({
   onNewProject,
   setActiveView,
   setDocItem,
-  hintsMode,
-  setHintsMode,
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -386,52 +383,31 @@ export default function TopBar({
 
         {/* Actions */}
         <div className="top-bar-actions">
-          <HintBadge hint="Create a new AEO tracking project" active={hintsMode} position="bottom">
-            <button onClick={onNewProject} className="btn-primary" style={{ padding: '7px 14px', fontSize: 12 }}>
-              <Plus size={13} />
-              <span className="hidden sm:inline">New Project</span>
-            </button>
-          </HintBadge>
-          <HintBadge hint="Refresh current view data" active={hintsMode} position="bottom">
-            <button
-              onClick={onRefresh}
-              style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
-              title="Refresh"
-            >
-              <RefreshCw size={14} />
-            </button>
-          </HintBadge>
-          <HintBadge hint="Download a PDF/JSON report" active={hintsMode} position="bottom">
-            <button
-              onClick={onExport}
-              style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
-              title="Export"
-              className="hidden sm:flex"
-            >
-              <Download size={14} />
-            </button>
-          </HintBadge>
+          <button onClick={onNewProject} className="btn-primary" style={{ padding: '7px 14px', fontSize: 12 }}>
+            <Plus size={13} />
+            <span className="hidden sm:inline">New Project</span>
+          </button>
+          <button
+            onClick={onRefresh}
+            style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
+            title="Refresh"
+          >
+            <RefreshCw size={14} />
+          </button>
+          <button
+            onClick={onExport}
+            style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
+            title="Export"
+            className="hidden sm:flex"
+          >
+            <Download size={14} />
+          </button>
           <button
             onClick={onEmail}
             style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
             title="Email report"
           >
             <Mail size={14} />
-          </button>
-          {/* Hints Mode Toggle */}
-          <button
-            onClick={() => setHintsMode && setHintsMode(!hintsMode)}
-            style={{
-              padding: 7, borderRadius: 8, border: 'none',
-              background: hintsMode ? 'rgba(255,107,53,0.12)' : 'none',
-              cursor: 'pointer',
-              color: hintsMode ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
-              display: 'flex', alignItems: 'center',
-              transition: 'all 150ms',
-            }}
-            title={hintsMode ? 'Turn off hints' : 'Turn on hints'}
-          >
-            <HelpCircle size={14} />
           </button>
         </div>
       </div>

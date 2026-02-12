@@ -69,7 +69,11 @@ export default function AnalyzerView({ activeProject, updateProject }) {
 
   // --- Webflow MCP Analysis ---
   const fetchWebflowSites = async () => {
-    if (!apiKey) { setShowApiKey(true); return }
+    if (!apiKey) {
+      setShowApiKey(true)
+      setError('Please enter your Anthropic API key first.')
+      return
+    }
     setWebflowLoading(true)
     setError(null)
     try {
@@ -92,6 +96,10 @@ export default function AnalyzerView({ activeProject, updateProject }) {
           }]
         }),
       })
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(errData?.error?.message || `API error: ${response.status} ${response.statusText}`)
+      }
       const data = await response.json()
       if (data.error) throw new Error(data.error.message)
 
@@ -111,6 +119,7 @@ export default function AnalyzerView({ activeProject, updateProject }) {
         setError('Could not parse Webflow sites. You may need to authenticate with Webflow first.')
       }
     } catch (err) {
+      console.error('Webflow fetch error:', err)
       setError(err.message)
     } finally {
       setWebflowLoading(false)
@@ -118,7 +127,11 @@ export default function AnalyzerView({ activeProject, updateProject }) {
   }
 
   const analyzeWebflowSite = async (site) => {
-    if (!apiKey) { setShowApiKey(true); return }
+    if (!apiKey) {
+      setShowApiKey(true)
+      setError('Please enter your Anthropic API key to use the analyzer.')
+      return
+    }
     setSelectedSite(site)
     setLoading(true)
     setError(null)
@@ -190,6 +203,10 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
           }]
         }),
       })
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(errData?.error?.message || `API error: ${response.status} ${response.statusText}`)
+      }
       const data = await response.json()
       if (data.error) throw new Error(data.error.message)
 
@@ -206,6 +223,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
         setError('Could not parse analysis results.')
       }
     } catch (err) {
+      console.error('Webflow analysis error:', err)
       setError(err.message)
     } finally {
       setLoading(false)
@@ -215,7 +233,11 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
   // --- URL Analysis ---
   const analyzeUrl = async () => {
     if (!url.trim()) return
-    if (!apiKey) { setShowApiKey(true); return }
+    if (!apiKey) {
+      setShowApiKey(true)
+      setError('Please enter your Anthropic API key to use the analyzer.')
+      return
+    }
     setLoading(true)
     setError(null)
     try {
@@ -276,6 +298,10 @@ Return ONLY valid JSON:
           }],
         }),
       })
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(errData?.error?.message || `API error: ${response.status} ${response.statusText}`)
+      }
       const data = await response.json()
       if (data.error) throw new Error(data.error.message)
 
@@ -292,6 +318,7 @@ Return ONLY valid JSON:
         setError('Could not parse analysis results. The AI may not have been able to access the site.')
       }
     } catch (err) {
+      console.error('Analyzer error:', err)
       setError(err.message)
     } finally {
       setLoading(false)
@@ -431,7 +458,7 @@ Return ONLY valid JSON:
 
       {/* Error */}
       {error && (
-        <div className="bg-error/10 border border-error/30 rounded-xl p-4 flex items-start gap-3 fade-in-up">
+        <div className="analyzer-error bg-error/10 border border-error/30 rounded-xl p-4 flex items-start gap-3 fade-in-up">
           <AlertCircle size={18} className="text-error flex-shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-error">Analysis Error</p>

@@ -121,7 +121,6 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [emailDialogOpen, setEmailDialogOpen] = useState(false)
   const [emailDialogClosing, setEmailDialogClosing] = useState(false)
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
-  const [hintsMode, setHintsMode] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(() => {
     return localStorage.getItem('aeo-onboarding-completed') !== 'true'
   })
@@ -328,7 +327,6 @@ function AuthenticatedApp({ user, onSignOut }) {
           onNewProject={() => setNewProjectModalOpen(true)}
           user={user}
           onSignOut={onSignOut}
-          hintsMode={hintsMode}
         />
 
         <div className="main-area">
@@ -347,8 +345,6 @@ function AuthenticatedApp({ user, onSignOut }) {
             onNewProject={() => setNewProjectModalOpen(true)}
             setActiveView={setActiveView}
             setDocItem={handleSetDocItem}
-            hintsMode={hintsMode}
-            setHintsMode={setHintsMode}
           />
 
           <div className="content-scroll">

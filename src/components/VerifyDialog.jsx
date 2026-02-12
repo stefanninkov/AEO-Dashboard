@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
   X, Zap, CheckCircle2, MinusCircle, XCircle,
   Loader2, AlertCircle, ShieldCheck, UserCheck
@@ -92,7 +93,7 @@ Search for and visit this website, then evaluate whether this specific item has 
     fail: { icon: XCircle, color: 'text-error', bg: 'bg-error/10', label: 'Not Found' },
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 'var(--z-modal-backdrop)' }} onClick={onCancel}>
       {/* Backdrop */}
       <div
@@ -293,6 +294,7 @@ Search for and visit this website, then evaluate whether this specific item has 
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
