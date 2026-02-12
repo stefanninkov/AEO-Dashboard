@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
-  RefreshCw, Download, Mail
+  RefreshCw, Download, Mail, Menu
 } from 'lucide-react'
 
 const TYPE_COLORS = {
@@ -27,6 +27,7 @@ export default function TopBar({
   onNewProject,
   setActiveView,
   setDocItem,
+  onToggleSidebar,
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -212,17 +213,22 @@ export default function TopBar({
     <div className="top-bar">
       {/* ── Row 1: Project switcher + Search + Actions ── */}
       <div className="top-bar-row-1">
+        {/* Hamburger menu (visible on tablet/mobile) */}
+        <button className="hamburger-btn" onClick={onToggleSidebar} aria-label="Toggle sidebar">
+          <Menu size={18} />
+        </button>
+
         {/* Project switcher */}
         <div className="relative" ref={dropdownRef} style={{ minWidth: 0 }}>
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              padding: '7px 12px', borderRadius: 8,
+              display: 'flex', alignItems: 'center', gap: '0.5rem',
+              padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
               background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
-              cursor: 'pointer', fontSize: 13, fontWeight: 600,
+              cursor: 'pointer', fontSize: '0.8125rem', fontWeight: 600,
               color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
-              minWidth: 0, maxWidth: 220,
+              minWidth: 0, maxWidth: '13.75rem',
             }}
           >
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>
@@ -234,23 +240,23 @@ export default function TopBar({
           {dropdownOpen && (
             <div
               style={{
-                position: 'absolute', left: 0, top: '100%', marginTop: 6,
-                width: 300, background: 'var(--bg-card)', border: '1px solid var(--border-default)',
-                borderRadius: 12, overflow: 'hidden', boxShadow: 'var(--shadow-md)',
+                position: 'absolute', left: 0, top: '100%', marginTop: '0.375rem',
+                width: '18.75rem', background: 'var(--bg-card)', border: '1px solid var(--border-default)',
+                borderRadius: '0.75rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)',
                 zIndex: 'var(--z-dropdown)',
               }}
             >
-              <div style={{ padding: '10px 14px', borderBottom: '1px solid var(--border-subtle)' }}>
-                <p style={{ fontSize: 10, fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-disabled)' }}>Projects</p>
+              <div style={{ padding: '0.625rem 0.875rem', borderBottom: '1px solid var(--border-subtle)' }}>
+                <p style={{ fontSize: '0.625rem', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-disabled)' }}>Projects</p>
               </div>
-              <div style={{ maxHeight: 240, overflowY: 'auto' }}>
+              <div style={{ maxHeight: '15rem', overflowY: 'auto' }}>
                 {projects.map(project => (
                   <div
                     key={project.id}
                     className="group"
                     style={{
-                      display: 'flex', alignItems: 'center', gap: 8,
-                      padding: '10px 14px',
+                      display: 'flex', alignItems: 'center', gap: '0.5rem',
+                      padding: '0.625rem 0.875rem',
                       background: project.id === activeProject?.id ? 'var(--active-bg)' : 'transparent',
                       cursor: 'pointer', transition: 'background 100ms',
                     }}
@@ -258,20 +264,20 @@ export default function TopBar({
                     onMouseLeave={e => { if (project.id !== activeProject?.id) e.currentTarget.style.background = 'transparent' }}
                   >
                     {editingId === project.id ? (
-                      <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 4, minWidth: 0 }}>
+                      <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.25rem', minWidth: 0 }}>
                         <input
                           type="text"
                           value={editName}
                           onChange={e => setEditName(e.target.value)}
                           onKeyDown={e => e.key === 'Enter' && handleRename(project.id)}
                           className="input-field"
-                          style={{ flex: 1, minWidth: 0, padding: '5px 10px', fontSize: 13 }}
+                          style={{ flex: 1, minWidth: 0, padding: '0.3125rem 0.625rem', fontSize: '0.8125rem' }}
                           autoFocus
                         />
-                        <button onClick={() => handleRename(project.id)} style={{ padding: 4, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--color-success)' }}>
+                        <button onClick={() => handleRename(project.id)} className="icon-btn" style={{ color: 'var(--color-success)' }}>
                           <Check size={14} />
                         </button>
-                        <button onClick={() => setEditingId(null)} style={{ padding: 4, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}>
+                        <button onClick={() => setEditingId(null)} className="icon-btn">
                           <X size={14} />
                         </button>
                       </div>
@@ -281,20 +287,20 @@ export default function TopBar({
                           onClick={() => { setActiveProjectId(project.id); setDropdownOpen(false) }}
                           style={{ flex: 1, textAlign: 'left', border: 'none', background: 'none', cursor: 'pointer', minWidth: 0, padding: 0, fontFamily: 'var(--font-body)' }}
                         >
-                          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.name}</p>
-                          {project.url && <p style={{ fontSize: 11, color: 'var(--text-tertiary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 2 }}>{project.url}</p>}
+                          <p style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.name}</p>
+                          {project.url && <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '0.125rem' }}>{project.url}</p>}
                         </button>
-                        <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
+                        <div style={{ display: 'flex', gap: '0.125rem', flexShrink: 0 }}>
                           <button
                             onClick={() => { setEditingId(project.id); setEditName(project.name) }}
-                            style={{ padding: 4, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', borderRadius: 6 }}
+                            className="icon-btn"
                             title="Rename"
                           >
                             <Pencil size={12} />
                           </button>
                           <button
                             onClick={() => handleDelete(project.id, project.name)}
-                            style={{ padding: 4, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', borderRadius: 6 }}
+                            className="icon-btn"
                             title="Delete"
                           >
                             <Trash2 size={12} />
@@ -313,11 +319,11 @@ export default function TopBar({
         <div
           ref={searchContainerRef}
           className="search-container hidden md:block"
-          style={{ flex: 1, maxWidth: 320, minWidth: 0, position: 'relative' }}
+          style={{ flex: 1, maxWidth: '20rem', minWidth: 0, position: 'relative' }}
         >
           <div style={{
-            display: 'flex', alignItems: 'center', gap: 8,
-            padding: '7px 12px', borderRadius: 8,
+            display: 'flex', alignItems: 'center', gap: '0.5rem',
+            padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
             background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
           }}>
             <Search size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
@@ -331,13 +337,13 @@ export default function TopBar({
               onKeyDown={handleSearchKeyDown}
               style={{
                 flex: 1, minWidth: 0, background: 'transparent', border: 'none', outline: 'none',
-                fontSize: 13, color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
+                fontSize: '0.8125rem', color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
               }}
             />
             {searchQuery && (
               <button
                 onClick={() => { setSearchQuery(''); setSearchOpen(false) }}
-                style={{ padding: 2, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex' }}
+                className="icon-btn"
               >
                 <X size={12} />
               </button>
@@ -383,30 +389,17 @@ export default function TopBar({
 
         {/* Actions */}
         <div className="top-bar-actions">
-          <button onClick={onNewProject} className="btn-primary" style={{ padding: '7px 14px', fontSize: 12 }}>
+          <button onClick={onNewProject} className="btn-primary" style={{ padding: '0.4375rem 0.875rem', fontSize: '0.75rem' }}>
             <Plus size={13} />
             <span className="hidden sm:inline">New Project</span>
           </button>
-          <button
-            onClick={onRefresh}
-            style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
-            title="Refresh"
-          >
+          <button onClick={onRefresh} className="icon-btn" title="Refresh">
             <RefreshCw size={14} />
           </button>
-          <button
-            onClick={onExport}
-            style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
-            title="Export"
-            className="hidden sm:flex"
-          >
+          <button onClick={onExport} className="icon-btn hidden sm:flex" title="Export">
             <Download size={14} />
           </button>
-          <button
-            onClick={onEmail}
-            style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
-            title="Email report"
-          >
+          <button onClick={onEmail} className="icon-btn" title="Email report">
             <Mail size={14} />
           </button>
         </div>
@@ -415,13 +408,13 @@ export default function TopBar({
       {/* ── Row 2: Progress bar ── */}
       {activeProject && (
         <div className="top-bar-progress">
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: 12, fontWeight: 700, color: 'var(--text-primary)', flexShrink: 0 }}>
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)', flexShrink: 0 }}>
             {pct}%
           </span>
           <div className="progress-track">
             <div className="progress-fill" style={{ width: `${pct}%` }} />
           </div>
-          <span style={{ fontSize: 11, color: 'var(--text-tertiary)', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
+          <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
             {checkedItems}/{totalItems}
           </span>
         </div>

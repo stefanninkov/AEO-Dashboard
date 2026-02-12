@@ -28,7 +28,7 @@ function TrendIcon({ trend }) {
 }
 
 function MiniSparkline({ data }) {
-  if (!data || data.length < 2) return <span style={{ fontSize: 11, color: 'var(--text-disabled)' }}>--</span>
+  if (!data || data.length < 2) return <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>--</span>
   return (
     <ResponsiveContainer width={80} height={28}>
       <LineChart data={data}>
@@ -65,22 +65,22 @@ export default function CompetitorsView({ activeProject, updateProject }) {
   if (!activeProject) {
     return (
       <div className="flex flex-col items-center justify-center py-24 fade-in-up">
-        <Users size={48} style={{ color: 'var(--text-tertiary)', marginBottom: 16 }} />
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, marginBottom: 8 }}>No Project Selected</h3>
-        <p style={{ fontSize: 13, color: 'var(--text-tertiary)' }}>Select a project to view competitor insights.</p>
+        <Users size={48} style={{ color: 'var(--text-tertiary)', marginBottom: '1rem' }} />
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.5rem' }}>No Project Selected</h3>
+        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>Select a project to view competitor insights.</p>
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             Competitor Insights
           </h2>
-          <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginTop: 2 }}>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
             Compare your AEO presence against competitors
           </p>
         </div>
@@ -88,7 +88,7 @@ export default function CompetitorsView({ activeProject, updateProject }) {
           className="btn-primary"
           onClick={analyzeCompetitors}
           disabled={analyzing || competitors.length === 0}
-          style={{ padding: '9px 18px', fontSize: 13 }}
+          style={{ padding: '0.5625rem 1.125rem', fontSize: '0.8125rem' }}
         >
           {analyzing ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={14} />}
           {analyzing ? 'Analyzing...' : 'Run Analysis'}
@@ -96,10 +96,10 @@ export default function CompetitorsView({ activeProject, updateProject }) {
       </div>
 
       {/* Add Competitor Form */}
-      <div className="card" style={{ padding: 20 }}>
-        <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: 140 }}>
-            <label style={{ fontSize: 12, color: 'var(--text-tertiary)', display: 'block', marginBottom: 4 }}>Company Name</label>
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div style={{ display: 'flex', gap: '0.625rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: '8.75rem' }}>
+            <label style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>Company Name</label>
             <input
               className="input-field"
               value={newName}
@@ -108,8 +108,8 @@ export default function CompetitorsView({ activeProject, updateProject }) {
               onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
             />
           </div>
-          <div style={{ flex: 2, minWidth: 200 }}>
-            <label style={{ fontSize: 12, color: 'var(--text-tertiary)', display: 'block', marginBottom: 4 }}>Website URL</label>
+          <div style={{ flex: 2, minWidth: '12.5rem' }}>
+            <label style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>Website URL</label>
             <input
               className="input-field"
               value={newUrl}
@@ -122,7 +122,7 @@ export default function CompetitorsView({ activeProject, updateProject }) {
             className="btn-primary"
             onClick={handleAdd}
             disabled={!newName.trim() || !newUrl.trim()}
-            style={{ padding: '10px 18px', fontSize: 13, flexShrink: 0 }}
+            style={{ padding: '0.625rem 1.125rem', fontSize: '0.8125rem', flexShrink: 0 }}
           >
             <Plus size={14} />
             Add
@@ -132,14 +132,14 @@ export default function CompetitorsView({ activeProject, updateProject }) {
 
       {/* Industry Suggestions */}
       {activeProject?.questionnaire?.industry && INDUSTRY_COMPETITORS[activeProject.questionnaire.industry] && competitors.length === 0 && (
-        <div className="card fade-in-up" style={{ padding: '16px 20px', background: 'linear-gradient(135deg, rgba(255,107,53,0.04), rgba(123,47,190,0.03))' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+        <div className="card fade-in-up" style={{ padding: '1rem 1.25rem', background: 'linear-gradient(135deg, rgba(255,107,53,0.04), rgba(123,47,190,0.03))' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.625rem' }}>
             <Sparkles size={14} style={{ color: 'var(--color-phase-5)' }} />
-            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>
               Suggested competitors in {INDUSTRY_LABELS[activeProject.questionnaire.industry]}
             </span>
           </div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             {INDUSTRY_COMPETITORS[activeProject.questionnaire.industry].map(sugg => (
               <button
                 key={sugg.name}
@@ -147,11 +147,11 @@ export default function CompetitorsView({ activeProject, updateProject }) {
                   addCompetitor(sugg.name, sugg.url)
                 }}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  padding: '6px 12px', borderRadius: 8,
+                  display: 'flex', alignItems: 'center', gap: '0.375rem',
+                  padding: '0.375rem 0.75rem', borderRadius: '0.5rem',
                   background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
                   cursor: 'pointer', fontFamily: 'var(--font-body)',
-                  fontSize: 12, color: 'var(--text-secondary)',
+                  fontSize: '0.75rem', color: 'var(--text-secondary)',
                   transition: 'all 150ms',
                 }}
               >
@@ -165,30 +165,30 @@ export default function CompetitorsView({ activeProject, updateProject }) {
 
       {/* Progress */}
       {analyzing && (
-        <div className="card fade-in-up" style={{ padding: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+        <div className="card fade-in-up" style={{ padding: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '0.5rem' }}>
             <Loader2 size={14} style={{ color: 'var(--color-phase-1)', animation: 'spin 1s linear infinite' }} />
-            <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{progress.stage}</span>
+            <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{progress.stage}</span>
           </div>
-          <div style={{ width: '100%', height: 6, borderRadius: 3, background: 'var(--hover-bg)', overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: '0.375rem', borderRadius: '0.1875rem', background: 'var(--hover-bg)', overflow: 'hidden' }}>
             <div style={{
               height: '100%',
-              borderRadius: 3,
+              borderRadius: '0.1875rem',
               background: 'var(--color-phase-1)',
               transition: 'width 300ms ease',
               width: `${progress.total > 0 ? (progress.current / progress.total) * 100 : 0}%`,
             }} />
           </div>
-          <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 4 }}>Step {progress.current} of {progress.total}</p>
+          <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>Step {progress.current} of {progress.total}</p>
         </div>
       )}
 
       {/* Error */}
       {error && (
         <div className="fade-in-up" style={{
-          display: 'flex', alignItems: 'center', gap: 8, padding: 14,
+          display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.875rem',
           background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)',
-          borderRadius: 12, fontSize: 13, color: 'var(--color-error)',
+          borderRadius: '0.75rem', fontSize: '0.8125rem', color: 'var(--color-error)',
         }}>
           <AlertCircle size={14} />
           <span>{error}</span>
@@ -198,16 +198,16 @@ export default function CompetitorsView({ activeProject, updateProject }) {
       {/* Rankings Table */}
       {sorted.length > 0 && (
         <div className="card" style={{ overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+          <div style={{ padding: '1rem 1.25rem', fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             Rankings
           </div>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
               <thead>
                 <tr style={{ borderTop: '1px solid var(--border-subtle)' }}>
                   {['Rank', 'Company', 'AEO Score', 'Mentions', 'Avg Pos', 'Trend', '30-Day', ''].map((h, i) => (
                     <th key={i} style={{
-                      padding: '10px 14px', fontSize: 11, fontFamily: 'var(--font-heading)',
+                      padding: '0.625rem 0.875rem', fontSize: '0.6875rem', fontFamily: 'var(--font-heading)',
                       fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase',
                       letterSpacing: '0.5px', textAlign: i >= 2 && i <= 6 ? 'center' : 'left',
                       borderBottom: '1px solid var(--border-subtle)',
@@ -229,44 +229,44 @@ export default function CompetitorsView({ activeProject, updateProject }) {
                     onMouseEnter={(e) => { if (!comp.isOwn) e.currentTarget.style.background = 'var(--hover-bg)' }}
                     onMouseLeave={(e) => { if (!comp.isOwn) e.currentTarget.style.background = 'transparent' }}
                   >
-                    <td style={{ padding: '12px 14px', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
+                    <td style={{ padding: '0.75rem 0.875rem', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
                       #{idx + 1}
                     </td>
-                    <td style={{ padding: '12px 14px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <td style={{ padding: '0.75rem 0.875rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <span style={{ fontWeight: comp.isOwn ? 700 : 500, color: comp.isOwn ? 'var(--color-phase-3)' : 'var(--text-primary)' }}>
                           {comp.name}
-                          {comp.isOwn && <span style={{ fontSize: 10, marginLeft: 6, color: 'var(--color-phase-3)', fontWeight: 600 }}>YOU</span>}
+                          {comp.isOwn && <span style={{ fontSize: '0.625rem', marginLeft: '0.375rem', color: 'var(--color-phase-3)', fontWeight: 600 }}>YOU</span>}
                         </span>
                       </div>
-                      <div style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 1 }}>{comp.url}</div>
+                      <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.0625rem' }}>{comp.url}</div>
                     </td>
-                    <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                    <td style={{ padding: '0.75rem 0.875rem', textAlign: 'center' }}>
                       <span style={{
-                        fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 15,
+                        fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.9375rem',
                         color: comp.aeoScore >= 70 ? 'var(--color-success)' : comp.aeoScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)',
                       }}>
                         {comp.aeoScore}
                       </span>
                     </td>
-                    <td style={{ padding: '12px 14px', textAlign: 'center', fontFamily: 'var(--font-heading)' }}>
+                    <td style={{ padding: '0.75rem 0.875rem', textAlign: 'center', fontFamily: 'var(--font-heading)' }}>
                       {comp.mentions?.toLocaleString() || 0}
                     </td>
-                    <td style={{ padding: '12px 14px', textAlign: 'center', fontFamily: 'var(--font-heading)' }}>
+                    <td style={{ padding: '0.75rem 0.875rem', textAlign: 'center', fontFamily: 'var(--font-heading)' }}>
                       {comp.avgPosition || '--'}
                     </td>
-                    <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                    <td style={{ padding: '0.75rem 0.875rem', textAlign: 'center' }}>
                       <TrendIcon trend={comp.trend} />
                     </td>
-                    <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                    <td style={{ padding: '0.75rem 0.875rem', textAlign: 'center' }}>
                       <MiniSparkline data={comp.sparklineData} />
                     </td>
-                    <td style={{ padding: '12px 14px', textAlign: 'right' }}>
+                    <td style={{ padding: '0.75rem 0.875rem', textAlign: 'right' }}>
                       {!comp.isOwn && (
                         <button
                           onClick={() => removeCompetitor(comp.id)}
                           style={{
-                            padding: 4, borderRadius: 6, border: 'none', background: 'none',
+                            padding: '0.25rem', borderRadius: '0.375rem', border: 'none', background: 'none',
                             cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex',
                             alignItems: 'center', transition: 'color 100ms',
                           }}
@@ -288,22 +288,22 @@ export default function CompetitorsView({ activeProject, updateProject }) {
 
       {/* Heat Map + AI Summary Row */}
       {heatMap && (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
           {/* Heat Map */}
-          <div className="card" style={{ padding: 20, overflow: 'auto' }}>
-            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+          <div className="card" style={{ padding: '1.25rem', overflow: 'auto' }}>
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
               Category Performance Heat Map
             </h3>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.75rem' }}>
               <thead>
                 <tr>
-                  <th style={{ padding: '8px 10px', textAlign: 'left', fontSize: 11, color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)', fontWeight: 600 }}>
+                  <th style={{ padding: '0.5rem 0.625rem', textAlign: 'left', fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)', fontWeight: 600 }}>
                     Category
                   </th>
                   {heatMap.competitors.map(name => (
                     <th key={name} style={{
-                      padding: '8px 10px', textAlign: 'center', fontSize: 11, color: 'var(--text-tertiary)',
-                      fontFamily: 'var(--font-heading)', fontWeight: 600, maxWidth: 100, overflow: 'hidden',
+                      padding: '0.5rem 0.625rem', textAlign: 'center', fontSize: '0.6875rem', color: 'var(--text-tertiary)',
+                      fontFamily: 'var(--font-heading)', fontWeight: 600, maxWidth: '6.25rem', overflow: 'hidden',
                       textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                     }}>
                       {name}
@@ -314,19 +314,19 @@ export default function CompetitorsView({ activeProject, updateProject }) {
               <tbody>
                 {heatMap.categories.map(cat => (
                   <tr key={cat} style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                    <td style={{ padding: '10px', fontWeight: 500, color: 'var(--text-primary)' }}>
+                    <td style={{ padding: '0.625rem', fontWeight: 500, color: 'var(--text-primary)' }}>
                       {CATEGORY_LABELS[cat] || cat}
                     </td>
                     {heatMap.competitors.map(name => {
                       const score = heatMap.scores?.[cat]?.[name] || 0
                       const colors = getHeatColor(score)
                       return (
-                        <td key={name} style={{ padding: 6, textAlign: 'center' }}>
+                        <td key={name} style={{ padding: '0.375rem', textAlign: 'center' }}>
                           <div style={{
                             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                            width: 42, height: 32, borderRadius: 8,
+                            width: '2.625rem', height: '2rem', borderRadius: '0.5rem',
                             background: colors.bg, color: colors.text,
-                            fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 13,
+                            fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8125rem',
                           }}>
                             {score}
                           </div>
@@ -342,36 +342,36 @@ export default function CompetitorsView({ activeProject, updateProject }) {
           {/* AI Summary */}
           {aiSummary && (
             <div className="card" style={{
-              padding: 20,
+              padding: '1.25rem',
               background: 'linear-gradient(135deg, rgba(14,165,233,0.06), rgba(123,47,190,0.04))',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                 <Lightbulb size={16} style={{ color: 'var(--color-phase-3)' }} />
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                   AI Insights
                 </h3>
               </div>
 
-              <div style={{ marginBottom: 16 }}>
-                <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginBottom: 4, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <div style={{ marginBottom: '1rem' }}>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                   Key Insight
                 </p>
-                <p style={{ fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6 }}>
                   {aiSummary.keyInsight}
                 </p>
               </div>
 
               <div>
-                <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginBottom: 4, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                   Opportunity
                 </p>
-                <p style={{ fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6 }}>
                   {aiSummary.opportunity}
                 </p>
               </div>
 
               {analysis?.timestamp && (
-                <p style={{ fontSize: 11, color: 'var(--text-disabled)', marginTop: 16 }}>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', marginTop: '1rem' }}>
                   Last analysis: {new Date(analysis.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </p>
               )}
@@ -382,10 +382,10 @@ export default function CompetitorsView({ activeProject, updateProject }) {
 
       {/* Empty state */}
       {competitors.length === 0 && !analyzing && (
-        <div className="card fade-in-up" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '48px 24px' }}>
-          <Target size={40} style={{ color: 'var(--text-tertiary)', marginBottom: 16 }} />
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>No Competitors Added</h3>
-          <p style={{ fontSize: 13, color: 'var(--text-tertiary)', maxWidth: 360, textAlign: 'center', lineHeight: 1.6 }}>
+        <div className="card fade-in-up" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '3rem 1.5rem' }}>
+          <Target size={40} style={{ color: 'var(--text-tertiary)', marginBottom: '1rem' }} />
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>No Competitors Added</h3>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', maxWidth: '22.5rem', textAlign: 'center', lineHeight: 1.6 }}>
             Add competitor URLs above to compare your AEO performance. Your own site will be automatically included in the analysis.
           </p>
         </div>

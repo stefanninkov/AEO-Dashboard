@@ -330,33 +330,33 @@ Return ONLY valid JSON:
     <div className="space-y-6">
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <h2 className="font-heading text-[15px] font-bold tracking-[-0.3px] text-text-primary">Site Analyzer</h2>
-          <span className="text-[11px] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
+          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">Site Analyzer</h2>
+          <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
         </div>
-        <p className="text-[13px] text-text-secondary">Analyze any website for AEO readiness using AI-powered analysis.</p>
+        <p className="text-[0.8125rem] text-text-secondary">Analyze any website for AEO readiness using AI-powered analysis.</p>
       </div>
 
       {/* API Key */}
       {showApiKey && (
         <div className="rounded-xl p-4 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid color-mix(in srgb, var(--color-phase-5) 20%, transparent)' }}>
-          <p className="text-[13px] text-text-secondary mb-2">Enter your Anthropic API key to use the analyzer:</p>
+          <p className="text-[0.8125rem] text-text-secondary mb-2">Enter your Anthropic API key to use the analyzer:</p>
           <div className="flex gap-2">
             <input
               type="password"
               placeholder="sk-ant-..."
               value={apiKey}
               onChange={e => setApiKey(e.target.value)}
-              className="flex-1 rounded-lg px-3 py-2 text-[13px] text-text-primary outline-none transition-colors duration-150"
+              className="flex-1 rounded-lg px-3 py-2 text-[0.8125rem] text-text-primary outline-none transition-colors duration-150"
               style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
             />
             <button
               onClick={() => saveApiKey(apiKey)}
-              className="px-4 py-2 bg-phase-1 text-white rounded-lg text-[13px] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150"
+              className="px-4 py-2 bg-phase-1 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150"
             >
               Save
             </button>
           </div>
-          <p className="text-[11px] text-text-tertiary mt-2">Key is stored locally in your browser only.</p>
+          <p className="text-[0.6875rem] text-text-tertiary mt-2">Key is stored locally in your browser only.</p>
         </div>
       )}
 
@@ -364,7 +364,7 @@ Return ONLY valid JSON:
       <div className="flex gap-2">
         <button
           onClick={() => setMode('url')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[0.8125rem] font-medium transition-all duration-150 ${
             mode === 'url' ? 'bg-phase-1 text-white' : 'text-text-secondary hover:text-text-primary'
           }`}
           style={mode !== 'url' ? { background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' } : {}}
@@ -374,7 +374,7 @@ Return ONLY valid JSON:
         </button>
         <button
           onClick={() => setMode('webflow')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[0.8125rem] font-medium transition-all duration-150 ${
             mode === 'webflow' ? 'bg-phase-2 text-white' : 'text-text-secondary hover:text-text-primary'
           }`}
           style={mode !== 'webflow' ? { background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' } : {}}
@@ -385,7 +385,7 @@ Return ONLY valid JSON:
         {!showApiKey && apiKey && (
           <button
             onClick={() => setShowApiKey(true)}
-            className="ml-auto text-[11px] text-text-tertiary hover:text-text-secondary transition-colors"
+            className="ml-auto text-[0.6875rem] text-text-tertiary hover:text-text-secondary transition-colors"
           >
             Change API Key
           </button>
@@ -401,13 +401,13 @@ Return ONLY valid JSON:
             value={url}
             onChange={e => setUrl(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && analyzeUrl()}
-            className="flex-1 rounded-lg px-4 py-2.5 text-[13px] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
+            className="flex-1 rounded-lg px-4 py-2.5 text-[0.8125rem] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
             style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
           />
           <button
             onClick={analyzeUrl}
             disabled={loading || !url.trim()}
-            className="px-6 py-2.5 bg-phase-1 text-white rounded-lg text-[13px] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
+            className="px-6 py-2.5 bg-phase-1 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
           >
             {loading ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
             Analyze
@@ -419,11 +419,11 @@ Return ONLY valid JSON:
       {mode === 'webflow' && (
         <div className="rounded-xl p-5 space-y-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
           <div className="flex items-center justify-between">
-            <p className="text-[13px] text-text-secondary">Connect to Webflow to analyze your sites directly.</p>
+            <p className="text-[0.8125rem] text-text-secondary">Connect to Webflow to analyze your sites directly.</p>
             <button
               onClick={fetchWebflowSites}
               disabled={webflowLoading}
-              className="px-4 py-2 bg-phase-2 text-white rounded-lg text-[13px] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
+              className="px-4 py-2 bg-phase-2 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
             >
               {webflowLoading ? <Loader2 size={14} className="animate-spin" /> : <Link2 size={14} />}
               {webflowSites.length > 0 ? 'Refresh Sites' : 'Load Sites'}
@@ -432,7 +432,7 @@ Return ONLY valid JSON:
 
           {webflowSites.length > 0 && (
             <div className="space-y-2">
-              <p className="text-[10px] text-text-tertiary font-heading uppercase tracking-[1px]">Select a site</p>
+              <p className="text-[0.625rem] text-text-tertiary font-heading uppercase tracking-[0.0625rem]">Select a site</p>
               {webflowSites.map((site, idx) => (
                 <button
                   key={idx}
@@ -445,8 +445,8 @@ Return ONLY valid JSON:
                   }`}
                   style={selectedSite?.id !== site.id ? { background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)' } : {}}
                 >
-                  <p className="text-[13px] font-medium text-text-primary">{site.name}</p>
-                  {site.domain && <p className="text-[11px] text-text-tertiary">{site.domain}</p>}
+                  <p className="text-[0.8125rem] font-medium text-text-primary">{site.name}</p>
+                  {site.domain && <p className="text-[0.6875rem] text-text-tertiary">{site.domain}</p>}
                 </button>
               ))}
             </div>

@@ -15,18 +15,18 @@ import { getFilteredEngines } from '../utils/getRecommendations'
 function MetricCard({ title, value, change, changeLabel, icon, iconBg, iconColor, delay = 0 }) {
   return (
     <div
-      className="rounded-xl p-[18px] transition-all duration-200 fade-in-up"
+      className="rounded-xl p-[1.125rem] transition-all duration-200 fade-in-up"
       style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)', animationDelay: `${delay}ms` }}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[11px] text-text-tertiary uppercase tracking-[0.5px]">{title}</span>
+        <span className="text-[0.6875rem] text-text-tertiary uppercase tracking-[0.5px]">{title}</span>
         {icon && (
           <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${iconBg}`}>
             {icon}
           </div>
         )}
       </div>
-      <p className="font-mono text-[28px] font-bold leading-none text-text-primary">{value}</p>
+      <p className="font-mono text-[1.75rem] font-bold leading-none text-text-primary">{value}</p>
       {change !== undefined && change !== null && (
         <div className="flex items-center gap-1 mt-2">
           {change > 0 ? (
@@ -36,7 +36,7 @@ function MetricCard({ title, value, change, changeLabel, icon, iconBg, iconColor
           ) : (
             <Minus size={12} className="text-text-tertiary" />
           )}
-          <span className={`text-[11px] ${change > 0 ? 'text-success' : change < 0 ? 'text-error' : 'text-text-tertiary'}`}>
+          <span className={`text-[0.6875rem] ${change > 0 ? 'text-success' : change < 0 ? 'text-error' : 'text-text-tertiary'}`}>
             {Math.abs(change)}% {changeLabel || 'vs last period'}
           </span>
         </div>
@@ -50,9 +50,9 @@ function CustomTooltip({ active, payload, label }) {
   return (
     <div style={{
       background: 'var(--bg-card)', border: '1px solid var(--border-default)',
-      borderRadius: 8, padding: '8px 12px', fontSize: 12, boxShadow: 'var(--shadow-md)',
+      borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.75rem', boxShadow: 'var(--shadow-md)',
     }}>
-      <p style={{ color: 'var(--text-tertiary)', marginBottom: 4, fontWeight: 600 }}>{label}</p>
+      <p style={{ color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600 }}>{label}</p>
       {payload.map((entry, i) => (
         <p key={i} style={{ color: entry.color || entry.fill, fontWeight: 500 }}>
           {entry.name || 'Value'}: {entry.value?.toLocaleString()}
@@ -69,8 +69,8 @@ function BarChart({ data, maxValue, height = 200 }) {
     <ResponsiveContainer width="100%" height={height}>
       <RechartsBarChart data={chartData} barSize={28}>
         <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" />
-        <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
-        <YAxis tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} domain={[0, maxValue || 'auto']} />
+        <XAxis dataKey="name" tick={{ fontSize: '0.625rem', fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
+        <YAxis tick={{ fontSize: '0.625rem', fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} domain={[0, maxValue || 'auto']} />
         <Tooltip content={<CustomTooltip />} />
         <Bar dataKey="value" radius={[4, 4, 0, 0]}>
           {chartData.map((entry, i) => (
@@ -206,15 +206,15 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-heading text-[15px] font-bold tracking-[-0.3px] text-text-primary">AEO Metrics</h2>
-          <p className="text-[13px] text-text-tertiary mt-0.5">
+          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.3px] text-text-primary">AEO Metrics</h2>
+          <p className="text-[0.8125rem] text-text-tertiary mt-0.5">
             {activeProject.name} — {activeProject.url || 'No URL set'}
           </p>
         </div>
         <button
           onClick={fetchMetrics}
           disabled={refreshing || !activeProject.url}
-          className="flex items-center gap-2 px-4 py-2 bg-phase-1 text-white rounded-lg text-[13px] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 bg-phase-1 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50"
         >
           {refreshing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
           {refreshing ? 'Analyzing...' : 'Run Analysis'}
@@ -226,7 +226,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
         <div className="rounded-xl p-4 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
           <div className="flex items-center gap-3 mb-2">
             <Loader2 size={14} className="text-phase-1 animate-spin" />
-            <span className="text-[13px] font-medium text-text-primary">{progress.stage}</span>
+            <span className="text-[0.8125rem] font-medium text-text-primary">{progress.stage}</span>
           </div>
           <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--hover-bg)' }}>
             <div
@@ -234,13 +234,13 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
               style={{ width: `${progress.total > 0 ? (progress.current / progress.total) * 100 : 0}%` }}
             />
           </div>
-          <p className="text-[11px] text-text-tertiary mt-1">Step {progress.current} of {progress.total}</p>
+          <p className="text-[0.6875rem] text-text-tertiary mt-1">Step {progress.current} of {progress.total}</p>
         </div>
       )}
 
       {/* Error */}
       {error && (
-        <div className="flex items-start gap-2 p-4 bg-error/10 border border-error/20 rounded-xl text-[13px] text-error fade-in-up">
+        <div className="flex items-start gap-2 p-4 bg-error/10 border border-error/20 rounded-xl text-[0.8125rem] text-error fade-in-up">
           <AlertCircle size={14} className="flex-shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>
@@ -252,7 +252,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 py-2 px-3 text-[13px] font-medium rounded-lg transition-all duration-150 ${
+            className={`flex-1 py-2 px-3 text-[0.8125rem] font-medium rounded-lg transition-all duration-150 ${
               activeTab === tab.id
                 ? 'text-text-primary'
                 : 'text-text-tertiary hover:text-text-secondary'
@@ -332,7 +332,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Citations by Engine */}
         <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-          <h3 className="font-heading text-[13px] font-bold mb-4 text-text-primary">Citations by AI Engine</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Citations by AI Engine</h3>
           {metrics.citations?.byEngine?.length > 0 ? (
             <BarChart
               data={metrics.citations.byEngine.map(e => ({
@@ -349,7 +349,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
 
         {/* AEO Score Gauge */}
         <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-          <h3 className="font-heading text-[13px] font-bold mb-4 text-text-primary">Overall AEO Score</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Overall AEO Score</h3>
           <div className="flex flex-col items-center justify-center py-4">
             <div className="relative w-40 h-40">
               <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
@@ -378,7 +378,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
       {/* Page Performance Table */}
       {metrics.pages?.length > 0 && (
         <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-          <h3 className="font-heading text-[13px] font-bold mb-4 text-text-primary">Page Performance</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Page Performance</h3>
           <DataTable
             columns={[
               { key: 'pageTitle', label: 'Page', render: (row) => (
@@ -399,15 +399,15 @@ function OverviewTab({ metrics, rangeMetrics }) {
       {/* History trend */}
       {rangeMetrics.length > 1 && (
         <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-          <h3 className="font-heading text-[13px] font-bold mb-4 text-text-primary">Score Trend</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Score Trend</h3>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={rangeMetrics.slice(-14).map(m => ({
               date: new Date(m.timestamp).toLocaleDateString('en', { month: 'short', day: 'numeric' }),
               score: m.overallScore || 0,
             }))}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" />
-              <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
-              <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
+              <XAxis dataKey="date" tick={{ fontSize: '0.625rem', fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
+              <YAxis domain={[0, 100]} tick={{ fontSize: '0.625rem', fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
               <Tooltip content={<CustomTooltip />} />
               <Line type="monotone" dataKey="score" stroke="var(--color-phase-1)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-phase-1)' }} name="AEO Score" />
             </LineChart>
@@ -448,7 +448,7 @@ function CitationsTab({ metrics }) {
 
       {/* Engine breakdown */}
       <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-        <h3 className="font-heading text-[13px] font-bold mb-4 text-text-primary">Citations by AI Engine</h3>
+        <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Citations by AI Engine</h3>
         <div className="space-y-3">
           {metrics.citations?.byEngine?.sort((a, b) => b.citations - a.citations).map((engine, i) => (
             <HorizontalBar
@@ -466,7 +466,7 @@ function CitationsTab({ metrics }) {
       {/* Page table */}
       {metrics.pages?.length > 0 && (
         <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-          <h3 className="font-heading text-[13px] font-bold mb-4 text-text-primary">Page Citations</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Page Citations</h3>
           <DataTable
             columns={[
               { key: 'pageTitle', label: 'Page' },
@@ -511,7 +511,7 @@ function PromptsTab({ metrics }) {
 
       {metrics.prompts?.byCategory?.length > 0 && (
         <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-          <h3 className="font-heading text-[13px] font-bold mb-4 text-text-primary">Query Categories</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Query Categories</h3>
           <div className="space-y-3">
             {metrics.prompts.byCategory.sort((a, b) => b.volume - a.volume).map((cat, i) => (
               <HorizontalBar

@@ -142,14 +142,14 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     : phases
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       {/* Project Context */}
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>Checklist</h2>
-          <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 99, background: 'rgba(46,204,113,0.1)', color: 'var(--color-phase-3)', fontWeight: 500 }}>{activeProject?.name}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>Checklist</h2>
+          <span style={{ fontSize: '0.6875rem', padding: '0.125rem 0.5rem', borderRadius: '6.1875rem', background: 'rgba(46,204,113,0.1)', color: 'var(--color-phase-3)', fontWeight: 500 }}>{activeProject?.name}</span>
         </div>
-        {activeProject?.url && <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 2 }}>{activeProject.url}</p>}
+        {activeProject?.url && <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</p>}
       </div>
 
       {/* Stats Grid — 4 columns */}
@@ -173,19 +173,19 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       </div>
 
       {/* Overall Progress */}
-      <div className="card" style={{ padding: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-tertiary)' }}>Overall Progress</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
-            {totalProgress.done}/{totalProgress.total} <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>({totalProgress.percent}%)</span>
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-tertiary)' }}>Overall Progress</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            {totalProgress.done}/{totalProgress.total} <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>({totalProgress.percent}%)</span>
           </span>
         </div>
-        <div style={{ width: '100%', height: 6, background: 'var(--border-subtle)', borderRadius: 99, overflow: 'hidden' }}>
+        <div style={{ width: '100%', height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '6.1875rem', overflow: 'hidden' }}>
           <div
             style={{
               width: `${totalProgress.percent}%`,
               height: '100%',
-              borderRadius: 99,
+              borderRadius: '6.1875rem',
               transition: 'width 500ms ease-out',
               background: 'linear-gradient(90deg, var(--color-phase-1), var(--color-phase-2), var(--color-phase-3), var(--color-phase-4), var(--color-phase-5), var(--color-phase-6), var(--color-phase-7))',
             }}
@@ -195,7 +195,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
       {/* Search */}
       <div style={{ position: 'relative' }}>
-        <Search size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: searchFocused ? 'var(--color-phase-3)' : 'var(--text-disabled)', transition: 'color 200ms' }} />
+        <Search size={14} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: searchFocused ? 'var(--color-phase-3)' : 'var(--text-disabled)', transition: 'color 200ms' }} />
         <input
           type="text"
           placeholder="Search tasks... (Ctrl+K)"
@@ -204,29 +204,29 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           onFocus={() => setSearchFocused(true)}
           onBlur={() => setSearchFocused(false)}
           className="input-field"
-          style={{ paddingLeft: 36 }}
+          style={{ paddingLeft: '2.25rem' }}
         />
       </div>
 
       {/* No search results */}
       {searchQuery.trim() && filteredPhases.length === 0 && (
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px', border: '2px dashed var(--border-default)' }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--hover-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem', border: '2px dashed var(--border-default)' }}>
+          <div style={{ width: '3rem', height: '3rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem' }}>
             <Search size={20} style={{ color: 'var(--text-tertiary)' }} />
           </div>
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 4, color: 'var(--text-primary)' }}>No matching tasks</h3>
-          <p style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Try a different search term</p>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '0.25rem', color: 'var(--text-primary)' }}>No matching tasks</h3>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Try a different search term</p>
         </div>
       )}
 
       {/* All complete state */}
       {totalProgress.done === totalProgress.total && totalProgress.total > 0 && !searchQuery.trim() && (
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', border: '1px solid rgba(46,204,113,0.2)', background: 'rgba(46,204,113,0.03)' }}>
-          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(46,204,113,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2.5rem 1.5rem', border: '1px solid rgba(46,204,113,0.2)', background: 'rgba(46,204,113,0.03)' }}>
+          <div style={{ width: '3rem', height: '3rem', borderRadius: '50%', background: 'rgba(46,204,113,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem' }}>
             <CheckCircle2 size={24} style={{ color: 'var(--color-success)' }} />
           </div>
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 14, fontWeight: 700, color: 'var(--color-success)', marginBottom: 4 }}>All tasks complete!</h3>
-          <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Your AEO implementation is fully optimized.</p>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--color-success)', marginBottom: '0.25rem' }}>All tasks complete!</h3>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Your AEO implementation is fully optimized.</p>
         </div>
       )}
 
@@ -254,22 +254,22 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
             <button
               onClick={() => togglePhase(phase.id)}
               style={{
-                width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: 16,
+                width: '100%', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem',
                 background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)',
               }}
             >
-              <span style={{ fontSize: 18 }}>{phase.icon}</span>
+              <span style={{ fontSize: '1.125rem' }}>{phase.icon}</span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontFamily: 'var(--font-heading)', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: phase.color }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: phase.color }}>
                     Phase {phase.number}
                   </span>
-                  <span style={{ fontSize: 11, color: 'var(--text-tertiary)' }}>{phase.timeline}</span>
+                  <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{phase.timeline}</span>
                   {isPriority && (
                     <span style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 3,
-                      fontSize: 10, fontWeight: 600, color: 'var(--color-phase-5)',
-                      padding: '1px 6px', borderRadius: 4,
+                      display: 'inline-flex', alignItems: 'center', gap: '0.1875rem',
+                      fontSize: '0.625rem', fontWeight: 600, color: 'var(--color-phase-5)',
+                      padding: '0.0625rem 0.375rem', borderRadius: '0.25rem',
                       background: 'rgba(245,158,11,0.1)',
                     }}>
                       <Star size={9} style={{ fill: 'var(--color-phase-5)' }} />
@@ -277,18 +277,18 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                     </span>
                   )}
                 </div>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginTop: 2, color: 'var(--text-primary)' }}>{phase.title}</h3>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginTop: '0.125rem', color: 'var(--text-primary)' }}>{phase.title}</h3>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
                 <div style={{ textAlign: 'right' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: phase.color }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', fontWeight: 700, color: phase.color }}>
                     {progress.percent}%
                   </span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-tertiary)' }}>{progress.done}/{progress.total}</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>{progress.done}/{progress.total}</span>
                 </div>
-                <div style={{ width: 64, height: 6, background: 'var(--border-subtle)', borderRadius: 99, overflow: 'hidden' }}>
+                <div style={{ width: '4rem', height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '6.1875rem', overflow: 'hidden' }}>
                   <div
-                    style={{ width: `${progress.percent}%`, height: '100%', borderRadius: 99, backgroundColor: phase.color, transition: 'width 300ms' }}
+                    style={{ width: `${progress.percent}%`, height: '100%', borderRadius: '6.1875rem', backgroundColor: phase.color, transition: 'width 300ms' }}
                   />
                 </div>
                 <ChevronDown
@@ -303,19 +303,19 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
               <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
                 {phase.categories.map(category => (
                   <div key={category.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                    <div style={{ padding: '8px 16px', background: 'var(--bg-page)', opacity: 0.8 }}>
-                      <h4 style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{category.name}</h4>
+                    <div style={{ padding: '0.5rem 1rem', background: 'var(--bg-page)', opacity: 0.8 }}>
+                      <h4 style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{category.name}</h4>
                     </div>
                     <div>
                       {category.items.map(item => (
                         <div key={item.id} className="group" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '12px 16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.75rem 1rem' }}>
                             {/* Checkbox */}
                             <button
                               onClick={() => handleToggle(item.id, item)}
                               className={bouncingId === item.id ? 'check-bounce' : ''}
                               style={{
-                                marginTop: 2, flexShrink: 0, width: 18, height: 18, borderRadius: 4,
+                                marginTop: '0.125rem', flexShrink: 0, width: '1.125rem', height: '1.125rem', borderRadius: '0.25rem',
                                 border: `2px solid ${checked[item.id] ? phase.color : 'var(--border-default)'}`,
                                 background: checked[item.id] ? phase.color : 'transparent',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -327,12 +327,12 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
                             {/* Content */}
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <p style={{ fontSize: 13, color: checked[item.id] ? 'var(--text-tertiary)' : 'var(--text-primary)', textDecoration: checked[item.id] ? 'line-through' : 'none', transition: 'all 200ms' }}>
+                              <p style={{ fontSize: '0.8125rem', color: checked[item.id] ? 'var(--text-tertiary)' : 'var(--text-primary)', textDecoration: checked[item.id] ? 'line-through' : 'none', transition: 'all 200ms' }}>
                                 {item.text}
                                 {checked[item.id] && activeProject?.verifications?.[item.id] && (
                                   <span
                                     style={{
-                                      display: 'inline-block', fontSize: 10, padding: '2px 6px', borderRadius: 99, fontWeight: 500, marginLeft: 8, verticalAlign: 'middle',
+                                      display: 'inline-block', fontSize: '0.625rem', padding: '0.125rem 0.375rem', borderRadius: '6.1875rem', fontWeight: 500, marginLeft: '0.5rem', verticalAlign: 'middle',
                                       background: activeProject.verifications[item.id].method === 'ai' ? 'rgba(46,204,113,0.1)' : 'rgba(255,255,255,0.06)',
                                       color: activeProject.verifications[item.id].method === 'ai' ? 'var(--color-phase-3)' : 'var(--text-tertiary)',
                                     }}
@@ -343,22 +343,22 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                                 )}
                               </p>
                               {quickViewItem === item.id && (
-                                <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 6, lineHeight: 1.5 }}>{item.detail}</p>
+                                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem', lineHeight: 1.5 }}>{item.detail}</p>
                               )}
                             </div>
 
                             {/* Actions */}
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0, opacity: 0 }} className="group-hover:opacity-100 transition-opacity duration-150">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, opacity: 0 }} className="group-hover:opacity-100 transition-opacity duration-150">
                               <button
                                 onClick={() => setQuickViewItem(quickViewItem === item.id ? null : item.id)}
-                                style={{ padding: 6, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
+                                style={{ padding: '0.375rem', borderRadius: '0.5rem', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
                                 title="Quick view"
                               >
                                 <Info size={13} />
                               </button>
                               <button
                                 onClick={() => setDocItem(item)}
-                                style={{ padding: 6, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
+                                style={{ padding: '0.375rem', borderRadius: '0.5rem', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
                                 title="Full documentation"
                               >
                                 <BookOpen size={13} />

@@ -61,7 +61,7 @@ function SplashScreen({ onComplete }) {
         <h1 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight text-text-primary">
           AEO Dashboard
         </h1>
-        <p className="text-text-tertiary text-[13px] mt-2" style={{ animation: 'fade-in-up 400ms ease-out both', animationDelay: '400ms' }}>
+        <p className="text-text-tertiary text-[0.8125rem] mt-2" style={{ animation: 'fade-in-up 400ms ease-out both', animationDelay: '400ms' }}>
           Answer Engine Optimization
         </p>
       </div>
@@ -123,9 +123,13 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [emailDialogClosing, setEmailDialogClosing] = useState(false)
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
   const [questionnaireProjectId, setQuestionnaireProjectId] = useState(null)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(() => {
     return localStorage.getItem('aeo-onboarding-completed') !== 'true'
   })
+
+  const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), [])
+  const closeSidebar = useCallback(() => setSidebarOpen(false), [])
 
   const {
     projects,
@@ -345,6 +349,12 @@ function AuthenticatedApp({ user, onSignOut }) {
           onNewProject={() => setNewProjectModalOpen(true)}
           user={user}
           onSignOut={onSignOut}
+          sidebarOpen={sidebarOpen}
+          closeSidebar={closeSidebar}
+        />
+        <div
+          className={`sidebar-backdrop ${sidebarOpen ? 'visible' : ''}`}
+          onClick={closeSidebar}
         />
 
         <div className="main-area">
@@ -363,6 +373,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             onNewProject={() => setNewProjectModalOpen(true)}
             setActiveView={setActiveView}
             setDocItem={handleSetDocItem}
+            onToggleSidebar={toggleSidebar}
           />
 
           <div className="content-scroll">

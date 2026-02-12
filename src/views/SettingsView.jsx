@@ -77,32 +77,32 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
   // ── Style helpers ──
   const sectionLabelStyle = {
-    fontFamily: 'var(--font-heading)', fontSize: 11, fontWeight: 700,
+    fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
     textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--text-disabled)',
-    padding: '24px 0 12px',
+    padding: '1.5rem 0 0.75rem',
   }
   const sectionTitleStyle = {
-    display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-heading)',
-    fontSize: 13, fontWeight: 700, color: 'var(--text-primary)', padding: '18px 20px 14px',
+    display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-heading)',
+    fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', padding: '1.125rem 1.25rem 0.875rem',
     borderBottom: '1px solid var(--border-subtle)',
   }
   const settingsRowStyle = {
-    display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px',
+    display: 'flex', alignItems: 'center', gap: '0.875rem', padding: '0.875rem 1.25rem',
     borderBottom: '1px solid var(--border-subtle)',
   }
   const lastRowStyle = {
-    display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px',
+    display: 'flex', alignItems: 'center', gap: '0.875rem', padding: '0.875rem 1.25rem',
   }
   const labelStyle = {
-    fontSize: 13, color: 'var(--text-secondary)', fontWeight: 500,
-    width: 130, flexShrink: 0,
+    fontSize: '0.8125rem', color: 'var(--text-secondary)', fontWeight: 500,
+    width: '8.125rem', flexShrink: 0,
   }
   const inlineSaveBtnStyle = {
-    padding: '7px 14px', fontSize: 12, flexShrink: 0,
+    padding: '0.4375rem 0.875rem', fontSize: '0.75rem', flexShrink: 0,
   }
   const smallSelectStyle = {
-    padding: '8px 12px', background: 'var(--bg-input)', border: '1px solid var(--border-default)',
-    borderRadius: 10, color: 'var(--text-primary)', fontSize: 13, fontFamily: 'var(--font-body)',
+    padding: '0.5rem 0.75rem', background: 'var(--bg-input)', border: '1px solid var(--border-default)',
+    borderRadius: '0.625rem', color: 'var(--text-primary)', fontSize: '0.8125rem', fontFamily: 'var(--font-body)',
     outline: 'none', cursor: 'pointer',
   }
 
@@ -301,7 +301,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
       <div style={sectionLabelStyle}>User Settings</div>
 
       {/* ── Profile ── */}
-      <div className="card" style={{ marginBottom: 16 }}>
+      <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}>
           <User size={15} />
           Profile
@@ -309,7 +309,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>Display Name</span>
-          <div style={{ flex: 1, display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input
               className="input-field"
               value={displayName}
@@ -331,17 +331,17 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>Email</span>
-          <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>{user?.email || '--'}</span>
+          <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{user?.email || '--'}</span>
         </div>
 
         <div style={lastRowStyle}>
           <span style={labelStyle}>Auth Method</span>
-          <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>{authMethodLabel}</span>
+          <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{authMethodLabel}</span>
         </div>
       </div>
 
       {/* ── API Key ── */}
-      <div className="card" style={{ marginBottom: 16 }}>
+      <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}>
           <Key size={15} />
           API Key
@@ -349,7 +349,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>Anthropic API Key</span>
-          <div style={{ flex: 1, display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <div style={{ position: 'relative', flex: 1 }}>
               <input
                 className="input-field"
@@ -357,15 +357,15 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder="sk-ant-..."
-                style={{ width: '100%', paddingRight: 40 }}
+                style={{ width: '100%', paddingRight: '2.5rem' }}
               />
               <button
                 type="button"
                 onClick={() => setShowApiKey(!showApiKey)}
                 style={{
-                  position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
+                  position: 'absolute', right: '0.5rem', top: '50%', transform: 'translateY(-50%)',
                   background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-tertiary)',
-                  padding: 4, display: 'flex', alignItems: 'center',
+                  padding: '0.25rem', display: 'flex', alignItems: 'center',
                 }}
               >
                 {showApiKey ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -384,12 +384,12 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>Status</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div style={{
-              width: 8, height: 8, borderRadius: '50%',
+              width: '0.5rem', height: '0.5rem', borderRadius: '50%',
               background: apiKeyExists ? 'var(--color-success)' : 'var(--text-disabled)', flexShrink: 0,
             }} />
-            <span style={{ fontSize: 13, color: apiKeyExists ? 'var(--color-success)' : 'var(--text-tertiary)' }}>
+            <span style={{ fontSize: '0.8125rem', color: apiKeyExists ? 'var(--color-success)' : 'var(--text-tertiary)' }}>
               {apiKeyExists ? 'Connected' : 'Not set'}
             </span>
           </div>
@@ -397,14 +397,14 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
         <div style={lastRowStyle}>
           <span style={labelStyle} />
-          <span style={{ fontSize: 12, color: 'var(--text-tertiary)', fontStyle: 'italic' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontStyle: 'italic' }}>
             Used by Analyzer, Metrics, Competitors, and Testing features
           </span>
         </div>
       </div>
 
       {/* ── Appearance ── */}
-      <div className="card" style={{ marginBottom: 16 }}>
+      <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}>
           <Palette size={15} />
           Appearance
@@ -421,7 +421,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
         <div style={settingsRowStyle}>
           <span style={labelStyle}>Animations</span>
           <ToggleSwitch checked={animationsEnabled} onChange={handleAnimationsToggle} />
-          <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
             {animationsEnabled ? 'Enabled' : 'Disabled'}
           </span>
         </div>
@@ -443,7 +443,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           <div style={sectionLabelStyle}>Project Settings</div>
 
           {/* ── General ── */}
-          <div className="card" style={{ marginBottom: 16 }}>
+          <div className="card" style={{ marginBottom: '1rem' }}>
             <div style={sectionTitleStyle}>
               <FolderCog size={15} />
               General
@@ -451,7 +451,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Project Name</span>
-              <div style={{ flex: 1, display: 'flex', gap: 8, alignItems: 'center' }}>
+              <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                 <input className="input-field" value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder="Project name" style={{ flex: 1 }} />
                 <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveProjectName} disabled={!projectName.trim()}>
                   {projectNameSaved ? <Check size={13} /> : <Save size={13} />}
@@ -462,7 +462,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Website URL</span>
-              <div style={{ flex: 1, display: 'flex', gap: 8, alignItems: 'center' }}>
+              <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                 <input className="input-field" value={projectUrl} onChange={(e) => setProjectUrl(e.target.value)} placeholder="https://example.com" style={{ flex: 1 }} />
                 <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveProjectUrl}>
                   {projectUrlSaved ? <Check size={13} /> : <Save size={13} />}
@@ -473,7 +473,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Webflow Site ID</span>
-              <div style={{ flex: 1, display: 'flex', gap: 8, alignItems: 'center' }}>
+              <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                 <input className="input-field" value={webflowSiteId} onChange={(e) => setWebflowSiteId(e.target.value)} placeholder="Optional" style={{ flex: 1 }} />
                 <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveWebflowId}>
                   {webflowSaved ? <Check size={13} /> : <Save size={13} />}
@@ -483,10 +483,10 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             </div>
 
             <div style={lastRowStyle}>
-              <span style={{ ...labelStyle, alignSelf: 'flex-start', paddingTop: 10 }}>Notes</span>
-              <div style={{ flex: 1, display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                <textarea className="input-field" value={projectNotes} onChange={(e) => setProjectNotes(e.target.value)} placeholder="Add notes about this project..." rows={3} style={{ flex: 1, resize: 'vertical', minHeight: 60 }} />
-                <button className="btn-primary" style={{ ...inlineSaveBtnStyle, alignSelf: 'flex-start', marginTop: 2 }} onClick={handleSaveNotes}>
+              <span style={{ ...labelStyle, alignSelf: 'flex-start', paddingTop: '0.625rem' }}>Notes</span>
+              <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
+                <textarea className="input-field" value={projectNotes} onChange={(e) => setProjectNotes(e.target.value)} placeholder="Add notes about this project..." rows={3} style={{ flex: 1, resize: 'vertical', minHeight: '3.75rem' }} />
+                <button className="btn-primary" style={{ ...inlineSaveBtnStyle, alignSelf: 'flex-start', marginTop: '0.125rem' }} onClick={handleSaveNotes}>
                   {notesSaved ? <Check size={13} /> : <Save size={13} />}
                   {notesSaved ? 'Saved' : 'Save'}
                 </button>
@@ -496,7 +496,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
           {/* ── Project Profile (from Questionnaire) ── */}
           {activeProject?.questionnaire?.completedAt && (
-            <div className="card" style={{ marginBottom: 16 }}>
+            <div className="card" style={{ marginBottom: '1rem' }}>
               <div style={sectionTitleStyle}>
                 <ClipboardList size={15} />
                 Project Profile
@@ -504,39 +504,39 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
               <div style={settingsRowStyle}>
                 <span style={labelStyle}>Industry</span>
-                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
-                  {INDUSTRY_LABELS[activeProject.questionnaire.industry] || activeProject.questionnaire.industry || '—'}
+                <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
+                  {INDUSTRY_LABELS[activeProject.questionnaire.industry] || activeProject.questionnaire.industry || '\u2014'}
                   {activeProject.questionnaire.industryOther ? ` (${activeProject.questionnaire.industryOther})` : ''}
                 </span>
               </div>
 
               <div style={settingsRowStyle}>
                 <span style={labelStyle}>Region</span>
-                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
-                  {REGION_LABELS[activeProject.questionnaire.region] || activeProject.questionnaire.region || '—'}
+                <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
+                  {REGION_LABELS[activeProject.questionnaire.region] || activeProject.questionnaire.region || '\u2014'}
                 </span>
               </div>
 
               <div style={settingsRowStyle}>
                 <span style={labelStyle}>Audience</span>
-                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
-                  {AUDIENCE_LABELS[activeProject.questionnaire.audience] || activeProject.questionnaire.audience || '—'}
+                <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
+                  {AUDIENCE_LABELS[activeProject.questionnaire.audience] || activeProject.questionnaire.audience || '\u2014'}
                 </span>
               </div>
 
               <div style={settingsRowStyle}>
                 <span style={labelStyle}>Primary Goal</span>
-                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
-                  {GOAL_LABELS[activeProject.questionnaire.primaryGoal] || activeProject.questionnaire.primaryGoal || '—'}
+                <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
+                  {GOAL_LABELS[activeProject.questionnaire.primaryGoal] || activeProject.questionnaire.primaryGoal || '\u2014'}
                 </span>
               </div>
 
               <div style={settingsRowStyle}>
                 <span style={labelStyle}>Target Engines</span>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
                   {(activeProject.questionnaire.targetEngines || []).map(e => (
                     <span key={e} style={{
-                      fontSize: 11, padding: '3px 8px', borderRadius: 6,
+                      fontSize: '0.6875rem', padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
                       background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
                       fontWeight: 500,
                     }}>
@@ -544,7 +544,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                     </span>
                   ))}
                   {(!activeProject.questionnaire.targetEngines || activeProject.questionnaire.targetEngines.length === 0) && (
-                    <span style={{ fontSize: 13, color: 'var(--text-tertiary)' }}>—</span>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>{'\u2014'}</span>
                   )}
                 </div>
               </div>
@@ -552,7 +552,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
               {activeProject.questionnaire.maturity && (
                 <div style={settingsRowStyle}>
                   <span style={labelStyle}>AEO Maturity</span>
-                  <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
+                  <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
                     {MATURITY_LABELS[activeProject.questionnaire.maturity] || activeProject.questionnaire.maturity}
                   </span>
                 </div>
@@ -561,7 +561,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
               {activeProject.questionnaire.contentType && (
                 <div style={settingsRowStyle}>
                   <span style={labelStyle}>Content Type</span>
-                  <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
+                  <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
                     {CONTENT_LABELS[activeProject.questionnaire.contentType] || activeProject.questionnaire.contentType}
                   </span>
                 </div>
@@ -569,7 +569,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
               <div style={lastRowStyle}>
                 <span style={labelStyle}>Completed</span>
-                <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
                   {new Date(activeProject.questionnaire.completedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </span>
               </div>
@@ -577,7 +577,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           )}
 
           {/* ── Monitoring ── */}
-          <div className="card" style={{ marginBottom: 16 }}>
+          <div className="card" style={{ marginBottom: '1rem' }}>
             <div style={sectionTitleStyle}>
               <Activity size={15} />
               Monitoring
@@ -586,7 +586,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Auto-monitoring</span>
               <ToggleSwitch checked={monitoringEnabled} onChange={handleMonitoringToggle} />
-              <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
                 {monitoringEnabled ? 'Enabled' : 'Disabled'}
               </span>
             </div>
@@ -604,18 +604,18 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Alert Threshold</span>
-              <input type="number" className="input-field" value={alertThreshold} onChange={(e) => handleAlertThreshold(e.target.value)} min={1} max={50} style={{ width: 80 }} />
-              <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>% change triggers alert</span>
+              <input type="number" className="input-field" value={alertThreshold} onChange={(e) => handleAlertThreshold(e.target.value)} min={1} max={50} style={{ width: '5rem' }} />
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>% change triggers alert</span>
             </div>
 
             <div style={lastRowStyle}>
               <span style={labelStyle}>Last Run</span>
-              <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>{lastMonitorRun}</span>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{lastMonitorRun}</span>
             </div>
           </div>
 
           {/* ── Data ── */}
-          <div className="card" style={{ marginBottom: 16 }}>
+          <div className="card" style={{ marginBottom: '1rem' }}>
             <div style={sectionTitleStyle}>
               <Database size={15} />
               Data
@@ -623,12 +623,12 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Transfer</span>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                <button className="btn-secondary" style={{ fontSize: 12, padding: '7px 14px' }} onClick={handleExportProject}>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={handleExportProject}>
                   <Download size={13} />
                   Export Project Data
                 </button>
-                <button className="btn-secondary" style={{ fontSize: 12, padding: '7px 14px' }} onClick={handleImportProject}>
+                <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={handleImportProject}>
                   <Upload size={13} />
                   Import Project Data
                 </button>
@@ -637,7 +637,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Stats</span>
-              <div style={{ display: 'flex', gap: 20, fontSize: 13, color: 'var(--text-secondary)' }}>
+              <div style={{ display: 'flex', gap: '1.25rem', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
                 <span>Metrics history: <strong style={{ color: 'var(--text-primary)' }}>{metricsCount}</strong> entries</span>
                 <span>Monitor history: <strong style={{ color: 'var(--text-primary)' }}>{monitorCount}</strong> entries</span>
               </div>
@@ -645,11 +645,11 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={lastRowStyle}>
               <span style={labelStyle}>Clear Data</span>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 <button
                   className="btn-secondary"
                   style={{
-                    fontSize: 12, padding: '7px 14px',
+                    fontSize: '0.75rem', padding: '0.4375rem 0.875rem',
                     color: clearMetricsConfirm ? 'var(--color-error)' : undefined,
                     borderColor: clearMetricsConfirm ? 'var(--color-error)' : undefined,
                   }}
@@ -661,7 +661,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                 <button
                   className="btn-secondary"
                   style={{
-                    fontSize: 12, padding: '7px 14px',
+                    fontSize: '0.75rem', padding: '0.4375rem 0.875rem',
                     color: clearMonitorConfirm ? 'var(--color-error)' : undefined,
                     borderColor: clearMonitorConfirm ? 'var(--color-error)' : undefined,
                   }}
@@ -675,7 +675,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           </div>
 
           {/* ── Danger Zone ── */}
-          <div className="card" style={{ marginBottom: 16, borderColor: 'var(--color-error)', borderWidth: 1 }}>
+          <div className="card" style={{ marginBottom: '1rem', borderColor: 'var(--color-error)', borderWidth: 1 }}>
             <div style={{ ...sectionTitleStyle, color: 'var(--color-error)' }}>
               <AlertTriangle size={15} />
               Danger Zone
@@ -683,14 +683,14 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Reset Checklist</span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {!resetChecklistConfirm ? (
                   <button
                     onClick={handleResetChecklist}
                     style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px',
-                      background: 'none', border: '1px solid var(--color-error)', borderRadius: 10,
-                      color: 'var(--color-error)', fontSize: 12, fontWeight: 500,
+                      display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.4375rem 0.875rem',
+                      background: 'none', border: '1px solid var(--color-error)', borderRadius: '0.625rem',
+                      color: 'var(--color-error)', fontSize: '0.75rem', fontWeight: 500,
                       fontFamily: 'var(--font-body)', cursor: 'pointer', transition: 'all 150ms ease',
                     }}
                   >
@@ -698,19 +698,19 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                     Reset All Checklist Progress
                   </button>
                 ) : (
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <span style={{ fontSize: 12, color: 'var(--color-error)', fontWeight: 500 }}>Are you sure?</span>
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-error)', fontWeight: 500 }}>Are you sure?</span>
                     <button
                       onClick={handleResetChecklist}
                       style={{
-                        padding: '6px 12px', background: 'var(--color-error)', border: 'none',
-                        borderRadius: 8, color: '#fff', fontSize: 12, fontWeight: 600,
+                        padding: '0.375rem 0.75rem', background: 'var(--color-error)', border: 'none',
+                        borderRadius: '0.5rem', color: '#fff', fontSize: '0.75rem', fontWeight: 600,
                         fontFamily: 'var(--font-body)', cursor: 'pointer',
                       }}
                     >
                       Confirm Reset
                     </button>
-                    <button onClick={() => setResetChecklistConfirm(false)} className="btn-secondary" style={{ fontSize: 12, padding: '6px 12px' }}>
+                    <button onClick={() => setResetChecklistConfirm(false)} className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.375rem 0.75rem' }}>
                       Cancel
                     </button>
                   </div>
@@ -720,14 +720,14 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={lastRowStyle}>
               <span style={labelStyle}>Delete Project</span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {!deleteConfirm ? (
                   <button
                     onClick={() => setDeleteConfirm(true)}
                     style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px',
-                      background: 'var(--color-error)', border: 'none', borderRadius: 10,
-                      color: '#fff', fontSize: 12, fontWeight: 600,
+                      display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.4375rem 0.875rem',
+                      background: 'var(--color-error)', border: 'none', borderRadius: '0.625rem',
+                      color: '#fff', fontSize: '0.75rem', fontWeight: 600,
                       fontFamily: 'var(--font-body)', cursor: 'pointer', transition: 'all 150ms ease',
                     }}
                   >
@@ -735,25 +735,25 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                     Delete Project
                   </button>
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    <span style={{ fontSize: 12, color: 'var(--color-error)', fontWeight: 500 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-error)', fontWeight: 500 }}>
                       Type <strong>"{activeProject.name}"</strong> to confirm deletion:
                     </span>
-                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                       <input
                         className="input-field"
                         value={deleteTypedName}
                         onChange={(e) => setDeleteTypedName(e.target.value)}
                         placeholder={activeProject.name}
-                        style={{ width: 220, borderColor: 'var(--color-error)' }}
+                        style={{ width: '13.75rem', borderColor: 'var(--color-error)' }}
                       />
                       <button
                         onClick={handleDeleteProject}
                         disabled={deleteTypedName !== activeProject.name}
                         style={{
-                          padding: '7px 14px',
+                          padding: '0.4375rem 0.875rem',
                           background: deleteTypedName === activeProject.name ? 'var(--color-error)' : 'var(--text-disabled)',
-                          border: 'none', borderRadius: 8, color: '#fff', fontSize: 12, fontWeight: 600,
+                          border: 'none', borderRadius: '0.5rem', color: '#fff', fontSize: '0.75rem', fontWeight: 600,
                           fontFamily: 'var(--font-body)',
                           cursor: deleteTypedName === activeProject.name ? 'pointer' : 'not-allowed',
                           opacity: deleteTypedName === activeProject.name ? 1 : 0.5,
@@ -761,7 +761,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                       >
                         Delete Forever
                       </button>
-                      <button onClick={() => { setDeleteConfirm(false); setDeleteTypedName('') }} className="btn-secondary" style={{ fontSize: 12, padding: '7px 12px' }}>
+                      <button onClick={() => { setDeleteConfirm(false); setDeleteTypedName('') }} className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.75rem' }}>
                         Cancel
                       </button>
                     </div>
@@ -772,39 +772,6 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           </div>
         </>
       )}
-
-      {/* Toggle Switch CSS */}
-      <style>{`
-        .toggle-switch {
-          position: relative;
-          width: 40px;
-          height: 22px;
-          border-radius: 11px;
-          border: none;
-          cursor: pointer;
-          transition: background 150ms ease;
-          flex-shrink: 0;
-          padding: 0;
-          background: var(--border-strong);
-        }
-        .toggle-switch.active {
-          background: var(--color-phase-1);
-        }
-        .toggle-switch-dot {
-          position: absolute;
-          top: 3px;
-          left: 3px;
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background: #fff;
-          transition: left 150ms ease;
-          pointer-events: none;
-        }
-        .toggle-switch.active .toggle-switch-dot {
-          left: 21px;
-        }
-      `}</style>
     </div>
   )
 }

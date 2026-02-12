@@ -39,7 +39,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases 
 
       {/* Panel — centered modal */}
       <div
-        className="relative w-full max-w-[720px] max-h-[85vh] rounded-xl overflow-hidden flex flex-col"
+        className="relative w-full max-w-[45rem] max-h-[85vh] rounded-xl overflow-hidden flex flex-col"
         style={{
           background: 'var(--bg-card)',
           border: '1px solid var(--border-subtle)',

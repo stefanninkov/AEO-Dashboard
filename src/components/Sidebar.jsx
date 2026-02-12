@@ -17,11 +17,16 @@ const NAV_ITEMS = [
   { id: 'settings', label: 'Settings', icon: Settings },
 ]
 
-export default function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut }) {
+export default function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar }) {
   const { theme, toggleTheme } = useTheme()
 
+  const handleNav = (viewId) => {
+    setActiveView(viewId)
+    closeSidebar?.()
+  }
+
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
       {/* Logo */}
       <div className="sidebar-logo">
         <Zap size={20} className="text-phase-1" style={{ flexShrink: 0 }} />
@@ -29,11 +34,11 @@ export default function Sidebar({ activeView, setActiveView, onNewProject, user,
       </div>
 
       {/* New Project Button */}
-      <div style={{ padding: '0 16px', marginBottom: '8px' }}>
+      <div style={{ padding: '0 1rem', marginBottom: '0.5rem' }}>
         <button
-          onClick={onNewProject}
+          onClick={() => { onNewProject(); closeSidebar?.() }}
           className="btn-primary"
-          style={{ width: '100%', padding: '9px 16px', fontSize: '13px' }}
+          style={{ width: '100%', padding: '0.5625rem 1rem', fontSize: '0.8125rem' }}
         >
           <Plus size={14} />
           New Project
@@ -51,7 +56,7 @@ export default function Sidebar({ activeView, setActiveView, onNewProject, user,
           return (
             <button
               key={item.id}
-              onClick={() => setActiveView(item.id)}
+              onClick={() => handleNav(item.id)}
               className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
               style={{ width: '100%' }}
             >
@@ -82,30 +87,25 @@ export default function Sidebar({ activeView, setActiveView, onNewProject, user,
 
       {/* User */}
       <div className="sidebar-user">
-        <div
-          className="flex items-center justify-center overflow-hidden"
-          style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,107,53,0.1)', flexShrink: 0 }}
-        >
+        <div className="sidebar-user-avatar">
           {user?.photoURL ? (
-            <img src={user.photoURL} alt="" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+            <img src={user.photoURL} alt="" />
           ) : (
             <User size={14} className="text-phase-1" />
           )}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p className="sidebar-user-name">
             {user?.displayName || 'User'}
           </p>
-          <p style={{ fontSize: 11, color: 'var(--text-tertiary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p className="sidebar-user-email">
             {user?.email || ''}
           </p>
         </div>
         <button
           onClick={onSignOut}
-          style={{ padding: 6, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          className="icon-btn"
           title="Sign out"
-          onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'none'}
         >
           <LogOut size={14} />
         </button>

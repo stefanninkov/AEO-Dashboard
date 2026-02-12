@@ -21,9 +21,9 @@ function CustomTooltip({ active, payload, label }) {
   return (
     <div style={{
       background: 'var(--bg-card)', border: '1px solid var(--border-default)',
-      borderRadius: 8, padding: '8px 12px', fontSize: 12, boxShadow: 'var(--shadow-md)',
+      borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.75rem', boxShadow: 'var(--shadow-md)',
     }}>
-      <p style={{ color: 'var(--text-tertiary)', marginBottom: 4, fontWeight: 600 }}>{label}</p>
+      <p style={{ color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600 }}>{label}</p>
       {payload.map((entry, i) => (
         <p key={i} style={{ color: entry.color, fontWeight: 500 }}>
           {entry.name}: {entry.value?.toLocaleString()}
@@ -120,36 +120,36 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 
   // Empty state helper
   const EmptyState = ({ message }) => (
-    <div className="card" style={{ padding: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 12 }}>
+    <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>
       <BarChart3 size={28} style={{ color: 'var(--text-disabled)' }} />
-      <p style={{ fontSize: 13, color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
-      <button onClick={() => setActiveView('metrics')} className="btn-primary" style={{ padding: '7px 16px', fontSize: 12, marginTop: 4 }}>
+      <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
+      <button onClick={() => setActiveView('metrics')} className="btn-primary" style={{ padding: '0.4375rem 1rem', fontSize: '0.75rem', marginTop: '0.25rem' }}>
         Run Metrics Analysis
       </button>
     </div>
   )
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
       {/* Welcome */}
       <div>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>
+        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
           Welcome back{userName ? `, ${userName}` : ''}
         </h2>
-        <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginTop: 4 }}>
+        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
           Here's an overview of your AEO projects and progress.
         </p>
       </div>
 
       {/* Sub-tabs */}
-      <div style={{ display: 'flex', gap: 4, borderRadius: 10, padding: 4, background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
+      <div style={{ display: 'flex', gap: '0.25rem', borderRadius: '0.625rem', padding: '0.25rem', background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
         {SUB_TABS.map(tab => (
           <button
             key={tab.id}
             onClick={() => setSubTab(tab.id)}
             style={{
-              flex: 1, padding: '8px 12px', fontSize: 13, fontWeight: 500,
-              borderRadius: 8, border: 'none', cursor: 'pointer',
+              flex: 1, padding: '0.5rem 0.75rem', fontSize: '0.8125rem', fontWeight: 500,
+              borderRadius: '0.5rem', border: 'none', cursor: 'pointer',
               fontFamily: 'var(--font-body)', transition: 'all 150ms',
               background: subTab === tab.id ? 'var(--bg-card)' : 'transparent',
               color: subTab === tab.id ? 'var(--text-primary)' : 'var(--text-tertiary)',
@@ -176,40 +176,40 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             const recs = getRecommendations(activeProject.questionnaire, setActiveView)
             if (recs.length === 0) return null
             return (
-              <div className="card" style={{ padding: 20 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+              <div className="card" style={{ padding: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.875rem' }}>
                   <Lightbulb size={16} style={{ color: 'var(--color-phase-5)' }} />
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                     Recommended Next Steps
                   </h3>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {recs.map(rec => (
                     <div
                       key={rec.id}
                       style={{
-                        display: 'flex', alignItems: 'center', gap: 12,
-                        padding: '10px 14px', borderRadius: 10,
+                        display: 'flex', alignItems: 'center', gap: '0.75rem',
+                        padding: '0.625rem 0.875rem', borderRadius: '0.625rem',
                         background: 'var(--hover-bg)',
                         border: '1px solid var(--border-subtle)',
                       }}
                     >
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{rec.text}</p>
-                        <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 2 }}>{rec.detail}</p>
+                        <p style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{rec.text}</p>
+                        <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{rec.detail}</p>
                       </div>
                       <button
                         onClick={rec.action}
                         style={{
-                          padding: '6px 12px', borderRadius: 8, border: 'none',
+                          padding: '0.375rem 0.75rem', borderRadius: '0.5rem', border: 'none',
                           background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
-                          fontSize: 11, fontWeight: 600, cursor: 'pointer',
+                          fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer',
                           fontFamily: 'var(--font-body)', whiteSpace: 'nowrap',
                           transition: 'all 150ms',
                         }}
                       >
                         {rec.actionLabel}
-                        <ArrowRight size={11} style={{ marginLeft: 4, verticalAlign: 'middle' }} />
+                        <ArrowRight size={11} style={{ marginLeft: '0.25rem', verticalAlign: 'middle' }} />
                       </button>
                     </div>
                   ))}
@@ -220,9 +220,9 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 
           {/* Charts Row */}
           {latestMetrics && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div className="card" style={{ padding: 20 }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="card" style={{ padding: '1.25rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   AI Citations Over Time
                 </h3>
                 {chartData.length > 1 ? (
@@ -238,18 +238,18 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: 13 }}>
+                  <div style={{ height: '13.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
                     Run multiple analyses to see trends
                   </div>
                 )}
               </div>
 
-              <div className="card" style={{ padding: 20 }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+              <div className="card" style={{ padding: '1.25rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Bot Type Distribution
                 </h3>
                 {engineData.length > 0 ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
                     <ResponsiveContainer width="55%" height={200}>
                       <PieChart>
                         <Pie data={engineData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={3} dataKey="value">
@@ -258,18 +258,18 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                         <Tooltip content={<CustomTooltip />} />
                       </PieChart>
                     </ResponsiveContainer>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       {engineData.map((entry, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <div style={{ width: 10, height: 10, borderRadius: 3, background: entry.color, flexShrink: 0 }} />
-                          <span style={{ fontSize: 12, color: 'var(--text-primary)' }}>{entry.name}</span>
-                          <span style={{ fontSize: 11, color: 'var(--text-tertiary)', marginLeft: 'auto' }}>{entry.value}</span>
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <div style={{ width: '0.625rem', height: '0.625rem', borderRadius: '0.1875rem', background: entry.color, flexShrink: 0 }} />
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-primary)' }}>{entry.name}</span>
+                          <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginLeft: 'auto' }}>{entry.value}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 ) : (
-                  <div style={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: 13 }}>
+                  <div style={{ height: '12.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
                     Run analysis to see distribution
                   </div>
                 )}
@@ -301,19 +301,19 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           {/* Quick Actions */}
           <div className="quick-actions-grid">
             <button className="quick-action-card" onClick={() => setActiveView('checklist')}>
-              <CheckSquare size={24} className="text-phase-3" style={{ margin: '0 auto 10px' }} />
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>Open Checklist</p>
-              <p style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Track your AEO tasks</p>
+              <CheckSquare size={24} className="text-phase-3" style={{ margin: '0 auto 0.625rem' }} />
+              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Open Checklist</p>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Track your AEO tasks</p>
             </button>
             <button className="quick-action-card" onClick={() => setActiveView('analyzer')}>
-              <Zap size={24} className="text-phase-1" style={{ margin: '0 auto 10px' }} />
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>Run Analyzer</p>
-              <p style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Scan your site for AEO</p>
+              <Zap size={24} className="text-phase-1" style={{ margin: '0 auto 0.625rem' }} />
+              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Run Analyzer</p>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Scan your site for AEO</p>
             </button>
             <button className="quick-action-card" onClick={() => setActiveView('testing')}>
-              <FlaskConical size={24} className="text-phase-5" style={{ margin: '0 auto 10px' }} />
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>Start Testing</p>
-              <p style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Test across AI platforms</p>
+              <FlaskConical size={24} className="text-phase-5" style={{ margin: '0 auto 0.625rem' }} />
+              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Start Testing</p>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Test across AI platforms</p>
             </button>
           </div>
         </>
@@ -332,8 +332,8 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               </div>
 
               {/* Full-width citations line chart */}
-              <div className="card" style={{ padding: 20 }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+              <div className="card" style={{ padding: '1.25rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Citations Over Time
                 </h3>
                 {citationsChartData.length > 1 ? (
@@ -347,40 +347,40 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: 13 }}>
+                  <div style={{ height: '17.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
                     Run multiple analyses to see citation trends
                   </div>
                 )}
               </div>
 
               {/* Engine breakdown table */}
-              <div className="card" style={{ padding: 20 }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+              <div className="card" style={{ padding: '1.25rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Citations by AI Engine
                 </h3>
                 <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                     <thead>
                       <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                        <th style={{ textAlign: 'left', padding: '8px 12px', fontSize: 11, fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Engine</th>
-                        <th style={{ textAlign: 'right', padding: '8px 12px', fontSize: 11, fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Citations</th>
-                        <th style={{ textAlign: 'right', padding: '8px 12px', fontSize: 11, fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px', width: '40%' }}>Share</th>
+                        <th style={{ textAlign: 'left', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Engine</th>
+                        <th style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Citations</th>
+                        <th style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px', width: '40%' }}>Share</th>
                       </tr>
                     </thead>
                     <tbody>
                       {allEngineData.map((engine, i) => (
                         <tr key={i} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                          <td style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <div style={{ width: 8, height: 8, borderRadius: 2, background: engine.color, flexShrink: 0 }} />
+                          <td style={{ padding: '0.625rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '0.125rem', background: engine.color, flexShrink: 0 }} />
                             <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{engine.name}</span>
                           </td>
-                          <td style={{ textAlign: 'right', padding: '10px 12px', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{engine.citations.toLocaleString()}</td>
-                          <td style={{ textAlign: 'right', padding: '10px 12px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'flex-end' }}>
-                              <div style={{ flex: 1, maxWidth: 120, height: 6, borderRadius: 3, background: 'var(--border-subtle)', overflow: 'hidden' }}>
-                                <div style={{ height: '100%', borderRadius: 3, background: engine.color, width: `${totalCitations > 0 ? (engine.citations / totalCitations) * 100 : 0}%` }} />
+                          <td style={{ textAlign: 'right', padding: '0.625rem 0.75rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{engine.citations.toLocaleString()}</td>
+                          <td style={{ textAlign: 'right', padding: '0.625rem 0.75rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                              <div style={{ flex: 1, maxWidth: '7.5rem', height: '0.375rem', borderRadius: '0.1875rem', background: 'var(--border-subtle)', overflow: 'hidden' }}>
+                                <div style={{ height: '100%', borderRadius: '0.1875rem', background: engine.color, width: `${totalCitations > 0 ? (engine.citations / totalCitations) * 100 : 0}%` }} />
                               </div>
-                              <span style={{ fontSize: 11, color: 'var(--text-tertiary)', minWidth: 36, fontFamily: 'var(--font-mono)' }}>
+                              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', minWidth: '2.25rem', fontFamily: 'var(--font-mono)' }}>
                                 {totalCitations > 0 ? Math.round((engine.citations / totalCitations) * 100) : 0}%
                               </span>
                             </div>
@@ -410,8 +410,8 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               </div>
 
               {/* Full-width prompts line chart */}
-              <div className="card" style={{ padding: 20 }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+              <div className="card" style={{ padding: '1.25rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Prompts Over Time
                 </h3>
                 {promptsChartData.length > 1 ? (
@@ -425,7 +425,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div style={{ height: 280, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: 13 }}>
+                  <div style={{ height: '17.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
                     Run multiple analyses to see prompt trends
                   </div>
                 )}
@@ -433,20 +433,20 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 
               {/* Top prompts / categories */}
               {topPrompts.length > 0 && (
-                <div className="card" style={{ padding: 20 }}>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+                <div className="card" style={{ padding: '1.25rem' }}>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                     Top Prompt Categories
                   </h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                     {topPrompts.slice(0, 10).map((prompt, i) => {
                       const label = typeof prompt === 'string' ? prompt : (prompt.category || prompt.text || prompt.name || 'Unknown')
                       const count = typeof prompt === 'object' ? (prompt.count || prompt.total || 0) : 0
                       return (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: i < topPrompts.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
-                          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-disabled)', minWidth: 24, fontFamily: 'var(--font-mono)' }}>#{i + 1}</span>
-                          <span style={{ fontSize: 13, color: 'var(--text-primary)', flex: 1 }}>{label}</span>
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 0', borderBottom: i < topPrompts.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-disabled)', minWidth: '1.5rem', fontFamily: 'var(--font-mono)' }}>#{i + 1}</span>
+                          <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', flex: 1 }}>{label}</span>
                           {count > 0 && (
-                            <span style={{ fontSize: 12, color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>{count.toLocaleString()}</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>{count.toLocaleString()}</span>
                           )}
                         </div>
                       )
@@ -473,12 +473,12 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               </div>
 
               {/* Full-width pie chart */}
-              <div className="card" style={{ padding: 20 }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+              <div className="card" style={{ padding: '1.25rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   AI Engine Distribution
                 </h3>
                 {engineData.length > 0 ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 32, justifyContent: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', justifyContent: 'center' }}>
                     <ResponsiveContainer width="45%" height={260}>
                       <PieChart>
                         <Pie data={engineData} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value">
@@ -487,39 +487,39 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                         <Tooltip content={<CustomTooltip />} />
                       </PieChart>
                     </ResponsiveContainer>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                       {engineData.map((entry, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <div style={{ width: 12, height: 12, borderRadius: 3, background: entry.color, flexShrink: 0 }} />
-                          <span style={{ fontSize: 13, color: 'var(--text-primary)', fontWeight: 500 }}>{entry.name}</span>
-                          <span style={{ fontSize: 12, color: 'var(--text-tertiary)', marginLeft: 'auto', fontFamily: 'var(--font-mono)' }}>{entry.value}</span>
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+                          <div style={{ width: '0.75rem', height: '0.75rem', borderRadius: '0.1875rem', background: entry.color, flexShrink: 0 }} />
+                          <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', fontWeight: 500 }}>{entry.name}</span>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginLeft: 'auto', fontFamily: 'var(--font-mono)' }}>{entry.value}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 ) : (
-                  <div style={{ height: 260, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: 13 }}>
+                  <div style={{ height: '16.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
                     Run analysis to see engine distribution
                   </div>
                 )}
               </div>
 
               {/* Engine details table */}
-              <div className="card" style={{ padding: 20 }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginBottom: 16, color: 'var(--text-primary)' }}>
+              <div className="card" style={{ padding: '1.25rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Engine Details
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(12.5rem, 1fr))', gap: '0.75rem' }}>
                   {allEngineData.map((engine, i) => (
-                    <div key={i} className="card" style={{ padding: 14, border: engine.citations > 0 ? `1px solid ${engine.color}30` : undefined }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                        <div style={{ width: 10, height: 10, borderRadius: 3, background: engine.color }} />
-                        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{engine.name}</span>
+                    <div key={i} className="card" style={{ padding: '0.875rem', border: engine.citations > 0 ? `1px solid ${engine.color}30` : undefined }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                        <div style={{ width: '0.625rem', height: '0.625rem', borderRadius: '0.1875rem', background: engine.color }} />
+                        <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{engine.name}</span>
                       </div>
-                      <div style={{ fontFamily: 'var(--font-heading)', fontSize: 24, fontWeight: 700, color: engine.citations > 0 ? 'var(--text-primary)' : 'var(--text-disabled)' }}>
+                      <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: engine.citations > 0 ? 'var(--text-primary)' : 'var(--text-disabled)' }}>
                         {engine.citations.toLocaleString()}
                       </div>
-                      <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 4 }}>
+                      <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
                         {engine.citations > 0 ? 'citations found' : 'no citations yet'}
                       </p>
                     </div>
@@ -535,10 +535,10 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 
       {/* No project empty state (shows on all tabs) */}
       {!activeProject && projects.length === 0 && (
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
-          <Zap size={32} className="text-phase-1" style={{ marginBottom: 16 }} />
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>No projects yet</h3>
-          <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20, textAlign: 'center', maxWidth: 300 }}>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
+          <Zap size={32} className="text-phase-1" style={{ marginBottom: '1rem' }} />
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>No projects yet</h3>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginBottom: '1.25rem', textAlign: 'center', maxWidth: '18.75rem' }}>
             Create your first project to start tracking AEO progress.
           </p>
           <button onClick={onNewProject} className="btn-primary">
@@ -554,21 +554,21 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 function StatCard({ label, value, trend, icon, iconColor }) {
   return (
     <div className="stat-card">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-        <span style={{ fontSize: 12, color: 'var(--text-tertiary)', fontWeight: 500 }}>{label}</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.625rem' }}>
+        <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>{label}</span>
         <div style={{
-          width: 34, height: 34, borderRadius: 9, display: 'flex',
+          width: '2.125rem', height: '2.125rem', borderRadius: '0.5625rem', display: 'flex',
           alignItems: 'center', justifyContent: 'center',
           background: iconColor + '18', color: iconColor,
         }}>
           {icon}
         </div>
       </div>
-      <div style={{ fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 700, lineHeight: 1, color: 'var(--text-primary)' }}>
+      <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.75rem', fontWeight: 700, lineHeight: 1, color: 'var(--text-primary)' }}>
         {value}
       </div>
       {trend !== null && trend !== undefined && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.5rem' }}>
           {trend > 0 ? (
             <TrendingUp size={12} style={{ color: 'var(--color-success)' }} />
           ) : trend < 0 ? (
@@ -577,7 +577,7 @@ function StatCard({ label, value, trend, icon, iconColor }) {
             <Minus size={12} style={{ color: 'var(--text-tertiary)' }} />
           )}
           <span style={{
-            fontSize: 11, fontWeight: 500,
+            fontSize: '0.6875rem', fontWeight: 500,
             color: trend > 0 ? 'var(--color-success)' : trend < 0 ? 'var(--color-error)' : 'var(--text-tertiary)',
           }}>
             {trend > 0 ? '+' : ''}{trend}% vs last period

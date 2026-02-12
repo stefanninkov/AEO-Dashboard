@@ -98,7 +98,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
   return (
     <div className="min-h-screen flex" style={{ background: 'var(--bg-page)' }}>
       {/* Left Panel — Decorative */}
-      <div className="hidden lg:flex lg:w-[480px] xl:w-[560px] relative overflow-hidden" style={{ background: 'linear-gradient(145deg, var(--bg-card) 0%, var(--bg-page) 100%)' }}>
+      <div className="hidden lg:flex lg:w-[30rem] xl:w-[35rem] relative overflow-hidden" style={{ background: 'linear-gradient(145deg, var(--bg-card) 0%, var(--bg-page) 100%)' }}>
         {/* Subtle dot pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: 'radial-gradient(var(--text-tertiary) 1px, transparent 1px)',
@@ -121,13 +121,13 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
                 AEO Dashboard
               </h1>
             </div>
-            <p className="text-sm mt-1 ml-[52px] text-text-tertiary">
+            <p className="text-sm mt-1 ml-[3.25rem] text-text-tertiary">
               Answer Engine Optimization
             </p>
           </div>
 
           <div className="space-y-8">
-            <h2 className="text-3xl xl:text-[38px] font-semibold text-text-primary font-heading leading-[1.15] tracking-tight">
+            <h2 className="text-3xl xl:text-[2.375rem] font-semibold text-text-primary font-heading leading-[1.15] tracking-tight">
               Optimize your website<br />
               for <span className="text-phase-1">AI search engines</span>
             </h2>
@@ -139,14 +139,14 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
                 { num: '03', text: '88-point checklist covering all optimization phases' },
               ].map((item) => (
                 <div key={item.num} className="flex items-start gap-4">
-                  <span className="font-mono text-[11px] font-bold shrink-0 mt-0.5 text-phase-1 opacity-70">{item.num}</span>
-                  <p className="text-[13px] leading-relaxed text-text-secondary">{item.text}</p>
+                  <span className="font-mono text-[0.6875rem] font-bold shrink-0 mt-0.5 text-phase-1 opacity-70">{item.num}</span>
+                  <p className="text-[0.8125rem] leading-relaxed text-text-secondary">{item.text}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <p className="text-[11px] text-text-disabled">
+          <p className="text-[0.6875rem] text-text-disabled">
             v2.0 — Built for AEO professionals
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
       {/* Right Panel — Form */}
       <div className="flex-1 flex items-center justify-center p-6 sm:p-8">
         <div
-          className="w-full max-w-[400px]"
+          className="w-full max-w-[25rem]"
           style={{
             opacity: mounted ? 1 : 0,
             transform: mounted ? 'translateY(0)' : 'translateY(12px)',
@@ -172,17 +172,17 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
                 AEO Dashboard
               </h1>
             </div>
-            <p className="text-text-tertiary text-[13px]">
+            <p className="text-text-tertiary text-[0.8125rem]">
               Answer Engine Optimization
             </p>
           </div>
 
           {/* Welcome text */}
           <div className="mb-7">
-            <h2 className="font-heading text-[20px] font-semibold tracking-tight text-text-primary">
+            <h2 className="font-heading text-[1.25rem] font-semibold tracking-tight text-text-primary">
               {mode === 'signin' ? 'Welcome back' : 'Create your account'}
             </h2>
-            <p className="text-[13px] text-text-tertiary mt-1.5">
+            <p className="text-[0.8125rem] text-text-tertiary mt-1.5">
               {mode === 'signin'
                 ? 'Sign in to your account to continue.'
                 : 'Get started with AEO Dashboard today.'}
@@ -193,7 +193,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
           <button
             onClick={handleGoogleSignIn}
             disabled={loading}
-            className="w-full py-2.5 rounded-lg text-[13px] font-medium text-text-primary active:scale-[0.995] transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-3"
+            className="w-full py-2.5 rounded-lg text-[0.8125rem] font-medium text-text-primary active:scale-[0.995] transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-3"
             style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-button)' }}
           >
             <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
@@ -208,14 +208,14 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
           {/* Divider */}
           <div className="flex items-center gap-4 my-6">
             <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
-            <span className="text-[11px] text-text-tertiary font-medium">or continue with email</span>
+            <span className="text-[0.6875rem] text-text-tertiary font-medium">or continue with email</span>
             <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
           </div>
 
           {/* Error */}
           {activeError && (
             <div
-              className="flex items-start gap-2.5 p-3.5 bg-error/8 border border-error/15 rounded-xl mb-5 text-[13px]"
+              className="flex items-start gap-2.5 p-3.5 bg-error/8 border border-error/15 rounded-xl mb-5 text-[0.8125rem]"
               style={{ animation: 'fade-in-up 200ms ease-out both' }}
             >
               <AlertCircle size={15} className="text-error flex-shrink-0 mt-0.5" />
@@ -227,7 +227,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
           <form onSubmit={handleSubmit} className="space-y-3">
             {mode === 'signup' && (
               <div>
-                <label className="text-[11px] font-medium text-text-tertiary mb-1.5 block">Full name</label>
+                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Full name</label>
                 <div className="relative">
                   <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                   <input
@@ -235,7 +235,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
                     placeholder="John Doe"
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[13px] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
                     style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
                     autoFocus={mode === 'signup'}
                   />
@@ -244,7 +244,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
             )}
 
             <div>
-              <label className="text-[11px] font-medium text-text-tertiary mb-1.5 block">Email address</label>
+              <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Email address</label>
               <div className="relative">
                 <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                 <input
@@ -252,7 +252,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[13px] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
                   style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
                   autoFocus={mode === 'signin'}
                 />
@@ -260,7 +260,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
             </div>
 
             <div>
-              <label className="text-[11px] font-medium text-text-tertiary mb-1.5 block">Password</label>
+              <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Password</label>
               <div className="relative">
                 <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                 <input
@@ -268,7 +268,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-11 py-2.5 rounded-lg text-[13px] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                  className="w-full pl-10 pr-11 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
                   style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
                 />
                 <button
@@ -284,7 +284,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
 
             {mode === 'signup' && (
               <div>
-                <label className="text-[11px] font-medium text-text-tertiary mb-1.5 block">Confirm password</label>
+                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Confirm password</label>
                 <div className="relative">
                   <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                   <input
@@ -292,7 +292,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
                     placeholder="Confirm your password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[13px] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
                     style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
                   />
                 </div>
@@ -316,7 +316,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
           </form>
 
           {/* Switch mode */}
-          <p className="text-center text-[13px] text-text-tertiary mt-6">
+          <p className="text-center text-[0.8125rem] text-text-tertiary mt-6">
             {mode === 'signin' ? (
               <>
                 Don&apos;t have an account?{' '}
@@ -341,7 +341,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
           </p>
 
           {/* Footer */}
-          <p className="text-center text-[11px] text-text-disabled mt-8">
+          <p className="text-center text-[0.6875rem] text-text-disabled mt-8">
             By continuing, you agree to our terms of service.
           </p>
         </div>

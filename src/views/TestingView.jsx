@@ -206,17 +206,17 @@ export default function TestingView({ activeProject, updateProject }) {
     <div className="space-y-6">
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <h2 className="font-heading text-[15px] font-bold tracking-[-0.3px] text-text-primary">Testing Hub</h2>
-          <span className="text-[11px] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
+          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">Testing Hub</h2>
+          <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
         </div>
-        <p className="text-[13px] text-text-secondary">Test, track, and validate your AEO implementation across all AI platforms.</p>
+        <p className="text-[0.8125rem] text-text-secondary">Test, track, and validate your AEO implementation across all AI platforms.</p>
       </div>
 
       {/* AEO Visibility Score */}
       <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
         <div className="flex items-center justify-between mb-2">
-          <h3 className="font-heading text-[10px] font-bold uppercase tracking-[1.2px] text-text-tertiary">AEO Visibility Score</h3>
-          <span className={`font-mono text-[28px] font-bold ${
+          <h3 className="font-heading text-[0.625rem] font-bold uppercase tracking-[0.075rem] text-text-tertiary">AEO Visibility Score</h3>
+          <span className={`font-mono text-[1.75rem] font-bold ${
             visibilityScore >= 70 ? 'text-success' : visibilityScore >= 40 ? 'text-warning' : 'text-error'
           }`}>
             {visibilityScore}%
@@ -231,7 +231,7 @@ export default function TestingView({ activeProject, updateProject }) {
             }}
           />
         </div>
-        <p className="text-[11px] text-text-tertiary mt-2">Based on {queryTracker.length} tracked queries across {PLATFORMS.length} platforms</p>
+        <p className="text-[0.6875rem] text-text-tertiary mt-2">Based on {queryTracker.length} tracked queries across {PLATFORMS.length} platforms</p>
       </div>
 
       {/* Auto Monitor */}
@@ -317,10 +317,10 @@ export default function TestingView({ activeProject, updateProject }) {
                 ))}
               </div>
               <div className="flex justify-between mt-1">
-                <span className="text-[10px] text-text-tertiary">
+                <span className="text-[0.625rem] text-text-tertiary">
                   {new Date(monitorHistory[Math.max(0, monitorHistory.length - 30)].date).toLocaleDateString()}
                 </span>
-                <span className="text-[10px] text-text-tertiary">
+                <span className="text-[0.625rem] text-text-tertiary">
                   {new Date(monitorHistory[monitorHistory.length - 1].date).toLocaleDateString()}
                 </span>
               </div>
@@ -456,7 +456,7 @@ export default function TestingView({ activeProject, updateProject }) {
             value={newQuery}
             onChange={e => setNewQuery(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && addQuery()}
-            className="flex-1 rounded-lg px-3 py-2 text-[13px] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
+            className="flex-1 rounded-lg px-3 py-2 text-[0.8125rem] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
             style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
           />
           <button
@@ -473,11 +473,11 @@ export default function TestingView({ activeProject, updateProject }) {
             <table className="w-full text-sm">
               <thead className="sticky top-0 z-10" style={{ background: 'var(--bg-card)' }}>
                 <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                  <th className="text-left py-2 px-2 text-xs text-text-tertiary font-heading min-w-[180px]">Query</th>
+                  <th className="text-left py-2 px-2 text-xs text-text-tertiary font-heading min-w-[11.25rem]">Query</th>
                   {PLATFORMS.map(p => (
-                    <th key={p} className="text-center py-2 px-2 text-xs text-text-tertiary font-heading whitespace-nowrap min-w-[90px]">{p}</th>
+                    <th key={p} className="text-center py-2 px-2 text-xs text-text-tertiary font-heading whitespace-nowrap min-w-[5.625rem]">{p}</th>
                   ))}
-                  <th className="text-center py-2 px-2 text-xs text-text-tertiary font-heading min-w-[80px]">Last Check</th>
+                  <th className="text-center py-2 px-2 text-xs text-text-tertiary font-heading min-w-[5rem]">Last Check</th>
                   <th className="w-8"></th>
                 </tr>
               </thead>
@@ -602,8 +602,8 @@ function CollapsibleSection({ title, subtitle, icon, expanded, onToggle, childre
       >
         {icon}
         <div className="flex-1 text-left">
-          <h3 className="font-heading text-[13px] font-bold text-text-primary">{title}</h3>
-          <p className="text-[11px] text-text-tertiary">{subtitle}</p>
+          <h3 className="font-heading text-[0.8125rem] font-bold text-text-primary">{title}</h3>
+          <p className="text-[0.6875rem] text-text-tertiary">{subtitle}</p>
         </div>
         <ChevronDown
           size={14}
