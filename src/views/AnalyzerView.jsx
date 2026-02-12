@@ -1,0 +1,553 @@
+import { useState } from 'react'
+import { Globe, Link2, Loader2, AlertCircle, CheckCircle2, MinusCircle, XCircle, Zap, Search } from 'lucide-react'
+
+const STATUS_CONFIG = {
+  pass: { icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10', label: 'Pass' },
+  partial: { icon: MinusCircle, color: 'text-warning', bg: 'bg-warning/10', label: 'Partial' },
+  fail: { icon: XCircle, color: 'text-error', bg: 'bg-error/10', label: 'Fail' },
+}
+
+/* ── Skeleton Loader ── */
+function SkeletonLoader() {
+  return (
+    <div className="space-y-6 fade-in-up">
+      {/* Score skeleton */}
+      <div className="rounded-xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="flex items-center justify-between mb-4">
+          <div className="space-y-2">
+            <div className="skeleton h-5 w-24" />
+            <div className="skeleton h-3 w-40" />
+          </div>
+          <div className="skeleton h-12 w-16 rounded-lg" />
+        </div>
+        <div className="skeleton h-3 w-full rounded-full" />
+        <div className="skeleton h-4 w-3/4 mt-3" />
+      </div>
+      {/* Category skeletons */}
+      {[1, 2, 3, 4].map(i => (
+        <div key={i} className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', animationDelay: `${i * 80}ms` }}>
+          <div className="px-5 py-3" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+            <div className="skeleton h-4 w-32" />
+          </div>
+          <div style={{ borderColor: 'var(--border-subtle)' }} className="divide-y">
+            {[1, 2, 3, 4].map(j => (
+              <div key={j} className="flex items-center gap-3 px-5 py-3">
+                <div className="skeleton h-4 w-4 rounded-full" />
+                <div className="flex-1 space-y-1.5">
+                  <div className="skeleton h-4 w-2/3" />
+                  <div className="skeleton h-3 w-full" />
+                </div>
+                <div className="skeleton h-5 w-14 rounded-full" />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export default function AnalyzerView({ activeProject, updateProject }) {
+  const [mode, setMode] = useState('url') // 'webflow' | 'url'
+  const [url, setUrl] = useState(activeProject?.url || '')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [results, setResults] = useState(activeProject?.analyzerResults || null)
+  const [apiKey, setApiKey] = useState(localStorage.getItem('anthropic-api-key') || '')
+  const [showApiKey, setShowApiKey] = useState(!apiKey)
+
+  // Webflow state
+  const [webflowSites, setWebflowSites] = useState([])
+  const [selectedSite, setSelectedSite] = useState(null)
+  const [webflowLoading, setWebflowLoading] = useState(false)
+
+  const saveApiKey = (key) => {
+    setApiKey(key)
+    localStorage.setItem('anthropic-api-key', key)
+    setShowApiKey(false)
+  }
+
+  // --- Webflow MCP Analysis ---
+  const fetchWebflowSites = async () => {
+    if (!apiKey) { setShowApiKey(true); return }
+    setWebflowLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 4000,
+          messages: [{ role: 'user', content: 'List all my Webflow sites with their site IDs and domains. Return as JSON array: [{"id": "...", "name": "...", "domain": "..."}]' }],
+          mcp_servers: [{
+            type: 'url',
+            url: 'https://mcp.webflow.com/mcp',
+            name: 'webflow-mcp'
+          }]
+        }),
+      })
+      const data = await response.json()
+      if (data.error) throw new Error(data.error.message)
+
+      const textContent = data.content
+        ?.filter(item => item.type === 'text')
+        .map(item => item.text)
+        .join('\n') || ''
+
+      try {
+        const clean = textContent.replace(/```json\s?|```/g, '').trim()
+        const jsonMatch = clean.match(/\[[\s\S]*\]/)
+        if (jsonMatch) {
+          setWebflowSites(JSON.parse(jsonMatch[0]))
+        }
+      } catch {
+        setWebflowSites([])
+        setError('Could not parse Webflow sites. You may need to authenticate with Webflow first.')
+      }
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setWebflowLoading(false)
+    }
+  }
+
+  const analyzeWebflowSite = async (site) => {
+    if (!apiKey) { setShowApiKey(true); return }
+    setSelectedSite(site)
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 8000,
+          messages: [{
+            role: 'user',
+            content: `Analyze the Webflow site "${site.name}" (ID: ${site.id}) for AEO (Answer Engine Optimization) readiness.
+
+Please:
+1. List all pages of the site
+2. Check custom code blocks for schema markup (JSON-LD)
+3. Check SEO settings (meta titles, descriptions, OG tags)
+4. Check CMS collections and their structure
+5. Analyze content patterns
+
+Then evaluate against these AEO criteria and return ONLY valid JSON:
+{
+  "url": "${site.domain || site.name}",
+  "overallScore": 0-100,
+  "source": "webflow",
+  "categories": [
+    { "name": "Schema Markup", "items": [
+      { "name": "FAQPage schema", "status": "pass|fail|partial", "note": "..." },
+      { "name": "Article schema", "status": "...", "note": "..." },
+      { "name": "Organization schema", "status": "...", "note": "..." },
+      { "name": "BreadcrumbList schema", "status": "...", "note": "..." },
+      { "name": "Product schema", "status": "...", "note": "..." }
+    ]},
+    { "name": "Content Structure", "items": [
+      { "name": "Question-based headings", "status": "...", "note": "..." },
+      { "name": "Direct answer paragraphs", "status": "...", "note": "..." },
+      { "name": "Summary/TL;DR sections", "status": "...", "note": "..." },
+      { "name": "FAQ sections present", "status": "...", "note": "..." },
+      { "name": "CMS structure optimized", "status": "...", "note": "..." }
+    ]},
+    { "name": "Technical SEO", "items": [
+      { "name": "Meta descriptions", "status": "...", "note": "..." },
+      { "name": "Open Graph tags", "status": "...", "note": "..." },
+      { "name": "Semantic HTML", "status": "...", "note": "..." },
+      { "name": "Mobile responsive", "status": "...", "note": "..." },
+      { "name": "Custom code implementation", "status": "...", "note": "..." }
+    ]},
+    { "name": "Authority Signals", "items": [
+      { "name": "Author information", "status": "...", "note": "..." },
+      { "name": "Last updated dates", "status": "...", "note": "..." },
+      { "name": "External citations", "status": "...", "note": "..." },
+      { "name": "Internal linking", "status": "...", "note": "..." }
+    ]}
+  ],
+  "topPriorities": ["top 5 things to fix"],
+  "summary": "2-3 sentence assessment"
+}`
+          }],
+          mcp_servers: [{
+            type: 'url',
+            url: 'https://mcp.webflow.com/mcp',
+            name: 'webflow-mcp'
+          }]
+        }),
+      })
+      const data = await response.json()
+      if (data.error) throw new Error(data.error.message)
+
+      const textContent = data.content
+        ?.filter(item => item.type === 'text')
+        .map(item => item.text)
+        .join('\n') || ''
+
+      const parsed = parseAnalysisJSON(textContent)
+      if (parsed) {
+        setResults(parsed)
+        updateProject(activeProject.id, { analyzerResults: parsed })
+      } else {
+        setError('Could not parse analysis results.')
+      }
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // --- URL Analysis ---
+  const analyzeUrl = async () => {
+    if (!url.trim()) return
+    if (!apiKey) { setShowApiKey(true); return }
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 4000,
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          messages: [{
+            role: 'user',
+            content: `Analyze this URL for AEO readiness: ${url}
+
+Search for and visit this website, then evaluate against these AEO criteria. For each item give status: "pass", "fail", or "partial" with brief explanation.
+
+Return ONLY valid JSON:
+{
+  "url": "${url}",
+  "overallScore": 0-100,
+  "source": "url",
+  "categories": [
+    { "name": "Schema Markup", "items": [
+      { "name": "FAQPage schema", "status": "pass|fail|partial", "note": "..." },
+      { "name": "Article schema", "status": "...", "note": "..." },
+      { "name": "Organization schema", "status": "...", "note": "..." },
+      { "name": "BreadcrumbList schema", "status": "...", "note": "..." }
+    ]},
+    { "name": "Content Structure", "items": [
+      { "name": "Question-based headings", "status": "...", "note": "..." },
+      { "name": "Direct answer paragraphs", "status": "...", "note": "..." },
+      { "name": "Summary/TL;DR section", "status": "...", "note": "..." },
+      { "name": "FAQ section present", "status": "...", "note": "..." },
+      { "name": "Definition-style formatting", "status": "...", "note": "..." }
+    ]},
+    { "name": "Technical SEO", "items": [
+      { "name": "HTTPS enabled", "status": "...", "note": "..." },
+      { "name": "Meta description optimized", "status": "...", "note": "..." },
+      { "name": "Open Graph tags", "status": "...", "note": "..." },
+      { "name": "Semantic HTML", "status": "...", "note": "..." },
+      { "name": "Mobile responsive", "status": "...", "note": "..." }
+    ]},
+    { "name": "Authority Signals", "items": [
+      { "name": "Author information", "status": "...", "note": "..." },
+      { "name": "Last updated date", "status": "...", "note": "..." },
+      { "name": "External citations", "status": "...", "note": "..." },
+      { "name": "Internal linking", "status": "...", "note": "..." }
+    ]}
+  ],
+  "topPriorities": ["top 5 things to fix"],
+  "summary": "2-3 sentence assessment"
+}`
+          }],
+        }),
+      })
+      const data = await response.json()
+      if (data.error) throw new Error(data.error.message)
+
+      const textContent = data.content
+        ?.filter(item => item.type === 'text')
+        .map(item => item.text)
+        .join('\n') || ''
+
+      const parsed = parseAnalysisJSON(textContent)
+      if (parsed) {
+        setResults(parsed)
+        updateProject(activeProject.id, { analyzerResults: parsed, url })
+      } else {
+        setError('Could not parse analysis results. The AI may not have been able to access the site.')
+      }
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <h2 className="font-heading text-[15px] font-bold tracking-[-0.3px] text-text-primary">Site Analyzer</h2>
+          <span className="text-[11px] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
+        </div>
+        <p className="text-[13px] text-text-secondary">Analyze any website for AEO readiness using AI-powered analysis.</p>
+      </div>
+
+      {/* API Key */}
+      {showApiKey && (
+        <div className="rounded-xl p-4 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid color-mix(in srgb, var(--color-phase-5) 20%, transparent)' }}>
+          <p className="text-[13px] text-text-secondary mb-2">Enter your Anthropic API key to use the analyzer:</p>
+          <div className="flex gap-2">
+            <input
+              type="password"
+              placeholder="sk-ant-..."
+              value={apiKey}
+              onChange={e => setApiKey(e.target.value)}
+              className="flex-1 rounded-lg px-3 py-2 text-[13px] text-text-primary outline-none transition-colors duration-150"
+              style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
+            />
+            <button
+              onClick={() => saveApiKey(apiKey)}
+              className="px-4 py-2 bg-phase-1 text-white rounded-lg text-[13px] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150"
+            >
+              Save
+            </button>
+          </div>
+          <p className="text-[11px] text-text-tertiary mt-2">Key is stored locally in your browser only.</p>
+        </div>
+      )}
+
+      {/* Mode Toggle */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => setMode('url')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 ${
+            mode === 'url' ? 'bg-phase-1 text-white' : 'text-text-secondary hover:text-text-primary'
+          }`}
+          style={mode !== 'url' ? { background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' } : {}}
+        >
+          <Globe size={14} />
+          URL Scan
+        </button>
+        <button
+          onClick={() => setMode('webflow')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 ${
+            mode === 'webflow' ? 'bg-phase-2 text-white' : 'text-text-secondary hover:text-text-primary'
+          }`}
+          style={mode !== 'webflow' ? { background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' } : {}}
+        >
+          <Link2 size={14} />
+          Webflow Connect
+        </button>
+        {!showApiKey && apiKey && (
+          <button
+            onClick={() => setShowApiKey(true)}
+            className="ml-auto text-[11px] text-text-tertiary hover:text-text-secondary transition-colors"
+          >
+            Change API Key
+          </button>
+        )}
+      </div>
+
+      {/* URL Mode */}
+      {mode === 'url' && (
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="https://example.com"
+            value={url}
+            onChange={e => setUrl(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && analyzeUrl()}
+            className="flex-1 rounded-lg px-4 py-2.5 text-[13px] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
+            style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
+          />
+          <button
+            onClick={analyzeUrl}
+            disabled={loading || !url.trim()}
+            className="px-6 py-2.5 bg-phase-1 text-white rounded-lg text-[13px] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
+          >
+            {loading ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
+            Analyze
+          </button>
+        </div>
+      )}
+
+      {/* Webflow Mode */}
+      {mode === 'webflow' && (
+        <div className="rounded-xl p-5 space-y-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+          <div className="flex items-center justify-between">
+            <p className="text-[13px] text-text-secondary">Connect to Webflow to analyze your sites directly.</p>
+            <button
+              onClick={fetchWebflowSites}
+              disabled={webflowLoading}
+              className="px-4 py-2 bg-phase-2 text-white rounded-lg text-[13px] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
+            >
+              {webflowLoading ? <Loader2 size={14} className="animate-spin" /> : <Link2 size={14} />}
+              {webflowSites.length > 0 ? 'Refresh Sites' : 'Load Sites'}
+            </button>
+          </div>
+
+          {webflowSites.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-[10px] text-text-tertiary font-heading uppercase tracking-[1px]">Select a site</p>
+              {webflowSites.map((site, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => analyzeWebflowSite(site)}
+                  disabled={loading}
+                  className={`w-full text-left p-3 rounded-lg transition-all duration-150 ${
+                    selectedSite?.id === site.id
+                      ? 'border-phase-2/40 bg-phase-2/5'
+                      : ''
+                  }`}
+                  style={selectedSite?.id !== site.id ? { background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)' } : {}}
+                >
+                  <p className="text-[13px] font-medium text-text-primary">{site.name}</p>
+                  {site.domain && <p className="text-[11px] text-text-tertiary">{site.domain}</p>}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Loading — Skeleton */}
+      {loading && <SkeletonLoader />}
+
+      {/* Error */}
+      {error && (
+        <div className="bg-error/10 border border-error/30 rounded-xl p-4 flex items-start gap-3 fade-in-up">
+          <AlertCircle size={18} className="text-error flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-medium text-error">Analysis Error</p>
+            <p className="text-xs text-text-secondary mt-1">{error}</p>
+          </div>
+        </div>
+      )}
+
+      {/* No results empty state */}
+      {!results && !loading && !error && (
+        <div className="flex flex-col items-center justify-center py-14 rounded-xl fade-in-up" style={{ border: '2px dashed var(--border-subtle)' }}>
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--hover-bg)' }}>
+            <Search size={28} className="text-text-tertiary" />
+          </div>
+          <h3 className="font-heading text-base font-bold mb-1">Ready to analyze</h3>
+          <p className="text-sm text-text-tertiary text-center max-w-xs">
+            Enter a URL or connect to Webflow to analyze your site's AEO readiness.
+          </p>
+        </div>
+      )}
+
+      {/* Results */}
+      {results && !loading && <AnalysisResults results={results} />}
+    </div>
+  )
+}
+
+function AnalysisResults({ results }) {
+  const scoreColor = results.overallScore >= 70 ? 'text-success' : results.overallScore >= 40 ? 'text-warning' : 'text-error'
+
+  return (
+    <div className="space-y-6">
+      {/* Score Card */}
+      <div className="rounded-xl p-6 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="font-heading text-base font-bold">AEO Score</h3>
+            <p className="text-xs text-text-tertiary">{results.url} {results.source === 'webflow' ? '(Webflow)' : '(URL Scan)'}</p>
+          </div>
+          <div className={`font-heading text-4xl font-bold ${scoreColor}`}>
+            {results.overallScore}
+          </div>
+        </div>
+        <div className="w-full h-3 rounded-full overflow-hidden" style={{ background: 'var(--bg-page)' }}>
+          <div
+            className="h-full rounded-full"
+            style={{
+              width: `${results.overallScore}%`,
+              backgroundColor: results.overallScore >= 70 ? 'var(--color-success)' : results.overallScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)',
+              animation: 'fill-bar 800ms ease-out forwards',
+            }}
+          />
+        </div>
+        {results.summary && (
+          <p className="text-sm text-text-secondary mt-3">{results.summary}</p>
+        )}
+      </div>
+
+      {/* Categories */}
+      {results.categories?.map((category, catIdx) => (
+        <div
+          key={catIdx}
+          className="rounded-xl overflow-hidden fade-in-up"
+          style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', animationDelay: `${(catIdx + 1) * 80}ms` }}
+        >
+          <div className="px-5 py-3" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+            <h3 className="font-heading text-sm font-bold">{category.name}</h3>
+          </div>
+          <div className="divide-y" style={{ borderColor: 'var(--border-subtle)' }}>
+            {category.items?.map((item, itemIdx) => {
+              const config = STATUS_CONFIG[item.status] || STATUS_CONFIG.fail
+              const Icon = config.icon
+              return (
+                <div key={itemIdx} className="flex items-start gap-3 px-5 py-3 transition-colors">
+                  <Icon size={16} className={`${config.color} flex-shrink-0 mt-0.5`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium">{item.name}</p>
+                    <p className="text-xs text-text-tertiary mt-0.5">{item.note}</p>
+                  </div>
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${config.bg} ${config.color} font-medium`}>
+                    {config.label}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      ))}
+
+      {/* Top Priorities */}
+      {results.topPriorities?.length > 0 && (
+        <div className="rounded-xl p-5 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid color-mix(in srgb, var(--color-phase-5) 30%, transparent)', animationDelay: '400ms' }}>
+          <h3 className="font-heading text-sm font-bold mb-3 text-phase-5">Top Priorities</h3>
+          <div className="space-y-2">
+            {results.topPriorities.map((priority, idx) => (
+              <div key={idx} className="flex items-start gap-2">
+                <span className="font-heading text-xs text-phase-5 mt-0.5 w-4 text-right flex-shrink-0">{idx + 1}.</span>
+                <p className="text-sm text-text-secondary">{priority}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function parseAnalysisJSON(text) {
+  try {
+    const clean = text.replace(/```json\s?|```/g, '').trim()
+    const jsonMatch = clean.match(/\{[\s\S]*\}/)
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0])
+    }
+  } catch (e) {
+    console.warn('JSON parse error:', e)
+  }
+  return null
+}

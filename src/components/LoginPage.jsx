@@ -1,0 +1,351 @@
+import { useState, useEffect } from 'react'
+import { Mail, Lock, User, Eye, EyeOff, AlertCircle, Loader2, ArrowRight, Zap } from 'lucide-react'
+
+/* Pre-seed a default dev account on first load */
+function seedDevAccount() {
+  try {
+    const accounts = JSON.parse(localStorage.getItem('aeo-dev-accounts') || '{}')
+    if (!accounts['stefan.ninkov@gmail.com']) {
+      accounts['stefan.ninkov@gmail.com'] = {
+        uid: 'dev-stefan-001',
+        password: 'test',
+        displayName: 'Stefan Ninkov',
+      }
+      localStorage.setItem('aeo-dev-accounts', JSON.stringify(accounts))
+    }
+  } catch { /* ignore */ }
+}
+seedDevAccount()
+
+export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, clearError }) {
+  const [mode, setMode] = useState('signin')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [displayName, setDisplayName] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [localError, setLocalError] = useState(null)
+  const [mounted, setMounted] = useState(false)
+
+  const activeError = error || localError
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 50)
+    return () => clearTimeout(t)
+  }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLocalError(null)
+    clearError?.()
+
+    if (!email.trim() || !password.trim()) {
+      setLocalError('Please fill in all fields.')
+      return
+    }
+
+    if (mode === 'signup') {
+      if (password !== confirmPassword) {
+        setLocalError('Passwords do not match.')
+        return
+      }
+      if (password.length < 6) {
+        setLocalError('Password must be at least 6 characters.')
+        return
+      }
+      if (!displayName.trim()) {
+        setLocalError('Please enter your name.')
+        return
+      }
+    }
+
+    setLoading(true)
+    try {
+      if (mode === 'signin') {
+        await onSignIn(email, password)
+      } else {
+        await onSignUp(email, password, displayName.trim())
+      }
+    } catch {
+      // Error handled by useAuth hook
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleSignIn = async () => {
+    setLocalError(null)
+    clearError?.()
+    setLoading(true)
+    try {
+      await onGoogleSignIn()
+    } catch {
+      // Error handled by useAuth
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const switchMode = (newMode) => {
+    setMode(newMode)
+    setLocalError(null)
+    clearError?.()
+    setPassword('')
+    setConfirmPassword('')
+  }
+
+  return (
+    <div className="min-h-screen flex" style={{ background: 'var(--bg-page)' }}>
+      {/* Left Panel — Decorative */}
+      <div className="hidden lg:flex lg:w-[480px] xl:w-[560px] relative overflow-hidden" style={{ background: 'linear-gradient(145deg, var(--bg-card) 0%, var(--bg-page) 100%)' }}>
+        {/* Subtle dot pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: 'radial-gradient(var(--text-tertiary) 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
+        }} />
+
+        {/* Gradient orbs */}
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-[100px]" style={{ background: 'var(--color-phase-1)', opacity: 0.08 }} />
+        <div className="absolute bottom-1/3 right-1/4 w-56 h-56 rounded-full blur-[80px]" style={{ background: 'var(--color-phase-2)', opacity: 0.06 }} />
+        <div className="absolute top-2/3 left-1/2 w-40 h-40 rounded-full blur-[60px]" style={{ background: 'var(--color-phase-3)', opacity: 0.05 }} />
+
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-between p-12 w-full">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-phase-1/10">
+                <Zap size={20} className="text-phase-1" />
+              </div>
+              <h1 className="text-xl font-semibold text-text-primary font-heading tracking-tight">
+                AEO Dashboard
+              </h1>
+            </div>
+            <p className="text-sm mt-1 ml-[52px] text-text-tertiary">
+              Answer Engine Optimization
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            <h2 className="text-3xl xl:text-[38px] font-semibold text-text-primary font-heading leading-[1.15] tracking-tight">
+              Optimize your website<br />
+              for <span className="text-phase-1">AI search engines</span>
+            </h2>
+
+            <div className="space-y-4">
+              {[
+                { num: '01', text: 'Track citations across ChatGPT, Perplexity, Gemini & more' },
+                { num: '02', text: 'Real-time AEO metrics with exportable reports' },
+                { num: '03', text: '88-point checklist covering all optimization phases' },
+              ].map((item) => (
+                <div key={item.num} className="flex items-start gap-4">
+                  <span className="font-mono text-[11px] font-bold shrink-0 mt-0.5 text-phase-1 opacity-70">{item.num}</span>
+                  <p className="text-[13px] leading-relaxed text-text-secondary">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <p className="text-[11px] text-text-disabled">
+            v2.0 — Built for AEO professionals
+          </p>
+        </div>
+      </div>
+
+      {/* Right Panel — Form */}
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-8">
+        <div
+          className="w-full max-w-[400px]"
+          style={{
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(12px)',
+            transition: 'all 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          {/* Mobile brand */}
+          <div className="lg:hidden text-center mb-8">
+            <div className="flex items-center justify-center gap-2.5 mb-2">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-phase-1/10">
+                <Zap size={18} className="text-phase-1" />
+              </div>
+              <h1 className="font-heading text-xl font-semibold text-text-primary tracking-tight">
+                AEO Dashboard
+              </h1>
+            </div>
+            <p className="text-text-tertiary text-[13px]">
+              Answer Engine Optimization
+            </p>
+          </div>
+
+          {/* Welcome text */}
+          <div className="mb-7">
+            <h2 className="font-heading text-[20px] font-semibold tracking-tight text-text-primary">
+              {mode === 'signin' ? 'Welcome back' : 'Create your account'}
+            </h2>
+            <p className="text-[13px] text-text-tertiary mt-1.5">
+              {mode === 'signin'
+                ? 'Sign in to your account to continue.'
+                : 'Get started with AEO Dashboard today.'}
+            </p>
+          </div>
+
+          {/* Google Sign In */}
+          <button
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+            className="w-full py-2.5 rounded-lg text-[13px] font-medium text-text-primary active:scale-[0.995] transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-3"
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-button)' }}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+              <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+              <path d="M3.964 10.707A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/>
+              <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.462.891 11.426 0 9 0A8.997 8.997 0 00.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+            </svg>
+            Continue with Google
+          </button>
+
+          {/* Divider */}
+          <div className="flex items-center gap-4 my-6">
+            <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
+            <span className="text-[11px] text-text-tertiary font-medium">or continue with email</span>
+            <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
+          </div>
+
+          {/* Error */}
+          {activeError && (
+            <div
+              className="flex items-start gap-2.5 p-3.5 bg-error/8 border border-error/15 rounded-xl mb-5 text-[13px]"
+              style={{ animation: 'fade-in-up 200ms ease-out both' }}
+            >
+              <AlertCircle size={15} className="text-error flex-shrink-0 mt-0.5" />
+              <span className="text-error">{activeError}</span>
+            </div>
+          )}
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-3">
+            {mode === 'signup' && (
+              <div>
+                <label className="text-[11px] font-medium text-text-tertiary mb-1.5 block">Full name</label>
+                <div className="relative">
+                  <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
+                  <input
+                    type="text"
+                    placeholder="John Doe"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[13px] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                    style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                    autoFocus={mode === 'signup'}
+                  />
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="text-[11px] font-medium text-text-tertiary mb-1.5 block">Email address</label>
+              <div className="relative">
+                <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[13px] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                  style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                  autoFocus={mode === 'signin'}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-[11px] font-medium text-text-tertiary mb-1.5 block">Password</label>
+              <div className="relative">
+                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-10 pr-11 py-2.5 rounded-lg text-[13px] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                  style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-text-tertiary hover:text-text-secondary transition-colors"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                </button>
+              </div>
+            </div>
+
+            {mode === 'signup' && (
+              <div>
+                <label className="text-[11px] font-medium text-text-tertiary mb-1.5 block">Confirm password</label>
+                <div className="relative">
+                  <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[13px] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                    style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                  />
+                </div>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2.5 mt-2 btn-primary disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <Loader2 size={16} className="animate-spin" />
+              ) : (
+                <>
+                  {mode === 'signin' ? 'Sign In' : 'Create Account'}
+                  <ArrowRight size={15} />
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Switch mode */}
+          <p className="text-center text-[13px] text-text-tertiary mt-6">
+            {mode === 'signin' ? (
+              <>
+                Don&apos;t have an account?{' '}
+                <button
+                  onClick={() => switchMode('signup')}
+                  className="text-phase-1 font-medium hover:underline transition-all"
+                >
+                  Sign up
+                </button>
+              </>
+            ) : (
+              <>
+                Already have an account?{' '}
+                <button
+                  onClick={() => switchMode('signin')}
+                  className="text-phase-1 font-medium hover:underline transition-all"
+                >
+                  Sign in
+                </button>
+              </>
+            )}
+          </p>
+
+          {/* Footer */}
+          <p className="text-center text-[11px] text-text-disabled mt-8">
+            By continuing, you agree to our terms of service.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
