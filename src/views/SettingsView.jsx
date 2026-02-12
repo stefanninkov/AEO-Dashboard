@@ -1,9 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
   User, Key, Palette, FolderCog, Activity, Database, AlertTriangle,
-  Save, Check, Eye, EyeOff, Download, Upload, Trash2, RotateCcw
+  Save, Check, Eye, EyeOff, Download, Upload, Trash2, RotateCcw, ClipboardList
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
+import {
+  INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
+  GOAL_LABELS, MATURITY_LABELS, CONTENT_LABELS, ENGINE_LABELS,
+} from '../utils/getRecommendations'
 
 function ToggleSwitch({ checked, onChange }) {
   return (
@@ -489,6 +493,88 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
               </div>
             </div>
           </div>
+
+          {/* ── Project Profile (from Questionnaire) ── */}
+          {activeProject?.questionnaire?.completedAt && (
+            <div className="card" style={{ marginBottom: 16 }}>
+              <div style={sectionTitleStyle}>
+                <ClipboardList size={15} />
+                Project Profile
+              </div>
+
+              <div style={settingsRowStyle}>
+                <span style={labelStyle}>Industry</span>
+                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
+                  {INDUSTRY_LABELS[activeProject.questionnaire.industry] || activeProject.questionnaire.industry || '—'}
+                  {activeProject.questionnaire.industryOther ? ` (${activeProject.questionnaire.industryOther})` : ''}
+                </span>
+              </div>
+
+              <div style={settingsRowStyle}>
+                <span style={labelStyle}>Region</span>
+                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
+                  {REGION_LABELS[activeProject.questionnaire.region] || activeProject.questionnaire.region || '—'}
+                </span>
+              </div>
+
+              <div style={settingsRowStyle}>
+                <span style={labelStyle}>Audience</span>
+                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
+                  {AUDIENCE_LABELS[activeProject.questionnaire.audience] || activeProject.questionnaire.audience || '—'}
+                </span>
+              </div>
+
+              <div style={settingsRowStyle}>
+                <span style={labelStyle}>Primary Goal</span>
+                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
+                  {GOAL_LABELS[activeProject.questionnaire.primaryGoal] || activeProject.questionnaire.primaryGoal || '—'}
+                </span>
+              </div>
+
+              <div style={settingsRowStyle}>
+                <span style={labelStyle}>Target Engines</span>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                  {(activeProject.questionnaire.targetEngines || []).map(e => (
+                    <span key={e} style={{
+                      fontSize: 11, padding: '3px 8px', borderRadius: 6,
+                      background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
+                      fontWeight: 500,
+                    }}>
+                      {ENGINE_LABELS[e] || e}
+                    </span>
+                  ))}
+                  {(!activeProject.questionnaire.targetEngines || activeProject.questionnaire.targetEngines.length === 0) && (
+                    <span style={{ fontSize: 13, color: 'var(--text-tertiary)' }}>—</span>
+                  )}
+                </div>
+              </div>
+
+              {activeProject.questionnaire.maturity && (
+                <div style={settingsRowStyle}>
+                  <span style={labelStyle}>AEO Maturity</span>
+                  <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
+                    {MATURITY_LABELS[activeProject.questionnaire.maturity] || activeProject.questionnaire.maturity}
+                  </span>
+                </div>
+              )}
+
+              {activeProject.questionnaire.contentType && (
+                <div style={settingsRowStyle}>
+                  <span style={labelStyle}>Content Type</span>
+                  <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>
+                    {CONTENT_LABELS[activeProject.questionnaire.contentType] || activeProject.questionnaire.contentType}
+                  </span>
+                </div>
+              )}
+
+              <div style={lastRowStyle}>
+                <span style={labelStyle}>Completed</span>
+                <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
+                  {new Date(activeProject.questionnaire.completedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </span>
+              </div>
+            </div>
+          )}
 
           {/* ── Monitoring ── */}
           <div className="card" style={{ marginBottom: 16 }}>

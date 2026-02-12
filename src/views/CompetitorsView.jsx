@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import {
   Users, Plus, Trash2, RefreshCw, Loader2, AlertCircle, TrendingUp,
-  TrendingDown, Minus, ExternalLink, Lightbulb, Target
+  TrendingDown, Minus, ExternalLink, Lightbulb, Target, Sparkles
 } from 'lucide-react'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { useCompetitorAnalysis } from '../hooks/useCompetitorAnalysis'
+import { INDUSTRY_COMPETITORS, INDUSTRY_LABELS } from '../utils/getRecommendations'
 
 const CATEGORY_LABELS = {
   conversational: 'Conversational',
@@ -128,6 +129,39 @@ export default function CompetitorsView({ activeProject, updateProject }) {
           </button>
         </div>
       </div>
+
+      {/* Industry Suggestions */}
+      {activeProject?.questionnaire?.industry && INDUSTRY_COMPETITORS[activeProject.questionnaire.industry] && competitors.length === 0 && (
+        <div className="card fade-in-up" style={{ padding: '16px 20px', background: 'linear-gradient(135deg, rgba(255,107,53,0.04), rgba(123,47,190,0.03))' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <Sparkles size={14} style={{ color: 'var(--color-phase-5)' }} />
+            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
+              Suggested competitors in {INDUSTRY_LABELS[activeProject.questionnaire.industry]}
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {INDUSTRY_COMPETITORS[activeProject.questionnaire.industry].map(sugg => (
+              <button
+                key={sugg.name}
+                onClick={() => {
+                  addCompetitor(sugg.name, sugg.url)
+                }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  padding: '6px 12px', borderRadius: 8,
+                  background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+                  cursor: 'pointer', fontFamily: 'var(--font-body)',
+                  fontSize: 12, color: 'var(--text-secondary)',
+                  transition: 'all 150ms',
+                }}
+              >
+                <Plus size={12} />
+                {sugg.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Progress */}
       {analyzing && (

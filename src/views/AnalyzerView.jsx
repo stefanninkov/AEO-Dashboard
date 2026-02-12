@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Globe, Link2, Loader2, AlertCircle, CheckCircle2, MinusCircle, XCircle, Zap, Search } from 'lucide-react'
+import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 
 const STATUS_CONFIG = {
   pass: { icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10', label: 'Pass' },
@@ -255,7 +256,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
           messages: [{
             role: 'user',
-            content: `Analyze this URL for AEO readiness: ${url}
+            content: `Analyze this URL for AEO readiness: ${url}${getAnalyzerIndustryContext(activeProject?.questionnaire)}
 
 Search for and visit this website, then evaluate against these AEO criteria. For each item give status: "pass", "fail", or "partial" with brief explanation.
 

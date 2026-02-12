@@ -8,6 +8,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
 import { useAeoMetrics, AI_ENGINES } from '../hooks/useAeoMetrics'
+import { getFilteredEngines } from '../utils/getRecommendations'
 
 /* ── Reusable Components ── */
 
@@ -280,7 +281,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
           {activeTab === 'overview' && <OverviewTab metrics={metrics} rangeMetrics={rangeMetrics} />}
           {activeTab === 'citations' && <CitationsTab metrics={metrics} />}
           {activeTab === 'prompts' && <PromptsTab metrics={metrics} />}
-          {activeTab === 'engines' && <EnginesTab metrics={metrics} />}
+          {activeTab === 'engines' && <EnginesTab metrics={metrics} questionnaire={activeProject?.questionnaire} />}
         </div>
       )}
     </div>
@@ -536,9 +537,10 @@ function PromptsTab({ metrics }) {
 }
 
 /* ── Tab: AI Engines ── */
-function EnginesTab({ metrics }) {
+function EnginesTab({ metrics, questionnaire }) {
   const engines = metrics.citations?.byEngine?.filter(e => e.citations > 0) || []
   const totalCitations = engines.reduce((s, e) => s + e.citations, 0)
+  const filteredEngines = getFilteredEngines(questionnaire, AI_ENGINES)
 
   return (
     <div className="space-y-6">
@@ -561,7 +563,7 @@ function EnginesTab({ metrics }) {
 
       {/* Engine cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {AI_ENGINES.map((engine, i) => {
+        {filteredEngines.map((engine, i) => {
           const data = metrics.citations?.byEngine?.find(e => e.engine === engine.name)
           return (
             <div key={engine.name} className="rounded-xl p-4 shadow-sm fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', animationDelay: `${i * 40}ms` }}>

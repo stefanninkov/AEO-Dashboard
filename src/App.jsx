@@ -18,6 +18,7 @@ import MetricsView from './views/MetricsView'
 import CompetitorsView from './views/CompetitorsView'
 import SettingsView from './views/SettingsView'
 import OnboardingTutorial from './components/OnboardingTutorial'
+import ProjectQuestionnaire from './components/ProjectQuestionnaire'
 import EmailReportDialog from './components/EmailReportDialog'
 import { generateReport } from './utils/generateReport'
 import { phases } from './data/aeo-checklist'
@@ -121,6 +122,7 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [emailDialogOpen, setEmailDialogOpen] = useState(false)
   const [emailDialogClosing, setEmailDialogClosing] = useState(false)
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
+  const [questionnaireProjectId, setQuestionnaireProjectId] = useState(null)
   const [showOnboarding, setShowOnboarding] = useState(() => {
     return localStorage.getItem('aeo-onboarding-completed') !== 'true'
   })
@@ -214,10 +216,26 @@ function AuthenticatedApp({ user, onSignOut }) {
     setEmailDialogOpen(true)
   }, [])
 
-  const handleCreateProject = useCallback((name, url) => {
-    createProject(name, url)
+  const handleCreateProject = useCallback(async (name, url) => {
+    const project = await createProject(name, url)
     setNewProjectModalOpen(false)
-  }, [createProject])
+    // Open questionnaire for the new project
+    const newId = project?.id || activeProjectId
+    if (newId) setQuestionnaireProjectId(newId)
+  }, [createProject, activeProjectId])
+
+  const handleQuestionnaireComplete = useCallback((answers) => {
+    if (questionnaireProjectId) {
+      updateProject(questionnaireProjectId, {
+        questionnaire: { ...answers, completedAt: new Date().toISOString() },
+      })
+    }
+    setQuestionnaireProjectId(null)
+  }, [questionnaireProjectId, updateProject])
+
+  const handleQuestionnaireSkip = useCallback(() => {
+    setQuestionnaireProjectId(null)
+  }, [])
 
   const renderView = () => {
     if (projectsLoading) {
@@ -380,6 +398,13 @@ function AuthenticatedApp({ user, onSignOut }) {
         <NewProjectModal
           onClose={() => setNewProjectModalOpen(false)}
           onCreate={handleCreateProject}
+        />
+      )}
+
+      {questionnaireProjectId && (
+        <ProjectQuestionnaire
+          onComplete={handleQuestionnaireComplete}
+          onSkip={handleQuestionnaireSkip}
         />
       )}
 

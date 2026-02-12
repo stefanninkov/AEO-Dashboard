@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import { ChevronDown, ChevronRight, Search, BookOpen, Info, CheckCircle2, ListChecks } from 'lucide-react'
+import { ChevronDown, ChevronRight, Search, BookOpen, Info, CheckCircle2, ListChecks, Star } from 'lucide-react'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import VerifyDialog from '../components/VerifyDialog'
+import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendations'
 
 /* ── Animated Collapsible ── */
 function CollapsibleContent({ expanded, children }) {
@@ -57,7 +58,8 @@ function CollapsibleContent({ expanded, children }) {
 }
 
 export default function ChecklistView({ phases, activeProject, toggleCheckItem, setActiveView, setDocItem, updateProject }) {
-  const [expandedPhases, setExpandedPhases] = useState({ 'phase-1': true })
+  const firstPriority = getFirstPriorityPhase(activeProject?.questionnaire)
+  const [expandedPhases, setExpandedPhases] = useState({ [firstPriority]: true })
   const [searchQuery, setSearchQuery] = useState('')
   const [quickViewItem, setQuickViewItem] = useState(null)
   const [bouncingId, setBouncingId] = useState(null)
@@ -244,6 +246,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       {filteredPhases.map(phase => {
         const progress = getPhaseProgress(phase)
         const isExpanded = expandedPhases[phase.id] || searchQuery.trim()
+        const isPriority = getPhasePriority(phase.number, activeProject?.questionnaire)
 
         return (
           <div key={phase.id} className="card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -262,6 +265,17 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                     Phase {phase.number}
                   </span>
                   <span style={{ fontSize: 11, color: 'var(--text-tertiary)' }}>{phase.timeline}</span>
+                  {isPriority && (
+                    <span style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 3,
+                      fontSize: 10, fontWeight: 600, color: 'var(--color-phase-5)',
+                      padding: '1px 6px', borderRadius: 4,
+                      background: 'rgba(245,158,11,0.1)',
+                    }}>
+                      <Star size={9} style={{ fill: 'var(--color-phase-5)' }} />
+                      Recommended
+                    </span>
+                  )}
                 </div>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, marginTop: 2, color: 'var(--text-primary)' }}>{phase.title}</h3>
               </div>

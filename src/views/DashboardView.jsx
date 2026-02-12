@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Plus, ArrowRight, CheckSquare, Zap, FlaskConical, TrendingUp, TrendingDown, Minus, FileText, MessageSquare, Globe, Target, BarChart3 } from 'lucide-react'
+import { Plus, ArrowRight, CheckSquare, Zap, FlaskConical, TrendingUp, TrendingDown, Minus, FileText, MessageSquare, Globe, Target, BarChart3, Lightbulb } from 'lucide-react'
+import { getRecommendations } from '../utils/getRecommendations'
 import {
   LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer,
   XAxis, YAxis, Tooltip, CartesianGrid, Legend,
@@ -169,6 +170,53 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             <StatCard label="Active AI Engines" value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
             <StatCard label="AEO Score" value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
           </div>
+
+          {/* Personalized Recommendations */}
+          {activeProject?.questionnaire?.completedAt && (() => {
+            const recs = getRecommendations(activeProject.questionnaire, setActiveView)
+            if (recs.length === 0) return null
+            return (
+              <div className="card" style={{ padding: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+                  <Lightbulb size={16} style={{ color: 'var(--color-phase-5)' }} />
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+                    Recommended Next Steps
+                  </h3>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {recs.map(rec => (
+                    <div
+                      key={rec.id}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 12,
+                        padding: '10px 14px', borderRadius: 10,
+                        background: 'var(--hover-bg)',
+                        border: '1px solid var(--border-subtle)',
+                      }}
+                    >
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{rec.text}</p>
+                        <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 2 }}>{rec.detail}</p>
+                      </div>
+                      <button
+                        onClick={rec.action}
+                        style={{
+                          padding: '6px 12px', borderRadius: 8, border: 'none',
+                          background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
+                          fontSize: 11, fontWeight: 600, cursor: 'pointer',
+                          fontFamily: 'var(--font-body)', whiteSpace: 'nowrap',
+                          transition: 'all 150ms',
+                        }}
+                      >
+                        {rec.actionLabel}
+                        <ArrowRight size={11} style={{ marginLeft: 4, verticalAlign: 'middle' }} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })()}
 
           {/* Charts Row */}
           {latestMetrics && (

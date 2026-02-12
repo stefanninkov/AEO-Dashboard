@@ -6,8 +6,9 @@ import {
 } from 'lucide-react'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useAutoMonitor } from '../hooks/useAutoMonitor'
+import { getFilteredPlatforms } from '../utils/getRecommendations'
 
-const PLATFORMS = ['ChatGPT', 'Perplexity', 'Google AIO', 'Bing Copilot', 'Claude']
+const ALL_PLATFORMS = ['ChatGPT', 'Perplexity', 'Google AIO', 'Bing Copilot', 'Claude']
 
 const WEEKLY_TASKS = [
   { id: 'w1', text: 'Test top 10 queries in Perplexity', time: '10 min' },
@@ -98,6 +99,8 @@ export default function TestingView({ activeProject, updateProject }) {
   const [newQuery, setNewQuery] = useState('')
   const [expandedSections, setExpandedSections] = useState({ monitor: true, weekly: true, monthly: false, tracker: true, links: false, timeline: false })
   const [bouncingId, setBouncingId] = useState(null)
+
+  const PLATFORMS = getFilteredPlatforms(activeProject?.questionnaire, ALL_PLATFORMS)
 
   // Auto monitor
   const {
