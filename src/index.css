@@ -685,3 +685,188 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ══════════════════════════════════════════════════
+   SEARCH DROPDOWN
+   ══════════════════════════════════════════════════ */
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  box-shadow: var(--shadow-md);
+  z-index: var(--z-dropdown);
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 100ms;
+}
+
+.search-result:hover,
+.search-result.active {
+  background: var(--hover-bg);
+}
+
+.search-result-type {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.search-result-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-result-detail {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-empty {
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+/* ══════════════════════════════════════════════════
+   ONBOARDING TUTORIAL
+   ══════════════════════════════════════════════════ */
+
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+}
+
+.onboarding-spotlight {
+  position: absolute;
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+  z-index: 301;
+  transition: all 400ms ease;
+  pointer-events: none;
+}
+
+.onboarding-card {
+  position: absolute;
+  z-index: 302;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 14px;
+  padding: 20px 24px;
+  max-width: 340px;
+  box-shadow: var(--shadow-lg);
+  animation: fade-in-up 300ms ease;
+}
+
+.onboarding-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.onboarding-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-default);
+  transition: background 200ms;
+}
+
+.onboarding-dot.active {
+  background: var(--color-phase-1);
+  width: 18px;
+  border-radius: 3px;
+}
+
+/* ══════════════════════════════════════════════════
+   HINT MODE
+   ══════════════════════════════════════════════════ */
+
+.hint-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.hint-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-phase-1);
+  animation: hint-pulse 2s ease-in-out infinite;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.hint-tooltip {
+  position: absolute;
+  z-index: var(--z-toast);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  animation: fade-in-up 150ms ease;
+  pointer-events: none;
+}
+
+.hint-tooltip-top {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hint-tooltip-bottom {
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hint-tooltip-right {
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hint-tooltip-left {
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@keyframes hint-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}

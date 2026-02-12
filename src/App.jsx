@@ -17,6 +17,7 @@ import TestingView from './views/TestingView'
 import MetricsView from './views/MetricsView'
 import CompetitorsView from './views/CompetitorsView'
 import SettingsView from './views/SettingsView'
+import OnboardingTutorial from './components/OnboardingTutorial'
 import EmailReportDialog from './components/EmailReportDialog'
 import { generateReport } from './utils/generateReport'
 import { phases } from './data/aeo-checklist'
@@ -120,6 +121,10 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [emailDialogOpen, setEmailDialogOpen] = useState(false)
   const [emailDialogClosing, setEmailDialogClosing] = useState(false)
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
+  const [hintsMode, setHintsMode] = useState(false)
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    return localStorage.getItem('aeo-onboarding-completed') !== 'true'
+  })
 
   const {
     projects,
@@ -323,6 +328,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           onNewProject={() => setNewProjectModalOpen(true)}
           user={user}
           onSignOut={onSignOut}
+          hintsMode={hintsMode}
         />
 
         <div className="main-area">
@@ -339,6 +345,10 @@ function AuthenticatedApp({ user, onSignOut }) {
             onExport={handleExport}
             onEmail={handleEmail}
             onNewProject={() => setNewProjectModalOpen(true)}
+            setActiveView={setActiveView}
+            setDocItem={handleSetDocItem}
+            hintsMode={hintsMode}
+            setHintsMode={setHintsMode}
           />
 
           <div className="content-scroll">
@@ -359,6 +369,14 @@ function AuthenticatedApp({ user, onSignOut }) {
           onExited={handleOverlayExited}
           isClosing={overlayClosing}
           phases={phases}
+        />
+      )}
+
+      {!splashVisible && showOnboarding && (
+        <OnboardingTutorial
+          onComplete={() => setShowOnboarding(false)}
+          onSkip={() => setShowOnboarding(false)}
+          setActiveView={setActiveView}
         />
       )}
 

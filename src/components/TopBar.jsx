@@ -1,8 +1,17 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
-  RefreshCw, Download, Mail
+  RefreshCw, Download, Mail, HelpCircle
 } from 'lucide-react'
+import HintBadge from './HintBadge'
+
+const TYPE_COLORS = {
+  Navigation: 'var(--color-phase-1)',
+  Checklist: 'var(--color-phase-3)',
+  Documentation: 'var(--color-phase-2)',
+  Competitor: 'var(--color-phase-4)',
+  Action: 'var(--color-phase-5)',
+}
 
 export default function TopBar({
   projects,
@@ -17,16 +26,30 @@ export default function TopBar({
   onExport,
   onEmail,
   onNewProject,
+  setActiveView,
+  setDocItem,
+  hintsMode,
+  setHintsMode,
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [editName, setEditName] = useState('')
   const dropdownRef = useRef(null)
 
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(-1)
+  const searchInputRef = useRef(null)
+  const searchContainerRef = useRef(null)
+
   useEffect(() => {
     function handleClickOutside(e) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setDropdownOpen(false)
+      }
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setSearchOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -43,6 +66,131 @@ export default function TopBar({
   const handleDelete = (id, name) => {
     if (window.confirm(`Delete project "${name}"? This cannot be undone.`)) {
       deleteProject(id)
+    }
+  }
+
+  // Build search index
+  const searchIndex = useMemo(() => {
+    const items = []
+
+    // Navigation items
+    const navItems = [
+      { label: 'Dashboard', view: 'dashboard', type: 'Navigation' },
+      { label: 'Competitors', view: 'competitors', type: 'Navigation' },
+      { label: 'Checklist', view: 'checklist', type: 'Navigation' },
+      { label: 'Process Map', view: 'process', type: 'Navigation' },
+      { label: 'Analyzer', view: 'analyzer', type: 'Navigation' },
+      { label: 'Metrics', view: 'metrics', type: 'Navigation' },
+      { label: 'Documentation', view: 'docs', type: 'Navigation' },
+      { label: 'Testing', view: 'testing', type: 'Navigation' },
+      { label: 'Settings', view: 'settings', type: 'Navigation' },
+    ]
+    items.push(...navItems)
+
+    // Checklist items
+    if (phases) {
+      phases.forEach(phase => {
+        phase.categories.forEach(cat => {
+          cat.items.forEach(item => {
+            items.push({
+              label: item.text,
+              detail: phase.title,
+              type: 'Checklist',
+              view: 'checklist',
+              docItem: item.doc ? item : null,
+            })
+          })
+        })
+      })
+    }
+
+    // Documentation titles
+    if (phases) {
+      phases.forEach(phase => {
+        phase.categories.forEach(cat => {
+          cat.items.forEach(item => {
+            if (item.doc) {
+              items.push({
+                label: item.doc.title,
+                detail: phase.title,
+                type: 'Documentation',
+                view: 'docs',
+                docItem: item,
+              })
+            }
+          })
+        })
+      })
+    }
+
+    // Competitors
+    if (activeProject?.competitors?.length) {
+      activeProject.competitors.forEach(comp => {
+        items.push({
+          label: comp.name || comp.url,
+          detail: comp.url,
+          type: 'Competitor',
+          view: 'competitors',
+        })
+      })
+    }
+
+    // Quick actions
+    items.push(
+      { label: 'Create New Project', type: 'Action', action: 'newProject' },
+      { label: 'Run Analyzer', type: 'Action', view: 'analyzer' },
+      { label: 'Run Metrics', type: 'Action', view: 'metrics' },
+      { label: 'Export Report', type: 'Action', action: 'export' },
+    )
+
+    return items
+  }, [phases, activeProject])
+
+  // Filter results
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return []
+    const q = searchQuery.toLowerCase()
+    return searchIndex
+      .filter(item => {
+        const label = item.label?.toLowerCase() || ''
+        const detail = item.detail?.toLowerCase() || ''
+        return label.includes(q) || detail.includes(q)
+      })
+      .slice(0, 8)
+  }, [searchQuery, searchIndex])
+
+  // Handle result selection
+  const handleSelectResult = useCallback((result) => {
+    setSearchQuery('')
+    setSearchOpen(false)
+    setActiveIndex(-1)
+    if (result.action === 'newProject') { onNewProject(); return }
+    if (result.action === 'export') { onExport(); return }
+    if (result.view && setActiveView) setActiveView(result.view)
+    if (result.docItem && setDocItem) setTimeout(() => setDocItem(result.docItem), 100)
+  }, [onNewProject, onExport, setActiveView, setDocItem])
+
+  // Keyboard navigation
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      setSearchOpen(false)
+      setSearchQuery('')
+      searchInputRef.current?.blur()
+      return
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(prev => Math.min(prev + 1, searchResults.length - 1))
+      return
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(prev => Math.max(prev - 1, -1))
+      return
+    }
+    if (e.key === 'Enter' && activeIndex >= 0 && searchResults[activeIndex]) {
+      e.preventDefault()
+      handleSelectResult(searchResults[activeIndex])
     }
   }
 
@@ -165,7 +313,11 @@ export default function TopBar({
         </div>
 
         {/* Search */}
-        <div style={{ flex: 1, maxWidth: 280, minWidth: 0 }} className="hidden md:block">
+        <div
+          ref={searchContainerRef}
+          className="search-container hidden md:block"
+          style={{ flex: 1, maxWidth: 320, minWidth: 0, position: 'relative' }}
+        >
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '7px 12px', borderRadius: 8,
@@ -173,43 +325,113 @@ export default function TopBar({
           }}>
             <Search size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
             <input
+              ref={searchInputRef}
               type="text"
               placeholder="Search... (Ctrl+K)"
+              value={searchQuery}
+              onChange={e => { setSearchQuery(e.target.value); setSearchOpen(true); setActiveIndex(-1) }}
+              onFocus={() => setSearchOpen(true)}
+              onKeyDown={handleSearchKeyDown}
               style={{
                 flex: 1, minWidth: 0, background: 'transparent', border: 'none', outline: 'none',
                 fontSize: 13, color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
               }}
             />
+            {searchQuery && (
+              <button
+                onClick={() => { setSearchQuery(''); setSearchOpen(false) }}
+                style={{ padding: 2, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex' }}
+              >
+                <X size={12} />
+              </button>
+            )}
           </div>
+
+          {/* Search Results Dropdown */}
+          {searchOpen && searchQuery.trim() && (
+            <div className="search-dropdown">
+              {searchResults.length > 0 ? (
+                searchResults.map((result, i) => (
+                  <div
+                    key={i}
+                    className={`search-result${i === activeIndex ? ' active' : ''}`}
+                    onClick={() => handleSelectResult(result)}
+                    onMouseEnter={() => setActiveIndex(i)}
+                  >
+                    <span
+                      className="search-result-type"
+                      style={{
+                        background: (TYPE_COLORS[result.type] || 'var(--text-tertiary)') + '18',
+                        color: TYPE_COLORS[result.type] || 'var(--text-tertiary)',
+                      }}
+                    >
+                      {result.type}
+                    </span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div className="search-result-label">{result.label}</div>
+                      {result.detail && (
+                        <div className="search-result-detail">{result.detail}</div>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="search-empty">
+                  No results for "{searchQuery}"
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Actions */}
         <div className="top-bar-actions">
-          <button onClick={onNewProject} className="btn-primary" style={{ padding: '7px 14px', fontSize: 12 }}>
-            <Plus size={13} />
-            <span className="hidden sm:inline">New Project</span>
-          </button>
-          <button
-            onClick={onRefresh}
-            style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
-            title="Refresh"
-          >
-            <RefreshCw size={14} />
-          </button>
-          <button
-            onClick={onExport}
-            style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
-            title="Export"
-            className="hidden sm:flex"
-          >
-            <Download size={14} />
-          </button>
+          <HintBadge hint="Create a new AEO tracking project" active={hintsMode} position="bottom">
+            <button onClick={onNewProject} className="btn-primary" style={{ padding: '7px 14px', fontSize: 12 }}>
+              <Plus size={13} />
+              <span className="hidden sm:inline">New Project</span>
+            </button>
+          </HintBadge>
+          <HintBadge hint="Refresh current view data" active={hintsMode} position="bottom">
+            <button
+              onClick={onRefresh}
+              style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
+              title="Refresh"
+            >
+              <RefreshCw size={14} />
+            </button>
+          </HintBadge>
+          <HintBadge hint="Download a PDF/JSON report" active={hintsMode} position="bottom">
+            <button
+              onClick={onExport}
+              style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
+              title="Export"
+              className="hidden sm:flex"
+            >
+              <Download size={14} />
+            </button>
+          </HintBadge>
           <button
             onClick={onEmail}
             style={{ padding: 7, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
             title="Email report"
           >
             <Mail size={14} />
+          </button>
+          {/* Hints Mode Toggle */}
+          <button
+            onClick={() => setHintsMode && setHintsMode(!hintsMode)}
+            style={{
+              padding: 7, borderRadius: 8, border: 'none',
+              background: hintsMode ? 'rgba(255,107,53,0.12)' : 'none',
+              cursor: 'pointer',
+              color: hintsMode ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
+              display: 'flex', alignItems: 'center',
+              transition: 'all 150ms',
+            }}
+            title={hintsMode ? 'Turn off hints' : 'Turn on hints'}
+          >
+            <HelpCircle size={14} />
           </button>
         </div>
       </div>
