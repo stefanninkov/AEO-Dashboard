@@ -73,6 +73,11 @@ html {
   --z-modal: 210;
   --z-command-palette: 250;
   --z-toast: 300;
+
+  /* Animation durations */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
 }
 
 /* ══════════════════════════════════════════════════
@@ -1028,10 +1033,10 @@ body {
   animation: shimmer 1.5s infinite;
   border-radius: 0.5rem;
 }
-.view-enter { animation: view-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-.content-reveal { animation: content-reveal 200ms ease-out both; }
-.check-bounce { animation: check-bounce 300ms ease-out; }
-.fade-in-up { animation: fade-in-up 400ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.view-enter { animation: view-enter var(--duration-normal) cubic-bezier(0.16, 1, 0.3, 1) both; }
+.content-reveal { animation: content-reveal var(--duration-normal) ease-out both; }
+.check-bounce { animation: check-bounce var(--duration-normal) ease-out; }
+.fade-in-up { animation: fade-in-up var(--duration-slow) cubic-bezier(0.16, 1, 0.3, 1) both; }
 .check-ripple {
   position: absolute;
   width: 2.5rem;
@@ -1040,7 +1045,7 @@ body {
   top: 50%;
   left: 50%;
   pointer-events: none;
-  animation: ripple 400ms ease forwards;
+  animation: ripple var(--duration-slow) ease forwards;
 }
 .phase-complete-pulse { animation: phaseComplete 600ms ease; }
 
