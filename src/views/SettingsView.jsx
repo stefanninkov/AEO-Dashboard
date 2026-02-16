@@ -2,11 +2,13 @@ import { useState, useEffect, useCallback } from 'react'
 import {
   User, Key, Palette, FolderCog, Activity, Database, AlertTriangle,
   Save, Check, Eye, EyeOff, Download, Upload, Trash2, RotateCcw, ClipboardList,
-  Share2, Copy, Loader2, Link2, X
+  Share2, Copy, Loader2, Link2, X, Mail, Send
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import logger from '../utils/logger'
 import { createShareLink, getProjectShares, revokeShareLink } from '../hooks/useShareLink'
+import { getEmailConfig, saveEmailConfig, isEmailConfigured, sendEmail } from '../utils/emailService'
+import { useToast } from '../components/Toast'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
   GOAL_LABELS, MATURITY_LABELS, CONTENT_LABELS, ENGINE_LABELS,
@@ -26,6 +28,7 @@ function ToggleSwitch({ checked, onChange }) {
 
 export default function SettingsView({ activeProject, updateProject, deleteProject, user, setActiveView }) {
   const { theme, setTheme } = useTheme()
+  const { addToast } = useToast()
 
   // User settings state
   const [displayName, setDisplayName] = useState(user?.displayName || '')
@@ -71,6 +74,29 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
   const [linkCopied, setLinkCopied] = useState(false)
   const [existingShares, setExistingShares] = useState([])
 
+  // EmailJS config state
+  const [emailServiceId, setEmailServiceId] = useState('')
+  const [emailTemplateId, setEmailTemplateId] = useState('')
+  const [emailPublicKey, setEmailPublicKey] = useState('')
+  const [emailConfigSaved, setEmailConfigSaved] = useState(false)
+  const [testingSend, setTestingSend] = useState(false)
+
+  // Digest state
+  const [digestEnabled, setDigestEnabled] = useState(false)
+  const [digestInterval, setDigestInterval] = useState('weekly')
+  const [digestEmail, setDigestEmail] = useState('')
+  const [digestIncludeMetrics, setDigestIncludeMetrics] = useState(true)
+  const [digestIncludeAlerts, setDigestIncludeAlerts] = useState(true)
+  const [digestIncludeRecommendations, setDigestIncludeRecommendations] = useState(true)
+
+  // Load EmailJS config from localStorage
+  useEffect(() => {
+    const config = getEmailConfig()
+    setEmailServiceId(config.serviceId || '')
+    setEmailTemplateId(config.templateId || '')
+    setEmailPublicKey(config.publicKey || '')
+  }, [])
+
   // Sync project data to local state
   useEffect(() => {
     if (activeProject) {
@@ -83,6 +109,13 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
       setAlertThreshold(activeProject.settings?.notifyThreshold || 10)
       setExistingShares(getProjectShares(activeProject.id))
       setShareLink('')
+      // Digest settings
+      setDigestEnabled(activeProject.settings?.digestEnabled || false)
+      setDigestInterval(activeProject.settings?.digestInterval || 'weekly')
+      setDigestEmail(activeProject.settings?.digestEmail || '')
+      setDigestIncludeMetrics(activeProject.settings?.digestIncludeMetrics !== false)
+      setDigestIncludeAlerts(activeProject.settings?.digestIncludeAlerts !== false)
+      setDigestIncludeRecommendations(activeProject.settings?.digestIncludeRecommendations !== false)
     }
   }, [activeProject?.id])
 
@@ -238,6 +271,92 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
     }
   }, [activeProject, updateProject])
 
+  // ── EmailJS handlers ──
+  const handleSaveEmailConfig = useCallback(() => {
+    saveEmailConfig({
+      serviceId: emailServiceId.trim(),
+      templateId: emailTemplateId.trim(),
+      publicKey: emailPublicKey.trim(),
+    })
+    flash(setEmailConfigSaved)
+    addToast('success', 'EmailJS configuration saved')
+  }, [emailServiceId, emailTemplateId, emailPublicKey, addToast])
+
+  const handleTestEmail = useCallback(async () => {
+    if (!isEmailConfigured()) {
+      addToast('error', 'Save your EmailJS credentials first')
+      return
+    }
+    setTestingSend(true)
+    try {
+      await sendEmail(
+        user?.email || 'test@example.com',
+        'AEO Dashboard — Test Email',
+        'This is a test email from AEO Dashboard.\n\nIf you received this, your EmailJS configuration is working correctly! 🎉'
+      )
+      addToast('success', 'Test email sent successfully!')
+    } catch (err) {
+      addToast('error', err.message || 'Failed to send test email')
+    } finally {
+      setTestingSend(false)
+    }
+  }, [user?.email, addToast])
+
+  // ── Digest handlers ──
+  const handleDigestToggle = useCallback((val) => {
+    setDigestEnabled(val)
+    if (activeProject) {
+      updateProject(activeProject.id, {
+        settings: { ...activeProject.settings, digestEnabled: val },
+      })
+    }
+  }, [activeProject, updateProject])
+
+  const handleDigestInterval = useCallback((val) => {
+    setDigestInterval(val)
+    if (activeProject) {
+      updateProject(activeProject.id, {
+        settings: { ...activeProject.settings, digestInterval: val },
+      })
+    }
+  }, [activeProject, updateProject])
+
+  const handleDigestEmail = useCallback((val) => {
+    setDigestEmail(val)
+    if (activeProject) {
+      updateProject(activeProject.id, {
+        settings: { ...activeProject.settings, digestEmail: val },
+      })
+    }
+  }, [activeProject, updateProject])
+
+  const handleDigestIncludeMetrics = useCallback((val) => {
+    setDigestIncludeMetrics(val)
+    if (activeProject) {
+      updateProject(activeProject.id, {
+        settings: { ...activeProject.settings, digestIncludeMetrics: val },
+      })
+    }
+  }, [activeProject, updateProject])
+
+  const handleDigestIncludeAlerts = useCallback((val) => {
+    setDigestIncludeAlerts(val)
+    if (activeProject) {
+      updateProject(activeProject.id, {
+        settings: { ...activeProject.settings, digestIncludeAlerts: val },
+      })
+    }
+  }, [activeProject, updateProject])
+
+  const handleDigestIncludeRecommendations = useCallback((val) => {
+    setDigestIncludeRecommendations(val)
+    if (activeProject) {
+      updateProject(activeProject.id, {
+        settings: { ...activeProject.settings, digestIncludeRecommendations: val },
+      })
+    }
+  }, [activeProject, updateProject])
+
   const handleExportProject = useCallback(() => {
     if (!activeProject) return
     const data = JSON.stringify(activeProject, null, 2)
@@ -329,6 +448,10 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
   const monitorCount = activeProject?.monitorHistory?.length || 0
   const lastMonitorRun = activeProject?.lastMonitorRun
     ? new Date(activeProject.lastMonitorRun).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+    : 'Never'
+  const emailConfigExists = emailServiceId.trim() && emailTemplateId.trim() && emailPublicKey.trim()
+  const lastDigestSent = activeProject?.settings?.lastDigestSent
+    ? new Date(activeProject.settings.lastDigestSent).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
     : 'Never'
 
   return (
@@ -772,6 +895,134 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* ── EmailJS Configuration ── */}
+          <div className="card" style={{ marginBottom: '1rem' }}>
+            <div style={sectionTitleStyle}>
+              <Mail size={15} />
+              Email Service (EmailJS)
+            </div>
+
+            <div style={{ padding: '0 1.25rem 0.5rem' }}>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
+                Configure EmailJS to send emails directly from the app — reports, digests, and notifications. Free at{' '}
+                <a href="https://emailjs.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-phase-1)', textDecoration: 'underline' }}>emailjs.com</a>
+                {' '}(200 emails/month).
+              </p>
+            </div>
+
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Service ID</span>
+              <input className="input-field" value={emailServiceId} onChange={(e) => setEmailServiceId(e.target.value)} placeholder="service_xxxxxxx" aria-label="EmailJS Service ID" style={{ flex: 1 }} />
+            </div>
+
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Template ID</span>
+              <input className="input-field" value={emailTemplateId} onChange={(e) => setEmailTemplateId(e.target.value)} placeholder="template_xxxxxxx" aria-label="EmailJS Template ID" style={{ flex: 1 }} />
+            </div>
+
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Public Key</span>
+              <input className="input-field" value={emailPublicKey} onChange={(e) => setEmailPublicKey(e.target.value)} placeholder="Your public key" aria-label="EmailJS Public Key" style={{ flex: 1 }} />
+            </div>
+
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Status</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div style={{
+                  width: '0.5rem', height: '0.5rem', borderRadius: '50%',
+                  background: emailConfigExists ? 'var(--color-success)' : 'var(--text-disabled)', flexShrink: 0,
+                }} />
+                <span style={{ fontSize: '0.8125rem', color: emailConfigExists ? 'var(--color-success)' : 'var(--text-tertiary)' }}>
+                  {emailConfigExists ? 'Configured' : 'Not configured'}
+                </span>
+              </div>
+            </div>
+
+            <div style={lastRowStyle}>
+              <span style={labelStyle} />
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <button
+                  className="btn-primary"
+                  style={inlineSaveBtnStyle}
+                  onClick={handleSaveEmailConfig}
+                >
+                  {emailConfigSaved ? <Check size={13} /> : <Save size={13} />}
+                  {emailConfigSaved ? 'Saved' : 'Save'}
+                </button>
+                <button
+                  className="btn-secondary"
+                  style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }}
+                  onClick={handleTestEmail}
+                  disabled={testingSend || !emailConfigExists}
+                >
+                  {testingSend ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> : <Send size={13} />}
+                  {testingSend ? 'Sending…' : 'Send Test'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Email Digest ── */}
+          <div className="card" style={{ marginBottom: '1rem' }}>
+            <div style={sectionTitleStyle}>
+              <Mail size={15} />
+              Email Digest
+            </div>
+
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Auto-digest</span>
+              <ToggleSwitch checked={digestEnabled} onChange={handleDigestToggle} />
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                {digestEnabled ? 'Enabled' : 'Disabled'}
+              </span>
+            </div>
+
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Frequency</span>
+              <select style={smallSelectStyle} value={digestInterval} onChange={(e) => handleDigestInterval(e.target.value)} aria-label="Digest frequency">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </div>
+
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Recipient</span>
+              <input
+                className="input-field"
+                type="email"
+                value={digestEmail}
+                onChange={(e) => handleDigestEmail(e.target.value)}
+                placeholder="you@example.com"
+                aria-label="Digest recipient email"
+                style={{ flex: 1 }}
+              />
+            </div>
+
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Include</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={digestIncludeMetrics} onChange={(e) => handleDigestIncludeMetrics(e.target.checked)} style={{ accentColor: 'var(--color-phase-1)' }} />
+                  AEO Metrics &amp; Scores
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={digestIncludeAlerts} onChange={(e) => handleDigestIncludeAlerts(e.target.checked)} style={{ accentColor: 'var(--color-phase-1)' }} />
+                  Score Change Alerts
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={digestIncludeRecommendations} onChange={(e) => handleDigestIncludeRecommendations(e.target.checked)} style={{ accentColor: 'var(--color-phase-1)' }} />
+                  Analysis &amp; Recommendations
+                </label>
+              </div>
+            </div>
+
+            <div style={lastRowStyle}>
+              <span style={labelStyle}>Last Sent</span>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{lastDigestSent}</span>
             </div>
           </div>
 

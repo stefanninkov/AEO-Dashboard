@@ -63,6 +63,13 @@ const DEFAULT_PROJECT_DATA = {
     monitoringInterval: '7d',
     notifyOnScoreChange: false,
     notifyThreshold: 10,
+    digestEnabled: false,
+    digestInterval: 'weekly',
+    digestEmail: '',
+    digestIncludeMetrics: true,
+    digestIncludeAlerts: true,
+    digestIncludeRecommendations: true,
+    lastDigestSent: null,
   },
 }
 

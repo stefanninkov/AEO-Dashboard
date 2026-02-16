@@ -3,6 +3,7 @@ import { useAuth } from './hooks/useAuth'
 import { useFirestoreProjects } from './hooks/useFirestoreProjects'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
+import { useDigestScheduler } from './hooks/useDigestScheduler'
 import LoginPage from './components/LoginPage'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
@@ -194,6 +195,9 @@ function AuthenticatedApp({ user, onSignOut }) {
       return () => clearTimeout(timer)
     }
   }, [splashVisible, shouldAutoRun, runMonitor])
+
+  // Email digest scheduler
+  useDigestScheduler({ activeProject, updateProject })
 
   // Keyboard shortcuts
   useEffect(() => {
