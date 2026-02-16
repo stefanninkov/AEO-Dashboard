@@ -24,6 +24,7 @@ const TestingView = lazy(() => import('./views/TestingView'))
 const MetricsView = lazy(() => import('./views/MetricsView'))
 const CompetitorsView = lazy(() => import('./views/CompetitorsView'))
 const SettingsView = lazy(() => import('./views/SettingsView'))
+const WebflowView = lazy(() => import('./views/WebflowView'))
 
 // Lazy-loaded modals (only loaded when opened)
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
@@ -219,7 +220,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         const tag = document.activeElement?.tagName
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
-        const views = ['dashboard', 'competitors', 'checklist', 'process', 'analyzer', 'writer', 'schema', 'monitoring', 'metrics', 'docs', 'testing']
+        const views = ['dashboard', 'competitors', 'checklist', 'process', 'analyzer', 'writer', 'schema', 'monitoring', 'metrics', 'docs', 'testing', 'webflow']
         const num = parseInt(e.key)
         if (num >= 1 && num <= 9) {
           setActiveView(views[num - 1])
@@ -384,6 +385,13 @@ function AuthenticatedApp({ user, onSignOut }) {
       case 'competitors':
         return (
           <CompetitorsView
+            activeProject={activeProject}
+            updateProject={updateProject}
+          />
+        )
+      case 'webflow':
+        return (
+          <WebflowView
             activeProject={activeProject}
             updateProject={updateProject}
           />
