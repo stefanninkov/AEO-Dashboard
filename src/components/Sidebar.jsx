@@ -2,7 +2,7 @@ import { memo } from 'react'
 import {
   Zap, LayoutDashboard, CheckSquare, GitBranch, Zap as ZapIcon,
   BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, User, Plus,
-  Users, Settings
+  Users, Settings, PenTool
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 
@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { id: 'checklist', label: 'Checklist', icon: CheckSquare },
   { id: 'process', label: 'Process Map', icon: GitBranch },
   { id: 'analyzer', label: 'Analyzer', icon: ZapIcon },
+  { id: 'writer', label: 'Content Writer', icon: PenTool },
   { id: 'metrics', label: 'Metrics', icon: BarChart3 },
   { id: 'docs', label: 'Documentation', icon: BookOpen },
   { id: 'testing', label: 'Testing', icon: FlaskConical },

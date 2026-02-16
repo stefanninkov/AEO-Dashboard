@@ -33,6 +33,7 @@ const DEFAULT_PROJECT_DATA = {
   verifications: {},
   analyzerResults: null,
   analyzerFixes: {},
+  contentHistory: [],
   queryTracker: [],
   monitorHistory: [],
   lastMonitorRun: null,

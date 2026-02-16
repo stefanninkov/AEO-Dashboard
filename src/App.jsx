@@ -15,6 +15,7 @@ const DashboardView = lazy(() => import('./views/DashboardView'))
 const ChecklistView = lazy(() => import('./views/ChecklistView'))
 const ProcessMapView = lazy(() => import('./views/ProcessMapView'))
 const AnalyzerView = lazy(() => import('./views/AnalyzerView'))
+const ContentWriterView = lazy(() => import('./views/ContentWriterView'))
 const DocsView = lazy(() => import('./views/DocsView'))
 const TestingView = lazy(() => import('./views/TestingView'))
 const MetricsView = lazy(() => import('./views/MetricsView'))
@@ -199,7 +200,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         const tag = document.activeElement?.tagName
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
-        const views = ['dashboard', 'competitors', 'checklist', 'process', 'analyzer', 'metrics', 'docs', 'testing', 'settings']
+        const views = ['dashboard', 'competitors', 'checklist', 'process', 'analyzer', 'writer', 'metrics', 'docs', 'testing']
         const num = parseInt(e.key)
         if (num >= 1 && num <= 9) {
           setActiveView(views[num - 1])
@@ -314,6 +315,13 @@ function AuthenticatedApp({ user, onSignOut }) {
       case 'analyzer':
         return (
           <AnalyzerView
+            activeProject={activeProject}
+            updateProject={updateProject}
+          />
+        )
+      case 'writer':
+        return (
+          <ContentWriterView
             activeProject={activeProject}
             updateProject={updateProject}
           />
