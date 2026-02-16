@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { useAuth } from './hooks/useAuth'
 import { useFirestoreProjects } from './hooks/useFirestoreProjects'
 import { useReducedMotion } from './hooks/useReducedMotion'
@@ -6,26 +6,41 @@ import { useAutoMonitor } from './hooks/useAutoMonitor'
 import LoginPage from './components/LoginPage'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
-import DocOverlay from './components/DocOverlay'
-import NewProjectModal from './components/NewProjectModal'
-import DashboardView from './views/DashboardView'
-import ChecklistView from './views/ChecklistView'
-import ProcessMapView from './views/ProcessMapView'
-import AnalyzerView from './views/AnalyzerView'
-import DocsView from './views/DocsView'
-import TestingView from './views/TestingView'
-import MetricsView from './views/MetricsView'
-import CompetitorsView from './views/CompetitorsView'
-import SettingsView from './views/SettingsView'
-import OnboardingTutorial from './components/OnboardingTutorial'
-import ProjectQuestionnaire from './components/ProjectQuestionnaire'
-import EmailReportDialog from './components/EmailReportDialog'
-import PdfExportDialog from './components/PdfExportDialog'
-import CommandPalette from './components/CommandPalette'
 import ErrorBoundary from './components/ErrorBoundary'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
-import { generateReport } from './utils/generateReport'
 import { phases } from './data/aeo-checklist'
+
+// Lazy-loaded views
+const DashboardView = lazy(() => import('./views/DashboardView'))
+const ChecklistView = lazy(() => import('./views/ChecklistView'))
+const ProcessMapView = lazy(() => import('./views/ProcessMapView'))
+const AnalyzerView = lazy(() => import('./views/AnalyzerView'))
+const DocsView = lazy(() => import('./views/DocsView'))
+const TestingView = lazy(() => import('./views/TestingView'))
+const MetricsView = lazy(() => import('./views/MetricsView'))
+const CompetitorsView = lazy(() => import('./views/CompetitorsView'))
+const SettingsView = lazy(() => import('./views/SettingsView'))
+
+// Lazy-loaded modals (only loaded when opened)
+const DocOverlay = lazy(() => import('./components/DocOverlay'))
+const NewProjectModal = lazy(() => import('./components/NewProjectModal'))
+const OnboardingTutorial = lazy(() => import('./components/OnboardingTutorial'))
+const ProjectQuestionnaire = lazy(() => import('./components/ProjectQuestionnaire'))
+const EmailReportDialog = lazy(() => import('./components/EmailReportDialog'))
+const PdfExportDialog = lazy(() => import('./components/PdfExportDialog'))
+const CommandPalette = lazy(() => import('./components/CommandPalette'))
+
+/* ── Suspense Fallback — picks the right skeleton per view ── */
+function ViewSkeleton({ activeView }) {
+  switch (activeView) {
+    case 'dashboard': return <DashboardSkeleton />
+    case 'checklist': return <ChecklistSkeleton />
+    case 'metrics': return <MetricsSkeleton />
+    case 'docs': return <DocsSkeleton />
+    case 'testing': return <TestingSkeleton />
+    default: return <DashboardSkeleton />
+  }
+}
 
 /* ── Splash Screen ── */
 function SplashScreen({ onComplete }) {
@@ -392,9 +407,11 @@ function AuthenticatedApp({ user, onSignOut }) {
           <div className="content-scroll" id="main-content" tabIndex="-1">
             <div className="content-wrapper">
               <ErrorBoundary key={activeView}>
-                <div className="view-enter">
-                  {renderView()}
-                </div>
+                <Suspense fallback={<ViewSkeleton activeView={activeView} />}>
+                  <div className="view-enter">
+                    {renderView()}
+                  </div>
+                </Suspense>
               </ErrorBoundary>
             </div>
           </div>
@@ -402,6 +419,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       </div>
 
       {/* ── Overlays / Modals ── */}
+      <Suspense fallback={null}>
       {(docItem || overlayClosing) && (
         <DocOverlay
           item={docItem}
@@ -472,6 +490,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           setDocItem={handleSetDocItem}
         />
       )}
+      </Suspense>
     </>
   )
 }
