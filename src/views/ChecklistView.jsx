@@ -74,6 +74,9 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const saveTimerRef = useRef(null)
   const savedTimerRef = useRef(null)
 
+  // Category collapse state (absent = expanded)
+  const [expandedCategories, setExpandedCategories] = useState({})
+
   const checked = activeProject?.checked || {}
   const notes = activeProject?.notes || {}
   const noteTimestamps = activeProject?.noteTimestamps || {}
@@ -151,6 +154,31 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   const togglePhase = (phaseId) => {
     setExpandedPhases(prev => ({ ...prev, [phaseId]: !prev[phaseId] }))
+  }
+
+  // Category collapse helpers
+  const toggleCategory = (categoryId) => {
+    setExpandedCategories(prev => ({ ...prev, [categoryId]: prev[categoryId] === false ? true : false }))
+  }
+  const isCategoryExpanded = (categoryId) => expandedCategories[categoryId] !== false
+
+  // Bulk action handlers
+  const handleBulkCheck = (category) => {
+    const newChecked = { ...checked }
+    category.items.forEach(item => { newChecked[item.id] = true })
+    updateProject(activeProject.id, { checked: newChecked })
+  }
+
+  const handleBulkUncheck = (category) => {
+    const newChecked = { ...checked }
+    category.items.forEach(item => { newChecked[item.id] = false })
+    updateProject(activeProject.id, { checked: newChecked })
+  }
+
+  const getCategoryCheckState = (category) => {
+    let total = 0, checkedCount = 0
+    category.items.forEach(item => { total++; if (checked[item.id]) checkedCount++ })
+    return { total, checkedCount, allChecked: checkedCount === total, someChecked: checkedCount > 0 }
   }
 
   const getPhaseProgress = (phase) => {
@@ -259,6 +287,23 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         />
       </div>
 
+      {/* Global expand/collapse all phases */}
+      {!searchQuery.trim() && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <button
+            onClick={() => {
+              const allExpanded = phases.every(phase => expandedPhases[phase.id])
+              const newState = {}
+              phases.forEach(phase => { newState[phase.id] = !allExpanded })
+              setExpandedPhases(newState)
+            }}
+            className="checklist-bulk-link"
+          >
+            {phases.every(phase => expandedPhases[phase.id]) ? 'Collapse all phases' : 'Expand all phases'}
+          </button>
+        </div>
+      )}
+
       {/* No search results */}
       {searchQuery.trim() && filteredPhases.length === 0 && (
         <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem', border: '2px dashed var(--border-default)' }}>
@@ -352,11 +397,48 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
             {/* Phase Content — Animated */}
             <CollapsibleContent expanded={isExpanded}>
               <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                {phase.categories.map(category => (
+                {/* Phase-level expand/collapse categories */}
+                {phase.categories.length > 1 && (
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0.375rem 1rem', borderBottom: '1px solid var(--border-subtle)' }}>
+                    <button
+                      className="checklist-bulk-link"
+                      onClick={() => {
+                        const allExpanded = phase.categories.every(cat => isCategoryExpanded(cat.id))
+                        const newState = { ...expandedCategories }
+                        phase.categories.forEach(cat => { newState[cat.id] = !allExpanded })
+                        setExpandedCategories(newState)
+                      }}
+                    >
+                      {phase.categories.every(cat => isCategoryExpanded(cat.id)) ? 'Collapse all' : 'Expand all'}
+                    </button>
+                  </div>
+                )}
+                {phase.categories.map(category => {
+                  const catState = getCategoryCheckState(category)
+                  return (
                   <div key={category.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                    <div style={{ padding: '0.5rem 1rem', background: 'var(--bg-page)', opacity: 0.8 }}>
-                      <h4 style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{category.name}</h4>
+                    <div
+                      style={{ padding: '0.5rem 1rem', background: 'var(--bg-page)', opacity: 0.8, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
+                      onClick={() => toggleCategory(category.id)}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                        <ChevronDown
+                          size={10}
+                          style={{ color: 'var(--text-disabled)', transform: isCategoryExpanded(category.id) ? 'none' : 'rotate(-90deg)', transition: 'transform 200ms' }}
+                        />
+                        <h4 style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{category.name}</h4>
+                        <span style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', fontWeight: 500 }}>{catState.checkedCount}/{catState.total}</span>
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.5rem' }} onClick={e => e.stopPropagation()}>
+                        {!catState.allChecked && (
+                          <button onClick={() => handleBulkCheck(category)} className="checklist-bulk-link">Mark all</button>
+                        )}
+                        {catState.someChecked && (
+                          <button onClick={() => handleBulkUncheck(category)} className="checklist-bulk-link">Clear all</button>
+                        )}
+                      </div>
                     </div>
+                    <CollapsibleContent expanded={isCategoryExpanded(category.id)}>
                     <div>
                       {category.items.map(item => (
                         <div key={item.id} className="group" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
@@ -456,8 +538,10 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                         </div>
                       ))}
                     </div>
+                    </CollapsibleContent>
                   </div>
-                ))}
+                  )
+                })}
               </div>
             </CollapsibleContent>
           </div>

@@ -2304,6 +2304,23 @@ body {
 }
 
 /* ══════════════════════════════════════════════════
+   CHECKLIST BULK ACTIONS
+   ══════════════════════════════════════════════════ */
+.checklist-bulk-link {
+  font-size: 0.6875rem;
+  font-family: var(--font-body);
+  color: var(--text-disabled);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 150ms;
+}
+.checklist-bulk-link:hover {
+  color: var(--text-secondary);
+}
+
+/* ══════════════════════════════════════════════════
    RESPONSIVE BREAKPOINTS
    ══════════════════════════════════════════════════ */
 
