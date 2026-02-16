@@ -22,6 +22,7 @@ import ProjectQuestionnaire from './components/ProjectQuestionnaire'
 import EmailReportDialog from './components/EmailReportDialog'
 import PdfExportDialog from './components/PdfExportDialog'
 import CommandPalette from './components/CommandPalette'
+import ErrorBoundary from './components/ErrorBoundary'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { generateReport } from './utils/generateReport'
 import { phases } from './data/aeo-checklist'
@@ -390,9 +391,11 @@ function AuthenticatedApp({ user, onSignOut }) {
 
           <div className="content-scroll" id="main-content" tabIndex="-1">
             <div className="content-wrapper">
-              <div key={activeView} className="view-enter">
-                {renderView()}
-              </div>
+              <ErrorBoundary key={activeView}>
+                <div className="view-enter">
+                  {renderView()}
+                </div>
+              </ErrorBoundary>
             </div>
           </div>
         </div>
