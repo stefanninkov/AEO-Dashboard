@@ -134,6 +134,7 @@ Search for and visit this website, then evaluate whether this specific item has 
           <button
             onClick={onCancel}
             className="p-1.5 rounded-lg text-text-tertiary hover:text-text-primary transition-all flex-shrink-0"
+            aria-label="Close verification dialog"
           >
             <X size={16} />
           </button>

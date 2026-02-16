@@ -274,10 +274,10 @@ export default function TopBar({
                           style={{ flex: 1, minWidth: 0, padding: '0.3125rem 0.625rem', fontSize: '0.8125rem' }}
                           autoFocus
                         />
-                        <button onClick={() => handleRename(project.id)} className="icon-btn" style={{ color: 'var(--color-success)' }}>
+                        <button onClick={() => handleRename(project.id)} className="icon-btn" style={{ color: 'var(--color-success)' }} aria-label="Confirm rename">
                           <Check size={14} />
                         </button>
-                        <button onClick={() => setEditingId(null)} className="icon-btn">
+                        <button onClick={() => setEditingId(null)} className="icon-btn" aria-label="Cancel rename">
                           <X size={14} />
                         </button>
                       </div>
@@ -295,6 +295,7 @@ export default function TopBar({
                             onClick={() => { setEditingId(project.id); setEditName(project.name) }}
                             className="icon-btn"
                             title="Rename"
+                            aria-label="Rename project"
                           >
                             <Pencil size={12} />
                           </button>
@@ -302,6 +303,7 @@ export default function TopBar({
                             onClick={() => handleDelete(project.id, project.name)}
                             className="icon-btn"
                             title="Delete"
+                            aria-label="Delete project"
                           >
                             <Trash2 size={12} />
                           </button>
@@ -344,6 +346,7 @@ export default function TopBar({
               <button
                 onClick={() => { setSearchQuery(''); setSearchOpen(false) }}
                 className="icon-btn"
+                aria-label="Clear search"
               >
                 <X size={12} />
               </button>
@@ -393,13 +396,13 @@ export default function TopBar({
             <Plus size={13} />
             <span className="hidden sm:inline">New Project</span>
           </button>
-          <button onClick={onRefresh} className="icon-btn" title="Refresh">
+          <button onClick={onRefresh} className="icon-btn" title="Refresh" aria-label="Refresh data">
             <RefreshCw size={14} />
           </button>
-          <button onClick={onExport} className="icon-btn hidden sm:flex" title="Export">
+          <button onClick={onExport} className="icon-btn hidden sm:flex" title="Export" aria-label="Export report">
             <Download size={14} />
           </button>
-          <button onClick={onEmail} className="icon-btn" title="Email report">
+          <button onClick={onEmail} className="icon-btn" title="Email report" aria-label="Email report">
             <Mail size={14} />
           </button>
         </div>

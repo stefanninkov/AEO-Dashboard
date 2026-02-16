@@ -75,7 +75,7 @@ export function ToastProvider({ children }) {
                 <div className="toast-color-bar" />
                 <Icon size={16} className="toast-icon" style={{ flexShrink: 0 }} />
                 <span className="toast-message">{toast.message}</span>
-                <button className="toast-close" onClick={() => dismissToast(toast.id)}>
+                <button className="toast-close" onClick={() => dismissToast(toast.id)} aria-label="Dismiss notification">
                   <X size={12} />
                 </button>
               </div>

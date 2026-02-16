@@ -273,6 +273,7 @@ export default function CompetitorsView({ activeProject, updateProject }) {
                           onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-error)'}
                           onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-tertiary)'}
                           title="Remove competitor"
+                          aria-label="Remove competitor"
                         >
                           <Trash2 size={14} />
                         </button>

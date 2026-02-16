@@ -106,6 +106,7 @@ export default function Sidebar({ activeView, setActiveView, onNewProject, user,
           onClick={onSignOut}
           className="icon-btn"
           title="Sign out"
+          aria-label="Sign out"
         >
           <LogOut size={14} />
         </button>

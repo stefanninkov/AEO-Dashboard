@@ -348,6 +348,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
             display: 'flex', alignItems: 'center',
           }}
           title="Skip tutorial"
+          aria-label="Skip tutorial"
         >
           <X size={16} />
         </button>

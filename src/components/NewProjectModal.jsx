@@ -29,6 +29,7 @@ export default function NewProjectModal({ onClose, onCreate }) {
               padding: 6, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer',
               color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center',
             }}
+            aria-label="Close modal"
           >
             <X size={18} />
           </button>

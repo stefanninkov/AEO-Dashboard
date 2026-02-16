@@ -463,6 +463,7 @@ export default function TestingView({ activeProject, updateProject }) {
             onClick={addQuery}
             disabled={!newQuery.trim()}
             className="px-3 py-2 bg-phase-6 text-white rounded-lg text-sm font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:hover:scale-100"
+            aria-label="Add query"
           >
             <Plus size={16} />
           </button>
@@ -517,6 +518,7 @@ export default function TestingView({ activeProject, updateProject }) {
                       <button
                         onClick={() => deleteQuery(query.id)}
                         className="p-1 text-text-tertiary hover:text-error rounded transition-all duration-150"
+                        aria-label="Delete query"
                       >
                         <Trash2 size={12} />
                       </button>

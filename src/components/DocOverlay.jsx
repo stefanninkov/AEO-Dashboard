@@ -57,6 +57,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases 
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg text-text-tertiary hover:text-text-primary transition-all duration-150 flex-shrink-0 mt-0.5 active:scale-95"
+            aria-label="Close documentation overlay"
           >
             <X size={18} />
           </button>

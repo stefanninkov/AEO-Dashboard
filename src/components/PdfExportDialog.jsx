@@ -101,7 +101,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
         onAnimationEnd={() => isClosing && onExited?.()}
       >
         {/* Close button */}
-        <button className="email-modal-close" onClick={onClose}>
+        <button className="email-modal-close" onClick={onClose} aria-label="Close export dialog">
           <X size={16} />
         </button>
 
