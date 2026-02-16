@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react'
+import { useDebounce } from '../hooks/useDebounce'
 import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
   RefreshCw, Download, Mail, Menu
@@ -36,6 +37,7 @@ export default memo(function TopBar({
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('')
+  const debouncedSearch = useDebounce(searchQuery, 200)
   const [searchOpen, setSearchOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const searchInputRef = useRef(null)
@@ -144,10 +146,10 @@ export default memo(function TopBar({
     return items
   }, [phases, activeProject])
 
-  // Filter results
+  // Filter results (debounced)
   const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return []
-    const q = searchQuery.toLowerCase()
+    if (!debouncedSearch.trim()) return []
+    const q = debouncedSearch.toLowerCase()
     return searchIndex
       .filter(item => {
         const label = item.label?.toLowerCase() || ''
@@ -155,7 +157,7 @@ export default memo(function TopBar({
         return label.includes(q) || detail.includes(q)
       })
       .slice(0, 8)
-  }, [searchQuery, searchIndex])
+  }, [debouncedSearch, searchIndex])
 
   // Handle result selection
   const handleSelectResult = useCallback((result) => {
@@ -391,7 +393,7 @@ export default memo(function TopBar({
             </div>
           )}
           <div className="sr-only" aria-live="polite">
-            {searchOpen && searchQuery.trim() ? `${searchResults.length} results found` : ''}
+            {searchOpen && debouncedSearch.trim() ? `${searchResults.length} results found` : ''}
           </div>
         </div>
 

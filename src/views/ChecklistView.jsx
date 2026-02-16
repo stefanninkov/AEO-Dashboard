@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Search, CheckCircle2 } from 'lucide-react'
 import { useToast } from '../components/Toast'
+import { useDebounce } from '../hooks/useDebounce'
 import VerifyDialog from '../components/VerifyDialog'
 import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendations'
 import { createActivity, appendActivity } from '../utils/activityLogger'
@@ -11,6 +12,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const firstPriority = getFirstPriorityPhase(activeProject?.questionnaire)
   const [expandedPhases, setExpandedPhases] = useState({ [firstPriority]: true })
   const [searchQuery, setSearchQuery] = useState('')
+  const debouncedSearch = useDebounce(searchQuery, 200)
   const [quickViewItem, setQuickViewItem] = useState(null)
   const [bouncingId, setBouncingId] = useState(null)
   const [searchFocused, setSearchFocused] = useState(false)
@@ -183,14 +185,14 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   // ── Filtering ──
 
-  const filteredPhases = searchQuery.trim()
+  const filteredPhases = debouncedSearch.trim()
     ? phases.map(phase => ({
         ...phase,
         categories: phase.categories.map(cat => ({
           ...cat,
           items: cat.items.filter(item =>
-            item.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.detail.toLowerCase().includes(searchQuery.toLowerCase())
+            item.text.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+            item.detail.toLowerCase().includes(debouncedSearch.toLowerCase())
           )
         })).filter(cat => cat.items.length > 0)
       })).filter(phase => phase.categories.length > 0)
@@ -228,7 +230,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       </div>
 
       {/* Global expand/collapse all phases */}
-      {!searchQuery.trim() && (
+      {!debouncedSearch.trim() && (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <button
             onClick={() => {
@@ -245,7 +247,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       )}
 
       {/* No search results */}
-      {searchQuery.trim() && filteredPhases.length === 0 && (
+      {debouncedSearch.trim() && filteredPhases.length === 0 && (
         <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem', border: '2px dashed var(--border-default)' }}>
           <div style={{ width: '3rem', height: '3rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem' }}>
             <Search size={20} style={{ color: 'var(--text-tertiary)' }} />
@@ -284,7 +286,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           key={phase.id}
           phase={phase}
           progress={getPhaseProgress(phase)}
-          isExpanded={expandedPhases[phase.id] || !!searchQuery.trim()}
+          isExpanded={expandedPhases[phase.id] || !!debouncedSearch.trim()}
           isPriority={getPhasePriority(phase.number, activeProject?.questionnaire)}
           isCelebrating={celebratingPhase === phase.id}
           expandedCategories={expandedCategories}

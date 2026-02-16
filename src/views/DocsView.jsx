@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { Search, BookOpen, ChevronRight } from 'lucide-react'
+import { useDebounce } from '../hooks/useDebounce'
 
 export default function DocsView({ phases, setDocItem }) {
   const [searchQuery, setSearchQuery] = useState('')
+  const debouncedSearch = useDebounce(searchQuery, 200)
   const [selectedPhase, setSelectedPhase] = useState(null)
 
   const allDocs = phases.flatMap(phase =>
@@ -20,13 +22,13 @@ export default function DocsView({ phases, setDocItem }) {
   )
 
   const filteredDocs = allDocs.filter(doc => {
-    const matchesSearch = !searchQuery.trim() ||
-      doc.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.detail.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch = !debouncedSearch.trim() ||
+      doc.text.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      doc.detail.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      doc.doc.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
       doc.doc.sections.some(s =>
-        s.heading.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.body.toLowerCase().includes(searchQuery.toLowerCase())
+        s.heading.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        s.body.toLowerCase().includes(debouncedSearch.toLowerCase())
       )
     const matchesPhase = !selectedPhase || doc.phaseId === selectedPhase
     return matchesSearch && matchesPhase

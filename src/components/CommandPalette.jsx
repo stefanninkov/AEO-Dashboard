@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import { useDebounce } from '../hooks/useDebounce'
 import {
   Search, LayoutDashboard, Users, CheckSquare, GitBranch, Zap,
   BarChart3, BookOpen, FlaskConical, Settings, Sun, Moon,
@@ -42,6 +43,7 @@ export default function CommandPalette({
   setDocItem,
 }) {
   const [query, setQuery] = useState('')
+  const debouncedQuery = useDebounce(query, 100)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const inputRef = useRef(null)
   const listRef = useRef(null)
@@ -156,13 +158,13 @@ export default function CommandPalette({
     return items
   }, [phases, activeProject, projects, theme, setActiveView, onNewProject, onExport, toggleTheme, setDocItem, setActiveProjectId])
 
-  // Filter results based on query
+  // Filter results based on debounced query
   const filteredResults = useMemo(() => {
-    if (!query.trim()) {
+    if (!debouncedQuery.trim()) {
       return searchIndex.filter(item => item.type === 'Navigation' || item.type === 'Action')
     }
 
-    const q = query.toLowerCase()
+    const q = debouncedQuery.toLowerCase()
     return searchIndex
       .filter(item => {
         const label = item.label?.toLowerCase() || ''
@@ -170,7 +172,7 @@ export default function CommandPalette({
         return label.includes(q) || detail.includes(q)
       })
       .slice(0, 12)
-  }, [query, searchIndex])
+  }, [debouncedQuery, searchIndex])
 
   // Group results by type for rendering
   const groupedResults = useMemo(() => {
@@ -193,10 +195,10 @@ export default function CommandPalette({
     }
   }, [isOpen])
 
-  // Reset selectedIndex when query changes
+  // Reset selectedIndex when debounced query changes
   useEffect(() => {
     setSelectedIndex(0)
-  }, [query])
+  }, [debouncedQuery])
 
   // Scroll selected item into view
   useEffect(() => {
@@ -363,7 +365,7 @@ export default function CommandPalette({
           )}
         </div>
         <div className="sr-only" aria-live="polite">
-          {query.trim() ? `${filteredResults.length} results found` : ''}
+          {debouncedQuery.trim() ? `${filteredResults.length} results found` : ''}
         </div>
 
         {/* Footer with keyboard hints */}
