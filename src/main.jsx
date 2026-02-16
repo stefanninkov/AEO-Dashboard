@@ -14,3 +14,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </ThemeProvider>
   </React.StrictMode>,
 )
+
+// Register service worker for PWA support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/AEO-Dashboard/sw.js').catch(() => {
+      // Silently fail in dev mode or unsupported environments
+    })
+  })
+}
