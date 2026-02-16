@@ -114,8 +114,21 @@ function LoadingScreen() {
   )
 }
 
+/* ── Portal View (lazy — only loads if ?share= is in URL) ── */
+const PortalView = lazy(() => import('./views/PortalView'))
+
 /* ── Main App ── */
 export default function App() {
+  // Check for share link BEFORE auth — portal needs no login
+  const shareToken = new URLSearchParams(window.location.search).get('share')
+  if (shareToken) {
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        <PortalView shareToken={shareToken} />
+      </Suspense>
+    )
+  }
+
   const { user, loading: authLoading, signIn, signUp, signInWithGoogle, signOut, error: authError, clearError } = useAuth()
 
   if (authLoading) return <LoadingScreen />

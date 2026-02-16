@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
   User, Key, Palette, FolderCog, Activity, Database, AlertTriangle,
-  Save, Check, Eye, EyeOff, Download, Upload, Trash2, RotateCcw, ClipboardList
+  Save, Check, Eye, EyeOff, Download, Upload, Trash2, RotateCcw, ClipboardList,
+  Share2, Copy, Loader2, Link2, X
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import logger from '../utils/logger'
+import { createShareLink, getProjectShares, revokeShareLink } from '../hooks/useShareLink'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
   GOAL_LABELS, MATURITY_LABELS, CONTENT_LABELS, ENGINE_LABELS,
@@ -63,6 +65,12 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [deleteTypedName, setDeleteTypedName] = useState('')
 
+  // Share link state
+  const [shareLink, setShareLink] = useState('')
+  const [generatingLink, setGeneratingLink] = useState(false)
+  const [linkCopied, setLinkCopied] = useState(false)
+  const [existingShares, setExistingShares] = useState([])
+
   // Sync project data to local state
   useEffect(() => {
     if (activeProject) {
@@ -73,8 +81,36 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
       setMonitoringEnabled(activeProject.settings?.monitoringEnabled || false)
       setMonitoringInterval(activeProject.settings?.monitoringInterval || '7d')
       setAlertThreshold(activeProject.settings?.notifyThreshold || 10)
+      setExistingShares(getProjectShares(activeProject.id))
+      setShareLink('')
     }
   }, [activeProject?.id])
+
+  // ── Share link handlers ──
+  const handleGenerateShareLink = async () => {
+    if (!activeProject) return
+    setGeneratingLink(true)
+    try {
+      const link = await createShareLink(activeProject, user?.uid)
+      setShareLink(link)
+      setExistingShares(getProjectShares(activeProject.id))
+    } catch (err) {
+      logger.error('Failed to generate share link:', err)
+    } finally {
+      setGeneratingLink(false)
+    }
+  }
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareLink)
+    setLinkCopied(true)
+    setTimeout(() => setLinkCopied(false), 2000)
+  }
+
+  const handleRevokeShare = async (token) => {
+    await revokeShareLink(token)
+    setExistingShares(getProjectShares(activeProject.id))
+  }
 
   // ── Style helpers ──
   const sectionLabelStyle = {
@@ -662,6 +698,80 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <div style={lastRowStyle}>
               <span style={labelStyle}>Last Run</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{lastMonitorRun}</span>
+            </div>
+          </div>
+
+          {/* ── Client Portal ── */}
+          <div className="card" style={{ marginBottom: '1rem' }}>
+            <div style={sectionTitleStyle}>
+              <Share2 size={15} />
+              Client Portal
+            </div>
+
+            <div style={{ padding: '0 1.25rem 1rem' }}>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem', lineHeight: 1.6 }}>
+                Generate a read-only link to share project progress, metrics, and analysis with clients — no login required.
+              </p>
+
+              <button
+                className="btn-primary"
+                style={{ fontSize: '0.8125rem', padding: '0.5rem 1rem', marginBottom: shareLink ? '0.75rem' : 0 }}
+                onClick={handleGenerateShareLink}
+                disabled={generatingLink}
+              >
+                {generatingLink ? <Loader2 size={14} className="portal-spinner" style={{ animation: 'spin 1s linear infinite' }} /> : <Link2 size={14} />}
+                {generatingLink ? 'Generating…' : 'Generate Share Link'}
+              </button>
+
+              {shareLink && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 0.75rem', background: 'var(--bg-hover)', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                  <input
+                    type="text"
+                    value={shareLink}
+                    readOnly
+                    style={{
+                      flex: 1, background: 'transparent', border: 'none', color: 'var(--text-primary)',
+                      fontSize: '0.75rem', fontFamily: '"JetBrains Mono", monospace', outline: 'none',
+                    }}
+                    onClick={e => e.target.select()}
+                  />
+                  <button
+                    className="btn-secondary"
+                    style={{ padding: '0.375rem 0.625rem', fontSize: '0.6875rem', flexShrink: 0 }}
+                    onClick={handleCopyLink}
+                  >
+                    {linkCopied ? <Check size={13} /> : <Copy size={13} />}
+                    {linkCopied ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+              )}
+
+              {existingShares.length > 0 && (
+                <div style={{ marginTop: '0.75rem' }}>
+                  <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                    Active Links ({existingShares.length})
+                  </span>
+                  {existingShares.map(share => (
+                    <div key={share.token} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0', fontSize: '0.75rem' }}>
+                      <Link2 size={12} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
+                      <span style={{ color: 'var(--text-secondary)', flex: 1, fontFamily: '"JetBrains Mono", monospace', fontSize: '0.6875rem' }}>
+                        …{share.token.slice(-8)}
+                      </span>
+                      <span style={{ color: 'var(--text-tertiary)', fontSize: '0.6875rem' }}>
+                        {new Date(share.createdAt).toLocaleDateString()}
+                      </span>
+                      <button
+                        onClick={() => handleRevokeShare(share.token)}
+                        style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '0.25rem' }}
+                        title="Revoke link"
+                        aria-label="Revoke share link"
+                      >
+                        <X size={13} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

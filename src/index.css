@@ -3479,6 +3479,399 @@ body {
 }
 
 /* ══════════════════════════════════════════════════
+   CLIENT PORTAL VIEW
+   ══════════════════════════════════════════════════ */
+
+.portal-page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+}
+
+.portal-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: var(--bg-page);
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+}
+
+.portal-spinner { animation: spin 1s linear infinite; color: var(--color-phase-1); }
+
+.portal-error-card {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--text-tertiary);
+}
+.portal-error-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 1rem 0 0.5rem;
+}
+.portal-error-card p { font-size: 0.875rem; }
+
+/* Banner */
+.portal-banner {
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(255, 107, 53, 0.04);
+  padding: 0.625rem 1.5rem;
+}
+
+.portal-banner-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portal-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-phase-1);
+}
+
+.portal-banner-right {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* Content */
+.portal-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+/* Header */
+.portal-header { margin-bottom: 0.5rem; }
+
+.portal-project-name {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.portal-project-url {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--color-phase-2);
+  text-decoration: none;
+  margin-top: 0.375rem;
+}
+.portal-project-url:hover { text-decoration: underline; }
+
+.portal-shared-on {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 0.5rem;
+}
+
+/* Stats Grid */
+.portal-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.portal-stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.portal-stat-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.375rem;
+}
+
+.portal-stat-value {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.portal-stat-unit {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.portal-stat-sub {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  margin-top: 0.25rem;
+}
+
+/* Section */
+.portal-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.portal-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1.25rem;
+}
+
+/* Phase Progress */
+.portal-phases {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.portal-phase-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.portal-phase-icon { font-size: 1.25rem; flex-shrink: 0; }
+
+.portal-phase-info { flex: 1; display: flex; flex-direction: column; gap: 0.375rem; }
+
+.portal-phase-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portal-phase-name {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.portal-phase-count {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+}
+
+.portal-progress-bar {
+  height: 6px;
+  background: var(--bg-hover);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.portal-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 600ms ease;
+}
+
+.portal-phase-percent {
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Analyzer Results */
+.portal-analyzer-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.portal-analyzer-score {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.portal-analyzer-summary {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.portal-analyzer-category {
+  margin-bottom: 1rem;
+}
+.portal-analyzer-category:last-child { margin-bottom: 0; }
+
+.portal-analyzer-cat-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.portal-analyzer-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.portal-analyzer-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.625rem;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+}
+
+.portal-status-pass { color: var(--color-success); flex-shrink: 0; }
+.portal-status-partial { color: var(--color-warning); flex-shrink: 0; }
+.portal-status-fail { color: var(--color-error); flex-shrink: 0; }
+
+.portal-analyzer-item-name {
+  flex: 1;
+  color: var(--text-primary);
+}
+
+.portal-analyzer-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.portal-badge-pass { background: rgba(16, 185, 129, 0.1); color: var(--color-success); }
+.portal-badge-partial { background: rgba(245, 158, 11, 0.1); color: var(--color-warning); }
+.portal-badge-fail { background: rgba(239, 68, 68, 0.1); color: var(--color-error); }
+
+/* Monitor History */
+.portal-monitor-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.portal-monitor-score {
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+}
+
+.portal-monitor-score-value {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.portal-monitor-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.portal-delta-up { color: var(--color-success); }
+.portal-delta-down { color: var(--color-error); }
+
+.portal-monitor-sub {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+}
+
+.portal-monitor-chart {
+  padding: 0.5rem 0 1rem;
+}
+
+.portal-sparkline {
+  width: 100%;
+  height: 50px;
+}
+
+.portal-monitor-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.portal-monitor-result-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.625rem;
+  border-radius: 6px;
+  background: var(--bg-page);
+}
+
+.portal-monitor-query {
+  flex: 1;
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+}
+
+/* Footer */
+.portal-footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .portal-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .portal-content { padding: 1.5rem 1rem; }
+  .portal-analyzer-header { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .portal-stats-grid { grid-template-columns: 1fr; }
+  .portal-banner-inner { flex-direction: column; gap: 0.25rem; }
+}
+
+/* ══════════════════════════════════════════════════
    METRICS VIEW
    ══════════════════════════════════════════════════ */
 
