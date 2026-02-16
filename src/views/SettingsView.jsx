@@ -415,6 +415,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           <select style={smallSelectStyle} value={theme} onChange={(e) => handleThemeChange(e.target.value)}>
             <option value="dark">Dark</option>
             <option value="light">Light</option>
+            <option value="auto">Auto (System)</option>
           </select>
         </div>
 
@@ -434,6 +435,52 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <option value="30d">30 Days</option>
             <option value="90d">90 Days</option>
           </select>
+        </div>
+      </div>
+
+      {/* ── Keyboard Shortcuts ── */}
+      <div className="card" style={{ marginBottom: '1rem' }}>
+        <div style={sectionTitleStyle}>
+          <ClipboardList size={15} />
+          Keyboard Shortcuts
+        </div>
+        {[
+          ['Ctrl/Cmd + K', 'Command palette'],
+          ['1 – 9', 'Navigate to view'],
+          ['Ctrl/Cmd + N', 'New project'],
+          ['Escape', 'Close modal / palette'],
+        ].map(([key, desc], i, arr) => (
+          <div key={key} style={i === arr.length - 1 ? lastRowStyle : settingsRowStyle}>
+            <kbd style={{
+              fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 600,
+              padding: '0.1875rem 0.5rem', borderRadius: '0.25rem',
+              background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+              color: 'var(--text-tertiary)', minWidth: '6rem', textAlign: 'center',
+            }}>{key}</kbd>
+            <span style={{ ...labelStyle, flex: 1 }}>{desc}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Tour ── */}
+      <div className="card" style={{ marginBottom: '1.5rem' }}>
+        <div style={sectionTitleStyle}>
+          <RotateCcw size={15} />
+          Onboarding
+        </div>
+        <div style={lastRowStyle}>
+          <span style={labelStyle}>Restart the guided tour to revisit all app sections</span>
+          <button
+            className="btn-secondary"
+            style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }}
+            onClick={() => {
+              localStorage.removeItem('aeo-onboarding-completed')
+              window.location.reload()
+            }}
+          >
+            <RotateCcw size={12} />
+            Restart Tour
+          </button>
         </div>
       </div>
 

@@ -88,8 +88,8 @@ export default function CommandPalette({
       {
         id: 'action-toggle-theme',
         type: 'Action',
-        label: theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-        icon: theme === 'dark' ? Sun : Moon,
+        label: theme === 'dark' ? 'Switch to Light Mode' : theme === 'light' ? 'Switch to Auto Mode' : 'Switch to Dark Mode',
+        icon: theme === 'dark' ? Sun : theme === 'light' ? Sun : Moon,
         action: () => toggleTheme(),
       },
     )

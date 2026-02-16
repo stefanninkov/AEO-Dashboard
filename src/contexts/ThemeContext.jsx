@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
-const ThemeContext = createContext({ theme: 'dark', toggleTheme: () => {} })
+const ThemeContext = createContext({ theme: 'dark', resolvedTheme: 'dark', setTheme: () => {}, toggleTheme: () => {} })
 
 function getSystemPreference() {
   if (typeof window === 'undefined') return 'dark'
@@ -16,38 +16,53 @@ function getStoredTheme() {
 }
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
+  const [theme, setThemeState] = useState(() => {
     const stored = getStoredTheme()
-    return stored === 'light' || stored === 'dark' ? stored : getSystemPreference()
+    if (stored === 'light' || stored === 'dark' || stored === 'auto') return stored
+    return 'dark'
   })
+
+  const [systemPref, setSystemPref] = useState(getSystemPreference)
+
+  // The actual theme applied to the DOM
+  const resolvedTheme = theme === 'auto' ? systemPref : theme
 
   // Apply data-theme attribute to <html>
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
+    document.documentElement.setAttribute('data-theme', resolvedTheme)
+  }, [resolvedTheme])
+
+  // Store theme preference
+  useEffect(() => {
     try {
       localStorage.setItem('aeo-theme', theme)
     } catch { /* ignore */ }
   }, [theme])
 
-  // Listen for system preference changes (only if no stored preference)
+  // Listen for system preference changes
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: light)')
     const handler = (e) => {
-      const stored = getStoredTheme()
-      if (!stored) {
-        setTheme(e.matches ? 'light' : 'dark')
-      }
+      setSystemPref(e.matches ? 'light' : 'dark')
     }
     mq.addEventListener('change', handler)
     return () => mq.removeEventListener('change', handler)
   }, [])
 
+  const setTheme = useCallback((val) => {
+    setThemeState(val)
+  }, [])
+
   const toggleTheme = useCallback(() => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark')
+    setThemeState(prev => {
+      if (prev === 'dark') return 'light'
+      if (prev === 'light') return 'auto'
+      return 'dark'
+    })
   }, [])
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   )
