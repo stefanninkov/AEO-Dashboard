@@ -34,6 +34,7 @@ const DEFAULT_PROJECT_DATA = {
   analyzerResults: null,
   analyzerFixes: {},
   contentHistory: [],
+  schemaHistory: [],
   queryTracker: [],
   monitorHistory: [],
   lastMonitorRun: null,
