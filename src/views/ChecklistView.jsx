@@ -338,6 +338,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           onFocus={() => setSearchFocused(true)}
           onBlur={() => setSearchFocused(false)}
           className="input-field"
+          aria-label="Search tasks"
           style={{ paddingLeft: '2.25rem' }}
         />
       </div>
@@ -404,6 +405,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
             {/* Phase Header */}
             <button
               onClick={() => togglePhase(phase.id)}
+              aria-expanded={isExpanded}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem',
                 background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)',
@@ -473,8 +475,12 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                   return (
                   <div key={category.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                     <div
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={isCategoryExpanded(category.id)}
                       style={{ padding: '0.5rem 1rem', background: 'var(--bg-page)', opacity: 0.8, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
                       onClick={() => toggleCategory(category.id)}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCategory(category.id) } }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
                         <ChevronDown
@@ -503,6 +509,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                               <button
                                 onClick={() => handleToggle(item.id, item, phase.number)}
                                 className={bouncingId === item.id ? 'check-bounce' : ''}
+                                aria-label={`${checked[item.id] ? 'Uncheck' : 'Check'}: ${item.text}`}
                                 style={{
                                   width: '1.125rem', height: '1.125rem', borderRadius: '0.25rem',
                                   border: `2px solid ${checked[item.id] ? phase.color : 'var(--border-default)'}`,
@@ -551,6 +558,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                                 onClick={() => setQuickViewItem(quickViewItem === item.id ? null : item.id)}
                                 style={{ padding: '0.375rem', borderRadius: '0.5rem', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
                                 title="Quick view"
+                                aria-label="Quick view"
                               >
                                 <Info size={13} />
                               </button>
@@ -558,6 +566,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                                 onClick={() => setDocItem(item)}
                                 style={{ padding: '0.375rem', borderRadius: '0.5rem', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
                                 title="Full documentation"
+                                aria-label="Full documentation"
                               >
                                 <BookOpen size={13} />
                               </button>
@@ -565,6 +574,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                                 onClick={() => toggleNote(item.id)}
                                 className={`checklist-note-btn${notes[item.id] ? ' has-notes' : ''}`}
                                 title={notes[item.id] ? 'Edit notes' : 'Add notes'}
+                                aria-label={notes[item.id] ? 'Edit notes' : 'Add notes'}
                               >
                                 <StickyNote size={13} />
                               </button>
@@ -585,6 +595,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                                 onChange={e => handleNoteChange(item.id, e.target.value)}
                                 onBlur={() => saveNote(item.id, noteDraft)}
                                 placeholder="Add notes about this task..."
+                                aria-label={`Notes for "${item.text}"`}
                                 rows={3}
                                 autoFocus
                               />

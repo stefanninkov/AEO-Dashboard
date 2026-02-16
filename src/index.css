@@ -2898,3 +2898,33 @@ body {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* Touch-friendly targets for coarse pointers (mobile/tablet) */
+@media (pointer: coarse) {
+  .icon-btn {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+  .hamburger-btn {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+  .checklist-note-btn,
+  .checklist-bulk-link {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+  .testing-section-header {
+    min-height: 3rem;
+  }
+  .docs-filter-pill {
+    min-height: 2.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .phase-badge {
+    min-height: 2rem;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+  }
+}
