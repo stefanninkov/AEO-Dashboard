@@ -21,6 +21,7 @@ import OnboardingTutorial from './components/OnboardingTutorial'
 import ProjectQuestionnaire from './components/ProjectQuestionnaire'
 import EmailReportDialog from './components/EmailReportDialog'
 import PdfExportDialog from './components/PdfExportDialog'
+import CommandPalette from './components/CommandPalette'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { generateReport } from './utils/generateReport'
 import { phases } from './data/aeo-checklist'
@@ -125,6 +126,8 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [emailDialogClosing, setEmailDialogClosing] = useState(false)
   const [pdfDialogOpen, setPdfDialogOpen] = useState(false)
   const [pdfDialogClosing, setPdfDialogClosing] = useState(false)
+  const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
+  const [cmdPaletteClosing, setCmdPaletteClosing] = useState(false)
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
   const [questionnaireProjectId, setQuestionnaireProjectId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -165,10 +168,13 @@ function AuthenticatedApp({ user, onSignOut }) {
     function handleKeyDown(e) {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault()
-        const searchInput = document.querySelector('input[placeholder*="Search"]')
-        if (searchInput) searchInput.focus()
+        if (!cmdPaletteOpen) {
+          setCmdPaletteClosing(false)
+          setCmdPaletteOpen(true)
+        }
       }
       if (e.key === 'Escape') {
+        if (cmdPaletteOpen && !cmdPaletteClosing) { setCmdPaletteClosing(true); return }
         if (newProjectModalOpen) { setNewProjectModalOpen(false); return }
         if (pdfDialogOpen && !pdfDialogClosing) { setPdfDialogClosing(true); return }
         if (emailDialogOpen && !emailDialogClosing) { setEmailDialogClosing(true); return }
@@ -186,7 +192,7 @@ function AuthenticatedApp({ user, onSignOut }) {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [docItem, overlayClosing, newProjectModalOpen, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing])
+  }, [docItem, overlayClosing, newProjectModalOpen, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing, cmdPaletteOpen, cmdPaletteClosing])
 
   const handleSetDocItem = useCallback((item) => {
     setOverlayClosing(false)
@@ -440,6 +446,23 @@ function AuthenticatedApp({ user, onSignOut }) {
           onClose={() => setPdfDialogClosing(true)}
           isClosing={pdfDialogClosing}
           onExited={() => { setPdfDialogOpen(false); setPdfDialogClosing(false) }}
+        />
+      )}
+
+      {(cmdPaletteOpen || cmdPaletteClosing) && (
+        <CommandPalette
+          isOpen={cmdPaletteOpen}
+          isClosing={cmdPaletteClosing}
+          onClose={() => setCmdPaletteClosing(true)}
+          onExited={() => { setCmdPaletteOpen(false); setCmdPaletteClosing(false) }}
+          phases={phases}
+          activeProject={activeProject}
+          projects={projects}
+          setActiveView={setActiveView}
+          setActiveProjectId={setActiveProjectId}
+          onNewProject={() => setNewProjectModalOpen(true)}
+          onExport={handleExport}
+          setDocItem={handleSetDocItem}
         />
       )}
     </>
