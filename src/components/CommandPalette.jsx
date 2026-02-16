@@ -5,6 +5,7 @@ import {
   Plus, Download, FileText, CornerDownLeft
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, shortcut: '1' },
@@ -45,6 +46,7 @@ export default function CommandPalette({
   const inputRef = useRef(null)
   const listRef = useRef(null)
   const { theme, toggleTheme } = useTheme()
+  const trapRef = useFocusTrap(isOpen && !isClosing)
 
   // Build search index from all data sources
   const searchIndex = useMemo(() => {
@@ -252,6 +254,7 @@ export default function CommandPalette({
 
       {/* Panel */}
       <div
+        ref={trapRef}
         className="cmd-palette-panel"
         role="dialog"
         aria-modal="true"

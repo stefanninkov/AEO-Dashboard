@@ -3,6 +3,7 @@ import { X, FileText, Download } from 'lucide-react'
 import { useToast } from './Toast'
 import { generatePdf } from '../utils/generatePdf'
 import { createActivity, appendActivity } from '../utils/activityLogger'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const SECTIONS = [
   { key: 'summary', label: 'Executive Summary', desc: 'Overall score & progress', default: true },
@@ -15,6 +16,7 @@ const SECTIONS = [
 
 export default function PdfExportDialog({ activeProject, phases, updateProject, onClose, isClosing, onExited }) {
   const { addToast } = useToast()
+  const trapRef = useFocusTrap(!isClosing)
   const [agencyName, setAgencyName] = useState('')
   const [reportDate, setReportDate] = useState(
     new Date().toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric' })
@@ -89,6 +91,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
 
       {/* Dialog */}
       <div
+        ref={trapRef}
         className="email-modal-panel"
         role="dialog"
         aria-modal="true"

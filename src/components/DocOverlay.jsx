@@ -1,6 +1,9 @@
 import { X } from 'lucide-react'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 export default function DocOverlay({ item, onClose, onExited, isClosing, phases }) {
+  const trapRef = useFocusTrap(!!item && !isClosing)
+
   if (!item && !isClosing) return null
 
   // Find phase info
@@ -39,6 +42,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases 
 
       {/* Panel — centered modal */}
       <div
+        ref={trapRef}
         className="relative w-full max-w-[45rem] max-h-[85vh] rounded-xl overflow-hidden flex flex-col"
         role="dialog"
         aria-modal="true"

@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { X, Mail, Send, Copy, Check } from 'lucide-react'
 import { generateEmailBody } from '../utils/generateReport'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 export default function EmailReportDialog({ metrics, projectName, dateRange, onClose, isClosing, onExited }) {
   const [email, setEmail] = useState('')
   const [copied, setCopied] = useState(false)
+  const trapRef = useFocusTrap(!isClosing)
 
   const body = generateEmailBody(metrics, projectName, dateRange)
   const subject = `AEO Metrics Report - ${projectName}`
@@ -46,6 +48,7 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
 
       {/* Dialog */}
       <div
+        ref={trapRef}
         className="email-modal-panel"
         role="dialog"
         aria-modal="true"

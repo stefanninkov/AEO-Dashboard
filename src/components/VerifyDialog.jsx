@@ -4,12 +4,14 @@ import {
   X, Zap, CheckCircle2, MinusCircle, XCircle,
   Loader2, AlertCircle, ShieldCheck, UserCheck
 } from 'lucide-react'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 export default function VerifyDialog({ item, projectUrl, onVerified, onCancel, isClosing, onExited }) {
   const [mode, setMode] = useState(null) // null | 'ai' | 'manual'
   const [loading, setLoading] = useState(false)
   const [aiResult, setAiResult] = useState(null)
   const [error, setError] = useState(null)
+  const trapRef = useFocusTrap(!!item && !isClosing)
 
   if (!item && !isClosing) return null
 
@@ -108,6 +110,7 @@ Search for and visit this website, then evaluate whether this specific item has 
 
       {/* Dialog */}
       <div
+        ref={trapRef}
         className="relative w-full max-w-lg rounded-xl overflow-hidden"
         role="dialog"
         aria-modal="true"

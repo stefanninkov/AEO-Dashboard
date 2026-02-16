@@ -8,6 +8,7 @@ import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
   GOAL_LABELS, MATURITY_LABELS, CONTENT_LABELS, ENGINE_LABELS,
 } from '../utils/getRecommendations'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const TOTAL_STEPS = 5
 
@@ -76,6 +77,7 @@ const MATURITY_OPTIONS = [
 export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }) {
   const [step, setStep] = useState(0)
   const [animating, setAnimating] = useState(false)
+  const trapRef = useFocusTrap(true)
   const [answers, setAnswers] = useState({
     industry: initialData?.industry || null,
     industryOther: initialData?.industryOther || '',
@@ -163,6 +165,7 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
 
       {/* Card */}
       <div
+        ref={trapRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="questionnaire-title"

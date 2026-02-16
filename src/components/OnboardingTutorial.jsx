@@ -3,6 +3,7 @@ import {
   Zap, ArrowRight, X, Compass, Search, CheckSquare, LayoutDashboard, Rocket,
   BarChart3, Users, GitBranch, BookOpen, FlaskConical, Settings, TrendingUp, Target
 } from 'lucide-react'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const STEPS = [
   // ── Getting Started ──
@@ -168,6 +169,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
   const [step, setStep] = useState(0)
   const [spotlightRect, setSpotlightRect] = useState(null)
   const [animating, setAnimating] = useState(false)
+  const trapRef = useFocusTrap(true)
 
   const currentStep = STEPS[step]
 
@@ -331,6 +333,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
 
       {/* Tutorial card */}
       <div
+        ref={trapRef}
         className="onboarding-card"
         role="dialog"
         aria-modal="true"

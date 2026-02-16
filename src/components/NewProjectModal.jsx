@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { X, Plus } from 'lucide-react'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 export default function NewProjectModal({ onClose, onCreate }) {
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
+  const trapRef = useFocusTrap(true)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -14,6 +16,7 @@ export default function NewProjectModal({ onClose, onCreate }) {
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
+        ref={trapRef}
         className="modal-panel"
         role="dialog"
         aria-modal="true"
