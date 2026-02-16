@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import { Plus, ArrowRight, CheckSquare, Zap, FlaskConical, TrendingUp, TrendingDown, Minus, FileText, MessageSquare, Globe, Target, BarChart3, Lightbulb } from 'lucide-react'
+import { Plus, Zap, FileText, MessageSquare, Globe, Target, BarChart3 } from 'lucide-react'
 import { getRecommendations } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
 import {
   LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer,
   XAxis, YAxis, Tooltip, CartesianGrid, Legend,
-  BarChart, Bar,
 } from 'recharts'
 import { PHASE_COLOR_ARRAY, PHASE_COLORS } from '../utils/chartColors'
+import StatCard from './dashboard/StatCard'
+import PhaseDonut from './dashboard/PhaseDonut'
+import RecommendationsPanel from './dashboard/RecommendationsPanel'
+import QuickActions from './dashboard/QuickActions'
 
 const SUB_TABS = [
   { id: 'overview', label: 'Overview' },
@@ -38,18 +41,6 @@ function CustomTooltip({ active, payload, label }) {
 export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName }) {
   const [subTab, setSubTab] = useState('overview')
 
-  const getProjectProgress = (project) => {
-    if (!phases) return { total: 0, checked: 0, percent: 0 }
-    let total = 0
-    phases.forEach(phase => {
-      phase.categories.forEach(cat => {
-        total += cat.items.length
-      })
-    })
-    const checked = Object.values(project.checked || {}).filter(Boolean).length
-    return { total, checked, percent: total > 0 ? Math.round((checked / total) * 100) : 0 }
-  }
-
   const getPhaseProgress = (phase) => {
     if (!activeProject) return { total: 0, checked: 0, percent: 0 }
     let total = 0, checked = 0
@@ -62,14 +53,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
     return { total, checked, percent: total > 0 ? Math.round((checked / total) * 100) : 0 }
   }
 
-  const totalProgress = activeProject ? getProjectProgress(activeProject) : { total: 0, checked: 0, percent: 0 }
-
   // Metrics data from project history
   const metricsHistory = activeProject?.metricsHistory || []
   const latestMetrics = metricsHistory.length > 0 ? metricsHistory[metricsHistory.length - 1] : null
   const prevMetrics = metricsHistory.length > 1 ? metricsHistory[metricsHistory.length - 2] : null
 
-  // Compute trends
   const calcTrend = (curr, prev) => {
     if (!curr || !prev || prev === 0) return 0
     return Math.round(((curr - prev) / prev) * 100 * 10) / 10
@@ -120,7 +108,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
     Citations: m.citations?.total || 0,
   }))
 
-  // Empty state helper
+  // Recommendations
+  const recommendations = activeProject?.questionnaire?.completedAt
+    ? getRecommendations(activeProject.questionnaire, setActiveView)
+    : []
+
   const EmptyState = ({ message }) => (
     <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>
       <BarChart3 size={28} style={{ color: 'var(--text-disabled)' }} />
@@ -174,145 +166,12 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           </div>
 
           {/* Donut Chart — Phase Progress */}
-          {activeProject && phases && (() => {
-            const phaseData = phases.map(phase => {
-              const prog = getPhaseProgress(phase)
-              return { ...phase, ...prog }
-            })
-            const totalItems = phaseData.reduce((s, p) => s + p.total, 0)
-            const totalDone = phaseData.reduce((s, p) => s + p.checked, 0)
-            const overallPercent = totalItems > 0 ? Math.round((totalDone / totalItems) * 100) : 0
-            const radius = 70
-            const circumference = 2 * Math.PI * radius
-
-            // Build segments
-            let offset = 0
-            const segments = phaseData.map(p => {
-              const fraction = totalItems > 0 ? p.checked / totalItems : 0
-              const length = fraction * circumference
-              const seg = { color: p.color, length, offset, title: p.title, checked: p.checked, total: p.total, percent: p.percent }
-              offset += length
-              return seg
-            })
-            // Remaining (unchecked) segment
-            const doneLength = segments.reduce((s, seg) => s + seg.length, 0)
-            const remainingLength = circumference - doneLength
-
-            return (
-              <div className="card" style={{ padding: '1.25rem', display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                {/* SVG Donut */}
-                <div style={{ flexShrink: 0 }}>
-                  <svg width="160" height="160" viewBox="0 0 160 160">
-                    {/* Background ring */}
-                    <circle cx="80" cy="80" r={radius} fill="none" stroke="var(--border-subtle)" strokeWidth="16" />
-                    {/* Phase segments */}
-                    {segments.map((seg, i) => seg.length > 0 && (
-                      <circle
-                        key={i}
-                        cx="80" cy="80" r={radius}
-                        fill="none"
-                        stroke={seg.color}
-                        strokeWidth="16"
-                        strokeDasharray={`${seg.length} ${circumference - seg.length}`}
-                        strokeDashoffset={-seg.offset}
-                        strokeLinecap="round"
-                        transform="rotate(-90 80 80)"
-                        style={{ transition: 'stroke-dasharray 500ms ease' }}
-                      />
-                    ))}
-                    {/* Center text */}
-                    <text x="80" y="74" textAnchor="middle" style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', fontWeight: 700, fill: 'var(--text-primary)' }}>
-                      {overallPercent}%
-                    </text>
-                    <text x="80" y="94" textAnchor="middle" style={{ fontFamily: 'var(--font-body)', fontSize: '11px', fill: 'var(--text-tertiary)' }}>
-                      Complete
-                    </text>
-                  </svg>
-                </div>
-
-                {/* Legend */}
-                <div style={{ flex: 1, minWidth: '10rem', display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-                  <div style={{
-                    fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
-                    textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
-                    marginBottom: '0.25rem',
-                  }}>
-                    Phase Progress
-                  </div>
-                  {phaseData.map(p => (
-                    <button
-                      key={p.id}
-                      onClick={() => setActiveView('checklist')}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: '0.5rem',
-                        padding: '0.25rem 0.375rem', borderRadius: '0.375rem',
-                        background: 'none', border: 'none', cursor: 'pointer',
-                        transition: 'background 150ms', textAlign: 'left', width: '100%',
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
-                      onMouseLeave={e => e.currentTarget.style.background = 'none'}
-                    >
-                      <span style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: p.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', flex: 1 }}>{p.title}</span>
-                      <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', fontFamily: 'var(--font-heading)' }}>
-                        {p.checked}/{p.total}
-                      </span>
-                      <span style={{ fontSize: '0.6875rem', color: p.percent === 100 ? 'var(--color-success)' : 'var(--text-tertiary)', fontWeight: 600, fontFamily: 'var(--font-heading)', minWidth: '2rem', textAlign: 'right' }}>
-                        {p.percent}%
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )
-          })()}
+          {activeProject && phases && (
+            <PhaseDonut phases={phases} getPhaseProgress={getPhaseProgress} onNavigate={() => setActiveView('checklist')} />
+          )}
 
           {/* Personalized Recommendations */}
-          {activeProject?.questionnaire?.completedAt && (() => {
-            const recs = getRecommendations(activeProject.questionnaire, setActiveView)
-            if (recs.length === 0) return null
-            return (
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.875rem' }}>
-                  <Lightbulb size={16} style={{ color: 'var(--color-phase-5)' }} />
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                    Recommended Next Steps
-                  </h3>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {recs.map(rec => (
-                    <div
-                      key={rec.id}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: '0.75rem',
-                        padding: '0.625rem 0.875rem', borderRadius: '0.625rem',
-                        background: 'var(--hover-bg)',
-                        border: '1px solid var(--border-subtle)',
-                      }}
-                    >
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{rec.text}</p>
-                        <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{rec.detail}</p>
-                      </div>
-                      <button
-                        onClick={rec.action}
-                        style={{
-                          padding: '0.375rem 0.75rem', borderRadius: '0.5rem', border: 'none',
-                          background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
-                          fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer',
-                          fontFamily: 'var(--font-body)', whiteSpace: 'nowrap',
-                          transition: 'all 150ms',
-                        }}
-                      >
-                        {rec.actionLabel}
-                        <ArrowRight size={11} style={{ marginLeft: '0.25rem', verticalAlign: 'middle' }} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )
-          })()}
+          <RecommendationsPanel recommendations={recommendations} />
 
           {/* Charts Row */}
           {latestMetrics && (
@@ -406,24 +265,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             <ActivityTimeline activities={activeProject?.activityLog || []} />
           </div>
 
-          {/* Quick Actions */}
-          <div className="quick-actions-grid">
-            <button className="quick-action-card" onClick={() => setActiveView('checklist')}>
-              <CheckSquare size={24} className="text-phase-3" style={{ margin: '0 auto 0.625rem' }} />
-              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Open Checklist</p>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Track your AEO tasks</p>
-            </button>
-            <button className="quick-action-card" onClick={() => setActiveView('analyzer')}>
-              <Zap size={24} className="text-phase-1" style={{ margin: '0 auto 0.625rem' }} />
-              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Run Analyzer</p>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Scan your site for AEO</p>
-            </button>
-            <button className="quick-action-card" onClick={() => setActiveView('testing')}>
-              <FlaskConical size={24} className="text-phase-5" style={{ margin: '0 auto 0.625rem' }} />
-              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Start Testing</p>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Test across AI platforms</p>
-            </button>
-          </div>
+          <QuickActions setActiveView={setActiveView} />
         </>
       )}
 
@@ -432,14 +274,12 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         <>
           {latestMetrics ? (
             <>
-              {/* Citation stat cards */}
               <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
                 <StatCard label="Total Citations" value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
                 <StatCard label="Active AI Engines" value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
                 <StatCard label="AEO Score" value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
               </div>
 
-              {/* Full-width citations line chart */}
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Citations Over Time
@@ -461,7 +301,6 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 )}
               </div>
 
-              {/* Engine breakdown table */}
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Citations by AI Engine
@@ -511,13 +350,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         <>
           {latestMetrics ? (
             <>
-              {/* Prompts stat cards */}
               <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
                 <StatCard label="Total Prompts" value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
                 <StatCard label="AEO Score" value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
               </div>
 
-              {/* Full-width prompts line chart */}
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Prompts Over Time
@@ -539,7 +376,6 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 )}
               </div>
 
-              {/* Top prompts / categories */}
               {topPrompts.length > 0 && (
                 <div className="card" style={{ padding: '1.25rem' }}>
                   <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
@@ -574,13 +410,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         <>
           {latestMetrics ? (
             <>
-              {/* Chatbot stat cards */}
               <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
                 <StatCard label="Active AI Engines" value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
                 <StatCard label="Total Citations" value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
               </div>
 
-              {/* Full-width pie chart */}
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   AI Engine Distribution
@@ -612,7 +446,6 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 )}
               </div>
 
-              {/* Engine details table */}
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
                   Engine Details
@@ -641,7 +474,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         </>
       )}
 
-      {/* No project empty state (shows on all tabs) */}
+      {/* No project empty state */}
       {!activeProject && projects.length === 0 && (
         <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
           <Zap size={32} className="text-phase-1" style={{ marginBottom: '1rem' }} />
@@ -653,43 +486,6 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             <Plus size={14} />
             Create Project
           </button>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function StatCard({ label, value, trend, icon, iconColor }) {
-  return (
-    <div className="stat-card">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.625rem' }}>
-        <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>{label}</span>
-        <div style={{
-          width: '2.125rem', height: '2.125rem', borderRadius: '0.5625rem', display: 'flex',
-          alignItems: 'center', justifyContent: 'center',
-          background: iconColor + '18', color: iconColor,
-        }}>
-          {icon}
-        </div>
-      </div>
-      <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.75rem', fontWeight: 700, lineHeight: 1, color: 'var(--text-primary)' }}>
-        {value}
-      </div>
-      {trend !== null && trend !== undefined && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.5rem' }}>
-          {trend > 0 ? (
-            <TrendingUp size={12} style={{ color: 'var(--color-success)' }} />
-          ) : trend < 0 ? (
-            <TrendingDown size={12} style={{ color: 'var(--color-error)' }} />
-          ) : (
-            <Minus size={12} style={{ color: 'var(--text-tertiary)' }} />
-          )}
-          <span style={{
-            fontSize: '0.6875rem', fontWeight: 500,
-            color: trend > 0 ? 'var(--color-success)' : trend < 0 ? 'var(--color-error)' : 'var(--text-tertiary)',
-          }}>
-            {trend > 0 ? '+' : ''}{trend}% vs last period
-          </span>
         </div>
       )}
     </div>
