@@ -119,9 +119,23 @@ function LoadingScreen() {
 /* ── Portal View (lazy — only loads if ?share= is in URL) ── */
 const PortalView = lazy(() => import('./views/PortalView'))
 
+/* ── Landing Page (lazy — only loads at root path, no auth required) ── */
+const LandingPage = lazy(() => import('./views/LandingPage'))
+
+/** Detect whether the current URL targets the dashboard app (vs landing page) */
+function isAppPath() {
+  const p = window.location.pathname
+  const s = window.location.search
+  // Direct path: /AEO-Dashboard/app
+  if (p.includes('/app')) return true
+  // 404.html redirect format: /?/app
+  if (s.startsWith('?/app')) return true
+  return false
+}
+
 /* ── Main App ── */
 export default function App() {
-  // Check for share link BEFORE auth — portal needs no login
+  // 1. Share link — portal needs no login
   const shareToken = new URLSearchParams(window.location.search).get('share')
   if (shareToken) {
     return (
@@ -131,6 +145,21 @@ export default function App() {
     )
   }
 
+  // 2. Landing page — root path, no auth required
+  if (!isAppPath()) {
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        <LandingPage />
+      </Suspense>
+    )
+  }
+
+  // 3. Dashboard app — needs auth
+  return <DashboardApp />
+}
+
+/** Extracted so useAuth() only runs when dashboard is active (hooks rules compliance) */
+function DashboardApp() {
   const { user, loading: authLoading, signIn, signUp, signInWithGoogle, signOut, error: authError, clearError } = useAuth()
 
   if (authLoading) return <LoadingScreen />
