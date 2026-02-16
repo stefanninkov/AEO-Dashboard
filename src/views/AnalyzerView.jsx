@@ -13,7 +13,7 @@ function SkeletonLoader() {
   return (
     <div className="space-y-6 fade-in-up">
       {/* Score skeleton */}
-      <div className="rounded-xl p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+      <div className="analyzer-results-card">
         <div className="flex items-center justify-between mb-4">
           <div className="space-y-2">
             <div className="skeleton h-5 w-24" />
@@ -26,13 +26,13 @@ function SkeletonLoader() {
       </div>
       {/* Category skeletons */}
       {[1, 2, 3, 4].map(i => (
-        <div key={i} className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', animationDelay: `${i * 80}ms` }}>
-          <div className="px-5 py-3" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+        <div key={i} className="analyzer-category-card" style={{ animationDelay: `${i * 80}ms` }}>
+          <div className="analyzer-category-header">
             <div className="skeleton h-4 w-32" />
           </div>
-          <div style={{ borderColor: 'var(--border-subtle)' }} className="divide-y">
+          <div>
             {[1, 2, 3, 4].map(j => (
-              <div key={j} className="flex items-center gap-3 px-5 py-3">
+              <div key={j} className="analyzer-category-item">
                 <div className="skeleton h-4 w-4 rounded-full" />
                 <div className="flex-1 space-y-1.5">
                   <div className="skeleton h-4 w-2/3" />
@@ -338,20 +338,20 @@ Return ONLY valid JSON:
 
       {/* API Key */}
       {showApiKey && (
-        <div className="rounded-xl p-4 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid color-mix(in srgb, var(--color-phase-5) 20%, transparent)' }}>
-          <p className="text-[0.8125rem] text-text-secondary mb-2">Enter your Anthropic API key to use the analyzer:</p>
-          <div className="flex gap-2">
+        <div className="analyzer-api-card analyzer-api-card-accent fade-in-up">
+          <h3 className="analyzer-api-title">API Key Required</h3>
+          <p className="text-[0.8125rem] text-text-secondary mb-3">Enter your Anthropic API key to use the analyzer:</p>
+          <div className="analyzer-url-row">
             <input
               type="password"
               placeholder="sk-ant-..."
               value={apiKey}
               onChange={e => setApiKey(e.target.value)}
-              className="flex-1 rounded-lg px-3 py-2 text-[0.8125rem] text-text-primary outline-none transition-colors duration-150"
-              style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
+              className="analyzer-url-input"
             />
             <button
               onClick={() => saveApiKey(apiKey)}
-              className="px-4 py-2 bg-phase-1 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150"
+              className="metrics-run-btn"
             >
               Save
             </button>
@@ -361,23 +361,19 @@ Return ONLY valid JSON:
       )}
 
       {/* Mode Toggle */}
-      <div className="flex gap-2">
+      <div className="analyzer-mode-tabs">
         <button
           onClick={() => setMode('url')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[0.8125rem] font-medium transition-all duration-150 ${
-            mode === 'url' ? 'bg-phase-1 text-white' : 'text-text-secondary hover:text-text-primary'
-          }`}
-          style={mode !== 'url' ? { background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' } : {}}
+          className={`analyzer-mode-tab ${mode === 'url' ? 'active' : ''}`}
+          style={mode === 'url' ? { backgroundColor: 'var(--color-phase-1)' } : {}}
         >
           <Globe size={14} />
           URL Scan
         </button>
         <button
           onClick={() => setMode('webflow')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[0.8125rem] font-medium transition-all duration-150 ${
-            mode === 'webflow' ? 'bg-phase-2 text-white' : 'text-text-secondary hover:text-text-primary'
-          }`}
-          style={mode !== 'webflow' ? { background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' } : {}}
+          className={`analyzer-mode-tab ${mode === 'webflow' ? 'active' : ''}`}
+          style={mode === 'webflow' ? { backgroundColor: 'var(--color-phase-2)' } : {}}
         >
           <Link2 size={14} />
           Webflow Connect
@@ -394,20 +390,19 @@ Return ONLY valid JSON:
 
       {/* URL Mode */}
       {mode === 'url' && (
-        <div className="flex gap-2">
+        <div className="analyzer-url-row">
           <input
             type="text"
             placeholder="https://example.com"
             value={url}
             onChange={e => setUrl(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && analyzeUrl()}
-            className="flex-1 rounded-lg px-4 py-2.5 text-[0.8125rem] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
-            style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
+            className="analyzer-url-input"
           />
           <button
             onClick={analyzeUrl}
             disabled={loading || !url.trim()}
-            className="px-6 py-2.5 bg-phase-1 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
+            className="metrics-run-btn"
           >
             {loading ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
             Analyze
@@ -417,7 +412,7 @@ Return ONLY valid JSON:
 
       {/* Webflow Mode */}
       {mode === 'webflow' && (
-        <div className="rounded-xl p-5 space-y-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="analyzer-api-card space-y-4">
           <div className="flex items-center justify-between">
             <p className="text-[0.8125rem] text-text-secondary">Connect to Webflow to analyze your sites directly.</p>
             <button
@@ -470,12 +465,12 @@ Return ONLY valid JSON:
 
       {/* No results empty state */}
       {!results && !loading && !error && (
-        <div className="flex flex-col items-center justify-center py-14 rounded-xl fade-in-up" style={{ border: '2px dashed var(--border-subtle)' }}>
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--hover-bg)' }}>
+        <div className="analyzer-empty-card fade-in-up">
+          <div className="analyzer-empty-icon">
             <Search size={28} className="text-text-tertiary" />
           </div>
-          <h3 className="font-heading text-base font-bold mb-1">Ready to analyze</h3>
-          <p className="text-sm text-text-tertiary text-center max-w-xs">
+          <h3 className="analyzer-empty-title">Ready to analyze</h3>
+          <p className="analyzer-empty-text">
             Enter a URL or connect to Webflow to analyze your site's AEO readiness.
           </p>
         </div>
@@ -493,7 +488,7 @@ function AnalysisResults({ results }) {
   return (
     <div className="space-y-6">
       {/* Score Card */}
-      <div className="rounded-xl p-6 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+      <div className="analyzer-results-card fade-in-up">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="font-heading text-base font-bold">AEO Score</h3>
@@ -522,18 +517,18 @@ function AnalysisResults({ results }) {
       {results.categories?.map((category, catIdx) => (
         <div
           key={catIdx}
-          className="rounded-xl overflow-hidden fade-in-up"
-          style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', animationDelay: `${(catIdx + 1) * 80}ms` }}
+          className="analyzer-category-card fade-in-up"
+          style={{ animationDelay: `${(catIdx + 1) * 80}ms` }}
         >
-          <div className="px-5 py-3" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+          <div className="analyzer-category-header">
             <h3 className="font-heading text-sm font-bold">{category.name}</h3>
           </div>
-          <div className="divide-y" style={{ borderColor: 'var(--border-subtle)' }}>
+          <div>
             {category.items?.map((item, itemIdx) => {
               const config = STATUS_CONFIG[item.status] || STATUS_CONFIG.fail
               const Icon = config.icon
               return (
-                <div key={itemIdx} className="flex items-start gap-3 px-5 py-3 transition-colors">
+                <div key={itemIdx} className="analyzer-category-item">
                   <Icon size={16} className={`${config.color} flex-shrink-0 mt-0.5`} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium">{item.name}</p>
@@ -551,7 +546,7 @@ function AnalysisResults({ results }) {
 
       {/* Top Priorities */}
       {results.topPriorities?.length > 0 && (
-        <div className="rounded-xl p-5 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid color-mix(in srgb, var(--color-phase-5) 30%, transparent)', animationDelay: '400ms' }}>
+        <div className="analyzer-priorities-card fade-in-up" style={{ animationDelay: '400ms' }}>
           <h3 className="font-heading text-sm font-bold mb-3 text-phase-5">Top Priorities</h3>
           <div className="space-y-2">
             {results.topPriorities.map((priority, idx) => (

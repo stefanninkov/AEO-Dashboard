@@ -4,7 +4,6 @@ import { Search, BookOpen, ChevronRight } from 'lucide-react'
 export default function DocsView({ phases, setDocItem }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedPhase, setSelectedPhase] = useState(null)
-  const [searchFocused, setSearchFocused] = useState(false)
 
   const allDocs = phases.flatMap(phase =>
     phase.categories.flatMap(cat =>
@@ -14,6 +13,7 @@ export default function DocsView({ phases, setDocItem }) {
         phaseNumber: phase.number,
         phaseTitle: phase.title,
         phaseColor: phase.color,
+        phaseIcon: phase.icon,
         categoryName: cat.name,
       }))
     )
@@ -32,6 +32,14 @@ export default function DocsView({ phases, setDocItem }) {
     return matchesSearch && matchesPhase
   })
 
+  /* Group filtered docs by phase */
+  const groupedByPhase = phases
+    .map(phase => ({
+      ...phase,
+      docs: filteredDocs.filter(d => d.phaseId === phase.id),
+    }))
+    .filter(group => group.docs.length > 0)
+
   return (
     <div className="space-y-6">
       <div>
@@ -40,28 +48,23 @@ export default function DocsView({ phases, setDocItem }) {
       </div>
 
       {/* Search */}
-      <div className="relative">
-        <Search size={14} className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200 ${searchFocused ? 'text-phase-3' : 'text-text-disabled'}`} />
+      <div className="docs-search-wrap">
+        <Search size={14} className="docs-search-icon" />
         <input
           type="text"
           placeholder="Search documentation..."
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
-          onFocus={() => setSearchFocused(true)}
-          onBlur={() => setSearchFocused(false)}
-          className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
-          style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
+          className="docs-search-input"
         />
       </div>
 
       {/* Phase Filter */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="docs-filter-bar">
         <button
           onClick={() => setSelectedPhase(null)}
-          className={`px-3 py-1.5 rounded-lg text-[0.6875rem] font-medium transition-all duration-150 ${
-            !selectedPhase ? 'bg-phase-1 text-white' : 'text-text-secondary hover:text-text-primary'
-          }`}
-          style={selectedPhase ? { background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' } : {}}
+          className={`docs-filter-pill${!selectedPhase ? ' active' : ''}`}
+          style={!selectedPhase ? { backgroundColor: 'var(--color-phase-1)' } : undefined}
         >
           All Phases
         </button>
@@ -69,12 +72,8 @@ export default function DocsView({ phases, setDocItem }) {
           <button
             key={phase.id}
             onClick={() => setSelectedPhase(selectedPhase === phase.id ? null : phase.id)}
-            className={`px-3 py-1.5 rounded-lg text-[0.6875rem] font-medium transition-all duration-150 ${
-              selectedPhase === phase.id
-                ? 'text-white'
-                : 'text-text-secondary hover:text-text-primary'
-            }`}
-            style={selectedPhase === phase.id ? { backgroundColor: phase.color } : { background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
+            className={`docs-filter-pill${selectedPhase === phase.id ? ' active' : ''}`}
+            style={selectedPhase === phase.id ? { backgroundColor: phase.color } : undefined}
           >
             {phase.icon} Phase {phase.number}
           </button>
@@ -82,44 +81,47 @@ export default function DocsView({ phases, setDocItem }) {
       </div>
 
       {/* Doc count */}
-      <p className="text-[0.6875rem] text-text-tertiary">
+      <p className="docs-count">
         Showing {filteredDocs.length} of {allDocs.length} documents
       </p>
 
-      {/* Doc List */}
-      <div className="space-y-2">
-        {filteredDocs.map((doc, idx) => (
-          <button
-            key={doc.id}
-            onClick={() => setDocItem(doc)}
-            className="w-full text-left rounded-xl p-4 transition-all duration-200 group fade-in-up"
-            style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', animationDelay: `${Math.min(idx * 30, 600)}ms` }}
-          >
-            <div className="flex items-start gap-3">
-              <BookOpen size={14} className="text-text-tertiary group-hover:text-phase-3 transition-colors flex-shrink-0 mt-0.5" />
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
+      {/* Doc List - grouped by phase */}
+      {groupedByPhase.map(phase => (
+        <div key={phase.id} className="docs-phase-group">
+          <div className="docs-phase-header">
+            <span className="docs-phase-icon">{phase.icon}</span>
+            <span className="docs-phase-label">Phase {phase.number}: {phase.title}</span>
+            <span className="docs-phase-count">{phase.docs.length} {phase.docs.length === 1 ? 'doc' : 'docs'}</span>
+          </div>
+          {phase.docs.map(doc => (
+            <button
+              key={doc.id}
+              onClick={() => setDocItem(doc)}
+              className="docs-item"
+            >
+              <BookOpen size={14} className="docs-item-icon" />
+              <div className="docs-item-content">
+                <div className="docs-item-meta">
                   <span
-                    className="text-[0.625rem] font-heading font-bold px-1.5 py-0.5 rounded"
+                    className="docs-item-badge"
                     style={{ color: doc.phaseColor, backgroundColor: doc.phaseColor + '12' }}
                   >
                     P{doc.phaseNumber}
                   </span>
-                  <span className="text-[0.6875rem] text-text-tertiary">{doc.categoryName}</span>
+                  <span className="docs-item-category">{doc.categoryName}</span>
                 </div>
-                <p className="text-[0.8125rem] font-medium text-text-primary">{doc.doc.title}</p>
-                <p className="text-[0.6875rem] text-text-tertiary mt-1 truncate">{doc.detail}</p>
-                <p className="text-[0.6875rem] text-text-tertiary mt-1">{doc.doc.sections.length} sections</p>
+                <div className="docs-item-title">{doc.doc.title}</div>
+                <div className="docs-item-desc">{doc.detail}</div>
               </div>
-              <ChevronRight size={14} className="text-text-disabled group-hover:text-text-tertiary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
-            </div>
-          </button>
-        ))}
-      </div>
+              <ChevronRight size={14} className="docs-item-arrow" />
+            </button>
+          ))}
+        </div>
+      ))}
 
       {/* Empty State */}
       {filteredDocs.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-14 rounded-xl fade-in-up" style={{ border: '1px dashed var(--border-default)' }}>
+        <div className="docs-empty">
           <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
             <BookOpen size={20} className="text-text-tertiary" />
           </div>

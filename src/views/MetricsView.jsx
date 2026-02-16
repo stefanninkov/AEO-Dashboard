@@ -204,17 +204,17 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="metrics-header">
         <div>
-          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.3px] text-text-primary">AEO Metrics</h2>
-          <p className="text-[0.8125rem] text-text-tertiary mt-0.5">
+          <h2 className="view-title">AEO Metrics</h2>
+          <p className="view-subtitle">
             {activeProject.name} — {activeProject.url || 'No URL set'}
           </p>
         </div>
         <button
           onClick={fetchMetrics}
           disabled={refreshing || !activeProject.url}
-          className="flex items-center gap-2 px-4 py-2 bg-phase-1 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50"
+          className="metrics-run-btn"
         >
           {refreshing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
           {refreshing ? 'Analyzing...' : 'Run Analysis'}
@@ -223,7 +223,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
 
       {/* Progress */}
       {refreshing && (
-        <div className="rounded-xl p-4 fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="metrics-progress-card fade-in-up">
           <div className="flex items-center gap-3 mb-2">
             <Loader2 size={14} className="text-phase-1 animate-spin" />
             <span className="text-[0.8125rem] font-medium text-text-primary">{progress.stage}</span>
@@ -246,18 +246,13 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
         </div>
       )}
 
-      {/* Tabs */}
-      <div className="flex gap-1 rounded-lg p-1" style={{ background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
+      {/* Tabs - Segmented Control */}
+      <div className="metrics-tabs">
         {TABS.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 py-2 px-3 text-[0.8125rem] font-medium rounded-lg transition-all duration-150 ${
-              activeTab === tab.id
-                ? 'text-text-primary'
-                : 'text-text-tertiary hover:text-text-secondary'
-            }`}
-            style={activeTab === tab.id ? { background: 'var(--bg-card)' } : {}}
+            className={`metrics-tab ${activeTab === tab.id ? 'active' : ''}`}
           >
             {tab.label}
           </button>
@@ -266,8 +261,10 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
 
       {/* Tab Content */}
       {!metrics && !refreshing ? (
-        <div className="flex flex-col items-center justify-center py-16 rounded-xl fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-          <BarChart3 size={40} className="text-text-tertiary mb-4" />
+        <div className="metrics-empty-card fade-in-up">
+          <div className="metrics-empty-icon">
+            <BarChart3 size={24} className="text-text-tertiary" />
+          </div>
           <h3 className="font-heading text-base font-bold mb-2">No Metrics Data Yet</h3>
           <p className="text-sm text-text-tertiary mb-4 text-center max-w-sm">
             Click "Run Analysis" to fetch real-time AEO metrics for your project using AI-powered analysis.
@@ -275,6 +272,14 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
           {!activeProject.url && (
             <p className="text-xs text-warning">Set a project URL first in the project settings.</p>
           )}
+          <button
+            onClick={fetchMetrics}
+            disabled={refreshing || !activeProject.url}
+            className="metrics-run-btn mt-2"
+          >
+            <RefreshCw size={14} />
+            Run Analysis
+          </button>
         </div>
       ) : metrics && (
         <div className="space-y-6">
@@ -331,7 +336,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Citations by Engine */}
-        <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="metrics-chart-card">
           <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Citations by AI Engine</h3>
           {metrics.citations?.byEngine?.length > 0 ? (
             <BarChart
@@ -348,7 +353,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
         </div>
 
         {/* AEO Score Gauge */}
-        <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="metrics-chart-card">
           <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Overall AEO Score</h3>
           <div className="flex flex-col items-center justify-center py-4">
             <div className="relative w-40 h-40">
@@ -377,7 +382,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
 
       {/* Page Performance Table */}
       {metrics.pages?.length > 0 && (
-        <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="metrics-chart-card">
           <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Page Performance</h3>
           <DataTable
             columns={[
@@ -398,7 +403,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
 
       {/* History trend */}
       {rangeMetrics.length > 1 && (
-        <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="metrics-chart-card">
           <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Score Trend</h3>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={rangeMetrics.slice(-14).map(m => ({
@@ -447,7 +452,7 @@ function CitationsTab({ metrics }) {
       </div>
 
       {/* Engine breakdown */}
-      <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+      <div className="metrics-chart-card">
         <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Citations by AI Engine</h3>
         <div className="space-y-3">
           {metrics.citations?.byEngine?.sort((a, b) => b.citations - a.citations).map((engine, i) => (
@@ -465,7 +470,7 @@ function CitationsTab({ metrics }) {
 
       {/* Page table */}
       {metrics.pages?.length > 0 && (
-        <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="metrics-chart-card">
           <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Page Citations</h3>
           <DataTable
             columns={[
@@ -510,7 +515,7 @@ function PromptsTab({ metrics }) {
       </div>
 
       {metrics.prompts?.byCategory?.length > 0 && (
-        <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="metrics-chart-card">
           <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Query Categories</h3>
           <div className="space-y-3">
             {metrics.prompts.byCategory.sort((a, b) => b.volume - a.volume).map((cat, i) => (
@@ -527,7 +532,7 @@ function PromptsTab({ metrics }) {
       )}
 
       {(!metrics.prompts?.byCategory?.length) && (
-        <div className="rounded-xl p-8 text-center" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+        <div className="metrics-chart-card text-center" style={{ padding: '2rem' }}>
           <MessageSquare size={32} className="text-text-tertiary mx-auto mb-3" />
           <p className="text-sm text-text-tertiary">Add queries to your Query Tracker in the Testing tab to see prompt analytics.</p>
         </div>
@@ -545,7 +550,7 @@ function EnginesTab({ metrics, questionnaire }) {
   return (
     <div className="space-y-6">
       {/* Pie chart + legend */}
-      <div className="rounded-xl p-5 shadow-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+      <div className="metrics-chart-card">
         <h3 className="font-heading text-sm font-bold mb-6">Market Share by AI Engine</h3>
         {engines.length > 0 ? (
           <PieChart
@@ -566,7 +571,7 @@ function EnginesTab({ metrics, questionnaire }) {
         {filteredEngines.map((engine, i) => {
           const data = metrics.citations?.byEngine?.find(e => e.engine === engine.name)
           return (
-            <div key={engine.name} className="rounded-xl p-4 shadow-sm fade-in-up" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', animationDelay: `${i * 40}ms` }}>
+            <div key={engine.name} className="metrics-chart-card fade-in-up" style={{ animationDelay: `${i * 40}ms` }}>
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: engine.color }}>
                   <Globe size={14} className="text-white" />

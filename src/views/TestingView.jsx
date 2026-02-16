@@ -213,25 +213,25 @@ export default function TestingView({ activeProject, updateProject }) {
       </div>
 
       {/* AEO Visibility Score */}
-      <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="font-heading text-[0.625rem] font-bold uppercase tracking-[0.075rem] text-text-tertiary">AEO Visibility Score</h3>
-          <span className={`font-mono text-[1.75rem] font-bold ${
+      <div className="testing-score-card">
+        <div className="testing-score-header">
+          <h3 className="testing-score-label">AEO Visibility Score</h3>
+          <span className={`testing-score-value ${
             visibilityScore >= 70 ? 'text-success' : visibilityScore >= 40 ? 'text-warning' : 'text-error'
           }`}>
             {visibilityScore}%
           </span>
         </div>
-        <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--hover-bg)' }}>
+        <div className="testing-score-bar">
           <div
-            className="h-full rounded-full transition-all duration-500"
+            className="testing-score-fill"
             style={{
               width: `${visibilityScore}%`,
               backgroundColor: visibilityScore >= 70 ? 'var(--color-success)' : visibilityScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)',
             }}
           />
         </div>
-        <p className="text-[0.6875rem] text-text-tertiary mt-2">Based on {queryTracker.length} tracked queries across {PLATFORMS.length} platforms</p>
+        <p className="testing-score-note">Based on {queryTracker.length} tracked queries across {PLATFORMS.length} platforms</p>
       </div>
 
       {/* Auto Monitor */}
@@ -595,23 +595,23 @@ export default function TestingView({ activeProject, updateProject }) {
 
 function CollapsibleSection({ title, subtitle, icon, expanded, onToggle, children }) {
   return (
-    <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+    <div className="testing-section-card">
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-5 py-4 transition-colors duration-150"
+        className="testing-section-header"
       >
-        {icon}
-        <div className="flex-1 text-left">
-          <h3 className="font-heading text-[0.8125rem] font-bold text-text-primary">{title}</h3>
-          <p className="text-[0.6875rem] text-text-tertiary">{subtitle}</p>
+        <span className="testing-section-header-icon">{icon}</span>
+        <div className="testing-section-header-content">
+          <h3 className="testing-section-title">{title}</h3>
+          <p className="testing-section-subtitle">{subtitle}</p>
         </div>
         <ChevronDown
           size={14}
-          className={`text-text-tertiary transition-transform duration-200 ${expanded ? '' : '-rotate-90'}`}
+          className={`testing-section-chevron ${expanded ? 'expanded' : 'collapsed'}`}
         />
       </button>
       <CollapsibleContent expanded={expanded}>
-        <div className="px-5 pb-5 pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div className="testing-section-body">
           {children}
         </div>
       </CollapsibleContent>
