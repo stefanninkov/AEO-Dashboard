@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Clock, Calendar, Plus, Trash2, ExternalLink,
   CheckCircle2, XCircle, MinusCircle, ChevronDown, Search,
   Activity, Zap, Loader2, AlertCircle
 } from 'lucide-react'
-import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useAutoMonitor } from '../hooks/useAutoMonitor'
 import { getFilteredPlatforms } from '../utils/getRecommendations'
+import CollapsibleContent from '../components/shared/CollapsibleContent'
 
 const ALL_PLATFORMS = ['ChatGPT', 'Perplexity', 'Google AIO', 'Bing Copilot', 'Claude']
 
@@ -41,59 +41,6 @@ const STATUS_OPTIONS = [
   { value: 'partial', label: 'Partial', color: 'text-warning' },
   { value: 'not_cited', label: 'Not Cited', color: 'text-error' },
 ]
-
-/* ── Animated Collapsible ── */
-function CollapsibleContent({ expanded, children }) {
-  const contentRef = useRef(null)
-  const [height, setHeight] = useState(expanded ? 'auto' : 0)
-  const [overflow, setOverflow] = useState(expanded ? 'visible' : 'hidden')
-  const reducedMotion = useReducedMotion()
-  const isFirstRender = useRef(true)
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      if (expanded) {
-        setHeight('auto')
-        setOverflow('visible')
-      }
-      return
-    }
-
-    if (expanded) {
-      const h = contentRef.current?.scrollHeight || 0
-      setHeight(h + 'px')
-      setOverflow('hidden')
-      const timer = setTimeout(() => {
-        setHeight('auto')
-        setOverflow('visible')
-      }, reducedMotion ? 0 : 250)
-      return () => clearTimeout(timer)
-    } else {
-      const h = contentRef.current?.scrollHeight || 0
-      setHeight(h + 'px')
-      setOverflow('hidden')
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setHeight('0px')
-        })
-      })
-    }
-  }, [expanded, reducedMotion])
-
-  return (
-    <div
-      ref={contentRef}
-      style={{
-        height: height === 'auto' ? 'auto' : height,
-        overflow,
-        transition: reducedMotion ? 'none' : 'height 250ms ease-out',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
 
 export default function TestingView({ activeProject, updateProject }) {
   const [newQuery, setNewQuery] = useState('')

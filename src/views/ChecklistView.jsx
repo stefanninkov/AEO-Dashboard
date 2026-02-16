@@ -1,64 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
-import { ChevronDown, ChevronRight, Search, BookOpen, Info, CheckCircle2, ListChecks, Star, StickyNote } from 'lucide-react'
-import { useReducedMotion } from '../hooks/useReducedMotion'
+import { Search, CheckCircle2 } from 'lucide-react'
 import { useToast } from '../components/Toast'
-import AnimatedNumber from '../components/AnimatedNumber'
 import VerifyDialog from '../components/VerifyDialog'
 import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendations'
 import { createActivity, appendActivity } from '../utils/activityLogger'
-
-/* ── Animated Collapsible ── */
-function CollapsibleContent({ expanded, children }) {
-  const contentRef = useRef(null)
-  const [height, setHeight] = useState(expanded ? 'auto' : 0)
-  const [overflow, setOverflow] = useState(expanded ? 'visible' : 'hidden')
-  const reducedMotion = useReducedMotion()
-  const isFirstRender = useRef(true)
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      if (expanded) {
-        setHeight('auto')
-        setOverflow('visible')
-      }
-      return
-    }
-
-    if (expanded) {
-      const h = contentRef.current?.scrollHeight || 0
-      setHeight(h + 'px')
-      setOverflow('hidden')
-      const timer = setTimeout(() => {
-        setHeight('auto')
-        setOverflow('visible')
-      }, reducedMotion ? 0 : 250)
-      return () => clearTimeout(timer)
-    } else {
-      const h = contentRef.current?.scrollHeight || 0
-      setHeight(h + 'px')
-      setOverflow('hidden')
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setHeight('0px')
-        })
-      })
-    }
-  }, [expanded, reducedMotion])
-
-  return (
-    <div
-      ref={contentRef}
-      style={{
-        height: height === 'auto' ? 'auto' : height,
-        overflow,
-        transition: reducedMotion ? 'none' : 'height 250ms ease-out',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
+import ChecklistStats from './checklist/ChecklistStats'
+import PhaseCard from './checklist/PhaseCard'
 
 export default function ChecklistView({ phases, activeProject, toggleCheckItem, setActiveView, setDocItem, updateProject }) {
   const firstPriority = getFirstPriorityPhase(activeProject?.questionnaire)
@@ -90,10 +37,11 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const notes = activeProject?.notes || {}
   const noteTimestamps = activeProject?.noteTimestamps || {}
 
+  // ── Handlers ──
+
   const handleToggle = (itemId, item, phaseNumber) => {
     if (checked[itemId]) {
       toggleCheckItem(itemId)
-      // Log uncheck activity
       const entry = createActivity('uncheck', { taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber })
       updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     } else {
@@ -108,7 +56,6 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     }
     updateProject(activeProject.id, { verifications: newVerifications })
     toggleCheckItem(verifyItem.id)
-    // Log check activity
     const entry = createActivity('check', { taskId: verifyItem.id, taskText: verifyItem.text.slice(0, 80), phase: verifyItem._phaseNumber })
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     setBouncingId(verifyItem.id)
@@ -116,14 +63,8 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     handleCloseVerify()
   }
 
-  const handleCloseVerify = () => {
-    setVerifyClosing(true)
-  }
-
-  const handleVerifyExited = () => {
-    setVerifyClosing(false)
-    setVerifyItem(null)
-  }
+  const handleCloseVerify = () => { setVerifyClosing(true) }
+  const handleVerifyExited = () => { setVerifyClosing(false); setVerifyItem(null) }
 
   // Notes handlers
   const saveNote = (itemId, text) => {
@@ -132,13 +73,8 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     const trimmed = text.trim()
     const newNotes = { ...notes, [itemId]: trimmed }
     const newTimestamps = { ...noteTimestamps, [itemId]: new Date().toISOString() }
-    // Remove empty notes
-    if (!trimmed) {
-      delete newNotes[itemId]
-      delete newTimestamps[itemId]
-    }
+    if (!trimmed) { delete newNotes[itemId]; delete newTimestamps[itemId] }
     updateProject(activeProject.id, { notes: newNotes, noteTimestamps: newTimestamps })
-    // Log note activity (only for non-empty saves)
     if (trimmed) {
       let taskText = '', phaseNum = 0
       for (const phase of phases) {
@@ -164,16 +100,11 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   const toggleNote = (itemId) => {
     if (openNoteId === itemId) {
-      // Close — save current draft first
       saveNote(itemId, noteDraft)
       setOpenNoteId(null)
       setNoteDraft('')
     } else {
-      // Save any previously open note
-      if (openNoteId) {
-        saveNote(openNoteId, noteDraft)
-      }
-      // Open new note
+      if (openNoteId) saveNote(openNoteId, noteDraft)
       setOpenNoteId(itemId)
       setNoteDraft(notes[itemId] || '')
       setNoteSaveStatus(null)
@@ -184,13 +115,11 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     setExpandedPhases(prev => ({ ...prev, [phaseId]: !prev[phaseId] }))
   }
 
-  // Category collapse helpers
   const toggleCategory = (categoryId) => {
     setExpandedCategories(prev => ({ ...prev, [categoryId]: prev[categoryId] === false ? true : false }))
   }
   const isCategoryExpanded = (categoryId) => expandedCategories[categoryId] !== false
 
-  // Bulk action handlers
   const handleBulkCheck = (category) => {
     const newChecked = { ...checked }
     category.items.forEach(item => { newChecked[item.id] = true })
@@ -203,19 +132,12 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     updateProject(activeProject.id, { checked: newChecked })
   }
 
-  const getCategoryCheckState = (category) => {
-    let total = 0, checkedCount = 0
-    category.items.forEach(item => { total++; if (checked[item.id]) checkedCount++ })
-    return { total, checkedCount, allChecked: checkedCount === total, someChecked: checkedCount > 0 }
-  }
+  // ── Progress helpers ──
 
   const getPhaseProgress = (phase) => {
     let total = 0, done = 0
     phase.categories.forEach(cat => {
-      cat.items.forEach(item => {
-        total++
-        if (checked[item.id]) done++
-      })
+      cat.items.forEach(item => { total++; if (checked[item.id]) done++ })
     })
     return { total, done, percent: total > 0 ? Math.round((done / total) * 100) : 0 }
   }
@@ -224,10 +146,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     let total = 0, done = 0
     phases.forEach(phase => {
       phase.categories.forEach(cat => {
-        cat.items.forEach(item => {
-          total++
-          if (checked[item.id]) done++
-        })
+        cat.items.forEach(item => { total++; if (checked[item.id]) done++ })
       })
     })
     return { total, done, percent: total > 0 ? Math.round((done / total) * 100) : 0 }
@@ -235,7 +154,8 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   const totalProgress = getTotalProgress()
 
-  // Phase completion detection — reset on project switch
+  // ── Phase completion detection ──
+
   useEffect(() => {
     if (activeProject?.id !== activeProjectIdRef.current) {
       activeProjectIdRef.current = activeProject?.id
@@ -245,7 +165,6 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     }
   }, [activeProject?.id])
 
-  // Phase completion celebration
   useEffect(() => {
     const prev = prevPhaseProgressRef.current
     phases.forEach(phase => {
@@ -262,6 +181,8 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     prevPhaseProgressRef.current = next
   }, [checked])
 
+  // ── Filtering ──
+
   const filteredPhases = searchQuery.trim()
     ? phases.map(phase => ({
         ...phase,
@@ -275,6 +196,8 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       })).filter(phase => phase.categories.length > 0)
     : phases
 
+  // ── Render ──
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       {/* Project Context */}
@@ -286,46 +209,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         {activeProject?.url && <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</p>}
       </div>
 
-      {/* Stats Grid — 4 columns */}
-      <div className="checklist-stats-grid">
-        <div className="stat-card">
-          <div className="stat-card-label">Completed</div>
-          <div className="stat-card-value" style={{ color: 'var(--color-success)' }}><AnimatedNumber value={totalProgress.done} /></div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Remaining</div>
-          <div className="stat-card-value" style={{ color: 'var(--color-phase-1)' }}><AnimatedNumber value={totalProgress.total - totalProgress.done} /></div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Phases</div>
-          <div className="stat-card-value" style={{ color: 'var(--text-primary)' }}>{phases.length}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Total</div>
-          <div className="stat-card-value" style={{ color: 'var(--text-primary)' }}>{totalProgress.total}</div>
-        </div>
-      </div>
-
-      {/* Overall Progress */}
-      <div className="card" style={{ padding: '1.25rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-tertiary)' }}>Overall Progress</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            <AnimatedNumber value={totalProgress.done} />/{totalProgress.total} <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>(<AnimatedNumber value={totalProgress.percent} />%)</span>
-          </span>
-        </div>
-        <div style={{ width: '100%', height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '6.1875rem', overflow: 'hidden' }}>
-          <div
-            style={{
-              width: `${totalProgress.percent}%`,
-              height: '100%',
-              borderRadius: '6.1875rem',
-              transition: 'width 500ms ease-out',
-              background: 'linear-gradient(90deg, var(--color-phase-1), var(--color-phase-2), var(--color-phase-3), var(--color-phase-4), var(--color-phase-5), var(--color-phase-6), var(--color-phase-7))',
-            }}
-          />
-        </div>
-      </div>
+      <ChecklistStats totalProgress={totalProgress} phaseCount={phases.length} />
 
       {/* Search */}
       <div style={{ position: 'relative' }}>
@@ -395,229 +279,38 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       )}
 
       {/* Phase Cards */}
-      {filteredPhases.map(phase => {
-        const progress = getPhaseProgress(phase)
-        const isExpanded = expandedPhases[phase.id] || searchQuery.trim()
-        const isPriority = getPhasePriority(phase.number, activeProject?.questionnaire)
-
-        return (
-          <div key={phase.id} className={`card${celebratingPhase === phase.id ? ' phase-complete-pulse' : ''}`} style={{ padding: 0, overflow: 'hidden', '--phase-pulse-color': phase.color + '40' }}>
-            {/* Phase Header */}
-            <button
-              onClick={() => togglePhase(phase.id)}
-              aria-expanded={isExpanded}
-              style={{
-                width: '100%', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem',
-                background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)',
-              }}
-            >
-              <span style={{ fontSize: '1.125rem' }}>{phase.icon}</span>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: phase.color }}>
-                    Phase {phase.number}
-                  </span>
-                  <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{phase.timeline}</span>
-                  {isPriority && (
-                    <span style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.1875rem',
-                      fontSize: '0.625rem', fontWeight: 600, color: 'var(--color-phase-5)',
-                      padding: '0.0625rem 0.375rem', borderRadius: '0.25rem',
-                      background: 'rgba(245,158,11,0.1)',
-                    }}>
-                      <Star size={9} style={{ fill: 'var(--color-phase-5)' }} />
-                      Recommended
-                    </span>
-                  )}
-                </div>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginTop: '0.125rem', color: 'var(--text-primary)' }}>{phase.title}</h3>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-                <div style={{ textAlign: 'right' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', fontWeight: 700, color: phase.color }}>
-                    <AnimatedNumber value={progress.percent} />%
-                  </span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-tertiary)' }}><AnimatedNumber value={progress.done} />/{progress.total}</span>
-                </div>
-                <div style={{ width: '4rem', height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '6.1875rem', overflow: 'hidden' }}>
-                  <div
-                    style={{ width: `${progress.percent}%`, height: '100%', borderRadius: '6.1875rem', backgroundColor: phase.color, transition: 'width 300ms' }}
-                  />
-                </div>
-                <ChevronDown
-                  size={14}
-                  style={{ color: 'var(--text-tertiary)', transform: isExpanded ? 'none' : 'rotate(-90deg)', transition: 'transform 200ms' }}
-                />
-              </div>
-            </button>
-
-            {/* Phase Content — Animated */}
-            <CollapsibleContent expanded={isExpanded}>
-              <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                {/* Phase-level expand/collapse categories */}
-                {phase.categories.length > 1 && (
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0.375rem 1rem', borderBottom: '1px solid var(--border-subtle)' }}>
-                    <button
-                      className="checklist-bulk-link"
-                      onClick={() => {
-                        const allExpanded = phase.categories.every(cat => isCategoryExpanded(cat.id))
-                        const newState = { ...expandedCategories }
-                        phase.categories.forEach(cat => { newState[cat.id] = !allExpanded })
-                        setExpandedCategories(newState)
-                      }}
-                    >
-                      {phase.categories.every(cat => isCategoryExpanded(cat.id)) ? 'Collapse all' : 'Expand all'}
-                    </button>
-                  </div>
-                )}
-                {phase.categories.map(category => {
-                  const catState = getCategoryCheckState(category)
-                  return (
-                  <div key={category.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      aria-expanded={isCategoryExpanded(category.id)}
-                      style={{ padding: '0.5rem 1rem', background: 'var(--bg-page)', opacity: 0.8, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
-                      onClick={() => toggleCategory(category.id)}
-                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCategory(category.id) } }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                        <ChevronDown
-                          size={10}
-                          style={{ color: 'var(--text-disabled)', transform: isCategoryExpanded(category.id) ? 'none' : 'rotate(-90deg)', transition: 'transform 200ms' }}
-                        />
-                        <h4 style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{category.name}</h4>
-                        <span style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', fontWeight: 500 }}>{catState.checkedCount}/{catState.total}</span>
-                      </div>
-                      <div style={{ display: 'flex', gap: '0.5rem' }} onClick={e => e.stopPropagation()}>
-                        {!catState.allChecked && (
-                          <button onClick={() => handleBulkCheck(category)} className="checklist-bulk-link">Mark all</button>
-                        )}
-                        {catState.someChecked && (
-                          <button onClick={() => handleBulkUncheck(category)} className="checklist-bulk-link">Clear all</button>
-                        )}
-                      </div>
-                    </div>
-                    <CollapsibleContent expanded={isCategoryExpanded(category.id)}>
-                    <div>
-                      {category.items.map(item => (
-                        <div key={item.id} className="group" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.75rem 1rem' }}>
-                            {/* Checkbox */}
-                            <div style={{ position: 'relative', flexShrink: 0, marginTop: '0.125rem' }}>
-                              <button
-                                onClick={() => handleToggle(item.id, item, phase.number)}
-                                className={bouncingId === item.id ? 'check-bounce' : ''}
-                                aria-label={`${checked[item.id] ? 'Uncheck' : 'Check'}: ${item.text}`}
-                                style={{
-                                  width: '1.125rem', height: '1.125rem', borderRadius: '0.25rem',
-                                  border: `2px solid ${checked[item.id] ? phase.color : 'var(--border-default)'}`,
-                                  background: checked[item.id] ? phase.color : 'transparent',
-                                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  cursor: 'pointer', transition: 'all 150ms', padding: 0,
-                                }}
-                              >
-                                {checked[item.id] && <CheckCircle2 size={11} style={{ color: '#fff' }} />}
-                              </button>
-                              {bouncingId === item.id && (
-                                <span className="check-ripple" style={{ backgroundColor: phase.color }} />
-                              )}
-                            </div>
-
-                            {/* Content */}
-                            <div style={{ flex: 1, minWidth: 0 }}>
-                              <p style={{ fontSize: '0.8125rem', color: checked[item.id] ? 'var(--text-tertiary)' : 'var(--text-primary)', textDecoration: checked[item.id] ? 'line-through' : 'none', transition: 'all 200ms' }}>
-                                {item.text}
-                                {checked[item.id] && activeProject?.verifications?.[item.id] && (
-                                  <span
-                                    style={{
-                                      display: 'inline-block', fontSize: '0.625rem', padding: '0.125rem 0.375rem', borderRadius: '6.1875rem', fontWeight: 500, marginLeft: '0.5rem', verticalAlign: 'middle',
-                                      background: activeProject.verifications[item.id].method === 'ai' ? 'rgba(46,204,113,0.1)' : 'rgba(255,255,255,0.06)',
-                                      color: activeProject.verifications[item.id].method === 'ai' ? 'var(--color-phase-3)' : 'var(--text-tertiary)',
-                                    }}
-                                    title={activeProject.verifications[item.id].note}
-                                  >
-                                    {activeProject.verifications[item.id].method === 'ai' ? 'AI Verified' : 'Manual'}
-                                  </span>
-                                )}
-                                {notes[item.id] && openNoteId !== item.id && (
-                                  <span className="checklist-note-indicator" title="Has notes">
-                                    <StickyNote size={10} />
-                                  </span>
-                                )}
-                              </p>
-                              {quickViewItem === item.id && (
-                                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem', lineHeight: 1.5 }}>{item.detail}</p>
-                              )}
-                            </div>
-
-                            {/* Actions */}
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, opacity: 0 }} className="group-hover:opacity-100 transition-opacity duration-150">
-                              <button
-                                onClick={() => setQuickViewItem(quickViewItem === item.id ? null : item.id)}
-                                style={{ padding: '0.375rem', borderRadius: '0.5rem', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
-                                title="Quick view"
-                                aria-label="Quick view"
-                              >
-                                <Info size={13} />
-                              </button>
-                              <button
-                                onClick={() => setDocItem(item)}
-                                style={{ padding: '0.375rem', borderRadius: '0.5rem', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
-                                title="Full documentation"
-                                aria-label="Full documentation"
-                              >
-                                <BookOpen size={13} />
-                              </button>
-                              <button
-                                onClick={() => toggleNote(item.id)}
-                                className={`checklist-note-btn${notes[item.id] ? ' has-notes' : ''}`}
-                                title={notes[item.id] ? 'Edit notes' : 'Add notes'}
-                                aria-label={notes[item.id] ? 'Edit notes' : 'Add notes'}
-                              >
-                                <StickyNote size={13} />
-                              </button>
-                            </div>
-                          </div>
-                          {/* Notes Panel */}
-                          {openNoteId === item.id && (
-                            <div className="checklist-note-panel" style={{ margin: '0.25rem 1rem 0.5rem 1.875rem' }}>
-                              <div className="checklist-note-header">
-                                <span className="checklist-note-label">Notes</span>
-                                {noteSaveStatus === 'saved' && (
-                                  <span className="checklist-note-saved">Saved ✓</span>
-                                )}
-                              </div>
-                              <textarea
-                                className="checklist-note-textarea"
-                                value={noteDraft}
-                                onChange={e => handleNoteChange(item.id, e.target.value)}
-                                onBlur={() => saveNote(item.id, noteDraft)}
-                                placeholder="Add notes about this task..."
-                                aria-label={`Notes for "${item.text}"`}
-                                rows={3}
-                                autoFocus
-                              />
-                              {noteTimestamps[item.id] && (
-                                <span className="checklist-note-timestamp">
-                                  Updated: {new Date(noteTimestamps[item.id]).toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                </span>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                    </CollapsibleContent>
-                  </div>
-                  )
-                })}
-              </div>
-            </CollapsibleContent>
-          </div>
-        )
-      })}
+      {filteredPhases.map(phase => (
+        <PhaseCard
+          key={phase.id}
+          phase={phase}
+          progress={getPhaseProgress(phase)}
+          isExpanded={expandedPhases[phase.id] || !!searchQuery.trim()}
+          isPriority={getPhasePriority(phase.number, activeProject?.questionnaire)}
+          isCelebrating={celebratingPhase === phase.id}
+          expandedCategories={expandedCategories}
+          checked={checked}
+          bouncingId={bouncingId}
+          notes={notes}
+          openNoteId={openNoteId}
+          noteDraft={noteDraft}
+          noteSaveStatus={noteSaveStatus}
+          noteTimestamps={noteTimestamps}
+          verifications={activeProject?.verifications}
+          quickViewItem={quickViewItem}
+          onTogglePhase={togglePhase}
+          onToggleCategory={toggleCategory}
+          isCategoryExpanded={isCategoryExpanded}
+          onBulkCheck={handleBulkCheck}
+          onBulkUncheck={handleBulkUncheck}
+          setExpandedCategories={setExpandedCategories}
+          onToggle={handleToggle}
+          onQuickView={(id) => setQuickViewItem(quickViewItem === id ? null : id)}
+          onDocItem={setDocItem}
+          onToggleNote={toggleNote}
+          onNoteChange={handleNoteChange}
+          onNoteSave={saveNote}
+        />
+      ))}
     </div>
   )
 }
