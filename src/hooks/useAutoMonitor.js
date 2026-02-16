@@ -54,21 +54,13 @@ export function useAutoMonitor({ activeProject, updateProject }) {
       setProgress({ current: i + 1, total: queries.length })
 
       try {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey,
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true',
-          },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 2000,
-            tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-            messages: [{
-              role: 'user',
-              content: `Search for: "${q.query}"
+        const { callAnthropicApi } = await import('../utils/apiClient')
+        const data = await callAnthropicApi({
+          apiKey,
+          maxTokens: 2000,
+          messages: [{
+            role: 'user',
+            content: `Search for: "${q.query}"
 
 Look at the search results. Does the response mention, cite, or reference the website "${projectUrl}" or content from that domain?
 
@@ -77,11 +69,11 @@ Return ONLY valid JSON:
   "cited": true or false,
   "excerpt": "Brief excerpt of how the brand/URL was mentioned, or 'Not found in results' if not cited"
 }`
-            }],
-          }),
+          }],
+          extraBody: {
+            tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          },
         })
-
-        const data = await response.json()
         if (data.error) throw new Error(data.error.message)
 
         const textContent = data.content

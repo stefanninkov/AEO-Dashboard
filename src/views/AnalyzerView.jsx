@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Globe, Link2, Loader2, AlertCircle, CheckCircle2, MinusCircle, XCircle, Zap, Search } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 import { createActivity, appendActivity } from '../utils/activityLogger'
+import { callAnthropicApi } from '../utils/apiClient'
 import logger from '../utils/logger'
 
 const STATUS_CONFIG = {
@@ -80,30 +81,17 @@ export default function AnalyzerView({ activeProject, updateProject }) {
     setWebflowLoading(true)
     setError(null)
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 4000,
-          messages: [{ role: 'user', content: 'List all my Webflow sites with their site IDs and domains. Return as JSON array: [{"id": "...", "name": "...", "domain": "..."}]' }],
+      const data = await callAnthropicApi({
+        apiKey,
+        messages: [{ role: 'user', content: 'List all my Webflow sites with their site IDs and domains. Return as JSON array: [{"id": "...", "name": "...", "domain": "..."}]' }],
+        extraBody: {
           mcp_servers: [{
             type: 'url',
             url: 'https://mcp.webflow.com/mcp',
             name: 'webflow-mcp'
           }]
-        }),
+        },
       })
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}))
-        throw new Error(errData?.error?.message || `API error: ${response.status} ${response.statusText}`)
-      }
-      const data = await response.json()
       if (data.error) throw new Error(data.error.message)
 
       const textContent = data.content
@@ -139,20 +127,12 @@ export default function AnalyzerView({ activeProject, updateProject }) {
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 8000,
-          messages: [{
-            role: 'user',
-            content: `Analyze the Webflow site "${site.name}" (ID: ${site.id}) for AEO (Answer Engine Optimization) readiness.
+      const data = await callAnthropicApi({
+        apiKey,
+        maxTokens: 8000,
+        messages: [{
+          role: 'user',
+          content: `Analyze the Webflow site "${site.name}" (ID: ${site.id}) for AEO (Answer Engine Optimization) readiness.
 
 Please:
 1. List all pages of the site
@@ -198,19 +178,15 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
   "topPriorities": ["top 5 things to fix"],
   "summary": "2-3 sentence assessment"
 }`
-          }],
+        }],
+        extraBody: {
           mcp_servers: [{
             type: 'url',
             url: 'https://mcp.webflow.com/mcp',
             name: 'webflow-mcp'
           }]
-        }),
+        },
       })
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}))
-        throw new Error(errData?.error?.message || `API error: ${response.status} ${response.statusText}`)
-      }
-      const data = await response.json()
       if (data.error) throw new Error(data.error.message)
 
       const textContent = data.content
@@ -247,21 +223,11 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 4000,
-          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{
-            role: 'user',
-            content: `Analyze this URL for AEO readiness: ${url}${getAnalyzerIndustryContext(activeProject?.questionnaire)}
+      const data = await callAnthropicApi({
+        apiKey,
+        messages: [{
+          role: 'user',
+          content: `Analyze this URL for AEO readiness: ${url}${getAnalyzerIndustryContext(activeProject?.questionnaire)}
 
 Search for and visit this website, then evaluate against these AEO criteria. For each item give status: "pass", "fail", or "partial" with brief explanation.
 
@@ -301,14 +267,11 @@ Return ONLY valid JSON:
   "topPriorities": ["top 5 things to fix"],
   "summary": "2-3 sentence assessment"
 }`
-          }],
-        }),
+        }],
+        extraBody: {
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        },
       })
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}))
-        throw new Error(errData?.error?.message || `API error: ${response.status} ${response.statusText}`)
-      }
-      const data = await response.json()
       if (data.error) throw new Error(data.error.message)
 
       const textContent = data.content

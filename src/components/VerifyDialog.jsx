@@ -28,21 +28,13 @@ export default function VerifyDialog({ item, projectUrl, onVerified, onCancel, i
     }
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1500,
-          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-          messages: [{
-            role: 'user',
-            content: `Check if the website ${projectUrl} has implemented the following AEO checklist item:
+      const { callAnthropicApi } = await import('../utils/apiClient')
+      const data = await callAnthropicApi({
+        apiKey,
+        maxTokens: 1500,
+        messages: [{
+          role: 'user',
+          content: `Check if the website ${projectUrl} has implemented the following AEO checklist item:
 
 "${item.text}"
 
@@ -53,11 +45,11 @@ Search for and visit this website, then evaluate whether this specific item has 
   "status": "pass" or "fail" or "partial",
   "note": "Brief explanation of what you found (1-2 sentences)"
 }`
-          }],
-        }),
+        }],
+        extraBody: {
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        },
       })
-
-      const data = await response.json()
       if (data.error) throw new Error(data.error.message)
 
       const textContent = data.content
