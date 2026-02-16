@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import CollapsibleContent from '../../components/shared/CollapsibleContent'
 import ChecklistItem from './ChecklistItem'
+
+const INITIAL_VISIBLE = 20
 
 export default function CategorySection({
   category,
@@ -25,6 +28,8 @@ export default function CategorySection({
   onNoteChange,
   onNoteSave,
 }) {
+  const [showAll, setShowAll] = useState(false)
+
   const getCategoryCheckState = () => {
     let total = 0, checkedCount = 0
     category.items.forEach(item => { total++; if (checked[item.id]) checkedCount++ })
@@ -32,6 +37,10 @@ export default function CategorySection({
   }
 
   const catState = getCategoryCheckState()
+  const items = category.items
+  const hasMore = items.length > INITIAL_VISIBLE
+  const visibleItems = showAll || !hasMore ? items : items.slice(0, INITIAL_VISIBLE)
+  const hiddenCount = items.length - INITIAL_VISIBLE
 
   return (
     <div style={{ borderBottom: '1px solid var(--border-subtle)' }}>
@@ -62,7 +71,7 @@ export default function CategorySection({
       </div>
       <CollapsibleContent expanded={isExpanded}>
         <div>
-          {category.items.map(item => (
+          {visibleItems.map(item => (
             <ChecklistItem
               key={item.id}
               item={item}
@@ -84,6 +93,21 @@ export default function CategorySection({
               onNoteSave={onNoteSave}
             />
           ))}
+          {hasMore && !showAll && (
+            <button
+              onClick={() => setShowAll(true)}
+              style={{
+                width: '100%', padding: '0.625rem 1rem', border: 'none',
+                background: 'var(--hover-bg)', cursor: 'pointer',
+                fontSize: '0.75rem', fontWeight: 500, color: 'var(--color-phase-3)',
+                fontFamily: 'var(--font-body)', transition: 'background 150ms',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--border-subtle)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'var(--hover-bg)'}
+            >
+              Show {hiddenCount} more item{hiddenCount !== 1 ? 's' : ''}
+            </button>
+          )}
         </div>
       </CollapsibleContent>
     </div>
