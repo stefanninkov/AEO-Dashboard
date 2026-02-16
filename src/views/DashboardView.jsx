@@ -11,9 +11,11 @@ import StatCard from './dashboard/StatCard'
 import PhaseDonut from './dashboard/PhaseDonut'
 import RecommendationsPanel from './dashboard/RecommendationsPanel'
 import QuickActions from './dashboard/QuickActions'
+import AnalyticsPanel from './dashboard/AnalyticsPanel'
 
 const SUB_TABS = [
   { id: 'overview', label: 'Overview' },
+  { id: 'analytics', label: 'Analytics' },
   { id: 'citations', label: 'Citations' },
   { id: 'prompts', label: 'Prompts' },
   { id: 'chatbots', label: 'Chatbots' },
@@ -265,6 +267,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 
           <QuickActions setActiveView={setActiveView} />
         </>
+      )}
+
+      {/* ═══ ANALYTICS TAB ═══ */}
+      {subTab === 'analytics' && activeProject && (
+        <AnalyticsPanel activeProject={activeProject} phases={phases} />
       )}
 
       {/* ═══ CITATIONS TAB ═══ */}
