@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Mail, Lock, User, Eye, EyeOff, AlertCircle, Loader2, ArrowRight, Zap } from 'lucide-react'
+import { Mail, Lock, User, Eye, EyeOff, AlertCircle, Loader2, ArrowRight, Zap, Building2, CheckCircle2 } from 'lucide-react'
 
 /* Pre-seed a default dev account on first load */
 function seedDevAccount() {
@@ -17,16 +17,21 @@ function seedDevAccount() {
 }
 seedDevAccount()
 
-export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, clearError }) {
+export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetPassword, error, clearError }) {
   const [mode, setMode] = useState('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
+  const [agency, setAgency] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [localError, setLocalError] = useState(null)
   const [mounted, setMounted] = useState(false)
+  const [forgotPassword, setForgotPassword] = useState(false)
+  const [resetEmail, setResetEmail] = useState('')
+  const [resetSent, setResetSent] = useState(false)
+  const [resetLoading, setResetLoading] = useState(false)
 
   const activeError = error || localError
 
@@ -65,7 +70,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
       if (mode === 'signin') {
         await onSignIn(email, password)
       } else {
-        await onSignUp(email, password, displayName.trim())
+        await onSignUp(email, password, displayName.trim(), agency.trim())
       }
     } catch {
       // Error handled by useAuth hook
@@ -93,6 +98,27 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
     clearError?.()
     setPassword('')
     setConfirmPassword('')
+    setForgotPassword(false)
+    setResetSent(false)
+  }
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault()
+    if (!resetEmail.trim()) {
+      setLocalError('Please enter your email address.')
+      return
+    }
+    setLocalError(null)
+    clearError?.()
+    setResetLoading(true)
+    try {
+      await onResetPassword(resetEmail.trim())
+      setResetSent(true)
+    } catch {
+      // Error handled by useAuth hook
+    } finally {
+      setResetLoading(false)
+    }
   }
 
   return (
@@ -177,6 +203,88 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
             </p>
           </div>
 
+          {/* Forgot Password Flow */}
+          {forgotPassword ? (
+            <div>
+              <div className="mb-7">
+                <h2 className="font-heading text-[1.25rem] font-semibold tracking-tight text-text-primary">
+                  Reset your password
+                </h2>
+                <p className="text-[0.8125rem] text-text-tertiary mt-1.5">
+                  Enter your email and we&apos;ll send you a reset link.
+                </p>
+              </div>
+
+              {activeError && (
+                <div
+                  className="flex items-start gap-2.5 p-3.5 bg-error/8 border border-error/15 rounded-xl mb-5 text-[0.8125rem]"
+                  style={{ animation: 'fade-in-up 200ms ease-out both' }}
+                >
+                  <AlertCircle size={15} className="text-error flex-shrink-0 mt-0.5" />
+                  <span className="text-error">{activeError}</span>
+                </div>
+              )}
+
+              {resetSent ? (
+                <div className="text-center py-4">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(16, 185, 129, 0.1)' }}>
+                    <CheckCircle2 size={24} style={{ color: '#10B981' }} />
+                  </div>
+                  <p className="text-[0.9375rem] font-medium text-text-primary mb-2">Check your email</p>
+                  <p className="text-[0.8125rem] text-text-tertiary mb-6">
+                    We sent a password reset link to <strong className="text-text-secondary">{resetEmail}</strong>
+                  </p>
+                  <button
+                    onClick={() => { setForgotPassword(false); setResetSent(false); setLocalError(null); clearError?.() }}
+                    className="text-phase-1 text-[0.8125rem] font-medium hover:underline transition-all"
+                  >
+                    ← Back to sign in
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleForgotPassword} className="space-y-3">
+                  <div>
+                    <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Email address</label>
+                    <div className="relative">
+                      <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
+                      <input
+                        type="email"
+                        placeholder="you@example.com"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                        style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                        autoFocus
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={resetLoading}
+                    className="w-full py-2.5 mt-2 btn-primary disabled:opacity-50 flex items-center justify-center gap-2"
+                  >
+                    {resetLoading ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      'Send Reset Link'
+                    )}
+                  </button>
+                </form>
+              )}
+
+              {!resetSent && (
+                <p className="text-center text-[0.8125rem] text-text-tertiary mt-6">
+                  <button
+                    onClick={() => { setForgotPassword(false); setLocalError(null); clearError?.() }}
+                    className="text-phase-1 font-medium hover:underline transition-all"
+                  >
+                    ← Back to sign in
+                  </button>
+                </p>
+              )}
+            </div>
+          ) : (
+          <>
           {/* Welcome text */}
           <div className="mb-7">
             <h2 className="font-heading text-[1.25rem] font-semibold tracking-tight text-text-primary">
@@ -260,7 +368,18 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
             </div>
 
             <div>
-              <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Password</label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[0.6875rem] font-medium text-text-tertiary">Password</label>
+                {mode === 'signin' && onResetPassword && (
+                  <button
+                    type="button"
+                    onClick={() => { setForgotPassword(true); setResetEmail(email); setResetSent(false); setLocalError(null); clearError?.() }}
+                    className="text-[0.6875rem] text-text-disabled hover:text-phase-1 transition-colors"
+                  >
+                    Forgot password?
+                  </button>
+                )}
+              </div>
               <div className="relative">
                 <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                 <input
@@ -292,6 +411,23 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
                     placeholder="Confirm your password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
+                    style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {mode === 'signup' && (
+              <div>
+                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Agency / Company <span className="text-text-disabled">(optional)</span></label>
+                <div className="relative">
+                  <Building2 size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
+                  <input
+                    type="text"
+                    placeholder="Your agency or company name"
+                    value={agency}
+                    onChange={(e) => setAgency(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
                     style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
                   />
@@ -344,6 +480,8 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, error, c
           <p className="text-center text-[0.6875rem] text-text-disabled mt-8">
             By continuing, you agree to our terms of service.
           </p>
+          </>
+          )}
         </div>
       </div>
     </div>

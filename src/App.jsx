@@ -160,7 +160,7 @@ export default function App() {
 
 /** Extracted so useAuth() only runs when dashboard is active (hooks rules compliance) */
 function DashboardApp() {
-  const { user, loading: authLoading, signIn, signUp, signInWithGoogle, signOut, error: authError, clearError } = useAuth()
+  const { user, loading: authLoading, signIn, signUp, signInWithGoogle, signOut, resetPassword, error: authError, clearError } = useAuth()
 
   if (authLoading) return <LoadingScreen />
 
@@ -170,6 +170,7 @@ function DashboardApp() {
         onSignIn={signIn}
         onSignUp={signUp}
         onGoogleSignIn={signInWithGoogle}
+        onResetPassword={resetPassword}
         error={authError}
         clearError={clearError}
       />

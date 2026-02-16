@@ -1,10 +1,32 @@
 import { memo } from 'react'
 import {
   Zap, LayoutDashboard, CheckSquare, GitBranch, Zap as ZapIcon,
-  BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, User, Plus,
+  BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, Plus,
   Users, Settings, PenTool, Code2, Activity, Globe
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
+
+/* Generate consistent avatar color from a name string */
+const AVATAR_COLORS = [
+  '#FF6B35', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899',
+  '#F59E0B', '#06B6D4', '#EF4444', '#84CC16', '#6366F1',
+]
+
+function getInitials(name) {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+  return parts[0][0].toUpperCase()
+}
+
+function getAvatarColor(name) {
+  if (!name) return AVATAR_COLORS[0]
+  let hash = 0
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length]
+}
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -92,11 +114,17 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
 
       {/* User */}
       <div className="sidebar-user">
-        <div className="sidebar-user-avatar">
+        <div
+          className="sidebar-user-avatar"
+          style={{
+            background: user?.photoURL ? 'transparent' : getAvatarColor(user?.displayName),
+            color: 'white',
+          }}
+        >
           {user?.photoURL ? (
             <img src={user.photoURL} alt="" />
           ) : (
-            <User size={14} className="text-phase-1" />
+            <span className="sidebar-user-initials">{getInitials(user?.displayName)}</span>
           )}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -107,14 +135,24 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
             {user?.email || ''}
           </p>
         </div>
-        <button
-          onClick={onSignOut}
-          className="icon-btn"
-          title="Sign out"
-          aria-label="Sign out"
-        >
-          <LogOut size={14} />
-        </button>
+        <div className="sidebar-user-actions">
+          <button
+            onClick={() => { handleNav('settings'); }}
+            className="icon-btn"
+            title="Settings"
+            aria-label="Settings"
+          >
+            <Settings size={14} />
+          </button>
+          <button
+            onClick={onSignOut}
+            className="icon-btn"
+            title="Sign out"
+            aria-label="Sign out"
+          >
+            <LogOut size={14} />
+          </button>
+        </div>
       </div>
     </aside>
   )

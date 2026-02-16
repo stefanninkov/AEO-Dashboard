@@ -350,21 +350,32 @@ body {
 }
 
 .sidebar-user-avatar {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
-  background: rgba(255, 107, 53, 0.1);
 }
 .sidebar-user-avatar img {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
   object-fit: cover;
+}
+.sidebar-user-initials {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.sidebar-user-actions {
+  display: flex;
+  gap: 0.125rem;
+  flex-shrink: 0;
 }
 
 .sidebar-user-name {

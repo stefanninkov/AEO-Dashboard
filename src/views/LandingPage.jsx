@@ -907,7 +907,7 @@ export default function LandingPage() {
             <a href="/AEO-Dashboard/" className="lp-footer-brand-logo">
               <span className="lp-nav-logo-accent">AEO</span>&nbsp;Dashboard
             </a>
-            <p>The complete toolkit for Answer Engine Optimization. Built by <strong>Adhouse Digital Agency</strong>.</p>
+            <p>The complete toolkit for Answer Engine Optimization.</p>
           </div>
           {FOOTER_LINKS.map((col, i) => (
             <div key={i} className="lp-footer-col">

@@ -6,8 +6,10 @@ import {
   signInWithPopup,
   signOut as firebaseSignOut,
   updateProfile,
+  sendPasswordResetEmail,
 } from 'firebase/auth'
-import { auth, googleProvider } from '../firebase'
+import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore'
+import { auth, googleProvider, db } from '../firebase'
 
 /*
  * Dev mode detection
@@ -65,7 +67,7 @@ function useLocalAuth() {
     return u
   }, [])
 
-  const signUp = useCallback(async (email, password, displayName) => {
+  const signUp = useCallback(async (email, password, displayName, agency) => {
     setError(null)
     const accounts = JSON.parse(localStorage.getItem('aeo-dev-accounts') || '{}')
     if (accounts[email]) {
@@ -77,9 +79,10 @@ function useLocalAuth() {
       throw new Error('Weak password')
     }
     const uid = 'dev-' + crypto.randomUUID().slice(0, 8)
-    accounts[email] = { uid, password, displayName: displayName || email.split('@')[0] }
+    const name = displayName || email.split('@')[0]
+    accounts[email] = { uid, password, displayName: name, agency: agency || '' }
     localStorage.setItem('aeo-dev-accounts', JSON.stringify(accounts))
-    const u = { uid, email, displayName: displayName || email.split('@')[0], photoURL: null }
+    const u = { uid, email, displayName: name, photoURL: null }
     persist(u)
     return u
   }, [])
@@ -97,7 +100,18 @@ function useLocalAuth() {
     persist(null)
   }, [])
 
-  return { user, loading, error, clearError, signIn, signUp, signInWithGoogle, signOut }
+  const resetPassword = useCallback(async (email) => {
+    setError(null)
+    const accounts = JSON.parse(localStorage.getItem('aeo-dev-accounts') || '{}')
+    if (!accounts[email]) {
+      setError('No account found with this email address.')
+      throw new Error('No account')
+    }
+    // Dev mode: just simulate success
+    return true
+  }, [])
+
+  return { user, loading, error, clearError, signIn, signUp, signInWithGoogle, signOut, resetPassword }
 }
 
 /* ── Firebase Auth ── */
@@ -120,6 +134,12 @@ function useFirebaseAuth() {
     setError(null)
     try {
       const result = await signInWithEmailAndPassword(auth, email, password)
+      // Update last login timestamp
+      try {
+        await setDoc(doc(db, 'users', result.user.uid), {
+          lastLoginAt: serverTimestamp(),
+        }, { merge: true })
+      } catch { /* non-critical — don't block sign-in */ }
       return result.user
     } catch (err) {
       const message = getErrorMessage(err.code)
@@ -128,13 +148,30 @@ function useFirebaseAuth() {
     }
   }, [])
 
-  const signUp = useCallback(async (email, password, displayName) => {
+  const signUp = useCallback(async (email, password, displayName, agency) => {
     setError(null)
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password)
       if (displayName) {
         await updateProfile(result.user, { displayName })
       }
+      // Create user profile document in Firestore
+      try {
+        await setDoc(doc(db, 'users', result.user.uid), {
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: displayName || '',
+          agency: agency || '',
+          photoURL: result.user.photoURL || null,
+          role: 'owner',
+          createdAt: serverTimestamp(),
+          lastLoginAt: serverTimestamp(),
+          settings: {
+            theme: 'dark',
+            notifications: true,
+          },
+        })
+      } catch { /* non-critical */ }
       return result.user
     } catch (err) {
       const message = getErrorMessage(err.code)
@@ -147,7 +184,34 @@ function useFirebaseAuth() {
     setError(null)
     try {
       const result = await signInWithPopup(auth, googleProvider)
-      return result.user
+      const user = result.user
+      // Create or update user profile document
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid))
+        if (!userDoc.exists()) {
+          // First time Google user — create profile doc
+          await setDoc(doc(db, 'users', user.uid), {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName || '',
+            agency: '',
+            photoURL: user.photoURL || null,
+            role: 'owner',
+            createdAt: serverTimestamp(),
+            lastLoginAt: serverTimestamp(),
+            settings: {
+              theme: 'dark',
+              notifications: true,
+            },
+          })
+        } else {
+          // Returning user — update last login
+          await setDoc(doc(db, 'users', user.uid), {
+            lastLoginAt: serverTimestamp(),
+          }, { merge: true })
+        }
+      } catch { /* non-critical */ }
+      return user
     } catch (err) {
       if (err.code === 'auth/popup-closed-by-user') return null
       const message = getErrorMessage(err.code)
@@ -166,7 +230,19 @@ function useFirebaseAuth() {
     }
   }, [])
 
-  return { user, loading, error, clearError, signIn, signUp, signInWithGoogle, signOut }
+  const resetPassword = useCallback(async (email) => {
+    setError(null)
+    try {
+      await sendPasswordResetEmail(auth, email)
+      return true
+    } catch (err) {
+      const message = getErrorMessage(err.code)
+      setError(message)
+      throw err
+    }
+  }, [])
+
+  return { user, loading, error, clearError, signIn, signUp, signInWithGoogle, signOut, resetPassword }
 }
 
 /* ── Export: auto-select based on config ── */
