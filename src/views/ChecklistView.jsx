@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown, ChevronRight, Search, BookOpen, Info, CheckCircle2, ListChecks, Star, StickyNote } from 'lucide-react'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { useToast } from '../components/Toast'
+import AnimatedNumber from '../components/AnimatedNumber'
 import VerifyDialog from '../components/VerifyDialog'
 import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendations'
 
@@ -77,6 +79,12 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   // Category collapse state (absent = expanded)
   const [expandedCategories, setExpandedCategories] = useState({})
 
+  // Micro-interactions
+  const { addToast } = useToast()
+  const [celebratingPhase, setCelebratingPhase] = useState(null)
+  const prevPhaseProgressRef = useRef({})
+  const activeProjectIdRef = useRef(activeProject?.id)
+
   const checked = activeProject?.checked || {}
   const notes = activeProject?.notes || {}
   const noteTimestamps = activeProject?.noteTimestamps || {}
@@ -97,7 +105,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     updateProject(activeProject.id, { verifications: newVerifications })
     toggleCheckItem(verifyItem.id)
     setBouncingId(verifyItem.id)
-    setTimeout(() => setBouncingId(null), 350)
+    setTimeout(() => setBouncingId(null), 450)
     handleCloseVerify()
   }
 
@@ -207,6 +215,33 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   const totalProgress = getTotalProgress()
 
+  // Phase completion detection — reset on project switch
+  useEffect(() => {
+    if (activeProject?.id !== activeProjectIdRef.current) {
+      activeProjectIdRef.current = activeProject?.id
+      const init = {}
+      phases.forEach(phase => { init[phase.id] = getPhaseProgress(phase).percent })
+      prevPhaseProgressRef.current = init
+    }
+  }, [activeProject?.id])
+
+  // Phase completion celebration
+  useEffect(() => {
+    const prev = prevPhaseProgressRef.current
+    phases.forEach(phase => {
+      const progress = getPhaseProgress(phase)
+      const prevPercent = prev[phase.id]
+      if (prevPercent !== undefined && prevPercent < 100 && progress.percent === 100) {
+        setCelebratingPhase(phase.id)
+        addToast('success', `${phase.icon} Phase ${phase.number} complete: ${phase.title}`)
+        setTimeout(() => setCelebratingPhase(null), 650)
+      }
+    })
+    const next = {}
+    phases.forEach(phase => { next[phase.id] = getPhaseProgress(phase).percent })
+    prevPhaseProgressRef.current = next
+  }, [checked])
+
   const filteredPhases = searchQuery.trim()
     ? phases.map(phase => ({
         ...phase,
@@ -235,11 +270,11 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       <div className="checklist-stats-grid">
         <div className="stat-card">
           <div className="stat-card-label">Completed</div>
-          <div className="stat-card-value" style={{ color: 'var(--color-success)' }}>{totalProgress.done}</div>
+          <div className="stat-card-value" style={{ color: 'var(--color-success)' }}><AnimatedNumber value={totalProgress.done} /></div>
         </div>
         <div className="stat-card">
           <div className="stat-card-label">Remaining</div>
-          <div className="stat-card-value" style={{ color: 'var(--color-phase-1)' }}>{totalProgress.total - totalProgress.done}</div>
+          <div className="stat-card-value" style={{ color: 'var(--color-phase-1)' }}><AnimatedNumber value={totalProgress.total - totalProgress.done} /></div>
         </div>
         <div className="stat-card">
           <div className="stat-card-label">Phases</div>
@@ -256,7 +291,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
           <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-tertiary)' }}>Overall Progress</span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            {totalProgress.done}/{totalProgress.total} <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>({totalProgress.percent}%)</span>
+            <AnimatedNumber value={totalProgress.done} />/{totalProgress.total} <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>(<AnimatedNumber value={totalProgress.percent} />%)</span>
           </span>
         </div>
         <div style={{ width: '100%', height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '6.1875rem', overflow: 'hidden' }}>
@@ -345,7 +380,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         const isPriority = getPhasePriority(phase.number, activeProject?.questionnaire)
 
         return (
-          <div key={phase.id} className="card" style={{ padding: 0, overflow: 'hidden' }}>
+          <div key={phase.id} className={`card${celebratingPhase === phase.id ? ' phase-complete-pulse' : ''}`} style={{ padding: 0, overflow: 'hidden', '--phase-pulse-color': phase.color + '40' }}>
             {/* Phase Header */}
             <button
               onClick={() => togglePhase(phase.id)}
@@ -378,9 +413,9 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
                 <div style={{ textAlign: 'right' }}>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', fontWeight: 700, color: phase.color }}>
-                    {progress.percent}%
+                    <AnimatedNumber value={progress.percent} />%
                   </span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>{progress.done}/{progress.total}</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-tertiary)' }}><AnimatedNumber value={progress.done} />/{progress.total}</span>
                 </div>
                 <div style={{ width: '4rem', height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '6.1875rem', overflow: 'hidden' }}>
                   <div
@@ -444,19 +479,24 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                         <div key={item.id} className="group" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.75rem 1rem' }}>
                             {/* Checkbox */}
-                            <button
-                              onClick={() => handleToggle(item.id, item)}
-                              className={bouncingId === item.id ? 'check-bounce' : ''}
-                              style={{
-                                marginTop: '0.125rem', flexShrink: 0, width: '1.125rem', height: '1.125rem', borderRadius: '0.25rem',
-                                border: `2px solid ${checked[item.id] ? phase.color : 'var(--border-default)'}`,
-                                background: checked[item.id] ? phase.color : 'transparent',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                cursor: 'pointer', transition: 'all 150ms', padding: 0,
-                              }}
-                            >
-                              {checked[item.id] && <CheckCircle2 size={11} style={{ color: '#fff' }} />}
-                            </button>
+                            <div style={{ position: 'relative', flexShrink: 0, marginTop: '0.125rem' }}>
+                              <button
+                                onClick={() => handleToggle(item.id, item)}
+                                className={bouncingId === item.id ? 'check-bounce' : ''}
+                                style={{
+                                  width: '1.125rem', height: '1.125rem', borderRadius: '0.25rem',
+                                  border: `2px solid ${checked[item.id] ? phase.color : 'var(--border-default)'}`,
+                                  background: checked[item.id] ? phase.color : 'transparent',
+                                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                  cursor: 'pointer', transition: 'all 150ms', padding: 0,
+                                }}
+                              >
+                                {checked[item.id] && <CheckCircle2 size={11} style={{ color: '#fff' }} />}
+                              </button>
+                              {bouncingId === item.id && (
+                                <span className="check-ripple" style={{ backgroundColor: phase.color }} />
+                              )}
+                            </div>
 
                             {/* Content */}
                             <div style={{ flex: 1, minWidth: 0 }}>
