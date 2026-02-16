@@ -20,6 +20,7 @@ import SettingsView from './views/SettingsView'
 import OnboardingTutorial from './components/OnboardingTutorial'
 import ProjectQuestionnaire from './components/ProjectQuestionnaire'
 import EmailReportDialog from './components/EmailReportDialog'
+import PdfExportDialog from './components/PdfExportDialog'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { generateReport } from './utils/generateReport'
 import { phases } from './data/aeo-checklist'
@@ -122,6 +123,8 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [dateRange, setDateRange] = useState('7d')
   const [emailDialogOpen, setEmailDialogOpen] = useState(false)
   const [emailDialogClosing, setEmailDialogClosing] = useState(false)
+  const [pdfDialogOpen, setPdfDialogOpen] = useState(false)
+  const [pdfDialogClosing, setPdfDialogClosing] = useState(false)
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
   const [questionnaireProjectId, setQuestionnaireProjectId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -167,6 +170,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       }
       if (e.key === 'Escape') {
         if (newProjectModalOpen) { setNewProjectModalOpen(false); return }
+        if (pdfDialogOpen && !pdfDialogClosing) { setPdfDialogClosing(true); return }
         if (emailDialogOpen && !emailDialogClosing) { setEmailDialogClosing(true); return }
         if (docItem && !overlayClosing) handleCloseOverlay()
       }
@@ -182,7 +186,7 @@ function AuthenticatedApp({ user, onSignOut }) {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [docItem, overlayClosing, newProjectModalOpen, emailDialogOpen, emailDialogClosing])
+  }, [docItem, overlayClosing, newProjectModalOpen, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing])
 
   const handleSetDocItem = useCallback((item) => {
     setOverlayClosing(false)
@@ -211,10 +215,9 @@ function AuthenticatedApp({ user, onSignOut }) {
   }, [dateRange])
 
   const handleExport = useCallback(() => {
-    const metricsHistory = activeProject?.metricsHistory
-    const latestMetrics = metricsHistory?.length ? metricsHistory[metricsHistory.length - 1] : null
-    generateReport(latestMetrics, activeProject?.name || 'No Project', dateRange)
-  }, [dateRange, activeProject])
+    setPdfDialogClosing(false)
+    setPdfDialogOpen(true)
+  }, [])
 
   const handleEmail = useCallback(() => {
     setEmailDialogClosing(false)
@@ -427,6 +430,16 @@ function AuthenticatedApp({ user, onSignOut }) {
           onClose={() => setEmailDialogClosing(true)}
           isClosing={emailDialogClosing}
           onExited={() => { setEmailDialogOpen(false); setEmailDialogClosing(false) }}
+        />
+      )}
+
+      {(pdfDialogOpen || pdfDialogClosing) && (
+        <PdfExportDialog
+          activeProject={activeProject}
+          phases={phases}
+          onClose={() => setPdfDialogClosing(true)}
+          isClosing={pdfDialogClosing}
+          onExited={() => { setPdfDialogOpen(false); setPdfDialogClosing(false) }}
         />
       )}
     </>
