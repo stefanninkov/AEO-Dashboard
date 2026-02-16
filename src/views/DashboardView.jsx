@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Plus, Zap, FileText, MessageSquare, Globe, Target, BarChart3 } from 'lucide-react'
-import { getRecommendations } from '../utils/getRecommendations'
+import { getSmartRecommendations } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
 import {
   LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer,
@@ -108,10 +108,8 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
     Citations: m.citations?.total || 0,
   }))
 
-  // Recommendations
-  const recommendations = activeProject?.questionnaire?.completedAt
-    ? getRecommendations(activeProject.questionnaire, setActiveView)
-    : []
+  // Smart Recommendations — uses full project state, not just questionnaire
+  const recommendations = getSmartRecommendations(activeProject, phases, setActiveView)
 
   const EmptyState = ({ message }) => (
     <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>

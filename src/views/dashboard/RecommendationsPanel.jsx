@@ -1,4 +1,21 @@
-import { ArrowRight, Lightbulb } from 'lucide-react'
+import { ArrowRight, Lightbulb, AlertTriangle, TrendingUp, CheckCircle2 } from 'lucide-react'
+
+const CATEGORY_META = {
+  getting_started: { label: 'Setup', color: '#FF6B35' },
+  checklist: { label: 'Checklist', color: '#10B981' },
+  metrics: { label: 'Metrics', color: '#6366F1' },
+  content: { label: 'Content', color: '#F59E0B' },
+  monitoring: { label: 'Monitoring', color: '#EC4899' },
+  competitors: { label: 'Competitors', color: '#8B5CF6' },
+  analysis: { label: 'Analysis', color: '#06B6D4' },
+  schema: { label: 'Schema', color: '#14B8A6' },
+}
+
+function PriorityIcon({ priority }) {
+  if (priority === 1) return <AlertTriangle size={13} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
+  if (priority <= 2) return <TrendingUp size={13} style={{ color: 'var(--color-phase-1)', flexShrink: 0 }} />
+  return <CheckCircle2 size={13} style={{ color: 'var(--color-success)', flexShrink: 0 }} />
+}
 
 export default function RecommendationsPanel({ recommendations }) {
   if (!recommendations || recommendations.length === 0) return null
@@ -7,40 +24,73 @@ export default function RecommendationsPanel({ recommendations }) {
     <div className="card" style={{ padding: '1.25rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.875rem' }}>
         <Lightbulb size={16} style={{ color: 'var(--color-phase-5)' }} />
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          Recommended Next Steps
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', flex: 1 }}>
+          Smart Recommendations
         </h3>
+        <span style={{
+          fontSize: '0.6875rem', color: 'var(--text-tertiary)',
+          fontFamily: 'var(--font-heading)', fontWeight: 500,
+        }}>
+          {recommendations.length} suggestion{recommendations.length !== 1 ? 's' : ''}
+        </span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        {recommendations.map(rec => (
-          <div
-            key={rec.id}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '0.75rem',
-              padding: '0.625rem 0.875rem', borderRadius: '0.625rem',
-              background: 'var(--hover-bg)',
-              border: '1px solid var(--border-subtle)',
-            }}
-          >
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{rec.text}</p>
-              <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{rec.detail}</p>
-            </div>
-            <button
-              onClick={rec.action}
+        {recommendations.map(rec => {
+          const cat = CATEGORY_META[rec.category] || {}
+          return (
+            <div
+              key={rec.id}
               style={{
-                padding: '0.375rem 0.75rem', borderRadius: '0.5rem', border: 'none',
-                background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
-                fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer',
-                fontFamily: 'var(--font-body)', whiteSpace: 'nowrap',
-                transition: 'all 150ms',
+                display: 'flex', alignItems: 'center', gap: '0.75rem',
+                padding: '0.625rem 0.875rem', borderRadius: '0.625rem',
+                background: 'var(--hover-bg)',
+                border: '1px solid var(--border-subtle)',
+                borderLeft: rec.category ? `3px solid ${cat.color || 'var(--border-subtle)'}` : undefined,
               }}
             >
-              {rec.actionLabel}
-              <ArrowRight size={11} style={{ marginLeft: '0.25rem', verticalAlign: 'middle' }} />
-            </button>
-          </div>
-        ))}
+              <PriorityIcon priority={rec.priority} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', marginBottom: '0.125rem', flexWrap: 'wrap' }}>
+                  {cat.label && (
+                    <span style={{
+                      fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
+                      letterSpacing: '0.05em', color: cat.color || 'var(--text-tertiary)',
+                      padding: '0.0625rem 0.375rem', borderRadius: '0.25rem',
+                      background: `${cat.color || '#888'}15`,
+                    }}>
+                      {cat.label}
+                    </span>
+                  )}
+                  {rec.priority === 1 && (
+                    <span style={{
+                      fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
+                      letterSpacing: '0.05em', color: 'var(--color-error)',
+                      padding: '0.0625rem 0.375rem', borderRadius: '0.25rem',
+                      background: 'rgba(239,68,68,0.1)',
+                    }}>
+                      High Priority
+                    </span>
+                  )}
+                </div>
+                <p style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{rec.text}</p>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{rec.detail}</p>
+              </div>
+              <button
+                onClick={rec.action}
+                style={{
+                  padding: '0.375rem 0.75rem', borderRadius: '0.5rem', border: 'none',
+                  background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
+                  fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer',
+                  fontFamily: 'var(--font-body)', whiteSpace: 'nowrap',
+                  transition: 'all 150ms',
+                }}
+              >
+                {rec.actionLabel}
+                <ArrowRight size={11} style={{ marginLeft: '0.25rem', verticalAlign: 'middle' }} />
+              </button>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

@@ -199,118 +199,438 @@ export function getFilteredPlatforms(questionnaire, allPlatforms) {
   return [...selected, ...rest]
 }
 
-/* ── Get Recommendations ── */
+/* ── Get Recommendations (legacy — questionnaire-only) ── */
 export function getRecommendations(questionnaire, setActiveView) {
   if (!questionnaire?.completedAt) return []
 
   const recs = []
 
-  // Maturity-based
   if (questionnaire.maturity === 'beginner') {
-    recs.push({
-      id: 'start-phase-1',
-      text: 'Start with Phase 1: Foundation & Audit',
-      detail: 'As a beginner, getting the fundamentals right is the most impactful first step.',
-      action: () => setActiveView('checklist'),
-      actionLabel: 'Go to Checklist',
-      priority: 1,
-    })
+    recs.push({ id: 'start-phase-1', text: 'Start with Phase 1: Foundation & Audit', detail: 'As a beginner, getting the fundamentals right is the most impactful first step.', action: () => setActiveView('checklist'), actionLabel: 'Go to Checklist', priority: 1 })
   } else if (questionnaire.maturity === 'basics' || questionnaire.maturity === 'intermediate') {
-    recs.push({
-      id: 'content-technical',
-      text: 'Focus on Content & Technical Optimization (Phase 3-4)',
-      detail: 'You have the basics — now optimize your content structure and technical setup for AI engines.',
-      action: () => setActiveView('checklist'),
-      actionLabel: 'Go to Checklist',
-      priority: 2,
-    })
+    recs.push({ id: 'content-technical', text: 'Focus on Content & Technical Optimization (Phase 3-4)', detail: 'You have the basics — now optimize your content structure and technical setup for AI engines.', action: () => setActiveView('checklist'), actionLabel: 'Go to Checklist', priority: 2 })
   }
-
-  // Schema check
   if (questionnaire.hasSchema === 'no' || questionnaire.hasSchema === 'unknown') {
-    recs.push({
-      id: 'run-analyzer',
-      text: 'Run the Site Analyzer to check your schema',
-      detail: 'Schema markup is critical for AI visibility. Scan your site to see what\'s missing.',
-      action: () => setActiveView('analyzer'),
-      actionLabel: 'Go to Analyzer',
-      priority: 1,
-    })
+    recs.push({ id: 'run-analyzer', text: 'Run the Site Analyzer to check your schema', detail: 'Schema markup is critical for AI visibility. Scan your site to see what\'s missing.', action: () => setActiveView('analyzer'), actionLabel: 'Go to Analyzer', priority: 1 })
   }
-
-  // Goal: citations
   if (questionnaire.primaryGoal === 'citations') {
-    recs.push({
-      id: 'setup-tracking',
-      text: 'Set up query tracking for citation monitoring',
-      detail: 'Track how your content appears when users ask AI about topics you cover.',
-      action: () => setActiveView('testing'),
-      actionLabel: 'Go to Testing',
-      priority: 2,
-    })
+    recs.push({ id: 'setup-tracking', text: 'Set up query tracking for citation monitoring', detail: 'Track how your content appears when users ask AI about topics you cover.', action: () => setActiveView('testing'), actionLabel: 'Go to Testing', priority: 2 })
   }
-
-  // Goal: brand
   if (questionnaire.primaryGoal === 'brand') {
-    recs.push({
-      id: 'authority-signals',
-      text: 'Strengthen Authority signals (Phase 5)',
-      detail: 'For brand positioning, focus on E-E-A-T signals, author credentials, and external citations.',
-      action: () => setActiveView('checklist'),
-      actionLabel: 'Go to Checklist',
-      priority: 2,
-    })
+    recs.push({ id: 'authority-signals', text: 'Strengthen Authority signals (Phase 5)', detail: 'For brand positioning, focus on E-E-A-T signals, author credentials, and external citations.', action: () => setActiveView('checklist'), actionLabel: 'Go to Checklist', priority: 2 })
   }
-
-  // Target engines
   if (questionnaire.targetEngines?.length > 0 && !questionnaire.targetEngines.includes('all')) {
     const names = questionnaire.targetEngines.map(e => ENGINE_LABELS[e] || e).join(', ')
-    recs.push({
-      id: 'track-engines',
-      text: `Track your visibility on ${names}`,
-      detail: 'Run metrics analysis to see how your site performs on your priority AI engines.',
-      action: () => setActiveView('metrics'),
-      actionLabel: 'Go to Metrics',
-      priority: 3,
-    })
+    recs.push({ id: 'track-engines', text: `Track your visibility on ${names}`, detail: 'Run metrics analysis to see how your site performs on your priority AI engines.', action: () => setActiveView('metrics'), actionLabel: 'Go to Metrics', priority: 3 })
   }
-
-  // Industry-specific
   if (questionnaire.industry === 'ecommerce') {
-    recs.push({
-      id: 'product-schema',
-      text: 'Prioritize Product & Offer schema markup',
-      detail: 'E-commerce sites benefit hugely from structured product data for AI shopping queries.',
-      action: () => setActiveView('checklist'),
-      actionLabel: 'Go to Checklist',
-      priority: 2,
-    })
+    recs.push({ id: 'product-schema', text: 'Prioritize Product & Offer schema markup', detail: 'E-commerce sites benefit hugely from structured product data for AI shopping queries.', action: () => setActiveView('checklist'), actionLabel: 'Go to Checklist', priority: 2 })
   }
   if (questionnaire.industry === 'healthcare' || questionnaire.industry === 'finance' || questionnaire.industry === 'legal') {
-    recs.push({
-      id: 'eeat-focus',
-      text: 'Focus on E-E-A-T and Trust signals',
-      detail: `In ${INDUSTRY_LABELS[questionnaire.industry]}, AI engines heavily weight expertise and authority. Prioritize credentials, citations, and accuracy.`,
-      action: () => setActiveView('checklist'),
-      actionLabel: 'Go to Checklist',
-      priority: 1,
-    })
+    recs.push({ id: 'eeat-focus', text: 'Focus on E-E-A-T and Trust signals', detail: `In ${INDUSTRY_LABELS[questionnaire.industry]}, AI engines heavily weight expertise and authority.`, action: () => setActiveView('checklist'), actionLabel: 'Go to Checklist', priority: 1 })
   }
-
-  // Competitor benchmarking
   if (questionnaire.industry && INDUSTRY_COMPETITORS[questionnaire.industry]) {
+    recs.push({ id: 'benchmark-competitors', text: 'Benchmark against industry leaders', detail: `See how your AEO compares to top ${INDUSTRY_LABELS[questionnaire.industry]} competitors.`, action: () => setActiveView('competitors'), actionLabel: 'Go to Competitors', priority: 3 })
+  }
+
+  return recs.sort((a, b) => a.priority - b.priority).slice(0, 4)
+}
+
+/* ── Recommendation Categories ── */
+const CATEGORIES = {
+  getting_started: { label: 'Getting Started', color: '#FF6B35' },
+  checklist: { label: 'Checklist', color: '#10B981' },
+  metrics: { label: 'Metrics', color: '#6366F1' },
+  content: { label: 'Content', color: '#F59E0B' },
+  monitoring: { label: 'Monitoring', color: '#EC4899' },
+  competitors: { label: 'Competitors', color: '#8B5CF6' },
+  analysis: { label: 'Analysis', color: '#06B6D4' },
+  schema: { label: 'Schema', color: '#14B8A6' },
+}
+
+/* ── Smart Recommendations Engine ── */
+export function getSmartRecommendations(project, phases, setActiveView) {
+  if (!project) return []
+
+  const recs = []
+  const q = project.questionnaire || {}
+  const hasQuestionnaire = !!q.completedAt
+  const checked = project.checked || {}
+  const metricsHistory = project.metricsHistory || []
+  const monitorHistory = project.monitorHistory || []
+  const analyzerResults = project.analyzerResults
+  const competitors = project.competitors || []
+  const hasApiKey = !!localStorage.getItem('anthropic-api-key')
+
+  // ── Helper: compute checklist progress ──
+  const getPhaseProgress = (phase) => {
+    let total = 0, done = 0
+    phase.categories.forEach(cat => {
+      cat.items.forEach(item => { total++; if (checked[item.id]) done++ })
+    })
+    return { total, done, pct: total > 0 ? Math.round((done / total) * 100) : 0 }
+  }
+
+  const totalItems = phases.reduce((s, p) => s + p.categories.reduce((s2, c) => s2 + c.items.length, 0), 0)
+  const totalChecked = Object.values(checked).filter(Boolean).length
+  const overallPct = totalItems > 0 ? Math.round((totalChecked / totalItems) * 100) : 0
+
+  // ── 1. Onboarding / Getting Started ──
+  if (!hasQuestionnaire) {
     recs.push({
-      id: 'benchmark-competitors',
-      text: 'Benchmark against industry leaders',
-      detail: `See how your AEO compares to top ${INDUSTRY_LABELS[questionnaire.industry]} competitors.`,
-      action: () => setActiveView('competitors'),
-      actionLabel: 'Go to Competitors',
-      priority: 3,
+      id: 'complete-questionnaire',
+      text: 'Complete the Project Questionnaire',
+      detail: 'Answer a few questions so the dashboard can personalize recommendations for your industry and goals.',
+      action: () => setActiveView('dashboard'),
+      actionLabel: 'Set Up',
+      priority: 1,
+      category: 'getting_started',
     })
   }
 
-  // Sort by priority and return top 4
-  return recs.sort((a, b) => a.priority - b.priority).slice(0, 4)
+  if (!project.url) {
+    recs.push({
+      id: 'add-project-url',
+      text: 'Add your website URL',
+      detail: 'A URL is required for the Analyzer, Monitoring, and Metrics features to work.',
+      action: () => setActiveView('settings'),
+      actionLabel: 'Settings',
+      priority: 1,
+      category: 'getting_started',
+    })
+  }
+
+  if (!hasApiKey) {
+    recs.push({
+      id: 'add-api-key',
+      text: 'Add your Anthropic API key',
+      detail: 'Required for AI-powered analysis, content writing, schema generation, and monitoring.',
+      action: () => setActiveView('settings'),
+      actionLabel: 'Settings',
+      priority: 1,
+      category: 'getting_started',
+    })
+  }
+
+  // ── 2. Checklist Progress Intelligence ──
+  if (phases && phases.length > 0) {
+    if (overallPct === 0) {
+      recs.push({
+        id: 'start-checklist',
+        text: 'Start the AEO Checklist',
+        detail: `${totalItems} optimization tasks across ${phases.length} phases. Begin with Phase 1 to build your foundation.`,
+        action: () => setActiveView('checklist'),
+        actionLabel: 'Start',
+        priority: 2,
+        category: 'checklist',
+      })
+    } else if (overallPct > 0 && overallPct < 100) {
+      // Find the phase with most progress to continue, or lowest incomplete phase
+      const incompletePhases = phases
+        .map((p, i) => ({ ...p, index: i, ...getPhaseProgress(p) }))
+        .filter(p => p.pct < 100)
+
+      const inProgress = incompletePhases.find(p => p.pct > 0 && p.pct < 100)
+      const nextPhase = inProgress || incompletePhases[0]
+
+      if (nextPhase) {
+        recs.push({
+          id: 'continue-checklist',
+          text: `Continue ${nextPhase.title} (${nextPhase.pct}%)`,
+          detail: `${nextPhase.done}/${nextPhase.total} items completed. ${nextPhase.total - nextPhase.done} remaining in this phase.`,
+          action: () => setActiveView('checklist'),
+          actionLabel: 'Continue',
+          priority: 2,
+          category: 'checklist',
+        })
+      }
+
+      // If a phase is 100% done and next isn't started, suggest moving on
+      const completedPhases = phases
+        .map((p, i) => ({ ...p, index: i, ...getPhaseProgress(p) }))
+        .filter(p => p.pct === 100)
+
+      if (completedPhases.length > 0) {
+        const nextUnstarted = incompletePhases.find(p => p.pct === 0)
+        if (nextUnstarted) {
+          recs.push({
+            id: 'next-phase',
+            text: `Start ${nextUnstarted.title}`,
+            detail: `You completed Phase ${completedPhases[completedPhases.length - 1].number}! ${nextUnstarted.title} has ${nextUnstarted.total} tasks waiting.`,
+            action: () => setActiveView('checklist'),
+            actionLabel: 'Begin',
+            priority: 3,
+            category: 'checklist',
+          })
+        }
+      }
+    }
+
+    // Milestone celebration + next steps at 50%/75%
+    if (overallPct >= 50 && overallPct < 75) {
+      recs.push({
+        id: 'halfway-milestone',
+        text: 'Halfway there! Run a metrics check',
+        detail: `${overallPct}% complete. Now is a great time to measure your AEO progress and see what\'s improving.`,
+        action: () => setActiveView('metrics'),
+        actionLabel: 'Run Metrics',
+        priority: 3,
+        category: 'metrics',
+      })
+    }
+  }
+
+  // ── 3. Analyzer Intelligence ──
+  if (!analyzerResults && project.url && hasApiKey) {
+    recs.push({
+      id: 'first-analysis',
+      text: 'Run your first site analysis',
+      detail: 'Scan your website for AEO issues — schema markup, content structure, and technical optimization.',
+      action: () => setActiveView('analyzer'),
+      actionLabel: 'Analyze',
+      priority: 2,
+      category: 'analysis',
+    })
+  }
+
+  if (analyzerResults) {
+    const score = analyzerResults.overallScore || 0
+    if (score < 50) {
+      recs.push({
+        id: 'low-analyzer-score',
+        text: `Site Analysis score is ${score}% — critical issues found`,
+        detail: analyzerResults.topPriorities?.[0] || 'Review the analyzer results and fix the highest priority issues first.',
+        action: () => setActiveView('analyzer'),
+        actionLabel: 'Fix Issues',
+        priority: 1,
+        category: 'analysis',
+      })
+    } else if (score < 80) {
+      recs.push({
+        id: 'improve-analyzer-score',
+        text: `Improve your site score from ${score}% to 80%+`,
+        detail: analyzerResults.topPriorities?.[0] || 'Address remaining optimization opportunities to boost your AEO performance.',
+        action: () => setActiveView('analyzer'),
+        actionLabel: 'View Issues',
+        priority: 3,
+        category: 'analysis',
+      })
+    }
+
+    // Suggest schema generator if analyzer found schema issues
+    const hasSchemaIssues = (analyzerResults.topPriorities || []).some(
+      p => typeof p === 'string' && (p.toLowerCase().includes('schema') || p.toLowerCase().includes('structured data'))
+    )
+    if (hasSchemaIssues) {
+      recs.push({
+        id: 'generate-schema',
+        text: 'Generate missing schema markup',
+        detail: 'Your site analysis found schema gaps. Use the Schema Generator to create structured data.',
+        action: () => setActiveView('schema'),
+        actionLabel: 'Generate',
+        priority: 2,
+        category: 'schema',
+      })
+    }
+  }
+
+  // ── 4. Metrics Intelligence ──
+  if (metricsHistory.length === 0 && project.url && hasApiKey) {
+    recs.push({
+      id: 'first-metrics',
+      text: 'Run your first metrics analysis',
+      detail: 'Track how AI engines cite your content — citations, engines, and visibility score.',
+      action: () => setActiveView('metrics'),
+      actionLabel: 'Run Metrics',
+      priority: 2,
+      category: 'metrics',
+    })
+  }
+
+  if (metricsHistory.length >= 2) {
+    const latest = metricsHistory[metricsHistory.length - 1]
+    const previous = metricsHistory[metricsHistory.length - 2]
+    const scoreDelta = (latest.overallScore || 0) - (previous.overallScore || 0)
+    const citDelta = (latest.citations?.total || 0) - (previous.citations?.total || 0)
+
+    if (scoreDelta < -10) {
+      recs.push({
+        id: 'score-dropped',
+        text: `AEO Score dropped ${Math.abs(scoreDelta)} points`,
+        detail: `Score went from ${previous.overallScore} to ${latest.overallScore}. Review recent changes and check monitoring for details.`,
+        action: () => setActiveView('metrics'),
+        actionLabel: 'Investigate',
+        priority: 1,
+        category: 'metrics',
+      })
+    } else if (scoreDelta > 10) {
+      recs.push({
+        id: 'score-improved',
+        text: `Great news! AEO Score improved by ${scoreDelta} points`,
+        detail: `Keep the momentum going. Your score is now ${latest.overallScore}/100.`,
+        action: () => setActiveView('metrics'),
+        actionLabel: 'View Details',
+        priority: 4,
+        category: 'metrics',
+      })
+    }
+
+    if (citDelta < 0 && Math.abs(citDelta) > 2) {
+      recs.push({
+        id: 'citations-dropped',
+        text: `Citations decreased by ${Math.abs(citDelta)}`,
+        detail: 'Your content is being cited less by AI engines. Review content freshness and competitive positioning.',
+        action: () => setActiveView('metrics'),
+        actionLabel: 'View Metrics',
+        priority: 2,
+        category: 'metrics',
+      })
+    }
+
+    // Stale metrics (last run > 14 days ago)
+    const lastRun = latest.timestamp ? new Date(latest.timestamp) : null
+    if (lastRun && Date.now() - lastRun.getTime() > 14 * 24 * 60 * 60 * 1000) {
+      recs.push({
+        id: 'stale-metrics',
+        text: 'Metrics data is over 2 weeks old',
+        detail: 'Run a fresh metrics check to see your current AEO performance.',
+        action: () => setActiveView('metrics'),
+        actionLabel: 'Refresh',
+        priority: 2,
+        category: 'metrics',
+      })
+    }
+  }
+
+  // ── 5. Monitoring Intelligence ──
+  if (monitorHistory.length === 0 && (project.queryTracker?.length || 0) > 0) {
+    recs.push({
+      id: 'first-monitor',
+      text: 'Run your first monitoring check',
+      detail: `You have ${project.queryTracker.length} queries tracked. Check how they\'re performing across AI engines.`,
+      action: () => setActiveView('monitoring'),
+      actionLabel: 'Monitor',
+      priority: 2,
+      category: 'monitoring',
+    })
+  }
+
+  if ((project.queryTracker?.length || 0) === 0 && project.url) {
+    recs.push({
+      id: 'add-queries',
+      text: 'Add queries to track',
+      detail: 'Set up AI search queries to monitor how your brand appears in AI-generated answers.',
+      action: () => setActiveView('testing'),
+      actionLabel: 'Add Queries',
+      priority: 3,
+      category: 'monitoring',
+    })
+  }
+
+  if (monitorHistory.length >= 2) {
+    const latest = monitorHistory[monitorHistory.length - 1]
+    const previous = monitorHistory[monitorHistory.length - 2]
+    const scoreDelta = (latest.overallScore || 0) - (previous.overallScore || 0)
+
+    if (scoreDelta < -15) {
+      recs.push({
+        id: 'monitor-score-drop',
+        text: `Citation score dropped ${Math.abs(scoreDelta)}% in monitoring`,
+        detail: `Was ${previous.overallScore}%, now ${latest.overallScore}%. Check which queries lost citations.`,
+        action: () => setActiveView('monitoring'),
+        actionLabel: 'Investigate',
+        priority: 1,
+        category: 'monitoring',
+      })
+    }
+  }
+
+  // ── 6. Competitor Intelligence ──
+  if (competitors.length === 0 && hasQuestionnaire) {
+    recs.push({
+      id: 'add-competitors',
+      text: 'Add competitors to benchmark against',
+      detail: 'Compare your AEO performance with competitors to find gaps and opportunities.',
+      action: () => setActiveView('competitors'),
+      actionLabel: 'Add',
+      priority: 3,
+      category: 'competitors',
+    })
+  }
+
+  if (competitors.length > 0 && !project.competitorAnalysis) {
+    recs.push({
+      id: 'run-competitor-analysis',
+      text: `Analyze your ${competitors.length} competitors`,
+      detail: 'Run a competitive analysis to see how your AEO stacks up.',
+      action: () => setActiveView('competitors'),
+      actionLabel: 'Analyze',
+      priority: 3,
+      category: 'competitors',
+    })
+  }
+
+  // ── 7. Content Suggestions ──
+  if (project.contentHistory?.length === 0 && hasApiKey) {
+    recs.push({
+      id: 'write-first-content',
+      text: 'Generate your first AEO-optimized content',
+      detail: 'Use the AI Content Writer to create FAQ pages, how-to guides, or comparison articles optimized for AI citations.',
+      action: () => setActiveView('writer'),
+      actionLabel: 'Write',
+      priority: 3,
+      category: 'content',
+    })
+  }
+
+  if (project.schemaHistory?.length === 0 && hasApiKey) {
+    recs.push({
+      id: 'generate-first-schema',
+      text: 'Generate structured data for your pages',
+      detail: 'Schema markup helps AI engines understand your content. Generate JSON-LD for your key pages.',
+      action: () => setActiveView('schema'),
+      actionLabel: 'Generate',
+      priority: 3,
+      category: 'schema',
+    })
+  }
+
+  // ── 8. Questionnaire-based (if completed) ──
+  if (hasQuestionnaire) {
+    if (q.industry === 'ecommerce' && !analyzerResults) {
+      recs.push({
+        id: 'ecommerce-schema',
+        text: 'Scan your product pages for schema markup',
+        detail: 'E-commerce sites need Product, Offer, and Review schemas to appear in AI shopping results.',
+        action: () => setActiveView('analyzer'),
+        actionLabel: 'Scan',
+        priority: 2,
+        category: 'schema',
+      })
+    }
+
+    if ((q.industry === 'healthcare' || q.industry === 'finance' || q.industry === 'legal') && overallPct < 30) {
+      recs.push({
+        id: 'regulated-eeat',
+        text: 'Prioritize E-E-A-T and Trust signals',
+        detail: `In ${INDUSTRY_LABELS[q.industry]}, AI engines heavily weight expertise and authority. Focus on Phase 5 items.`,
+        action: () => setActiveView('checklist'),
+        actionLabel: 'Checklist',
+        priority: 1,
+        category: 'checklist',
+      })
+    }
+  }
+
+  // ── Deduplicate, sort, and return top 6 ──
+  const seen = new Set()
+  const unique = recs.filter(r => {
+    if (seen.has(r.id)) return false
+    seen.add(r.id)
+    return true
+  })
+
+  return unique.sort((a, b) => a.priority - b.priority).slice(0, 6)
 }
 
 /* ── Get Industry Context for Analyzer ── */
