@@ -56,6 +56,7 @@ export default function DocsView({ phases, setDocItem }) {
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
           className="docs-search-input"
+          aria-label="Search documentation"
         />
       </div>
 

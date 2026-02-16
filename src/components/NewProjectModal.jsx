@@ -44,10 +44,11 @@ export default function NewProjectModal({ onClose, onCreate }) {
         {/* Form */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
+            <label htmlFor="project-name" style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
               Project Name
             </label>
             <input
+              id="project-name"
               type="text"
               placeholder="My Website"
               value={name}
@@ -58,10 +59,11 @@ export default function NewProjectModal({ onClose, onCreate }) {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
+            <label htmlFor="project-url" style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
               Website URL <span style={{ fontWeight: 400, color: 'var(--text-tertiary)' }}>(optional)</span>
             </label>
             <input
+              id="project-url"
               type="text"
               placeholder="https://example.com"
               value={url}

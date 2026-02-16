@@ -99,8 +99,9 @@ export default function CompetitorsView({ activeProject, updateProject }) {
       <div className="card" style={{ padding: '1.25rem' }}>
         <div style={{ display: 'flex', gap: '0.625rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '8.75rem' }}>
-            <label style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>Company Name</label>
+            <label htmlFor="competitor-name" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>Company Name</label>
             <input
+              id="competitor-name"
               className="input-field"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
@@ -109,8 +110,9 @@ export default function CompetitorsView({ activeProject, updateProject }) {
             />
           </div>
           <div style={{ flex: 2, minWidth: '12.5rem' }}>
-            <label style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>Website URL</label>
+            <label htmlFor="competitor-url" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>Website URL</label>
             <input
+              id="competitor-url"
               className="input-field"
               value={newUrl}
               onChange={(e) => setNewUrl(e.target.value)}

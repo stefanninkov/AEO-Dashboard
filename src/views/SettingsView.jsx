@@ -315,6 +315,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="Your name"
+              aria-label="Display name"
               style={{ flex: 1 }}
             />
             <button
@@ -357,11 +358,13 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder="sk-ant-..."
+                aria-label="Anthropic API key"
                 style={{ width: '100%', paddingRight: '2.5rem' }}
               />
               <button
                 type="button"
                 onClick={() => setShowApiKey(!showApiKey)}
+                aria-label={showApiKey ? 'Hide API key' : 'Show API key'}
                 style={{
                   position: 'absolute', right: '0.5rem', top: '50%', transform: 'translateY(-50%)',
                   background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-tertiary)',
@@ -412,7 +415,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>Theme</span>
-          <select style={smallSelectStyle} value={theme} onChange={(e) => handleThemeChange(e.target.value)}>
+          <select style={smallSelectStyle} value={theme} onChange={(e) => handleThemeChange(e.target.value)} aria-label="Theme">
             <option value="dark">Dark</option>
             <option value="light">Light</option>
             <option value="auto">Auto (System)</option>
@@ -429,7 +432,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
         <div style={lastRowStyle}>
           <span style={labelStyle}>Default Date Range</span>
-          <select style={smallSelectStyle} value={defaultDateRange} onChange={(e) => handleDefaultDateRange(e.target.value)}>
+          <select style={smallSelectStyle} value={defaultDateRange} onChange={(e) => handleDefaultDateRange(e.target.value)} aria-label="Default date range">
             <option value="today">Today</option>
             <option value="7d">7 Days</option>
             <option value="30d">30 Days</option>
@@ -499,7 +502,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Project Name</span>
               <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <input className="input-field" value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder="Project name" style={{ flex: 1 }} />
+                <input className="input-field" value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder="Project name" aria-label="Project name" style={{ flex: 1 }} />
                 <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveProjectName} disabled={!projectName.trim()}>
                   {projectNameSaved ? <Check size={13} /> : <Save size={13} />}
                   {projectNameSaved ? 'Saved' : 'Save'}
@@ -510,7 +513,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Website URL</span>
               <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <input className="input-field" value={projectUrl} onChange={(e) => setProjectUrl(e.target.value)} placeholder="https://example.com" style={{ flex: 1 }} />
+                <input className="input-field" value={projectUrl} onChange={(e) => setProjectUrl(e.target.value)} placeholder="https://example.com" aria-label="Website URL" style={{ flex: 1 }} />
                 <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveProjectUrl}>
                   {projectUrlSaved ? <Check size={13} /> : <Save size={13} />}
                   {projectUrlSaved ? 'Saved' : 'Save'}
@@ -521,7 +524,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Webflow Site ID</span>
               <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <input className="input-field" value={webflowSiteId} onChange={(e) => setWebflowSiteId(e.target.value)} placeholder="Optional" style={{ flex: 1 }} />
+                <input className="input-field" value={webflowSiteId} onChange={(e) => setWebflowSiteId(e.target.value)} placeholder="Optional" aria-label="Webflow site ID" style={{ flex: 1 }} />
                 <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveWebflowId}>
                   {webflowSaved ? <Check size={13} /> : <Save size={13} />}
                   {webflowSaved ? 'Saved' : 'Save'}
@@ -532,7 +535,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <div style={lastRowStyle}>
               <span style={{ ...labelStyle, alignSelf: 'flex-start', paddingTop: '0.625rem' }}>Notes</span>
               <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-                <textarea className="input-field" value={projectNotes} onChange={(e) => setProjectNotes(e.target.value)} placeholder="Add notes about this project..." rows={3} style={{ flex: 1, resize: 'vertical', minHeight: '3.75rem' }} />
+                <textarea className="input-field" value={projectNotes} onChange={(e) => setProjectNotes(e.target.value)} placeholder="Add notes about this project..." aria-label="Project notes" rows={3} style={{ flex: 1, resize: 'vertical', minHeight: '3.75rem' }} />
                 <button className="btn-primary" style={{ ...inlineSaveBtnStyle, alignSelf: 'flex-start', marginTop: '0.125rem' }} onClick={handleSaveNotes}>
                   {notesSaved ? <Check size={13} /> : <Save size={13} />}
                   {notesSaved ? 'Saved' : 'Save'}
@@ -640,7 +643,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Check Interval</span>
-              <select style={smallSelectStyle} value={monitoringInterval} onChange={(e) => handleMonitoringInterval(e.target.value)}>
+              <select style={smallSelectStyle} value={monitoringInterval} onChange={(e) => handleMonitoringInterval(e.target.value)} aria-label="Check interval">
                 <option value="1d">Every day</option>
                 <option value="3d">Every 3 days</option>
                 <option value="7d">Every 7 days</option>
@@ -651,7 +654,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Alert Threshold</span>
-              <input type="number" className="input-field" value={alertThreshold} onChange={(e) => handleAlertThreshold(e.target.value)} min={1} max={50} style={{ width: '5rem' }} />
+              <input type="number" className="input-field" value={alertThreshold} onChange={(e) => handleAlertThreshold(e.target.value)} min={1} max={50} aria-label="Alert threshold percentage" style={{ width: '5rem' }} />
               <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>% change triggers alert</span>
             </div>
 
@@ -792,6 +795,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                         value={deleteTypedName}
                         onChange={(e) => setDeleteTypedName(e.target.value)}
                         placeholder={activeProject.name}
+                        aria-label="Type project name to confirm deletion"
                         style={{ width: '13.75rem', borderColor: 'var(--color-error)' }}
                       />
                       <button

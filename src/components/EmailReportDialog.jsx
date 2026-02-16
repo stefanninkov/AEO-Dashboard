@@ -84,10 +84,11 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
         <div className="email-modal-body">
           {/* Email Input */}
           <div>
-            <label className="email-modal-label">
+            <label htmlFor="recipient-email" className="email-modal-label">
               Recipient Email
             </label>
             <input
+              id="recipient-email"
               type="email"
               placeholder="name@example.com"
               value={email}

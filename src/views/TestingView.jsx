@@ -456,6 +456,7 @@ export default function TestingView({ activeProject, updateProject }) {
             value={newQuery}
             onChange={e => setNewQuery(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && addQuery()}
+            aria-label="Add a target query"
             className="flex-1 rounded-lg px-3 py-2 text-[0.8125rem] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
             style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
           />
@@ -492,6 +493,7 @@ export default function TestingView({ activeProject, updateProject }) {
                         placeholder="Notes..."
                         value={query.notes || ''}
                         onChange={e => updateQueryNotes(query.id, e.target.value)}
+                        aria-label={`Notes for "${query.query}"`}
                         className="text-xs text-text-tertiary bg-transparent outline-none w-full mt-0.5 focus:text-text-secondary transition-colors"
                       />
                     </td>
@@ -500,6 +502,7 @@ export default function TestingView({ activeProject, updateProject }) {
                         <select
                           value={query.platforms?.[platform] || 'not_checked'}
                           onChange={e => updateQueryPlatform(query.id, platform, e.target.value)}
+                          aria-label={`${platform} status for "${query.query}"`}
                           className={`rounded px-1.5 py-1 text-xs outline-none cursor-pointer focus:border-phase-3 transition-colors ${
                             STATUS_OPTIONS.find(s => s.value === (query.platforms?.[platform] || 'not_checked'))?.color || 'text-text-tertiary'
                           }`}
@@ -601,6 +604,7 @@ function CollapsibleSection({ title, subtitle, icon, expanded, onToggle, childre
       <button
         onClick={onToggle}
         className="testing-section-header"
+        aria-expanded={expanded}
       >
         <span className="testing-section-header-icon">{icon}</span>
         <div className="testing-section-header-content">

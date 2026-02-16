@@ -272,6 +272,7 @@ export default function TopBar({
                           onKeyDown={e => e.key === 'Enter' && handleRename(project.id)}
                           className="input-field"
                           style={{ flex: 1, minWidth: 0, padding: '0.3125rem 0.625rem', fontSize: '0.8125rem' }}
+                          aria-label="Project name"
                           autoFocus
                         />
                         <button onClick={() => handleRename(project.id)} className="icon-btn" style={{ color: 'var(--color-success)' }} aria-label="Confirm rename">
@@ -337,6 +338,7 @@ export default function TopBar({
               onChange={e => { setSearchQuery(e.target.value); setSearchOpen(true); setActiveIndex(-1) }}
               onFocus={() => setSearchOpen(true)}
               onKeyDown={handleSearchKeyDown}
+              aria-label="Search"
               style={{
                 flex: 1, minWidth: 0, background: 'transparent', border: 'none', outline: 'none',
                 fontSize: '0.8125rem', color: 'var(--text-primary)', fontFamily: 'var(--font-body)',

@@ -179,8 +179,9 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
 
           {/* Branding */}
           <div>
-            <label className="email-modal-label">Agency Name</label>
+            <label htmlFor="agency-name" className="email-modal-label">Agency Name</label>
             <input
+              id="agency-name"
               type="text"
               placeholder="Your Agency Name"
               value={agencyName}
@@ -190,8 +191,9 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
           </div>
 
           <div>
-            <label className="email-modal-label">Report Date</label>
+            <label htmlFor="report-date" className="email-modal-label">Report Date</label>
             <input
+              id="report-date"
               type="text"
               value={reportDate}
               onChange={e => setReportDate(e.target.value)}
