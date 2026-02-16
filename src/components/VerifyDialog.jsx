@@ -109,6 +109,9 @@ Search for and visit this website, then evaluate whether this specific item has 
       {/* Dialog */}
       <div
         className="relative w-full max-w-lg rounded-xl overflow-hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="verify-dialog-title"
         onClick={e => e.stopPropagation()}
         style={{
           background: 'var(--bg-card)',
@@ -127,7 +130,7 @@ Search for and visit this website, then evaluate whether this specific item has 
             <ShieldCheck size={16} className="text-phase-3" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-heading text-sm font-bold">Verify Before Marking Done</h3>
+            <h3 id="verify-dialog-title" className="font-heading text-sm font-bold">Verify Before Marking Done</h3>
             <p className="text-sm text-text-primary mt-1">{item?.text}</p>
             <p className="text-xs text-text-tertiary mt-1">{item?.detail}</p>
           </div>

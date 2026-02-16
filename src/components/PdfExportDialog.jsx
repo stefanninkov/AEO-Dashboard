@@ -90,6 +90,9 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
       {/* Dialog */}
       <div
         className="email-modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="pdf-export-title"
         onClick={e => e.stopPropagation()}
         style={{
           animation: isClosing
@@ -111,7 +114,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
             <FileText size={16} style={{ color: 'var(--color-phase-3)' }} />
           </div>
           <div className="email-modal-header-text">
-            <h3 className="email-modal-title">Export Report</h3>
+            <h3 id="pdf-export-title" className="email-modal-title">Export Report</h3>
             <p className="email-modal-subtitle">Generate a PDF report for your client</p>
           </div>
         </div>

@@ -163,6 +163,9 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
 
       {/* Card */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="questionnaire-title"
         style={{
           position: 'relative',
           width: '100%', maxWidth: 560,
@@ -233,7 +236,7 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
           {/* ── Step 0: Industry & Region ── */}
           {step === 0 && (
             <div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+              <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
                 Tell us about your business
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
@@ -309,7 +312,7 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
           {/* ── Step 1: Audience & Goals ── */}
           {step === 1 && (
             <div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+              <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
                 Who are you targeting?
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
@@ -377,7 +380,7 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
           {/* ── Step 2: AI Engines ── */}
           {step === 2 && (
             <div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+              <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
                 Which AI engines matter most?
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
@@ -428,7 +431,7 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
           {/* ── Step 3: Content & Maturity (Optional) ── */}
           {step === 3 && (
             <div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+              <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
                 Your content & experience
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
@@ -492,7 +495,7 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
           {/* ── Step 4: Current State (Optional) ── */}
           {step === 4 && (
             <div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+              <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
                 Current technical state
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>

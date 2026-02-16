@@ -253,6 +253,9 @@ export default function CommandPalette({
       {/* Panel */}
       <div
         className="cmd-palette-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Command palette"
         onClick={e => e.stopPropagation()}
         style={{
           animation: isClosing

@@ -332,6 +332,9 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
       {/* Tutorial card */}
       <div
         className="onboarding-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="onboarding-title"
         style={{
           ...getCardStyle(),
           opacity: animating ? 0 : 1,
@@ -382,7 +385,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
         </div>
 
         {/* Title */}
-        <h3 style={{
+        <h3 id="onboarding-title" style={{
           fontFamily: 'var(--font-heading)', fontSize: 16, fontWeight: 700,
           color: 'var(--text-primary)', marginBottom: 8,
         }}>

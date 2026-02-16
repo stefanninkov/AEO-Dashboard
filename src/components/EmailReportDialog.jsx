@@ -47,6 +47,9 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
       {/* Dialog */}
       <div
         className="email-modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="email-report-title"
         onClick={e => e.stopPropagation()}
         style={{
           animation: isClosing
@@ -66,7 +69,7 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
             <Mail size={16} className="text-phase-1" />
           </div>
           <div className="email-modal-header-text">
-            <h3 className="email-modal-title">Email Report</h3>
+            <h3 id="email-report-title" className="email-modal-title">Email Report</h3>
             <p className="email-modal-subtitle">Send AEO metrics report via email</p>
           </div>
         </div>

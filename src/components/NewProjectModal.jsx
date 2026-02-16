@@ -15,12 +15,15 @@ export default function NewProjectModal({ onClose, onCreate }) {
     <div className="modal-backdrop" onClick={onClose}>
       <div
         className="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="new-project-title"
         style={{ maxWidth: 440, animation: 'dialog-scale-in 250ms ease-out both' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
+          <h2 id="new-project-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
             New Project
           </h2>
           <button

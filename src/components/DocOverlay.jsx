@@ -40,6 +40,9 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases 
       {/* Panel — centered modal */}
       <div
         className="relative w-full max-w-[45rem] max-h-[85vh] rounded-xl overflow-hidden flex flex-col"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="doc-overlay-title"
         style={{
           background: 'var(--bg-card)',
           border: '1px solid var(--border-subtle)',
@@ -71,7 +74,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases 
               </span>
               <span className="text-xs text-text-tertiary">{categoryName}</span>
             </div>
-            <h2 className="font-heading text-lg font-bold text-text-primary">{item?.doc?.title}</h2>
+            <h2 id="doc-overlay-title" className="font-heading text-lg font-bold text-text-primary">{item?.doc?.title}</h2>
             <p className="text-sm text-text-secondary mt-1">{item?.detail}</p>
           </div>
         </div>
