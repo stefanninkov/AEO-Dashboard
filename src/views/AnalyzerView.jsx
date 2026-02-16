@@ -4,6 +4,8 @@ import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 import { createActivity, appendActivity } from '../utils/activityLogger'
 import { callAnthropicApi } from '../utils/apiClient'
 import logger from '../utils/logger'
+import { useFixGenerator, FixButton, FixPanel } from './analyzer/FixGenerator'
+import BulkFixGenerator from './analyzer/BulkFixGenerator'
 
 const STATUS_CONFIG = {
   pass: { icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10', label: 'Pass' },
@@ -60,6 +62,9 @@ export default function AnalyzerView({ activeProject, updateProject }) {
   const [apiKey, setApiKey] = useState(localStorage.getItem('anthropic-api-key') || '')
   const [showApiKey, setShowApiKey] = useState(!apiKey)
 
+  // Fix generator state
+  const [fixes, setFixes] = useState(activeProject?.analyzerFixes || {})
+
   // Webflow state
   const [webflowSites, setWebflowSites] = useState([])
   const [selectedSite, setSelectedSite] = useState(null)
@@ -69,6 +74,104 @@ export default function AnalyzerView({ activeProject, updateProject }) {
     setApiKey(key)
     localStorage.setItem('anthropic-api-key', key)
     setShowApiKey(false)
+  }
+
+  // ── Fix handlers ──
+
+  const handleFixGenerated = (fixData) => {
+    const newFixes = { ...fixes, [fixData.itemId]: fixData }
+    setFixes(newFixes)
+    updateProject(activeProject.id, { analyzerFixes: newFixes })
+    // Log activity
+    const entry = createActivity('generateFix', {
+      itemName: fixData.itemId,
+      priority: fixData.priority,
+    })
+    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+  }
+
+  const handleBulkFix = async (items, onProgress) => {
+    for (let i = 0; i < items.length; i++) {
+      const { item, categoryName } = items[i]
+      try {
+        const data = await callAnthropicApi({
+          apiKey,
+          maxTokens: 4000,
+          system: `You are an AEO (Answer Engine Optimization) expert. Generate practical, ready-to-use fixes for website issues. Always provide:
+1. A brief explanation of WHY this matters for AEO
+2. The exact code or content to implement
+3. Clear implementation steps
+4. Priority level (critical/high/medium/low)
+
+Format your response as JSON:
+{
+  "explanation": "Why this matters for AEO (1-2 sentences)",
+  "priority": "critical|high|medium|low",
+  "codeBlocks": [
+    {
+      "language": "html|json|javascript|css|text",
+      "label": "Short description of this code block",
+      "code": "The actual code to implement"
+    }
+  ],
+  "steps": ["Step 1...", "Step 2..."],
+  "notes": "Any additional implementation notes (optional)"
+}`,
+          messages: [{
+            role: 'user',
+            content: `Generate a fix for this AEO issue:
+
+Website: ${results?.url || activeProject?.url || 'Unknown'}
+Category: ${categoryName}
+Item: ${item.name}
+Current Status: ${item.status}
+Analysis Note: ${item.note}
+
+Provide a specific, implementable fix with code that can be directly copied and used.`
+          }],
+        })
+
+        const textContent = data.content
+          ?.filter(c => c.type === 'text')
+          .map(c => c.text)
+          .join('\n') || ''
+
+        const parsed = parseFixJSON(textContent)
+        if (parsed) {
+          const fixData = {
+            ...parsed,
+            itemId: `${categoryName}::${item.name}`,
+            generatedAt: new Date().toISOString(),
+          }
+          handleFixGenerated(fixData)
+          onProgress(i + 1, true)
+        } else {
+          onProgress(i + 1, false)
+        }
+      } catch (err) {
+        logger.error('Bulk fix error:', err)
+        onProgress(i + 1, false)
+      }
+
+      // Small delay between requests to avoid rate limits
+      if (i < items.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+    }
+  }
+
+  // Collect all fail/partial items for bulk fix
+  const getFailItems = () => {
+    if (!results?.categories) return []
+    const items = []
+    results.categories.forEach(cat => {
+      cat.items?.forEach(item => {
+        if (item.status === 'fail' || item.status === 'partial') {
+          items.push({ item, categoryName: cat.name })
+        }
+      })
+    })
+    return items
   }
 
   // --- Webflow MCP Analysis ---
@@ -448,12 +551,22 @@ Return ONLY valid JSON:
       )}
 
       {/* Results */}
-      {results && !loading && <AnalysisResults results={results} />}
+      {results && !loading && (
+        <AnalysisResults
+          results={results}
+          apiKey={apiKey}
+          siteUrl={results.url || activeProject?.url}
+          fixes={fixes}
+          onFixGenerated={handleFixGenerated}
+          failItems={getFailItems()}
+          onBulkFix={handleBulkFix}
+        />
+      )}
     </div>
   )
 }
 
-function AnalysisResults({ results }) {
+function AnalysisResults({ results, apiKey, siteUrl, fixes, onFixGenerated, failItems, onBulkFix }) {
   const scoreColor = results.overallScore >= 70 ? 'text-success' : results.overallScore >= 40 ? 'text-warning' : 'text-error'
 
   return (
@@ -484,6 +597,14 @@ function AnalysisResults({ results }) {
         )}
       </div>
 
+      {/* Bulk Fix Generator */}
+      <BulkFixGenerator
+        failItems={failItems}
+        apiKey={apiKey}
+        existingFixes={fixes}
+        onStartBulk={onBulkFix}
+      />
+
       {/* Categories */}
       {results.categories?.map((category, catIdx) => (
         <div
@@ -496,19 +617,19 @@ function AnalysisResults({ results }) {
           </div>
           <div>
             {category.items?.map((item, itemIdx) => {
-              const config = STATUS_CONFIG[item.status] || STATUS_CONFIG.fail
-              const Icon = config.icon
-              return (
-                <div key={itemIdx} className="analyzer-category-item">
-                  <Icon size={16} className={`${config.color} flex-shrink-0 mt-0.5`} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium">{item.name}</p>
-                    <p className="text-xs text-text-tertiary mt-0.5">{item.note}</p>
-                  </div>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${config.bg} ${config.color} font-medium`}>
-                    {config.label}
-                  </span>
-                </div>
+              const showFix = item.status === 'fail' || item.status === 'partial'
+              return showFix ? (
+                <AnalyzerItemWithFix
+                  key={itemIdx}
+                  item={item}
+                  categoryName={category.name}
+                  siteUrl={siteUrl}
+                  apiKey={apiKey}
+                  existingFix={fixes[`${category.name}::${item.name}`]}
+                  onFixGenerated={onFixGenerated}
+                />
+              ) : (
+                <AnalyzerItemRow key={itemIdx} item={item} />
               )
             })}
           </div>
@@ -533,6 +654,73 @@ function AnalysisResults({ results }) {
   )
 }
 
+/** Plain item row for 'pass' status items — no fix button needed */
+function AnalyzerItemRow({ item }) {
+  const config = STATUS_CONFIG[item.status] || STATUS_CONFIG.fail
+  const Icon = config.icon
+  return (
+    <div className="analyzer-category-item">
+      <Icon size={16} className={`${config.color} flex-shrink-0 mt-0.5`} />
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium">{item.name}</p>
+        <p className="text-xs text-text-tertiary mt-0.5">{item.note}</p>
+      </div>
+      <span className={`text-xs px-2 py-0.5 rounded-full ${config.bg} ${config.color} font-medium`}>
+        {config.label}
+      </span>
+    </div>
+  )
+}
+
+/** Item row with fix generator hook — for 'fail'/'partial' items */
+function AnalyzerItemWithFix({ item, categoryName, siteUrl, apiKey, existingFix, onFixGenerated }) {
+  const config = STATUS_CONFIG[item.status] || STATUS_CONFIG.fail
+  const Icon = config.icon
+
+  const {
+    fix, loading, error, showPanel, copied,
+    generateFix, togglePanel, copyToClipboard,
+  } = useFixGenerator({ item, categoryName, siteUrl, apiKey, existingFix, onFixGenerated })
+
+  return (
+    <div>
+      <div className="analyzer-category-item">
+        <Icon size={16} className={`${config.color} flex-shrink-0 mt-0.5`} />
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium">{item.name}</p>
+          <p className="text-xs text-text-tertiary mt-0.5">{item.note}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <FixButton
+            hasFix={!!fix}
+            loading={loading}
+            showPanel={showPanel}
+            apiKey={apiKey}
+            itemName={item.name}
+            onGenerate={generateFix}
+            onTogglePanel={togglePanel}
+          />
+          <span className={`text-xs px-2 py-0.5 rounded-full ${config.bg} ${config.color} font-medium`}>
+            {config.label}
+          </span>
+        </div>
+      </div>
+      {showPanel && (
+        <FixPanel
+          fix={fix}
+          loading={loading}
+          error={error}
+          itemName={item.name}
+          copied={copied}
+          onRegenerate={generateFix}
+          onRetry={generateFix}
+          onCopy={copyToClipboard}
+        />
+      )}
+    </div>
+  )
+}
+
 function parseAnalysisJSON(text) {
   try {
     const clean = text.replace(/```json\s?|```/g, '').trim()
@@ -542,6 +730,22 @@ function parseAnalysisJSON(text) {
     }
   } catch (e) {
     logger.warn('JSON parse error:', e)
+  }
+  return null
+}
+
+function parseFixJSON(text) {
+  try {
+    const clean = text.replace(/```json\s?|```/g, '').trim()
+    const jsonMatch = clean.match(/\{[\s\S]*\}/)
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0])
+      if (parsed.explanation && parsed.codeBlocks) {
+        return parsed
+      }
+    }
+  } catch (e) {
+    logger.warn('Fix JSON parse error:', e)
   }
   return null
 }
