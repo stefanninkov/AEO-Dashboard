@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { ChevronDown, ChevronRight, Search, BookOpen, Info, CheckCircle2, ListChecks, Star } from 'lucide-react'
+import { ChevronDown, ChevronRight, Search, BookOpen, Info, CheckCircle2, ListChecks, Star, StickyNote } from 'lucide-react'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import VerifyDialog from '../components/VerifyDialog'
 import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendations'
@@ -67,7 +67,16 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const [verifyItem, setVerifyItem] = useState(null)
   const [verifyClosing, setVerifyClosing] = useState(false)
 
+  // Notes state
+  const [openNoteId, setOpenNoteId] = useState(null)
+  const [noteDraft, setNoteDraft] = useState('')
+  const [noteSaveStatus, setNoteSaveStatus] = useState(null)
+  const saveTimerRef = useRef(null)
+  const savedTimerRef = useRef(null)
+
   const checked = activeProject?.checked || {}
+  const notes = activeProject?.notes || {}
+  const noteTimestamps = activeProject?.noteTimestamps || {}
 
   const handleToggle = (itemId, item) => {
     if (checked[itemId]) {
@@ -96,6 +105,48 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const handleVerifyExited = () => {
     setVerifyClosing(false)
     setVerifyItem(null)
+  }
+
+  // Notes handlers
+  const saveNote = (itemId, text) => {
+    clearTimeout(saveTimerRef.current)
+    clearTimeout(savedTimerRef.current)
+    const trimmed = text.trim()
+    const newNotes = { ...notes, [itemId]: trimmed }
+    const newTimestamps = { ...noteTimestamps, [itemId]: new Date().toISOString() }
+    // Remove empty notes
+    if (!trimmed) {
+      delete newNotes[itemId]
+      delete newTimestamps[itemId]
+    }
+    updateProject(activeProject.id, { notes: newNotes, noteTimestamps: newTimestamps })
+    setNoteSaveStatus('saved')
+    savedTimerRef.current = setTimeout(() => setNoteSaveStatus(null), 2000)
+  }
+
+  const handleNoteChange = (itemId, text) => {
+    setNoteDraft(text)
+    clearTimeout(saveTimerRef.current)
+    setNoteSaveStatus(null)
+    saveTimerRef.current = setTimeout(() => saveNote(itemId, text), 1000)
+  }
+
+  const toggleNote = (itemId) => {
+    if (openNoteId === itemId) {
+      // Close — save current draft first
+      saveNote(itemId, noteDraft)
+      setOpenNoteId(null)
+      setNoteDraft('')
+    } else {
+      // Save any previously open note
+      if (openNoteId) {
+        saveNote(openNoteId, noteDraft)
+      }
+      // Open new note
+      setOpenNoteId(itemId)
+      setNoteDraft(notes[itemId] || '')
+      setNoteSaveStatus(null)
+    }
   }
 
   const togglePhase = (phaseId) => {
@@ -341,6 +392,11 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                                     {activeProject.verifications[item.id].method === 'ai' ? 'AI Verified' : 'Manual'}
                                   </span>
                                 )}
+                                {notes[item.id] && openNoteId !== item.id && (
+                                  <span className="checklist-note-indicator" title="Has notes">
+                                    <StickyNote size={10} />
+                                  </span>
+                                )}
                               </p>
                               {quickViewItem === item.id && (
                                 <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem', lineHeight: 1.5 }}>{item.detail}</p>
@@ -363,8 +419,40 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                               >
                                 <BookOpen size={13} />
                               </button>
+                              <button
+                                onClick={() => toggleNote(item.id)}
+                                className={`checklist-note-btn${notes[item.id] ? ' has-notes' : ''}`}
+                                title={notes[item.id] ? 'Edit notes' : 'Add notes'}
+                              >
+                                <StickyNote size={13} />
+                              </button>
                             </div>
                           </div>
+                          {/* Notes Panel */}
+                          {openNoteId === item.id && (
+                            <div className="checklist-note-panel" style={{ margin: '0.25rem 1rem 0.5rem 1.875rem' }}>
+                              <div className="checklist-note-header">
+                                <span className="checklist-note-label">Notes</span>
+                                {noteSaveStatus === 'saved' && (
+                                  <span className="checklist-note-saved">Saved ✓</span>
+                                )}
+                              </div>
+                              <textarea
+                                className="checklist-note-textarea"
+                                value={noteDraft}
+                                onChange={e => handleNoteChange(item.id, e.target.value)}
+                                onBlur={() => saveNote(item.id, noteDraft)}
+                                placeholder="Add notes about this task..."
+                                rows={3}
+                                autoFocus
+                              />
+                              {noteTimestamps[item.id] && (
+                                <span className="checklist-note-timestamp">
+                                  Updated: {new Date(noteTimestamps[item.id]).toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
