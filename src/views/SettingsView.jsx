@@ -4,6 +4,7 @@ import {
   Save, Check, Eye, EyeOff, Download, Upload, Trash2, RotateCcw, ClipboardList
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
+import logger from '../utils/logger'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
   GOAL_LABELS, MATURITY_LABELS, CONTENT_LABELS, ENGINE_LABELS,
@@ -123,7 +124,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
       }
       flash(setNameSaveSuccess)
     } catch (err) {
-      console.error('Failed to update display name:', err)
+      logger.error('Failed to update display name:', err)
     }
     setNameSaving(false)
   }, [displayName, user])
@@ -232,7 +233,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             updateProject(activeProject.id, mergeData)
           }
         } catch (err) {
-          alert('Invalid JSON file.')
+          logger.warn('Invalid JSON file import attempted')
         }
       }
       reader.readAsText(file)

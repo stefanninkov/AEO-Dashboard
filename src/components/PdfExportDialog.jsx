@@ -4,6 +4,7 @@ import { useToast } from './Toast'
 import { generatePdf } from '../utils/generatePdf'
 import { createActivity, appendActivity } from '../utils/activityLogger'
 import { useFocusTrap } from '../hooks/useFocusTrap'
+import logger from '../utils/logger'
 
 const SECTIONS = [
   { key: 'summary', label: 'Executive Summary', desc: 'Overall score & progress', default: true },
@@ -70,7 +71,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
       }
       onClose()
     } catch (err) {
-      console.error('PDF generation error:', err)
+      logger.error('PDF generation error:', err)
       addToast('error', 'Failed to generate report. Please try again.')
     } finally {
       setGenerating(false)

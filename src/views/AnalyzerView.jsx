@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Globe, Link2, Loader2, AlertCircle, CheckCircle2, MinusCircle, XCircle, Zap, Search } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 import { createActivity, appendActivity } from '../utils/activityLogger'
+import logger from '../utils/logger'
 
 const STATUS_CONFIG = {
   pass: { icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10', label: 'Pass' },
@@ -121,7 +122,7 @@ export default function AnalyzerView({ activeProject, updateProject }) {
         setError('Could not parse Webflow sites. You may need to authenticate with Webflow first.')
       }
     } catch (err) {
-      console.error('Webflow fetch error:', err)
+      logger.error('Webflow fetch error:', err)
       setError(err.message)
     } finally {
       setWebflowLoading(false)
@@ -228,7 +229,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
         setError('Could not parse analysis results.')
       }
     } catch (err) {
-      console.error('Webflow analysis error:', err)
+      logger.error('Webflow analysis error:', err)
       setError(err.message)
     } finally {
       setLoading(false)
@@ -326,7 +327,7 @@ Return ONLY valid JSON:
         setError('Could not parse analysis results. The AI may not have been able to access the site.')
       }
     } catch (err) {
-      console.error('Analyzer error:', err)
+      logger.error('Analyzer error:', err)
       setError(err.message)
     } finally {
       setLoading(false)
@@ -577,7 +578,7 @@ function parseAnalysisJSON(text) {
       return JSON.parse(jsonMatch[0])
     }
   } catch (e) {
-    console.warn('JSON parse error:', e)
+    logger.warn('JSON parse error:', e)
   }
   return null
 }

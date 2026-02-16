@@ -4,7 +4,6 @@
  */
 export function generateReport(metrics, projectName, dateRange) {
   if (!metrics) {
-    alert('No metrics data available. Run an analysis first.')
     return
   }
 

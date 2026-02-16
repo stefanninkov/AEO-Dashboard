@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { AlertTriangle, RefreshCw } from 'lucide-react'
+import logger from '../utils/logger'
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
@@ -13,10 +14,7 @@ export default class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ errorInfo })
-    // In development, log the error details
-    if (import.meta.env.DEV) {
-      console.error('[ErrorBoundary]', error, errorInfo)
-    }
+    logger.error('ErrorBoundary caught:', error, errorInfo)
   }
 
   handleReset = () => {

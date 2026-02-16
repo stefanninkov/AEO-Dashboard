@@ -10,6 +10,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useLocalStorage } from './useLocalStorage'
+import logger from '../utils/logger'
 
 /*
  * Dev mode detection — matches useAuth.js
@@ -194,7 +195,7 @@ function useFirestoreProjectsImpl(userId) {
     }, (err) => {
       clearTimeout(timeoutId)
       didSetLoading = true
-      console.error('Firestore projects error:', err)
+      logger.error('Firestore projects error:', err)
       setLoading(false)
     })
 
@@ -221,7 +222,7 @@ function useFirestoreProjectsImpl(userId) {
       setActiveProjectId(docRef.id)
       return { id: docRef.id, ...projectData }
     } catch (err) {
-      console.error('Create project error:', err)
+      logger.error('Create project error:', err)
       return null
     }
   }, [userId])
@@ -235,7 +236,7 @@ function useFirestoreProjectsImpl(userId) {
         updatedAt: new Date().toISOString(),
       })
     } catch (err) {
-      console.error('Update project error:', err)
+      logger.error('Update project error:', err)
     }
   }, [userId])
 
@@ -245,7 +246,7 @@ function useFirestoreProjectsImpl(userId) {
       const projectRef = doc(db, 'users', userId, 'projects', id)
       await deleteDoc(projectRef)
     } catch (err) {
-      console.error('Delete project error:', err)
+      logger.error('Delete project error:', err)
     }
   }, [userId])
 
