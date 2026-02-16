@@ -1,17 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
+import { ENGINE_COLORS } from '../utils/chartColors'
 
-const AI_ENGINES = [
-  { name: 'ChatGPT', color: '#10a37f' },
-  { name: 'Perplexity', color: '#1fb6ff' },
-  { name: 'Claude', color: '#d97757' },
-  { name: 'Gemini', color: '#4285f4' },
-  { name: 'SearchGPT', color: '#19c37d' },
-  { name: 'You.com', color: '#8b5cf6' },
-  { name: 'Bing Chat', color: '#008373' },
-  { name: 'Copilot', color: '#0078d4' },
-  { name: 'Mistral', color: '#f97316' },
-  { name: 'Grok', color: '#000000' },
-]
+const AI_ENGINES = Object.entries(ENGINE_COLORS).map(([name, color]) => ({ name, color }))
 
 export { AI_ENGINES }
 

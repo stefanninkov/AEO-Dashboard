@@ -16,9 +16,9 @@ const CATEGORY_LABELS = {
 }
 
 function getHeatColor(score) {
-  if (score >= 75) return { bg: 'rgba(16, 185, 129, 0.15)', text: '#10B981' }
-  if (score >= 65) return { bg: 'rgba(245, 158, 11, 0.15)', text: '#F59E0B' }
-  return { bg: 'rgba(239, 68, 68, 0.12)', text: '#EF4444' }
+  if (score >= 75) return { bg: 'rgba(16, 185, 129, 0.15)', text: 'var(--color-success)' }
+  if (score >= 65) return { bg: 'rgba(245, 158, 11, 0.15)', text: 'var(--color-warning)' }
+  return { bg: 'rgba(239, 68, 68, 0.12)', text: 'var(--color-error)' }
 }
 
 function TrendIcon({ trend }) {

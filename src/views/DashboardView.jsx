@@ -7,6 +7,7 @@ import {
   XAxis, YAxis, Tooltip, CartesianGrid, Legend,
   BarChart, Bar,
 } from 'recharts'
+import { PHASE_COLOR_ARRAY, PHASE_COLORS } from '../utils/chartColors'
 
 const SUB_TABS = [
   { id: 'overview', label: 'Overview' },
@@ -15,7 +16,7 @@ const SUB_TABS = [
   { id: 'chatbots', label: 'Chatbots' },
 ]
 
-const ENGINE_COLORS = ['#FF6B35', '#7B2FBE', '#0EA5E9', '#10B981', '#F59E0B', '#EC4899']
+const ENGINE_COLORS = PHASE_COLOR_ARRAY
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
@@ -328,8 +329,8 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                       <YAxis tick={{ fontSize: 11, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend wrapperStyle={{ fontSize: 12, color: 'var(--text-secondary)' }} />
-                      <Line type="monotone" dataKey="Citations" stroke="#7B2FBE" strokeWidth={2} dot={{ r: 3, fill: '#7B2FBE' }} />
-                      <Line type="monotone" dataKey="Prompts" stroke="#FF6B35" strokeWidth={2} dot={{ r: 3, fill: '#FF6B35' }} />
+                      <Line type="monotone" dataKey="Citations" stroke={PHASE_COLORS[2]} strokeWidth={2} dot={{ r: 3, fill: PHASE_COLORS[2] }} />
+                      <Line type="monotone" dataKey="Prompts" stroke={PHASE_COLORS[1]} strokeWidth={2} dot={{ r: 3, fill: PHASE_COLORS[1] }} />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
@@ -450,7 +451,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                       <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
                       <YAxis tick={{ fontSize: 11, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Line type="monotone" dataKey="Citations" stroke="#7B2FBE" strokeWidth={2.5} dot={{ r: 4, fill: '#7B2FBE' }} activeDot={{ r: 6 }} />
+                      <Line type="monotone" dataKey="Citations" stroke={PHASE_COLORS[2]} strokeWidth={2.5} dot={{ r: 4, fill: PHASE_COLORS[2] }} activeDot={{ r: 6 }} />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
@@ -528,7 +529,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                       <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
                       <YAxis tick={{ fontSize: 11, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Line type="monotone" dataKey="Prompts" stroke="#FF6B35" strokeWidth={2.5} dot={{ r: 4, fill: '#FF6B35' }} activeDot={{ r: 6 }} />
+                      <Line type="monotone" dataKey="Prompts" stroke={PHASE_COLORS[1]} strokeWidth={2.5} dot={{ r: 4, fill: PHASE_COLORS[1] }} activeDot={{ r: 6 }} />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
