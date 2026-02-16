@@ -1,4 +1,6 @@
-export default function PhaseDonut({ phases, getPhaseProgress, onNavigate }) {
+import { memo } from 'react'
+
+export default memo(function PhaseDonut({ phases, getPhaseProgress, onNavigate }) {
   const phaseData = phases.map(phase => {
     const prog = getPhaseProgress(phase)
     return { ...phase, ...prog }
@@ -86,4 +88,4 @@ export default function PhaseDonut({ phases, getPhaseProgress, onNavigate }) {
       </div>
     </div>
   )
-}
+})

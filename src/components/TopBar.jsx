@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
+import { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react'
 import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
   RefreshCw, Download, Mail, Menu
@@ -12,7 +12,7 @@ const TYPE_COLORS = {
   Action: 'var(--color-phase-5)',
 }
 
-export default function TopBar({
+export default memo(function TopBar({
   projects,
   activeProject,
   setActiveProjectId,
@@ -449,4 +449,4 @@ export default function TopBar({
       )}
     </div>
   )
-}
+})

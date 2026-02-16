@@ -1,7 +1,7 @@
-import { useRef } from 'react'
+import { useRef, memo } from 'react'
 import { CheckCircle2, Info, BookOpen, StickyNote } from 'lucide-react'
 
-export default function ChecklistItem({
+export default memo(function ChecklistItem({
   item,
   phase,
   checked,
@@ -130,4 +130,20 @@ export default function ChecklistItem({
       )}
     </div>
   )
-}
+}, (prev, next) => {
+  // Custom comparator — only re-render if this item's relevant props changed
+  const id = prev.item.id
+  return (
+    prev.item === next.item &&
+    prev.phase === next.phase &&
+    prev.checked[id] === next.checked[id] &&
+    prev.bouncingId === next.bouncingId &&
+    prev.notes[id] === next.notes[id] &&
+    prev.openNoteId === next.openNoteId &&
+    prev.noteDraft === next.noteDraft &&
+    prev.noteSaveStatus === next.noteSaveStatus &&
+    prev.noteTimestamps[id] === next.noteTimestamps[id] &&
+    prev.verifications?.[id] === next.verifications?.[id] &&
+    prev.quickViewItem === next.quickViewItem
+  )
+})

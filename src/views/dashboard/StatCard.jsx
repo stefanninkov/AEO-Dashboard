@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
-export default function StatCard({ label, value, trend, icon, iconColor }) {
+export default memo(function StatCard({ label, value, trend, icon, iconColor }) {
   return (
     <div className="stat-card">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.625rem' }}>
@@ -35,4 +36,4 @@ export default function StatCard({ label, value, trend, icon, iconColor }) {
       )}
     </div>
   )
-}
+})

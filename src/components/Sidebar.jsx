@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import {
   Zap, LayoutDashboard, CheckSquare, GitBranch, Zap as ZapIcon,
   BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, User, Plus,
@@ -17,7 +18,7 @@ const NAV_ITEMS = [
   { id: 'settings', label: 'Settings', icon: Settings },
 ]
 
-export default function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar }) {
+export default memo(function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar }) {
   const { theme, toggleTheme } = useTheme()
 
   const handleNav = (viewId) => {
@@ -113,4 +114,4 @@ export default function Sidebar({ activeView, setActiveView, onNewProject, user,
       </div>
     </aside>
   )
-}
+})
