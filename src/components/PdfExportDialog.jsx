@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { X, FileText, Download } from 'lucide-react'
 import { useToast } from './Toast'
 import { generatePdf } from '../utils/generatePdf'
+import { createActivity, appendActivity } from '../utils/activityLogger'
 
 const SECTIONS = [
   { key: 'summary', label: 'Executive Summary', desc: 'Overall score & progress', default: true },
@@ -12,7 +13,7 @@ const SECTIONS = [
   { key: 'analyzer', label: 'Analyzer results', desc: 'Site analysis data (if available)', default: false },
 ]
 
-export default function PdfExportDialog({ activeProject, phases, onClose, isClosing, onExited }) {
+export default function PdfExportDialog({ activeProject, phases, updateProject, onClose, isClosing, onExited }) {
   const { addToast } = useToast()
   const [agencyName, setAgencyName] = useState('')
   const [reportDate, setReportDate] = useState(
@@ -60,6 +61,11 @@ export default function PdfExportDialog({ activeProject, phases, onClose, isClos
         reportDate,
       })
       addToast('success', 'Report generated and downloaded!')
+      // Log export activity
+      if (updateProject && activeProject?.id) {
+        const entry = createActivity('export', { filename: `AEO-Report-${(activeProject.name || 'Project').replace(/[^a-zA-Z0-9]/g, '-')}` })
+        updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+      }
       onClose()
     } catch (err) {
       console.error('PDF generation error:', err)

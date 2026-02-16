@@ -443,6 +443,7 @@ function AuthenticatedApp({ user, onSignOut }) {
         <PdfExportDialog
           activeProject={activeProject}
           phases={phases}
+          updateProject={updateProject}
           onClose={() => setPdfDialogClosing(true)}
           isClosing={pdfDialogClosing}
           onExited={() => { setPdfDialogOpen(false); setPdfDialogClosing(false) }}

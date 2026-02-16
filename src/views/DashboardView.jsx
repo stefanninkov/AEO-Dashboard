@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Plus, ArrowRight, CheckSquare, Zap, FlaskConical, TrendingUp, TrendingDown, Minus, FileText, MessageSquare, Globe, Target, BarChart3, Lightbulb } from 'lucide-react'
 import { getRecommendations } from '../utils/getRecommendations'
+import ActivityTimeline from '../components/ActivityTimeline'
 import {
   LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer,
   XAxis, YAxis, Tooltip, CartesianGrid, Legend,
@@ -297,6 +298,18 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               })}
             </div>
           )}
+
+          {/* Recent Activity */}
+          <div className="dashboard-card" style={{ padding: '1rem 1.25rem' }}>
+            <div style={{
+              fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
+              textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
+              marginBottom: '0.75rem',
+            }}>
+              Recent Activity
+            </div>
+            <ActivityTimeline activities={activeProject?.activityLog || []} />
+          </div>
 
           {/* Quick Actions */}
           <div className="quick-actions-grid">

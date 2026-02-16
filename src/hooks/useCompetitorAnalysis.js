@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { createActivity, appendActivity } from '../utils/activityLogger'
 
 export function useCompetitorAnalysis({ activeProject, updateProject }) {
   const [analyzing, setAnalyzing] = useState(false)
@@ -22,13 +23,22 @@ export function useCompetitorAnalysis({ activeProject, updateProject }) {
     }
     const existing = activeProject.competitors || []
     updateProject(activeProject.id, { competitors: [...existing, newCompetitor] })
+    // Log add competitor activity
+    const entry = createActivity('competitor_add', { url })
+    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
   }, [activeProject, updateProject])
 
   const removeCompetitor = useCallback((competitorId) => {
     if (!activeProject) return
     const existing = activeProject.competitors || []
+    const removed = existing.find(c => c.id === competitorId)
     const filtered = existing.filter(c => c.id !== competitorId)
     updateProject(activeProject.id, { competitors: filtered })
+    // Log remove competitor activity
+    if (removed) {
+      const entry = createActivity('competitor_remove', { url: removed.url || removed.name })
+      updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    }
   }, [activeProject, updateProject])
 
   const analyzeCompetitors = useCallback(async () => {

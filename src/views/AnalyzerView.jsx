@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Globe, Link2, Loader2, AlertCircle, CheckCircle2, MinusCircle, XCircle, Zap, Search } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
+import { createActivity, appendActivity } from '../utils/activityLogger'
 
 const STATUS_CONFIG = {
   pass: { icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10', label: 'Pass' },
@@ -220,6 +221,9 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
       if (parsed) {
         setResults(parsed)
         updateProject(activeProject.id, { analyzerResults: parsed })
+        // Log analyze activity
+        const entry = createActivity('analyze', { url, score: parsed.overallScore })
+        updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
       } else {
         setError('Could not parse analysis results.')
       }
@@ -315,6 +319,9 @@ Return ONLY valid JSON:
       if (parsed) {
         setResults(parsed)
         updateProject(activeProject.id, { analyzerResults: parsed, url })
+        // Log analyze activity
+        const entry = createActivity('analyze', { url, score: parsed.overallScore })
+        updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
       } else {
         setError('Could not parse analysis results. The AI may not have been able to access the site.')
       }

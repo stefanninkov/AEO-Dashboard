@@ -5,6 +5,7 @@ import { useToast } from '../components/Toast'
 import AnimatedNumber from '../components/AnimatedNumber'
 import VerifyDialog from '../components/VerifyDialog'
 import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendations'
+import { createActivity, appendActivity } from '../utils/activityLogger'
 
 /* ── Animated Collapsible ── */
 function CollapsibleContent({ expanded, children }) {
@@ -89,11 +90,14 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const notes = activeProject?.notes || {}
   const noteTimestamps = activeProject?.noteTimestamps || {}
 
-  const handleToggle = (itemId, item) => {
+  const handleToggle = (itemId, item, phaseNumber) => {
     if (checked[itemId]) {
       toggleCheckItem(itemId)
+      // Log uncheck activity
+      const entry = createActivity('uncheck', { taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber })
+      updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     } else {
-      setVerifyItem(item)
+      setVerifyItem({ ...item, _phaseNumber: phaseNumber })
     }
   }
 
@@ -104,6 +108,9 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     }
     updateProject(activeProject.id, { verifications: newVerifications })
     toggleCheckItem(verifyItem.id)
+    // Log check activity
+    const entry = createActivity('check', { taskId: verifyItem.id, taskText: verifyItem.text.slice(0, 80), phase: verifyItem._phaseNumber })
+    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     setBouncingId(verifyItem.id)
     setTimeout(() => setBouncingId(null), 450)
     handleCloseVerify()
@@ -131,6 +138,19 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       delete newTimestamps[itemId]
     }
     updateProject(activeProject.id, { notes: newNotes, noteTimestamps: newTimestamps })
+    // Log note activity (only for non-empty saves)
+    if (trimmed) {
+      let taskText = '', phaseNum = 0
+      for (const phase of phases) {
+        for (const cat of phase.categories) {
+          for (const it of cat.items) {
+            if (it.id === itemId) { taskText = it.text.slice(0, 80); phaseNum = phase.number; break }
+          }
+        }
+      }
+      const entry = createActivity('note', { taskId: itemId, taskText, phase: phaseNum })
+      updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    }
     setNoteSaveStatus('saved')
     savedTimerRef.current = setTimeout(() => setNoteSaveStatus(null), 2000)
   }
@@ -481,7 +501,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
                             {/* Checkbox */}
                             <div style={{ position: 'relative', flexShrink: 0, marginTop: '0.125rem' }}>
                               <button
-                                onClick={() => handleToggle(item.id, item)}
+                                onClick={() => handleToggle(item.id, item, phase.number)}
                                 className={bouncingId === item.id ? 'check-bounce' : ''}
                                 style={{
                                   width: '1.125rem', height: '1.125rem', borderRadius: '0.25rem',
