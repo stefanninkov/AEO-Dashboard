@@ -388,6 +388,9 @@ export default function TopBar({
               )}
             </div>
           )}
+          <div className="sr-only" aria-live="polite">
+            {searchOpen && searchQuery.trim() ? `${searchResults.length} results found` : ''}
+          </div>
         </div>
 
         {/* Actions */}

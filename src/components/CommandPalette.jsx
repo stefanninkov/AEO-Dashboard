@@ -362,6 +362,9 @@ export default function CommandPalette({
             </div>
           )}
         </div>
+        <div className="sr-only" aria-live="polite">
+          {query.trim() ? `${filteredResults.length} results found` : ''}
+        </div>
 
         {/* Footer with keyboard hints */}
         <div className="cmd-palette-footer">

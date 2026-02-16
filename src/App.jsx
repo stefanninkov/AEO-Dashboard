@@ -350,6 +350,9 @@ function AuthenticatedApp({ user, onSignOut }) {
     <>
       {splashVisible && <SplashScreen onComplete={handleSplashComplete} />}
 
+      {/* Skip Navigation Link */}
+      <a href="#main-content" className="skip-nav-link">Skip to main content</a>
+
       {/* ── APP SHELL — flex row, sidebar + main-area ── */}
       <div className="app-shell">
         <Sidebar
@@ -385,7 +388,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             onToggleSidebar={toggleSidebar}
           />
 
-          <div className="content-scroll">
+          <div className="content-scroll" id="main-content" tabIndex="-1">
             <div className="content-wrapper">
               <div key={activeView} className="view-enter">
                 {renderView()}

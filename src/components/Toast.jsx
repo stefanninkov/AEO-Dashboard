@@ -64,7 +64,7 @@ export function ToastProvider({ children }) {
     <ToastContext.Provider value={{ addToast }}>
       {children}
       {createPortal(
-        <div className="toast-container">
+        <div className="toast-container" aria-live="polite" role="status">
           {toasts.map(toast => {
             const Icon = TOAST_ICONS[toast.type] || Info
             return (
