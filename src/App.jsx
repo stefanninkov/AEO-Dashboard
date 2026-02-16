@@ -20,6 +20,7 @@ import SettingsView from './views/SettingsView'
 import OnboardingTutorial from './components/OnboardingTutorial'
 import ProjectQuestionnaire from './components/ProjectQuestionnaire'
 import EmailReportDialog from './components/EmailReportDialog'
+import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { generateReport } from './utils/generateReport'
 import { phases } from './data/aeo-checklist'
 
@@ -243,15 +244,14 @@ function AuthenticatedApp({ user, onSignOut }) {
 
   const renderView = () => {
     if (projectsLoading) {
-      return (
-        <div className="flex items-center justify-center py-24">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-8 h-8 border-2 border-phase-1 border-t-transparent rounded-full" style={{ animation: 'spin 1s linear infinite' }} />
-            <p className="text-text-tertiary text-sm">Loading projects...</p>
-            <p className="text-text-tertiary text-xs">This should only take a moment.</p>
-          </div>
-        </div>
-      )
+      switch (activeView) {
+        case 'dashboard': return <DashboardSkeleton />
+        case 'checklist': return <ChecklistSkeleton />
+        case 'metrics': return <MetricsSkeleton />
+        case 'docs': return <DocsSkeleton />
+        case 'testing': return <TestingSkeleton />
+        default: return <DashboardSkeleton />
+      }
     }
 
     switch (activeView) {
