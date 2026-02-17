@@ -146,13 +146,8 @@ export function getPhasePriority(phaseNumber, questionnaire) {
 
 /* ── Get First Priority Phase ── */
 export function getFirstPriorityPhase(questionnaire) {
-  if (!questionnaire?.completedAt) return 'phase-1'
-
-  if (questionnaire.maturity === 'beginner') return 'phase-1'
-  if (questionnaire.hasSchema === 'no' || questionnaire.hasSchema === 'unknown') return 'phase-2'
-  if (questionnaire.primaryGoal === 'citations' || questionnaire.primaryGoal === 'answers') return 'phase-3'
-  if (questionnaire.primaryGoal === 'brand') return 'phase-5'
-
+  // Phase 1 (Technical Foundation) always opens first —
+  // you need to audit your site before moving to schema, content, etc.
   return 'phase-1'
 }
 
