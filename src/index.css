@@ -5661,3 +5661,19 @@ body {
     padding: 0.25rem 0.375rem !important;
   }
 }
+
+/* ── Competitor Intelligence ── */
+
+.competitor-alert-card {
+  transition: border-color 150ms, box-shadow 150ms;
+}
+.competitor-alert-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Citation share pie chart responsive */
+@media (max-width: 768px) {
+  .competitor-alert-card {
+    padding: 0.625rem 0.75rem !important;
+  }
+}

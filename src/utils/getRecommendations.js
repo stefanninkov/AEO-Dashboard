@@ -692,6 +692,67 @@ export function getSmartRecommendations(project, phases, setActiveView) {
     })
   }
 
+  // 6b. Competitor monitoring intelligence
+  const compMonitorHistory = project.competitorMonitorHistory || []
+  const compAlerts = project.competitorAlerts || []
+  const undismissedAlerts = compAlerts.filter(a => !a.dismissed)
+
+  if (competitors.length > 0 && compMonitorHistory.length === 0 && hasApiKey) {
+    recs.push({
+      id: 'start-competitor-monitor',
+      text: 'Start tracking competitor AEO scores over time',
+      detail: 'Monitor how competitor scores change and get alerts when significant shifts happen.',
+      action: () => setActiveView('competitors'),
+      actionLabel: 'Monitor',
+      priority: 3,
+      category: 'competitors',
+    })
+  }
+
+  if (undismissedAlerts.length > 0) {
+    const topAlert = undismissedAlerts[0]
+    recs.push({
+      id: 'competitor-alert',
+      text: `${topAlert.competitorName} ${topAlert.type === 'score_jump' ? 'improved' : 'dropped'} by ${Math.abs(topAlert.delta)} points`,
+      detail: `Score went from ${topAlert.previousScore} to ${topAlert.currentScore}. Analyze what changed and apply learnings to your site.`,
+      action: () => setActiveView('competitors'),
+      actionLabel: 'Review Alert',
+      priority: 1,
+      category: 'competitors',
+    })
+  }
+
+  // 6c. Citation share intelligence
+  const citationHistory = project.citationShareHistory || []
+
+  if (competitors.length > 0 && citationHistory.length === 0 && hasApiKey) {
+    recs.push({
+      id: 'check-citation-share',
+      text: 'Check which brands AI engines cite for your industry',
+      detail: 'Run a citation share check to see how your brand visibility compares to competitors across AI platforms.',
+      action: () => setActiveView('competitors'),
+      actionLabel: 'Check Citations',
+      priority: 3,
+      category: 'competitors',
+    })
+  }
+
+  if (citationHistory.length > 0) {
+    const latestCitation = citationHistory[citationHistory.length - 1]
+    const ownBrand = Object.values(latestCitation.brands || {}).find(b => b.isOwn)
+    if (ownBrand && ownBrand.sharePercent < 15) {
+      recs.push({
+        id: 'low-citation-share',
+        text: `Your citation share is only ${ownBrand.sharePercent}% — competitors are getting more AI visibility`,
+        detail: 'Focus on content authority, schema markup, and freshness to increase how often AI engines cite your brand.',
+        action: () => setActiveView('competitors'),
+        actionLabel: 'View Share',
+        priority: 2,
+        category: 'competitors',
+      })
+    }
+  }
+
   // ── 7. Content Suggestions ──
   if (project.contentHistory?.length === 0 && hasApiKey) {
     recs.push({

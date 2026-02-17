@@ -53,6 +53,11 @@ const DEFAULT_PROJECT_DATA = {
   competitors: [],
   competitorAnalysis: null,
   lastCompetitorRun: null,
+  competitorMonitorHistory: [],
+  lastCompetitorMonitorRun: null,
+  competitorAlerts: [],
+  citationShareHistory: [],
+  lastCitationShareRun: null,
   questionnaire: {
     industry: null,
     industryOther: '',
@@ -79,6 +84,11 @@ const DEFAULT_PROJECT_DATA = {
     digestIncludeAlerts: true,
     digestIncludeRecommendations: true,
     lastDigestSent: null,
+    competitorMonitorEnabled: false,
+    competitorMonitorInterval: '7d',
+    brandMonitorEnabled: false,
+    brandMonitorInterval: '7d',
+    competitorAlertThreshold: 15,
   },
 }
 
