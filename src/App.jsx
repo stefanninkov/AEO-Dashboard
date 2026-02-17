@@ -30,6 +30,7 @@ const SettingsView = lazy(() => import('./views/SettingsView'))
 const WebflowView = lazy(() => import('./views/WebflowView'))
 const TeamView = lazy(() => import('./views/TeamView'))
 const GscView = lazy(() => import('./views/GscView'))
+const Ga4View = lazy(() => import('./views/Ga4View'))
 
 // Lazy-loaded modals (only loaded when opened)
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
@@ -516,6 +517,14 @@ function AuthenticatedApp({ user, onSignOut }) {
           <GscView
             activeProject={activeProject}
             updateProject={updateProject}
+            user={user}
+            setActiveView={setActiveView}
+          />
+        )
+      case 'ga4':
+        return (
+          <Ga4View
+            activeProject={activeProject}
             user={user}
             setActiveView={setActiveView}
           />

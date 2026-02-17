@@ -40,6 +40,7 @@ const NAV_ITEMS = [
   { id: 'monitoring', label: 'Monitoring', icon: Activity },
   { id: 'metrics', label: 'Metrics', icon: BarChart3 },
   { id: 'gsc', label: 'Search Console', icon: Search },
+  { id: 'ga4', label: 'AI Traffic', icon: Zap },
   { id: 'docs', label: 'Documentation', icon: BookOpen },
   { id: 'testing', label: 'Testing', icon: FlaskConical },
   { id: 'team', label: 'Team', icon: Users2 },
