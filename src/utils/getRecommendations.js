@@ -434,6 +434,77 @@ export function getSmartRecommendations(project, phases, setActiveView) {
     }
   }
 
+  // ── 3b. Page Analysis Intelligence ──
+  const pageAnalyses = project.pageAnalyses || {}
+  const pageUrls = Object.keys(pageAnalyses)
+  const pageCount = pageUrls.length
+
+  if (pageCount > 0) {
+    // Find worst page
+    const pageEntries = Object.entries(pageAnalyses)
+    let worstUrl = ''
+    let worstScore = 101
+    pageEntries.forEach(([url, data]) => {
+      const score = data.overallScore ?? 100
+      if (score < worstScore) {
+        worstScore = score
+        worstUrl = url
+      }
+    })
+
+    const shortUrl = (() => {
+      try {
+        const parsed = new URL(worstUrl)
+        return parsed.pathname === '/' || !parsed.pathname ? parsed.hostname : parsed.pathname
+      } catch { return worstUrl }
+    })()
+
+    if (worstScore < 50) {
+      recs.push({
+        id: 'page-critical',
+        text: `Your ${shortUrl} page scores ${worstScore} — focus here first`,
+        detail: `This page has critical AEO issues. Improving it will have the highest impact on your overall AEO performance.`,
+        action: () => setActiveView('analyzer'),
+        actionLabel: 'View Page',
+        priority: 1,
+        category: 'analysis',
+      })
+    } else if (worstScore < 80) {
+      recs.push({
+        id: 'page-improve',
+        text: `Improve ${shortUrl} from ${worstScore} to 80+`,
+        detail: 'This is your lowest-scoring page. Bringing it above 80 will strengthen your overall AEO profile.',
+        action: () => setActiveView('analyzer'),
+        actionLabel: 'View Page',
+        priority: 3,
+        category: 'analysis',
+      })
+    }
+
+    if (pageCount < 5) {
+      recs.push({
+        id: 'more-pages',
+        text: `Only ${pageCount} page${pageCount === 1 ? '' : 's'} analyzed — add more for a complete picture`,
+        detail: 'Analyze at least 5-10 key pages to understand your full AEO landscape and prioritize improvements.',
+        action: () => setActiveView('analyzer'),
+        actionLabel: 'Add Pages',
+        priority: 3,
+        category: 'analysis',
+      })
+    }
+  } else if (analyzerResults && hasApiKey) {
+    // Site analyzed but no individual pages
+    recs.push({
+      id: 'start-page-analysis',
+      text: 'Analyze individual pages for detailed AEO scoring',
+      detail: 'Your site-level analysis is done. Now add specific page URLs to see which pages need work and what to fix first.',
+      action: () => setActiveView('analyzer'),
+      actionLabel: 'Analyze Pages',
+      priority: 3,
+      category: 'analysis',
+    })
+  }
+
   // ── 4. Metrics Intelligence ──
   if (metricsHistory.length === 0 && project.url && hasApiKey) {
     recs.push({

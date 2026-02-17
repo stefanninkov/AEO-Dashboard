@@ -38,6 +38,8 @@ const DEFAULT_PROJECT_DATA = {
   notifications: {},
   analyzerResults: null,
   analyzerFixes: {},
+  pageAnalyses: {},
+  pageAnalyzerFixes: {},
   contentHistory: [],
   schemaHistory: [],
   queryTracker: [],
