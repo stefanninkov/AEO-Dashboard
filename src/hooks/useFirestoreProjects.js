@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import {
   collection,
   doc,
@@ -6,6 +6,7 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  getDocs,
   query,
   where,
 } from 'firebase/firestore'
@@ -160,87 +161,53 @@ function useLocalProjects(user) {
 }
 
 /* ── Firestore Projects (Production) ── */
+/*
+ * Dual-path strategy:
+ *   OLD path: users/{uid}/projects/{projectId}  — where existing data lives
+ *   NEW path: projects/{projectId} with memberIds — for team collaboration
+ *
+ * We listen to BOTH paths, merge the results, and tag each project with
+ * `_path: 'legacy' | 'shared'` so CRUD operations target the right collection.
+ * New projects are created at the OLD path (security rules already allow it).
+ */
 function useFirestoreProjectsImpl(user) {
   const userId = user?.uid
-  const [projects, setProjects] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [legacyProjects, setLegacyProjects] = useState([])
+  const [sharedProjects, setSharedProjects] = useState([])
+  const [legacyLoaded, setLegacyLoaded] = useState(false)
+  const [sharedLoaded, setSharedLoaded] = useState(false)
   const [activeProjectId, setActiveProjectId] = useState(null)
   const [didAutoCreate, setDidAutoCreate] = useState(false)
 
-  // Real-time listener for user's projects (top-level collection, filtered by membership)
+  const loading = !legacyLoaded || !sharedLoaded
+
+  // ── Listener 1: Legacy path (users/{uid}/projects) ──
   useEffect(() => {
     if (!userId) {
-      setProjects([])
-      setLoading(false)
+      setLegacyProjects([])
+      setLegacyLoaded(true)
       return
     }
 
-    setLoading(true)
-    let didSetLoading = false
+    setLegacyLoaded(false)
 
-    const projectsRef = collection(db, 'projects')
-    const q = query(projectsRef, where('memberIds', 'array-contains', userId))
+    const legacyRef = collection(db, 'users', userId, 'projects')
 
-    // Safety timeout: if Firestore hasn't responded in 5 seconds, stop loading
-    const timeoutId = setTimeout(() => {
-      if (!didSetLoading) {
-        didSetLoading = true
-        setLoading(false)
-      }
-    }, 5000)
+    const timeoutId = setTimeout(() => setLegacyLoaded(true), 5000)
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(legacyRef, (snapshot) => {
       clearTimeout(timeoutId)
-      didSetLoading = true
-
-      const projectList = snapshot.docs
-        .map((docSnap) => ({
-          id: docSnap.id,
-          ...docSnap.data(),
-        }))
-        .sort((a, b) => {
-          const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0
-          const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
-          return bTime - aTime
-        })
-
-      // Lazy migration: backfill team fields on legacy projects
-      projectList.forEach((project) => {
-        if (!project.ownerId && project.id) {
-          const ref = doc(db, 'projects', project.id)
-          updateDoc(ref, {
-            ownerId: userId,
-            memberIds: [userId],
-            members: [{
-              uid: userId,
-              email: user?.email || '',
-              displayName: user?.displayName || '',
-              role: 'admin',
-              addedAt: new Date().toISOString(),
-            }],
-            invitations: [],
-          }).catch((err) => logger.error('Lazy migration error:', err))
-        }
-      })
-
-      setProjects(projectList)
-
-      // Set active project if none selected
-      if (projectList.length > 0 && !activeProjectId) {
-        setActiveProjectId(projectList[0].id)
-      }
-
-      // If active project was deleted, switch to first
-      if (activeProjectId && !projectList.find(p => p.id === activeProjectId)) {
-        setActiveProjectId(projectList[0]?.id || null)
-      }
-
-      setLoading(false)
+      const list = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        _path: 'legacy',
+      }))
+      setLegacyProjects(list)
+      setLegacyLoaded(true)
     }, (err) => {
       clearTimeout(timeoutId)
-      didSetLoading = true
-      logger.error('Firestore projects error:', err)
-      setLoading(false)
+      logger.error('Legacy projects listener error:', err)
+      setLegacyLoaded(true)
     })
 
     return () => {
@@ -249,7 +216,80 @@ function useFirestoreProjectsImpl(user) {
     }
   }, [userId])
 
+  // ── Listener 2: Shared/team path (top-level projects collection) ──
+  useEffect(() => {
+    if (!userId) {
+      setSharedProjects([])
+      setSharedLoaded(true)
+      return
+    }
+
+    setSharedLoaded(false)
+
+    const sharedRef = collection(db, 'projects')
+    const q = query(sharedRef, where('memberIds', 'array-contains', userId))
+
+    const timeoutId = setTimeout(() => setSharedLoaded(true), 5000)
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      clearTimeout(timeoutId)
+      const list = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        _path: 'shared',
+      }))
+      setSharedProjects(list)
+      setSharedLoaded(true)
+    }, (err) => {
+      clearTimeout(timeoutId)
+      // Shared collection may not exist yet or rules may block — that's OK
+      logger.error('Shared projects listener error:', err)
+      setSharedProjects([])
+      setSharedLoaded(true)
+    })
+
+    return () => {
+      clearTimeout(timeoutId)
+      unsubscribe()
+    }
+  }, [userId])
+
+  // ── Merge & deduplicate (shared wins if same id exists in both) ──
+  const projects = useMemo(() => {
+    const sharedIds = new Set(sharedProjects.map(p => p.id))
+    const merged = [
+      ...sharedProjects,
+      ...legacyProjects.filter(p => !sharedIds.has(p.id)),
+    ]
+    return merged.sort((a, b) => {
+      const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0
+      const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
+      return bTime - aTime
+    })
+  }, [legacyProjects, sharedProjects])
+
+  // ── Set / fix active project when list changes ──
+  useEffect(() => {
+    if (loading) return
+    if (projects.length > 0 && !activeProjectId) {
+      setActiveProjectId(projects[0].id)
+    }
+    if (activeProjectId && !projects.find(p => p.id === activeProjectId)) {
+      setActiveProjectId(projects[0]?.id || null)
+    }
+  }, [loading, projects, activeProjectId])
+
   const activeProject = projects.find(p => p.id === activeProjectId) || projects[0] || null
+
+  // ── Helper: resolve Firestore doc ref for a project ──
+  const getProjectRef = useCallback((id) => {
+    const project = projects.find(p => p.id === id)
+    if (project?._path === 'shared') {
+      return doc(db, 'projects', id)
+    }
+    // Default to legacy path
+    return doc(db, 'users', userId, 'projects', id)
+  }, [projects, userId])
 
   const createProject = useCallback(async (name, url = '') => {
     if (!userId) return null
@@ -272,8 +312,9 @@ function useFirestoreProjectsImpl(user) {
       updatedAt: now,
     }
     try {
-      const projectsRef = collection(db, 'projects')
-      const docRef = await addDoc(projectsRef, projectData)
+      // Write to legacy path (security rules allow it)
+      const legacyRef = collection(db, 'users', userId, 'projects')
+      const docRef = await addDoc(legacyRef, projectData)
       setActiveProjectId(docRef.id)
       return { id: docRef.id, ...projectData }
     } catch (err) {
@@ -285,7 +326,7 @@ function useFirestoreProjectsImpl(user) {
   const updateProject = useCallback(async (id, updates) => {
     if (!userId || !id) return
     try {
-      const projectRef = doc(db, 'projects', id)
+      const projectRef = getProjectRef(id)
       await updateDoc(projectRef, {
         ...updates,
         updatedAt: new Date().toISOString(),
@@ -293,17 +334,17 @@ function useFirestoreProjectsImpl(user) {
     } catch (err) {
       logger.error('Update project error:', err)
     }
-  }, [userId])
+  }, [userId, getProjectRef])
 
   const deleteProject = useCallback(async (id) => {
     if (!userId || !id) return
     try {
-      const projectRef = doc(db, 'projects', id)
+      const projectRef = getProjectRef(id)
       await deleteDoc(projectRef)
     } catch (err) {
       logger.error('Delete project error:', err)
     }
-  }, [userId])
+  }, [userId, getProjectRef])
 
   const renameProject = useCallback(async (id, newName) => {
     await updateProject(id, { name: newName })
