@@ -33,11 +33,12 @@ export const sectionTitleStyle = {
 
 export const settingsRowStyle = {
   display: 'flex', alignItems: 'center', gap: '0.875rem', padding: '0.875rem 1.25rem',
-  borderBottom: '1px solid var(--border-subtle)',
+  borderBottom: '1px solid var(--border-subtle)', flexWrap: 'wrap',
 }
 
 export const lastRowStyle = {
   display: 'flex', alignItems: 'center', gap: '0.875rem', padding: '0.875rem 1.25rem',
+  flexWrap: 'wrap',
 }
 
 export const labelStyle = {
