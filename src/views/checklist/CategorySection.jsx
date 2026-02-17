@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useMemo, memo } from 'react'
 import { ChevronDown } from 'lucide-react'
 import CollapsibleContent from '../../components/shared/CollapsibleContent'
 import ChecklistItem from './ChecklistItem'
 
 const INITIAL_VISIBLE = 20
 
-export default function CategorySection({
+export default memo(function CategorySection({
   category,
   phase,
   checked,
@@ -41,13 +41,11 @@ export default function CategorySection({
 }) {
   const [showAll, setShowAll] = useState(false)
 
-  const getCategoryCheckState = () => {
+  const catState = useMemo(() => {
     let total = 0, checkedCount = 0
     category.items.forEach(item => { total++; if (checked[item.id]) checkedCount++ })
     return { total, checkedCount, allChecked: checkedCount === total, someChecked: checkedCount > 0 }
-  }
-
-  const catState = getCategoryCheckState()
+  }, [category.items, checked])
   const items = category.items
   const hasMore = items.length > INITIAL_VISIBLE
   const visibleItems = showAll || !hasMore ? items : items.slice(0, INITIAL_VISIBLE)
@@ -134,4 +132,4 @@ export default function CategorySection({
       </CollapsibleContent>
     </div>
   )
-}
+})

@@ -1,9 +1,10 @@
+import { memo } from 'react'
 import { ChevronDown, Star } from 'lucide-react'
 import AnimatedNumber from '../../components/AnimatedNumber'
 import CollapsibleContent from '../../components/shared/CollapsibleContent'
 import CategorySection from './CategorySection'
 
-export default function PhaseCard({
+export default memo(function PhaseCard({
   phase,
   progress,
   isExpanded,
@@ -154,4 +155,4 @@ export default function PhaseCard({
       </CollapsibleContent>
     </div>
   )
-}
+})

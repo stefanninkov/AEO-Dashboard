@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo, useCallback, memo } from 'react'
 import { Plus, Zap, FileText, MessageSquare, Globe, Target, BarChart3 } from 'lucide-react'
 import { getSmartRecommendations } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
@@ -23,7 +23,7 @@ const SUB_TABS = [
 
 const ENGINE_COLORS = PHASE_COLOR_ARRAY
 
-function CustomTooltip({ active, payload, label }) {
+const CustomTooltip = memo(function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
@@ -38,12 +38,12 @@ function CustomTooltip({ active, payload, label }) {
       ))}
     </div>
   )
-}
+})
 
 export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid }) {
   const [subTab, setSubTab] = useState('overview')
 
-  const getPhaseProgress = (phase) => {
+  const getPhaseProgress = useCallback((phase) => {
     if (!activeProject) return { total: 0, checked: 0, percent: 0 }
     let total = 0, checked = 0
     phase.categories.forEach(cat => {
@@ -53,65 +53,72 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       })
     })
     return { total, checked, percent: total > 0 ? Math.round((checked / total) * 100) : 0 }
-  }
+  }, [activeProject])
 
   // Metrics data from project history
   const metricsHistory = activeProject?.metricsHistory || []
   const latestMetrics = metricsHistory.length > 0 ? metricsHistory[metricsHistory.length - 1] : null
   const prevMetrics = metricsHistory.length > 1 ? metricsHistory[metricsHistory.length - 2] : null
 
-  const calcTrend = (curr, prev) => {
-    if (!curr || !prev || prev === 0) return 0
-    return Math.round(((curr - prev) / prev) * 100 * 10) / 10
-  }
-
-  const totalCitations = latestMetrics?.citations?.total || 0
-  const totalPrompts = latestMetrics?.prompts?.total || 0
-  const activeEngines = latestMetrics?.citations?.byEngine?.filter(e => e.citations > 0).length || 0
-  const aeoScore = latestMetrics?.overallScore || 0
-
-  const citationsTrend = calcTrend(totalCitations, prevMetrics?.citations?.total)
-  const promptsTrend = calcTrend(totalPrompts, prevMetrics?.prompts?.total)
-  const scoreTrend = calcTrend(aeoScore, prevMetrics?.overallScore)
+  // Memoize all derived metrics data
+  const { totalCitations, totalPrompts, activeEngines, aeoScore, citationsTrend, promptsTrend, scoreTrend } = useMemo(() => {
+    const calcTrend = (curr, prev) => {
+      if (!curr || !prev || prev === 0) return 0
+      return Math.round(((curr - prev) / prev) * 100 * 10) / 10
+    }
+    const tc = latestMetrics?.citations?.total || 0
+    const tp = latestMetrics?.prompts?.total || 0
+    const ae = latestMetrics?.citations?.byEngine?.filter(e => e.citations > 0).length || 0
+    const as_ = latestMetrics?.overallScore || 0
+    return {
+      totalCitations: tc,
+      totalPrompts: tp,
+      activeEngines: ae,
+      aeoScore: as_,
+      citationsTrend: calcTrend(tc, prevMetrics?.citations?.total),
+      promptsTrend: calcTrend(tp, prevMetrics?.prompts?.total),
+      scoreTrend: calcTrend(as_, prevMetrics?.overallScore),
+    }
+  }, [latestMetrics, prevMetrics])
 
   // Chart data: last 14 snapshots
-  const chartData = metricsHistory.slice(-14).map(m => ({
+  const chartData = useMemo(() => metricsHistory.slice(-14).map(m => ({
     date: new Date(m.timestamp).toLocaleDateString('en', { month: 'short', day: 'numeric' }),
     Citations: m.citations?.total || 0,
     Prompts: m.prompts?.total || 0,
-  }))
+  })), [metricsHistory])
 
   // Pie data: engine distribution
-  const engineData = latestMetrics?.citations?.byEngine?.filter(e => e.citations > 0).map((e, i) => ({
+  const engineData = useMemo(() => latestMetrics?.citations?.byEngine?.filter(e => e.citations > 0).map((e, i) => ({
     name: e.engine?.split(' ')[0] || 'Other',
     value: e.citations || 0,
     color: ENGINE_COLORS[i % ENGINE_COLORS.length],
-  })) || []
+  })) || [], [latestMetrics])
 
   // All engines (including zero) for detail tables
-  const allEngineData = latestMetrics?.citations?.byEngine?.map((e, i) => ({
+  const allEngineData = useMemo(() => latestMetrics?.citations?.byEngine?.map((e, i) => ({
     name: e.engine || 'Unknown',
     citations: e.citations || 0,
     color: ENGINE_COLORS[i % ENGINE_COLORS.length],
-  })) || []
+  })) || [], [latestMetrics])
 
   // Top prompts
-  const topPrompts = latestMetrics?.prompts?.topPrompts || latestMetrics?.prompts?.byCategory || []
+  const topPrompts = useMemo(() => latestMetrics?.prompts?.topPrompts || latestMetrics?.prompts?.byCategory || [], [latestMetrics])
 
   // Prompts chart data
-  const promptsChartData = metricsHistory.slice(-14).map(m => ({
+  const promptsChartData = useMemo(() => metricsHistory.slice(-14).map(m => ({
     date: new Date(m.timestamp).toLocaleDateString('en', { month: 'short', day: 'numeric' }),
     Prompts: m.prompts?.total || 0,
-  }))
+  })), [metricsHistory])
 
   // Citations-only chart data
-  const citationsChartData = metricsHistory.slice(-14).map(m => ({
+  const citationsChartData = useMemo(() => metricsHistory.slice(-14).map(m => ({
     date: new Date(m.timestamp).toLocaleDateString('en', { month: 'short', day: 'numeric' }),
     Citations: m.citations?.total || 0,
-  }))
+  })), [metricsHistory])
 
   // Smart Recommendations — uses full project state, not just questionnaire
-  const recommendations = getSmartRecommendations(activeProject, phases, setActiveView)
+  const recommendations = useMemo(() => getSmartRecommendations(activeProject, phases, setActiveView), [activeProject, phases, setActiveView])
 
   const EmptyState = ({ message }) => (
     <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>

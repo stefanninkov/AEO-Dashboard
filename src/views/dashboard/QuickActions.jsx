@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import { CheckSquare, Zap, FlaskConical } from 'lucide-react'
 
-export default function QuickActions({ setActiveView }) {
+export default memo(function QuickActions({ setActiveView }) {
   return (
     <div className="quick-actions-grid">
       <button className="quick-action-card" onClick={() => setActiveView('checklist')}>
@@ -20,4 +21,4 @@ export default function QuickActions({ setActiveView }) {
       </button>
     </div>
   )
-}
+})

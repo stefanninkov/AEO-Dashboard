@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { Search, CheckCircle2 } from 'lucide-react'
 import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
@@ -50,18 +50,21 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
 
-  // ── Handlers ──
+  // ── Handlers (memoized for child component stability) ──
 
-  const handleToggle = (itemId, item, phaseNumber) => {
+  const handleToggle = useCallback((itemId, item, phaseNumber) => {
     if (checked[itemId]) {
       toggleCheckItem(itemId)
       logAndDispatch('uncheck', { taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber }, user)
     } else {
       setVerifyItem({ ...item, _phaseNumber: phaseNumber })
     }
-  }
+  }, [checked, toggleCheckItem, logAndDispatch, user])
 
-  const handleVerified = (verification) => {
+  const handleCloseVerify = useCallback(() => { setVerifyClosing(true) }, [])
+  const handleVerifyExited = useCallback(() => { setVerifyClosing(false); setVerifyItem(null) }, [])
+
+  const handleVerified = useCallback((verification) => {
     const newVerifications = {
       ...(activeProject.verifications || {}),
       [verifyItem.id]: verification,
@@ -91,13 +94,10 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     setBouncingId(verifyItem.id)
     setTimeout(() => setBouncingId(null), 450)
     handleCloseVerify()
-  }
-
-  const handleCloseVerify = () => { setVerifyClosing(true) }
-  const handleVerifyExited = () => { setVerifyClosing(false); setVerifyItem(null) }
+  }, [verifyItem, activeProject, checked, phases, updateProject, toggleCheckItem, logAndDispatch, user, handleCloseVerify])
 
   // Notes handlers
-  const saveNote = (itemId, text) => {
+  const saveNote = useCallback((itemId, text) => {
     clearTimeout(saveTimerRef.current)
     clearTimeout(savedTimerRef.current)
     const trimmed = text.trim()
@@ -118,29 +118,30 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     }
     setNoteSaveStatus('saved')
     savedTimerRef.current = setTimeout(() => setNoteSaveStatus(null), 2000)
-  }
+  }, [notes, noteTimestamps, activeProject?.id, updateProject, phases, logAndDispatch, user])
 
-  const handleNoteChange = (itemId, text) => {
+  const handleNoteChange = useCallback((itemId, text) => {
     setNoteDraft(text)
     clearTimeout(saveTimerRef.current)
     setNoteSaveStatus(null)
     saveTimerRef.current = setTimeout(() => saveNote(itemId, text), 1000)
-  }
+  }, [saveNote])
 
-  const toggleNote = (itemId) => {
-    if (openNoteId === itemId) {
-      saveNote(itemId, noteDraft)
-      setOpenNoteId(null)
-      setNoteDraft('')
-    } else {
-      if (openNoteId) saveNote(openNoteId, noteDraft)
-      setOpenNoteId(itemId)
+  const toggleNote = useCallback((itemId) => {
+    setOpenNoteId(prev => {
+      if (prev === itemId) {
+        saveNote(itemId, noteDraft)
+        setNoteDraft('')
+        return null
+      }
+      if (prev) saveNote(prev, noteDraft)
       setNoteDraft(notes[itemId] || '')
       setNoteSaveStatus(null)
-    }
-  }
+      return itemId
+    })
+  }, [saveNote, noteDraft, notes])
 
-  const handleAssign = (itemId, memberUid, item, phaseNumber) => {
+  const handleAssign = useCallback((itemId, memberUid, item, phaseNumber) => {
     const member = members.find(m => m.uid === memberUid)
     if (!member) return
     const newAssignments = { ...assignments, [itemId]: memberUid }
@@ -154,9 +155,9 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       const actorName = user?.displayName || user?.email || 'Someone'
       addNotification(memberUid, 'task_assign', `${actorName} assigned you to "${item.text.slice(0, 60)}"`, { taskId: itemId, phase: phaseNumber })
     }
-  }
+  }, [assignments, members, activeProject?.id, updateProject, logAndDispatch, user, addNotification])
 
-  const handleUnassign = (itemId, item, phaseNumber) => {
+  const handleUnassign = useCallback((itemId, item, phaseNumber) => {
     const prevUid = assignments[itemId]
     const prevMember = members.find(m => m.uid === prevUid)
     const newAssignments = { ...assignments }
@@ -171,20 +172,18 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       const actorName = user?.displayName || user?.email || 'Someone'
       addNotification(prevUid, 'task_unassign', `${actorName} unassigned you from "${item.text.slice(0, 60)}"`, { taskId: itemId, phase: phaseNumber })
     }
-  }
+  }, [assignments, members, activeProject?.id, updateProject, logAndDispatch, user, addNotification])
 
   // Comments handlers
-  const toggleComments = (itemId) => {
-    if (openCommentId === itemId) {
-      setOpenCommentId(null)
+  const toggleComments = useCallback((itemId) => {
+    setOpenCommentId(prev => {
+      if (prev === itemId) { setCommentDraft(''); return null }
       setCommentDraft('')
-    } else {
-      setOpenCommentId(itemId)
-      setCommentDraft('')
-    }
-  }
+      return itemId
+    })
+  }, [])
 
-  const handleCommentAdd = (itemId, text, item, phaseNumber) => {
+  const handleCommentAdd = useCallback((itemId, text, item, phaseNumber) => {
     const trimmed = text.trim()
     if (!trimmed) return
     const newComment = {
@@ -210,35 +209,39 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       }
     }
     setCommentDraft('')
-  }
+  }, [comments, assignments, activeProject?.id, updateProject, logAndDispatch, user, addNotification])
 
-  const handleCommentDelete = (itemId, commentId) => {
+  const handleCommentDelete = useCallback((itemId, commentId) => {
     const taskComments = comments[itemId] || []
     const newComments = { ...comments, [itemId]: taskComments.filter(c => c.id !== commentId) }
     if (newComments[itemId].length === 0) delete newComments[itemId]
     updateProject(activeProject.id, { comments: newComments })
-  }
+  }, [comments, activeProject?.id, updateProject])
 
-  const togglePhase = (phaseId) => {
+  const togglePhase = useCallback((phaseId) => {
     setExpandedPhases(prev => ({ ...prev, [phaseId]: !prev[phaseId] }))
-  }
+  }, [])
 
-  const toggleCategory = (categoryId) => {
+  const toggleCategory = useCallback((categoryId) => {
     setExpandedCategories(prev => ({ ...prev, [categoryId]: prev[categoryId] === false ? true : false }))
-  }
-  const isCategoryExpanded = (categoryId) => expandedCategories[categoryId] !== false
+  }, [])
+  const isCategoryExpanded = useCallback((categoryId) => expandedCategories[categoryId] !== false, [expandedCategories])
 
-  const handleBulkCheck = (category) => {
+  const handleBulkCheck = useCallback((category) => {
     const newChecked = { ...checked }
     category.items.forEach(item => { newChecked[item.id] = true })
     updateProject(activeProject.id, { checked: newChecked })
-  }
+  }, [checked, activeProject?.id, updateProject])
 
-  const handleBulkUncheck = (category) => {
+  const handleQuickView = useCallback((id) => {
+    setQuickViewItem(prev => prev === id ? null : id)
+  }, [])
+
+  const handleBulkUncheck = useCallback((category) => {
     const newChecked = { ...checked }
     category.items.forEach(item => { newChecked[item.id] = false })
     updateProject(activeProject.id, { checked: newChecked })
-  }
+  }, [checked, activeProject?.id, updateProject])
 
   // ── Progress helpers ──
 
@@ -250,7 +253,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     return { total, done, percent: total > 0 ? Math.round((done / total) * 100) : 0 }
   }
 
-  const getTotalProgress = () => {
+  const totalProgress = useMemo(() => {
     let total = 0, done = 0
     phases.forEach(phase => {
       phase.categories.forEach(cat => {
@@ -258,9 +261,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       })
     })
     return { total, done, percent: total > 0 ? Math.round((done / total) * 100) : 0 }
-  }
-
-  const totalProgress = getTotalProgress()
+  }, [phases, checked])
 
   // ── Phase completion detection ──
 
@@ -291,18 +292,20 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   // ── Filtering ──
 
-  const filteredPhases = debouncedSearch.trim()
-    ? phases.map(phase => ({
-        ...phase,
-        categories: phase.categories.map(cat => ({
-          ...cat,
-          items: cat.items.filter(item =>
-            item.text.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-            item.detail.toLowerCase().includes(debouncedSearch.toLowerCase())
-          )
-        })).filter(cat => cat.items.length > 0)
-      })).filter(phase => phase.categories.length > 0)
-    : phases
+  const filteredPhases = useMemo(() => {
+    if (!debouncedSearch.trim()) return phases
+    const q = debouncedSearch.toLowerCase()
+    return phases.map(phase => ({
+      ...phase,
+      categories: phase.categories.map(cat => ({
+        ...cat,
+        items: cat.items.filter(item =>
+          item.text.toLowerCase().includes(q) ||
+          item.detail.toLowerCase().includes(q)
+        )
+      })).filter(cat => cat.items.length > 0)
+    })).filter(phase => phase.categories.length > 0)
+  }, [debouncedSearch, phases])
 
   // ── Render ──
 
@@ -420,7 +423,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           onBulkUncheck={handleBulkUncheck}
           setExpandedCategories={setExpandedCategories}
           onToggle={handleToggle}
-          onQuickView={(id) => setQuickViewItem(quickViewItem === id ? null : id)}
+          onQuickView={handleQuickView}
           onDocItem={setDocItem}
           onToggleNote={toggleNote}
           onNoteChange={handleNoteChange}
