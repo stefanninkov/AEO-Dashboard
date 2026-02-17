@@ -28,6 +28,7 @@ export default memo(function PhaseCard({
   setExpandedCategories,
   onToggle,
   onDocItem,
+  onNavigate,
   onAssign,
   onUnassign,
   onToggleComments,
@@ -126,6 +127,7 @@ export default memo(function PhaseCard({
               onBulkUncheck={onBulkUncheck}
               onToggle={onToggle}
               onDocItem={onDocItem}
+              onNavigate={onNavigate}
               onAssign={onAssign}
               onUnassign={onUnassign}
               onToggleComments={onToggleComments}

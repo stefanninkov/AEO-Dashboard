@@ -620,6 +620,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           onExited={handleOverlayExited}
           isClosing={overlayClosing}
           phases={phases}
+          setActiveView={setActiveView}
         />
       )}
 

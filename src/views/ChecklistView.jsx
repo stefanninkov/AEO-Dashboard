@@ -411,6 +411,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           setExpandedCategories={setExpandedCategories}
           onToggle={handleToggle}
           onDocItem={setDocItem}
+          onNavigate={setActiveView}
           onAssign={handleAssign}
           onUnassign={handleUnassign}
           onToggleComments={toggleComments}

@@ -22,6 +22,7 @@ export default memo(function CategorySection({
   onBulkUncheck,
   onToggle,
   onDocItem,
+  onNavigate,
   onAssign,
   onUnassign,
   onToggleComments,
@@ -85,6 +86,7 @@ export default memo(function CategorySection({
               members={members}
               onToggle={onToggle}
               onDocItem={onDocItem}
+              onNavigate={onNavigate}
               onAssign={onAssign}
               onUnassign={onUnassign}
               onToggleComments={onToggleComments}

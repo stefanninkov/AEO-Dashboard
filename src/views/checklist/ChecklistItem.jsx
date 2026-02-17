@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, memo } from 'react'
-import { CheckCircle2, BookOpen, UserPlus, MessageSquare, Send, Trash2 } from 'lucide-react'
+import { CheckCircle2, BookOpen, UserPlus, MessageSquare, Send, Trash2, ExternalLink, ArrowRight } from 'lucide-react'
 
 /* ── Avatar helpers ── */
 const AVATAR_COLORS = [
@@ -184,6 +184,7 @@ export default memo(function ChecklistItem({
   members,
   onToggle,
   onDocItem,
+  onNavigate,
   onAssign,
   onUnassign,
   onToggleComments,
@@ -246,6 +247,72 @@ export default memo(function ChecklistItem({
           </p>
           {/* Detail — always visible */}
           <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem', lineHeight: 1.5 }}>{item.detail}</p>
+          {/* Action buttons — always visible */}
+          <div style={{ display: 'flex', gap: '0.375rem', marginTop: '0.375rem', flexWrap: 'wrap' }}>
+            {item.doc && (
+              <button
+                onClick={() => onDocItem(item)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                  padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
+                  border: '1px solid var(--border-subtle)',
+                  background: 'none', cursor: 'pointer',
+                  color: 'var(--text-tertiary)', fontSize: '0.6875rem',
+                  fontFamily: 'var(--font-body)',
+                  transition: 'all 150ms',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.borderColor = 'var(--border-default)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-tertiary)'; e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+                title="View full documentation"
+                aria-label={`Documentation for: ${item.text}`}
+              >
+                <BookOpen size={11} />
+                Learn more
+              </button>
+            )}
+            {item.action?.view && onNavigate && (
+              <button
+                onClick={() => onNavigate(item.action.view)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                  padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
+                  border: `1px solid ${phase.color}30`,
+                  background: phase.color + '08', cursor: 'pointer',
+                  color: phase.color, fontSize: '0.6875rem',
+                  fontWeight: 500, fontFamily: 'var(--font-body)',
+                  transition: 'all 150ms',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = phase.color + '15' }}
+                onMouseLeave={e => { e.currentTarget.style.background = phase.color + '08' }}
+                title={item.action.label}
+              >
+                {item.action.label}
+                <ArrowRight size={11} />
+              </button>
+            )}
+            {item.action?.external && (
+              <a
+                href={item.action.external}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                  padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
+                  border: `1px solid ${phase.color}30`,
+                  background: phase.color + '08', cursor: 'pointer',
+                  color: phase.color, fontSize: '0.6875rem',
+                  fontWeight: 500, fontFamily: 'var(--font-body)',
+                  textDecoration: 'none',
+                  transition: 'all 150ms',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = phase.color + '15' }}
+                onMouseLeave={e => { e.currentTarget.style.background = phase.color + '08' }}
+              >
+                {item.action.label}
+                <ExternalLink size={11} />
+              </a>
+            )}
+          </div>
         </div>
 
         {/* Assigned avatar (always visible when assigned) */}
@@ -277,16 +344,8 @@ export default memo(function ChecklistItem({
           </button>
         )}
 
-        {/* Actions */}
+        {/* Actions (hover) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, opacity: 0, position: 'relative' }} className="group-hover:opacity-100 transition-opacity duration-150">
-          <button
-            onClick={() => onDocItem(item)}
-            style={{ padding: '0.375rem', borderRadius: '0.5rem', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
-            title="Full documentation"
-            aria-label="Full documentation"
-          >
-            <BookOpen size={13} />
-          </button>
           <button
             onClick={() => onToggleComments(item.id)}
             className={`checklist-comment-btn${commentCount > 0 ? ' has-comments' : ''}`}

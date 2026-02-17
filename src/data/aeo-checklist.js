@@ -16,6 +16,7 @@ export const phases = [
             id: 'p1-c1-i1',
             text: 'Audit all pages for question-based intent coverage',
             detail: 'Review every page to identify which user questions it answers and find gaps in coverage.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Auditing Pages for Question-Based Intent',
               sections: [
@@ -30,6 +31,7 @@ export const phases = [
             id: 'p1-c1-i2',
             text: 'Identify pages already in AI overviews / featured snippets',
             detail: 'Find which of your pages are already being cited by AI engines or appearing in featured snippets.',
+            action: { view: 'gsc', label: 'Open Search Console' },
             doc: {
               title: 'Identifying Existing AI Overview Appearances',
               sections: [
@@ -44,6 +46,7 @@ export const phases = [
             id: 'p1-c1-i3',
             text: 'Analyze competitor content AI engines cite',
             detail: 'Research which competitor pages are being cited by AI platforms to understand what formats succeed.',
+            action: { view: 'competitors', label: 'Open Competitors' },
             doc: {
               title: 'Competitive Analysis for AI Engine Citations',
               sections: [
@@ -58,6 +61,7 @@ export const phases = [
             id: 'p1-c1-i4',
             text: 'Map user journey questions at each funnel stage',
             detail: 'Identify questions users ask at awareness, consideration, and decision stages.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Mapping Questions Across the User Journey',
               sections: [
@@ -72,6 +76,7 @@ export const phases = [
             id: 'p1-c1-i5',
             text: 'Audit existing FAQ pages and knowledge base',
             detail: 'Evaluate current FAQ and help content for completeness, format, and AEO readiness.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Auditing FAQ Pages and Knowledge Base',
               sections: [
@@ -86,6 +91,7 @@ export const phases = [
             id: 'p1-c1-i6',
             text: 'Evaluate AI portrayal accuracy for your brand',
             detail: 'Check how AI platforms describe your brand and identify any inaccuracies or gaps in their knowledge.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Evaluating AI Portrayal Accuracy',
               sections: [
@@ -100,6 +106,7 @@ export const phases = [
             id: 'p1-c1-i7',
             text: 'Prioritize AEO topics by impact and feasibility',
             detail: 'Rank topic opportunities by search volume, competition level, existing authority, and business value to focus efforts.',
+            action: { view: 'content-ops', label: 'Open Content Ops' },
             doc: {
               title: 'Prioritizing AEO Topics',
               sections: [
@@ -120,6 +127,7 @@ export const phases = [
             id: 'p1-c2-i1',
             text: 'Verify robots.txt allows AI crawler access (GPTBot, Google-Extended, ClaudeBot, PerplexityBot, CCBot, Bytespider)',
             detail: 'Ensure robots.txt does not block major AI crawlers from accessing your content.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Configuring robots.txt for AI Crawlers',
               sections: [
@@ -135,6 +143,7 @@ export const phases = [
             id: 'p1-c2-i2',
             text: 'Ensure sitemap.xml is complete, valid, submitted to Google AND Bing',
             detail: 'Verify sitemap includes all important pages and is submitted to both search consoles.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Sitemap Completeness and Submission',
               sections: [
@@ -149,6 +158,7 @@ export const phases = [
             id: 'p1-c2-i3',
             text: 'Check Core Web Vitals (LCP < 2.5s, INP < 200ms, CLS < 0.1)',
             detail: 'Measure and optimize Largest Contentful Paint, Interaction to Next Paint, and Cumulative Layout Shift.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Core Web Vitals for AEO',
               sections: [
@@ -163,6 +173,7 @@ export const phases = [
             id: 'p1-c2-i4',
             text: 'Verify SSL/HTTPS entire site',
             detail: 'Confirm every page loads over HTTPS with valid SSL and no mixed content.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Full-Site HTTPS Verification',
               sections: [
@@ -177,6 +188,7 @@ export const phases = [
             id: 'p1-c2-i5',
             text: 'Test mobile responsiveness and accessibility (Lighthouse)',
             detail: 'Run Lighthouse audits for mobile performance and accessibility compliance.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Mobile and Accessibility Auditing',
               sections: [
@@ -208,6 +220,7 @@ export const phases = [
             id: 'p2-c1-i1',
             text: 'FAQPage schema on all FAQ content (JSON-LD)',
             detail: 'Add FAQPage structured data to every page with FAQ content using JSON-LD format.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Implementing FAQPage Schema',
               sections: [
@@ -222,6 +235,7 @@ export const phases = [
             id: 'p2-c1-i2',
             text: 'HowTo schema for tutorials/processes',
             detail: 'Add HowTo structured data to tutorial and process content.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Implementing HowTo Schema',
               sections: [
@@ -236,6 +250,7 @@ export const phases = [
             id: 'p2-c1-i3',
             text: 'Article/BlogPosting schema with full metadata',
             detail: 'Add Article or BlogPosting schema with author, dates, publisher, and images.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Article and BlogPosting Schema',
               sections: [
@@ -250,6 +265,7 @@ export const phases = [
             id: 'p2-c1-i4',
             text: 'Product schema with complete offers',
             detail: 'Add Product schema with price, availability, currency, reviews, and brand.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Product Schema Implementation',
               sections: [
@@ -264,6 +280,7 @@ export const phases = [
             id: 'p2-c1-i5',
             text: 'Organization schema (logo, sameAs, contact)',
             detail: 'Add Organization schema with complete business information and social links.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Organization Schema',
               sections: [
@@ -278,6 +295,7 @@ export const phases = [
             id: 'p2-c1-i6',
             text: 'BreadcrumbList schema on every page',
             detail: 'Implement BreadcrumbList schema to show page hierarchy to search engines.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'BreadcrumbList Schema',
               sections: [
@@ -292,6 +310,7 @@ export const phases = [
             id: 'p2-c1-i7',
             text: 'Design CMS content models for structured schema output',
             detail: 'Structure your CMS collections and content types so they naturally produce clean schema markup without manual intervention.',
+            action: { view: 'docs', label: 'Open Documentation' },
             doc: {
               title: 'CMS Content Models for Schema',
               sections: [
@@ -312,6 +331,7 @@ export const phases = [
             id: 'p2-c2-i1',
             text: 'Speakable schema for voice search',
             detail: 'Mark up content sections that are especially suited for voice/audio playback.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Speakable Schema for Voice Search',
               sections: [
@@ -326,6 +346,7 @@ export const phases = [
             id: 'p2-c2-i2',
             text: 'Review/AggregateRating schema',
             detail: 'Add review and rating schema to content with user or expert reviews.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Review and Rating Schema',
               sections: [
@@ -340,6 +361,7 @@ export const phases = [
             id: 'p2-c2-i3',
             text: 'LocalBusiness schema if applicable',
             detail: 'Add LocalBusiness schema for businesses with physical locations.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'LocalBusiness Schema',
               sections: [
@@ -354,6 +376,7 @@ export const phases = [
             id: 'p2-c2-i4',
             text: 'VideoObject schema for videos',
             detail: 'Add VideoObject schema to all pages containing embedded videos.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'VideoObject Schema',
               sections: [
@@ -368,6 +391,7 @@ export const phases = [
             id: 'p2-c2-i5',
             text: 'Validate ALL schema — zero errors everywhere',
             detail: 'Run validation on every schema implementation and fix all errors and warnings.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Schema Validation and Error Resolution',
               sections: [
@@ -400,6 +424,7 @@ export const phases = [
             id: 'p3-c1-i1',
             text: 'Inverted Pyramid format (answer first, details after)',
             detail: 'Structure content with the direct answer at the top, followed by supporting details.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Inverted Pyramid Content Structure',
               sections: [
@@ -414,6 +439,7 @@ export const phases = [
             id: 'p3-c1-i2',
             text: 'Clear H2/H3 hierarchy matching question intent',
             detail: 'Use heading tags that directly match the questions users are asking.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Question-Intent Heading Hierarchy',
               sections: [
@@ -428,6 +454,7 @@ export const phases = [
             id: 'p3-c1-i3',
             text: '40-60 word answer paragraphs for key questions (THE key AEO technique)',
             detail: 'Write concise, self-contained answer paragraphs that AI engines can extract directly.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'The 40-60 Word Answer Paragraph',
               sections: [
@@ -443,6 +470,7 @@ export const phases = [
             id: 'p3-c1-i4',
             text: 'TL;DR / Summary boxes on long content',
             detail: 'Add summary sections at the top of long-form content for quick answer extraction.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'TL;DR and Summary Boxes',
               sections: [
@@ -457,6 +485,7 @@ export const phases = [
             id: 'p3-c1-i5',
             text: "Definition-style formatting ('[Term] is [definition]')",
             detail: 'Use clear definition formatting to help AI engines extract and present your definitions.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Definition-Style Content Formatting',
               sections: [
@@ -471,6 +500,7 @@ export const phases = [
             id: 'p3-c1-i6',
             text: "Comparison tables for 'vs' and 'best of' queries",
             detail: 'Create structured comparison tables for competitive and list-based queries.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Comparison Tables for AEO',
               sections: [
@@ -485,6 +515,7 @@ export const phases = [
             id: 'p3-c1-i7',
             text: 'Ensure content sections are self-contained and independently citable',
             detail: 'Write each section so it can be extracted by AI engines and still make complete sense without surrounding context.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Self-Contained Content Sections',
               sections: [
@@ -499,6 +530,7 @@ export const phases = [
             id: 'p3-c1-i8',
             text: 'Optimize headlines and metadata for AI answer extraction',
             detail: 'Rewrite page titles and meta descriptions so they serve as concise answers AI engines can directly reference.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Headlines and Metadata for AI Extraction',
               sections: [
@@ -519,6 +551,7 @@ export const phases = [
             id: 'p3-c2-i1',
             text: 'Author bios with credentials + Person schema',
             detail: 'Add detailed author information with qualifications and link to Person schema.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Author Bios and Person Schema',
               sections: [
@@ -533,6 +566,7 @@ export const phases = [
             id: 'p3-c2-i2',
             text: 'Original data, research, case studies',
             detail: 'Create and publish original research, data, and case studies that AI engines can cite.',
+            action: { view: 'content-ops', label: 'Open Content Ops' },
             doc: {
               title: 'Original Research and Data',
               sections: [
@@ -547,6 +581,7 @@ export const phases = [
             id: 'p3-c2-i3',
             text: "'Last Updated' dates (visible + dateModified schema)",
             detail: 'Show visible update dates and include dateModified in schema markup.',
+            action: { view: 'schema', label: 'Open Schema Generator' },
             doc: {
               title: 'Content Freshness Signals',
               sections: [
@@ -561,6 +596,7 @@ export const phases = [
             id: 'p3-c2-i4',
             text: 'Cite authoritative external sources',
             detail: 'Reference and link to authoritative sources to build trust and demonstrate research.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'External Source Citations',
               sections: [
@@ -575,6 +611,7 @@ export const phases = [
             id: 'p3-c2-i5',
             text: 'Topic clusters (pillar + 5-15 supporting pages)',
             detail: 'Build topical authority through pillar pages linked to supporting content.',
+            action: { view: 'content-ops', label: 'Open Content Ops' },
             doc: {
               title: 'Topic Cluster Strategy',
               sections: [
@@ -589,6 +626,7 @@ export const phases = [
             id: 'p3-c2-i6',
             text: 'Natural, conversational writing style',
             detail: 'Write in a style that matches how AI engines present information and how users ask questions.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Conversational Writing for AEO',
               sections: [
@@ -609,6 +647,7 @@ export const phases = [
             id: 'p3-c3-i1',
             text: 'Dedicated Q&A sections on every key page (5-10 questions)',
             detail: 'Add structured Q&A sections with 5-10 relevant questions on important pages.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Page-Level Q&A Sections',
               sections: [
@@ -623,6 +662,7 @@ export const phases = [
             id: 'p3-c3-i2',
             text: 'People Also Ask targeted content clusters',
             detail: 'Create content targeting People Also Ask questions in your niche.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'People Also Ask Content Strategy',
               sections: [
@@ -637,6 +677,7 @@ export const phases = [
             id: 'p3-c3-i3',
             text: 'Long-tail conversational query optimization',
             detail: 'Optimize for natural-language, long-tail queries that users type into AI assistants.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Long-Tail Conversational Query Optimization',
               sections: [
@@ -651,6 +692,7 @@ export const phases = [
             id: 'p3-c3-i4',
             text: 'Entity-rich content defining relationships',
             detail: 'Create content that clearly defines entities and their relationships to build knowledge graph presence.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Entity-Rich Content for Knowledge Graphs',
               sections: [
@@ -682,6 +724,7 @@ export const phases = [
             id: 'p4-c1-i1',
             text: 'AI bot access configuration in robots.txt',
             detail: 'Configure robots.txt specifically for optimal AI crawler access patterns.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Advanced AI Bot Configuration',
               sections: [
@@ -696,6 +739,7 @@ export const phases = [
             id: 'p4-c1-i2',
             text: 'Semantic HTML5 throughout (<article>, <section>, <main>, etc.)',
             detail: 'Use proper HTML5 semantic elements to help AI parsers understand content structure.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Semantic HTML5 for AI Parsing',
               sections: [
@@ -710,6 +754,7 @@ export const phases = [
             id: 'p4-c1-i3',
             text: 'JS-rendered content also in initial HTML (SSR/SSG)',
             detail: 'Ensure content is available in the initial HTML response, not only after JavaScript execution.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Server-Side Rendering for AI Access',
               sections: [
@@ -724,6 +769,7 @@ export const phases = [
             id: 'p4-c1-i4',
             text: 'Internal linking with descriptive anchor text',
             detail: 'Build a strong internal linking structure using keyword-rich, descriptive anchor text.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Internal Linking Strategy',
               sections: [
@@ -738,6 +784,7 @@ export const phases = [
             id: 'p4-c1-i5',
             text: 'Canonical URLs on all pages',
             detail: 'Set canonical URLs to prevent duplicate content and consolidate page authority.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Canonical URL Implementation',
               sections: [
@@ -772,6 +819,7 @@ export const phases = [
             id: 'p4-c2-i2',
             text: 'Open Graph + Twitter Card meta tags',
             detail: 'Add comprehensive Open Graph and Twitter Card meta tags for social and AI sharing.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Open Graph and Twitter Card Tags',
               sections: [
@@ -786,6 +834,7 @@ export const phases = [
             id: 'p4-c2-i3',
             text: 'Knowledge-graph optimized meta descriptions (answer-first)',
             detail: 'Write meta descriptions that lead with the answer and are optimized for AI extraction.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Answer-First Meta Descriptions',
               sections: [
@@ -814,6 +863,7 @@ export const phases = [
             id: 'p4-c2-i5',
             text: 'Comprehensive glossary/knowledge base section',
             detail: 'Create a glossary or knowledge base that defines key terms in your industry.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Glossary and Knowledge Base',
               sections: [
@@ -845,6 +895,7 @@ export const phases = [
             id: 'p5-c1-i1',
             text: 'Google Business Profile optimized',
             detail: 'Complete and optimize your Google Business Profile for brand entity establishment.',
+            action: { external: 'https://business.google.com/', label: 'Open Google Business' },
             doc: {
               title: 'Google Business Profile Optimization',
               sections: [
@@ -859,6 +910,7 @@ export const phases = [
             id: 'p5-c1-i2',
             text: 'Wikipedia/Wikidata entries if eligible',
             detail: 'Establish Wikipedia and Wikidata presence for strong knowledge graph integration.',
+            action: { external: 'https://www.wikidata.org/', label: 'Open Wikidata' },
             doc: {
               title: 'Wikipedia and Wikidata Presence',
               sections: [
@@ -887,6 +939,7 @@ export const phases = [
             id: 'p5-c1-i4',
             text: 'Knowledge panel optimization',
             detail: 'Optimize for and maintain your Google Knowledge Panel to strengthen brand entity.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Knowledge Panel Optimization',
               sections: [
@@ -915,6 +968,7 @@ export const phases = [
             id: 'p5-c1-i6',
             text: 'Define and document your authority positioning strategy',
             detail: 'Choose how to position your brand as an authority — as an industry expert, data provider, educational hub, or community leader — and align all AEO content accordingly.',
+            action: { view: 'content-ops', label: 'Open Content Ops' },
             doc: {
               title: 'Authority Positioning Strategy',
               sections: [
@@ -949,6 +1003,7 @@ export const phases = [
             id: 'p5-c2-i2',
             text: "Get cited as a source in others' content",
             detail: 'Build a reputation where other publishers cite your content as a reference source.',
+            action: { view: 'competitors', label: 'Open Competitors' },
             doc: {
               title: 'Building Citation Authority',
               sections: [
@@ -1022,6 +1077,7 @@ export const phases = [
             id: 'p6-c1-i1',
             text: 'Test queries in ChatGPT (with browsing)',
             detail: 'Test your target queries in ChatGPT with browsing enabled to check for citations.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'ChatGPT Testing Protocol',
               sections: [
@@ -1036,6 +1092,7 @@ export const phases = [
             id: 'p6-c1-i2',
             text: 'Test queries in Perplexity.ai (shows sources explicitly)',
             detail: 'Use Perplexity.ai to test queries since it explicitly shows source citations.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Perplexity.ai Testing Protocol',
               sections: [
@@ -1050,6 +1107,7 @@ export const phases = [
             id: 'p6-c1-i3',
             text: 'Test in Google AI Overviews (incognito)',
             detail: 'Test target queries in Google to check AI Overview appearances.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Google AI Overview Testing',
               sections: [
@@ -1064,6 +1122,7 @@ export const phases = [
             id: 'p6-c1-i4',
             text: 'Test in Bing Copilot',
             detail: 'Test queries in Bing Copilot for citation verification.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Bing Copilot Testing',
               sections: [
@@ -1078,6 +1137,7 @@ export const phases = [
             id: 'p6-c1-i5',
             text: 'Test in Claude, Gemini, other AI assistants',
             detail: 'Test across all major AI platforms to ensure broad AEO coverage.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Multi-Platform AI Testing',
               sections: [
@@ -1098,6 +1158,7 @@ export const phases = [
             id: 'p6-c2-i1',
             text: 'Validate schema across all page templates',
             detail: 'Run schema validation on every unique page template to ensure zero errors.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Comprehensive Schema Validation',
               sections: [
@@ -1112,6 +1173,7 @@ export const phases = [
             id: 'p6-c2-i2',
             text: 'Test crawlability with AI bot user-agents (curl simulation)',
             detail: 'Simulate AI crawler requests to verify your content is accessible.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'AI Bot Crawlability Testing',
               sections: [
@@ -1126,6 +1188,7 @@ export const phases = [
             id: 'p6-c2-i3',
             text: 'Verify Bing Webmaster Tools indexation (critical for ChatGPT)',
             detail: 'Ensure your important pages are indexed in Bing since ChatGPT uses Bing for browsing.',
+            action: { external: 'https://www.bing.com/webmasters', label: 'Open Bing Webmaster Tools' },
             doc: {
               title: 'Bing Indexation Verification',
               sections: [
@@ -1140,6 +1203,7 @@ export const phases = [
             id: 'p6-c2-i4',
             text: 'Content extraction test (View Source check)',
             detail: 'Verify that your key content is in the page source HTML, not only rendered via JavaScript.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'Content Extraction Verification',
               sections: [
@@ -1154,6 +1218,7 @@ export const phases = [
             id: 'p6-c2-i5',
             text: 'Benchmark page speed',
             detail: 'Establish speed benchmarks for key pages to track performance over time.',
+            action: { external: 'https://pagespeed.web.dev/', label: 'Open PageSpeed Insights' },
             doc: {
               title: 'Page Speed Benchmarking',
               sections: [
@@ -1174,6 +1239,7 @@ export const phases = [
             id: 'p6-c3-i1',
             text: 'Weekly AEO testing schedule (top 10 queries, 30 min)',
             detail: 'Establish a consistent weekly testing routine for your most important queries.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Weekly AEO Testing Schedule',
               sections: [
@@ -1188,6 +1254,7 @@ export const phases = [
             id: 'p6-c3-i2',
             text: 'AEO testing spreadsheet/tracker',
             detail: 'Create a structured spreadsheet to track AEO testing results across platforms.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'AEO Testing Tracker Setup',
               sections: [
@@ -1202,6 +1269,7 @@ export const phases = [
             id: 'p6-c3-i3',
             text: 'Document baseline scores before optimization',
             detail: 'Record current AEO performance before making changes to measure impact.',
+            action: { view: 'metrics', label: 'Open Metrics' },
             doc: {
               title: 'Baseline Documentation',
               sections: [
@@ -1233,6 +1301,7 @@ export const phases = [
             id: 'p7-c1-i1',
             text: 'Monitor AI Overview appearances in GSC',
             detail: 'Track Google AI Overview appearances through Search Console reporting.',
+            action: { view: 'gsc', label: 'Open Search Console' },
             doc: {
               title: 'Monitoring AI Overviews in Search Console',
               sections: [
@@ -1247,6 +1316,7 @@ export const phases = [
             id: 'p7-c1-i2',
             text: 'Track citations across all AI platforms monthly',
             detail: 'Conduct monthly tracking of your citations across all major AI platforms.',
+            action: { view: 'metrics', label: 'Open Metrics' },
             doc: {
               title: 'Monthly AI Citation Tracking',
               sections: [
@@ -1261,6 +1331,7 @@ export const phases = [
             id: 'p7-c1-i3',
             text: 'Monitor referral traffic from AI sources',
             detail: 'Track traffic coming from AI platforms in your analytics.',
+            action: { view: 'ga4', label: 'Open AI Traffic' },
             doc: {
               title: 'AI Referral Traffic Monitoring',
               sections: [
@@ -1275,6 +1346,7 @@ export const phases = [
             id: 'p7-c1-i4',
             text: 'Track featured snippet and PAA presence',
             detail: 'Monitor your appearance in featured snippets and People Also Ask boxes.',
+            action: { view: 'gsc', label: 'Open Search Console' },
             doc: {
               title: 'Featured Snippet and PAA Tracking',
               sections: [
@@ -1289,6 +1361,7 @@ export const phases = [
             id: 'p7-c1-i5',
             text: 'Automated schema validation monitoring',
             detail: 'Set up automated monitoring to catch schema errors before they impact AEO.',
+            action: { view: 'monitoring', label: 'Open Monitoring' },
             doc: {
               title: 'Automated Schema Monitoring',
               sections: [
@@ -1309,6 +1382,7 @@ export const phases = [
             id: 'p7-c2-i1',
             text: 'A/B test answer formats (paragraph vs list vs table)',
             detail: 'Test different content formats to find what AI engines prefer for your queries.',
+            action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'A/B Testing Answer Formats',
               sections: [
@@ -1323,6 +1397,7 @@ export const phases = [
             id: 'p7-c2-i2',
             text: 'Update content based on AI engine behavior changes',
             detail: 'Continuously adapt content strategy as AI engines evolve their citation behavior.',
+            action: { view: 'monitoring', label: 'Open Monitoring' },
             doc: {
               title: 'Adapting to AI Engine Changes',
               sections: [
@@ -1337,6 +1412,7 @@ export const phases = [
             id: 'p7-c2-i3',
             text: 'Expand content for new query patterns',
             detail: 'Identify and create content for emerging query patterns in your niche.',
+            action: { view: 'content-ops', label: 'Open Content Ops' },
             doc: {
               title: 'Content Expansion for New Queries',
               sections: [
@@ -1351,6 +1427,7 @@ export const phases = [
             id: 'p7-c2-i4',
             text: 'Monthly competitor benchmarking',
             detail: 'Compare your AEO performance against competitors every month.',
+            action: { view: 'competitors', label: 'Open Competitors' },
             doc: {
               title: 'Monthly Competitor Benchmarking',
               sections: [
@@ -1365,6 +1442,7 @@ export const phases = [
             id: 'p7-c2-i5',
             text: 'Report ROI from AEO efforts',
             detail: 'Quantify and report the business impact and return on investment of AEO work.',
+            action: { view: 'aeo-impact', label: 'Open AEO Impact' },
             doc: {
               title: 'AEO ROI Reporting',
               sections: [
@@ -1379,6 +1457,7 @@ export const phases = [
             id: 'p7-c2-i6',
             text: 'Implement quarterly AEO re-optimization cycle',
             detail: 'Schedule quarterly reviews to re-optimize existing content based on AI engine behavior changes and performance data.',
+            action: { view: 'checklist', label: 'Review AEO Guide' },
             doc: {
               title: 'Quarterly AEO Re-Optimization',
               sections: [
@@ -1393,6 +1472,7 @@ export const phases = [
             id: 'p7-c2-i7',
             text: 'Monitor and respond to AI-generated questions about your brand',
             detail: 'Track what questions users ask AI engines about your brand specifically, and ensure your content provides accurate answers.',
+            action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Monitoring AI-Generated Brand Questions',
               sections: [
