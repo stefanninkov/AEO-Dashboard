@@ -1,8 +1,8 @@
 import { memo } from 'react'
 import {
-  Zap, LayoutDashboard, CheckSquare, GitBranch, Zap as ZapIcon,
+  Zap, LayoutDashboard, Zap as ZapIcon,
   BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, Plus,
-  Users, Users2, Settings, PenTool, Code2, Activity, Globe, Search, Layers,
+  Users, Settings, PenTool, Code2, Activity, Search, Layers,
   CalendarDays,
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
@@ -33,8 +33,7 @@ function getAvatarColor(name) {
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'competitors', label: 'Competitors', icon: Users },
-  { id: 'checklist', label: 'Checklist', icon: CheckSquare },
-  { id: 'process', label: 'Process Map', icon: GitBranch },
+  { id: 'checklist', label: 'AEO Guide', icon: BookOpen },
   { id: 'analyzer', label: 'Analyzer', icon: ZapIcon },
   { id: 'writer', label: 'Content Writer', icon: PenTool },
   { id: 'content-ops', label: 'Content Ops', icon: CalendarDays },
@@ -46,8 +45,6 @@ const NAV_ITEMS = [
   { id: 'aeo-impact', label: 'AEO Impact', icon: Layers },
   { id: 'docs', label: 'Documentation', icon: BookOpen },
   { id: 'testing', label: 'Testing', icon: FlaskConical },
-  { id: 'team', label: 'Team', icon: Users2 },
-  { id: 'webflow', label: 'Webflow', icon: Globe },
   { id: 'settings', label: 'Settings', icon: Settings },
 ]
 

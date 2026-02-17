@@ -1,12 +1,12 @@
 import { memo } from 'react'
-import { CheckSquare, Zap, FlaskConical } from 'lucide-react'
+import { BookOpen, Zap, FlaskConical } from 'lucide-react'
 
 export default memo(function QuickActions({ setActiveView }) {
   return (
     <div className="quick-actions-grid">
       <button className="quick-action-card" onClick={() => setActiveView('checklist')}>
-        <CheckSquare size={24} className="text-phase-3" style={{ margin: '0 auto 0.625rem' }} />
-        <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Open Checklist</p>
+        <BookOpen size={24} className="text-phase-3" style={{ margin: '0 auto 0.625rem' }} />
+        <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>AEO Guide</p>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Track your AEO tasks</p>
       </button>
       <button className="quick-action-card" onClick={() => setActiveView('analyzer')}>

@@ -8,6 +8,7 @@ const INITIAL_VISIBLE = 20
 export default memo(function CategorySection({
   category,
   phase,
+  viewMode,
   checked,
   bouncingId,
   notes,
@@ -85,6 +86,7 @@ export default memo(function CategorySection({
               key={item.id}
               item={item}
               phase={phase}
+              viewMode={viewMode}
               checked={checked}
               bouncingId={bouncingId}
               notes={notes}

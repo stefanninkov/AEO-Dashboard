@@ -14,9 +14,11 @@ import UserSettingsSection from './settings/UserSettingsSection'
 import ProjectGeneralSection from './settings/ProjectGeneralSection'
 import ProjectIntegrationsSection from './settings/ProjectIntegrationsSection'
 import ProjectWebhooksSection from './settings/ProjectWebhooksSection'
+import ProjectTeamSection from './settings/ProjectTeamSection'
+import ProjectWebflowSection from './settings/ProjectWebflowSection'
 import ProjectDataSection from './settings/ProjectDataSection'
 
-export default function SettingsView({ activeProject, updateProject, deleteProject, user, setActiveView }) {
+export default function SettingsView({ activeProject, updateProject, deleteProject, user, setActiveView, permission }) {
   const google = useGoogleIntegration(user)
 
   return (
@@ -28,6 +30,8 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           <div style={sectionLabelStyle}>Project Settings</div>
           <ProjectGeneralSection activeProject={activeProject} updateProject={updateProject} google={google} />
           <ProjectIntegrationsSection activeProject={activeProject} updateProject={updateProject} user={user} />
+          <ProjectTeamSection activeProject={activeProject} updateProject={updateProject} user={user} permission={permission} />
+          <ProjectWebflowSection activeProject={activeProject} updateProject={updateProject} />
           <ProjectWebhooksSection activeProject={activeProject} updateProject={updateProject} />
           <ProjectDataSection activeProject={activeProject} updateProject={updateProject} deleteProject={deleteProject} setActiveView={setActiveView} />
         </>

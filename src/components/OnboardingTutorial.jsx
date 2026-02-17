@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
   Zap, ArrowRight, X, Compass, Search, CheckSquare, LayoutDashboard, Rocket,
-  BarChart3, Users, GitBranch, BookOpen, FlaskConical, Settings, TrendingUp, Target
+  BarChart3, Users, BookOpen, FlaskConical, Settings, TrendingUp, Target
 } from 'lucide-react'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
@@ -64,11 +64,11 @@ const STEPS = [
     view: 'dashboard',
   },
 
-  // ── Checklist ──
+  // ── AEO Guide ──
   {
     id: 'checklist',
-    title: 'AEO Checklist',
-    description: '200+ optimization tasks organized across 7 phases. Check items off as you implement them. Each item can be AI-verified against your live site, or manually marked as done.',
+    title: 'AEO Guide',
+    description: '200+ optimization tasks organized across 7 phases. Toggle between Checklist mode to track progress and Guide mode for detailed explanations, key principles, and deliverables.',
     icon: <CheckSquare size={24} />,
     target: '.checklist-stats-grid',
     position: 'bottom',
@@ -84,17 +84,6 @@ const STEPS = [
     target: 'input[placeholder="e.g. TechLeader"]',
     position: 'bottom',
     view: 'competitors',
-  },
-
-  // ── Process Map ──
-  {
-    id: 'process',
-    title: 'AEO Process Map',
-    description: 'A visual roadmap of all 7 AEO phases — from Technical Foundation to Ongoing Optimization. Each phase shows steps, deliverables, and links to detailed documentation.',
-    icon: <GitBranch size={24} />,
-    target: null,
-    position: 'center',
-    view: 'process',
   },
 
   // ── Analyzer ──

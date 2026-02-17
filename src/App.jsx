@@ -18,7 +18,6 @@ import { phases } from './data/aeo-checklist'
 // Lazy-loaded views
 const DashboardView = lazy(() => import('./views/DashboardView'))
 const ChecklistView = lazy(() => import('./views/ChecklistView'))
-const ProcessMapView = lazy(() => import('./views/ProcessMapView'))
 const AnalyzerView = lazy(() => import('./views/AnalyzerView'))
 const ContentWriterView = lazy(() => import('./views/ContentWriterView'))
 const SchemaGeneratorView = lazy(() => import('./views/SchemaGeneratorView'))
@@ -28,8 +27,6 @@ const TestingView = lazy(() => import('./views/TestingView'))
 const MetricsView = lazy(() => import('./views/MetricsView'))
 const CompetitorsView = lazy(() => import('./views/CompetitorsView'))
 const SettingsView = lazy(() => import('./views/SettingsView'))
-const WebflowView = lazy(() => import('./views/WebflowView'))
-const TeamView = lazy(() => import('./views/TeamView'))
 const GscView = lazy(() => import('./views/GscView'))
 const Ga4View = lazy(() => import('./views/Ga4View'))
 const AeoImpactView = lazy(() => import('./views/AeoImpactView'))
@@ -329,7 +326,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         const tag = document.activeElement?.tagName
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
-        const views = ['dashboard', 'competitors', 'checklist', 'process', 'analyzer', 'writer', 'schema', 'monitoring', 'metrics', 'docs', 'testing', 'team', 'webflow']
+        const views = ['dashboard', 'competitors', 'checklist', 'analyzer', 'writer', 'schema', 'monitoring', 'metrics', 'metrics']
         const num = parseInt(e.key)
         if (num >= 1 && num <= 9) {
           setActiveView(views[num - 1])
@@ -437,14 +434,6 @@ function AuthenticatedApp({ user, onSignOut }) {
             addNotification={addNotification}
           />
         )
-      case 'process':
-        return (
-          <ProcessMapView
-            phases={phases}
-            setDocItem={handleSetDocItem}
-            setActiveView={setActiveView}
-          />
-        )
       case 'analyzer':
         return (
           <AnalyzerView
@@ -517,15 +506,6 @@ function AuthenticatedApp({ user, onSignOut }) {
             user={user}
           />
         )
-      case 'team':
-        return (
-          <TeamView
-            activeProject={activeProject}
-            updateProject={updateProject}
-            user={user}
-            permission={permission}
-          />
-        )
       case 'gsc':
         return (
           <GscView
@@ -549,13 +529,6 @@ function AuthenticatedApp({ user, onSignOut }) {
             activeProject={activeProject}
             user={user}
             setActiveView={setActiveView}
-          />
-        )
-      case 'webflow':
-        return (
-          <WebflowView
-            activeProject={activeProject}
-            updateProject={updateProject}
           />
         )
       case 'settings':

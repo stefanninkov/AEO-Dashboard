@@ -1,11 +1,16 @@
+/**
+ * ProjectWebflowSection — Webflow integration as a Settings sub-section.
+ * Moved from standalone WebflowView into Settings.
+ */
 import { useState, useCallback } from 'react'
 import {
   Globe, Loader2, AlertCircle, CheckCircle2, Copy, Check, RefreshCw,
   Code2, FileText, Search, Layers, ArrowRight, ExternalLink, Zap
 } from 'lucide-react'
-import { callAnthropicApi } from '../utils/apiClient'
-import { useToast } from '../components/Toast'
-import logger from '../utils/logger'
+import { callAnthropicApi } from '../../utils/apiClient'
+import { useToast } from '../../components/Toast'
+import logger from '../../utils/logger'
+import { sectionTitleStyle } from './SettingsShared'
 
 const MCP_CONFIG = {
   mcp_servers: [{
@@ -23,7 +28,7 @@ const TABS = [
   { id: 'pages', label: 'Pages', icon: Layers },
 ]
 
-export default function WebflowView({ activeProject, updateProject }) {
+export default function ProjectWebflowSection({ activeProject, updateProject }) {
   const [apiKey] = useState(() => localStorage.getItem('anthropic-api-key') || '')
   const [activeTab, setActiveTab] = useState('sites')
   const [sites, setSites] = useState([])
@@ -146,8 +151,6 @@ Return ONLY valid JSON:
         const parsed = JSON.parse(match[0])
         setAuditResults(parsed)
         addToast('success', `Audit complete: ${parsed.overallScore}/100`)
-
-        // Save to project
         if (activeProject) {
           updateProject(activeProject.id, {
             webflowAudit: { ...parsed, date: new Date().toISOString() },
@@ -327,19 +330,15 @@ Return ONLY valid JSON:
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      {/* Header */}
-      <div>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          Webflow Integration
-        </h2>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
-          Connect to Webflow via MCP to audit, optimize, and generate AEO-ready content for your sites.
-        </p>
+    <div className="card" style={{ overflow: 'hidden' }}>
+      {/* Section Title */}
+      <div style={sectionTitleStyle}>
+        <Globe size={15} />
+        Webflow
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: '0.25rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0' }}>
+      <div style={{ display: 'flex', gap: '0.25rem', padding: '0 1.25rem', borderBottom: '1px solid var(--border-subtle)' }}>
         {TABS.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
@@ -349,7 +348,7 @@ Return ONLY valid JSON:
               onClick={() => setActiveTab(tab.id)}
               style={{
                 display: 'flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.625rem 1rem', fontSize: '0.8125rem', fontWeight: 600,
+                padding: '0.5rem 0.75rem', fontSize: '0.75rem', fontWeight: 600,
                 fontFamily: 'var(--font-body)', cursor: 'pointer',
                 background: 'none', border: 'none', borderBottom: `2px solid ${isActive ? 'var(--color-phase-1)' : 'transparent'}`,
                 color: isActive ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
@@ -357,7 +356,7 @@ Return ONLY valid JSON:
                 marginBottom: '-1px',
               }}
             >
-              <Icon size={14} />
+              <Icon size={12} />
               {tab.label}
             </button>
           )
@@ -366,21 +365,21 @@ Return ONLY valid JSON:
 
       {/* Error */}
       {error && (
-        <div className="card" style={{ padding: '0.875rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.625rem', borderColor: 'var(--color-error)' }}>
-          <AlertCircle size={16} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
-          <p style={{ fontSize: '0.8125rem', color: 'var(--color-error)' }}>{error}</p>
+        <div style={{ padding: '0.75rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(239,68,68,0.06)', borderBottom: '1px solid var(--border-subtle)' }}>
+          <AlertCircle size={14} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
+          <p style={{ fontSize: '0.75rem', color: 'var(--color-error)' }}>{error}</p>
         </div>
       )}
 
       {/* ═══ TAB: My Sites ═══ */}
       {activeTab === 'sites' && (
-        <div className="card" style={{ padding: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+        <div style={{ padding: '1rem 1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
             <div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                 Connected Sites
-              </h3>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
+              </h4>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
                 Load your Webflow sites via MCP connection
               </p>
             </div>
@@ -388,47 +387,47 @@ Return ONLY valid JSON:
               onClick={handleFetchSites}
               disabled={loading}
               className="btn-primary"
-              style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem' }}
+              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
             >
-              {loading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={14} />}
+              {loading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={12} />}
               {sites.length > 0 ? 'Refresh' : 'Load Sites'}
             </button>
           </div>
 
           {sites.length === 0 && !loading && (
-            <div style={{ padding: '2rem', textAlign: 'center' }}>
-              <Globe size={32} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.75rem' }} />
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>
+            <div style={{ padding: '1.5rem', textAlign: 'center' }}>
+              <Globe size={28} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.625rem' }} />
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
                 No sites loaded. Click "Load Sites" to connect to your Webflow account.
               </p>
-              <p style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', marginTop: '0.375rem' }}>
                 Requires an Anthropic API key and Webflow MCP authentication.
               </p>
             </div>
           )}
 
           {sites.length > 0 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               {sites.map((site, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleSelectSite(site)}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: '0.75rem',
-                    padding: '0.875rem 1rem', borderRadius: '0.625rem',
+                    display: 'flex', alignItems: 'center', gap: '0.625rem',
+                    padding: '0.75rem 0.875rem', borderRadius: '0.5rem',
                     border: `1px solid ${selectedSite?.id === site.id ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
                     background: selectedSite?.id === site.id ? 'rgba(255,107,53,0.06)' : 'var(--hover-bg)',
                     cursor: 'pointer', width: '100%', textAlign: 'left',
                     transition: 'all 150ms',
                   }}
                 >
-                  <Globe size={16} style={{ color: selectedSite?.id === site.id ? 'var(--color-phase-1)' : 'var(--text-tertiary)', flexShrink: 0 }} />
+                  <Globe size={14} style={{ color: selectedSite?.id === site.id ? 'var(--color-phase-1)' : 'var(--text-tertiary)', flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{site.name}</p>
-                    <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{site.domain || site.id}</p>
+                    <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>{site.name}</p>
+                    <p style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>{site.domain || site.id}</p>
                   </div>
                   {selectedSite?.id === site.id && (
-                    <CheckCircle2 size={16} style={{ color: 'var(--color-phase-1)', flexShrink: 0 }} />
+                    <CheckCircle2 size={14} style={{ color: 'var(--color-phase-1)', flexShrink: 0 }} />
                   )}
                 </button>
               ))}
@@ -436,12 +435,12 @@ Return ONLY valid JSON:
           )}
 
           {selectedSite && (
-            <div style={{ marginTop: '1rem', padding: '0.75rem 1rem', background: 'var(--bg-hover)', borderRadius: '0.625rem', border: '1px solid var(--border-subtle)' }}>
-              <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '0.375rem' }}>
+            <div style={{ marginTop: '0.75rem', padding: '0.625rem 0.875rem', background: 'var(--bg-hover)', borderRadius: '0.5rem', border: '1px solid var(--border-subtle)' }}>
+              <p style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '0.25rem' }}>
                 Active Site
               </p>
-              <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>{selectedSite.name}</p>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontFamily: '"JetBrains Mono", monospace' }}>{selectedSite.id}</p>
+              <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{selectedSite.name}</p>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: '"JetBrains Mono", monospace' }}>{selectedSite.id}</p>
             </div>
           )}
         </div>
@@ -449,62 +448,60 @@ Return ONLY valid JSON:
 
       {/* ═══ TAB: AEO Audit ═══ */}
       {activeTab === 'audit' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div className="card" style={{ padding: '1.25rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                  Webflow AEO Audit
-                </h3>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
-                  {selectedSite ? `Audit "${selectedSite.name}" for Answer Engine Optimization readiness` : 'Select a site from the My Sites tab first'}
-                </p>
-              </div>
-              <button
-                onClick={handleAudit}
-                disabled={!selectedSite || auditLoading}
-                className="btn-primary"
-                style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem' }}
-              >
-                {auditLoading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Search size={14} />}
-                {auditLoading ? 'Auditing…' : 'Run Audit'}
-              </button>
+        <div style={{ padding: '1rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                Webflow AEO Audit
+              </h4>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
+                {selectedSite ? `Audit "${selectedSite.name}" for AEO readiness` : 'Select a site from My Sites tab first'}
+              </p>
             </div>
+            <button
+              onClick={handleAudit}
+              disabled={!selectedSite || auditLoading}
+              className="btn-primary"
+              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
+            >
+              {auditLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <Search size={12} />}
+              {auditLoading ? 'Auditing...' : 'Run Audit'}
+            </button>
           </div>
 
           {auditResults && (
             <>
               {/* Score */}
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+              <div style={{ padding: '0.875rem', background: 'var(--hover-bg)', borderRadius: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                   <div>
-                    <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>AEO Score</h3>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{auditResults.siteName}</p>
+                    <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>AEO Score</h4>
+                    <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{auditResults.siteName}</p>
                   </div>
-                  <span style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', fontWeight: 800, color: scoreColor(auditResults.overallScore) }}>
+                  <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.75rem', fontWeight: 800, color: scoreColor(auditResults.overallScore) }}>
                     {auditResults.overallScore}
                   </span>
                 </div>
-                <div style={{ height: '0.375rem', borderRadius: '1rem', background: 'var(--border-subtle)', overflow: 'hidden' }}>
+                <div style={{ height: '0.25rem', borderRadius: '1rem', background: 'var(--border-subtle)', overflow: 'hidden' }}>
                   <div style={{ height: '100%', borderRadius: '1rem', width: `${auditResults.overallScore}%`, background: scoreColor(auditResults.overallScore), transition: 'width 600ms ease-out' }} />
                 </div>
                 {auditResults.summary && (
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: '0.75rem', lineHeight: 1.6 }}>{auditResults.summary}</p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.5rem', lineHeight: 1.5 }}>{auditResults.summary}</p>
                 )}
               </div>
 
               {/* Top Priorities */}
               {auditResults.topPriorities?.length > 0 && (
-                <div className="card" style={{ padding: '1.25rem' }}>
-                  <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Zap size={14} style={{ color: 'var(--color-phase-1)' }} />
+                <div style={{ padding: '0.875rem', background: 'var(--hover-bg)', borderRadius: '0.5rem' }}>
+                  <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                    <Zap size={12} style={{ color: 'var(--color-phase-1)' }} />
                     Top Priorities
                   </h4>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
                     {auditResults.topPriorities.map((p, i) => (
-                      <div key={i} style={{ display: 'flex', gap: '0.625rem', alignItems: 'flex-start', padding: '0.5rem 0.75rem', background: 'var(--hover-bg)', borderRadius: '0.5rem' }}>
-                        <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.75rem', color: 'var(--color-phase-1)', minWidth: '1.25rem' }}>{i + 1}.</span>
-                        <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{p}</p>
+                      <div key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
+                        <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.6875rem', color: 'var(--color-phase-1)', minWidth: '1rem' }}>{i + 1}.</span>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{p}</p>
                       </div>
                     ))}
                   </div>
@@ -513,31 +510,31 @@ Return ONLY valid JSON:
 
               {/* Sections */}
               {auditResults.sections?.map((section, idx) => (
-                <div key={idx} className="card" style={{ padding: '1.25rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-                    <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                <div key={idx} style={{ padding: '0.875rem', background: 'var(--hover-bg)', borderRadius: '0.5rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                    <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                       {section.name}
                     </h4>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
                       {statusBadge(section.status)}
-                      <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.875rem', color: scoreColor(section.score) }}>
+                      <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8125rem', color: scoreColor(section.score) }}>
                         {section.score}
                       </span>
                     </div>
                   </div>
                   {section.findings?.length > 0 && (
-                    <div style={{ marginBottom: '0.75rem' }}>
-                      <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '0.375rem' }}>Findings</p>
+                    <div style={{ marginBottom: '0.5rem' }}>
+                      <p style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '0.25rem' }}>Findings</p>
                       {section.findings.map((f, i) => (
-                        <p key={i} style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', padding: '0.25rem 0', lineHeight: 1.5 }}>• {f}</p>
+                        <p key={i} style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', padding: '0.125rem 0', lineHeight: 1.5 }}>• {f}</p>
                       ))}
                     </div>
                   )}
                   {section.recommendations?.length > 0 && (
                     <div>
-                      <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--color-phase-1)', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '0.375rem' }}>Recommendations</p>
+                      <p style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--color-phase-1)', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '0.25rem' }}>Recommendations</p>
                       {section.recommendations.map((r, i) => (
-                        <p key={i} style={{ fontSize: '0.8125rem', color: 'var(--color-phase-1)', padding: '0.25rem 0', lineHeight: 1.5 }}>→ {r}</p>
+                        <p key={i} style={{ fontSize: '0.75rem', color: 'var(--color-phase-1)', padding: '0.125rem 0', lineHeight: 1.5 }}>{r}</p>
                       ))}
                     </div>
                   )}
@@ -550,197 +547,191 @@ Return ONLY valid JSON:
 
       {/* ═══ TAB: Schema Inject ═══ */}
       {activeTab === 'schema' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div className="card" style={{ padding: '1.25rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-              <div>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                  Schema Markup Generator
-                </h3>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
-                  {selectedSite ? `Generate JSON-LD for "${selectedSite.name}" → paste into Webflow Custom Code` : 'Select a site first'}
-                </p>
-              </div>
-              <button
-                onClick={handleGenerateSchema}
-                disabled={!selectedSite || schemaLoading}
-                className="btn-primary"
-                style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem' }}
-              >
-                {schemaLoading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Code2 size={14} />}
-                {schemaLoading ? 'Generating…' : 'Generate Schema'}
-              </button>
+        <div style={{ padding: '1rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                Schema Markup Generator
+              </h4>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
+                {selectedSite ? `Generate JSON-LD for "${selectedSite.name}"` : 'Select a site first'}
+              </p>
             </div>
-
-            {!schemaCode && !schemaLoading && (
-              <div style={{ padding: '1.5rem', textAlign: 'center' }}>
-                <Code2 size={28} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.625rem' }} />
-                <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>
-                  Generate schema markup tailored to your Webflow site's content.
-                </p>
-                <p style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', marginTop: '0.375rem' }}>
-                  Copy the generated code → Webflow Project Settings → Custom Code → Head Code
-                </p>
-              </div>
-            )}
+            <button
+              onClick={handleGenerateSchema}
+              disabled={!selectedSite || schemaLoading}
+              className="btn-primary"
+              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
+            >
+              {schemaLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <Code2 size={12} />}
+              {schemaLoading ? 'Generating...' : 'Generate'}
+            </button>
           </div>
 
+          {!schemaCode && !schemaLoading && (
+            <div style={{ padding: '1.25rem', textAlign: 'center' }}>
+              <Code2 size={24} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.5rem' }} />
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                Generate schema markup tailored to your Webflow site's content.
+              </p>
+              <p style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', marginTop: '0.25rem' }}>
+                Copy the generated code to Webflow Project Settings &gt; Custom Code &gt; Head Code
+              </p>
+            </div>
+          )}
+
           {schemaCode && (
-            <div className="card" style={{ padding: '1.25rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>Generated Schema</h4>
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>Generated Schema</h4>
                 <button
                   onClick={() => handleCopy(schemaCode, setSchemaCopied)}
                   className="btn-secondary"
-                  style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem' }}
+                  style={{ padding: '0.25rem 0.625rem', fontSize: '0.625rem' }}
                 >
-                  {schemaCopied ? <Check size={12} /> : <Copy size={12} />}
+                  {schemaCopied ? <Check size={10} /> : <Copy size={10} />}
                   {schemaCopied ? 'Copied!' : 'Copy All'}
                 </button>
               </div>
               <pre style={{
-                fontSize: '0.75rem', fontFamily: '"JetBrains Mono", monospace',
+                fontSize: '0.6875rem', fontFamily: '"JetBrains Mono", monospace',
                 background: 'var(--bg-hover)', border: '1px solid var(--border-subtle)',
-                borderRadius: '0.5rem', padding: '1rem', overflow: 'auto',
-                maxHeight: '30rem', color: 'var(--text-secondary)', lineHeight: 1.6,
+                borderRadius: '0.5rem', padding: '0.875rem', overflow: 'auto',
+                maxHeight: '20rem', color: 'var(--text-secondary)', lineHeight: 1.5,
                 whiteSpace: 'pre-wrap', wordBreak: 'break-word',
               }}>
                 {schemaCode}
               </pre>
-              <div style={{ marginTop: '0.75rem', padding: '0.625rem 0.875rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.5rem', border: '1px solid rgba(255,107,53,0.15)' }}>
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-phase-1)', fontWeight: 500 }}>
-                  <ArrowRight size={12} style={{ verticalAlign: 'middle', marginRight: '0.25rem' }} />
-                  Paste in Webflow: Project Settings → Custom Code → Head Code
+              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.375rem', border: '1px solid rgba(255,107,53,0.15)' }}>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--color-phase-1)', fontWeight: 500 }}>
+                  <ArrowRight size={10} style={{ verticalAlign: 'middle', marginRight: '0.25rem' }} />
+                  Paste in Webflow: Project Settings &gt; Custom Code &gt; Head Code
                 </p>
               </div>
-            </div>
+            </>
           )}
         </div>
       )}
 
       {/* ═══ TAB: Content ═══ */}
       {activeTab === 'content' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div className="card" style={{ padding: '1.25rem' }}>
-            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-              AEO Content for Webflow
-            </h3>
+        <div style={{ padding: '1rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            AEO Content for Webflow
+          </h4>
 
-            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-              {[
-                { id: 'faq', label: 'FAQ Section' },
-                { id: 'how-to', label: 'How-To Guide' },
-                { id: 'comparison', label: 'Comparison' },
-                { id: 'glossary', label: 'Glossary' },
-              ].map(t => (
-                <button
-                  key={t.id}
-                  onClick={() => setContentType(t.id)}
-                  style={{
-                    padding: '0.375rem 0.75rem', borderRadius: '0.5rem', border: 'none',
-                    background: contentType === t.id ? 'var(--color-phase-1)' : 'var(--hover-bg)',
-                    color: contentType === t.id ? '#fff' : 'var(--text-secondary)',
-                    fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer',
-                    fontFamily: 'var(--font-body)', transition: 'all 150ms',
-                  }}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <input
-                className="input-field"
-                value={contentTopic}
-                onChange={e => setContentTopic(e.target.value)}
-                placeholder="Enter a topic (e.g., 'AEO best practices', 'React vs Vue')"
-                style={{ flex: 1 }}
-                onKeyDown={e => e.key === 'Enter' && contentTopic.trim() && !contentLoading && handleGenerateContent()}
-              />
+          <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
+            {[
+              { id: 'faq', label: 'FAQ Section' },
+              { id: 'how-to', label: 'How-To Guide' },
+              { id: 'comparison', label: 'Comparison' },
+              { id: 'glossary', label: 'Glossary' },
+            ].map(t => (
               <button
-                onClick={handleGenerateContent}
-                disabled={!selectedSite || !contentTopic.trim() || contentLoading}
-                className="btn-primary"
-                style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem', flexShrink: 0 }}
+                key={t.id}
+                onClick={() => setContentType(t.id)}
+                style={{
+                  padding: '0.3125rem 0.625rem', borderRadius: '0.375rem', border: 'none',
+                  background: contentType === t.id ? 'var(--color-phase-1)' : 'var(--hover-bg)',
+                  color: contentType === t.id ? '#fff' : 'var(--text-secondary)',
+                  fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer',
+                  fontFamily: 'var(--font-body)', transition: 'all 150ms',
+                }}
               >
-                {contentLoading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <FileText size={14} />}
-                {contentLoading ? 'Generating…' : 'Generate'}
+                {t.label}
               </button>
-            </div>
-
-            {!selectedSite && (
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', fontStyle: 'italic' }}>
-                Select a site from the My Sites tab first.
-              </p>
-            )}
+            ))}
           </div>
 
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <input
+              className="input-field"
+              value={contentTopic}
+              onChange={e => setContentTopic(e.target.value)}
+              placeholder="Enter a topic..."
+              style={{ flex: 1, fontSize: '0.75rem' }}
+              onKeyDown={e => e.key === 'Enter' && contentTopic.trim() && !contentLoading && handleGenerateContent()}
+            />
+            <button
+              onClick={handleGenerateContent}
+              disabled={!selectedSite || !contentTopic.trim() || contentLoading}
+              className="btn-primary"
+              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem', flexShrink: 0 }}
+            >
+              {contentLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <FileText size={12} />}
+              {contentLoading ? 'Generating...' : 'Generate'}
+            </button>
+          </div>
+
+          {!selectedSite && (
+            <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontStyle: 'italic' }}>
+              Select a site from the My Sites tab first.
+            </p>
+          )}
+
           {contentResult && (
-            <div className="card" style={{ padding: '1.25rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                   Generated Content
                 </h4>
                 <button
                   onClick={() => handleCopy(contentResult, setContentCopied)}
                   className="btn-secondary"
-                  style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem' }}
+                  style={{ padding: '0.25rem 0.625rem', fontSize: '0.625rem' }}
                 >
-                  {contentCopied ? <Check size={12} /> : <Copy size={12} />}
+                  {contentCopied ? <Check size={10} /> : <Copy size={10} />}
                   {contentCopied ? 'Copied!' : 'Copy'}
                 </button>
               </div>
               <pre style={{
-                fontSize: '0.75rem', fontFamily: '"JetBrains Mono", monospace',
+                fontSize: '0.6875rem', fontFamily: '"JetBrains Mono", monospace',
                 background: 'var(--bg-hover)', border: '1px solid var(--border-subtle)',
-                borderRadius: '0.5rem', padding: '1rem', overflow: 'auto',
-                maxHeight: '30rem', color: 'var(--text-secondary)', lineHeight: 1.6,
+                borderRadius: '0.5rem', padding: '0.875rem', overflow: 'auto',
+                maxHeight: '20rem', color: 'var(--text-secondary)', lineHeight: 1.5,
                 whiteSpace: 'pre-wrap', wordBreak: 'break-word',
               }}>
                 {contentResult}
               </pre>
-              <div style={{ marginTop: '0.75rem', padding: '0.625rem 0.875rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.5rem', border: '1px solid rgba(255,107,53,0.15)' }}>
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-phase-1)', fontWeight: 500 }}>
-                  <ArrowRight size={12} style={{ verticalAlign: 'middle', marginRight: '0.25rem' }} />
-                  Paste in Webflow: Add an Embed or Rich Text element → paste the HTML content
+              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.375rem', border: '1px solid rgba(255,107,53,0.15)' }}>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--color-phase-1)', fontWeight: 500 }}>
+                  <ArrowRight size={10} style={{ verticalAlign: 'middle', marginRight: '0.25rem' }} />
+                  Paste in Webflow: Add an Embed or Rich Text element
                 </p>
               </div>
-            </div>
+            </>
           )}
         </div>
       )}
 
       {/* ═══ TAB: Pages ═══ */}
       {activeTab === 'pages' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div className="card" style={{ padding: '1.25rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-              <div>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>Page-Level AEO Analysis</h3>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
-                  {selectedSite ? `Analyze every page of "${selectedSite.name}"` : 'Select a site first'}
-                </p>
-              </div>
-              <button
-                onClick={handleFetchPages}
-                disabled={!selectedSite || pagesLoading}
-                className="btn-primary"
-                style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem' }}
-              >
-                {pagesLoading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Layers size={14} />}
-                {pagesLoading ? 'Scanning…' : 'Scan Pages'}
-              </button>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)' }}>
+            <div>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>Page-Level AEO Analysis</h4>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
+                {selectedSite ? `Analyze every page of "${selectedSite.name}"` : 'Select a site first'}
+              </p>
             </div>
+            <button
+              onClick={handleFetchPages}
+              disabled={!selectedSite || pagesLoading}
+              className="btn-primary"
+              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
+            >
+              {pagesLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <Layers size={12} />}
+              {pagesLoading ? 'Scanning...' : 'Scan Pages'}
+            </button>
           </div>
 
           {pages.length > 0 && (
-            <div className="card" style={{ padding: '0' }}>
+            <>
               {/* Table Header */}
               <div style={{
-                display: 'grid', gridTemplateColumns: '1fr 5rem 5rem 4.5rem auto',
-                padding: '0.625rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
-                fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase',
+                display: 'grid', gridTemplateColumns: '1fr 4rem 4rem 3.5rem auto',
+                padding: '0.5rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+                fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
                 letterSpacing: '0.05em', color: 'var(--text-disabled)',
                 fontFamily: 'var(--font-heading)',
               }}>
@@ -755,31 +746,40 @@ Return ONLY valid JSON:
                 <div
                   key={i}
                   style={{
-                    display: 'grid', gridTemplateColumns: '1fr 5rem 5rem 4.5rem auto',
-                    padding: '0.625rem 1.25rem', alignItems: 'center',
+                    display: 'grid', gridTemplateColumns: '1fr 4rem 4rem 3.5rem auto',
+                    padding: '0.5rem 1.25rem', alignItems: 'center',
                     borderBottom: i < pages.length - 1 ? '1px solid var(--border-subtle)' : 'none',
                   }}
                 >
                   <div style={{ minWidth: 0 }}>
-                    <p style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <p style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {page.title || page.slug}
                     </p>
-                    <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: '"JetBrains Mono", monospace' }}>{page.slug}</p>
+                    <p style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', fontFamily: '"JetBrains Mono", monospace' }}>{page.slug}</p>
                   </div>
                   <span style={{ textAlign: 'center' }}>
-                    {page.hasMeta ? <CheckCircle2 size={14} style={{ color: 'var(--color-success)' }} /> : <AlertCircle size={14} style={{ color: 'var(--color-error)' }} />}
+                    {page.hasMeta ? <CheckCircle2 size={12} style={{ color: 'var(--color-success)' }} /> : <AlertCircle size={12} style={{ color: 'var(--color-error)' }} />}
                   </span>
                   <span style={{ textAlign: 'center' }}>
-                    {page.hasSchema ? <CheckCircle2 size={14} style={{ color: 'var(--color-success)' }} /> : <AlertCircle size={14} style={{ color: 'var(--color-error)' }} />}
+                    {page.hasSchema ? <CheckCircle2 size={12} style={{ color: 'var(--color-success)' }} /> : <AlertCircle size={12} style={{ color: 'var(--color-error)' }} />}
                   </span>
-                  <span style={{ textAlign: 'center', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.8125rem', color: scoreColor(page.aeoScore) }}>
+                  <span style={{ textAlign: 'center', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.75rem', color: scoreColor(page.aeoScore) }}>
                     {page.aeoScore}
                   </span>
-                  <p style={{ fontSize: '0.75rem', color: page.issue ? 'var(--color-phase-5)' : 'var(--text-tertiary)' }}>
+                  <p style={{ fontSize: '0.6875rem', color: page.issue ? 'var(--color-phase-5)' : 'var(--text-tertiary)' }}>
                     {page.issue || '—'}
                   </p>
                 </div>
               ))}
+            </>
+          )}
+
+          {pages.length === 0 && !pagesLoading && (
+            <div style={{ padding: '1.5rem 1.25rem', textAlign: 'center' }}>
+              <Layers size={24} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.5rem' }} />
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                {selectedSite ? 'Click "Scan Pages" to analyze your site' : 'Select a site from My Sites tab first'}
+              </p>
             </div>
           )}
         </div>

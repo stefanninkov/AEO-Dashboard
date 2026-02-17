@@ -83,8 +83,7 @@ export default memo(function TopBar({
     const navItems = [
       { label: 'Dashboard', view: 'dashboard', type: 'Navigation' },
       { label: 'Competitors', view: 'competitors', type: 'Navigation' },
-      { label: 'Checklist', view: 'checklist', type: 'Navigation' },
-      { label: 'Process Map', view: 'process', type: 'Navigation' },
+      { label: 'AEO Guide', view: 'checklist', type: 'Navigation' },
       { label: 'Analyzer', view: 'analyzer', type: 'Navigation' },
       { label: 'Metrics', view: 'metrics', type: 'Navigation' },
       { label: 'Documentation', view: 'docs', type: 'Navigation' },

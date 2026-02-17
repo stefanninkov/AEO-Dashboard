@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { ChevronDown, Star } from 'lucide-react'
+import { ChevronDown, Star, Target } from 'lucide-react'
 import AnimatedNumber from '../../components/AnimatedNumber'
 import CollapsibleContent from '../../components/shared/CollapsibleContent'
 import CategorySection from './CategorySection'
@@ -7,6 +7,8 @@ import CategorySection from './CategorySection'
 export default memo(function PhaseCard({
   phase,
   progress,
+  viewMode,
+  deliverable,
   isExpanded,
   isPriority,
   isCelebrating,
@@ -44,6 +46,8 @@ export default memo(function PhaseCard({
   onCommentAdd,
   onCommentDelete,
 }) {
+  const isGuide = viewMode === 'guide'
+
   return (
     <div className={`card${isCelebrating ? ' phase-complete-pulse' : ''}`} style={{ padding: 0, overflow: 'hidden', '--phase-pulse-color': phase.color + '40' }}>
       {/* Phase Header */}
@@ -75,6 +79,9 @@ export default memo(function PhaseCard({
             )}
           </div>
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginTop: '0.125rem', color: 'var(--text-primary)' }}>{phase.title}</h3>
+          {isGuide && (
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem', lineHeight: 1.5 }}>{phase.description}</p>
+          )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
           <div style={{ textAlign: 'right' }}>
@@ -119,6 +126,7 @@ export default memo(function PhaseCard({
               key={category.id}
               category={category}
               phase={phase}
+              viewMode={viewMode}
               checked={checked}
               bouncingId={bouncingId}
               notes={notes}
@@ -151,6 +159,22 @@ export default memo(function PhaseCard({
               onCommentDelete={onCommentDelete}
             />
           ))}
+
+          {/* Key Deliverable — Guide mode */}
+          {isGuide && deliverable && (
+            <div style={{
+              display: 'flex', alignItems: 'flex-start', gap: '0.5rem',
+              padding: '0.625rem 1rem', margin: '0',
+              background: phase.color + '08',
+              borderTop: '1px solid var(--border-subtle)',
+            }}>
+              <Target size={12} style={{ color: phase.color, flexShrink: 0, marginTop: '0.125rem' }} />
+              <p style={{ fontSize: '0.75rem', lineHeight: 1.5 }}>
+                <span style={{ fontWeight: 700, color: phase.color }}>Key deliverable: </span>
+                <span style={{ color: 'var(--text-secondary)' }}>{deliverable}</span>
+              </p>
+            </div>
+          )}
         </div>
       </CollapsibleContent>
     </div>

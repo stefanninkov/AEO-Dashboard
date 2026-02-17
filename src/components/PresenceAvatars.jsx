@@ -24,8 +24,7 @@ function getInitials(name) {
 const VIEW_LABELS = {
   dashboard: 'Dashboard',
   competitors: 'Competitors',
-  checklist: 'Checklist',
-  process: 'Process Map',
+  checklist: 'AEO Guide',
   analyzer: 'Analyzer',
   writer: 'Content Writer',
   schema: 'Schema Generator',
@@ -33,8 +32,6 @@ const VIEW_LABELS = {
   metrics: 'Metrics',
   docs: 'Documentation',
   testing: 'Testing',
-  team: 'Team',
-  webflow: 'Webflow',
   settings: 'Settings',
 }
 

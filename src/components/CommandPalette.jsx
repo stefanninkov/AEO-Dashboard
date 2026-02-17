@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useDebounce } from '../hooks/useDebounce'
 import {
-  Search, LayoutDashboard, Users, CheckSquare, GitBranch, Zap,
+  Search, LayoutDashboard, Users, Zap,
   BarChart3, BookOpen, FlaskConical, Settings, Sun, Moon,
   Plus, Download, FileText, CornerDownLeft
 } from 'lucide-react'
@@ -11,13 +11,12 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, shortcut: '1' },
   { id: 'competitors', label: 'Competitors', icon: Users, shortcut: '2' },
-  { id: 'checklist', label: 'Checklist', icon: CheckSquare, shortcut: '3' },
-  { id: 'process', label: 'Process Map', icon: GitBranch, shortcut: '4' },
-  { id: 'analyzer', label: 'Analyzer', icon: Zap, shortcut: '5' },
-  { id: 'metrics', label: 'Metrics', icon: BarChart3, shortcut: '6' },
-  { id: 'docs', label: 'Documentation', icon: BookOpen, shortcut: '7' },
-  { id: 'testing', label: 'Testing', icon: FlaskConical, shortcut: '8' },
-  { id: 'settings', label: 'Settings', icon: Settings, shortcut: '9' },
+  { id: 'checklist', label: 'AEO Guide', icon: BookOpen, shortcut: '3' },
+  { id: 'analyzer', label: 'Analyzer', icon: Zap, shortcut: '4' },
+  { id: 'metrics', label: 'Metrics', icon: BarChart3, shortcut: '5' },
+  { id: 'docs', label: 'Documentation', icon: BookOpen, shortcut: '6' },
+  { id: 'testing', label: 'Testing', icon: FlaskConical, shortcut: '7' },
+  { id: 'settings', label: 'Settings', icon: Settings, shortcut: '8' },
 ]
 
 const TYPE_COLORS = {

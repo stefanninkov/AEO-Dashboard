@@ -1,12 +1,49 @@
+/**
+ * ProjectTeamSection — Team management as a Settings sub-section.
+ * Moved from standalone TeamView into Settings.
+ */
 import { useState, useCallback } from 'react'
 import {
   Users2, UserPlus, Shield, ShieldCheck, Eye, Crown,
   Mail, Trash2, Copy, Check, AlertCircle, Loader2, X,
 } from 'lucide-react'
-import { ROLES, ROLE_LABELS, ROLE_DESCRIPTIONS } from '../utils/roles'
-import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
+import { ROLES, ROLE_LABELS, ROLE_DESCRIPTIONS } from '../../utils/roles'
+import { useActivityWithWebhooks } from '../../hooks/useActivityWithWebhooks'
+import { sectionTitleStyle } from './SettingsShared'
+
+/* ── Avatar helpers ── */
+const AVATAR_COLORS = [
+  '#FF6B35', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899',
+  '#F59E0B', '#06B6D4', '#EF4444', '#84CC16', '#6366F1',
+]
+
+function getAvatarColor(name) {
+  if (!name) return AVATAR_COLORS[0]
+  let hash = 0
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length]
+}
+
+function getInitials(name) {
+  if (!name) return '?'
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+  return parts[0][0].toUpperCase()
+}
 
 /* ── Invite Modal ── */
+const fieldLabelStyle = {
+  display: 'block',
+  fontSize: '0.6875rem',
+  fontWeight: 600,
+  color: 'var(--text-tertiary)',
+  marginBottom: '0.375rem',
+  textTransform: 'uppercase',
+  letterSpacing: '0.5px',
+}
+
 function InviteModal({ onClose, onInvite, loading }) {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState(ROLES.editor)
@@ -168,39 +205,6 @@ function RoleBadge({ role, isOwner }) {
   )
 }
 
-/* ── Avatar ── */
-const AVATAR_COLORS = [
-  '#FF6B35', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899',
-  '#F59E0B', '#06B6D4', '#EF4444', '#84CC16', '#6366F1',
-]
-
-function getAvatarColor(name) {
-  if (!name) return AVATAR_COLORS[0]
-  let hash = 0
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash)
-  }
-  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length]
-}
-
-function getInitials(name) {
-  if (!name) return '?'
-  const parts = name.trim().split(/\s+/)
-  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
-  return parts[0][0].toUpperCase()
-}
-
-/* ── Styles ── */
-const fieldLabelStyle = {
-  display: 'block',
-  fontSize: '0.6875rem',
-  fontWeight: 600,
-  color: 'var(--text-tertiary)',
-  marginBottom: '0.375rem',
-  textTransform: 'uppercase',
-  letterSpacing: '0.5px',
-}
-
 const thStyle = {
   padding: '0.625rem 0.875rem',
   fontSize: '0.6875rem',
@@ -213,8 +217,8 @@ const thStyle = {
   borderBottom: '1px solid var(--border-subtle)',
 }
 
-/* ── Main View ── */
-export default function TeamView({ activeProject, updateProject, user, permission }) {
+/* ── Main Section ── */
+export default function ProjectTeamSection({ activeProject, updateProject, user, permission }) {
   const [inviteOpen, setInviteOpen] = useState(false)
   const [inviteLoading, setInviteLoading] = useState(false)
   const [inviteError, setInviteError] = useState(null)
@@ -232,12 +236,10 @@ export default function TeamView({ activeProject, updateProject, user, permissio
     setInviteError(null)
     setInviteSuccess(null)
 
-    // Check if already a member
     if (members.some(m => m.email === email)) {
       setInviteError('This person is already a team member.')
       return
     }
-    // Check if already invited
     if (invitations.some(i => i.email === email)) {
       setInviteError('An invitation has already been sent to this email.')
       return
@@ -309,145 +311,14 @@ export default function TeamView({ activeProject, updateProject, user, permissio
     })
   }, [activeProject])
 
-  if (!activeProject) {
-    return (
-      <div className="card fade-in-up" style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '3rem 1.5rem',
-      }}>
-        <Users2 size={40} style={{ color: 'var(--text-tertiary)', marginBottom: '1rem' }} />
-        <h3 style={{
-          fontFamily: 'var(--font-heading)',
-          fontSize: '1rem',
-          fontWeight: 700,
-          marginBottom: '0.5rem',
-        }}>No Project Selected</h3>
-        <p style={{
-          fontSize: '0.8125rem',
-          color: 'var(--text-tertiary)',
-          maxWidth: '22.5rem',
-          textAlign: 'center',
-          lineHeight: 1.6,
-        }}>
-          Select or create a project to manage its team members.
-        </p>
-      </div>
-    )
-  }
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      {/* Header */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '0.75rem',
-      }}>
-        <div>
-          <h2 style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: '0.9375rem',
-            fontWeight: 700,
-            color: 'var(--text-primary)',
-          }}>
-            Team Management
-          </h2>
-          <p style={{
-            fontSize: '0.8125rem',
-            color: 'var(--text-tertiary)',
-            marginTop: '0.125rem',
-          }}>
-            Manage members and roles for <strong style={{ color: 'var(--text-secondary)' }}>{activeProject.name}</strong>
-          </p>
-        </div>
-
-        {canManage && (
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button
-              className="btn-secondary"
-              onClick={handleCopyInviteLink}
-              style={{ padding: '0.5rem 0.875rem', fontSize: '0.75rem' }}
-            >
-              {copied ? <Check size={14} style={{ color: 'var(--color-success)' }} /> : <Copy size={14} />}
-              {copied ? 'Copied!' : 'Copy Invite Link'}
-            </button>
-            <button
-              className="btn-primary"
-              onClick={() => { setInviteOpen(true); setInviteError(null) }}
-              style={{ padding: '0.5rem 0.875rem', fontSize: '0.75rem' }}
-            >
-              <UserPlus size={14} />
-              Invite Member
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Success / Error banners */}
-      {inviteSuccess && (
-        <div
-          className="fade-in-up"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.75rem 1rem',
-            borderRadius: '0.625rem',
-            background: 'rgba(16,185,129,0.08)',
-            border: '1px solid rgba(16,185,129,0.15)',
-            fontSize: '0.8125rem',
-            color: 'var(--color-success)',
-          }}
-        >
-          <Check size={15} />
-          {inviteSuccess}
-        </div>
-      )}
-
-      {inviteError && !inviteOpen && (
-        <div
-          className="fade-in-up"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.75rem 1rem',
-            borderRadius: '0.625rem',
-            background: 'rgba(239,68,68,0.08)',
-            border: '1px solid rgba(239,68,68,0.15)',
-            fontSize: '0.8125rem',
-            color: 'var(--color-error)',
-          }}
-        >
-          <AlertCircle size={15} />
-          {inviteError}
-        </div>
-      )}
-
-      {/* Members Table */}
+    <>
       <div className="card" style={{ overflow: 'hidden' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '1rem 1.25rem',
-          borderBottom: '1px solid var(--border-subtle)',
-        }}>
-          <div style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: '0.8125rem',
-            fontWeight: 700,
-            color: 'var(--text-primary)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-          }}>
+        {/* Section Title */}
+        <div style={{ ...sectionTitleStyle, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Users2 size={15} />
-            Members
+            Team
             <span style={{
               fontSize: '0.6875rem',
               fontWeight: 500,
@@ -459,8 +330,56 @@ export default function TeamView({ activeProject, updateProject, user, permissio
               {members.length}
             </span>
           </div>
+          {canManage && (
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button
+                className="btn-secondary"
+                onClick={handleCopyInviteLink}
+                style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem' }}
+              >
+                {copied ? <Check size={12} style={{ color: 'var(--color-success)' }} /> : <Copy size={12} />}
+                {copied ? 'Copied!' : 'Invite Link'}
+              </button>
+              <button
+                className="btn-primary"
+                onClick={() => { setInviteOpen(true); setInviteError(null) }}
+                style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem' }}
+              >
+                <UserPlus size={12} />
+                Invite
+              </button>
+            </div>
+          )}
         </div>
 
+        {/* Success / Error banners */}
+        {inviteSuccess && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '0.5rem',
+            padding: '0.625rem 1.25rem',
+            background: 'rgba(16,185,129,0.06)',
+            borderBottom: '1px solid var(--border-subtle)',
+            fontSize: '0.75rem', color: 'var(--color-success)',
+          }}>
+            <Check size={13} />
+            {inviteSuccess}
+          </div>
+        )}
+
+        {inviteError && !inviteOpen && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '0.5rem',
+            padding: '0.625rem 1.25rem',
+            background: 'rgba(239,68,68,0.06)',
+            borderBottom: '1px solid var(--border-subtle)',
+            fontSize: '0.75rem', color: 'var(--color-error)',
+          }}>
+            <AlertCircle size={13} />
+            {inviteError}
+          </div>
+        )}
+
+        {/* Members Table */}
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
             <thead>
@@ -607,152 +526,151 @@ export default function TeamView({ activeProject, updateProject, user, permissio
             </tbody>
           </table>
         </div>
-      </div>
 
-      {/* Pending Invitations */}
-      {invitations.length > 0 && (
-        <div className="card" style={{ overflow: 'hidden' }}>
+        {/* Pending Invitations */}
+        {invitations.length > 0 && (
+          <>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 1.25rem',
+              borderTop: '1px solid var(--border-subtle)',
+              borderBottom: '1px solid var(--border-subtle)',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              color: 'var(--text-tertiary)',
+            }}>
+              <Mail size={13} />
+              Pending Invitations
+              <span style={{
+                fontSize: '0.625rem',
+                fontWeight: 500,
+                padding: '0.0625rem 0.375rem',
+                borderRadius: '0.375rem',
+                background: 'rgba(245,158,11,0.1)',
+                color: '#F59E0B',
+              }}>
+                {invitations.length}
+              </span>
+            </div>
+
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
+                <thead>
+                  <tr>
+                    <th scope="col" style={thStyle}>Email</th>
+                    <th scope="col" style={thStyle}>Role</th>
+                    <th scope="col" style={thStyle}>Invited By</th>
+                    <th scope="col" style={{ ...thStyle, width: '7.5rem' }}>Date</th>
+                    {canManage && <th scope="col" style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>Actions</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {invitations.map((inv) => (
+                    <tr
+                      key={inv.email}
+                      style={{
+                        borderBottom: '1px solid var(--border-subtle)',
+                        transition: 'background 100ms',
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--hover-bg)'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                    >
+                      <td style={{ padding: '0.75rem 0.875rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+                          <div style={{
+                            width: '2rem',
+                            height: '2rem',
+                            borderRadius: '0.5rem',
+                            background: 'var(--hover-bg)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--text-disabled)',
+                            flexShrink: 0,
+                          }}>
+                            <Mail size={14} />
+                          </div>
+                          <span style={{ color: 'var(--text-secondary)' }}>{inv.email}</span>
+                        </div>
+                      </td>
+                      <td style={{ padding: '0.75rem 0.875rem' }}>
+                        <RoleBadge role={inv.role} />
+                      </td>
+                      <td style={{
+                        padding: '0.75rem 0.875rem',
+                        color: 'var(--text-tertiary)',
+                      }}>
+                        {inv.invitedByName || '—'}
+                      </td>
+                      <td style={{
+                        padding: '0.75rem 0.875rem',
+                        fontSize: '0.75rem',
+                        color: 'var(--text-tertiary)',
+                      }}>
+                        {inv.invitedAt ? new Date(inv.invitedAt).toLocaleDateString() : '—'}
+                      </td>
+                      {canManage && (
+                        <td style={{ padding: '0.75rem 0.875rem', textAlign: 'center' }}>
+                          <button
+                            className="icon-btn"
+                            onClick={() => handleCancelInvitation(inv.email)}
+                            title="Cancel invitation"
+                          >
+                            <X size={14} />
+                          </button>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+
+        {/* Roles Reference */}
+        <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
-            padding: '1rem 1.25rem',
+            padding: '0.75rem 1.25rem',
             borderBottom: '1px solid var(--border-subtle)',
-            fontFamily: 'var(--font-heading)',
-            fontSize: '0.8125rem',
+            fontSize: '0.75rem',
             fontWeight: 700,
-            color: 'var(--text-primary)',
+            color: 'var(--text-tertiary)',
           }}>
-            <Mail size={15} />
-            Pending Invitations
-            <span style={{
-              fontSize: '0.6875rem',
-              fontWeight: 500,
-              padding: '0.125rem 0.4375rem',
-              borderRadius: '0.375rem',
-              background: 'rgba(245,158,11,0.1)',
-              color: '#F59E0B',
-            }}>
-              {invitations.length}
-            </span>
+            <Shield size={13} />
+            Role Permissions
           </div>
 
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
-              <thead>
-                <tr>
-                  <th scope="col" style={thStyle}>Email</th>
-                  <th scope="col" style={thStyle}>Role</th>
-                  <th scope="col" style={thStyle}>Invited By</th>
-                  <th scope="col" style={{ ...thStyle, width: '7.5rem' }}>Date</th>
-                  {canManage && <th scope="col" style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>Actions</th>}
-                </tr>
-              </thead>
-              <tbody>
-                {invitations.map((inv) => (
-                  <tr
-                    key={inv.email}
-                    style={{
-                      borderBottom: '1px solid var(--border-subtle)',
-                      transition: 'background 100ms',
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'var(--hover-bg)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                  >
-                    <td style={{ padding: '0.75rem 0.875rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-                        <div style={{
-                          width: '2rem',
-                          height: '2rem',
-                          borderRadius: '0.5rem',
-                          background: 'var(--hover-bg)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: 'var(--text-disabled)',
-                          flexShrink: 0,
-                        }}>
-                          <Mail size={14} />
-                        </div>
-                        <span style={{ color: 'var(--text-secondary)' }}>{inv.email}</span>
-                      </div>
-                    </td>
-                    <td style={{ padding: '0.75rem 0.875rem' }}>
-                      <RoleBadge role={inv.role} />
-                    </td>
-                    <td style={{
-                      padding: '0.75rem 0.875rem',
-                      color: 'var(--text-tertiary)',
-                    }}>
-                      {inv.invitedByName || '—'}
-                    </td>
-                    <td style={{
-                      padding: '0.75rem 0.875rem',
-                      fontSize: '0.75rem',
-                      color: 'var(--text-tertiary)',
-                    }}>
-                      {inv.invitedAt ? new Date(inv.invitedAt).toLocaleDateString() : '—'}
-                    </td>
-                    {canManage && (
-                      <td style={{ padding: '0.75rem 0.875rem', textAlign: 'center' }}>
-                        <button
-                          className="icon-btn"
-                          onClick={() => handleCancelInvitation(inv.email)}
-                          title="Cancel invitation"
-                        >
-                          <X size={14} />
-                        </button>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div style={{ padding: '0.75rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            {Object.values(ROLES).map((r) => (
+              <div
+                key={r}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '0.625rem',
+                  padding: '0.5rem 0.75rem',
+                  borderRadius: '0.5rem',
+                  background: 'var(--hover-bg)',
+                }}
+              >
+                <RoleBadge role={r} />
+                <p style={{
+                  fontSize: '0.6875rem',
+                  color: 'var(--text-tertiary)',
+                  lineHeight: 1.5,
+                  flex: 1,
+                }}>
+                  {ROLE_DESCRIPTIONS[r]}
+                </p>
+              </div>
+            ))}
           </div>
-        </div>
-      )}
-
-      {/* Roles Reference */}
-      <div className="card" style={{ overflow: 'hidden' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          padding: '1rem 1.25rem',
-          borderBottom: '1px solid var(--border-subtle)',
-          fontFamily: 'var(--font-heading)',
-          fontSize: '0.8125rem',
-          fontWeight: 700,
-          color: 'var(--text-primary)',
-        }}>
-          <Shield size={15} />
-          Role Permissions
-        </div>
-
-        <div style={{ padding: '1rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          {Object.values(ROLES).map((r) => (
-            <div
-              key={r}
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '0.75rem',
-                padding: '0.75rem',
-                borderRadius: '0.625rem',
-                background: 'var(--hover-bg)',
-              }}
-            >
-              <RoleBadge role={r} />
-              <p style={{
-                fontSize: '0.75rem',
-                color: 'var(--text-tertiary)',
-                lineHeight: 1.6,
-                flex: 1,
-              }}>
-                {ROLE_DESCRIPTIONS[r]}
-              </p>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -764,6 +682,6 @@ export default function TeamView({ activeProject, updateProject, user, permissio
           loading={inviteLoading}
         />
       )}
-    </div>
+    </>
   )
 }

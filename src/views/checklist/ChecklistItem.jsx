@@ -174,6 +174,7 @@ function AssignDropdown({ members, assignedUid, onAssign, onUnassign, onClose })
 export default memo(function ChecklistItem({
   item,
   phase,
+  viewMode,
   checked,
   bouncingId,
   notes,
@@ -260,7 +261,7 @@ export default memo(function ChecklistItem({
               </span>
             )}
           </p>
-          {quickViewItem === item.id && (
+          {(viewMode === 'guide' || quickViewItem === item.id) && (
             <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem', lineHeight: 1.5 }}>{item.detail}</p>
           )}
         </div>
@@ -295,7 +296,7 @@ export default memo(function ChecklistItem({
         )}
 
         {/* Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, opacity: 0, position: 'relative' }} className="group-hover:opacity-100 transition-opacity duration-150">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, opacity: viewMode === 'guide' ? 1 : 0, position: 'relative' }} className="group-hover:opacity-100 transition-opacity duration-150">
           <button
             onClick={() => onQuickView(item.id)}
             style={{ padding: '0.375rem', borderRadius: '0.5rem', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)' }}
@@ -455,6 +456,7 @@ export default memo(function ChecklistItem({
   return (
     prev.item === next.item &&
     prev.phase === next.phase &&
+    prev.viewMode === next.viewMode &&
     prev.checked[id] === next.checked[id] &&
     prev.bouncingId === next.bouncingId &&
     prev.notes[id] === next.notes[id] &&
