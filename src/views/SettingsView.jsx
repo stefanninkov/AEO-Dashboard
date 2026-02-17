@@ -12,6 +12,7 @@ import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import { isGoogleOAuthConfigured } from '../utils/googleAuth'
 import GscPropertySelector from '../components/GscPropertySelector'
 import Ga4PropertySelector from '../components/Ga4PropertySelector'
+import { getCacheStats, clearAllCache, clearPropertyCache } from '../utils/dataCache'
 import { useToast } from '../components/Toast'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
@@ -87,6 +88,22 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
   const [emailPublicKey, setEmailPublicKey] = useState('')
   const [emailConfigSaved, setEmailConfigSaved] = useState(false)
   const [testingSend, setTestingSend] = useState(false)
+
+  // Cache management state
+  const [cacheStats, setCacheStats] = useState(() => getCacheStats())
+  const [clearCacheConfirm, setClearCacheConfirm] = useState(false)
+
+  const handleClearGoogleCache = () => {
+    if (!clearCacheConfirm) {
+      setClearCacheConfirm(true)
+      setTimeout(() => setClearCacheConfirm(false), 3000)
+      return
+    }
+    clearAllCache()
+    setCacheStats(getCacheStats())
+    setClearCacheConfirm(false)
+    addToast('success', 'Google data cache cleared')
+  }
 
   // Digest state
   const [digestEnabled, setDigestEnabled] = useState(false)
@@ -914,6 +931,52 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                     }}
                   />
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Google Data Cache ── */}
+          {google.isConnected && (
+            <div className="card" style={{ marginBottom: '1rem' }}>
+              <div style={sectionTitleStyle}>
+                <Database size={15} />
+                Google Data Cache
+              </div>
+
+              <div style={{ padding: '0 1.25rem 0.5rem' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
+                  GSC and GA4 data is cached locally to improve performance. Stale data is shown while fresh data loads in the background.
+                </p>
+              </div>
+
+              <div style={settingsRowStyle}>
+                <span style={labelStyle}>Memory</span>
+                <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
+                  <strong>{cacheStats.memoryEntries}</strong> entries
+                </span>
+              </div>
+
+              <div style={settingsRowStyle}>
+                <span style={labelStyle}>Storage</span>
+                <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
+                  <strong>{cacheStats.localStorageEntries}</strong> entries ({cacheStats.totalSizeKB} KB)
+                </span>
+              </div>
+
+              <div style={lastRowStyle}>
+                <span style={labelStyle} />
+                <button
+                  className="btn-secondary"
+                  style={{
+                    fontSize: '0.75rem', padding: '0.4375rem 0.875rem',
+                    color: clearCacheConfirm ? 'var(--color-error)' : undefined,
+                    borderColor: clearCacheConfirm ? 'var(--color-error)' : undefined,
+                  }}
+                  onClick={handleClearGoogleCache}
+                >
+                  <Trash2 size={13} />
+                  {clearCacheConfirm ? 'Are you sure?' : 'Clear All Cached Data'}
+                </button>
               </div>
             </div>
           )}

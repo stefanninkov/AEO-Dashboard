@@ -13,12 +13,14 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import {
-  Zap, BarChart3, Users, Clock, ArrowUpDown, Globe, Settings,
-  RefreshCw, Loader2, AlertCircle, TrendingUp, ExternalLink,
+  Zap, BarChart3, Users, Clock, ArrowUpDown, Globe,
+  RefreshCw, Loader2, TrendingUp, ExternalLink,
   ArrowDown, ArrowUp, ChevronRight,
 } from 'lucide-react'
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import { getAiTrafficReport, getAiLandingPages, getAiTrafficTrend, getPropertyId, AI_REFERRAL_SOURCES } from '../utils/ga4Api'
+import { cacheKey, getCache, setCache } from '../utils/dataCache'
+import { NotConnectedState, NoPropertyState, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
 import logger from '../utils/logger'
 
 /* ── Stat Card ── */
@@ -112,50 +114,7 @@ function TrendChart({ data, height = 64 }) {
   )
 }
 
-/* ── Not Connected ── */
-function NotConnectedState({ setActiveView }) {
-  return (
-    <div className="card" style={{ padding: '3rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-      <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: '1rem', background: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <BarChart3 size={24} style={{ color: '#10B981' }} />
-      </div>
-      <div>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.375rem' }}>
-          Connect Google Account
-        </h3>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', lineHeight: 1.6, maxWidth: '28rem' }}>
-          Connect your Google account in Settings to view GA4 AI traffic data. See exactly which AI engines are sending visitors to your site.
-        </p>
-      </div>
-      <button className="btn-primary" style={{ fontSize: '0.8125rem' }} onClick={() => setActiveView('settings')}>
-        <Settings size={14} />
-        Go to Settings
-      </button>
-    </div>
-  )
-}
-
-function NoPropertyState({ setActiveView }) {
-  return (
-    <div className="card" style={{ padding: '3rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-      <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: '1rem', background: 'rgba(255,107,53,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Zap size={24} style={{ color: '#FF6B35' }} />
-      </div>
-      <div>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.375rem' }}>
-          Select a GA4 Property
-        </h3>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', lineHeight: 1.6, maxWidth: '28rem' }}>
-          Your Google account is connected. Select a GA4 property in the project settings to start viewing AI traffic data.
-        </p>
-      </div>
-      <button className="btn-primary" style={{ fontSize: '0.8125rem' }} onClick={() => setActiveView('settings')}>
-        <Settings size={14} />
-        Select Property
-      </button>
-    </div>
-  )
-}
+/* ── Empty states imported from GoogleEmptyState ── */
 
 /* ══════════════════════════════════════════════════════════════════
    MAIN VIEW
@@ -183,15 +142,49 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
   const fetchData = useCallback(async () => {
     if (!google.accessToken || !propertyId) return
 
+    // Cache keys
+    const tKey = cacheKey('ga4Traffic', propertyId, dateRange.startDate, dateRange.endDate)
+    const pKey = cacheKey('ga4Pages', propertyId, dateRange.startDate, dateRange.endDate)
+    const dKey = cacheKey('ga4Trend', propertyId, dateRange.startDate, dateRange.endDate)
+
+    const tCache = getCache(tKey, 10 * 60 * 1000)
+    const pCache = getCache(pKey, 10 * 60 * 1000)
+    const dCache = getCache(dKey, 10 * 60 * 1000)
+
+    // If all fresh, skip fetch
+    if (!tCache.isMiss && !tCache.isStale && !pCache.isMiss && !pCache.isStale && !dCache.isMiss && !dCache.isStale) {
+      setTrafficData(tCache.data)
+      setLandingPages(pCache.data)
+      setTrendData(dCache.data)
+      setLoading(false)
+      return
+    }
+
+    // Show stale data immediately
+    if (!tCache.isMiss) setTrafficData(tCache.data)
+    if (!pCache.isMiss) setLandingPages(pCache.data)
+    if (!dCache.isMiss) setTrendData(dCache.data)
+
     setLoading(true)
     setError(null)
 
     try {
       const [traffic, pages, trend] = await Promise.all([
-        getAiTrafficReport(google.accessToken, propertyId, dateRange),
-        getAiLandingPages(google.accessToken, propertyId, dateRange),
-        getAiTrafficTrend(google.accessToken, propertyId, dateRange),
+        (tCache.isMiss || tCache.isStale)
+          ? getAiTrafficReport(google.accessToken, propertyId, dateRange)
+          : Promise.resolve(tCache.data),
+        (pCache.isMiss || pCache.isStale)
+          ? getAiLandingPages(google.accessToken, propertyId, dateRange)
+          : Promise.resolve(pCache.data),
+        (dCache.isMiss || dCache.isStale)
+          ? getAiTrafficTrend(google.accessToken, propertyId, dateRange)
+          : Promise.resolve(dCache.data),
       ])
+
+      // Update cache
+      if (tCache.isMiss || tCache.isStale) setCache(tKey, traffic)
+      if (pCache.isMiss || pCache.isStale) setCache(pKey, pages)
+      if (dCache.isMiss || dCache.isStale) setCache(dKey, trend)
 
       setTrafficData(traffic)
       setLandingPages(pages)
@@ -226,7 +219,16 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
             Track visitors from ChatGPT, Perplexity, Gemini, Claude, and other AI engines
           </p>
         </div>
-        <NotConnectedState setActiveView={setActiveView} />
+        {google.isExpired ? (
+          <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
+        ) : (
+          <NotConnectedState
+            setActiveView={setActiveView}
+            preset="ga4"
+            title="Connect Google Account"
+            description="Connect your Google account in Settings to view GA4 AI traffic data. See exactly which AI engines are sending visitors to your site."
+          />
+        )}
       </div>
     )
   }
@@ -242,7 +244,12 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
             Track visitors from ChatGPT, Perplexity, Gemini, Claude, and other AI engines
           </p>
         </div>
-        <NoPropertyState setActiveView={setActiveView} />
+        <NoPropertyState
+          setActiveView={setActiveView}
+          preset="search"
+          title="Select a GA4 Property"
+          description="Your Google account is connected. Select a GA4 property in the project settings to start viewing AI traffic data."
+        />
       </div>
     )
   }
@@ -314,12 +321,14 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
         </div>
       </div>
 
+      {/* Token expiry banner */}
+      {google.isExpired && (
+        <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
+      )}
+
       {/* Error */}
-      {error && (
-        <div className="card" style={{ padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)' }}>
-          <AlertCircle size={14} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
-          <span style={{ fontSize: '0.8125rem', color: 'var(--color-error)' }}>{error}</span>
-        </div>
+      {error && !google.isExpired && (
+        <DataErrorBanner error={error} onRetry={fetchData} retrying={loading} />
       )}
 
       {/* Loading */}

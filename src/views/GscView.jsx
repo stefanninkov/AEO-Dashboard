@@ -12,12 +12,13 @@
 import { useState, useMemo } from 'react'
 import {
   Search, TrendingUp, MousePointerClick, Eye, ArrowUpDown,
-  Filter, Download, RefreshCw, Loader2, AlertCircle, Settings,
+  Filter, Download, RefreshCw, Loader2,
   Zap, Globe, ArrowUp, ArrowDown, ChevronRight, ExternalLink,
 } from 'lucide-react'
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import { useGscData } from '../hooks/useGscData'
 import { formatSiteUrl } from '../utils/gscApi'
+import { NotConnectedState, NoPropertyState, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
 
 /* ── Stat Card ── */
 function StatCard({ icon: Icon, label, value, subValue, color }) {
@@ -116,56 +117,7 @@ function MiniSparkline({ data, dataKey = 'clicks', color = 'var(--color-phase-1)
   )
 }
 
-/* ── Not Connected / No Property Empty States ── */
-function NotConnectedState({ setActiveView }) {
-  return (
-    <div className="card" style={{ padding: '3rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-      <div style={{
-        width: '3.5rem', height: '3.5rem', borderRadius: '1rem',
-        background: 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <Globe size={24} style={{ color: '#3B82F6' }} />
-      </div>
-      <div>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.375rem' }}>
-          Connect Google Account
-        </h3>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', lineHeight: 1.6, maxWidth: '28rem' }}>
-          Connect your Google account in Settings to view Search Console data. This will show real search performance, AEO query detection, and page analytics.
-        </p>
-      </div>
-      <button className="btn-primary" style={{ fontSize: '0.8125rem' }} onClick={() => setActiveView('settings')}>
-        <Settings size={14} />
-        Go to Settings
-      </button>
-    </div>
-  )
-}
-
-function NoPropertyState({ setActiveView }) {
-  return (
-    <div className="card" style={{ padding: '3rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-      <div style={{
-        width: '3.5rem', height: '3.5rem', borderRadius: '1rem',
-        background: 'rgba(255,107,53,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <Search size={24} style={{ color: '#FF6B35' }} />
-      </div>
-      <div>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.375rem' }}>
-          Select a Search Console Property
-        </h3>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', lineHeight: 1.6, maxWidth: '28rem' }}>
-          Your Google account is connected. Select a Search Console property in the project settings to start viewing data.
-        </p>
-      </div>
-      <button className="btn-primary" style={{ fontSize: '0.8125rem' }} onClick={() => setActiveView('settings')}>
-        <Settings size={14} />
-        Select Property
-      </button>
-    </div>
-  )
-}
+/* ── Empty states imported from GoogleEmptyState ── */
 
 /* ══════════════════════════════════════════════════════════════════
    MAIN VIEW
@@ -267,7 +219,16 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
             Real search performance data from Google Search Console
           </p>
         </div>
-        <NotConnectedState setActiveView={setActiveView} />
+        {google.isExpired ? (
+          <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
+        ) : (
+          <NotConnectedState
+            setActiveView={setActiveView}
+            preset="gsc"
+            title="Connect Google Account"
+            description="Connect your Google account in Settings to view Search Console data. This will show real search performance, AEO query detection, and page analytics."
+          />
+        )}
       </div>
     )
   }
@@ -283,7 +244,12 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
             Real search performance data from Google Search Console
           </p>
         </div>
-        <NoPropertyState setActiveView={setActiveView} />
+        <NoPropertyState
+          setActiveView={setActiveView}
+          preset="search"
+          title="Select a Search Console Property"
+          description="Your Google account is connected. Select a Search Console property in the project settings to start viewing data."
+        />
       </div>
     )
   }
@@ -352,19 +318,14 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
         </div>
       </div>
 
+      {/* Token expiry banner */}
+      {google.isExpired && (
+        <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
+      )}
+
       {/* Error */}
-      {error && (
-        <div className="card" style={{
-          padding: '0.75rem 1rem',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          background: 'rgba(239,68,68,0.06)',
-          border: '1px solid rgba(239,68,68,0.15)',
-        }}>
-          <AlertCircle size={14} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
-          <span style={{ fontSize: '0.8125rem', color: 'var(--color-error)' }}>{error}</span>
-        </div>
+      {error && !google.isExpired && (
+        <DataErrorBanner error={error} onRetry={refresh} retrying={loading} />
       )}
 
       {/* Stat cards */}

@@ -12,14 +12,16 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import {
-  Zap, TrendingUp, Globe, Search, BarChart3, Settings,
-  RefreshCw, Loader2, AlertCircle, ArrowRight, ExternalLink,
+  Zap, TrendingUp, Globe, Search, BarChart3,
+  RefreshCw, Loader2, ArrowRight, ExternalLink,
   Target, Layers, Sparkles, ChevronRight,
 } from 'lucide-react'
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import { useGscData } from '../hooks/useGscData'
 import { getAiTrafficReport, getAiLandingPages, getPropertyId } from '../utils/ga4Api'
 import { formatSiteUrl } from '../utils/gscApi'
+import { cacheKey, getCache, setCache } from '../utils/dataCache'
+import { SetupRequiredState as SharedSetupRequired, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
 import logger from '../utils/logger'
 
 /* ── Stat Card ── */
@@ -80,42 +82,7 @@ function AeoScoreGauge({ score, label }) {
   )
 }
 
-/* ── Not Connected States ── */
-function SetupRequiredState({ setActiveView, gscMissing, ga4Missing }) {
-  return (
-    <div className="card" style={{ padding: '3rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-      <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: '1rem', background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Layers size={24} style={{ color: '#8B5CF6' }} />
-      </div>
-      <div>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.375rem' }}>
-          Setup Required
-        </h3>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', lineHeight: 1.6, maxWidth: '28rem' }}>
-          The AEO Impact view cross-references Search Console and GA4 data. You need both connected:
-        </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem', marginTop: '0.75rem', textAlign: 'left', maxWidth: '20rem', margin: '0.75rem auto 0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem' }}>
-            <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: gscMissing ? 'var(--color-error)' : 'var(--color-success)', flexShrink: 0 }} />
-            <span style={{ color: gscMissing ? 'var(--text-tertiary)' : 'var(--text-primary)' }}>
-              Search Console property {gscMissing ? '— not selected' : '— connected'}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem' }}>
-            <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: ga4Missing ? 'var(--color-error)' : 'var(--color-success)', flexShrink: 0 }} />
-            <span style={{ color: ga4Missing ? 'var(--text-tertiary)' : 'var(--text-primary)' }}>
-              GA4 property {ga4Missing ? '— not selected' : '— connected'}
-            </span>
-          </div>
-        </div>
-      </div>
-      <button className="btn-primary" style={{ fontSize: '0.8125rem' }} onClick={() => setActiveView('settings')}>
-        <Settings size={14} />
-        Go to Settings
-      </button>
-    </div>
-  )
-}
+/* ── Empty states imported from GoogleEmptyState ── */
 
 /* ══════════════════════════════════════════════════════════════════
    MAIN VIEW
@@ -148,13 +115,41 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
 
   const fetchGa4 = useCallback(async () => {
     if (!google.accessToken || !propertyId) return
+
+    // Cache keys
+    const tKey = cacheKey('ga4Traffic', propertyId, dateRange.startDate, dateRange.endDate)
+    const pKey = cacheKey('ga4Pages', propertyId, dateRange.startDate, dateRange.endDate)
+
+    const tCache = getCache(tKey, 10 * 60 * 1000)
+    const pCache = getCache(pKey, 10 * 60 * 1000)
+
+    // If all fresh, skip fetch
+    if (!tCache.isMiss && !tCache.isStale && !pCache.isMiss && !pCache.isStale) {
+      setAiTraffic(tCache.data)
+      setAiPages(pCache.data)
+      setGa4Loading(false)
+      return
+    }
+
+    // Serve stale data immediately
+    if (!tCache.isMiss) setAiTraffic(tCache.data)
+    if (!pCache.isMiss) setAiPages(pCache.data)
+
     setGa4Loading(true)
     setGa4Error(null)
     try {
       const [traffic, pages] = await Promise.all([
-        getAiTrafficReport(google.accessToken, propertyId, dateRange),
-        getAiLandingPages(google.accessToken, propertyId, dateRange),
+        (tCache.isMiss || tCache.isStale)
+          ? getAiTrafficReport(google.accessToken, propertyId, dateRange)
+          : Promise.resolve(tCache.data),
+        (pCache.isMiss || pCache.isStale)
+          ? getAiLandingPages(google.accessToken, propertyId, dateRange)
+          : Promise.resolve(pCache.data),
       ])
+
+      if (tCache.isMiss || tCache.isStale) setCache(tKey, traffic)
+      if (pCache.isMiss || pCache.isStale) setCache(pKey, pages)
+
       setAiTraffic(traffic)
       setAiPages(pages)
     } catch (err) {
@@ -179,7 +174,18 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <ViewHeader />
-        <SetupRequiredState setActiveView={setActiveView} gscMissing={!gscProperty} ga4Missing={!ga4Property} />
+        {google.isExpired ? (
+          <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
+        ) : (
+          <SharedSetupRequired
+            setActiveView={setActiveView}
+            checks={[
+              { label: `Google account — not connected`, ok: false },
+              { label: `Search Console property ${gscProperty ? '— connected' : '— not selected'}`, ok: !!gscProperty },
+              { label: `GA4 property ${ga4Property ? '— connected' : '— not selected'}`, ok: !!ga4Property },
+            ]}
+          />
+        )}
       </div>
     )
   }
@@ -188,7 +194,14 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <ViewHeader />
-        <SetupRequiredState setActiveView={setActiveView} gscMissing={!gscProperty} ga4Missing={!ga4Property} />
+        <SharedSetupRequired
+          setActiveView={setActiveView}
+          checks={[
+            { label: `Google account — connected`, ok: true },
+            { label: `Search Console property ${gscProperty ? '— connected' : '— not selected'}`, ok: !!gscProperty },
+            { label: `GA4 property ${ga4Property ? '— connected' : '— not selected'}`, ok: !!ga4Property },
+          ]}
+        />
       </div>
     )
   }
@@ -303,12 +316,14 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
         </div>
       </div>
 
+      {/* Token expiry banner */}
+      {google.isExpired && (
+        <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
+      )}
+
       {/* Error */}
-      {error && (
-        <div className="card" style={{ padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)' }}>
-          <AlertCircle size={14} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
-          <span style={{ fontSize: '0.8125rem', color: 'var(--color-error)' }}>{error}</span>
-        </div>
+      {error && !google.isExpired && (
+        <DataErrorBanner error={error} onRetry={handleRefresh} retrying={loading} />
       )}
 
       {/* Loading */}
