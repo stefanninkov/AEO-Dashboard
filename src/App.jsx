@@ -326,7 +326,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         const tag = document.activeElement?.tagName
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
-        const views = ['dashboard', 'competitors', 'checklist', 'analyzer', 'writer', 'schema', 'monitoring', 'metrics', 'metrics']
+        const views = ['dashboard', 'checklist', 'competitors', 'analyzer', 'writer', 'schema', 'monitoring', 'metrics', 'gsc']
         const num = parseInt(e.key)
         if (num >= 1 && num <= 9) {
           setActiveView(views[num - 1])

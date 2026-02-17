@@ -8,16 +8,9 @@ const INITIAL_VISIBLE = 20
 export default memo(function CategorySection({
   category,
   phase,
-  viewMode,
   checked,
   bouncingId,
-  notes,
-  openNoteId,
-  noteDraft,
-  noteSaveStatus,
-  noteTimestamps,
   verifications,
-  quickViewItem,
   assignments,
   comments,
   openCommentId,
@@ -28,11 +21,7 @@ export default memo(function CategorySection({
   onBulkCheck,
   onBulkUncheck,
   onToggle,
-  onQuickView,
   onDocItem,
-  onToggleNote,
-  onNoteChange,
-  onNoteSave,
   onAssign,
   onUnassign,
   onToggleComments,
@@ -86,27 +75,16 @@ export default memo(function CategorySection({
               key={item.id}
               item={item}
               phase={phase}
-              viewMode={viewMode}
               checked={checked}
               bouncingId={bouncingId}
-              notes={notes}
-              openNoteId={openNoteId}
-              noteDraft={noteDraft}
-              noteSaveStatus={noteSaveStatus}
-              noteTimestamps={noteTimestamps}
               verifications={verifications}
-              quickViewItem={quickViewItem}
               assignments={assignments}
               comments={comments}
               openCommentId={openCommentId}
               commentDraft={commentDraft}
               members={members}
               onToggle={onToggle}
-              onQuickView={onQuickView}
               onDocItem={onDocItem}
-              onToggleNote={onToggleNote}
-              onNoteChange={onNoteChange}
-              onNoteSave={onNoteSave}
               onAssign={onAssign}
               onUnassign={onUnassign}
               onToggleComments={onToggleComments}

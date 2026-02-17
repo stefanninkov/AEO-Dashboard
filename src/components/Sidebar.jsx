@@ -32,8 +32,8 @@ function getAvatarColor(name) {
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'competitors', label: 'Competitors', icon: Users },
   { id: 'checklist', label: 'AEO Guide', icon: BookOpen },
+  { id: 'competitors', label: 'Competitors', icon: Users },
   { id: 'analyzer', label: 'Analyzer', icon: ZapIcon },
   { id: 'writer', label: 'Content Writer', icon: PenTool },
   { id: 'content-ops', label: 'Content Ops', icon: CalendarDays },

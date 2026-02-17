@@ -10,8 +10,8 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, shortcut: '1' },
-  { id: 'competitors', label: 'Competitors', icon: Users, shortcut: '2' },
-  { id: 'checklist', label: 'AEO Guide', icon: BookOpen, shortcut: '3' },
+  { id: 'checklist', label: 'AEO Guide', icon: BookOpen, shortcut: '2' },
+  { id: 'competitors', label: 'Competitors', icon: Users, shortcut: '3' },
   { id: 'analyzer', label: 'Analyzer', icon: Zap, shortcut: '4' },
   { id: 'metrics', label: 'Metrics', icon: BarChart3, shortcut: '5' },
   { id: 'docs', label: 'Documentation', icon: BookOpen, shortcut: '6' },

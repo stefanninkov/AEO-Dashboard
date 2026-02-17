@@ -7,7 +7,6 @@ import CategorySection from './CategorySection'
 export default memo(function PhaseCard({
   phase,
   progress,
-  viewMode,
   deliverable,
   isExpanded,
   isPriority,
@@ -15,13 +14,7 @@ export default memo(function PhaseCard({
   expandedCategories,
   checked,
   bouncingId,
-  notes,
-  openNoteId,
-  noteDraft,
-  noteSaveStatus,
-  noteTimestamps,
   verifications,
-  quickViewItem,
   assignments,
   comments,
   openCommentId,
@@ -34,11 +27,7 @@ export default memo(function PhaseCard({
   onBulkUncheck,
   setExpandedCategories,
   onToggle,
-  onQuickView,
   onDocItem,
-  onToggleNote,
-  onNoteChange,
-  onNoteSave,
   onAssign,
   onUnassign,
   onToggleComments,
@@ -46,7 +35,6 @@ export default memo(function PhaseCard({
   onCommentAdd,
   onCommentDelete,
 }) {
-  const isGuide = viewMode === 'guide'
 
   return (
     <div className={`card${isCelebrating ? ' phase-complete-pulse' : ''}`} style={{ padding: 0, overflow: 'hidden', '--phase-pulse-color': phase.color + '40' }}>
@@ -79,9 +67,7 @@ export default memo(function PhaseCard({
             )}
           </div>
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginTop: '0.125rem', color: 'var(--text-primary)' }}>{phase.title}</h3>
-          {isGuide && (
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem', lineHeight: 1.5 }}>{phase.description}</p>
-          )}
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem', lineHeight: 1.5 }}>{phase.description}</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
           <div style={{ textAlign: 'right' }}>
@@ -126,16 +112,9 @@ export default memo(function PhaseCard({
               key={category.id}
               category={category}
               phase={phase}
-              viewMode={viewMode}
               checked={checked}
               bouncingId={bouncingId}
-              notes={notes}
-              openNoteId={openNoteId}
-              noteDraft={noteDraft}
-              noteSaveStatus={noteSaveStatus}
-              noteTimestamps={noteTimestamps}
               verifications={verifications}
-              quickViewItem={quickViewItem}
               assignments={assignments}
               comments={comments}
               openCommentId={openCommentId}
@@ -146,11 +125,7 @@ export default memo(function PhaseCard({
               onBulkCheck={onBulkCheck}
               onBulkUncheck={onBulkUncheck}
               onToggle={onToggle}
-              onQuickView={onQuickView}
               onDocItem={onDocItem}
-              onToggleNote={onToggleNote}
-              onNoteChange={onNoteChange}
-              onNoteSave={onNoteSave}
               onAssign={onAssign}
               onUnassign={onUnassign}
               onToggleComments={onToggleComments}
@@ -160,8 +135,8 @@ export default memo(function PhaseCard({
             />
           ))}
 
-          {/* Key Deliverable — Guide mode */}
-          {isGuide && deliverable && (
+          {/* Key Deliverable */}
+          {deliverable && (
             <div style={{
               display: 'flex', alignItems: 'flex-start', gap: '0.5rem',
               padding: '0.625rem 1rem', margin: '0',

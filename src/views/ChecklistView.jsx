@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import { Search, CheckCircle2, CheckSquare, BookOpen, Lightbulb, ChevronDown } from 'lucide-react'
+import { Search, CheckCircle2, Lightbulb, ChevronDown } from 'lucide-react'
 import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
 import VerifyDialog from '../components/VerifyDialog'
@@ -30,30 +30,16 @@ const DELIVERABLES = {
   7: 'Ongoing monitoring system with monthly reports and iteration plan.',
 }
 
-const VIEW_MODES = [
-  { id: 'checklist', label: 'Checklist', icon: CheckSquare },
-  { id: 'guide', label: 'Guide', icon: BookOpen },
-]
-
 export default function ChecklistView({ phases, activeProject, toggleCheckItem, setActiveView, setDocItem, updateProject, user, onlineMembers, addNotification }) {
   const firstPriority = getFirstPriorityPhase(activeProject?.questionnaire)
-  const [viewMode, setViewMode] = useState('checklist')
   const [principlesOpen, setPrinciplesOpen] = useState(false)
   const [expandedPhases, setExpandedPhases] = useState({ [firstPriority]: true })
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 200)
-  const [quickViewItem, setQuickViewItem] = useState(null)
   const [bouncingId, setBouncingId] = useState(null)
   const [searchFocused, setSearchFocused] = useState(false)
   const [verifyItem, setVerifyItem] = useState(null)
   const [verifyClosing, setVerifyClosing] = useState(false)
-
-  // Notes state
-  const [openNoteId, setOpenNoteId] = useState(null)
-  const [noteDraft, setNoteDraft] = useState('')
-  const [noteSaveStatus, setNoteSaveStatus] = useState(null)
-  const saveTimerRef = useRef(null)
-  const savedTimerRef = useRef(null)
 
   // Comments state
   const [openCommentId, setOpenCommentId] = useState(null)
@@ -69,8 +55,6 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const activeProjectIdRef = useRef(activeProject?.id)
 
   const checked = activeProject?.checked || {}
-  const notes = activeProject?.notes || {}
-  const noteTimestamps = activeProject?.noteTimestamps || {}
   const assignments = activeProject?.assignments || {}
   const comments = activeProject?.comments || {}
   const members = activeProject?.members || []
@@ -122,51 +106,6 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     setTimeout(() => setBouncingId(null), 450)
     handleCloseVerify()
   }, [verifyItem, activeProject, checked, phases, updateProject, toggleCheckItem, logAndDispatch, user, handleCloseVerify])
-
-  // Notes handlers
-  const saveNote = useCallback((itemId, text) => {
-    clearTimeout(saveTimerRef.current)
-    clearTimeout(savedTimerRef.current)
-    const trimmed = text.trim()
-    const newNotes = { ...notes, [itemId]: trimmed }
-    const newTimestamps = { ...noteTimestamps, [itemId]: new Date().toISOString() }
-    if (!trimmed) { delete newNotes[itemId]; delete newTimestamps[itemId] }
-    updateProject(activeProject.id, { notes: newNotes, noteTimestamps: newTimestamps })
-    if (trimmed) {
-      let taskText = '', phaseNum = 0
-      for (const phase of phases) {
-        for (const cat of phase.categories) {
-          for (const it of cat.items) {
-            if (it.id === itemId) { taskText = it.text.slice(0, 80); phaseNum = phase.number; break }
-          }
-        }
-      }
-      logAndDispatch('note', { taskId: itemId, taskText, phase: phaseNum }, user)
-    }
-    setNoteSaveStatus('saved')
-    savedTimerRef.current = setTimeout(() => setNoteSaveStatus(null), 2000)
-  }, [notes, noteTimestamps, activeProject?.id, updateProject, phases, logAndDispatch, user])
-
-  const handleNoteChange = useCallback((itemId, text) => {
-    setNoteDraft(text)
-    clearTimeout(saveTimerRef.current)
-    setNoteSaveStatus(null)
-    saveTimerRef.current = setTimeout(() => saveNote(itemId, text), 1000)
-  }, [saveNote])
-
-  const toggleNote = useCallback((itemId) => {
-    setOpenNoteId(prev => {
-      if (prev === itemId) {
-        saveNote(itemId, noteDraft)
-        setNoteDraft('')
-        return null
-      }
-      if (prev) saveNote(prev, noteDraft)
-      setNoteDraft(notes[itemId] || '')
-      setNoteSaveStatus(null)
-      return itemId
-    })
-  }, [saveNote, noteDraft, notes])
 
   const handleAssign = useCallback((itemId, memberUid, item, phaseNumber) => {
     const member = members.find(m => m.uid === memberUid)
@@ -260,10 +199,6 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     updateProject(activeProject.id, { checked: newChecked })
   }, [checked, activeProject?.id, updateProject])
 
-  const handleQuickView = useCallback((id) => {
-    setQuickViewItem(prev => prev === id ? null : id)
-  }, [])
-
   const handleBulkUncheck = useCallback((category) => {
     const newChecked = { ...checked }
     category.items.forEach(item => { newChecked[item.id] = false })
@@ -343,72 +278,44 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>AEO Guide</h2>
           <span style={{ fontSize: '0.6875rem', padding: '0.125rem 0.5rem', borderRadius: '6.1875rem', background: 'rgba(46,204,113,0.1)', color: 'var(--color-phase-3)', fontWeight: 500 }}>{activeProject?.name}</span>
-          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            {/* Mode Toggle */}
-            <div style={{ display: 'flex', gap: '0.125rem', borderRadius: '0.5rem', padding: '0.125rem', background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
-              {VIEW_MODES.map(mode => {
-                const Icon = mode.icon
-                return (
-                  <button
-                    key={mode.id}
-                    onClick={() => setViewMode(mode.id)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: '0.25rem',
-                      padding: '0.3125rem 0.625rem', fontSize: '0.75rem', fontWeight: 500,
-                      borderRadius: '0.375rem', border: 'none', cursor: 'pointer',
-                      fontFamily: 'var(--font-body)', transition: 'all 150ms',
-                      background: viewMode === mode.id ? 'var(--bg-card)' : 'transparent',
-                      color: viewMode === mode.id ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                      boxShadow: viewMode === mode.id ? 'var(--shadow-sm)' : 'none',
-                    }}
-                  >
-                    <Icon size={12} />
-                    {mode.label}
-                  </button>
-                )
-              })}
-            </div>
+          <div style={{ marginLeft: 'auto' }}>
             <PresenceAvatars members={onlineMembers} currentUserUid={user?.uid} variant="compact" />
           </div>
         </div>
         {activeProject?.url && <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</p>}
-        {viewMode === 'guide' && (
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: '0.375rem' }}>
-            Follow this step-by-step process to optimize your site for AI search engines.
-          </p>
-        )}
+        <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: '0.375rem' }}>
+          Follow this step-by-step process to optimize your site for AI search engines.
+        </p>
       </div>
 
       <ChecklistStats totalProgress={totalProgress} phaseCount={phases.length} />
 
-      {/* Key Principles — Guide mode */}
-      {viewMode === 'guide' && (
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-          <button
-            onClick={() => setPrinciplesOpen(prev => !prev)}
-            style={{
-              width: '100%', display: 'flex', alignItems: 'center', gap: '0.5rem',
-              padding: '0.75rem 1rem', background: 'none', border: 'none', cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-            }}
-          >
-            <Lightbulb size={14} style={{ color: 'var(--color-phase-5)', flexShrink: 0 }} />
-            <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>Key Principles</span>
-            <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginLeft: '0.25rem' }}>7 fundamentals</span>
-            <ChevronDown size={12} style={{ marginLeft: 'auto', color: 'var(--text-tertiary)', transform: principlesOpen ? 'none' : 'rotate(-90deg)', transition: 'transform 200ms' }} />
-          </button>
-          {principlesOpen && (
-            <div style={{ padding: '0 1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', borderTop: '1px solid var(--border-subtle)' }}>
-              {KEY_PRINCIPLES.map((principle, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', paddingTop: idx === 0 ? '0.75rem' : 0 }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', fontWeight: 700, color: 'var(--color-phase-5)', minWidth: '1.25rem', textAlign: 'right', flexShrink: 0, marginTop: '0.0625rem' }}>{idx + 1}.</span>
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{principle}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      {/* Key Principles */}
+      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+        <button
+          onClick={() => setPrinciplesOpen(prev => !prev)}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: '0.5rem',
+            padding: '0.75rem 1rem', background: 'none', border: 'none', cursor: 'pointer',
+            fontFamily: 'var(--font-body)',
+          }}
+        >
+          <Lightbulb size={14} style={{ color: 'var(--color-phase-5)', flexShrink: 0 }} />
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>Key Principles</span>
+          <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginLeft: '0.25rem' }}>7 fundamentals</span>
+          <ChevronDown size={12} style={{ marginLeft: 'auto', color: 'var(--text-tertiary)', transform: principlesOpen ? 'none' : 'rotate(-90deg)', transition: 'transform 200ms' }} />
+        </button>
+        {principlesOpen && (
+          <div style={{ padding: '0 1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', borderTop: '1px solid var(--border-subtle)' }}>
+            {KEY_PRINCIPLES.map((principle, idx) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', paddingTop: idx === 0 ? '0.75rem' : 0 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', fontWeight: 700, color: 'var(--color-phase-5)', minWidth: '1.25rem', textAlign: 'right', flexShrink: 0, marginTop: '0.0625rem' }}>{idx + 1}.</span>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{principle}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Search */}
       <div style={{ position: 'relative' }}>
@@ -483,7 +390,6 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           key={phase.id}
           phase={phase}
           progress={getPhaseProgress(phase)}
-          viewMode={viewMode}
           deliverable={DELIVERABLES[phase.number]}
           isExpanded={expandedPhases[phase.id] || !!debouncedSearch.trim()}
           isPriority={getPhasePriority(phase.number, activeProject?.questionnaire)}
@@ -491,13 +397,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           expandedCategories={expandedCategories}
           checked={checked}
           bouncingId={bouncingId}
-          notes={notes}
-          openNoteId={openNoteId}
-          noteDraft={noteDraft}
-          noteSaveStatus={noteSaveStatus}
-          noteTimestamps={noteTimestamps}
           verifications={activeProject?.verifications}
-          quickViewItem={quickViewItem}
           assignments={assignments}
           comments={comments}
           openCommentId={openCommentId}
@@ -510,11 +410,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           onBulkUncheck={handleBulkUncheck}
           setExpandedCategories={setExpandedCategories}
           onToggle={handleToggle}
-          onQuickView={handleQuickView}
           onDocItem={setDocItem}
-          onToggleNote={toggleNote}
-          onNoteChange={handleNoteChange}
-          onNoteSave={saveNote}
           onAssign={handleAssign}
           onUnassign={handleUnassign}
           onToggleComments={toggleComments}
