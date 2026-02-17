@@ -207,6 +207,27 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
     }
   }, [fetchData, google.isConnected, propertyId])
 
+  // Compute AI source breakdown (must be before early returns to satisfy Rules of Hooks)
+  const aiSourceBreakdown = useMemo(() => {
+    if (!trafficData?.aiRows) return []
+
+    const sourceMap = {}
+    for (const row of trafficData.aiRows) {
+      if (row.aiSource) {
+        const id = row.aiSource.id
+        if (!sourceMap[id]) {
+          sourceMap[id] = { source: row.aiSource, sessions: 0, users: 0 }
+        }
+        sourceMap[id].sessions += row.sessions || 0
+        sourceMap[id].users += row.totalUsers || 0
+      }
+    }
+
+    return Object.values(sourceMap).sort((a, b) => b.sessions - a.sessions)
+  }, [trafficData])
+
+  const maxSourceSessions = aiSourceBreakdown.length > 0 ? aiSourceBreakdown[0].sessions : 1
+
   // ── Empty states ──
   if (!google.isConnected && !google.isLoading) {
     return (
@@ -253,27 +274,6 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
       </div>
     )
   }
-
-  // Compute AI source breakdown
-  const aiSourceBreakdown = useMemo(() => {
-    if (!trafficData?.aiRows) return []
-
-    const sourceMap = {}
-    for (const row of trafficData.aiRows) {
-      if (row.aiSource) {
-        const id = row.aiSource.id
-        if (!sourceMap[id]) {
-          sourceMap[id] = { source: row.aiSource, sessions: 0, users: 0 }
-        }
-        sourceMap[id].sessions += row.sessions || 0
-        sourceMap[id].users += row.totalUsers || 0
-      }
-    }
-
-    return Object.values(sourceMap).sort((a, b) => b.sessions - a.sessions)
-  }, [trafficData])
-
-  const maxSourceSessions = aiSourceBreakdown.length > 0 ? aiSourceBreakdown[0].sessions : 1
 
   const DATE_PRESETS = [
     { value: '7d', label: '7d' },
