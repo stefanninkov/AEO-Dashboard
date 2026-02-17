@@ -40,6 +40,8 @@ const DEFAULT_PROJECT_DATA = {
   analyzerFixes: {},
   pageAnalyses: {},
   pageAnalyzerFixes: {},
+  contentCalendar: [],
+  contentBriefs: [],
   contentHistory: [],
   schemaHistory: [],
   queryTracker: [],

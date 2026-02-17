@@ -505,6 +505,57 @@ export function getSmartRecommendations(project, phases, setActiveView) {
     })
   }
 
+  // ── 3c. Content Ops Intelligence ──
+  const calendarEntries = project.contentCalendar || []
+  const contentBriefs = project.contentBriefs || []
+  const todayStr = new Date().toISOString().split('T')[0]
+
+  if (calendarEntries.length === 0 && hasQuestionnaire) {
+    // Phase 3 has content tasks — nudge to schedule
+    const phase3Checked = Object.keys(checked).filter(k => k.startsWith('p3-')).length
+    const phase3Total = 16
+    if (phase3Total - phase3Checked > 5) {
+      recs.push({
+        id: 'schedule-content',
+        text: 'Schedule your content optimization work',
+        detail: `You have ${phase3Total - phase3Checked} uncompleted content tasks. Use the Content Calendar to plan when to tackle each one.`,
+        action: () => setActiveView('content-ops'),
+        actionLabel: 'Open Calendar',
+        priority: 3,
+        category: 'content',
+      })
+    }
+  }
+
+  if (calendarEntries.length > 0) {
+    const overdueCount = calendarEntries.filter(
+      e => e.status !== 'published' && e.scheduledDate < todayStr
+    ).length
+    if (overdueCount > 0) {
+      recs.push({
+        id: 'overdue-content',
+        text: `You have ${overdueCount} overdue content task${overdueCount === 1 ? '' : 's'}`,
+        detail: 'Review your content calendar and reschedule or complete overdue items.',
+        action: () => setActiveView('content-ops'),
+        actionLabel: 'View Calendar',
+        priority: 2,
+        category: 'content',
+      })
+    }
+  }
+
+  if (contentBriefs.length === 0 && (project.contentHistory || []).length > 0 && hasApiKey) {
+    recs.push({
+      id: 'generate-brief',
+      text: 'Generate content briefs for consistent AEO quality',
+      detail: 'AI-powered briefs include heading structure, questions to answer, competitors to beat, and schema recommendations.',
+      action: () => setActiveView('content-ops'),
+      actionLabel: 'Generate Brief',
+      priority: 3,
+      category: 'content',
+    })
+  }
+
   // ── 4. Metrics Intelligence ──
   if (metricsHistory.length === 0 && project.url && hasApiKey) {
     recs.push({

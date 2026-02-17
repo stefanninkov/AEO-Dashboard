@@ -32,6 +32,7 @@ const TeamView = lazy(() => import('./views/TeamView'))
 const GscView = lazy(() => import('./views/GscView'))
 const Ga4View = lazy(() => import('./views/Ga4View'))
 const AeoImpactView = lazy(() => import('./views/AeoImpactView'))
+const ContentOpsView = lazy(() => import('./views/content-ops/ContentOpsView'))
 
 // Lazy-loaded modals (only loaded when opened)
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
@@ -456,6 +457,16 @@ function AuthenticatedApp({ user, onSignOut }) {
             activeProject={activeProject}
             updateProject={updateProject}
             user={user}
+          />
+        )
+      case 'content-ops':
+        return (
+          <ContentOpsView
+            activeProject={activeProject}
+            updateProject={updateProject}
+            user={user}
+            phases={phases}
+            toggleCheckItem={toggleCheckItem}
           />
         )
       case 'schema':
