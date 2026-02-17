@@ -6,7 +6,7 @@
  */
 
 const SUPER_ADMIN_UIDS = [
-  // Add Firebase UIDs here, e.g.: 'abc123xyz456'
+  '5NBrsj5IJVPZousmAY0bjoOcQtu1',
 ]
 
 // Also accept admin UID from environment variable
