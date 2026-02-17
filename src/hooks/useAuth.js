@@ -134,11 +134,26 @@ function useFirebaseAuth() {
     setError(null)
     try {
       const result = await signInWithEmailAndPassword(auth, email, password)
-      // Update last login timestamp
+      // Ensure user profile doc exists (may have been missed on initial sign-up)
       try {
-        await setDoc(doc(db, 'users', result.user.uid), {
-          lastLoginAt: serverTimestamp(),
-        }, { merge: true })
+        const userDoc = await getDoc(doc(db, 'users', result.user.uid))
+        if (!userDoc.exists()) {
+          await setDoc(doc(db, 'users', result.user.uid), {
+            uid: result.user.uid,
+            email: result.user.email,
+            displayName: result.user.displayName || '',
+            agency: '',
+            photoURL: result.user.photoURL || null,
+            role: 'owner',
+            createdAt: serverTimestamp(),
+            lastLoginAt: serverTimestamp(),
+            settings: { theme: 'dark', notifications: true },
+          })
+        } else {
+          await setDoc(doc(db, 'users', result.user.uid), {
+            lastLoginAt: serverTimestamp(),
+          }, { merge: true })
+        }
       } catch { /* non-critical — don't block sign-in */ }
       return result.user
     } catch (err) {
