@@ -359,6 +359,12 @@ function AuthenticatedApp({ user, onSignOut }) {
     setActiveView(view)
   }, [])
 
+  // Reset scroll position when switching views
+  useEffect(() => {
+    const scrollEl = document.getElementById('main-content')
+    if (scrollEl) scrollEl.scrollTop = 0
+  }, [activeView])
+
   const handleRefresh = useCallback(() => {
     window.dispatchEvent(new CustomEvent('aeo-refresh', { detail: { dateRange } }))
   }, [dateRange])
@@ -489,6 +495,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           <DocsView
             phases={phases}
             setDocItem={handleSetDocItem}
+            setActiveView={setActiveView}
           />
         )
       case 'testing':
