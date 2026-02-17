@@ -149,8 +149,30 @@ function isAdminPath() {
   return false
 }
 
+/* ── OAuth Callback — if this page loaded inside an OAuth popup, show a simple message ── */
+function isOAuthCallback() {
+  const hash = window.location.hash
+  return hash.includes('access_token=') && window.opener
+}
+
+function OAuthCallbackScreen() {
+  return (
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-page)' }}>
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-8 h-8 border-2 border-phase-1 border-t-transparent rounded-full" style={{ animation: 'spin 1s linear infinite' }} />
+        <p className="text-text-tertiary text-sm">Completing Google connection...</p>
+      </div>
+    </div>
+  )
+}
+
 /* ── Main App ── */
 export default function App() {
+  // 0. OAuth popup callback — show loading message (parent window reads the token)
+  if (isOAuthCallback()) {
+    return <OAuthCallbackScreen />
+  }
+
   // 1. Share link — portal needs no login
   const shareToken = new URLSearchParams(window.location.search).get('share')
   if (shareToken) {
