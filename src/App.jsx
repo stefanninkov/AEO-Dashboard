@@ -126,6 +126,9 @@ const PortalView = lazy(() => import('./views/PortalView'))
 /* ── Landing Page (lazy — only loads at root path, no auth required) ── */
 const LandingPage = lazy(() => import('./views/LandingPage'))
 
+/* ── Admin Panel (lazy — only loads if ?/admin is in URL) ── */
+const AdminApp = lazy(() => import('./admin/AdminApp'))
+
 /** Detect whether the current URL targets the dashboard app (vs landing page) */
 function isAppPath() {
   const p = window.location.pathname
@@ -134,6 +137,15 @@ function isAppPath() {
   if (p.includes('/app')) return true
   // 404.html redirect format: /?/app
   if (s.startsWith('?/app')) return true
+  return false
+}
+
+/** Detect whether the current URL targets the admin panel */
+function isAdminPath() {
+  const p = window.location.pathname
+  const s = window.location.search
+  if (p.includes('/admin')) return true
+  if (s.startsWith('?/admin')) return true
   return false
 }
 
@@ -149,7 +161,12 @@ export default function App() {
     )
   }
 
-  // 2. Landing page — root path, no auth required
+  // 2. Admin panel — needs auth + super admin check
+  if (isAdminPath()) {
+    return <AdminRouter />
+  }
+
+  // 3. Landing page — root path, no auth required
   if (!isAppPath()) {
     return (
       <Suspense fallback={<LoadingScreen />}>
@@ -158,8 +175,34 @@ export default function App() {
     )
   }
 
-  // 3. Dashboard app — needs auth
+  // 4. Dashboard app — needs auth
   return <DashboardApp />
+}
+
+/** Admin panel — separate auth flow, lazy-loaded */
+function AdminRouter() {
+  const { user, loading: authLoading, signIn, signUp, signInWithGoogle, signOut, resetPassword, error: authError, clearError } = useAuth()
+
+  if (authLoading) return <LoadingScreen />
+
+  if (!user) {
+    return (
+      <LoginPage
+        onSignIn={signIn}
+        onSignUp={signUp}
+        onGoogleSignIn={signInWithGoogle}
+        onResetPassword={resetPassword}
+        error={authError}
+        clearError={clearError}
+      />
+    )
+  }
+
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <AdminApp user={user} onSignOut={signOut} />
+    </Suspense>
+  )
 }
 
 /** Extracted so useAuth() only runs when dashboard is active (hooks rules compliance) */
