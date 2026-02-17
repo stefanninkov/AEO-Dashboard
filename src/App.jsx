@@ -31,6 +31,7 @@ const WebflowView = lazy(() => import('./views/WebflowView'))
 const TeamView = lazy(() => import('./views/TeamView'))
 const GscView = lazy(() => import('./views/GscView'))
 const Ga4View = lazy(() => import('./views/Ga4View'))
+const AeoImpactView = lazy(() => import('./views/AeoImpactView'))
 
 // Lazy-loaded modals (only loaded when opened)
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
@@ -524,6 +525,14 @@ function AuthenticatedApp({ user, onSignOut }) {
       case 'ga4':
         return (
           <Ga4View
+            activeProject={activeProject}
+            user={user}
+            setActiveView={setActiveView}
+          />
+        )
+      case 'aeo-impact':
+        return (
+          <AeoImpactView
             activeProject={activeProject}
             user={user}
             setActiveView={setActiveView}

@@ -2,7 +2,7 @@ import { memo } from 'react'
 import {
   Zap, LayoutDashboard, CheckSquare, GitBranch, Zap as ZapIcon,
   BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, Plus,
-  Users, Users2, Settings, PenTool, Code2, Activity, Globe, Search
+  Users, Users2, Settings, PenTool, Code2, Activity, Globe, Search, Layers
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import PresenceAvatars from './PresenceAvatars'
@@ -41,6 +41,7 @@ const NAV_ITEMS = [
   { id: 'metrics', label: 'Metrics', icon: BarChart3 },
   { id: 'gsc', label: 'Search Console', icon: Search },
   { id: 'ga4', label: 'AI Traffic', icon: Zap },
+  { id: 'aeo-impact', label: 'AEO Impact', icon: Layers },
   { id: 'docs', label: 'Documentation', icon: BookOpen },
   { id: 'testing', label: 'Testing', icon: FlaskConical },
   { id: 'team', label: 'Team', icon: Users2 },
