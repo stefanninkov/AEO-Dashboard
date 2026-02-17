@@ -1,8 +1,9 @@
-import jsPDF from 'jspdf'
-import 'jspdf-autotable'
-
 /**
- * Generate a professional AEO report PDF
+ * Generate a professional AEO report PDF.
+ *
+ * jsPDF + jspdf-autotable are lazy-loaded via dynamic import() so the
+ * ~587 KB bundle is only fetched when the user actually generates a report.
+ *
  * @param {Object} options
  * @param {Object} options.project - activeProject object
  * @param {Array} options.phases - phases data from aeo-checklist.js
@@ -10,7 +11,11 @@ import 'jspdf-autotable'
  * @param {string} options.agencyName - agency branding name
  * @param {string} options.reportDate - formatted date string
  */
-export function generatePdf({ project, phases, sections, agencyName, reportDate }) {
+export async function generatePdf({ project, phases, sections, agencyName, reportDate }) {
+  const [{ default: jsPDF }] = await Promise.all([
+    import('jspdf'),
+    import('jspdf-autotable'),
+  ])
   const doc = new jsPDF('p', 'mm', 'a4')
   const pageW = doc.internal.pageSize.getWidth()
   const pageH = doc.internal.pageSize.getHeight()

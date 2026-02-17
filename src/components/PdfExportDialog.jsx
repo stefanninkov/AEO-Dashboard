@@ -55,9 +55,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
   const handleGenerate = async () => {
     setGenerating(true)
     try {
-      // Small delay for UI feedback
-      await new Promise(r => setTimeout(r, 100))
-      generatePdf({
+      await generatePdf({
         project: activeProject,
         phases,
         sections: selectedSections,
