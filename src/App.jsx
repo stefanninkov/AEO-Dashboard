@@ -11,6 +11,7 @@ import LoginPage from './components/LoginPage'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import ErrorBoundary from './components/ErrorBoundary'
+import ConnectionBanner from './components/ConnectionBanner'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { phases } from './data/aeo-checklist'
 
@@ -286,6 +287,7 @@ function AuthenticatedApp({ user, onSignOut }) {
     updateProject,
     toggleCheckItem,
     loading: projectsLoading,
+    firestoreError,
   } = useFirestoreProjects(user)
 
   const permission = usePermission({ user, activeProject })
@@ -619,6 +621,8 @@ function AuthenticatedApp({ user, onSignOut }) {
             onMarkAllRead={markAllRead}
             onClearNotifications={clearNotifications}
           />
+
+          <ConnectionBanner error={firestoreError} />
 
           <div className="content-scroll" id="main-content" tabIndex="-1">
             <div className="content-wrapper">

@@ -172,6 +172,7 @@ function useLocalProjects(user) {
     updateProject,
     toggleCheckItem,
     loading,
+    firestoreError: null,
   }
 }
 
@@ -193,6 +194,7 @@ function useFirestoreProjectsImpl(user) {
   const [sharedLoaded, setSharedLoaded] = useState(false)
   const [activeProjectId, setActiveProjectId] = useState(null)
   const [didAutoCreate, setDidAutoCreate] = useState(false)
+  const [firestoreError, setFirestoreError] = useState(null)
 
   const loading = !legacyLoaded || !sharedLoaded
 
@@ -212,6 +214,7 @@ function useFirestoreProjectsImpl(user) {
 
     const unsubscribe = onSnapshot(legacyRef, (snapshot) => {
       clearTimeout(timeoutId)
+      setFirestoreError(null)
       const list = snapshot.docs.map((docSnap) => ({
         id: docSnap.id,
         ...docSnap.data(),
@@ -222,6 +225,7 @@ function useFirestoreProjectsImpl(user) {
     }, (err) => {
       clearTimeout(timeoutId)
       logger.error('Legacy projects listener error:', err)
+      setFirestoreError(err.code === 'permission-denied' ? 'permission' : 'connection')
       setLegacyLoaded(true)
     })
 
@@ -248,6 +252,7 @@ function useFirestoreProjectsImpl(user) {
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       clearTimeout(timeoutId)
+      setFirestoreError(null)
       const list = snapshot.docs.map((docSnap) => ({
         id: docSnap.id,
         ...docSnap.data(),
@@ -259,6 +264,9 @@ function useFirestoreProjectsImpl(user) {
       clearTimeout(timeoutId)
       // Shared collection may not exist yet or rules may block — that's OK
       logger.error('Shared projects listener error:', err)
+      if (err.code !== 'permission-denied') {
+        setFirestoreError('connection')
+      }
       setSharedProjects([])
       setSharedLoaded(true)
     })
@@ -390,6 +398,7 @@ function useFirestoreProjectsImpl(user) {
     updateProject,
     toggleCheckItem,
     loading,
+    firestoreError,
   }
 }
 
