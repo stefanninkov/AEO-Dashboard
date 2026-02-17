@@ -93,6 +93,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
               onClick={() => handleNav(item.id)}
               className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
               style={{ width: '100%' }}
+              aria-current={isActive ? 'page' : undefined}
             >
               <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
               {item.label}
@@ -119,6 +120,9 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
       <button
         onClick={toggleTheme}
         className="sidebar-nav-item"
+        role="switch"
+        aria-checked={theme === 'dark'}
+        aria-label={`Dark mode: ${theme === 'dark' ? 'on' : 'off'}`}
       >
         {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}

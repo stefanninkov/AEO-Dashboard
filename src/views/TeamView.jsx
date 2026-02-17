@@ -465,10 +465,10 @@ export default function TeamView({ activeProject, updateProject, user, permissio
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
             <thead>
               <tr>
-                <th style={thStyle}>Member</th>
-                <th style={thStyle}>Role</th>
-                <th style={{ ...thStyle, width: '7.5rem' }}>Joined</th>
-                {canManage && <th style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>Actions</th>}
+                <th scope="col" style={thStyle}>Member</th>
+                <th scope="col" style={thStyle}>Role</th>
+                <th scope="col" style={{ ...thStyle, width: '7.5rem' }}>Joined</th>
+                {canManage && <th scope="col" style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>Actions</th>}
               </tr>
             </thead>
             <tbody>
@@ -641,11 +641,11 @@ export default function TeamView({ activeProject, updateProject, user, permissio
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
               <thead>
                 <tr>
-                  <th style={thStyle}>Email</th>
-                  <th style={thStyle}>Role</th>
-                  <th style={thStyle}>Invited By</th>
-                  <th style={{ ...thStyle, width: '7.5rem' }}>Date</th>
-                  {canManage && <th style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>Actions</th>}
+                  <th scope="col" style={thStyle}>Email</th>
+                  <th scope="col" style={thStyle}>Role</th>
+                  <th scope="col" style={thStyle}>Invited By</th>
+                  <th scope="col" style={{ ...thStyle, width: '7.5rem' }}>Date</th>
+                  {canManage && <th scope="col" style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>Actions</th>}
                 </tr>
               </thead>
               <tbody>

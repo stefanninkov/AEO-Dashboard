@@ -18,6 +18,7 @@ function SortHeader({ label, sortKey, currentSort, onSort }) {
   return (
     <button
       onClick={() => onSort(sortKey)}
+      aria-label={`Sort by ${label}${isActive ? (isAsc ? ', ascending' : ', descending') : ''}`}
       style={{
         display: 'flex', alignItems: 'center', gap: '0.25rem',
         background: 'none', border: 'none', cursor: 'pointer',

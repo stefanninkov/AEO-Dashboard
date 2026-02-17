@@ -515,7 +515,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.6875rem' }}>
               <thead>
                 <tr>
-                  <th style={{
+                  <th scope="col" style={{
                     textAlign: 'left', padding: '0.5rem 0.625rem',
                     fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.625rem',
                     color: 'var(--text-tertiary)', borderBottom: '1px solid var(--border-subtle)',
@@ -523,7 +523,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                     Brand
                   </th>
                   {AI_ENGINES.map(engine => (
-                    <th key={engine} style={{
+                    <th scope="col" key={engine} style={{
                       textAlign: 'center', padding: '0.5rem 0.5rem',
                       fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.625rem',
                       color: ENGINE_COLORS[engine] || 'var(--text-tertiary)',
@@ -533,7 +533,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                       {engine}
                     </th>
                   ))}
-                  <th style={{
+                  <th scope="col" style={{
                     textAlign: 'center', padding: '0.5rem 0.625rem',
                     fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.625rem',
                     color: 'var(--text-tertiary)', borderBottom: '1px solid var(--border-subtle)',

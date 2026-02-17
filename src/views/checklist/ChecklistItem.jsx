@@ -267,8 +267,9 @@ export default memo(function ChecklistItem({
 
         {/* Assigned avatar (always visible when assigned) */}
         {assignedMember && (
-          <div
+          <button
             title={`Assigned to ${assignedMember.displayName || assignedMember.email}`}
+            aria-label={`Assigned to ${assignedMember.displayName || assignedMember.email}. Click to reassign.`}
             style={{
               width: '1.375rem',
               height: '1.375rem',
@@ -284,11 +285,13 @@ export default memo(function ChecklistItem({
               flexShrink: 0,
               marginTop: '0.0625rem',
               cursor: 'pointer',
+              border: 'none',
+              padding: 0,
             }}
             onClick={() => setShowAssignDropdown(!showAssignDropdown)}
           >
             {getInitials(assignedMember.displayName)}
-          </div>
+          </button>
         )}
 
         {/* Actions */}

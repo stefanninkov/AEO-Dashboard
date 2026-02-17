@@ -239,7 +239,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               {phases.map(phase => {
                 const pp = getPhaseProgress(phase)
                 return (
-                  <div key={phase.id} className="phase-progress-row" onClick={() => setActiveView('checklist')}>
+                  <div key={phase.id} className="phase-progress-row" onClick={() => setActiveView('checklist')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveView('checklist') } }} role="button" tabIndex={0} aria-label={`${phase.title} — click to view checklist`}>
                     <div className="phase-row-icon" style={{ background: phase.color + '15' }}>{phase.icon}</div>
                     <div className="phase-row-name">{phase.title}</div>
                     <div className="phase-row-count">{pp.checked}/{pp.total}</div>
@@ -314,9 +314,9 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                     <thead>
                       <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                        <th style={{ textAlign: 'left', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Engine</th>
-                        <th style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Citations</th>
-                        <th style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px', width: '40%' }}>Share</th>
+                        <th scope="col" style={{ textAlign: 'left', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Engine</th>
+                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Citations</th>
+                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px', width: '40%' }}>Share</th>
                       </tr>
                     </thead>
                     <tbody>

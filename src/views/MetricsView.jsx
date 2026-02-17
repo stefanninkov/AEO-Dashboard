@@ -148,7 +148,7 @@ function DataTable({ columns, rows }) {
         <thead>
           <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
             {columns.map((col, i) => (
-              <th key={i} className={`py-3 px-3 text-xs font-heading font-semibold text-text-tertiary uppercase tracking-wider ${col.align === 'right' ? 'text-right' : 'text-left'}`}>
+              <th scope="col" key={i} className={`py-3 px-3 text-xs font-heading font-semibold text-text-tertiary uppercase tracking-wider ${col.align === 'right' ? 'text-right' : 'text-left'}`}>
                 {col.label}
               </th>
             ))}

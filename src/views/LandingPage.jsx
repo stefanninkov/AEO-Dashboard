@@ -692,9 +692,9 @@ export default function LandingPage() {
             <table className="lp-comparison-table">
               <thead>
                 <tr>
-                  <th>Aspect</th>
-                  <th>Traditional SEO</th>
-                  <th>AEO</th>
+                  <th scope="col">Aspect</th>
+                  <th scope="col">Traditional SEO</th>
+                  <th scope="col">AEO</th>
                 </tr>
               </thead>
               <tbody>

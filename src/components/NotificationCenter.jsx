@@ -71,6 +71,7 @@ export default function NotificationCenter({
                   onClick={() => { onMarkAllRead(); }}
                   className="notif-action-btn"
                   title="Mark all as read"
+                  aria-label="Mark all as read"
                 >
                   <CheckCheck size={13} />
                 </button>
@@ -80,6 +81,7 @@ export default function NotificationCenter({
                   onClick={() => { onClearAll(); setOpen(false) }}
                   className="notif-action-btn"
                   title="Clear all"
+                  aria-label="Clear all notifications"
                 >
                   <Trash2 size={13} />
                 </button>
@@ -88,6 +90,7 @@ export default function NotificationCenter({
                 onClick={() => setOpen(false)}
                 className="notif-action-btn"
                 title="Close"
+                aria-label="Close notifications"
               >
                 <X size={13} />
               </button>
@@ -110,6 +113,10 @@ export default function NotificationCenter({
                     key={notif.id}
                     className={`notif-item${notif.read ? '' : ' unread'}`}
                     onClick={() => { if (!notif.read) onMarkRead(notif.id) }}
+                    onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && !notif.read) { e.preventDefault(); onMarkRead(notif.id) } }}
+                    role={notif.read ? undefined : 'button'}
+                    tabIndex={notif.read ? undefined : 0}
+                    aria-label={notif.read ? undefined : `Mark as read: ${notif.message}`}
                   >
                     <div
                       className="notif-icon"

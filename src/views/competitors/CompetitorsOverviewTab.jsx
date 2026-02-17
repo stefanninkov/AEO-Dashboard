@@ -185,7 +185,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
               <thead>
                 <tr style={{ borderTop: '1px solid var(--border-subtle)' }}>
                   {['Rank', 'Company', 'AEO Score', 'Mentions', 'Avg Pos', 'Trend', '30-Day', ''].map((h, i) => (
-                    <th key={i} style={{
+                    <th scope="col" key={i} style={{
                       padding: '0.625rem 0.875rem', fontSize: '0.6875rem', fontFamily: 'var(--font-heading)',
                       fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase',
                       letterSpacing: '0.5px', textAlign: i >= 2 && i <= 6 ? 'center' : 'left',
@@ -276,11 +276,11 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.75rem' }}>
               <thead>
                 <tr>
-                  <th style={{ padding: '0.5rem 0.625rem', textAlign: 'left', fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)', fontWeight: 600 }}>
+                  <th scope="col" style={{ padding: '0.5rem 0.625rem', textAlign: 'left', fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)', fontWeight: 600 }}>
                     Category
                   </th>
                   {heatMap.competitors.map(name => (
-                    <th key={name} style={{
+                    <th scope="col" key={name} style={{
                       padding: '0.5rem 0.625rem', textAlign: 'center', fontSize: '0.6875rem', color: 'var(--text-tertiary)',
                       fontFamily: 'var(--font-heading)', fontWeight: 600, maxWidth: '6.25rem', overflow: 'hidden',
                       textOverflow: 'ellipsis', whiteSpace: 'nowrap',

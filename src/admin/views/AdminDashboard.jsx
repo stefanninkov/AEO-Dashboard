@@ -505,7 +505,7 @@ service cloud.firestore {
             <thead>
               <tr>
                 {['Project', 'Owner', 'Progress', 'Members', 'Updated'].map(h => (
-                  <th key={h} style={{
+                  <th scope="col" key={h} style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: '0.625rem',
                     fontWeight: 700,

@@ -550,7 +550,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
               <thead>
                 <tr>
                   {['Competitor', 'Previous', 'Current', 'Delta', 'Categories Changed'].map(h => (
-                    <th key={h} style={{
+                    <th scope="col" key={h} style={{
                       textAlign: 'left', padding: '0.5rem 0.625rem',
                       fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.6875rem',
                       color: 'var(--text-tertiary)', borderBottom: '1px solid var(--border-subtle)',
@@ -654,7 +654,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                         <thead>
                           <tr>
                             {['Competitor', 'AEO Score', ...Object.values(CATEGORY_LABELS)].map(h => (
-                              <th key={h} style={{
+                              <th scope="col" key={h} style={{
                                 textAlign: 'left', padding: '0.375rem 0.5rem',
                                 fontFamily: 'var(--font-heading)', fontWeight: 700,
                                 fontSize: '0.625rem', color: 'var(--text-tertiary)',

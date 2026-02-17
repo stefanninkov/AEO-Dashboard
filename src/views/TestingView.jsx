@@ -422,12 +422,12 @@ export default function TestingView({ activeProject, updateProject }) {
             <table className="w-full text-sm">
               <thead className="sticky top-0 z-10" style={{ background: 'var(--bg-card)' }}>
                 <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                  <th className="text-left py-2 px-2 text-xs text-text-tertiary font-heading min-w-[11.25rem]">Query</th>
+                  <th scope="col" className="text-left py-2 px-2 text-xs text-text-tertiary font-heading min-w-[11.25rem]">Query</th>
                   {PLATFORMS.map(p => (
-                    <th key={p} className="text-center py-2 px-2 text-xs text-text-tertiary font-heading whitespace-nowrap min-w-[5.625rem]">{p}</th>
+                    <th scope="col" key={p} className="text-center py-2 px-2 text-xs text-text-tertiary font-heading whitespace-nowrap min-w-[5.625rem]">{p}</th>
                   ))}
-                  <th className="text-center py-2 px-2 text-xs text-text-tertiary font-heading min-w-[5rem]">Last Check</th>
-                  <th className="w-8"></th>
+                  <th scope="col" className="text-center py-2 px-2 text-xs text-text-tertiary font-heading min-w-[5rem]">Last Check</th>
+                  <th scope="col" className="w-8"></th>
                 </tr>
               </thead>
               <tbody>
