@@ -34,14 +34,9 @@ export function useAdminStats(currentUser) {
       // 1. Try fetching ALL users (needs admin Firestore rules)
       try {
         const usersSnap = await getDocs(collection(db, 'users'))
-        console.log('[Admin] users collection size:', usersSnap.size, 'empty:', usersSnap.empty)
-        if (usersSnap.size > 0) {
-          console.log('[Admin] first user doc id:', usersSnap.docs[0].id, 'data keys:', Object.keys(usersSnap.docs[0].data()))
-        }
         users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }))
         fullAccess = true
       } catch (err) {
-        console.error('[Admin] users collection read FAILED:', err.code, err.message)
         // Permission denied — fall back to current user only
         logger.warn('Cannot read all users (permission denied). Falling back to own profile.')
         setPermissionWarning(
@@ -76,8 +71,6 @@ export function useAdminStats(currentUser) {
       // 2. Fetch projects
       const allProjects = []
       const projectsByUser = {}
-
-      console.log('[Admin] fullAccess:', fullAccess, 'users found:', users.length)
 
       // 2a. Legacy projects: users/{uid}/projects
       if (fullAccess) {

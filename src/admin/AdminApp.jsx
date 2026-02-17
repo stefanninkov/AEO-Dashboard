@@ -6,6 +6,12 @@ import AdminTopBar from './components/AdminTopBar'
 
 // Lazy-loaded admin views
 const AdminDashboard = lazy(() => import('./views/AdminDashboard'))
+const AdminUsers = lazy(() => import('./views/AdminUsers'))
+const AdminProjects = lazy(() => import('./views/AdminProjects'))
+const AdminActivity = lazy(() => import('./views/AdminActivity'))
+const AdminRevenue = lazy(() => import('./views/AdminRevenue'))
+const AdminAnalytics = lazy(() => import('./views/AdminAnalytics'))
+const AdminSettings = lazy(() => import('./views/AdminSettings'))
 
 /* ── Loading Screen ── */
 function LoadingScreen() {
@@ -212,13 +218,18 @@ export default function AdminApp({ user, onSignOut }) {
     switch (activeAdminView) {
       case 'dashboard':
         return <AdminDashboard user={user} />
-      // Future views:
-      // case 'users': return <AdminUsers user={user} />
-      // case 'projects': return <AdminProjects user={user} />
-      // case 'activity': return <AdminActivity user={user} />
-      // case 'revenue': return <AdminRevenue user={user} />
-      // case 'analytics': return <AdminAnalytics user={user} />
-      // case 'settings': return <AdminSettings user={user} />
+      case 'users':
+        return <AdminUsers user={user} />
+      case 'projects':
+        return <AdminProjects user={user} />
+      case 'activity':
+        return <AdminActivity user={user} />
+      case 'revenue':
+        return <AdminRevenue user={user} />
+      case 'analytics':
+        return <AdminAnalytics user={user} />
+      case 'settings':
+        return <AdminSettings user={user} />
       default:
         return <AdminDashboard user={user} />
     }
