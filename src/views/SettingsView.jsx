@@ -10,6 +10,7 @@ import { createShareLink, getProjectShares, revokeShareLink } from '../hooks/use
 import { getEmailConfig, saveEmailConfig, isEmailConfigured, sendEmail } from '../utils/emailService'
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import { isGoogleOAuthConfigured } from '../utils/googleAuth'
+import GscPropertySelector from '../components/GscPropertySelector'
 import { useToast } from '../components/Toast'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
@@ -867,6 +868,57 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
               </div>
             </div>
           </div>
+
+          {/* ── Google Data Sources (per-project GSC + GA4 property selection) ── */}
+          {google.isConnected && (
+            <div className="card" style={{ marginBottom: '1rem' }}>
+              <div style={sectionTitleStyle}>
+                <Plug size={15} />
+                Google Data Sources
+              </div>
+
+              <div style={{ padding: '0 1.25rem 0.5rem' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
+                  Select which Search Console and Analytics properties to use for this project.
+                </p>
+              </div>
+
+              <div style={settingsRowStyle}>
+                <span style={labelStyle}>Search Console</span>
+                <div style={{ flex: 1 }}>
+                  <GscPropertySelector
+                    accessToken={google.accessToken}
+                    selectedProperty={activeProject?.gscProperty || null}
+                    onSelectProperty={(siteUrl) => {
+                      if (activeProject) {
+                        updateProject(activeProject.id, { gscProperty: siteUrl })
+                        addToast('success', `Search Console property set: ${siteUrl}`)
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={lastRowStyle}>
+                <span style={labelStyle}>Analytics 4</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5625rem 1rem',
+                    background: 'var(--bg-input)',
+                    border: '1px solid var(--border-default)',
+                    borderRadius: '0.625rem',
+                    color: 'var(--text-tertiary)',
+                    fontSize: '0.8125rem',
+                  }}>
+                    GA4 property selector coming in Feature 4
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* ── Project Profile (from Questionnaire) ── */}
           {activeProject?.questionnaire?.completedAt && (
