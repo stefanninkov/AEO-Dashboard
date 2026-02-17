@@ -53,7 +53,7 @@ function SkeletonLoader() {
   )
 }
 
-export default function AnalyzerView({ activeProject, updateProject }) {
+export default function AnalyzerView({ activeProject, updateProject, user }) {
   const [mode, setMode] = useState('url') // 'webflow' | 'url'
   const [url, setUrl] = useState(activeProject?.url || '')
   const [loading, setLoading] = useState(false)
@@ -86,7 +86,7 @@ export default function AnalyzerView({ activeProject, updateProject }) {
     const entry = createActivity('generateFix', {
       itemName: fixData.itemId,
       priority: fixData.priority,
-    })
+    }, user)
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
   }
 
@@ -302,7 +302,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
         setResults(parsed)
         updateProject(activeProject.id, { analyzerResults: parsed })
         // Log analyze activity
-        const entry = createActivity('analyze', { url, score: parsed.overallScore })
+        const entry = createActivity('analyze', { url, score: parsed.overallScore }, user)
         updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
       } else {
         setError('Could not parse analysis results.')
@@ -387,7 +387,7 @@ Return ONLY valid JSON:
         setResults(parsed)
         updateProject(activeProject.id, { analyzerResults: parsed, url })
         // Log analyze activity
-        const entry = createActivity('analyze', { url, score: parsed.overallScore })
+        const entry = createActivity('analyze', { url, score: parsed.overallScore }, user)
         updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
       } else {
         setError('Could not parse analysis results. The AI may not have been able to access the site.')

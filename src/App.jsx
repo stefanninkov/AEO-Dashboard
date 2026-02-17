@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { useAuth } from './hooks/useAuth'
 import { useFirestoreProjects } from './hooks/useFirestoreProjects'
+import { usePermission } from './hooks/usePermission'
+import { usePresence } from './hooks/usePresence'
+import { useNotifications } from './hooks/useNotifications'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
 import { useDigestScheduler } from './hooks/useDigestScheduler'
@@ -25,6 +28,7 @@ const MetricsView = lazy(() => import('./views/MetricsView'))
 const CompetitorsView = lazy(() => import('./views/CompetitorsView'))
 const SettingsView = lazy(() => import('./views/SettingsView'))
 const WebflowView = lazy(() => import('./views/WebflowView'))
+const TeamView = lazy(() => import('./views/TeamView'))
 
 // Lazy-loaded modals (only loaded when opened)
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
@@ -213,7 +217,11 @@ function AuthenticatedApp({ user, onSignOut }) {
     updateProject,
     toggleCheckItem,
     loading: projectsLoading,
-  } = useFirestoreProjects(user?.uid)
+  } = useFirestoreProjects(user)
+
+  const permission = usePermission({ user, activeProject })
+  const { onlineMembers } = usePresence({ user, activeProject, activeView, updateProject })
+  const { notifications, unreadCount, addNotification, markRead, markAllRead, clearAll: clearNotifications } = useNotifications({ user, activeProject, updateProject })
 
   // Auto-monitor
   const { shouldAutoRun, runMonitor } = useAutoMonitor({ activeProject, updateProject })
@@ -250,7 +258,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         const tag = document.activeElement?.tagName
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
-        const views = ['dashboard', 'competitors', 'checklist', 'process', 'analyzer', 'writer', 'schema', 'monitoring', 'metrics', 'docs', 'testing', 'webflow']
+        const views = ['dashboard', 'competitors', 'checklist', 'process', 'analyzer', 'writer', 'schema', 'monitoring', 'metrics', 'docs', 'testing', 'team', 'webflow']
         const num = parseInt(e.key)
         if (num >= 1 && num <= 9) {
           setActiveView(views[num - 1])
@@ -341,6 +349,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             onNewProject={() => setNewProjectModalOpen(true)}
             phases={phases}
             userName={user?.displayName}
+            currentUserUid={user?.uid}
           />
         )
       case 'checklist':
@@ -352,6 +361,9 @@ function AuthenticatedApp({ user, onSignOut }) {
             setActiveView={setActiveView}
             setDocItem={handleSetDocItem}
             updateProject={updateProject}
+            user={user}
+            onlineMembers={onlineMembers}
+            addNotification={addNotification}
           />
         )
       case 'process':
@@ -367,6 +379,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           <AnalyzerView
             activeProject={activeProject}
             updateProject={updateProject}
+            user={user}
           />
         )
       case 'writer':
@@ -374,6 +387,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           <ContentWriterView
             activeProject={activeProject}
             updateProject={updateProject}
+            user={user}
           />
         )
       case 'schema':
@@ -381,6 +395,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           <SchemaGeneratorView
             activeProject={activeProject}
             updateProject={updateProject}
+            user={user}
           />
         )
       case 'monitoring':
@@ -388,6 +403,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           <MonitoringView
             activeProject={activeProject}
             updateProject={updateProject}
+            user={user}
           />
         )
       case 'metrics':
@@ -417,6 +433,16 @@ function AuthenticatedApp({ user, onSignOut }) {
           <CompetitorsView
             activeProject={activeProject}
             updateProject={updateProject}
+            user={user}
+          />
+        )
+      case 'team':
+        return (
+          <TeamView
+            activeProject={activeProject}
+            updateProject={updateProject}
+            user={user}
+            permission={permission}
           />
         )
       case 'webflow':
@@ -434,6 +460,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             deleteProject={deleteProject}
             user={user}
             setActiveView={setActiveView}
+            permission={permission}
           />
         )
       default:
@@ -458,6 +485,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           onSignOut={onSignOut}
           sidebarOpen={sidebarOpen}
           closeSidebar={closeSidebar}
+          onlineMembers={onlineMembers}
         />
         <div
           className={`sidebar-backdrop ${sidebarOpen ? 'visible' : ''}`}
@@ -481,6 +509,11 @@ function AuthenticatedApp({ user, onSignOut }) {
             setActiveView={setActiveView}
             setDocItem={handleSetDocItem}
             onToggleSidebar={toggleSidebar}
+            notifications={notifications}
+            unreadCount={unreadCount}
+            onMarkRead={markRead}
+            onMarkAllRead={markAllRead}
+            onClearNotifications={clearNotifications}
           />
 
           <div className="content-scroll" id="main-content" tabIndex="-1">
@@ -547,6 +580,7 @@ function AuthenticatedApp({ user, onSignOut }) {
           activeProject={activeProject}
           phases={phases}
           updateProject={updateProject}
+          user={user}
           onClose={() => setPdfDialogClosing(true)}
           isClosing={pdfDialogClosing}
           onExited={() => { setPdfDialogOpen(false); setPdfDialogClosing(false) }}

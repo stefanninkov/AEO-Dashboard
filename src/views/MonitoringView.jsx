@@ -52,7 +52,7 @@ function getNextRunDate(lastRun, interval) {
 }
 
 // ─── Main Component ──────────────────────────────────────────
-export default function MonitoringView({ activeProject, updateProject }) {
+export default function MonitoringView({ activeProject, updateProject, user }) {
   const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({ activeProject, updateProject })
   const [expandedRun, setExpandedRun] = useState(null)
   const [showAllHistory, setShowAllHistory] = useState(false)
@@ -131,7 +131,7 @@ export default function MonitoringView({ activeProject, updateProject }) {
         score: snapshot.overallScore,
         queriesChecked: snapshot.queriesChecked,
         queriesCited: snapshot.queriesCited,
-      })
+      }, user)
       updateProject(activeProject.id, {
         activityLog: appendActivity(activeProject.activityLog, actEntry),
       })

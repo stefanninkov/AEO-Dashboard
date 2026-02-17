@@ -40,7 +40,7 @@ function CustomTooltip({ active, payload, label }) {
   )
 }
 
-export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName }) {
+export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid }) {
   const [subTab, setSubTab] = useState('overview')
 
   const getPhaseProgress = (phase) => {
@@ -262,7 +262,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             }}>
               Recent Activity
             </div>
-            <ActivityTimeline activities={activeProject?.activityLog || []} />
+            <ActivityTimeline activities={activeProject?.activityLog || []} currentUserUid={currentUserUid} />
           </div>
 
           <QuickActions setActiveView={setActiveView} />

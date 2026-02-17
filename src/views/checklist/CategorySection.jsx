@@ -17,6 +17,11 @@ export default function CategorySection({
   noteTimestamps,
   verifications,
   quickViewItem,
+  assignments,
+  comments,
+  openCommentId,
+  commentDraft,
+  members,
   isExpanded,
   onToggleCategory,
   onBulkCheck,
@@ -27,6 +32,12 @@ export default function CategorySection({
   onToggleNote,
   onNoteChange,
   onNoteSave,
+  onAssign,
+  onUnassign,
+  onToggleComments,
+  onCommentChange,
+  onCommentAdd,
+  onCommentDelete,
 }) {
   const [showAll, setShowAll] = useState(false)
 
@@ -85,12 +96,23 @@ export default function CategorySection({
               noteTimestamps={noteTimestamps}
               verifications={verifications}
               quickViewItem={quickViewItem}
+              assignments={assignments}
+              comments={comments}
+              openCommentId={openCommentId}
+              commentDraft={commentDraft}
+              members={members}
               onToggle={onToggle}
               onQuickView={onQuickView}
               onDocItem={onDocItem}
               onToggleNote={onToggleNote}
               onNoteChange={onNoteChange}
               onNoteSave={onNoteSave}
+              onAssign={onAssign}
+              onUnassign={onUnassign}
+              onToggleComments={onToggleComments}
+              onCommentChange={onCommentChange}
+              onCommentAdd={onCommentAdd}
+              onCommentDelete={onCommentDelete}
             />
           ))}
           {hasMore && !showAll && (

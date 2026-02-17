@@ -4,6 +4,7 @@ import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
   RefreshCw, Download, Mail, Menu
 } from 'lucide-react'
+import NotificationCenter from './NotificationCenter'
 
 const TYPE_COLORS = {
   Navigation: 'var(--color-phase-1)',
@@ -29,6 +30,11 @@ export default memo(function TopBar({
   setActiveView,
   setDocItem,
   onToggleSidebar,
+  notifications,
+  unreadCount,
+  onMarkRead,
+  onMarkAllRead,
+  onClearNotifications,
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -412,6 +418,13 @@ export default memo(function TopBar({
           <button onClick={onEmail} className="icon-btn" title="Email report" aria-label="Email report">
             <Mail size={14} />
           </button>
+          <NotificationCenter
+            notifications={notifications}
+            unreadCount={unreadCount}
+            onMarkRead={onMarkRead}
+            onMarkAllRead={onMarkAllRead}
+            onClearAll={onClearNotifications}
+          />
         </div>
       </div>
 

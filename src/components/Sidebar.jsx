@@ -2,9 +2,10 @@ import { memo } from 'react'
 import {
   Zap, LayoutDashboard, CheckSquare, GitBranch, Zap as ZapIcon,
   BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, Plus,
-  Users, Settings, PenTool, Code2, Activity, Globe
+  Users, Users2, Settings, PenTool, Code2, Activity, Globe
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
+import PresenceAvatars from './PresenceAvatars'
 
 /* Generate consistent avatar color from a name string */
 const AVATAR_COLORS = [
@@ -40,11 +41,12 @@ const NAV_ITEMS = [
   { id: 'metrics', label: 'Metrics', icon: BarChart3 },
   { id: 'docs', label: 'Documentation', icon: BookOpen },
   { id: 'testing', label: 'Testing', icon: FlaskConical },
+  { id: 'team', label: 'Team', icon: Users2 },
   { id: 'webflow', label: 'Webflow', icon: Globe },
   { id: 'settings', label: 'Settings', icon: Settings },
 ]
 
-export default memo(function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar }) {
+export default memo(function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar, onlineMembers }) {
   const { theme, toggleTheme } = useTheme()
 
   const handleNav = (viewId) => {
@@ -93,6 +95,17 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
           )
         })}
       </nav>
+
+      {/* Online Members */}
+      {onlineMembers && onlineMembers.length > 1 && (
+        <div style={{ padding: '0.375rem 1rem' }}>
+          <PresenceAvatars
+            members={onlineMembers}
+            currentUserUid={user?.uid}
+            variant="compact"
+          />
+        </div>
+      )}
 
       {/* Section: Tools */}
       <div className="sidebar-section-label">Tools</div>

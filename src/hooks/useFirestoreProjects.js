@@ -7,6 +7,7 @@ import {
   updateDoc,
   deleteDoc,
   query,
+  where,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useLocalStorage } from './useLocalStorage'
@@ -31,6 +32,9 @@ const DEFAULT_PROJECT_DATA = {
   webflowSiteId: '',
   checked: {},
   verifications: {},
+  assignments: {},
+  comments: {},
+  notifications: {},
   analyzerResults: null,
   analyzerFixes: {},
   contentHistory: [],
@@ -74,7 +78,8 @@ const DEFAULT_PROJECT_DATA = {
 }
 
 /* ── localStorage Projects (Dev Mode) ── */
-function useLocalProjects(userId) {
+function useLocalProjects(user) {
+  const userId = user?.uid
   const storageKey = userId ? `aeo-projects-${userId}` : 'aeo-projects'
   const [projects, setProjects] = useLocalStorage(storageKey, [])
   const [activeProjectId, setActiveProjectId] = useLocalStorage(`${storageKey}-active`, null)
@@ -87,18 +92,29 @@ function useLocalProjects(userId) {
   const activeProject = projects.find(p => p.id === activeProjectId) || projects[0] || null
 
   const createProject = useCallback(async (name, url = '') => {
+    const now = new Date().toISOString()
     const newProject = {
       id: crypto.randomUUID(),
       ...DEFAULT_PROJECT_DATA,
       name,
       url,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      ownerId: userId,
+      memberIds: [userId],
+      members: [{
+        uid: userId,
+        email: user?.email || '',
+        displayName: user?.displayName || '',
+        role: 'admin',
+        addedAt: now,
+      }],
+      invitations: [],
+      createdAt: now,
+      updatedAt: now,
     }
     setProjects(prev => [newProject, ...prev])
     setActiveProjectId(newProject.id)
     return newProject
-  }, [setProjects, setActiveProjectId])
+  }, [setProjects, setActiveProjectId, userId, user?.email, user?.displayName])
 
   const updateProject = useCallback(async (id, updates) => {
     setProjects(prev => prev.map(p =>
@@ -144,13 +160,14 @@ function useLocalProjects(userId) {
 }
 
 /* ── Firestore Projects (Production) ── */
-function useFirestoreProjectsImpl(userId) {
+function useFirestoreProjectsImpl(user) {
+  const userId = user?.uid
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeProjectId, setActiveProjectId] = useState(null)
   const [didAutoCreate, setDidAutoCreate] = useState(false)
 
-  // Real-time listener for user's projects
+  // Real-time listener for user's projects (top-level collection, filtered by membership)
   useEffect(() => {
     if (!userId) {
       setProjects([])
@@ -161,10 +178,8 @@ function useFirestoreProjectsImpl(userId) {
     setLoading(true)
     let didSetLoading = false
 
-    const projectsRef = collection(db, 'users', userId, 'projects')
-    // No orderBy — avoids requiring a Firestore composite index.
-    // We sort client-side instead.
-    const q = query(projectsRef)
+    const projectsRef = collection(db, 'projects')
+    const q = query(projectsRef, where('memberIds', 'array-contains', userId))
 
     // Safety timeout: if Firestore hasn't responded in 5 seconds, stop loading
     const timeoutId = setTimeout(() => {
@@ -188,6 +203,25 @@ function useFirestoreProjectsImpl(userId) {
           const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
           return bTime - aTime
         })
+
+      // Lazy migration: backfill team fields on legacy projects
+      projectList.forEach((project) => {
+        if (!project.ownerId && project.id) {
+          const ref = doc(db, 'projects', project.id)
+          updateDoc(ref, {
+            ownerId: userId,
+            memberIds: [userId],
+            members: [{
+              uid: userId,
+              email: user?.email || '',
+              displayName: user?.displayName || '',
+              role: 'admin',
+              addedAt: new Date().toISOString(),
+            }],
+            invitations: [],
+          }).catch((err) => logger.error('Lazy migration error:', err))
+        }
+      })
 
       setProjects(projectList)
 
@@ -219,15 +253,26 @@ function useFirestoreProjectsImpl(userId) {
 
   const createProject = useCallback(async (name, url = '') => {
     if (!userId) return null
+    const now = new Date().toISOString()
     const projectData = {
       ...DEFAULT_PROJECT_DATA,
       name,
       url,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      ownerId: userId,
+      memberIds: [userId],
+      members: [{
+        uid: userId,
+        email: user?.email || '',
+        displayName: user?.displayName || '',
+        role: 'admin',
+        addedAt: now,
+      }],
+      invitations: [],
+      createdAt: now,
+      updatedAt: now,
     }
     try {
-      const projectsRef = collection(db, 'users', userId, 'projects')
+      const projectsRef = collection(db, 'projects')
       const docRef = await addDoc(projectsRef, projectData)
       setActiveProjectId(docRef.id)
       return { id: docRef.id, ...projectData }
@@ -235,12 +280,12 @@ function useFirestoreProjectsImpl(userId) {
       logger.error('Create project error:', err)
       return null
     }
-  }, [userId])
+  }, [userId, user?.email, user?.displayName])
 
   const updateProject = useCallback(async (id, updates) => {
     if (!userId || !id) return
     try {
-      const projectRef = doc(db, 'users', userId, 'projects', id)
+      const projectRef = doc(db, 'projects', id)
       await updateDoc(projectRef, {
         ...updates,
         updatedAt: new Date().toISOString(),
@@ -253,7 +298,7 @@ function useFirestoreProjectsImpl(userId) {
   const deleteProject = useCallback(async (id) => {
     if (!userId || !id) return
     try {
-      const projectRef = doc(db, 'users', userId, 'projects', id)
+      const projectRef = doc(db, 'projects', id)
       await deleteDoc(projectRef)
     } catch (err) {
       logger.error('Delete project error:', err)
@@ -295,9 +340,9 @@ function useFirestoreProjectsImpl(userId) {
 /* ── Export: auto-select based on config ── */
 // isFirebaseConfigured is a module-level constant (never changes at runtime),
 // so this conditional hook call is safe and won't violate Rules of Hooks.
-export function useFirestoreProjects(userId) {
+export function useFirestoreProjects(user) {
   if (isFirebaseConfigured) {
-    return useFirestoreProjectsImpl(userId)
+    return useFirestoreProjectsImpl(user)
   }
-  return useLocalProjects(userId)
+  return useLocalProjects(user)
 }

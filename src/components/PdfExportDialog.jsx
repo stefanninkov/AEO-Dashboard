@@ -15,7 +15,7 @@ const SECTIONS = [
   { key: 'analyzer', label: 'Analyzer results', desc: 'Site analysis data (if available)', default: false },
 ]
 
-export default function PdfExportDialog({ activeProject, phases, updateProject, onClose, isClosing, onExited }) {
+export default function PdfExportDialog({ activeProject, phases, updateProject, user, onClose, isClosing, onExited }) {
   const { addToast } = useToast()
   const trapRef = useFocusTrap(!isClosing)
   const [agencyName, setAgencyName] = useState('')
@@ -66,7 +66,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
       addToast('success', 'Report generated and downloaded!')
       // Log export activity
       if (updateProject && activeProject?.id) {
-        const entry = createActivity('export', { filename: `AEO-Report-${(activeProject.name || 'Project').replace(/[^a-zA-Z0-9]/g, '-')}` })
+        const entry = createActivity('export', { filename: `AEO-Report-${(activeProject.name || 'Project').replace(/[^a-zA-Z0-9]/g, '-')}` }, user)
         updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
       }
       onClose()

@@ -19,6 +19,11 @@ export default function PhaseCard({
   noteTimestamps,
   verifications,
   quickViewItem,
+  assignments,
+  comments,
+  openCommentId,
+  commentDraft,
+  members,
   onTogglePhase,
   onToggleCategory,
   isCategoryExpanded,
@@ -31,6 +36,12 @@ export default function PhaseCard({
   onToggleNote,
   onNoteChange,
   onNoteSave,
+  onAssign,
+  onUnassign,
+  onToggleComments,
+  onCommentChange,
+  onCommentAdd,
+  onCommentDelete,
 }) {
   return (
     <div className={`card${isCelebrating ? ' phase-complete-pulse' : ''}`} style={{ padding: 0, overflow: 'hidden', '--phase-pulse-color': phase.color + '40' }}>
@@ -116,6 +127,11 @@ export default function PhaseCard({
               noteTimestamps={noteTimestamps}
               verifications={verifications}
               quickViewItem={quickViewItem}
+              assignments={assignments}
+              comments={comments}
+              openCommentId={openCommentId}
+              commentDraft={commentDraft}
+              members={members}
               isExpanded={isCategoryExpanded(category.id)}
               onToggleCategory={onToggleCategory}
               onBulkCheck={onBulkCheck}
@@ -126,6 +142,12 @@ export default function PhaseCard({
               onToggleNote={onToggleNote}
               onNoteChange={onNoteChange}
               onNoteSave={onNoteSave}
+              onAssign={onAssign}
+              onUnassign={onUnassign}
+              onToggleComments={onToggleComments}
+              onCommentChange={onCommentChange}
+              onCommentAdd={onCommentAdd}
+              onCommentDelete={onCommentDelete}
             />
           ))}
         </div>

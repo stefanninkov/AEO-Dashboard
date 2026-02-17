@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { createActivity, appendActivity } from '../utils/activityLogger'
 
-export function useCompetitorAnalysis({ activeProject, updateProject }) {
+export function useCompetitorAnalysis({ activeProject, updateProject, user }) {
   const [analyzing, setAnalyzing] = useState(false)
   const [progress, setProgress] = useState({ current: 0, total: 0, stage: '' })
   const [error, setError] = useState(null)
@@ -24,7 +24,7 @@ export function useCompetitorAnalysis({ activeProject, updateProject }) {
     const existing = activeProject.competitors || []
     updateProject(activeProject.id, { competitors: [...existing, newCompetitor] })
     // Log add competitor activity
-    const entry = createActivity('competitor_add', { url })
+    const entry = createActivity('competitor_add', { url }, user)
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
   }, [activeProject, updateProject])
 
@@ -36,7 +36,7 @@ export function useCompetitorAnalysis({ activeProject, updateProject }) {
     updateProject(activeProject.id, { competitors: filtered })
     // Log remove competitor activity
     if (removed) {
-      const entry = createActivity('competitor_remove', { url: removed.url || removed.name })
+      const entry = createActivity('competitor_remove', { url: removed.url || removed.name }, user)
       updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     }
   }, [activeProject, updateProject])

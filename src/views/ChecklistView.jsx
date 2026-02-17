@@ -7,8 +7,9 @@ import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendat
 import { createActivity, appendActivity } from '../utils/activityLogger'
 import ChecklistStats from './checklist/ChecklistStats'
 import PhaseCard from './checklist/PhaseCard'
+import PresenceAvatars from '../components/PresenceAvatars'
 
-export default function ChecklistView({ phases, activeProject, toggleCheckItem, setActiveView, setDocItem, updateProject }) {
+export default function ChecklistView({ phases, activeProject, toggleCheckItem, setActiveView, setDocItem, updateProject, user, onlineMembers, addNotification }) {
   const firstPriority = getFirstPriorityPhase(activeProject?.questionnaire)
   const [expandedPhases, setExpandedPhases] = useState({ [firstPriority]: true })
   const [searchQuery, setSearchQuery] = useState('')
@@ -26,6 +27,10 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const saveTimerRef = useRef(null)
   const savedTimerRef = useRef(null)
 
+  // Comments state
+  const [openCommentId, setOpenCommentId] = useState(null)
+  const [commentDraft, setCommentDraft] = useState('')
+
   // Category collapse state (absent = expanded)
   const [expandedCategories, setExpandedCategories] = useState({})
 
@@ -38,13 +43,16 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const checked = activeProject?.checked || {}
   const notes = activeProject?.notes || {}
   const noteTimestamps = activeProject?.noteTimestamps || {}
+  const assignments = activeProject?.assignments || {}
+  const comments = activeProject?.comments || {}
+  const members = activeProject?.members || []
 
   // ── Handlers ──
 
   const handleToggle = (itemId, item, phaseNumber) => {
     if (checked[itemId]) {
       toggleCheckItem(itemId)
-      const entry = createActivity('uncheck', { taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber })
+      const entry = createActivity('uncheck', { taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber }, user)
       updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     } else {
       setVerifyItem({ ...item, _phaseNumber: phaseNumber })
@@ -58,7 +66,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     }
     updateProject(activeProject.id, { verifications: newVerifications })
     toggleCheckItem(verifyItem.id)
-    const entry = createActivity('check', { taskId: verifyItem.id, taskText: verifyItem.text.slice(0, 80), phase: verifyItem._phaseNumber })
+    const entry = createActivity('check', { taskId: verifyItem.id, taskText: verifyItem.text.slice(0, 80), phase: verifyItem._phaseNumber }, user)
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     setBouncingId(verifyItem.id)
     setTimeout(() => setBouncingId(null), 450)
@@ -86,7 +94,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           }
         }
       }
-      const entry = createActivity('note', { taskId: itemId, taskText, phase: phaseNum })
+      const entry = createActivity('note', { taskId: itemId, taskText, phase: phaseNum }, user)
       updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     }
     setNoteSaveStatus('saved')
@@ -111,6 +119,88 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       setNoteDraft(notes[itemId] || '')
       setNoteSaveStatus(null)
     }
+  }
+
+  const handleAssign = (itemId, memberUid, item, phaseNumber) => {
+    const member = members.find(m => m.uid === memberUid)
+    if (!member) return
+    const newAssignments = { ...assignments, [itemId]: memberUid }
+    updateProject(activeProject.id, { assignments: newAssignments })
+    const entry = createActivity('task_assign', {
+      taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber,
+      assigneeUid: member.uid, assigneeName: member.displayName || member.email,
+    }, user)
+    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    // Notify the assignee (unless assigning to self)
+    if (memberUid !== user?.uid && addNotification) {
+      const actorName = user?.displayName || user?.email || 'Someone'
+      addNotification(memberUid, 'task_assign', `${actorName} assigned you to "${item.text.slice(0, 60)}"`, { taskId: itemId, phase: phaseNumber })
+    }
+  }
+
+  const handleUnassign = (itemId, item, phaseNumber) => {
+    const prevUid = assignments[itemId]
+    const prevMember = members.find(m => m.uid === prevUid)
+    const newAssignments = { ...assignments }
+    delete newAssignments[itemId]
+    updateProject(activeProject.id, { assignments: newAssignments })
+    const entry = createActivity('task_unassign', {
+      taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber,
+      assigneeUid: prevUid, assigneeName: prevMember?.displayName || prevMember?.email || 'Unknown',
+    }, user)
+    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    // Notify the unassigned user (unless unassigning self)
+    if (prevUid && prevUid !== user?.uid && addNotification) {
+      const actorName = user?.displayName || user?.email || 'Someone'
+      addNotification(prevUid, 'task_unassign', `${actorName} unassigned you from "${item.text.slice(0, 60)}"`, { taskId: itemId, phase: phaseNumber })
+    }
+  }
+
+  // Comments handlers
+  const toggleComments = (itemId) => {
+    if (openCommentId === itemId) {
+      setOpenCommentId(null)
+      setCommentDraft('')
+    } else {
+      setOpenCommentId(itemId)
+      setCommentDraft('')
+    }
+  }
+
+  const handleCommentAdd = (itemId, text, item, phaseNumber) => {
+    const trimmed = text.trim()
+    if (!trimmed) return
+    const newComment = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      text: trimmed,
+      authorUid: user?.uid || '',
+      authorName: user?.displayName || user?.email || 'Unknown',
+      authorEmail: user?.email || '',
+      timestamp: new Date().toISOString(),
+    }
+    const taskComments = comments[itemId] || []
+    const newComments = { ...comments, [itemId]: [...taskComments, newComment] }
+    updateProject(activeProject.id, { comments: newComments })
+    const entry = createActivity('comment', {
+      taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber,
+    }, user)
+    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    // Notify the task assignee about the comment (unless commenter is the assignee)
+    if (addNotification) {
+      const assigneeUid = assignments[itemId]
+      if (assigneeUid && assigneeUid !== user?.uid) {
+        const actorName = user?.displayName || user?.email || 'Someone'
+        addNotification(assigneeUid, 'comment', `${actorName} commented on "${item.text.slice(0, 60)}"`, { taskId: itemId, phase: phaseNumber })
+      }
+    }
+    setCommentDraft('')
+  }
+
+  const handleCommentDelete = (itemId, commentId) => {
+    const taskComments = comments[itemId] || []
+    const newComments = { ...comments, [itemId]: taskComments.filter(c => c.id !== commentId) }
+    if (newComments[itemId].length === 0) delete newComments[itemId]
+    updateProject(activeProject.id, { comments: newComments })
   }
 
   const togglePhase = (phaseId) => {
@@ -207,6 +297,9 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>Checklist</h2>
           <span style={{ fontSize: '0.6875rem', padding: '0.125rem 0.5rem', borderRadius: '6.1875rem', background: 'rgba(46,204,113,0.1)', color: 'var(--color-phase-3)', fontWeight: 500 }}>{activeProject?.name}</span>
+          <div style={{ marginLeft: 'auto' }}>
+            <PresenceAvatars members={onlineMembers} currentUserUid={user?.uid} variant="compact" />
+          </div>
         </div>
         {activeProject?.url && <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</p>}
       </div>
@@ -299,6 +392,11 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           noteTimestamps={noteTimestamps}
           verifications={activeProject?.verifications}
           quickViewItem={quickViewItem}
+          assignments={assignments}
+          comments={comments}
+          openCommentId={openCommentId}
+          commentDraft={commentDraft}
+          members={members}
           onTogglePhase={togglePhase}
           onToggleCategory={toggleCategory}
           isCategoryExpanded={isCategoryExpanded}
@@ -311,6 +409,12 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           onToggleNote={toggleNote}
           onNoteChange={handleNoteChange}
           onNoteSave={saveNote}
+          onAssign={handleAssign}
+          onUnassign={handleUnassign}
+          onToggleComments={toggleComments}
+          onCommentChange={setCommentDraft}
+          onCommentAdd={handleCommentAdd}
+          onCommentDelete={handleCommentDelete}
         />
       ))}
     </div>

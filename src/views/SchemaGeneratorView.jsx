@@ -186,7 +186,7 @@ Return JSON in this exact format:
 ]
 
 // ─── Main Component ──────────────────────────────────────────
-export default function SchemaGeneratorView({ activeProject, updateProject }) {
+export default function SchemaGeneratorView({ activeProject, updateProject, user }) {
   const [topic, setTopic] = useState('')
   const [pageUrl, setPageUrl] = useState('')
   const [selectedType, setSelectedType] = useState('faqPage')
@@ -249,7 +249,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject }) {
         updateProject(activeProject.id, { schemaHistory: newHistory })
 
         // Log activity
-        const actEntry = createActivity('schemaGenerate', { type: selectedType, topic: topic.slice(0, 60) })
+        const actEntry = createActivity('schemaGenerate', { type: selectedType, topic: topic.slice(0, 60) }, user)
         updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, actEntry) })
       } else {
         setError('Could not parse the generated schema. Please try again.')

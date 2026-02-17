@@ -38,14 +38,14 @@ function MiniSparkline({ data }) {
   )
 }
 
-export default function CompetitorsView({ activeProject, updateProject }) {
+export default function CompetitorsView({ activeProject, updateProject, user }) {
   const [newName, setNewName] = useState('')
   const [newUrl, setNewUrl] = useState('')
 
   const {
     analyzing, progress, error,
     addCompetitor, removeCompetitor, analyzeCompetitors,
-  } = useCompetitorAnalysis({ activeProject, updateProject })
+  } = useCompetitorAnalysis({ activeProject, updateProject, user })
 
   const competitors = activeProject?.competitors || []
   const analysis = activeProject?.competitorAnalysis

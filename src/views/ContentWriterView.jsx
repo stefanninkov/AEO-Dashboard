@@ -199,7 +199,7 @@ const TONE_OPTIONS = [
   { id: 'friendly', label: 'Friendly' },
 ]
 
-export default function ContentWriterView({ activeProject, updateProject }) {
+export default function ContentWriterView({ activeProject, updateProject, user }) {
   const [topic, setTopic] = useState('')
   const [selectedType, setSelectedType] = useState('faq')
   const [tone, setTone] = useState('professional')
@@ -266,7 +266,7 @@ Return ONLY valid JSON matching the requested format.`,
         updateProject(activeProject.id, { contentHistory: newHistory })
 
         // Log activity
-        const actEntry = createActivity('contentWrite', { type: selectedType, topic: topic.slice(0, 60) })
+        const actEntry = createActivity('contentWrite', { type: selectedType, topic: topic.slice(0, 60) }, user)
         updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, actEntry) })
       } else {
         setError('Could not parse the generated content. Please try again.')
