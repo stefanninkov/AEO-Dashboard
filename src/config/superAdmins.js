@@ -2,23 +2,23 @@
  * Super Admin UID Allowlist
  *
  * Only users whose Firebase UID appears here can access /admin.
- *
- * To find your UID:
- *   1. Sign in to the app
- *   2. Open browser console
- *   3. Run: firebase.auth().currentUser.uid
- *   4. Add the UID string to the array below
+ * Also checks VITE_SUPER_ADMIN_UID env variable as a fallback.
  */
 
 const SUPER_ADMIN_UIDS = [
-  // 'paste-your-firebase-uid-here',
+  // Add Firebase UIDs here, e.g.: 'abc123xyz456'
 ]
+
+// Also accept admin UID from environment variable
+const envAdminUid = import.meta.env.VITE_SUPER_ADMIN_UID || ''
 
 export function isSuperAdmin(uid) {
   if (!uid) return false
-  return SUPER_ADMIN_UIDS.includes(uid)
+  if (SUPER_ADMIN_UIDS.includes(uid)) return true
+  if (envAdminUid && uid === envAdminUid) return true
+  return false
 }
 
 export function hasConfiguredAdmins() {
-  return SUPER_ADMIN_UIDS.length > 0
+  return SUPER_ADMIN_UIDS.length > 0 || envAdminUid.length > 0
 }

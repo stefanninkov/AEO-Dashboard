@@ -85,7 +85,17 @@ function AccessDenied() {
 }
 
 /* ── Not Configured Warning ── */
-function NotConfigured() {
+function NotConfigured({ user }) {
+  const [copied, setCopied] = useState(false)
+  const uid = user?.uid || ''
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(uid).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -122,33 +132,60 @@ function NotConfigured() {
               lineHeight: 1.6,
               marginBottom: '0.75rem',
             }}>
-              No super admin UIDs have been configured. To enable the admin panel:
+              No super admin UIDs have been configured. Your UID is:
             </p>
-            <ol style={{
-              fontSize: '0.8125rem',
-              color: 'var(--text-secondary)',
-              lineHeight: 1.8,
-              paddingLeft: '1.25rem',
+
+            {/* UID display with copy button */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.5rem 0.75rem',
+              borderRadius: '0.5rem',
+              background: 'var(--bg-input)',
+              border: '1px solid var(--border-subtle)',
               marginBottom: '1rem',
             }}>
-              <li>Sign in to the app normally</li>
-              <li>Open browser console and run:<br />
-                <code style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.75rem',
-                  padding: '0.125rem 0.375rem',
-                  borderRadius: '0.25rem',
-                  background: 'var(--hover-bg)',
-                }}>firebase.auth().currentUser.uid</code>
-              </li>
-              <li>Add your UID to <code style={{
+              <code style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
+                color: 'var(--text-primary)',
+                flex: 1,
+                wordBreak: 'break-all',
+                userSelect: 'all',
+              }}>{uid}</code>
+              <button
+                onClick={handleCopy}
+                style={{
+                  background: 'none',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '0.375rem',
+                  padding: '0.25rem 0.5rem',
+                  fontSize: '0.6875rem',
+                  fontWeight: 600,
+                  color: copied ? 'var(--color-success)' : 'var(--text-secondary)',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                }}
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
+            </div>
+
+            <p style={{
+              fontSize: '0.8125rem',
+              color: 'var(--text-tertiary)',
+              lineHeight: 1.6,
+              marginBottom: '0.75rem',
+            }}>
+              Add it to <code style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.75rem',
                 padding: '0.125rem 0.375rem',
                 borderRadius: '0.25rem',
                 background: 'var(--hover-bg)',
-              }}>src/config/superAdmins.js</code></li>
-            </ol>
+              }}>src/config/superAdmins.js</code> then redeploy.
+            </p>
             <button
               onClick={() => { window.location.href = window.location.origin + window.location.pathname + '?/app' }}
               className="btn-primary"
@@ -168,7 +205,7 @@ export default function AdminApp({ user, onSignOut }) {
   const isConfigured = useMemo(() => hasConfiguredAdmins(), [])
   const [activeAdminView, setActiveAdminView] = useState('dashboard')
 
-  if (!isConfigured) return <NotConfigured />
+  if (!isConfigured) return <NotConfigured user={user} />
   if (!isAdmin) return <AccessDenied />
 
   const renderView = () => {
