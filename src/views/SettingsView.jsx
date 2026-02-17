@@ -11,6 +11,7 @@ import { getEmailConfig, saveEmailConfig, isEmailConfigured, sendEmail } from '.
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import { isGoogleOAuthConfigured } from '../utils/googleAuth'
 import GscPropertySelector from '../components/GscPropertySelector'
+import Ga4PropertySelector from '../components/Ga4PropertySelector'
 import { useToast } from '../components/Toast'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
@@ -902,19 +903,16 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
               <div style={lastRowStyle}>
                 <span style={labelStyle}>Analytics 4</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5625rem 1rem',
-                    background: 'var(--bg-input)',
-                    border: '1px solid var(--border-default)',
-                    borderRadius: '0.625rem',
-                    color: 'var(--text-tertiary)',
-                    fontSize: '0.8125rem',
-                  }}>
-                    GA4 property selector coming in Feature 4
-                  </div>
+                  <Ga4PropertySelector
+                    accessToken={google.accessToken}
+                    selectedProperty={activeProject?.ga4Property || null}
+                    onSelectProperty={(propertyName) => {
+                      if (activeProject) {
+                        updateProject(activeProject.id, { ga4Property: propertyName })
+                        addToast('success', `GA4 property set: ${propertyName}`)
+                      }
+                    }}
+                  />
                 </div>
               </div>
             </div>
