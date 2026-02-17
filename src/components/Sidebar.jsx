@@ -2,7 +2,7 @@ import { memo } from 'react'
 import {
   Zap, LayoutDashboard, CheckSquare, GitBranch, Zap as ZapIcon,
   BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, Plus,
-  Users, Users2, Settings, PenTool, Code2, Activity, Globe
+  Users, Users2, Settings, PenTool, Code2, Activity, Globe, Search
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import PresenceAvatars from './PresenceAvatars'
@@ -39,6 +39,7 @@ const NAV_ITEMS = [
   { id: 'schema', label: 'Schema Generator', icon: Code2 },
   { id: 'monitoring', label: 'Monitoring', icon: Activity },
   { id: 'metrics', label: 'Metrics', icon: BarChart3 },
+  { id: 'gsc', label: 'Search Console', icon: Search },
   { id: 'docs', label: 'Documentation', icon: BookOpen },
   { id: 'testing', label: 'Testing', icon: FlaskConical },
   { id: 'team', label: 'Team', icon: Users2 },

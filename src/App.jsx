@@ -29,6 +29,7 @@ const CompetitorsView = lazy(() => import('./views/CompetitorsView'))
 const SettingsView = lazy(() => import('./views/SettingsView'))
 const WebflowView = lazy(() => import('./views/WebflowView'))
 const TeamView = lazy(() => import('./views/TeamView'))
+const GscView = lazy(() => import('./views/GscView'))
 
 // Lazy-loaded modals (only loaded when opened)
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
@@ -508,6 +509,15 @@ function AuthenticatedApp({ user, onSignOut }) {
             updateProject={updateProject}
             user={user}
             permission={permission}
+          />
+        )
+      case 'gsc':
+        return (
+          <GscView
+            activeProject={activeProject}
+            updateProject={updateProject}
+            user={user}
+            setActiveView={setActiveView}
           />
         )
       case 'webflow':
