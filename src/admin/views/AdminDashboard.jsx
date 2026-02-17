@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
   Users, FolderKanban, Activity, CheckSquare,
-  RefreshCw, Clock, UserPlus, TrendingUp, Zap,
+  RefreshCw, Clock, UserPlus, TrendingUp, Zap, AlertTriangle,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 
@@ -135,7 +135,7 @@ function DashboardSkeleton() {
 
 /* ── Main Dashboard ── */
 export default function AdminDashboard({ user }) {
-  const { stats, loading, error, refresh } = useAdminStats()
+  const { stats, loading, error, permissionWarning, refresh } = useAdminStats(user)
   const [refreshing, setRefreshing] = useState(false)
 
   const handleRefresh = async () => {
@@ -185,6 +185,76 @@ export default function AdminDashboard({ user }) {
           <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
         </button>
       </div>
+
+      {/* Permission Warning Banner */}
+      {permissionWarning && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '0.75rem',
+          padding: '0.875rem 1rem',
+          borderRadius: '0.75rem',
+          background: 'rgba(245,158,11,0.08)',
+          border: '1px solid rgba(245,158,11,0.2)',
+        }}>
+          <AlertTriangle size={16} style={{ color: '#F59E0B', flexShrink: 0, marginTop: '0.125rem' }} />
+          <div>
+            <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
+              Limited Admin Access
+            </div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: 1.5 }}>
+              {permissionWarning}
+              {' '}Go to <strong>Firebase Console → Firestore → Rules</strong> and add a rule allowing your UID
+              to read all collections. See below for the rule to add.
+            </div>
+            <details style={{ marginTop: '0.5rem' }}>
+              <summary style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', fontWeight: 600 }}>
+                Show Firestore rule snippet
+              </summary>
+              <pre style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.6875rem',
+                background: 'var(--bg-input)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: '0.5rem',
+                padding: '0.75rem',
+                marginTop: '0.5rem',
+                overflowX: 'auto',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.6,
+                whiteSpace: 'pre',
+              }}>{`rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Super admin can read everything
+    function isSuperAdmin() {
+      return request.auth != null
+        && request.auth.uid == '${user?.uid || 'YOUR_UID'}';
+    }
+
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+        && request.auth.uid == userId;
+      allow read: if isSuperAdmin();
+
+      match /projects/{projectId} {
+        allow read, write: if request.auth != null
+          && request.auth.uid == userId;
+        allow read: if isSuperAdmin();
+      }
+    }
+
+    match /projects/{projectId} {
+      allow read, write: if request.auth != null
+        && request.auth.uid in resource.data.memberIds;
+      allow read: if isSuperAdmin();
+    }
+  }
+}`}</pre>
+            </details>
+          </div>
+        </div>
+      )}
 
       {/* Stat Cards */}
       <div style={{
