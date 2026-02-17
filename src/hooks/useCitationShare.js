@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { createActivity, appendActivity } from '../utils/activityLogger'
+import { fireWebhooks } from '../utils/webhookDispatcher'
 
 /**
  * useCitationShare — monitors which brands (user + competitors) get
@@ -223,14 +224,13 @@ Return ONLY valid JSON:
         lastCitationShareRun: new Date().toISOString(),
       })
 
-      // Activity log
-      const entry = createActivity('citation_share_check', {
-        queriesChecked: industryTerms.length,
-        totalMentions: totalAllMentions,
-      }, user)
+      // Activity log + webhooks
+      const citationData = { queriesChecked: industryTerms.length, totalMentions: totalAllMentions }
+      const entry = createActivity('citation_share_check', citationData, user)
       await updateProject(activeProject.id, {
         activityLog: appendActivity(activeProject.activityLog, entry),
       })
+      fireWebhooks(activeProject, 'citation_share_check', citationData, updateProject)
 
       setChecking(false)
       setProgress({ current: 0, total: 0, stage: '' })

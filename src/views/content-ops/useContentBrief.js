@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from 'react'
 import { callAnthropicApi } from '../../utils/apiClient'
 import { getAnalyzerIndustryContext } from '../../utils/getRecommendations'
 import { createActivity, appendActivity } from '../../utils/activityLogger'
+import { fireWebhooks } from '../../utils/webhookDispatcher'
 import logger from '../../utils/logger'
 
 /* ── Build the content brief prompt ── */
@@ -192,12 +193,11 @@ Return ONLY valid JSON.`,
       const updatedBriefs = [...(activeProject?.contentBriefs || []), briefEntry]
       updateProject(activeProject.id, { contentBriefs: updatedBriefs })
 
-      // Log activity
-      const act = createActivity('briefGenerate', {
-        query: targetQuery.slice(0, 60),
-        pageUrl: normalizedUrl?.slice(0, 60),
-      }, user)
+      // Log activity + webhooks
+      const briefData = { query: targetQuery.slice(0, 60), pageUrl: normalizedUrl?.slice(0, 60) }
+      const act = createActivity('briefGenerate', briefData, user)
       updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, act) })
+      fireWebhooks(activeProject, 'briefGenerate', briefData, updateProject)
 
       setSelectedBriefId(briefEntry.id)
       logger.info('Content brief generated', { query: targetQuery })

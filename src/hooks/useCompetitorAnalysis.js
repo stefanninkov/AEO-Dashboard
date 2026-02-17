@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { createActivity, appendActivity } from '../utils/activityLogger'
+import { fireWebhooks } from '../utils/webhookDispatcher'
 
 export function useCompetitorAnalysis({ activeProject, updateProject, user }) {
   const [analyzing, setAnalyzing] = useState(false)
@@ -23,9 +24,10 @@ export function useCompetitorAnalysis({ activeProject, updateProject, user }) {
     }
     const existing = activeProject.competitors || []
     updateProject(activeProject.id, { competitors: [...existing, newCompetitor] })
-    // Log add competitor activity
+    // Log add competitor activity + webhooks
     const entry = createActivity('competitor_add', { url }, user)
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    fireWebhooks(activeProject, 'competitor_add', { url }, updateProject)
   }, [activeProject, updateProject])
 
   const removeCompetitor = useCallback((competitorId) => {
@@ -34,10 +36,12 @@ export function useCompetitorAnalysis({ activeProject, updateProject, user }) {
     const removed = existing.find(c => c.id === competitorId)
     const filtered = existing.filter(c => c.id !== competitorId)
     updateProject(activeProject.id, { competitors: filtered })
-    // Log remove competitor activity
+    // Log remove competitor activity + webhooks
     if (removed) {
-      const entry = createActivity('competitor_remove', { url: removed.url || removed.name }, user)
+      const removeData = { url: removed.url || removed.name }
+      const entry = createActivity('competitor_remove', removeData, user)
       updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+      fireWebhooks(activeProject, 'competitor_remove', removeData, updateProject)
     }
   }, [activeProject, updateProject])
 

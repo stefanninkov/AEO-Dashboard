@@ -90,6 +90,7 @@ const DEFAULT_PROJECT_DATA = {
     brandMonitorInterval: '7d',
     competitorAlertThreshold: 15,
   },
+  webhooks: [],
 }
 
 /* ── localStorage Projects (Dev Mode) ── */

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson } from 'lucide-react'
 import { callAnthropicApi } from '../utils/apiClient'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
-import { createActivity, appendActivity } from '../utils/activityLogger'
+import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
 
 // ─── Schema Types ────────────────────────────────────────────
@@ -187,6 +187,7 @@ Return JSON in this exact format:
 
 // ─── Main Component ──────────────────────────────────────────
 export default function SchemaGeneratorView({ activeProject, updateProject, user }) {
+  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const [topic, setTopic] = useState('')
   const [pageUrl, setPageUrl] = useState('')
   const [selectedType, setSelectedType] = useState('faqPage')
@@ -249,8 +250,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
         updateProject(activeProject.id, { schemaHistory: newHistory })
 
         // Log activity
-        const actEntry = createActivity('schemaGenerate', { type: selectedType, topic: topic.slice(0, 60) }, user)
-        updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, actEntry) })
+        logAndDispatch('schemaGenerate', { type: selectedType, topic: topic.slice(0, 60) }, user)
       } else {
         setError('Could not parse the generated schema. Please try again.')
       }

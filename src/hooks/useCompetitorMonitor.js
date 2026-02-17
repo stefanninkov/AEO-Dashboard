@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { createActivity, appendActivity } from '../utils/activityLogger'
+import { fireWebhooks } from '../utils/webhookDispatcher'
 
 /**
  * useCompetitorMonitor — tracks competitor AEO scores over time,
@@ -160,14 +161,13 @@ Return ONLY valid JSON:
         competitors: updatedCompetitors,
       })
 
-      // Activity log
-      const entry = createActivity('competitor_monitor', {
-        competitorsChecked: competitors.length,
-        alertsGenerated: newAlerts.length,
-      }, user)
+      // Activity log + webhooks
+      const monitorData = { competitorsChecked: competitors.length, alertsGenerated: newAlerts.length }
+      const entry = createActivity('competitor_monitor', monitorData, user)
       await updateProject(activeProject.id, {
         activityLog: appendActivity(activeProject.activityLog, entry),
       })
+      fireWebhooks(activeProject, 'competitor_monitor', monitorData, updateProject)
 
       setMonitoring(false)
       setProgress({ current: 0, total: 0, stage: '' })

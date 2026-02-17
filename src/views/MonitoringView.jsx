@@ -5,7 +5,8 @@ import {
   Bell, BellOff, Calendar, BarChart3, RefreshCw, Settings, Zap
 } from 'lucide-react'
 import { useAutoMonitor } from '../hooks/useAutoMonitor'
-import { createActivity, appendActivity } from '../utils/activityLogger'
+import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
+import { fireWebhooks } from '../utils/webhookDispatcher'
 import logger from '../utils/logger'
 
 // ─── Interval Config ─────────────────────────────────────────
@@ -54,6 +55,7 @@ function getNextRunDate(lastRun, interval) {
 // ─── Main Component ──────────────────────────────────────────
 export default function MonitoringView({ activeProject, updateProject, user }) {
   const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({ activeProject, updateProject })
+  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const [expandedRun, setExpandedRun] = useState(null)
   const [showAllHistory, setShowAllHistory] = useState(false)
   const [notification, setNotification] = useState(null)
@@ -127,14 +129,30 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
     const snapshot = await runMonitor()
     if (snapshot) {
-      const actEntry = createActivity('monitor', {
+      logAndDispatch('monitor', {
         score: snapshot.overallScore,
         queriesChecked: snapshot.queriesChecked,
         queriesCited: snapshot.queriesCited,
       }, user)
-      updateProject(activeProject.id, {
-        activityLog: appendActivity(activeProject.activityLog, actEntry),
-      })
+
+      // Score change detection — fire synthetic webhook events
+      if (prevScore !== null) {
+        const delta = snapshot.overallScore - prevScore
+        const threshold = settings.notifyThreshold || 10
+        if (delta <= -threshold) {
+          fireWebhooks(activeProject, 'score_drop', {
+            previousScore: prevScore,
+            newScore: snapshot.overallScore,
+            delta,
+          }, updateProject)
+        } else if (delta >= threshold) {
+          fireWebhooks(activeProject, 'score_improve', {
+            previousScore: prevScore,
+            newScore: snapshot.overallScore,
+            delta,
+          }, updateProject)
+        }
+      }
     }
   }
 

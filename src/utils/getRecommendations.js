@@ -805,6 +805,20 @@ export function getSmartRecommendations(project, phases, setActiveView) {
     }
   }
 
+  // ── 9. Workflow Automation (Webhooks) ──
+  const webhooks = project.webhooks || []
+  if (webhooks.length === 0 && overallPct > 10) {
+    recs.push({
+      id: 'setup-webhooks',
+      text: 'Connect your AEO workflow to Slack, Discord, or Zapier',
+      detail: 'Set up webhooks to get notified when phases are completed, scores change, or competitors move — all in your favorite tools.',
+      action: () => setActiveView('settings'),
+      actionLabel: 'Set Up',
+      priority: 4,
+      category: 'getting_started',
+    })
+  }
+
   // ── Deduplicate, sort, and return top 6 ──
   const seen = new Set()
   const unique = recs.filter(r => {

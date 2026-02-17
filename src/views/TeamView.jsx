@@ -4,7 +4,7 @@ import {
   Mail, Trash2, Copy, Check, AlertCircle, Loader2, X,
 } from 'lucide-react'
 import { ROLES, ROLE_LABELS, ROLE_DESCRIPTIONS } from '../utils/roles'
-import { createActivity, appendActivity } from '../utils/activityLogger'
+import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 
 /* ── Invite Modal ── */
 function InviteModal({ onClose, onInvite, loading }) {
@@ -222,6 +222,8 @@ export default function TeamView({ activeProject, updateProject, user, permissio
   const [copied, setCopied] = useState(false)
   const [confirmRemove, setConfirmRemove] = useState(null)
 
+  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
+
   const members = activeProject?.members || []
   const invitations = activeProject?.invitations || []
   const canManage = permission?.hasPermission('project:manage_members')
@@ -254,8 +256,7 @@ export default function TeamView({ activeProject, updateProject, user, permissio
       await updateProject(activeProject.id, {
         invitations: [...invitations, newInvitation],
       })
-      const entry = createActivity('member_add', { memberName: email, memberRole: role }, user)
-      await updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+      logAndDispatch('member_add', { memberName: email, memberRole: role }, user)
       setInviteSuccess(`Invitation sent to ${email}`)
       setInviteOpen(false)
       setTimeout(() => setInviteSuccess(null), 4000)
@@ -273,11 +274,10 @@ export default function TeamView({ activeProject, updateProject, user, permissio
       m.uid === memberUid ? { ...m, role: newRole } : m
     )
     await updateProject(activeProject.id, { members: updatedMembers })
-    const entry = createActivity('role_change', {
+    logAndDispatch('role_change', {
       memberUid, memberName: member?.displayName || member?.email || 'member',
       previousRole: member?.role, newRole,
     }, user)
-    await updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
   }, [members, activeProject, updateProject, user])
 
   const handleRemoveMember = useCallback(async (memberUid) => {
@@ -289,10 +289,9 @@ export default function TeamView({ activeProject, updateProject, user, permissio
       members: updatedMembers,
       memberIds: updatedMemberIds,
     })
-    const entry = createActivity('member_remove', {
+    logAndDispatch('member_remove', {
       memberUid, memberName: member?.displayName || member?.email || 'member',
     }, user)
-    await updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     setConfirmRemove(null)
   }, [members, activeProject, updateProject, user])
 

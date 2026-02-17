@@ -15,6 +15,7 @@ import { callAnthropicApi } from '../../utils/apiClient'
 import { getAnalyzerIndustryContext } from '../../utils/getRecommendations'
 import { parseAnalysisJSON, parseFixJSON, computeCategoryScore } from './AnalysisResultsShared'
 import { createActivity, appendActivity } from '../../utils/activityLogger'
+import { fireWebhooks } from '../../utils/webhookDispatcher'
 import logger from '../../utils/logger'
 
 /* ── URL normalization ── */
@@ -188,13 +189,11 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
         const newPageAnalyses = { ...pageAnalyses, [url]: result }
         updateProject(activeProject.id, { pageAnalyses: newPageAnalyses })
 
-        // Log activity
-        const entry = createActivity('analyzePageUrl', {
-          url,
-          score: parsed.overallScore,
-          label: label || shortPageUrl(url),
-        }, user)
+        // Log activity + webhooks
+        const analyzeData = { url, score: parsed.overallScore, label: label || shortPageUrl(url) }
+        const entry = createActivity('analyzePageUrl', analyzeData, user)
         updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+        fireWebhooks(activeProject, 'analyzePageUrl', analyzeData, updateProject)
 
         return result
       } else {
@@ -268,14 +267,16 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
 
     updateProject(activeProject.id, { pageAnalyses: updated })
 
-    // Log batch activity
-    const entry = createActivity('analyzePageBatch', {
+    // Log batch activity + webhooks
+    const batchData = {
       count: normalized.length,
       avgScore: Object.values(updated).length > 0
         ? Math.round(Object.values(updated).reduce((s, p) => s + (p.overallScore || 0), 0) / Object.values(updated).length)
         : 0,
-    }, user)
+    }
+    const entry = createActivity('analyzePageBatch', batchData, user)
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    fireWebhooks(activeProject, 'analyzePageBatch', batchData, updateProject)
 
     setAnalyzing(false)
     setProgress({ current: 0, total: 0 })
@@ -325,13 +326,11 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
     const newFixes = { ...pageAnalyzerFixes, [fixKey]: fixData }
     updateProject(activeProject.id, { pageAnalyzerFixes: newFixes })
 
-    // Log activity
-    const entry = createActivity('generatePageFix', {
-      pageUrl: shortPageUrl(pageUrl),
-      itemName: fixData.itemId,
-      priority: fixData.priority,
-    }, user)
+    // Log activity + webhooks
+    const fixLogData = { pageUrl: shortPageUrl(pageUrl), itemName: fixData.itemId, priority: fixData.priority }
+    const entry = createActivity('generatePageFix', fixLogData, user)
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    fireWebhooks(activeProject, 'generatePageFix', fixLogData, updateProject)
   }, [activeProject, pageAnalyzerFixes, updateProject, user])
 
   // ── Get fixes for a specific page ──

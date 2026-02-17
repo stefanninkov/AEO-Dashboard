@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { X, FileText, Download } from 'lucide-react'
 import { useToast } from './Toast'
 import { generatePdf } from '../utils/generatePdf'
-import { createActivity, appendActivity } from '../utils/activityLogger'
+import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import logger from '../utils/logger'
 
@@ -17,6 +17,7 @@ const SECTIONS = [
 
 export default function PdfExportDialog({ activeProject, phases, updateProject, user, onClose, isClosing, onExited }) {
   const { addToast } = useToast()
+  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const trapRef = useFocusTrap(!isClosing)
   const [agencyName, setAgencyName] = useState('')
   const [reportDate, setReportDate] = useState(
@@ -66,8 +67,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
       addToast('success', 'Report generated and downloaded!')
       // Log export activity
       if (updateProject && activeProject?.id) {
-        const entry = createActivity('export', { filename: `AEO-Report-${(activeProject.name || 'Project').replace(/[^a-zA-Z0-9]/g, '-')}` }, user)
-        updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+        logAndDispatch('export', { filename: `AEO-Report-${(activeProject.name || 'Project').replace(/[^a-zA-Z0-9]/g, '-')}` }, user)
       }
       onClose()
     } catch (err) {

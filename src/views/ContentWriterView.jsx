@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { PenTool, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle } from 'lucide-react'
 import { callAnthropicApi } from '../utils/apiClient'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
-import { createActivity, appendActivity } from '../utils/activityLogger'
+import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
 
 const CONTENT_TYPES = [
@@ -200,6 +200,7 @@ const TONE_OPTIONS = [
 ]
 
 export default function ContentWriterView({ activeProject, updateProject, user }) {
+  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const [topic, setTopic] = useState('')
   const [selectedType, setSelectedType] = useState('faq')
   const [tone, setTone] = useState('professional')
@@ -266,8 +267,7 @@ Return ONLY valid JSON matching the requested format.`,
         updateProject(activeProject.id, { contentHistory: newHistory })
 
         // Log activity
-        const actEntry = createActivity('contentWrite', { type: selectedType, topic: topic.slice(0, 60) }, user)
-        updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, actEntry) })
+        logAndDispatch('contentWrite', { type: selectedType, topic: topic.slice(0, 60) }, user)
       } else {
         setError('Could not parse the generated content. Please try again.')
       }

@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from 'react'
 import { createActivity, appendActivity } from '../../utils/activityLogger'
+import { fireWebhooks } from '../../utils/webhookDispatcher'
 
 /* ── Status config ── */
 export const STATUS_OPTIONS = [
@@ -129,12 +130,11 @@ export default function useContentCalendar({ activeProject, updateProject, user,
     const updated = [...calendar, entry]
     saveCalendar(updated)
 
-    // Log activity
-    const act = createActivity('calendarAdd', {
-      title: title?.slice(0, 60),
-      date: scheduledDate,
-    }, user)
+    // Log activity + webhooks
+    const addData = { title: title?.slice(0, 60), date: scheduledDate }
+    const act = createActivity('calendarAdd', addData, user)
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, act) })
+    fireWebhooks(activeProject, 'calendarAdd', addData, updateProject)
 
     return entry
   }, [calendar, saveCalendar, user, activeProject, updateProject])
@@ -150,10 +150,10 @@ export default function useContentCalendar({ activeProject, updateProject, user,
     saveCalendar(updated)
 
     if (entry) {
-      const act = createActivity('calendarRemove', {
-        title: entry.title?.slice(0, 60),
-      }, user)
+      const removeData = { title: entry.title?.slice(0, 60) }
+      const act = createActivity('calendarRemove', removeData, user)
       updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, act) })
+      fireWebhooks(activeProject, 'calendarRemove', removeData, updateProject)
     }
   }, [calendar, saveCalendar, user, activeProject, updateProject])
 
@@ -175,11 +175,10 @@ export default function useContentCalendar({ activeProject, updateProject, user,
       }
     }
 
-    const act = createActivity('calendarPublish', {
-      title: entry.title?.slice(0, 60),
-      checklistItemId: entry.checklistItemId,
-    }, user)
+    const publishData = { title: entry.title?.slice(0, 60), checklistItemId: entry.checklistItemId }
+    const act = createActivity('calendarPublish', publishData, user)
     updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, act) })
+    fireWebhooks(activeProject, 'calendarPublish', publishData, updateProject)
   }, [calendar, saveCalendar, toggleCheckItem, activeProject, user, updateProject])
 
   const scheduleFromChecklist = useCallback((itemId, itemText, date) => {

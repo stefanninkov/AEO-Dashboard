@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Globe, Link2, Loader2, AlertCircle, Zap, Search, FileText } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
-import { createActivity, appendActivity } from '../utils/activityLogger'
+import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { callAnthropicApi } from '../utils/apiClient'
 import logger from '../utils/logger'
 import { useFixGenerator, FixButton, FixPanel } from './analyzer/FixGenerator'
@@ -21,6 +21,8 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
   const [results, setResults] = useState(activeProject?.analyzerResults || null)
   const [apiKey, setApiKey] = useState(localStorage.getItem('anthropic-api-key') || '')
   const [showApiKey, setShowApiKey] = useState(!apiKey)
+
+  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
 
   // Fix generator state
   const [fixes, setFixes] = useState(activeProject?.analyzerFixes || {})
@@ -48,11 +50,10 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
     setFixes(newFixes)
     updateProject(activeProject.id, { analyzerFixes: newFixes })
     // Log activity
-    const entry = createActivity('generateFix', {
+    logAndDispatch('generateFix', {
       itemName: fixData.itemId,
       priority: fixData.priority,
     }, user)
-    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
   }
 
   const handleBulkFix = async (items, onProgress) => {
@@ -267,8 +268,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
         setResults(parsed)
         updateProject(activeProject.id, { analyzerResults: parsed })
         // Log analyze activity
-        const entry = createActivity('analyze', { url, score: parsed.overallScore }, user)
-        updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+        logAndDispatch('analyze', { url, score: parsed.overallScore }, user)
       } else {
         setError('Could not parse analysis results.')
       }
@@ -352,8 +352,7 @@ Return ONLY valid JSON:
         setResults(parsed)
         updateProject(activeProject.id, { analyzerResults: parsed, url })
         // Log analyze activity
-        const entry = createActivity('analyze', { url, score: parsed.overallScore }, user)
-        updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+        logAndDispatch('analyze', { url, score: parsed.overallScore }, user)
       } else {
         setError('Could not parse analysis results. The AI may not have been able to access the site.')
       }

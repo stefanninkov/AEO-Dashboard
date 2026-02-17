@@ -4,7 +4,8 @@ import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
 import VerifyDialog from '../components/VerifyDialog'
 import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendations'
-import { createActivity, appendActivity } from '../utils/activityLogger'
+import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
+import { fireWebhooks } from '../utils/webhookDispatcher'
 import ChecklistStats from './checklist/ChecklistStats'
 import PhaseCard from './checklist/PhaseCard'
 import PresenceAvatars from '../components/PresenceAvatars'
@@ -47,13 +48,14 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const comments = activeProject?.comments || {}
   const members = activeProject?.members || []
 
+  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
+
   // ── Handlers ──
 
   const handleToggle = (itemId, item, phaseNumber) => {
     if (checked[itemId]) {
       toggleCheckItem(itemId)
-      const entry = createActivity('uncheck', { taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber }, user)
-      updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+      logAndDispatch('uncheck', { taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber }, user)
     } else {
       setVerifyItem({ ...item, _phaseNumber: phaseNumber })
     }
@@ -66,8 +68,26 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     }
     updateProject(activeProject.id, { verifications: newVerifications })
     toggleCheckItem(verifyItem.id)
-    const entry = createActivity('check', { taskId: verifyItem.id, taskText: verifyItem.text.slice(0, 80), phase: verifyItem._phaseNumber }, user)
-    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+    logAndDispatch('check', { taskId: verifyItem.id, taskText: verifyItem.text.slice(0, 80), phase: verifyItem._phaseNumber }, user)
+
+    // Phase completion detection — fire synthetic event if phase is now 100%
+    const phaseNum = verifyItem._phaseNumber
+    const phase = phases.find(p => p.number === phaseNum)
+    if (phase) {
+      const newChecked = { ...checked, [verifyItem.id]: true }
+      let total = 0, done = 0
+      phase.categories.forEach(cat => {
+        cat.items.forEach(it => { total++; if (newChecked[it.id]) done++ })
+      })
+      if (done === total && total > 0) {
+        fireWebhooks(activeProject, 'phase_complete', {
+          phase: phaseNum,
+          phaseTitle: phase.title,
+          totalTasks: total,
+        }, updateProject)
+      }
+    }
+
     setBouncingId(verifyItem.id)
     setTimeout(() => setBouncingId(null), 450)
     handleCloseVerify()
@@ -94,8 +114,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           }
         }
       }
-      const entry = createActivity('note', { taskId: itemId, taskText, phase: phaseNum }, user)
-      updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
+      logAndDispatch('note', { taskId: itemId, taskText, phase: phaseNum }, user)
     }
     setNoteSaveStatus('saved')
     savedTimerRef.current = setTimeout(() => setNoteSaveStatus(null), 2000)
@@ -126,11 +145,10 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     if (!member) return
     const newAssignments = { ...assignments, [itemId]: memberUid }
     updateProject(activeProject.id, { assignments: newAssignments })
-    const entry = createActivity('task_assign', {
+    logAndDispatch('task_assign', {
       taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber,
       assigneeUid: member.uid, assigneeName: member.displayName || member.email,
     }, user)
-    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     // Notify the assignee (unless assigning to self)
     if (memberUid !== user?.uid && addNotification) {
       const actorName = user?.displayName || user?.email || 'Someone'
@@ -144,11 +162,10 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     const newAssignments = { ...assignments }
     delete newAssignments[itemId]
     updateProject(activeProject.id, { assignments: newAssignments })
-    const entry = createActivity('task_unassign', {
+    logAndDispatch('task_unassign', {
       taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber,
       assigneeUid: prevUid, assigneeName: prevMember?.displayName || prevMember?.email || 'Unknown',
     }, user)
-    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     // Notify the unassigned user (unless unassigning self)
     if (prevUid && prevUid !== user?.uid && addNotification) {
       const actorName = user?.displayName || user?.email || 'Someone'
@@ -181,10 +198,9 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     const taskComments = comments[itemId] || []
     const newComments = { ...comments, [itemId]: [...taskComments, newComment] }
     updateProject(activeProject.id, { comments: newComments })
-    const entry = createActivity('comment', {
+    logAndDispatch('comment', {
       taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber,
     }, user)
-    updateProject(activeProject.id, { activityLog: appendActivity(activeProject.activityLog, entry) })
     // Notify the task assignee about the comment (unless commenter is the assignee)
     if (addNotification) {
       const assigneeUid = assignments[itemId]
