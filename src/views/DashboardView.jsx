@@ -12,6 +12,7 @@ import PhaseDonut from './dashboard/PhaseDonut'
 import RecommendationsPanel from './dashboard/RecommendationsPanel'
 import QuickActions from './dashboard/QuickActions'
 import AnalyticsPanel from './dashboard/AnalyticsPanel'
+import ProgressSummaryCard from './dashboard/ProgressSummaryCard'
 
 const SUB_TABS = [
   { id: 'overview', label: 'Overview' },
@@ -179,6 +180,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           {/* Donut Chart — Phase Progress */}
           {activeProject && phases && (
             <PhaseDonut phases={phases} getPhaseProgress={getPhaseProgress} onNavigate={() => setActiveView('checklist')} />
+          )}
+
+          {/* Progress Summary — Milestones, Quick Wins, Timeline */}
+          {activeProject && phases && (
+            <ProgressSummaryCard activeProject={activeProject} phases={phases} setActiveView={setActiveView} />
           )}
 
           {/* Personalized Recommendations */}

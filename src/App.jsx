@@ -39,6 +39,7 @@ const OnboardingTutorial = lazy(() => import('./components/OnboardingTutorial'))
 const ProjectQuestionnaire = lazy(() => import('./components/ProjectQuestionnaire'))
 const EmailReportDialog = lazy(() => import('./components/EmailReportDialog'))
 const PdfExportDialog = lazy(() => import('./components/PdfExportDialog'))
+const CsvExportDialog = lazy(() => import('./components/CsvExportDialog'))
 const CommandPalette = lazy(() => import('./components/CommandPalette'))
 const KeyboardShortcutsModal = lazy(() => import('./components/KeyboardShortcutsModal'))
 
@@ -262,6 +263,8 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [emailDialogClosing, setEmailDialogClosing] = useState(false)
   const [pdfDialogOpen, setPdfDialogOpen] = useState(false)
   const [pdfDialogClosing, setPdfDialogClosing] = useState(false)
+  const [csvDialogOpen, setCsvDialogOpen] = useState(false)
+  const [csvDialogClosing, setCsvDialogClosing] = useState(false)
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [cmdPaletteClosing, setCmdPaletteClosing] = useState(false)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
@@ -326,6 +329,7 @@ function AuthenticatedApp({ user, onSignOut }) {
         if (cmdPaletteOpen && !cmdPaletteClosing) { setCmdPaletteClosing(true); return }
         if (shortcutsOpen && !shortcutsClosing) { setShortcutsClosing(true); return }
         if (newProjectModalOpen && !noProjects) { setNewProjectModalOpen(false); return }
+        if (csvDialogOpen && !csvDialogClosing) { setCsvDialogClosing(true); return }
         if (pdfDialogOpen && !pdfDialogClosing) { setPdfDialogClosing(true); return }
         if (emailDialogOpen && !emailDialogClosing) { setEmailDialogClosing(true); return }
         if (docItem && !overlayClosing) handleCloseOverlay()
@@ -346,7 +350,7 @@ function AuthenticatedApp({ user, onSignOut }) {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [docItem, overlayClosing, newProjectModalOpen, noProjects, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing, cmdPaletteOpen, cmdPaletteClosing, shortcutsOpen, shortcutsClosing])
+  }, [docItem, overlayClosing, newProjectModalOpen, noProjects, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing, csvDialogOpen, csvDialogClosing, cmdPaletteOpen, cmdPaletteClosing, shortcutsOpen, shortcutsClosing])
 
   const handleSetDocItem = useCallback((item) => {
     setOverlayClosing(false)
@@ -383,6 +387,11 @@ function AuthenticatedApp({ user, onSignOut }) {
   const handleExport = useCallback(() => {
     setPdfDialogClosing(false)
     setPdfDialogOpen(true)
+  }, [])
+
+  const handleCsvExport = useCallback(() => {
+    setCsvDialogClosing(false)
+    setCsvDialogOpen(true)
   }, [])
 
   const handleEmail = useCallback(() => {
@@ -603,6 +612,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             setDateRange={setDateRange}
             onRefresh={handleRefresh}
             onExport={handleExport}
+            onCsvExport={handleCsvExport}
             onEmail={handleEmail}
             onNewProject={() => setNewProjectModalOpen(true)}
             setActiveView={setActiveView}
@@ -686,6 +696,18 @@ function AuthenticatedApp({ user, onSignOut }) {
           onClose={() => setPdfDialogClosing(true)}
           isClosing={pdfDialogClosing}
           onExited={() => { setPdfDialogOpen(false); setPdfDialogClosing(false) }}
+        />
+      )}
+
+      {(csvDialogOpen || csvDialogClosing) && (
+        <CsvExportDialog
+          activeProject={activeProject}
+          phases={phases}
+          updateProject={updateProject}
+          user={user}
+          onClose={() => setCsvDialogClosing(true)}
+          isClosing={csvDialogClosing}
+          onExited={() => { setCsvDialogOpen(false); setCsvDialogClosing(false) }}
         />
       )}
 

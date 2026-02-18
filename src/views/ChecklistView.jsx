@@ -9,6 +9,7 @@ import { fireWebhooks } from '../utils/webhookDispatcher'
 import ChecklistStats from './checklist/ChecklistStats'
 import PhaseCard from './checklist/PhaseCard'
 import PresenceAvatars from '../components/PresenceAvatars'
+import BulkActionBar from '../components/BulkActionBar'
 
 const KEY_PRINCIPLES = [
   'AEO is about being the best answer, not just being found',
@@ -254,6 +255,75 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     updateProject(activeProject.id, { checked: newChecked })
   }, [checked, activeProject?.id, updateProject])
 
+  // ── Phase-level bulk ──
+  const handleBulkCheckPhase = useCallback((phase) => {
+    const newChecked = { ...checked }
+    phase.categories.forEach(cat => {
+      cat.items.forEach(item => { newChecked[item.id] = true })
+    })
+    updateProject(activeProject.id, { checked: newChecked })
+    addToast('success', `All tasks in Phase ${phase.number} marked complete`)
+    logAndDispatch('bulk_check', { phase: phase.number, phaseTitle: phase.title }, user)
+  }, [checked, activeProject?.id, updateProject, addToast, logAndDispatch, user])
+
+  const handleBulkUncheckPhase = useCallback((phase) => {
+    const newChecked = { ...checked }
+    phase.categories.forEach(cat => {
+      cat.items.forEach(item => { newChecked[item.id] = false })
+    })
+    updateProject(activeProject.id, { checked: newChecked })
+    addToast('info', `All tasks in Phase ${phase.number} cleared`)
+    logAndDispatch('bulk_uncheck', { phase: phase.number, phaseTitle: phase.title }, user)
+  }, [checked, activeProject?.id, updateProject, addToast, logAndDispatch, user])
+
+  // ── Multi-select mode ──
+  const [selectionMode, setSelectionMode] = useState(false)
+  const [selectedItems, setSelectedItems] = useState(new Set())
+
+  const toggleSelectItem = useCallback((itemId) => {
+    setSelectedItems(prev => {
+      const next = new Set(prev)
+      if (next.has(itemId)) next.delete(itemId)
+      else next.add(itemId)
+      return next
+    })
+  }, [])
+
+  const handleBulkCheckSelected = useCallback(() => {
+    const newChecked = { ...checked }
+    selectedItems.forEach(id => { newChecked[id] = true })
+    updateProject(activeProject.id, { checked: newChecked })
+    addToast('success', `${selectedItems.size} tasks marked complete`)
+    logAndDispatch('bulk_check', { count: selectedItems.size }, user)
+    setSelectedItems(new Set())
+    setSelectionMode(false)
+  }, [checked, selectedItems, activeProject?.id, updateProject, addToast, logAndDispatch, user])
+
+  const handleBulkUncheckSelected = useCallback(() => {
+    const newChecked = { ...checked }
+    selectedItems.forEach(id => { newChecked[id] = false })
+    updateProject(activeProject.id, { checked: newChecked })
+    addToast('info', `${selectedItems.size} tasks cleared`)
+    setSelectedItems(new Set())
+    setSelectionMode(false)
+  }, [checked, selectedItems, activeProject?.id, updateProject, addToast])
+
+  const handleBulkAssignSelected = useCallback((memberUid) => {
+    const newAssignments = { ...assignments }
+    selectedItems.forEach(id => { newAssignments[id] = memberUid })
+    updateProject(activeProject.id, { assignments: newAssignments })
+    const member = members.find(m => m.uid === memberUid)
+    addToast('success', `${selectedItems.size} tasks assigned to ${member?.displayName || 'member'}`)
+    logAndDispatch('bulk_assign', { count: selectedItems.size, assigneeName: member?.displayName || member?.email }, user)
+    setSelectedItems(new Set())
+    setSelectionMode(false)
+  }, [assignments, selectedItems, members, activeProject?.id, updateProject, addToast, logAndDispatch, user])
+
+  const handleClearSelection = useCallback(() => {
+    setSelectedItems(new Set())
+    setSelectionMode(false)
+  }, [])
+
   // ── Progress helpers ──
 
   const getPhaseProgress = (phase) => {
@@ -382,9 +452,21 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         />
       </div>
 
-      {/* Global expand/collapse all phases */}
+      {/* Global expand/collapse all phases + Select mode */}
       {!debouncedSearch.trim() && (
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+          <button
+            onClick={() => {
+              setSelectionMode(prev => {
+                if (prev) setSelectedItems(new Set())
+                return !prev
+              })
+            }}
+            className="checklist-bulk-link"
+            style={{ fontWeight: selectionMode ? 700 : 500, color: selectionMode ? 'var(--color-phase-1)' : undefined }}
+          >
+            {selectionMode ? 'Exit Select' : 'Select'}
+          </button>
           <button
             onClick={() => {
               const allExpanded = phases.every(phase => expandedPhases[phase.id])
@@ -467,8 +549,25 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           onCommentChange={setCommentDraft}
           onCommentAdd={handleCommentAdd}
           onCommentDelete={handleCommentDelete}
+          onBulkCheckPhase={handleBulkCheckPhase}
+          onBulkUncheckPhase={handleBulkUncheckPhase}
+          selectionMode={selectionMode}
+          selectedItems={selectedItems}
+          onSelectItem={toggleSelectItem}
         />
       ))}
+
+      {/* Bulk Action Bar */}
+      {selectionMode && selectedItems.size > 0 && (
+        <BulkActionBar
+          selectedCount={selectedItems.size}
+          onCheckAll={handleBulkCheckSelected}
+          onUncheckAll={handleBulkUncheckSelected}
+          onAssignAll={handleBulkAssignSelected}
+          onClearSelection={handleClearSelection}
+          members={members}
+        />
+      )}
     </div>
   )
 }

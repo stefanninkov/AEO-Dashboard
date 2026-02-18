@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react'
 import { useDebounce } from '../hooks/useDebounce'
 import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
-  RefreshCw, Download, Mail, Menu
+  RefreshCw, Download, Mail, Menu, Table2
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
 
@@ -25,6 +25,7 @@ export default memo(function TopBar({
   setDateRange,
   onRefresh,
   onExport,
+  onCsvExport,
   onEmail,
   onNewProject,
   setActiveView,
@@ -411,8 +412,11 @@ export default memo(function TopBar({
           <button onClick={onRefresh} className="icon-btn" title="Refresh" aria-label="Refresh data">
             <RefreshCw size={14} />
           </button>
-          <button onClick={onExport} className="icon-btn hidden sm:flex" title="Export" aria-label="Export report">
+          <button onClick={onExport} className="icon-btn hidden sm:flex" title="Export PDF" aria-label="Export PDF report">
             <Download size={14} />
+          </button>
+          <button onClick={onCsvExport} className="icon-btn hidden sm:flex" title="Export CSV" aria-label="Export CSV data">
+            <Table2 size={14} />
           </button>
           <button onClick={onEmail} className="icon-btn" title="Email report" aria-label="Email report">
             <Mail size={14} />
@@ -423,6 +427,7 @@ export default memo(function TopBar({
             onMarkRead={onMarkRead}
             onMarkAllRead={onMarkAllRead}
             onClearAll={onClearNotifications}
+            setActiveView={setActiveView}
           />
         </div>
       </div>

@@ -40,6 +40,10 @@ export default function UserSettingsSection({ user }) {
     const prefs = JSON.parse(localStorage.getItem('aeo-user-preferences') || '{}')
     return prefs.defaultDateRange || '7d'
   })
+  const [notificationSound, setNotificationSound] = useState(() => {
+    const prefs = JSON.parse(localStorage.getItem('aeo-user-preferences') || '{}')
+    return prefs.notificationSound !== false
+  })
 
   // Derived
   const authProvider = user?.providerData?.[0]?.providerId
@@ -79,6 +83,12 @@ export default function UserSettingsSection({ user }) {
     setDefaultDateRange(val)
     const prefs = JSON.parse(localStorage.getItem('aeo-user-preferences') || '{}')
     localStorage.setItem('aeo-user-preferences', JSON.stringify({ ...prefs, defaultDateRange: val }))
+  }, [])
+
+  const handleNotificationSoundToggle = useCallback((val) => {
+    setNotificationSound(val)
+    const prefs = JSON.parse(localStorage.getItem('aeo-user-preferences') || '{}')
+    localStorage.setItem('aeo-user-preferences', JSON.stringify({ ...prefs, notificationSound: val }))
   }, [])
 
   return (
@@ -262,6 +272,12 @@ export default function UserSettingsSection({ user }) {
           <span style={labelStyle}>Animations</span>
           <ToggleSwitch checked={animationsEnabled} onChange={handleAnimationsToggle} label="Toggle animations" />
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{animationsEnabled ? 'Enabled' : 'Disabled'}</span>
+        </div>
+
+        <div style={settingsRowStyle}>
+          <span style={labelStyle}>Notification Sound</span>
+          <ToggleSwitch checked={notificationSound} onChange={handleNotificationSoundToggle} label="Toggle notification sound" />
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{notificationSound ? 'On' : 'Off'}</span>
         </div>
 
         <div style={lastRowStyle}>

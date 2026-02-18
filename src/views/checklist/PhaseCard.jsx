@@ -35,6 +35,11 @@ export default memo(function PhaseCard({
   onCommentChange,
   onCommentAdd,
   onCommentDelete,
+  onBulkCheckPhase,
+  onBulkUncheckPhase,
+  selectionMode,
+  selectedItems,
+  onSelectItem,
 }) {
 
   return (
@@ -92,20 +97,32 @@ export default memo(function PhaseCard({
       {/* Phase Content — Animated */}
       <CollapsibleContent expanded={isExpanded}>
         <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
-          {/* Phase-level expand/collapse categories */}
-          {phase.categories.length > 1 && (
-            <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0.375rem 1rem', borderBottom: '1px solid var(--border-subtle)' }}>
-              <button
-                className="checklist-bulk-link"
-                onClick={() => {
-                  const allExpanded = phase.categories.every(cat => isCategoryExpanded(cat.id))
-                  const newState = { ...expandedCategories }
-                  phase.categories.forEach(cat => { newState[cat.id] = !allExpanded })
-                  setExpandedCategories(newState)
-                }}
-              >
-                {phase.categories.every(cat => isCategoryExpanded(cat.id)) ? 'Collapse all' : 'Expand all'}
-              </button>
+          {/* Phase-level actions */}
+          {phase.categories.length > 0 && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', padding: '0.375rem 1rem', borderBottom: '1px solid var(--border-subtle)' }}>
+              {onBulkCheckPhase && progress.percent < 100 && (
+                <button className="checklist-bulk-link" onClick={() => onBulkCheckPhase(phase)}>
+                  Mark all phase tasks
+                </button>
+              )}
+              {onBulkUncheckPhase && progress.done > 0 && (
+                <button className="checklist-bulk-link" onClick={() => onBulkUncheckPhase(phase)}>
+                  Clear all phase tasks
+                </button>
+              )}
+              {phase.categories.length > 1 && (
+                <button
+                  className="checklist-bulk-link"
+                  onClick={() => {
+                    const allExpanded = phase.categories.every(cat => isCategoryExpanded(cat.id))
+                    const newState = { ...expandedCategories }
+                    phase.categories.forEach(cat => { newState[cat.id] = !allExpanded })
+                    setExpandedCategories(newState)
+                  }}
+                >
+                  {phase.categories.every(cat => isCategoryExpanded(cat.id)) ? 'Collapse all' : 'Expand all'}
+                </button>
+              )}
             </div>
           )}
           {phase.categories.map(category => (
@@ -134,6 +151,9 @@ export default memo(function PhaseCard({
               onCommentChange={onCommentChange}
               onCommentAdd={onCommentAdd}
               onCommentDelete={onCommentDelete}
+              selectionMode={selectionMode}
+              selectedItems={selectedItems}
+              onSelectItem={onSelectItem}
             />
           ))}
 

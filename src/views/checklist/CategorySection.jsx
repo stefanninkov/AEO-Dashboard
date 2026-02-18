@@ -29,6 +29,9 @@ export default memo(function CategorySection({
   onCommentChange,
   onCommentAdd,
   onCommentDelete,
+  selectionMode,
+  selectedItems,
+  onSelectItem,
 }) {
   const [showAll, setShowAll] = useState(false)
 
@@ -93,6 +96,9 @@ export default memo(function CategorySection({
               onCommentChange={onCommentChange}
               onCommentAdd={onCommentAdd}
               onCommentDelete={onCommentDelete}
+              selectionMode={selectionMode}
+              isSelected={selectedItems?.has(item.id)}
+              onSelect={onSelectItem}
             />
           ))}
           {hasMore && !showAll && (

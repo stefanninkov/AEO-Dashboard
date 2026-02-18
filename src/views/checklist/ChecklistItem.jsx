@@ -191,6 +191,9 @@ export default memo(function ChecklistItem({
   onCommentChange,
   onCommentAdd,
   onCommentDelete,
+  selectionMode,
+  isSelected,
+  onSelect,
 }) {
   const isChecked = !!checked[item.id]
   const assignedUid = assignments?.[item.id]
@@ -201,7 +204,28 @@ export default memo(function ChecklistItem({
 
   return (
     <div className="group" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.75rem 1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.75rem 1rem', background: isSelected ? 'var(--color-phase-1)08' : undefined }}>
+        {/* Selection checkbox (multi-select mode) */}
+        {selectionMode && (
+          <button
+            onClick={() => onSelect(item.id)}
+            aria-label={isSelected ? 'Deselect item' : 'Select item'}
+            style={{
+              width: '1rem', height: '1rem', borderRadius: '0.1875rem',
+              border: `2px solid ${isSelected ? 'var(--color-phase-1)' : 'var(--border-default)'}`,
+              background: isSelected ? 'var(--color-phase-1)' : 'transparent',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', flexShrink: 0, marginTop: '0.1875rem',
+              padding: 0, transition: 'all 150ms',
+            }}
+          >
+            {isSelected && (
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 5L4.5 7.5L8 3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
+          </button>
+        )}
         {/* Checkbox */}
         <div style={{ position: 'relative', flexShrink: 0, marginTop: '0.125rem' }}>
           <button
@@ -462,6 +486,8 @@ export default memo(function ChecklistItem({
     prev.comments?.[id] === next.comments?.[id] &&
     prev.openCommentId === next.openCommentId &&
     prev.commentDraft === next.commentDraft &&
-    prev.members === next.members
+    prev.members === next.members &&
+    prev.selectionMode === next.selectionMode &&
+    prev.isSelected === next.isSelected
   )
 })
