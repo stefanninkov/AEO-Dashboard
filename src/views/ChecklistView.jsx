@@ -3,7 +3,7 @@ import { Search, CheckCircle2, Lightbulb, ChevronDown } from 'lucide-react'
 import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
 import VerifyDialog from '../components/VerifyDialog'
-import { getPhasePriority, getFirstPriorityPhase } from '../utils/getRecommendations'
+import { getPhasePriority, getFirstPriorityPhase, INDUSTRY_LABELS, REGION_LABELS, COUNTRY_LABELS, AUDIENCE_LABELS, GOAL_LABELS, CMS_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { fireWebhooks } from '../utils/webhookDispatcher'
 import ChecklistStats from './checklist/ChecklistStats'
@@ -451,6 +451,32 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           style={{ paddingLeft: '2.25rem' }}
         />
       </div>
+
+      {/* Context Badges */}
+      {activeProject?.questionnaire?.completedAt && (() => {
+        const q = activeProject.questionnaire
+        const badges = [
+          q.industry && INDUSTRY_LABELS[q.industry],
+          q.country ? `${COUNTRY_LABELS[q.country]}, ${REGION_LABELS[q.region] || ''}` : REGION_LABELS[q.region],
+          q.audience && AUDIENCE_LABELS[q.audience],
+          q.primaryGoal && GOAL_LABELS[q.primaryGoal],
+          q.cms && CMS_LABELS[q.cms],
+        ].filter(Boolean)
+        if (badges.length === 0) return null
+        return (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
+            {badges.map((b, i) => (
+              <span key={i} style={{
+                fontSize: '0.625rem', fontWeight: 600, padding: '0.1875rem 0.5rem',
+                borderRadius: '0.375rem', background: 'var(--hover-bg)',
+                color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.03em',
+              }}>
+                {b}
+              </span>
+            ))}
+          </div>
+        )
+      })()}
 
       {/* Global expand/collapse all phases + Select mode */}
       {!debouncedSearch.trim() && (

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson } from 'lucide-react'
 import { callAnthropicApi } from '../utils/apiClient'
-import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
+import { getAnalyzerIndustryContext, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, ENGINE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
 
@@ -302,7 +302,19 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           <Code2 size={24} className="schema-header-icon" />
           <div>
             <h1 className="schema-title">Schema Markup Generator</h1>
-            <p className="schema-subtitle">Generate JSON-LD structured data optimized for AI answer engines</p>
+            <p className="schema-subtitle">
+              {activeProject?.questionnaire?.completedAt ? (() => {
+                const q = activeProject.questionnaire
+                const industry = INDUSTRY_LABELS[q.industry] || q.industry
+                const location = q.country
+                  ? `${COUNTRY_LABELS[q.country] || q.country}`
+                  : REGION_LABELS[q.region] || null
+                const engines = q.targetEngines?.includes('all') ? 'all AI engines' : q.targetEngines?.length > 0
+                  ? q.targetEngines.map(e => ENGINE_LABELS[e] || e).join(', ')
+                  : null
+                return `Generate schemas for your ${industry} business${location ? ` in ${location}` : ''}${engines ? ` — optimized for ${engines}` : ''}`
+              })() : 'Generate JSON-LD structured data optimized for AI answer engines'}
+            </p>
           </div>
         </div>
         {history.length > 0 && (

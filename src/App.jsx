@@ -271,6 +271,7 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [shortcutsClosing, setShortcutsClosing] = useState(false)
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
   const [questionnaireProjectId, setQuestionnaireProjectId] = useState(null)
+  const [pendingProject, setPendingProject] = useState(null) // { name, url } — deferred creation
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(() => {
     return localStorage.getItem('aeo-onboarding-completed') !== 'true'
@@ -399,28 +400,42 @@ function AuthenticatedApp({ user, onSignOut }) {
     setEmailDialogOpen(true)
   }, [])
 
-  const handleCreateProject = useCallback(async (name, url) => {
-    const project = await createProject(name, url)
+  const handleCreateProject = useCallback((name, url) => {
     setNewProjectModalOpen(false)
-    // Open questionnaire for the new project
-    const newId = project?.id || activeProjectId
-    if (newId) setQuestionnaireProjectId(newId)
-  }, [createProject, activeProjectId])
+    // Defer project creation — store name/url, open questionnaire
+    setPendingProject({ name, url })
+  }, [])
 
-  const handleQuestionnaireComplete = useCallback((answers) => {
-    if (questionnaireProjectId) {
+  const handleQuestionnaireComplete = useCallback(async (answers) => {
+    if (pendingProject) {
+      // Deferred creation: create project + save questionnaire in one shot
+      const project = await createProject(pendingProject.name, pendingProject.url)
+      const newId = project?.id || activeProjectId
+      if (newId) {
+        updateProject(newId, {
+          questionnaire: { ...answers, completedAt: new Date().toISOString() },
+        })
+      }
+      setPendingProject(null)
+    } else if (questionnaireProjectId) {
+      // Re-take flow: project already exists
       updateProject(questionnaireProjectId, {
         questionnaire: { ...answers, completedAt: new Date().toISOString() },
       })
+      setQuestionnaireProjectId(null)
     }
-    setQuestionnaireProjectId(null)
-  }, [questionnaireProjectId, updateProject])
+  }, [pendingProject, questionnaireProjectId, createProject, activeProjectId, updateProject])
+
+  const handleQuestionnaireCancel = useCallback(() => {
+    // Cancel deferred creation — just clear the pending data
+    setPendingProject(null)
+  }, [])
 
   useEffect(() => {
-    if (noProjects && !questionnaireProjectId) {
+    if (noProjects && !questionnaireProjectId && !pendingProject) {
       setNewProjectModalOpen(true)
     }
-  }, [noProjects, questionnaireProjectId])
+  }, [noProjects, questionnaireProjectId, pendingProject])
 
   const renderView = () => {
     if (projectsLoading) {
@@ -670,9 +685,12 @@ function AuthenticatedApp({ user, onSignOut }) {
         />
       )}
 
-      {questionnaireProjectId && (
+      {(questionnaireProjectId || pendingProject) && (
         <ProjectQuestionnaire
           onComplete={handleQuestionnaireComplete}
+          onCancel={pendingProject ? handleQuestionnaireCancel : undefined}
+          isNewProject={!!pendingProject}
+          initialData={questionnaireProjectId ? projects.find(p => p.id === questionnaireProjectId)?.questionnaire : undefined}
         />
       )}
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { PenTool, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle } from 'lucide-react'
 import { callAnthropicApi } from '../utils/apiClient'
-import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
+import { getAnalyzerIndustryContext, AUDIENCE_LABELS, INDUSTRY_LABELS, LANGUAGE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
 
@@ -324,7 +324,15 @@ Return ONLY valid JSON matching the requested format.`,
           <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">Content Writer</h2>
           <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-2/10 text-phase-2 font-medium">{activeProject?.name}</span>
         </div>
-        <p className="text-[0.8125rem] text-text-secondary">Generate AEO-optimized content that AI assistants love to cite.</p>
+        <p className="text-[0.8125rem] text-text-secondary">
+          {activeProject?.questionnaire?.completedAt ? (() => {
+            const q = activeProject.questionnaire
+            const audience = AUDIENCE_LABELS[q.audience] || null
+            const industry = INDUSTRY_LABELS[q.industry] || q.industry
+            const langNames = q.languages?.length > 0 ? q.languages.map(l => LANGUAGE_LABELS[l] || l).join(', ') : null
+            return `Generate content${audience ? ` for ${audience} audiences` : ''}${langNames && langNames !== 'English' ? ` in ${langNames}` : ''}${industry ? ` — ${industry} focus` : ''}`
+          })() : 'Generate AEO-optimized content that AI assistants love to cite.'}
+        </p>
       </div>
 
       {/* Content Type Selector */}

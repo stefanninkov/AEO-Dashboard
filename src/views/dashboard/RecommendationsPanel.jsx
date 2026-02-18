@@ -17,12 +17,12 @@ function PriorityIcon({ priority }) {
   return <CheckCircle2 size={13} style={{ color: 'var(--color-success)', flexShrink: 0 }} />
 }
 
-export default function RecommendationsPanel({ recommendations }) {
+export default function RecommendationsPanel({ recommendations, contextLine }) {
   if (!recommendations || recommendations.length === 0) return null
 
   return (
     <div className="card" style={{ padding: '1.25rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.875rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: contextLine ? '0.25rem' : '0.875rem' }}>
         <Lightbulb size={16} style={{ color: 'var(--color-phase-5)' }} />
         <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', flex: 1 }}>
           Smart Recommendations
@@ -34,6 +34,11 @@ export default function RecommendationsPanel({ recommendations }) {
           {recommendations.length} suggestion{recommendations.length !== 1 ? 's' : ''}
         </span>
       </div>
+      {contextLine && (
+        <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem', paddingLeft: '1.5rem' }}>
+          Tailored for your {contextLine}
+        </p>
+      )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         {recommendations.map(rec => {
           const cat = CATEGORY_META[rec.category] || {}

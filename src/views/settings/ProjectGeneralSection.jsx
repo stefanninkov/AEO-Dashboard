@@ -10,6 +10,7 @@ import { getCacheStats, clearAllCache } from '../../utils/dataCache'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
   GOAL_LABELS, MATURITY_LABELS, CONTENT_LABELS, ENGINE_LABELS,
+  COUNTRY_LABELS, LANGUAGE_LABELS, CMS_LABELS,
 } from '../../utils/getRecommendations'
 import {
   sectionTitleStyle, settingsRowStyle, lastRowStyle,
@@ -215,8 +216,24 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
 
           <div style={settingsRowStyle}>
             <span style={labelStyle}>Region</span>
-            <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{REGION_LABELS[q.region] || q.region || '\u2014'}</span>
+            <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
+              {q.country ? `${COUNTRY_LABELS[q.country] || q.country}, ` : ''}
+              {REGION_LABELS[q.region] || q.region || '\u2014'}
+            </span>
           </div>
+
+          {q.languages?.length > 0 && (
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Languages</span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
+                {q.languages.map(l => (
+                  <span key={l} style={{ fontSize: '0.6875rem', padding: '0.1875rem 0.5rem', borderRadius: '0.375rem', background: 'rgba(46,204,113,0.1)', color: 'var(--color-phase-3)', fontWeight: 500 }}>
+                    {LANGUAGE_LABELS[l] || l}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div style={settingsRowStyle}>
             <span style={labelStyle}>Audience</span>
@@ -253,6 +270,31 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
             <div style={settingsRowStyle}>
               <span style={labelStyle}>Content Type</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{CONTENT_LABELS[q.contentType] || q.contentType}</span>
+            </div>
+          )}
+
+          {q.cms && (
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>CMS / Platform</span>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{CMS_LABELS[q.cms] || q.cms}</span>
+            </div>
+          )}
+
+          {q.businessDescription?.trim() && (
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Description</span>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', maxWidth: '65%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {q.businessDescription.trim()}
+              </span>
+            </div>
+          )}
+
+          {q.topServices?.trim() && (
+            <div style={settingsRowStyle}>
+              <span style={labelStyle}>Services</span>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', maxWidth: '65%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {q.topServices.trim()}
+              </span>
             </div>
           )}
 

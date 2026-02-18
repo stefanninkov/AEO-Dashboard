@@ -61,6 +61,105 @@ export const ENGINE_LABELS = {
   all: 'All Engines',
 }
 
+/* ── Language Labels ── */
+export const LANGUAGE_LABELS = {
+  en: 'English', de: 'German', fr: 'French', es: 'Spanish', pt: 'Portuguese',
+  it: 'Italian', nl: 'Dutch', pl: 'Polish', sv: 'Swedish', da: 'Danish',
+  no: 'Norwegian', fi: 'Finnish', cs: 'Czech', ro: 'Romanian', hu: 'Hungarian',
+  el: 'Greek', tr: 'Turkish', ar: 'Arabic', zh: 'Chinese', ja: 'Japanese',
+  ko: 'Korean', hi: 'Hindi', sr: 'Serbian', hr: 'Croatian', bg: 'Bulgarian',
+  uk: 'Ukrainian', ru: 'Russian', th: 'Thai', vi: 'Vietnamese', id: 'Indonesian',
+  ms: 'Malay', he: 'Hebrew',
+}
+
+export const LANGUAGE_OPTIONS = [
+  { value: 'en', label: 'English' }, { value: 'de', label: 'German' }, { value: 'fr', label: 'French' },
+  { value: 'es', label: 'Spanish' }, { value: 'pt', label: 'Portuguese' }, { value: 'it', label: 'Italian' },
+  { value: 'nl', label: 'Dutch' }, { value: 'ar', label: 'Arabic' }, { value: 'zh', label: 'Chinese' },
+  { value: 'ja', label: 'Japanese' }, { value: 'ko', label: 'Korean' }, { value: 'hi', label: 'Hindi' },
+  { value: 'ru', label: 'Russian' }, { value: 'tr', label: 'Turkish' }, { value: 'pl', label: 'Polish' },
+  { value: 'sr', label: 'Serbian' }, { value: 'hr', label: 'Croatian' }, { value: 'sv', label: 'Swedish' },
+]
+
+/* ── CMS Labels ── */
+export const CMS_LABELS = {
+  wordpress: 'WordPress', webflow: 'Webflow', shopify: 'Shopify',
+  wix: 'Wix', squarespace: 'Squarespace', custom: 'Custom / Static',
+  other: 'Other',
+}
+
+/* ── Country Options (by region) ── */
+export const COUNTRY_OPTIONS = {
+  us: [
+    { value: 'us', label: 'United States' }, { value: 'ca', label: 'Canada' }, { value: 'mx', label: 'Mexico' },
+  ],
+  europe: [
+    { value: 'al', label: 'Albania' }, { value: 'at', label: 'Austria' }, { value: 'ba', label: 'Bosnia & Herzegovina' },
+    { value: 'be', label: 'Belgium' }, { value: 'bg', label: 'Bulgaria' }, { value: 'ch', label: 'Switzerland' },
+    { value: 'cz', label: 'Czech Republic' }, { value: 'de', label: 'Germany' }, { value: 'dk', label: 'Denmark' },
+    { value: 'ee', label: 'Estonia' }, { value: 'es', label: 'Spain' }, { value: 'fi', label: 'Finland' },
+    { value: 'fr', label: 'France' }, { value: 'gr', label: 'Greece' }, { value: 'hr', label: 'Croatia' },
+    { value: 'hu', label: 'Hungary' }, { value: 'ie', label: 'Ireland' }, { value: 'it', label: 'Italy' },
+    { value: 'lt', label: 'Lithuania' }, { value: 'lv', label: 'Latvia' }, { value: 'me', label: 'Montenegro' },
+    { value: 'mk', label: 'North Macedonia' }, { value: 'nl', label: 'Netherlands' }, { value: 'no', label: 'Norway' },
+    { value: 'pl', label: 'Poland' }, { value: 'pt', label: 'Portugal' }, { value: 'ro', label: 'Romania' },
+    { value: 'rs', label: 'Serbia' }, { value: 'se', label: 'Sweden' }, { value: 'si', label: 'Slovenia' },
+    { value: 'sk', label: 'Slovakia' }, { value: 'ua', label: 'Ukraine' },
+  ],
+  uk: [
+    { value: 'gb', label: 'United Kingdom' }, { value: 'ie', label: 'Ireland' },
+  ],
+  apac: [
+    { value: 'au', label: 'Australia' }, { value: 'cn', label: 'China' }, { value: 'hk', label: 'Hong Kong' },
+    { value: 'id', label: 'Indonesia' }, { value: 'in', label: 'India' }, { value: 'jp', label: 'Japan' },
+    { value: 'kr', label: 'South Korea' }, { value: 'my', label: 'Malaysia' }, { value: 'nz', label: 'New Zealand' },
+    { value: 'ph', label: 'Philippines' }, { value: 'sg', label: 'Singapore' }, { value: 'th', label: 'Thailand' },
+    { value: 'tw', label: 'Taiwan' }, { value: 'vn', label: 'Vietnam' },
+  ],
+  latam: [
+    { value: 'ar', label: 'Argentina' }, { value: 'br', label: 'Brazil' }, { value: 'cl', label: 'Chile' },
+    { value: 'co', label: 'Colombia' }, { value: 'cr', label: 'Costa Rica' }, { value: 'ec', label: 'Ecuador' },
+    { value: 'mx', label: 'Mexico' }, { value: 'pe', label: 'Peru' }, { value: 'uy', label: 'Uruguay' },
+  ],
+  mena: [
+    { value: 'ae', label: 'UAE' }, { value: 'bh', label: 'Bahrain' }, { value: 'eg', label: 'Egypt' },
+    { value: 'il', label: 'Israel' }, { value: 'jo', label: 'Jordan' }, { value: 'kw', label: 'Kuwait' },
+    { value: 'lb', label: 'Lebanon' }, { value: 'ma', label: 'Morocco' }, { value: 'qa', label: 'Qatar' },
+    { value: 'sa', label: 'Saudi Arabia' }, { value: 'tn', label: 'Tunisia' }, { value: 'tr', label: 'Turkey' },
+  ],
+  global: [],
+}
+
+/** Build a flat country label map from COUNTRY_OPTIONS for display lookups */
+export const COUNTRY_LABELS = Object.values(COUNTRY_OPTIONS).flat().reduce((acc, c) => {
+  acc[c.value] = c.label
+  return acc
+}, {})
+
+/**
+ * getProjectContextLine — short one-liner for view subtitles.
+ * e.g.: "E-Commerce · Germany, Europe · B2C · German, English"
+ */
+export function getProjectContextLine(questionnaire) {
+  if (!questionnaire?.completedAt) return ''
+  const parts = []
+  if (questionnaire.industry) parts.push(INDUSTRY_LABELS[questionnaire.industry] || questionnaire.industry)
+  if (questionnaire.country && questionnaire.region) {
+    parts.push(`${COUNTRY_LABELS[questionnaire.country] || questionnaire.country}, ${REGION_LABELS[questionnaire.region] || questionnaire.region}`)
+  } else if (questionnaire.country) {
+    parts.push(COUNTRY_LABELS[questionnaire.country] || questionnaire.country)
+  } else if (questionnaire.region) {
+    parts.push(REGION_LABELS[questionnaire.region] || questionnaire.region)
+  }
+  if (questionnaire.audience) parts.push(AUDIENCE_LABELS[questionnaire.audience] || questionnaire.audience)
+  const langs = questionnaire.languages?.filter(l => l !== 'en')
+  if (langs?.length > 0) {
+    const allLangs = questionnaire.languages.map(l => LANGUAGE_LABELS[l] || l)
+    parts.push(allLangs.join(', '))
+  }
+  return parts.join(' · ')
+}
+
 /* ── Industry Competitor Suggestions ── */
 export const INDUSTRY_COMPETITORS = {
   saas: [
@@ -798,6 +897,72 @@ export function getSmartRecommendations(project, phases, setActiveView) {
         category: 'checklist',
       })
     }
+
+    // Country-specific recommendations
+    if (q.country) {
+      const countryName = COUNTRY_LABELS[q.country] || q.country
+      if (q.industry === 'localbusiness' || q.industry === 'realestate') {
+        recs.push({
+          id: 'local-country-schema',
+          text: `Add local schema markup for ${countryName}`,
+          detail: `Include @addressCountry, local business hours, and geo-coordinates. Local businesses in ${countryName} benefit from region-specific structured data.`,
+          action: () => setActiveView('schema'),
+          actionLabel: 'Generate',
+          priority: 2,
+          category: 'schema',
+        })
+      }
+    }
+
+    // Multilingual recommendations
+    if (q.languages?.length > 1) {
+      const langNames = q.languages.map(l => LANGUAGE_LABELS[l] || l).join(', ')
+      recs.push({
+        id: 'multilingual-hreflang',
+        text: `Set up hreflang tags for ${q.languages.length} languages`,
+        detail: `You target ${langNames}. Implement hreflang attributes and multilingual sitemaps so AI engines serve the right language version.`,
+        action: () => setActiveView('checklist'),
+        actionLabel: 'Checklist',
+        priority: 2,
+        category: 'checklist',
+      })
+    }
+
+    // CMS-specific recommendations
+    if (q.cms === 'wordpress' && q.hasSchema !== 'yes') {
+      recs.push({
+        id: 'wp-schema-plugin',
+        text: 'Install a WordPress schema plugin',
+        detail: 'Use Yoast SEO or RankMath to add structured data to your WordPress site without custom code.',
+        action: () => setActiveView('schema'),
+        actionLabel: 'Learn More',
+        priority: 2,
+        category: 'schema',
+      })
+    } else if (q.cms === 'shopify' && q.hasSchema !== 'yes') {
+      recs.push({
+        id: 'shopify-schema',
+        text: 'Enable Shopify structured data',
+        detail: 'Shopify includes basic Product schema by default. Consider apps like "JSON-LD for SEO" for FAQ, Article, and Organization schemas.',
+        action: () => setActiveView('schema'),
+        actionLabel: 'Learn More',
+        priority: 2,
+        category: 'schema',
+      })
+    }
+
+    // Content cadence recommendations
+    if (q.updateCadence === 'rarely' || q.updateCadence === 'never') {
+      recs.push({
+        id: 'content-calendar-cadence',
+        text: 'Set up a content publishing schedule',
+        detail: 'AI engines favor fresh, regularly updated content. Even monthly updates significantly improve your citation chances.',
+        action: () => setActiveView('content-ops'),
+        actionLabel: 'Plan Content',
+        priority: 2,
+        category: 'content',
+      })
+    }
   }
 
   // ── 9. Workflow Automation (Webhooks) ──
@@ -830,11 +995,35 @@ export function getAnalyzerIndustryContext(questionnaire) {
   if (!questionnaire?.completedAt || !questionnaire.industry) return ''
 
   const parts = []
-  parts.push(`This is a ${INDUSTRY_LABELS[questionnaire.industry] || questionnaire.industry} website`)
-  if (questionnaire.audience) parts[0] += ` targeting a ${AUDIENCE_LABELS[questionnaire.audience] || questionnaire.audience} audience`
-  if (questionnaire.region) parts[0] += ` in ${REGION_LABELS[questionnaire.region] || questionnaire.region}`
-  parts[0] += '.'
 
+  // Opening line: industry + audience + location
+  let intro = `This is a ${INDUSTRY_LABELS[questionnaire.industry] || questionnaire.industry} website`
+  if (questionnaire.audience) intro += ` targeting a ${AUDIENCE_LABELS[questionnaire.audience] || questionnaire.audience} audience`
+  if (questionnaire.country && questionnaire.region) {
+    intro += ` in ${COUNTRY_LABELS[questionnaire.country] || questionnaire.country}, ${REGION_LABELS[questionnaire.region] || questionnaire.region}`
+  } else if (questionnaire.region) {
+    intro += ` in ${REGION_LABELS[questionnaire.region] || questionnaire.region}`
+  }
+  intro += '.'
+  parts.push(intro)
+
+  // Languages
+  const langs = questionnaire.languages?.length > 0 ? questionnaire.languages : null
+  if (langs && !(langs.length === 1 && langs[0] === 'en')) {
+    parts.push(`Target languages: ${langs.map(l => LANGUAGE_LABELS[l] || l).join(', ')}.`)
+  }
+
+  // Business description
+  if (questionnaire.businessDescription?.trim()) {
+    parts.push(`Business context: ${questionnaire.businessDescription.trim()}`)
+  }
+
+  // Products/services
+  if (questionnaire.topServices?.trim()) {
+    parts.push(`Main products/services: ${questionnaire.topServices.trim()}.`)
+  }
+
+  // Industry-specific schema guidance
   if (questionnaire.industry === 'ecommerce') {
     parts.push('Prioritize Product, Offer, and Review schema types. Check for shopping-query optimized content.')
   } else if (questionnaire.industry === 'healthcare') {
@@ -849,12 +1038,26 @@ export function getAnalyzerIndustryContext(questionnaire) {
     parts.push('Prioritize LocalBusiness schema, Google Business Profile optimization, and local keyword targeting.')
   }
 
+  // Content type guidance
   if (questionnaire.contentType === 'blog') {
     parts.push('Focus on Article schema and question-answer content patterns.')
   } else if (questionnaire.contentType === 'docs') {
     parts.push('Focus on TechArticle schema and step-by-step instructional content.')
   } else if (questionnaire.contentType === 'product') {
     parts.push('Focus on Product schema and comparison/review content patterns.')
+  }
+
+  // CMS-specific guidance
+  if (questionnaire.cms === 'wordpress') {
+    parts.push('CMS: WordPress. Consider Yoast SEO or RankMath for schema markup. Check for plugin-generated schema conflicts.')
+  } else if (questionnaire.cms === 'shopify') {
+    parts.push('CMS: Shopify. Leverage built-in JSON-LD for products. Consider apps like JSON-LD for SEO for extended schemas.')
+  } else if (questionnaire.cms === 'webflow') {
+    parts.push('CMS: Webflow. Schema must be added via custom code embeds or integrations. Check for proper JSON-LD in page head.')
+  } else if (questionnaire.cms === 'wix') {
+    parts.push('CMS: Wix. Use Wix SEO tools and structured data markup in site settings.')
+  } else if (questionnaire.cms) {
+    parts.push(`CMS: ${CMS_LABELS[questionnaire.cms] || questionnaire.cms}.`)
   }
 
   return '\n\nAdditional context: ' + parts.join(' ')

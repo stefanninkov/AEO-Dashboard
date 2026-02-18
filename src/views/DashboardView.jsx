@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, memo } from 'react'
 import { Plus, Zap, FileText, MessageSquare, Globe, Target, BarChart3 } from 'lucide-react'
-import { getSmartRecommendations } from '../utils/getRecommendations'
+import { getSmartRecommendations, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
 import {
   LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer,
@@ -142,9 +142,28 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
           Welcome back{userName ? `, ${userName}` : ''}
         </h2>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
-          Here's an overview of your AEO projects and progress.
-        </p>
+        {activeProject?.questionnaire?.completedAt ? (() => {
+          const q = activeProject.questionnaire
+          const industry = INDUSTRY_LABELS[q.industry] || q.industry
+          const audience = AUDIENCE_LABELS[q.audience] || q.audience
+          const location = q.country
+            ? `${COUNTRY_LABELS[q.country] || q.country}${q.region ? `, ${REGION_LABELS[q.region]}` : ''}`
+            : REGION_LABELS[q.region] || null
+          const goal = GOAL_LABELS[q.primaryGoal] || null
+          return (
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
+              Optimizing <strong style={{ color: 'var(--text-secondary)' }}>{industry}</strong>
+              {audience && <> for <strong style={{ color: 'var(--text-secondary)' }}>{audience}</strong> audiences</>}
+              {location && <> in <strong style={{ color: 'var(--text-secondary)' }}>{location}</strong></>}
+              {goal && <> — focused on <strong style={{ color: 'var(--text-secondary)' }}>{goal.toLowerCase()}</strong></>}
+              .
+            </p>
+          )
+        })() : (
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
+            Here's an overview of your AEO projects and progress.
+          </p>
+        )}
       </div>
 
       {/* Sub-tabs */}
@@ -188,7 +207,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           )}
 
           {/* Personalized Recommendations */}
-          <RecommendationsPanel recommendations={recommendations} />
+          <RecommendationsPanel recommendations={recommendations} contextLine={activeProject?.questionnaire?.completedAt ? getProjectContextLine(activeProject.questionnaire) : null} />
 
           {/* Charts Row */}
           {latestMetrics && (
