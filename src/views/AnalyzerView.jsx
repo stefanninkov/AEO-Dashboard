@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Globe, Link2, Loader2, AlertCircle, Zap, Search, FileText } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
@@ -27,6 +27,14 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
   // Fix generator state
   const [fixes, setFixes] = useState(activeProject?.analyzerFixes || {})
 
+  // Sync state when active project changes
+  useEffect(() => {
+    setUrl(activeProject?.url || '')
+    setResults(activeProject?.analyzerResults || null)
+    setFixes(activeProject?.analyzerFixes || {})
+    setError(null)
+  }, [activeProject?.id])
+
   // Webflow state
   const [webflowSites, setWebflowSites] = useState([])
   const [selectedSite, setSelectedSite] = useState(null)
@@ -46,10 +54,11 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
   // ── Fix handlers ──
 
   const handleFixGenerated = (fixData) => {
-    const newFixes = { ...fixes, [fixData.itemId]: fixData }
-    setFixes(newFixes)
-    updateProject(activeProject.id, { analyzerFixes: newFixes })
-    // Log activity
+    setFixes(prev => {
+      const newFixes = { ...prev, [fixData.itemId]: fixData }
+      updateProject(activeProject.id, { analyzerFixes: newFixes })
+      return newFixes
+    })
     logAndDispatch('generateFix', {
       itemName: fixData.itemId,
       priority: fixData.priority,

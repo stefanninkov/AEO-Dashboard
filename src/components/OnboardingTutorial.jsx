@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   Zap, ArrowRight, ArrowLeft, Compass, CheckSquare, LayoutDashboard, Rocket,
-  BarChart3, Users, BookOpen, FlaskConical, Settings, PenTool, Code2, Activity,
+  BarChart3, BookOpen, FlaskConical, Settings, PenTool, Code2, Activity,
 } from 'lucide-react'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 

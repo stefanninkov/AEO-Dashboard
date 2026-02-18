@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
-  GOAL_LABELS, MATURITY_LABELS, CONTENT_LABELS, ENGINE_LABELS,
+  GOAL_LABELS, MATURITY_LABELS,
 } from '../utils/getRecommendations'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 

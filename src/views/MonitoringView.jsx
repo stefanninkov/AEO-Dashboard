@@ -75,6 +75,9 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
     ? latestRun.overallScore - previousRun.overallScore
     : null
 
+  // Keep a ref to the latest handleRunMonitor to avoid stale closures in intervals
+  const handleRunMonitorRef = useRef(null)
+
   // ── Scheduled Auto-Run ──
   useEffect(() => {
     if (!settings.monitoringEnabled) return
@@ -87,7 +90,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
       if (!lastRun || Date.now() - new Date(lastRun).getTime() > intervalMs) {
         logger.info('Scheduled monitor run triggered')
-        handleRunMonitor()
+        handleRunMonitorRef.current?.()
       }
     }
 
@@ -155,6 +158,9 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       }
     }
   }
+
+  // Keep ref up to date so scheduled interval always calls the latest version
+  handleRunMonitorRef.current = handleRunMonitor
 
   // ── Toggle settings ──
   const toggleMonitoring = () => {
@@ -287,7 +293,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
             {latestRun ? `${latestRun.queriesCited}/${latestRun.queriesChecked}` : '—'}
           </div>
           <div className="mon-stat-sub">
-            {latestRun ? `${Math.round((latestRun.queriesCited / latestRun.queriesChecked) * 100) || 0}% hit rate` : 'No data yet'}
+            {latestRun ? `${latestRun.queriesChecked > 0 ? Math.round((latestRun.queriesCited / latestRun.queriesChecked) * 100) : 0}% hit rate` : 'No data yet'}
           </div>
         </div>
 

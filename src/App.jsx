@@ -335,7 +335,7 @@ function AuthenticatedApp({ user, onSignOut }) {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [docItem, overlayClosing, newProjectModalOpen, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing, cmdPaletteOpen, cmdPaletteClosing])
+  }, [docItem, overlayClosing, newProjectModalOpen, noProjects, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing, cmdPaletteOpen, cmdPaletteClosing])
 
   const handleSetDocItem = useCallback((item) => {
     setOverlayClosing(false)

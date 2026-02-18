@@ -40,6 +40,18 @@ const CustomTooltip = memo(function CustomTooltip({ active, payload, label }) {
   )
 })
 
+function DashboardEmptyState({ message, onAction }) {
+  return (
+    <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>
+      <BarChart3 size={28} style={{ color: 'var(--text-disabled)' }} />
+      <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
+      <button onClick={onAction} className="btn-primary" style={{ padding: '0.4375rem 1rem', fontSize: '0.75rem', marginTop: '0.25rem' }}>
+        Run Metrics Analysis
+      </button>
+    </div>
+  )
+}
+
 export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid }) {
   const [subTab, setSubTab] = useState('overview')
 
@@ -120,15 +132,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
   // Smart Recommendations — uses full project state, not just questionnaire
   const recommendations = useMemo(() => getSmartRecommendations(activeProject, phases, setActiveView), [activeProject, phases, setActiveView])
 
-  const EmptyState = ({ message }) => (
-    <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>
-      <BarChart3 size={28} style={{ color: 'var(--text-disabled)' }} />
-      <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
-      <button onClick={() => setActiveView('metrics')} className="btn-primary" style={{ padding: '0.4375rem 1rem', fontSize: '0.75rem', marginTop: '0.25rem' }}>
-        Run Metrics Analysis
-      </button>
-    </div>
-  )
+  const emptyStateAction = useCallback(() => setActiveView('metrics'), [setActiveView])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
@@ -352,7 +356,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               </div>
             </>
           ) : (
-            <EmptyState message="Run a Metrics analysis to see citation data across AI engines." />
+            <DashboardEmptyState onAction={emptyStateAction} message="Run a Metrics analysis to see citation data across AI engines." />
           )}
         </>
       )}
@@ -412,7 +416,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               )}
             </>
           ) : (
-            <EmptyState message="Run a Metrics analysis to see prompt data and trends." />
+            <DashboardEmptyState onAction={emptyStateAction} message="Run a Metrics analysis to see prompt data and trends." />
           )}
         </>
       )}
@@ -481,7 +485,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               </div>
             </>
           ) : (
-            <EmptyState message="Run a Metrics analysis to see chatbot and AI engine data." />
+            <DashboardEmptyState onAction={emptyStateAction} message="Run a Metrics analysis to see chatbot and AI engine data." />
           )}
         </>
       )}

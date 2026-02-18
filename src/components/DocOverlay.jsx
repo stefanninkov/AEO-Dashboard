@@ -11,13 +11,14 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
   let phaseNumber = ''
   let categoryName = ''
   if (phases && item) {
+    outer:
     for (const phase of phases) {
       for (const cat of phase.categories) {
         if (cat.items.some(i => i.id === item.id)) {
           phaseColor = phase.color
           phaseNumber = phase.number
           categoryName = cat.name
-          break
+          break outer
         }
       }
     }
@@ -85,7 +86,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
 
         {/* Content — scrollable */}
         <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
-          {item?.doc?.sections.map((section, idx) => (
+          {item?.doc?.sections?.map((section, idx) => (
             <div key={idx} className="fade-in-up" style={{ animationDelay: `${idx * 60}ms` }}>
               <h3 className="font-heading text-sm font-bold mb-3" style={{ color: phaseColor }}>
                 {section.heading}

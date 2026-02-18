@@ -3,7 +3,7 @@ import {
   Search, BookOpen, ChevronRight, ChevronDown, LayoutDashboard,
   Users, Zap as ZapIcon, PenTool, CalendarDays, Code2, Activity,
   BarChart3, Search as SearchIcon, Zap, Layers, FlaskConical,
-  Settings, ArrowRight, ExternalLink, Info, Lightbulb, Target,
+  Settings, ArrowRight, ExternalLink, Info, Lightbulb,
   Rocket, HelpCircle,
 } from 'lucide-react'
 import { useDebounce } from '../hooks/useDebounce'
@@ -348,8 +348,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
     setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }))
   }
 
-  const toggleFaq = (idx) => {
-    setExpandedFaq(prev => ({ ...prev, [idx]: !prev[idx] }))
+  const toggleFaq = (key) => {
+    setExpandedFaq(prev => ({ ...prev, [key]: !prev[key] }))
   }
 
   /* ─── AEO Reference data (existing docs from checklist) ──── */
@@ -687,11 +687,11 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
       {/* ─── Tab: FAQ ───────────────────────────────────────── */}
       {activeTab === 'faq' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-          {filteredFaq.map((item, idx) => {
-            const isOpen = expandedFaq[idx]
+          {filteredFaq.map((item) => {
+            const isOpen = expandedFaq[item.q]
             return (
               <div
-                key={idx}
+                key={item.q}
                 style={{
                   background: 'var(--bg-card)',
                   borderRadius: '0.625rem',
@@ -700,7 +700,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                 }}
               >
                 <button
-                  onClick={() => toggleFaq(idx)}
+                  onClick={() => toggleFaq(item.q)}
                   style={{
                     width: '100%', display: 'flex', alignItems: 'center', gap: '0.5rem',
                     padding: '0.6875rem 1rem', border: 'none', cursor: 'pointer',
