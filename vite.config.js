@@ -9,7 +9,10 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
+    chunkSizeWarningLimit: 550,
     rollupOptions: {
+      // Exclude jsPDF optional deps we never use (saves ~382 kB / ~109 kB gzip)
+      external: ['canvg', 'html2canvas', 'dompurify'],
       output: {
         manualChunks: {
           // React core — shared by everything, cached well
@@ -30,5 +33,9 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.js'],
+    coverage: {
+      provider: 'v8',
+      include: ['src/utils/**', 'src/hooks/**'],
+    },
   },
 })
