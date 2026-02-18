@@ -55,11 +55,12 @@ export function ThemeProvider({ children }) {
 
   const toggleTheme = useCallback(() => {
     setThemeState(prev => {
-      if (prev === 'dark') return 'light'
-      if (prev === 'light') return 'auto'
-      return 'dark'
+      // Simple two-state toggle (dark ↔ light)
+      // "auto" is still available via setTheme() in Settings
+      const resolved = prev === 'auto' ? systemPref : prev
+      return resolved === 'dark' ? 'light' : 'dark'
     })
-  }, [])
+  }, [systemPref])
 
   return (
     <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
