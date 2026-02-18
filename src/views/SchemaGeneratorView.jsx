@@ -306,8 +306,9 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
               {activeProject?.questionnaire?.completedAt ? (() => {
                 const q = activeProject.questionnaire
                 const industry = INDUSTRY_LABELS[q.industry] || q.industry
-                const location = q.country
-                  ? `${COUNTRY_LABELS[q.country] || q.country}`
+                const ctrs = q.countries?.length > 0 ? q.countries : q.country ? [q.country] : []
+                const location = ctrs.length > 0
+                  ? ctrs.map(c => COUNTRY_LABELS[c] || c).join(', ')
                   : REGION_LABELS[q.region] || null
                 const engines = q.targetEngines?.includes('all') ? 'all AI engines' : q.targetEngines?.length > 0
                   ? q.targetEngines.map(e => ENGINE_LABELS[e] || e).join(', ')

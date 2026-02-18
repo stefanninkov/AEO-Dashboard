@@ -95,7 +95,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
     industry: initialData?.industry || null,
     industryOther: initialData?.industryOther || '',
     region: initialData?.region || null,
-    country: initialData?.country || null,
+    countries: initialData?.countries?.length > 0 ? initialData.countries : initialData?.country ? [initialData.country] : [],
     audience: initialData?.audience || null,
     targetEngines: initialData?.targetEngines || [],
     primaryGoal: initialData?.primaryGoal || null,
@@ -138,14 +138,25 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
     })
   }, [])
 
-  // Countries filtered by selected region
+  const toggleCountry = useCallback((code) => {
+    setAnswers(prev => {
+      const current = prev.countries || []
+      if (current.includes(code)) {
+        return { ...prev, countries: current.filter(c => c !== code) }
+      }
+      return { ...prev, countries: [...current, code] }
+    })
+    setCountrySearch('')
+  }, [])
+
+  // Countries filtered by selected region (excluding already selected)
   const countryOptions = useMemo(() => {
     if (!answers.region || answers.region === 'global') return []
-    const options = COUNTRY_OPTIONS[answers.region] || []
+    const options = (COUNTRY_OPTIONS[answers.region] || []).filter(c => !(answers.countries || []).includes(c.value))
     if (!countrySearch.trim()) return options
     const q = countrySearch.toLowerCase()
     return options.filter(c => c.label.toLowerCase().includes(q))
-  }, [answers.region, countrySearch])
+  }, [answers.region, countrySearch, answers.countries])
 
   const canProceed = () => {
     switch (step) {
@@ -153,7 +164,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
       case 1: return answers.audience && answers.primaryGoal
       case 2: return answers.targetEngines.length > 0
       case 3: return answers.contentType && answers.maturity
-      case 4: return answers.languages.length > 0
+      case 4: return answers.languages.length > 0 && answers.businessDescription.trim().length > 0 && answers.topServices.trim().length > 0
       case 5: return answers.hasSchema && answers.updateCadence
       default: return true
     }
@@ -339,7 +350,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       key={opt.value}
                       onClick={() => {
                         update('region', opt.value)
-                        update('country', null)
+                        update('countries', [])
                         setCountrySearch('')
                       }}
                       style={{
@@ -356,28 +367,52 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                 })}
               </div>
 
-              {/* Country Dropdown (optional, only when region has countries) */}
-              {countryOptions.length > 0 && (
+              {/* Country Selection (optional, multi-select, only when region has countries) */}
+              {(countryOptions.length > 0 || (answers.countries?.length > 0)) && answers.region && answers.region !== 'global' && (
                 <div>
                   <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    Country <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional — for local targeting)</span>
+                    Countries <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional — select one or more for local targeting)</span>
                   </p>
+
+                  {/* Selected countries chips */}
+                  {answers.countries?.length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 8 }}>
+                      {answers.countries.map(code => (
+                        <span key={code} style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 4,
+                          padding: '4px 10px', borderRadius: 6,
+                          fontSize: 11, fontWeight: 600,
+                          background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
+                          border: '1px solid rgba(255,107,53,0.2)',
+                        }}>
+                          {COUNTRY_LABELS[code] || code}
+                          <button
+                            onClick={() => toggleCountry(code)}
+                            style={{ padding: 0, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--color-phase-1)', display: 'flex', opacity: 0.7 }}
+                            aria-label={`Remove ${COUNTRY_LABELS[code] || code}`}
+                          >
+                            <X size={11} />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Search input */}
                   <div style={{ position: 'relative' }}>
                     <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }} />
                     <input
                       type="text"
-                      placeholder="Search country..."
-                      value={answers.country ? (COUNTRY_LABELS[answers.country] || '') : countrySearch}
-                      onChange={e => {
-                        setCountrySearch(e.target.value)
-                        if (answers.country) update('country', null)
-                      }}
-                      onFocus={() => { if (answers.country) { setCountrySearch(''); update('country', null) } }}
+                      placeholder="Search countries..."
+                      value={countrySearch}
+                      onChange={e => setCountrySearch(e.target.value)}
                       className="input-field"
                       style={{ paddingLeft: 30, width: '100%', fontSize: 12 }}
                     />
                   </div>
-                  {!answers.country && (
+
+                  {/* Available country chips */}
+                  {countryOptions.length > 0 && (
                     <div style={{
                       display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 8,
                       maxHeight: 96, overflowY: 'auto',
@@ -385,10 +420,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       {(countrySearch ? countryOptions : countryOptions.slice(0, 20)).map(opt => (
                         <button
                           key={opt.value}
-                          onClick={() => {
-                            update('country', opt.value)
-                            setCountrySearch('')
-                          }}
+                          onClick={() => toggleCountry(opt.value)}
                           style={{
                             padding: '4px 10px', borderRadius: 6, cursor: 'pointer',
                             fontSize: 11, fontWeight: 500, fontFamily: 'var(--font-body)',
@@ -399,25 +431,6 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                           {opt.label}
                         </button>
                       ))}
-                    </div>
-                  )}
-                  {answers.country && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
-                      <span style={{
-                        padding: '4px 10px', borderRadius: 6,
-                        fontSize: 11, fontWeight: 600,
-                        background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
-                        border: '1px solid rgba(255,107,53,0.2)',
-                      }}>
-                        {COUNTRY_LABELS[answers.country]}
-                      </span>
-                      <button
-                        onClick={() => update('country', null)}
-                        style={{ padding: 2, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex' }}
-                        aria-label="Clear country"
-                      >
-                        <X size={12} />
-                      </button>
                     </div>
                   )}
                 </div>
@@ -645,27 +658,33 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </div>
 
               {/* Business Description */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Business Description <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Business Description
+              </p>
+              <p style={{ fontSize: 10.5, color: 'var(--text-tertiary)', marginBottom: 6, lineHeight: 1.4 }}>
+                The more detail you provide, the more personalized your schema suggestions, content strategies, and recommendations will be.
               </p>
               <textarea
                 value={answers.businessDescription}
                 onChange={e => update('businessDescription', e.target.value)}
-                placeholder="Briefly describe what your business does and who you serve..."
+                placeholder="Briefly describe what your business does and who you serve. E.g.: We're a cloud hosting company serving small businesses across Europe, offering managed hosting and API integrations."
                 className="input-field"
-                rows={2}
+                rows={3}
                 style={{ width: '100%', resize: 'vertical', fontSize: 12, lineHeight: 1.5, marginBottom: 14 }}
               />
 
               {/* Top Products/Services */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Products / Services <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Products / Services
+              </p>
+              <p style={{ fontSize: 10.5, color: 'var(--text-tertiary)', marginBottom: 6, lineHeight: 1.4 }}>
+                List your main offerings — this helps us suggest the right schema types and content topics for your business.
               </p>
               <input
                 type="text"
                 value={answers.topServices}
                 onChange={e => update('topServices', e.target.value)}
-                placeholder="e.g., cloud hosting, API integrations, consulting"
+                placeholder="e.g., cloud hosting, API integrations, consulting services"
                 className="input-field"
                 style={{ width: '100%', marginBottom: 14, fontSize: 12 }}
               />
@@ -784,9 +803,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       {INDUSTRY_LABELS[answers.industry] || answers.industry}
                     </span>
                   )}
-                  {answers.country ? (
+                  {answers.countries?.length > 0 ? (
                     <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
-                      {COUNTRY_LABELS[answers.country]}, {REGION_LABELS[answers.region]}
+                      {answers.countries.map(c => COUNTRY_LABELS[c] || c).join(', ')}{answers.region ? `, ${REGION_LABELS[answers.region]}` : ''}
                     </span>
                   ) : answers.region && (
                     <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>

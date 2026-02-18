@@ -62,7 +62,7 @@ const DEFAULT_PROJECT_DATA = {
     industry: null,
     industryOther: '',
     region: null,
-    country: null,
+    countries: [],
     audience: null,
     language: 'en',
     languages: ['en'],

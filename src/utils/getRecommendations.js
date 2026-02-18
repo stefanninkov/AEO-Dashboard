@@ -137,6 +137,15 @@ export const COUNTRY_LABELS = Object.values(COUNTRY_OPTIONS).flat().reduce((acc,
 }, {})
 
 /**
+ * Backward-compat helper: old projects may have `country` (string), new ones have `countries` (array).
+ */
+function resolveCountries(questionnaire) {
+  if (questionnaire?.countries?.length > 0) return questionnaire.countries
+  if (questionnaire?.country) return [questionnaire.country]
+  return []
+}
+
+/**
  * getProjectContextLine — short one-liner for view subtitles.
  * e.g.: "E-Commerce · Germany, Europe · B2C · German, English"
  */
@@ -144,10 +153,11 @@ export function getProjectContextLine(questionnaire) {
   if (!questionnaire?.completedAt) return ''
   const parts = []
   if (questionnaire.industry) parts.push(INDUSTRY_LABELS[questionnaire.industry] || questionnaire.industry)
-  if (questionnaire.country && questionnaire.region) {
-    parts.push(`${COUNTRY_LABELS[questionnaire.country] || questionnaire.country}, ${REGION_LABELS[questionnaire.region] || questionnaire.region}`)
-  } else if (questionnaire.country) {
-    parts.push(COUNTRY_LABELS[questionnaire.country] || questionnaire.country)
+  const countries = resolveCountries(questionnaire)
+  if (countries.length > 0 && questionnaire.region) {
+    parts.push(`${countries.map(c => COUNTRY_LABELS[c] || c).join(', ')}, ${REGION_LABELS[questionnaire.region] || questionnaire.region}`)
+  } else if (countries.length > 0) {
+    parts.push(countries.map(c => COUNTRY_LABELS[c] || c).join(', '))
   } else if (questionnaire.region) {
     parts.push(REGION_LABELS[questionnaire.region] || questionnaire.region)
   }
@@ -899,13 +909,14 @@ export function getSmartRecommendations(project, phases, setActiveView) {
     }
 
     // Country-specific recommendations
-    if (q.country) {
-      const countryName = COUNTRY_LABELS[q.country] || q.country
+    const qCountries = resolveCountries(q)
+    if (qCountries.length > 0) {
+      const countryNames = qCountries.map(c => COUNTRY_LABELS[c] || c).join(', ')
       if (q.industry === 'localbusiness' || q.industry === 'realestate') {
         recs.push({
           id: 'local-country-schema',
-          text: `Add local schema markup for ${countryName}`,
-          detail: `Include @addressCountry, local business hours, and geo-coordinates. Local businesses in ${countryName} benefit from region-specific structured data.`,
+          text: `Add local schema markup for ${countryNames}`,
+          detail: `Include @addressCountry, local business hours, and geo-coordinates. Local businesses in ${countryNames} benefit from region-specific structured data.`,
           action: () => setActiveView('schema'),
           actionLabel: 'Generate',
           priority: 2,
@@ -999,8 +1010,9 @@ export function getAnalyzerIndustryContext(questionnaire) {
   // Opening line: industry + audience + location
   let intro = `This is a ${INDUSTRY_LABELS[questionnaire.industry] || questionnaire.industry} website`
   if (questionnaire.audience) intro += ` targeting a ${AUDIENCE_LABELS[questionnaire.audience] || questionnaire.audience} audience`
-  if (questionnaire.country && questionnaire.region) {
-    intro += ` in ${COUNTRY_LABELS[questionnaire.country] || questionnaire.country}, ${REGION_LABELS[questionnaire.region] || questionnaire.region}`
+  const ctrs = resolveCountries(questionnaire)
+  if (ctrs.length > 0 && questionnaire.region) {
+    intro += ` in ${ctrs.map(c => COUNTRY_LABELS[c] || c).join(', ')}, ${REGION_LABELS[questionnaire.region] || questionnaire.region}`
   } else if (questionnaire.region) {
     intro += ` in ${REGION_LABELS[questionnaire.region] || questionnaire.region}`
   }

@@ -146,8 +146,9 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           const q = activeProject.questionnaire
           const industry = INDUSTRY_LABELS[q.industry] || q.industry
           const audience = AUDIENCE_LABELS[q.audience] || q.audience
-          const location = q.country
-            ? `${COUNTRY_LABELS[q.country] || q.country}${q.region ? `, ${REGION_LABELS[q.region]}` : ''}`
+          const ctrs = q.countries?.length > 0 ? q.countries : q.country ? [q.country] : []
+          const location = ctrs.length > 0
+            ? `${ctrs.map(c => COUNTRY_LABELS[c] || c).join(', ')}${q.region ? `, ${REGION_LABELS[q.region]}` : ''}`
             : REGION_LABELS[q.region] || null
           const goal = GOAL_LABELS[q.primaryGoal] || null
           return (

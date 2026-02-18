@@ -457,7 +457,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         const q = activeProject.questionnaire
         const badges = [
           q.industry && INDUSTRY_LABELS[q.industry],
-          q.country ? `${COUNTRY_LABELS[q.country]}, ${REGION_LABELS[q.region] || ''}` : REGION_LABELS[q.region],
+          (q.countries?.length > 0 || q.country) ? `${(q.countries?.length > 0 ? q.countries : [q.country]).map(c => COUNTRY_LABELS[c] || c).join(', ')}, ${REGION_LABELS[q.region] || ''}` : REGION_LABELS[q.region],
           q.audience && AUDIENCE_LABELS[q.audience],
           q.primaryGoal && GOAL_LABELS[q.primaryGoal],
           q.cms && CMS_LABELS[q.cms],

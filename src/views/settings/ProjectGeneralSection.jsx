@@ -217,7 +217,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           <div style={settingsRowStyle}>
             <span style={labelStyle}>Region</span>
             <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
-              {q.country ? `${COUNTRY_LABELS[q.country] || q.country}, ` : ''}
+              {(q.countries?.length > 0 || q.country) ? `${(q.countries?.length > 0 ? q.countries : [q.country]).map(c => COUNTRY_LABELS[c] || c).join(', ')}, ` : ''}
               {REGION_LABELS[q.region] || q.region || '\u2014'}
             </span>
           </div>
