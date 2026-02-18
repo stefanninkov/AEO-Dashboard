@@ -61,51 +61,98 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
 
+  // Ref for stable access in undo closures
+  const activeProjectRef = useRef(activeProject)
+  activeProjectRef.current = activeProject
+
   // ── Handlers (memoized for child component stability) ──
 
   const handleToggle = useCallback((itemId, item, phaseNumber) => {
     if (checked[itemId]) {
+      // Capture state for undo
+      const prevVerification = activeProject?.verifications?.[itemId] || null
+      const projectId = activeProject?.id
+
       toggleCheckItem(itemId)
       logAndDispatch('uncheck', { taskId: itemId, taskText: item.text.slice(0, 80), phase: phaseNumber }, user)
+
+      // Toast with undo
+      const label = item.text.length > 50 ? item.text.slice(0, 50) + '…' : item.text
+      addToast('info', `"${label}" unchecked`, {
+        duration: 5000,
+        action: {
+          label: 'Undo',
+          onClick: () => {
+            const current = activeProjectRef.current
+            if (!current || current.id !== projectId) return
+            toggleCheckItem(itemId)
+            if (prevVerification) {
+              updateProject(projectId, { verifications: { ...(current.verifications || {}), [itemId]: prevVerification } })
+            }
+          },
+        },
+      })
     } else {
       setVerifyItem({ ...item, _phaseNumber: phaseNumber })
     }
-  }, [checked, toggleCheckItem, logAndDispatch, user])
+  }, [checked, activeProject, toggleCheckItem, logAndDispatch, user, addToast, updateProject])
 
   const handleCloseVerify = useCallback(() => { setVerifyClosing(true) }, [])
   const handleVerifyExited = useCallback(() => { setVerifyClosing(false); setVerifyItem(null) }, [])
 
   const handleVerified = useCallback((verification) => {
+    // Capture values before closing verify dialog
+    const itemId = verifyItem.id
+    const itemText = verifyItem.text
+    const phaseNumber = verifyItem._phaseNumber
+    const projectId = activeProject.id
+
     const newVerifications = {
       ...(activeProject.verifications || {}),
-      [verifyItem.id]: verification,
+      [itemId]: verification,
     }
-    updateProject(activeProject.id, { verifications: newVerifications })
-    toggleCheckItem(verifyItem.id)
-    logAndDispatch('check', { taskId: verifyItem.id, taskText: verifyItem.text.slice(0, 80), phase: verifyItem._phaseNumber }, user)
+    updateProject(projectId, { verifications: newVerifications })
+    toggleCheckItem(itemId)
+    logAndDispatch('check', { taskId: itemId, taskText: itemText.slice(0, 80), phase: phaseNumber }, user)
 
     // Phase completion detection — fire synthetic event if phase is now 100%
-    const phaseNum = verifyItem._phaseNumber
-    const phase = phases.find(p => p.number === phaseNum)
+    const phase = phases.find(p => p.number === phaseNumber)
     if (phase) {
-      const newChecked = { ...checked, [verifyItem.id]: true }
+      const newChecked = { ...checked, [itemId]: true }
       let total = 0, done = 0
       phase.categories.forEach(cat => {
         cat.items.forEach(it => { total++; if (newChecked[it.id]) done++ })
       })
       if (done === total && total > 0) {
         fireWebhooks(activeProject, 'phase_complete', {
-          phase: phaseNum,
+          phase: phaseNumber,
           phaseTitle: phase.title,
           totalTasks: total,
         }, updateProject)
       }
     }
 
-    setBouncingId(verifyItem.id)
+    setBouncingId(itemId)
     setTimeout(() => setBouncingId(null), 450)
     handleCloseVerify()
-  }, [verifyItem, activeProject, checked, phases, updateProject, toggleCheckItem, logAndDispatch, user, handleCloseVerify])
+
+    // Toast with undo
+    const label = itemText.length > 50 ? itemText.slice(0, 50) + '…' : itemText
+    addToast('success', `"${label}" verified`, {
+      duration: 5000,
+      action: {
+        label: 'Undo',
+        onClick: () => {
+          const current = activeProjectRef.current
+          if (!current || current.id !== projectId) return
+          toggleCheckItem(itemId)
+          const cleaned = { ...(current.verifications || {}) }
+          delete cleaned[itemId]
+          updateProject(projectId, { verifications: cleaned })
+        },
+      },
+    })
+  }, [verifyItem, activeProject, checked, phases, updateProject, toggleCheckItem, logAndDispatch, user, handleCloseVerify, addToast])
 
   const handleAssign = useCallback((itemId, memberUid, item, phaseNumber) => {
     const member = members.find(m => m.uid === memberUid)

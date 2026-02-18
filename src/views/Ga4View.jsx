@@ -373,7 +373,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
           </div>
 
           {/* Two columns: AI Sources + Trend */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             {/* AI Source Breakdown */}
             <div className="card" style={{ padding: '1.25rem' }}>
               <div style={{

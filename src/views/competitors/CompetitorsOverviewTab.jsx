@@ -176,7 +176,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
 
       {/* Rankings Table */}
       {sorted.length > 0 && (
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card table-scroll-wrap" style={{ overflow: 'hidden' }}>
           <div style={{ padding: '1rem 1.25rem', fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             Rankings
           </div>
@@ -268,7 +268,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
 
       {/* Heat Map + AI Summary Row */}
       {heatMap && (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
+        <div className="resp-grid-sidebar" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
           <div className="card" style={{ padding: '1.25rem', overflow: 'auto' }}>
             <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
               Category Performance Heat Map

@@ -337,7 +337,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
 
       {/* ── Citation Share Pie + Stats ── */}
       {latestSnapshot && (
-        <div style={{ display: 'grid', gridTemplateColumns: pieData.length > 0 ? '1fr 1fr' : '1fr', gap: '1rem' }}>
+        <div className={pieData.length > 0 ? 'resp-grid-2' : ''} style={{ display: 'grid', gridTemplateColumns: pieData.length > 0 ? '1fr 1fr' : '1fr', gap: '1rem' }}>
           {/* Pie Chart */}
           {pieData.length > 0 && (
             <div style={{

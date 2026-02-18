@@ -232,7 +232,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
       {/* ═══ ROW 1: Health Score + Score Trend ═══ */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
 
         {/* AEO Health Score — Radial Gauge */}
         <div className="card" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -350,7 +350,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
       </div>
 
       {/* ═══ ROW 2: Mini Stats Strip ═══ */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }}>
+      <div className="resp-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }}>
         <MiniStat
           label="Checklist"
           value={`${checklistStats.done}/${checklistStats.total}`}
@@ -382,7 +382,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
       </div>
 
       {/* ═══ ROW 3: Feature Usage + Phase Radar ═══ */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
 
         {/* Feature Usage */}
         <div className="card" style={{ padding: '1.25rem' }}>
@@ -485,7 +485,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
       </div>
 
       {/* ═══ ROW 4: Velocity + Engine Coverage ═══ */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
 
         {/* Project Velocity */}
         <div className="card" style={{ padding: '1.25rem' }}>

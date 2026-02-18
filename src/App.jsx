@@ -40,6 +40,7 @@ const ProjectQuestionnaire = lazy(() => import('./components/ProjectQuestionnair
 const EmailReportDialog = lazy(() => import('./components/EmailReportDialog'))
 const PdfExportDialog = lazy(() => import('./components/PdfExportDialog'))
 const CommandPalette = lazy(() => import('./components/CommandPalette'))
+const KeyboardShortcutsModal = lazy(() => import('./components/KeyboardShortcutsModal'))
 
 /* ── Suspense Fallback — picks the right skeleton per view ── */
 function ViewSkeleton({ activeView }) {
@@ -263,6 +264,8 @@ function AuthenticatedApp({ user, onSignOut }) {
   const [pdfDialogClosing, setPdfDialogClosing] = useState(false)
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [cmdPaletteClosing, setCmdPaletteClosing] = useState(false)
+  const [shortcutsOpen, setShortcutsOpen] = useState(false)
+  const [shortcutsClosing, setShortcutsClosing] = useState(false)
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
   const [questionnaireProjectId, setQuestionnaireProjectId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -318,6 +321,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       }
       if (e.key === 'Escape') {
         if (cmdPaletteOpen && !cmdPaletteClosing) { setCmdPaletteClosing(true); return }
+        if (shortcutsOpen && !shortcutsClosing) { setShortcutsClosing(true); return }
         if (newProjectModalOpen && !noProjects) { setNewProjectModalOpen(false); return }
         if (pdfDialogOpen && !pdfDialogClosing) { setPdfDialogClosing(true); return }
         if (emailDialogOpen && !emailDialogClosing) { setEmailDialogClosing(true); return }
@@ -331,11 +335,15 @@ function AuthenticatedApp({ user, onSignOut }) {
         if (num >= 1 && num <= 9) {
           setActiveView(views[num - 1])
         }
+        if (e.key === '?' && !cmdPaletteOpen && !shortcutsOpen && !docItem && !newProjectModalOpen) {
+          setShortcutsClosing(false)
+          setShortcutsOpen(true)
+        }
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [docItem, overlayClosing, newProjectModalOpen, noProjects, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing, cmdPaletteOpen, cmdPaletteClosing])
+  }, [docItem, overlayClosing, newProjectModalOpen, noProjects, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing, cmdPaletteOpen, cmdPaletteClosing, shortcutsOpen, shortcutsClosing])
 
   const handleSetDocItem = useCallback((item) => {
     setOverlayClosing(false)
@@ -694,6 +702,15 @@ function AuthenticatedApp({ user, onSignOut }) {
           onNewProject={() => setNewProjectModalOpen(true)}
           onExport={handleExport}
           setDocItem={handleSetDocItem}
+        />
+      )}
+
+      {(shortcutsOpen || shortcutsClosing) && (
+        <KeyboardShortcutsModal
+          isOpen={shortcutsOpen}
+          isClosing={shortcutsClosing}
+          onClose={() => setShortcutsClosing(true)}
+          onExited={() => { setShortcutsOpen(false); setShortcutsClosing(false) }}
         />
       )}
       </Suspense>

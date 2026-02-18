@@ -38,11 +38,11 @@ export function ToastProvider({ children }) {
     timersRef.current[`exit-${id}`] = setTimeout(() => removeToast(id), 200)
   }, [removeToast])
 
-  const addToast = useCallback((type, message) => {
+  const addToast = useCallback((type, message, options = {}) => {
     const id = ++toastCounter
 
     setToasts(prev => {
-      let next = [...prev, { id, type, message, exiting: false }]
+      let next = [...prev, { id, type, message, action: options.action || null, exiting: false }]
       // Enforce max — dismiss oldest if over limit
       while (next.filter(t => !t.exiting).length > MAX_TOASTS) {
         const oldest = next.find(t => !t.exiting)
@@ -54,14 +54,15 @@ export function ToastProvider({ children }) {
       return next
     })
 
-    // Auto-dismiss
-    timersRef.current[id] = setTimeout(() => dismissToast(id), AUTO_DISMISS_MS)
+    // Auto-dismiss (custom duration or default)
+    const duration = options.duration || AUTO_DISMISS_MS
+    timersRef.current[id] = setTimeout(() => dismissToast(id), duration)
 
     return id
   }, [dismissToast, removeToast])
 
   return (
-    <ToastContext.Provider value={{ addToast }}>
+    <ToastContext.Provider value={{ addToast, dismissToast }}>
       {children}
       {createPortal(
         <div className="toast-container" aria-live="polite" role="status">
@@ -75,6 +76,18 @@ export function ToastProvider({ children }) {
                 <div className="toast-color-bar" />
                 <Icon size={16} className="toast-icon" style={{ flexShrink: 0 }} />
                 <span className="toast-message">{toast.message}</span>
+                {toast.action && (
+                  <button
+                    className="toast-action"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      toast.action.onClick()
+                      dismissToast(toast.id)
+                    }}
+                  >
+                    {toast.action.label}
+                  </button>
+                )}
                 <button className="toast-close" onClick={() => dismissToast(toast.id)} aria-label="Dismiss notification">
                   <X size={12} />
                 </button>
@@ -92,7 +105,7 @@ export function useToast() {
   const context = useContext(ToastContext)
   if (!context) {
     // Return no-op if used outside provider (safety)
-    return { addToast: () => {} }
+    return { addToast: () => {}, dismissToast: () => {} }
   }
   return context
 }
