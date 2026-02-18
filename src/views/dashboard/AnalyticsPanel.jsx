@@ -8,7 +8,8 @@ import {
   PolarAngleAxis, ResponsiveContainer, XAxis, YAxis, Tooltip,
   CartesianGrid, Cell, RadialBarChart, RadialBar,
 } from 'recharts'
-import { PHASE_COLORS, getScoreColor } from '../../utils/chartColors'
+import { PHASE_COLORS, getScoreColor, useChartColors } from '../../utils/chartColors'
+import EmptyState from '../../components/EmptyState'
 
 /* ── Tooltip ── */
 function ChartTooltip({ active, payload, label }) {
@@ -72,6 +73,7 @@ function SectionHeader({ icon: Icon, label, color }) {
 
 /* ── Main Component ── */
 export default function AnalyticsPanel({ activeProject, phases }) {
+  const { phaseColors, getScore: getThemeScoreColor } = useChartColors()
   const checked = activeProject?.checked || {}
   const metricsHistory = activeProject?.metricsHistory || []
   const monitorHistory = activeProject?.monitorHistory || []
@@ -124,7 +126,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
     return factors > 0 ? Math.round(score) : 0
   }, [checked, metricsHistory, monitorHistory, contentHistory, schemaHistory, analyzerResults, competitors, activeProject, phases])
 
-  const healthColor = getScoreColor(healthScore)
+  const healthColor = getThemeScoreColor(healthScore)
 
   /* ── Radial gauge data ── */
   const gaugeData = [{ name: 'Health', value: healthScore, fill: healthColor }]
@@ -163,15 +165,15 @@ export default function AnalyticsPanel({ activeProject, phases }) {
   /* ── Feature usage stats ── */
   const featureUsage = useMemo(() => {
     const features = [
-      { name: 'Analyzer', used: !!analyzerResults, count: analyzerResults ? 1 : 0, icon: Zap, color: PHASE_COLORS[1] },
-      { name: 'Writer', used: contentHistory.length > 0, count: contentHistory.length, icon: PenTool, color: PHASE_COLORS[3] },
-      { name: 'Schema', used: schemaHistory.length > 0, count: schemaHistory.length, icon: Code2, color: PHASE_COLORS[4] },
-      { name: 'Monitoring', used: monitorHistory.length > 0, count: monitorHistory.length, icon: Eye, color: PHASE_COLORS[6] },
-      { name: 'Metrics', used: metricsHistory.length > 0, count: metricsHistory.length, icon: BarChart3, color: PHASE_COLORS[2] },
-      { name: 'Competitors', used: competitors.length > 0, count: competitors.length, icon: Users, color: PHASE_COLORS[5] },
+      { name: 'Analyzer', used: !!analyzerResults, count: analyzerResults ? 1 : 0, icon: Zap, color: phaseColors[1] },
+      { name: 'Writer', used: contentHistory.length > 0, count: contentHistory.length, icon: PenTool, color: phaseColors[3] },
+      { name: 'Schema', used: schemaHistory.length > 0, count: schemaHistory.length, icon: Code2, color: phaseColors[4] },
+      { name: 'Monitoring', used: monitorHistory.length > 0, count: monitorHistory.length, icon: Eye, color: phaseColors[6] },
+      { name: 'Metrics', used: metricsHistory.length > 0, count: metricsHistory.length, icon: BarChart3, color: phaseColors[2] },
+      { name: 'Competitors', used: competitors.length > 0, count: competitors.length, icon: Users, color: phaseColors[5] },
     ]
     return features
-  }, [analyzerResults, contentHistory, schemaHistory, monitorHistory, metricsHistory, competitors])
+  }, [analyzerResults, contentHistory, schemaHistory, monitorHistory, metricsHistory, competitors, phaseColors])
 
   const featuresUsed = featureUsage.filter(f => f.used).length
   const totalFeatures = featureUsage.length
@@ -292,7 +294,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Score Trend Sparkline */}
         <div className="card" style={{ padding: '1.25rem' }}>
-          <SectionHeader icon={TrendingUp} label="AEO Score Trend" color={PHASE_COLORS[2]} />
+          <SectionHeader icon={TrendingUp} label="AEO Score Trend" color={phaseColors[2]} />
           {scoreTrend.length > 1 ? (
             <>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.75rem' }}>
@@ -319,8 +321,8 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                 <AreaChart data={scoreTrend}>
                   <defs>
                     <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={PHASE_COLORS[2]} stopOpacity={0.3} />
-                      <stop offset="95%" stopColor={PHASE_COLORS[2]} stopOpacity={0} />
+                      <stop offset="5%" stopColor={phaseColors[2]} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={phaseColors[2]} stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" />
@@ -328,23 +330,21 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                   <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--text-tertiary)' }} axisLine={{ stroke: 'var(--border-subtle)' }} />
                   <Tooltip content={<ChartTooltip />} />
                   <Area
-                    type="monotone" dataKey="Score" stroke={PHASE_COLORS[2]}
+                    type="monotone" dataKey="Score" stroke={phaseColors[2]}
                     strokeWidth={2.5} fill="url(#scoreGradient)"
-                    dot={{ r: 3, fill: PHASE_COLORS[2] }} activeDot={{ r: 5 }}
+                    dot={{ r: 3, fill: phaseColors[2] }} activeDot={{ r: 5 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
             </>
           ) : (
-            <div style={{
-              flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexDirection: 'column', gap: '0.5rem', minHeight: '12rem',
-            }}>
-              <BarChart3 size={28} style={{ color: 'var(--text-disabled)' }} />
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                Run 2+ metrics analyses to see score trends
-              </p>
-            </div>
+            <EmptyState
+              icon={BarChart3}
+              title="No trend data"
+              description="Run 2+ metrics analyses to see score trends"
+              color="var(--color-phase-1)"
+              compact
+            />
           )}
         </div>
       </div>
@@ -355,28 +355,28 @@ export default function AnalyticsPanel({ activeProject, phases }) {
           label="Checklist"
           value={`${checklistStats.done}/${checklistStats.total}`}
           icon={CheckCircle2}
-          color={PHASE_COLORS[4]}
+          color={phaseColors[4]}
           sub={`${checklistStats.pct}%`}
         />
         <MiniStat
           label="Content Pieces"
           value={contentCount + schemaCount}
           icon={PenTool}
-          color={PHASE_COLORS[3]}
+          color={phaseColors[3]}
           sub={`${contentCount} articles, ${schemaCount} schemas`}
         />
         <MiniStat
           label="AI Engines"
           value={`${engineCoverage.citing}/${engineCoverage.total || '—'}`}
           icon={Activity}
-          color={PHASE_COLORS[6]}
+          color={phaseColors[6]}
           sub="citing you"
         />
         <MiniStat
           label="Project Age"
           value={`${projectAge}d`}
           icon={Clock}
-          color={PHASE_COLORS[5]}
+          color={phaseColors[5]}
           sub={`${activityLog.length} actions`}
         />
       </div>
@@ -386,7 +386,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Feature Usage */}
         <div className="card" style={{ padding: '1.25rem' }}>
-          <SectionHeader icon={Zap} label="Feature Usage" color={PHASE_COLORS[1]} />
+          <SectionHeader icon={Zap} label="Feature Usage" color={phaseColors[1]} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {featureUsage.map(feat => {
               const Icon = feat.icon
@@ -444,7 +444,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
             <div style={{ height: '0.375rem', borderRadius: '0.1875rem', background: 'var(--border-subtle)', overflow: 'hidden' }}>
               <div style={{
                 height: '100%', borderRadius: '0.1875rem', transition: 'width 500ms ease',
-                background: `linear-gradient(90deg, ${PHASE_COLORS[1]}, ${PHASE_COLORS[3]})`,
+                background: `linear-gradient(90deg, ${phaseColors[1]}, ${phaseColors[3]})`,
                 width: `${totalFeatures > 0 ? (featuresUsed / totalFeatures) * 100 : 0}%`,
               }} />
             </div>
@@ -453,7 +453,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Phase Radar Chart */}
         <div className="card" style={{ padding: '1.25rem' }}>
-          <SectionHeader icon={Activity} label="Phase Completion Radar" color={PHASE_COLORS[3]} />
+          <SectionHeader icon={Activity} label="Phase Completion Radar" color={phaseColors[3]} />
           {radarData.length > 0 ? (
             <ResponsiveContainer width="100%" height={260}>
               <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="75%">
@@ -465,8 +465,8 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                 <Radar
                   name="Progress"
                   dataKey="progress"
-                  stroke={PHASE_COLORS[3]}
-                  fill={PHASE_COLORS[3]}
+                  stroke={phaseColors[3]}
+                  fill={phaseColors[3]}
                   fillOpacity={0.2}
                   strokeWidth={2}
                 />
@@ -474,12 +474,13 @@ export default function AnalyticsPanel({ activeProject, phases }) {
               </RadarChart>
             </ResponsiveContainer>
           ) : (
-            <div style={{
-              height: '16.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'var(--text-tertiary)', fontSize: '0.8125rem',
-            }}>
-              No phase data available
-            </div>
+            <EmptyState
+              icon={Shield}
+              title="No phase data"
+              description="Complete checklist items to see phase coverage"
+              color="var(--color-phase-2)"
+              compact
+            />
           )}
         </div>
       </div>
@@ -489,7 +490,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Project Velocity */}
         <div className="card" style={{ padding: '1.25rem' }}>
-          <SectionHeader icon={ArrowUpRight} label="Project Velocity" color={PHASE_COLORS[4]} />
+          <SectionHeader icon={ArrowUpRight} label="Project Velocity" color={phaseColors[4]} />
           {velocity.length > 0 ? (
             <>
               <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
@@ -503,7 +504,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                   <Tooltip content={<ChartTooltip />} />
                   <Bar dataKey="Tasks" radius={[4, 4, 0, 0]}>
                     {velocity.map((_, i) => (
-                      <Cell key={i} fill={PHASE_COLORS[(i % 7) + 1]} />
+                      <Cell key={i} fill={phaseColors[(i % 7) + 1]} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -524,7 +525,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Engine Coverage */}
         <div className="card" style={{ padding: '1.25rem' }}>
-          <SectionHeader icon={Activity} label="AI Engine Coverage" color={PHASE_COLORS[6]} />
+          <SectionHeader icon={Activity} label="AI Engine Coverage" color={phaseColors[6]} />
           {engineCoverage.total > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.25rem' }}>
@@ -556,7 +557,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                       <div style={{
                         height: '100%', borderRadius: '0.25rem',
                         background: engine.citations > 0
-                          ? PHASE_COLORS[(i % 7) + 1]
+                          ? phaseColors[(i % 7) + 1]
                           : 'var(--text-disabled)',
                         width: `${Math.max(pct, engine.citations > 0 ? 4 : 0)}%`,
                         transition: 'width 500ms ease',
@@ -574,22 +575,20 @@ export default function AnalyticsPanel({ activeProject, phases }) {
               })}
             </div>
           ) : (
-            <div style={{
-              height: '13rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexDirection: 'column', gap: '0.5rem',
-            }}>
-              <Activity size={28} style={{ color: 'var(--text-disabled)' }} />
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                Run a metrics analysis to see engine coverage
-              </p>
-            </div>
+            <EmptyState
+              icon={Activity}
+              title="No engine data"
+              description="Run a metrics analysis to see engine coverage"
+              color="var(--color-phase-3)"
+              compact
+            />
           )}
         </div>
       </div>
 
       {/* ═══ ROW 5: Insights Summary ═══ */}
       <div className="card" style={{ padding: '1.25rem' }}>
-        <SectionHeader icon={BarChart3} label="Key Insights" color={PHASE_COLORS[5]} />
+        <SectionHeader icon={BarChart3} label="Key Insights" color={phaseColors[5]} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', gap: '0.75rem' }}>
           {/* Dynamic insights based on data */}
           {checklistStats.pct === 100 && (
@@ -666,7 +665,7 @@ function InsightCard({ type, text, detail }) {
   const config = {
     success: { color: 'var(--color-success)', bg: 'rgba(16,185,129,0.08)', icon: CheckCircle2 },
     warning: { color: 'var(--color-error)', bg: 'rgba(239,68,68,0.08)', icon: TrendingDown },
-    info: { color: PHASE_COLORS[2], bg: `${PHASE_COLORS[2]}12`, icon: Activity },
+    info: { color: 'var(--color-phase-2)', bg: 'color-mix(in srgb, var(--color-phase-2) 8%, transparent)', icon: Activity },
   }
   const c = config[type] || config.info
   const Icon = c.icon

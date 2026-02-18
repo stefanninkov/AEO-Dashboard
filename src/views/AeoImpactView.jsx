@@ -22,6 +22,7 @@ import { getAiTrafficReport, getAiLandingPages, getPropertyId } from '../utils/g
 import { formatSiteUrl } from '../utils/gscApi'
 import { cacheKey, getCache, setCache } from '../utils/dataCache'
 import { SetupRequiredState as SharedSetupRequired, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
+import EmptyState from '../components/EmptyState'
 import logger from '../utils/logger'
 
 /* ── Stat Card ── */
@@ -54,7 +55,7 @@ function AeoScoreGauge({ score, label }) {
   const radius = 40
   const circumference = 2 * Math.PI * radius
   const progress = (score / 100) * circumference
-  const color = score >= 70 ? '#10B981' : score >= 40 ? '#F59E0B' : '#EF4444'
+  const color = score >= 70 ? 'var(--color-success)' : score >= 40 ? 'var(--color-warning)' : 'var(--color-error)'
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
@@ -351,10 +352,10 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
 
           {/* Summary Stats */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: '0.75rem' }}>
-            <StatCard icon={Search} label="AEO Queries" value={fmt(queryData.aeoQueryCount)} subValue={`of ${fmt(queryData.totalQueryCount)} total`} color="#F59E0B" />
-            <StatCard icon={Zap} label="AI Sessions" value={fmt(aiTraffic.totalAiSessions)} subValue={fmtPct(aiTraffic.aiSessionShare)} color="#FF6B35" />
-            <StatCard icon={Target} label="Cross-Referenced Pages" value={crossReferencedPages.length} subValue="appear in both GSC + GA4" color="#8B5CF6" />
-            <StatCard icon={TrendingUp} label="AI Click Share" value={fmtPct(queryData.aeoClickShare)} subValue="of total GSC clicks" color="#10B981" />
+            <StatCard icon={Search} label="AEO Queries" value={fmt(queryData.aeoQueryCount)} subValue={`of ${fmt(queryData.totalQueryCount)} total`} color="var(--color-phase-5)" />
+            <StatCard icon={Zap} label="AI Sessions" value={fmt(aiTraffic.totalAiSessions)} subValue={fmtPct(aiTraffic.aiSessionShare)} color="var(--color-phase-1)" />
+            <StatCard icon={Target} label="Cross-Referenced Pages" value={crossReferencedPages.length} subValue="appear in both GSC + GA4" color="var(--color-phase-7)" />
+            <StatCard icon={TrendingUp} label="AI Click Share" value={fmtPct(queryData.aeoClickShare)} subValue="of total GSC clicks" color="var(--color-success)" />
           </div>
 
           {/* Cross-Referenced Pages Table */}
@@ -363,7 +364,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
               display: 'flex', alignItems: 'center', gap: '0.5rem',
               padding: '1rem 1.25rem 0.5rem',
             }}>
-              <Sparkles size={14} style={{ color: '#8B5CF6' }} />
+              <Sparkles size={14} style={{ color: 'var(--color-phase-7)' }} />
               <span style={{
                 fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)',
@@ -412,13 +413,13 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-primary)', fontWeight: 600 }}>
                       {fmt(row.gscClicks)}
                     </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: row.gscPosition <= 3 ? '#10B981' : 'var(--text-secondary)' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: row.gscPosition <= 3 ? 'var(--color-success)' : 'var(--text-secondary)' }}>
                       {fmtPos(row.gscPosition)}
                     </div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                       {fmtPct(row.gscCtr)}
                     </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#FF6B35', fontWeight: 600 }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-phase-1)', fontWeight: 600 }}>
                       {fmt(row.aiSessions)}
                     </div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
@@ -428,13 +429,13 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
                 ))}
               </>
             ) : (
-              <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-                <p style={{ marginBottom: '0.375rem' }}>No cross-referenced pages found yet.</p>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-                  This means no pages currently rank in GSC AEO queries AND receive AI traffic.
-                  Keep optimizing — this intersection is where AEO magic happens.
-                </p>
-              </div>
+              <EmptyState
+                icon={Sparkles}
+                title="No cross-referenced pages yet"
+                description="No pages currently rank in GSC AEO queries AND receive AI traffic. Keep optimizing — this intersection is where AEO magic happens."
+                color="var(--color-phase-7)"
+                compact
+              />
             )}
           </div>
 
@@ -469,7 +470,7 @@ function ViewHeader() {
 
 /* ── Score Component ── */
 function ScoreComponent({ label, score, weight, detail }) {
-  const color = score >= 70 ? '#10B981' : score >= 40 ? '#F59E0B' : '#EF4444'
+  const color = score >= 70 ? 'var(--color-success)' : score >= 40 ? 'var(--color-warning)' : 'var(--color-error)'
   return (
     <div style={{ textAlign: 'center', minWidth: '7rem' }}>
       <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color, lineHeight: 1 }}>

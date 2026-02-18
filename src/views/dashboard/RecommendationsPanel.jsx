@@ -1,14 +1,14 @@
 import { ArrowRight, Lightbulb, AlertTriangle, TrendingUp, CheckCircle2 } from 'lucide-react'
 
 const CATEGORY_META = {
-  getting_started: { label: 'Setup', color: '#FF6B35' },
-  checklist: { label: 'Checklist', color: '#10B981' },
-  metrics: { label: 'Metrics', color: '#6366F1' },
-  content: { label: 'Content', color: '#F59E0B' },
-  monitoring: { label: 'Monitoring', color: '#EC4899' },
-  competitors: { label: 'Competitors', color: '#8B5CF6' },
-  analysis: { label: 'Analysis', color: '#06B6D4' },
-  schema: { label: 'Schema', color: '#14B8A6' },
+  getting_started: { label: 'Setup', color: 'var(--color-phase-1)' },
+  checklist: { label: 'Checklist', color: 'var(--color-phase-4)' },
+  metrics: { label: 'Metrics', color: 'var(--color-phase-7)' },
+  content: { label: 'Content', color: 'var(--color-phase-5)' },
+  monitoring: { label: 'Monitoring', color: 'var(--color-phase-6)' },
+  competitors: { label: 'Competitors', color: 'var(--color-phase-2)' },
+  analysis: { label: 'Analysis', color: 'var(--color-phase-3)' },
+  schema: { label: 'Schema', color: 'var(--color-phase-4)' },
 }
 
 function PriorityIcon({ priority }) {

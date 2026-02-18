@@ -8,6 +8,8 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
 import { useAeoMetrics, AI_ENGINES } from '../hooks/useAeoMetrics'
+import { useChartColors } from '../utils/chartColors'
+import ProgressBar from '../components/ProgressBar'
 import { getFilteredEngines } from '../utils/getRecommendations'
 
 /* ── Reusable Components ── */
@@ -180,6 +182,7 @@ const TABS = [
 
 /* ── Main MetricsView ── */
 export default function MetricsView({ activeProject, updateProject, dateRange }) {
+  const { engineColors: themeEngineColors } = useChartColors()
   const [activeTab, setActiveTab] = useState('overview')
   const { refreshing, progress, error, fetchMetrics, getLatestMetrics, getMetricsForRange } = useAeoMetrics({
     activeProject,
@@ -223,19 +226,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
 
       {/* Progress */}
       {refreshing && (
-        <div className="metrics-progress-card fade-in-up">
-          <div className="flex items-center gap-3 mb-2">
-            <Loader2 size={14} className="text-phase-1 animate-spin" />
-            <span className="text-[0.8125rem] font-medium text-text-primary">{progress.stage}</span>
-          </div>
-          <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--hover-bg)' }}>
-            <div
-              className="h-full bg-phase-1 rounded-full transition-all duration-300"
-              style={{ width: `${progress.total > 0 ? (progress.current / progress.total) * 100 : 0}%` }}
-            />
-          </div>
-          <p className="text-[0.6875rem] text-text-tertiary mt-1">Step {progress.current} of {progress.total}</p>
-        </div>
+        <ProgressBar current={progress.current} total={progress.total} stage={progress.stage} />
       )}
 
       {/* Error */}

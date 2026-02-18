@@ -144,6 +144,20 @@ html {
   --scrollbar-thumb: rgba(0, 0, 0, 0.10);
   --scrollbar-thumb-hover: rgba(0, 0, 0, 0.18);
 
+  /* Phase colors — darkened for white-bg contrast */
+  --color-phase-1: #E55A1B;
+  --color-phase-2: #6B21A8;
+  --color-phase-3: #0284C7;
+  --color-phase-4: #059669;
+  --color-phase-5: #D97706;
+  --color-phase-6: #DB2777;
+  --color-phase-7: #DC2626;
+
+  /* Semantic colors — darkened for white-bg contrast */
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+
   color-scheme: light;
 }
 

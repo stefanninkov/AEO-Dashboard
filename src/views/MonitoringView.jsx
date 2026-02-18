@@ -7,6 +7,7 @@ import {
 import { useAutoMonitor } from '../hooks/useAutoMonitor'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { fireWebhooks } from '../utils/webhookDispatcher'
+import ProgressBar from '../components/ProgressBar'
 import logger from '../utils/logger'
 
 // ─── Interval Config ─────────────────────────────────────────
@@ -257,6 +258,11 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
           <AlertCircle size={16} />
           <span>{error}</span>
         </div>
+      )}
+
+      {/* Progress bar */}
+      {monitoring && (
+        <ProgressBar current={progress.current} total={progress.total} stage={`Checking query ${progress.current} of ${progress.total}`} color="var(--color-phase-3)" />
       )}
 
       {/* Prerequisites Warning */}

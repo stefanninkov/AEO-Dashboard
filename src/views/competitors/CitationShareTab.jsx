@@ -9,6 +9,8 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Legend
 } from 'recharts'
 import { useCitationShare } from '../../hooks/useCitationShare'
+import ProgressBar from '../../components/ProgressBar'
+import EmptyState from '../../components/EmptyState'
 import { PHASE_COLOR_ARRAY } from '../../utils/chartColors'
 import { ENGINE_COLORS } from '../../utils/chartColors'
 import logger from '../../utils/logger'
@@ -235,26 +237,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
 
       {/* ── Progress Bar ── */}
       {checking && (
-        <div style={{
-          background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '0.75rem 1rem',
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.375rem' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-              {progress.stage}
-            </span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)' }}>
-              {progress.current}/{progress.total}
-            </span>
-          </div>
-          <div style={{ height: 6, background: 'var(--hover-bg)', borderRadius: 3 }}>
-            <div style={{
-              height: '100%', borderRadius: 3, background: 'var(--color-phase-3)',
-              width: `${progress.total > 0 ? (progress.current / progress.total) * 100 : 0}%`,
-              transition: 'width 300ms',
-            }} />
-          </div>
-        </div>
+        <ProgressBar current={progress.current} total={progress.total} stage={progress.stage} color="var(--color-phase-3)" />
       )}
 
       {/* ── Error ── */}
@@ -684,21 +667,14 @@ export default function CitationShareTab({ activeProject, updateProject, user })
 
       {/* ── Empty State ── */}
       {history.length === 0 && !checking && (
-        <div style={{
-          textAlign: 'center', padding: '2.5rem 1.5rem',
-          background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
-          borderRadius: '0.75rem',
-        }}>
-          <PieChartIcon size={36} style={{ color: 'var(--text-disabled)', marginBottom: '0.75rem' }} />
-          <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 0.25rem' }}>
-            No citation data yet
-          </p>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.5 }}>
-            {competitors.length === 0
-              ? 'Add competitors in the Overview tab first, then check citations.'
-              : 'Click "Run Citation Check" to see which brands AI engines cite for your industry.'}
-          </p>
-        </div>
+        <EmptyState
+          icon={PieChartIcon}
+          title="No citation data yet"
+          description={competitors.length === 0
+            ? 'Add competitors in the Overview tab first, then check citations.'
+            : 'Click "Run Citation Check" to see which brands AI engines cite for your industry.'}
+          color="var(--color-phase-3)"
+        />
       )}
     </div>
   )

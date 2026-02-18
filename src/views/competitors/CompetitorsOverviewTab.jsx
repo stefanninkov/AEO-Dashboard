@@ -5,6 +5,8 @@ import {
 } from 'lucide-react'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { useCompetitorAnalysis } from '../../hooks/useCompetitorAnalysis'
+import ProgressBar from '../../components/ProgressBar'
+import EmptyState from '../../components/EmptyState'
 import { INDUSTRY_COMPETITORS, INDUSTRY_LABELS } from '../../utils/getRecommendations'
 
 export const CATEGORY_LABELS = {
@@ -146,20 +148,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
 
       {/* Progress */}
       {analyzing && (
-        <div className="card fade-in-up" style={{ padding: '1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '0.5rem' }}>
-            <Loader2 size={14} style={{ color: 'var(--color-phase-1)', animation: 'spin 1s linear infinite' }} />
-            <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{progress.stage}</span>
-          </div>
-          <div style={{ width: '100%', height: '0.375rem', borderRadius: '0.1875rem', background: 'var(--hover-bg)', overflow: 'hidden' }}>
-            <div style={{
-              height: '100%', borderRadius: '0.1875rem', background: 'var(--color-phase-1)',
-              transition: 'width 300ms ease',
-              width: `${progress.total > 0 ? (progress.current / progress.total) * 100 : 0}%`,
-            }} />
-          </div>
-          <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>Step {progress.current} of {progress.total}</p>
-        </div>
+        <ProgressBar current={progress.current} total={progress.total} stage={progress.stage} />
       )}
 
       {/* Error */}
@@ -349,13 +338,12 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
 
       {/* Empty state */}
       {competitors.length === 0 && !analyzing && (
-        <div className="card fade-in-up" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '3rem 1.5rem' }}>
-          <Target size={40} style={{ color: 'var(--text-tertiary)', marginBottom: '1rem' }} />
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>No Competitors Added</h3>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', maxWidth: '22.5rem', textAlign: 'center', lineHeight: 1.6 }}>
-            Add competitor URLs above to compare your AEO performance. Your own site will be automatically included in the analysis.
-          </p>
-        </div>
+        <EmptyState
+          icon={Target}
+          title="No Competitors Added"
+          description="Add competitor URLs above to compare your AEO performance. Your own site will be automatically included in the analysis."
+          color="var(--color-phase-5)"
+        />
       )}
     </div>
   )
