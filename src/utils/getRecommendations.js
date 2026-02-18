@@ -34,7 +34,7 @@ export const GOAL_LABELS = {
   answers: 'Appear in AI Search Results',
   traffic: 'Drive AI Referral Traffic',
   brand: 'Brand Positioning & Authority',
-  all: 'All of the Above',
+  all: 'Full AEO Strategy',
 }
 
 export const MATURITY_LABELS = {
