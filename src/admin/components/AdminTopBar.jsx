@@ -3,6 +3,7 @@ import { Shield } from 'lucide-react'
 
 const VIEW_TITLES = {
   dashboard: 'Dashboard Overview',
+  waitlist: 'Waitlist Signups',
   users: 'User Management',
   projects: 'Project Management',
   activity: 'Global Activity Log',

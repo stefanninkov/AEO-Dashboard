@@ -2,7 +2,7 @@ import { memo } from 'react'
 import {
   Shield, LayoutDashboard, Users, FolderKanban, Activity,
   DollarSign, BarChart3, Settings, LogOut, Sun, Moon, ArrowLeft,
-  MessageSquare, BotMessageSquare,
+  MessageSquare, BotMessageSquare, UserPlus,
 } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 
@@ -29,6 +29,7 @@ function getAvatarColor(name) {
 
 const ADMIN_NAV_ITEMS = [
   { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
+  { id: 'waitlist', label: 'Waitlist', icon: UserPlus },
   { id: 'users', label: 'Users', icon: Users },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
   { id: 'activity', label: 'Activity Log', icon: Activity },
