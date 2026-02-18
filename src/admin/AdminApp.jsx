@@ -12,6 +12,8 @@ const AdminActivity = lazy(() => import('./views/AdminActivity'))
 const AdminRevenue = lazy(() => import('./views/AdminRevenue'))
 const AdminAnalytics = lazy(() => import('./views/AdminAnalytics'))
 const AdminSettings = lazy(() => import('./views/AdminSettings'))
+const AdminFeedback = lazy(() => import('./views/AdminFeedback'))
+const AdminChatLogs = lazy(() => import('./views/AdminChatLogs'))
 
 /* ── Loading Screen ── */
 function LoadingScreen() {
@@ -230,6 +232,10 @@ export default function AdminApp({ user, onSignOut }) {
         return <AdminAnalytics user={user} />
       case 'settings':
         return <AdminSettings user={user} />
+      case 'feedback':
+        return <AdminFeedback user={user} />
+      case 'chatlogs':
+        return <AdminChatLogs user={user} />
       default:
         return <AdminDashboard user={user} />
     }

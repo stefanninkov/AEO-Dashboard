@@ -42,6 +42,7 @@ const PdfExportDialog = lazy(() => import('./components/PdfExportDialog'))
 const CsvExportDialog = lazy(() => import('./components/CsvExportDialog'))
 const CommandPalette = lazy(() => import('./components/CommandPalette'))
 const KeyboardShortcutsModal = lazy(() => import('./components/KeyboardShortcutsModal'))
+const HelpWidget = lazy(() => import('./components/HelpWidget'))
 
 /* ── Suspense Fallback — picks the right skeleton per view ── */
 function ViewSkeleton({ activeView }) {
@@ -759,6 +760,14 @@ function AuthenticatedApp({ user, onSignOut }) {
           onExited={() => { setShortcutsOpen(false); setShortcutsClosing(false) }}
         />
       )}
+
+      {/* Help & Feedback Widget */}
+      <HelpWidget
+        user={user}
+        activeView={activeView}
+        activeProject={activeProject}
+        setActiveView={setActiveView}
+      />
       </Suspense>
     </>
   )

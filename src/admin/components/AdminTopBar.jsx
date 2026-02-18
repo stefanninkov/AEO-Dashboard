@@ -6,6 +6,8 @@ const VIEW_TITLES = {
   users: 'User Management',
   projects: 'Project Management',
   activity: 'Global Activity Log',
+  feedback: 'User Feedback',
+  chatlogs: 'AI Chat Logs',
   revenue: 'Revenue Dashboard',
   analytics: 'Platform Analytics',
   settings: 'Admin Settings',

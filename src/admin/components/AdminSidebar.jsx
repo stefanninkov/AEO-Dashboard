@@ -2,6 +2,7 @@ import { memo } from 'react'
 import {
   Shield, LayoutDashboard, Users, FolderKanban, Activity,
   DollarSign, BarChart3, Settings, LogOut, Sun, Moon, ArrowLeft,
+  MessageSquare, BotMessageSquare,
 } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 
@@ -31,6 +32,8 @@ const ADMIN_NAV_ITEMS = [
   { id: 'users', label: 'Users', icon: Users },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
   { id: 'activity', label: 'Activity Log', icon: Activity },
+  { id: 'feedback', label: 'Feedback', icon: MessageSquare },
+  { id: 'chatlogs', label: 'Chat Logs', icon: BotMessageSquare },
   { id: 'revenue', label: 'Revenue', icon: DollarSign },
   { id: 'analytics', label: 'Analytics', icon: BarChart3 },
   { id: 'settings', label: 'Settings', icon: Settings },

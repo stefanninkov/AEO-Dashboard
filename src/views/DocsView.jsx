@@ -9,7 +9,7 @@ import {
 import { useDebounce } from '../hooks/useDebounce'
 
 /* ─── App Guide Data ──────────────────────────────────────────── */
-const APP_SECTIONS = [
+export const APP_SECTIONS = [
   {
     id: 'getting-started',
     icon: Rocket,
@@ -304,7 +304,7 @@ const APP_SECTIONS = [
 ]
 
 /* ─── FAQ Data ────────────────────────────────────────────────── */
-const FAQ_ITEMS = [
+export const FAQ_ITEMS = [
   {
     q: 'How is AEO different from traditional SEO?',
     a: 'Traditional SEO focuses on ranking in search engine results pages (SERPs). AEO focuses on being cited as a source by AI-powered systems — ChatGPT, Google AI Overviews, Perplexity, etc. While there\'s significant overlap (good SEO helps AEO), AEO specifically emphasizes structured data, content clarity, entity recognition, and authoritative sourcing that AI systems value.',
