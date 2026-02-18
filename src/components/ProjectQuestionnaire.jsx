@@ -49,7 +49,7 @@ const GOAL_OPTIONS = [
   { value: 'answers', label: 'Show in Answers', desc: 'Be directly featured in AI results' },
   { value: 'traffic', label: 'Drive Traffic', desc: 'Get referral visits from AI engines' },
   { value: 'brand', label: 'Brand Authority', desc: 'Build recognition in AI ecosystems' },
-  { value: 'all', label: 'All of Above', desc: 'Comprehensive AEO strategy' },
+  { value: 'all', label: 'Full Strategy', desc: 'Citations, answers, traffic & brand' },
 ]
 
 const ENGINE_OPTIONS = [
