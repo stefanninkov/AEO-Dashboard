@@ -198,7 +198,7 @@ function useFirestoreProjectsImpl(user) {
   const [legacyLoaded, setLegacyLoaded] = useState(false)
   const [sharedLoaded, setSharedLoaded] = useState(false)
   const [activeProjectId, setActiveProjectId] = useState(null)
-  const [didAutoCreate, setDidAutoCreate] = useState(false)
+
   const [firestoreError, setFirestoreError] = useState(null)
 
   const loading = !legacyLoaded || !sharedLoaded
@@ -383,14 +383,6 @@ function useFirestoreProjectsImpl(user) {
     const newChecked = { ...activeProject.checked, [itemId]: !activeProject.checked?.[itemId] }
     await updateProject(activeProject.id, { checked: newChecked })
   }, [activeProject, updateProject])
-
-  // Auto-create a default project for new users with no projects
-  useEffect(() => {
-    if (!loading && !didAutoCreate && projects.length === 0 && userId) {
-      setDidAutoCreate(true)
-      createProject('My First Project', '')
-    }
-  }, [loading, projects.length, userId, didAutoCreate, createProject])
 
   return {
     projects,
