@@ -309,6 +309,9 @@ function AuthenticatedApp({ user, onSignOut }) {
   // Email digest scheduler
   useDigestScheduler({ activeProject, updateProject })
 
+  // Auto-open project creation when user has no projects
+  const noProjects = !projectsLoading && projects.length === 0
+
   // Keyboard shortcuts
   useEffect(() => {
     function handleKeyDown(e) {
@@ -404,8 +407,6 @@ function AuthenticatedApp({ user, onSignOut }) {
     setQuestionnaireProjectId(null)
   }, [questionnaireProjectId, updateProject])
 
-  // Auto-open project creation when user has no projects
-  const noProjects = !projectsLoading && projects.length === 0
   useEffect(() => {
     if (noProjects && !questionnaireProjectId) {
       setNewProjectModalOpen(true)
