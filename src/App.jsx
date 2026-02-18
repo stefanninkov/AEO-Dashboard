@@ -693,7 +693,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       {(questionnaireProjectId || pendingProject) && (
         <ProjectQuestionnaire
           onComplete={handleQuestionnaireComplete}
-          onCancel={pendingProject ? handleQuestionnaireCancel : undefined}
+          onCancel={pendingProject && !noProjects ? handleQuestionnaireCancel : undefined}
           isNewProject={!!pendingProject}
           initialData={questionnaireProjectId ? projects.find(p => p.id === questionnaireProjectId)?.questionnaire : undefined}
         />
