@@ -1819,25 +1819,31 @@ body {
   z-index: 300;
 }
 
-.onboarding-spotlight {
-  position: absolute;
-  border-radius: 0.75rem;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
-  z-index: 301;
-  transition: all 400ms ease;
-  pointer-events: none;
-}
-
 .onboarding-card {
-  position: absolute;
+  position: fixed;
   z-index: 302;
   background: var(--bg-card);
   border: 1px solid var(--border-default);
-  border-radius: 0.875rem;
-  padding: 1.25rem 1.5rem;
-  max-width: 21.25rem;
+  border-radius: 1rem;
+  padding: 1.5rem 1.75rem;
+  max-width: 30rem;
+  width: calc(100% - 2.5rem);
   box-shadow: var(--shadow-lg);
   animation: fade-in-up 300ms ease;
+}
+
+.onboarding-highlight {
+  position: relative;
+  z-index: 301;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.5), 0 0 20px 4px rgba(255, 107, 53, 0.25);
+  animation: onboarding-glow 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes onboarding-glow {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.5), 0 0 20px 4px rgba(255, 107, 53, 0.25); }
+  50% { box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.7), 0 0 30px 8px rgba(255, 107, 53, 0.35); }
 }
 
 /* ══════════════════════════════════════════════════

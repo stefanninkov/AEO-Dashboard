@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { X, Plus } from 'lucide-react'
+import { X, Plus, Rocket } from 'lucide-react'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
-export default function NewProjectModal({ onClose, onCreate }) {
+export default function NewProjectModal({ onClose, onCreate, required }) {
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
   const trapRef = useFocusTrap(true)
@@ -14,7 +14,7 @@ export default function NewProjectModal({ onClose, onCreate }) {
   }
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div className="modal-backdrop" onClick={required ? undefined : onClose}>
       <div
         ref={trapRef}
         className="modal-panel"
@@ -25,21 +25,29 @@ export default function NewProjectModal({ onClose, onCreate }) {
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: required ? 8 : 24 }}>
           <h2 id="new-project-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
-            New Project
+            {required ? 'Create Your First Project' : 'New Project'}
           </h2>
-          <button
-            onClick={onClose}
-            style={{
-              padding: 6, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer',
-              color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center',
-            }}
-            aria-label="Close modal"
-          >
-            <X size={18} />
-          </button>
+          {!required && (
+            <button
+              onClick={onClose}
+              style={{
+                padding: 6, borderRadius: 8, border: 'none', background: 'none', cursor: 'pointer',
+                color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center',
+              }}
+              aria-label="Close modal"
+            >
+              <X size={18} />
+            </button>
+          )}
         </div>
+
+        {required && (
+          <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 24, lineHeight: 1.5 }}>
+            Each project tracks a website's AEO optimization. Enter your project name and website URL to get started.
+          </p>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -79,16 +87,18 @@ export default function NewProjectModal({ onClose, onCreate }) {
               className="btn-primary"
               style={{ flex: 1, opacity: name.trim() ? 1 : 0.5 }}
             >
-              <Plus size={14} />
-              Create Project
+              {required ? <Rocket size={14} /> : <Plus size={14} />}
+              {required ? 'Get Started' : 'Create Project'}
             </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn-secondary"
-            >
-              Cancel
-            </button>
+            {!required && (
+              <button
+                type="button"
+                onClick={onClose}
+                className="btn-secondary"
+              >
+                Cancel
+              </button>
+            )}
           </div>
         </form>
       </div>

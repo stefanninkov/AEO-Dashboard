@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import {
-  ArrowRight, ArrowLeft, X, Check, Rocket, Bot,
+  ArrowRight, ArrowLeft, Check, Rocket, Bot,
   Layers, ShoppingCart, Heart, Landmark, Scale, Home,
   GraduationCap, Megaphone, Store, Newspaper, Briefcase
 } from 'lucide-react'
@@ -74,7 +74,7 @@ const MATURITY_OPTIONS = [
   { value: 'advanced', label: 'Advanced', desc: 'Active AEO, looking to optimize' },
 ]
 
-export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }) {
+export default function ProjectQuestionnaire({ onComplete, initialData }) {
   const [step, setStep] = useState(0)
   const [animating, setAnimating] = useState(false)
   const trapRef = useFocusTrap(true)
@@ -115,8 +115,8 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
       case 0: return answers.industry && answers.region
       case 1: return answers.audience && answers.primaryGoal
       case 2: return answers.targetEngines.length > 0
-      case 3: return true // optional
-      case 4: return true // optional
+      case 3: return answers.contentType && answers.maturity
+      case 4: return answers.hasSchema && answers.updateCadence
       default: return true
     }
   }
@@ -152,7 +152,7 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
         padding: 20,
       }}
     >
-      {/* Backdrop */}
+      {/* Backdrop — no click to dismiss */}
       <div
         style={{
           position: 'absolute', inset: 0,
@@ -160,7 +160,6 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
           backdropFilter: 'blur(8px)',
           animation: 'backdrop-fade-in 200ms ease-out both',
         }}
-        onClick={onSkip}
       />
 
       {/* Card */}
@@ -193,20 +192,6 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
           />
         </div>
 
-        {/* Close */}
-        <button
-          onClick={onSkip}
-          style={{
-            position: 'absolute', top: 16, right: 16,
-            background: 'none', border: 'none', cursor: 'pointer',
-            color: 'var(--text-tertiary)', padding: 4, borderRadius: 8,
-            display: 'flex', alignItems: 'center', zIndex: 2,
-          }}
-          title="Skip questionnaire"
-        >
-          <X size={16} />
-        </button>
-
         {/* Content */}
         <div
           style={{
@@ -226,14 +211,6 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
             }}>
               Step {step + 1} of {TOTAL_STEPS}
             </span>
-            {step >= 3 && (
-              <span style={{
-                fontSize: 10, fontWeight: 500, color: 'var(--text-disabled)',
-                textTransform: 'uppercase', letterSpacing: '0.5px',
-              }}>
-                Optional
-              </span>
-            )}
           </div>
 
           {/* ── Step 0: Industry & Region ── */}
@@ -431,14 +408,14 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
             </div>
           )}
 
-          {/* ── Step 3: Content & Maturity (Optional) ── */}
+          {/* ── Step 3: Content & Maturity ── */}
           {step === 3 && (
             <div>
               <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
                 Your content & experience
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
-                Optional — helps us customize your checklist priority order.
+                This helps us customize your checklist priority order.
               </p>
 
               {/* Content Type */}
@@ -495,14 +472,14 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
             </div>
           )}
 
-          {/* ── Step 4: Current State (Optional) ── */}
+          {/* ── Step 4: Current State ── */}
           {step === 4 && (
             <div>
               <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
                 Current technical state
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
-                Optional — helps us suggest the right starting point.
+                This helps us suggest the right starting point for your optimization.
               </p>
 
               {/* Schema */}
@@ -646,32 +623,6 @@ export default function ProjectQuestionnaire({ onComplete, onSkip, initialData }
               >
                 <ArrowLeft size={13} />
                 Back
-              </button>
-            )}
-            {step === 0 && (
-              <button
-                onClick={onSkip}
-                style={{
-                  padding: '8px 14px', fontSize: 12, fontWeight: 500,
-                  borderRadius: 8, border: 'none',
-                  background: 'transparent', color: 'var(--text-tertiary)',
-                  cursor: 'pointer', fontFamily: 'var(--font-body)',
-                }}
-              >
-                Skip
-              </button>
-            )}
-            {step >= 3 && step < TOTAL_STEPS - 1 && (
-              <button
-                onClick={handleNext}
-                style={{
-                  padding: '8px 14px', fontSize: 12, fontWeight: 500,
-                  borderRadius: 8, border: 'none',
-                  background: 'transparent', color: 'var(--text-tertiary)',
-                  cursor: 'pointer', fontFamily: 'var(--font-body)',
-                }}
-              >
-                Skip
               </button>
             )}
             <button

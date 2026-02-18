@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import {
-  Zap, ArrowRight, X, Compass, Search, CheckSquare, LayoutDashboard, Rocket,
-  BarChart3, Users, BookOpen, FlaskConical, Settings, TrendingUp, Target
+  Zap, ArrowRight, ArrowLeft, Compass, CheckSquare, LayoutDashboard, Rocket,
+  BarChart3, Users, BookOpen, FlaskConical, Settings, PenTool, Code2, Activity,
 } from 'lucide-react'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
@@ -9,135 +9,127 @@ const STEPS = [
   // ── Getting Started ──
   {
     id: 'welcome',
-    title: 'Welcome to AEO Dashboard!',
-    description: 'Answer Engine Optimization made simple. This tour will walk you through every section of the app so you know exactly where everything is.',
+    title: 'Welcome to AEO Dashboard',
+    description: 'Answer Engine Optimization (AEO) helps your website appear in AI-generated answers — from ChatGPT and Google AI Overviews to Perplexity and Bing Copilot. This tour will walk you through every tool so you know exactly how to use each one.',
     icon: <Zap size={24} />,
+    section: 'Getting Started',
     target: null,
-    position: 'center',
     view: null,
   },
   {
     id: 'sidebar',
-    title: 'Navigate the App',
-    description: 'The sidebar gives you quick access to all 9 sections of the app. Pro tip: press number keys 1-9 on your keyboard to jump between views instantly.',
+    title: 'Sidebar Navigation',
+    description: 'Use the sidebar to switch between all the tools in the app. Each tool handles a specific part of your AEO workflow. Pro tip: press number keys 1–9 to jump between views instantly, or press ⌘K (Ctrl+K) to open the Command Palette for fast search and navigation.',
     icon: <Compass size={24} />,
+    section: 'Getting Started',
     target: '.sidebar',
-    position: 'right',
     view: 'dashboard',
   },
   {
     id: 'project-switcher',
-    title: 'Manage Projects',
-    description: 'Switch between projects or create new ones here. Each project tracks a different website\'s AEO progress independently — with its own checklist, metrics, and analysis.',
+    title: 'Your Project',
+    description: 'Each project tracks one website\'s AEO optimization. All your checklist progress, metrics, and settings are project-scoped. You can create multiple projects for different websites and switch between them here.',
     icon: <LayoutDashboard size={24} />,
+    section: 'Getting Started',
     target: '.top-bar-row-1 .relative',
-    position: 'bottom',
-    view: 'dashboard',
-  },
-  {
-    id: 'search',
-    title: 'Quick Search',
-    description: 'Press Ctrl+K (or Cmd+K on Mac) to instantly search across checklist items, documentation, competitors, and navigate anywhere in the app.',
-    icon: <Search size={24} />,
-    target: '.search-container',
-    position: 'bottom',
     view: 'dashboard',
   },
   {
     id: 'progress',
-    title: 'Track Overall Progress',
-    description: 'The progress bar shows your total AEO completion percentage. The colored phase badges below break it down by each of the 7 AEO phases.',
-    icon: <TrendingUp size={24} />,
+    title: 'Progress Tracking',
+    description: 'The progress bar shows your overall AEO completion percentage across all 7 phases. The colored phase badges below break it down — aim to get all phases to 100%. This gives you a quick snapshot of where you stand and what needs attention.',
+    icon: <BarChart3 size={24} />,
+    section: 'Getting Started',
     target: '.top-bar-progress',
-    position: 'bottom',
     view: 'dashboard',
   },
 
-  // ── Dashboard ──
+  // ── Core Tools ──
   {
-    id: 'dashboard-overview',
-    title: 'Dashboard Overview',
-    description: 'Your command center. View stat cards, charts, phase progress, and quick actions. Switch between Overview, Citations, Prompts, and Chatbots sub-tabs for different metric views.',
+    id: 'dashboard',
+    title: 'Dashboard',
+    description: 'Your command center for AEO. View key stat cards, progress charts, and phase breakdowns at a glance. Switch between sub-tabs (Overview, Citations, Prompts, Chatbots) to see different metric angles. This is where you check your overall AEO health.',
     icon: <LayoutDashboard size={24} />,
+    section: 'Core Tools',
     target: '.stat-card',
-    position: 'bottom',
     view: 'dashboard',
   },
-
-  // ── AEO Guide ──
   {
     id: 'checklist',
     title: 'AEO Guide',
-    description: '200+ optimization tasks organized across 7 phases. Toggle between Checklist mode to track progress and Guide mode for detailed explanations, key principles, and deliverables.',
+    description: 'Your step-by-step roadmap with 88 tasks across 7 phases. Check items off as you complete them — progress saves automatically. Each task has a "Learn more" button with detailed documentation and an action button that takes you directly to the relevant tool. Start with Phase 1 to audit your technical foundation.',
     icon: <CheckSquare size={24} />,
+    section: 'Core Tools',
     target: '.checklist-stats-grid',
-    position: 'bottom',
     view: 'checklist',
   },
-
-  // ── Competitors ──
-  {
-    id: 'competitors',
-    title: 'Competitor Tracking',
-    description: 'Add competitors by name and URL to benchmark your AEO performance. Run analysis to compare scores, see heat maps of strengths/weaknesses, and get AI-generated competitive insights.',
-    icon: <Users size={24} />,
-    target: 'input[placeholder="e.g. TechLeader"]',
-    position: 'bottom',
-    view: 'competitors',
-  },
-
-  // ── Analyzer ──
   {
     id: 'analyzer',
-    title: 'Site Analyzer',
-    description: 'Enter any URL and AI will scan it for AEO readiness — checking schema markup, content structure, technical SEO, and authority signals. You\'ll get a score from 0-100 with specific recommendations.',
+    title: 'Analyzer',
+    description: 'Enter any URL and the AI will scan it for AEO readiness — checking schema markup, content structure, technical SEO, and authority signals. You\'ll get a score from 0–100 with specific, actionable recommendations. This should be your starting point: analyze your site to get a baseline score.',
     icon: <Zap size={24} />,
+    section: 'Core Tools',
     target: 'input[placeholder="https://example.com"]',
-    position: 'bottom',
     view: 'analyzer',
   },
 
-  // ── Metrics ──
+  // ── Creation Tools ──
   {
-    id: 'metrics',
-    title: 'Detailed Metrics',
-    description: 'Run analysis to get citation counts, prompt visibility, and AI engine breakdowns over time. Track how your site appears in ChatGPT, Perplexity, Google AI Overviews, and more.',
-    icon: <BarChart3 size={24} />,
+    id: 'writer',
+    title: 'Content Writer',
+    description: 'AI-powered content creation specifically optimized for AEO. Generate FAQ pages, how-to guides, product descriptions, and other content formats that AI engines love to cite. The writer structures content with clear headings, concise answers, and proper formatting for maximum AI visibility.',
+    icon: <PenTool size={24} />,
+    section: 'Creation Tools',
     target: null,
-    position: 'center',
+    view: 'writer',
+  },
+  {
+    id: 'schema',
+    title: 'Schema Generator',
+    description: 'Generate JSON-LD structured data markup for your pages. Schema is one of the most important AEO factors — it tells AI engines exactly what your content means. Select a schema type (FAQPage, HowTo, Article, Product, etc.), fill in the fields, and get valid JSON-LD ready to paste into your site.',
+    icon: <Code2 size={24} />,
+    section: 'Creation Tools',
+    target: null,
+    view: 'schema',
+  },
+
+  // ── Measurement ──
+  {
+    id: 'testing',
+    title: 'Testing',
+    description: 'Test real queries against AI engines (ChatGPT, Perplexity, Google AI, Bing Copilot, Claude) to see if your content appears in their answers. Track which queries you\'re winning and which need work. This is how you validate that your optimizations are actually working.',
+    icon: <FlaskConical size={24} />,
+    section: 'Measurement',
+    target: null,
+    view: 'testing',
+  },
+  {
+    id: 'metrics-monitoring',
+    title: 'Metrics & Monitoring',
+    description: 'Track your AEO performance over time with detailed analytics. The Monitoring tab watches for issues in real-time, while Metrics shows trends in citations, visibility, and traffic. Connect Google Search Console and GA4 in Settings to pull in real performance data from your website.',
+    icon: <Activity size={24} />,
+    section: 'Measurement',
+    target: null,
     view: 'metrics',
   },
 
-  // ── Documentation ──
+  // ── Resources ──
   {
     id: 'docs',
-    title: 'Documentation Library',
-    description: 'In-depth guides for every AEO task in the checklist. Search by keyword or filter by phase. Click any item to open a detailed overlay with step-by-step instructions.',
+    title: 'Documentation',
+    description: 'Full documentation for every feature and every checklist task. The App Guide tab explains each tool in detail, AEO Reference has comprehensive docs for all 88 tasks, and FAQ answers common questions. Search across everything or browse by phase.',
     icon: <BookOpen size={24} />,
-    target: 'input[placeholder="Search documentation..."]',
-    position: 'bottom',
+    section: 'Resources',
+    target: null,
     view: 'docs',
   },
-
-  // ── Testing ──
-  {
-    id: 'testing',
-    title: 'Testing & Monitoring',
-    description: 'Track target queries across AI platforms (ChatGPT, Perplexity, Google AIO, Bing Copilot, Claude). Set up auto-monitoring, follow weekly/monthly testing routines, and use quick links to validation tools.',
-    icon: <FlaskConical size={24} />,
-    target: null,
-    position: 'center',
-    view: 'testing',
-  },
-
-  // ── Settings ──
   {
     id: 'settings',
-    title: 'Settings & API Key',
-    description: 'Configure your profile, set your Anthropic API key (required for the Analyzer and AI verification), manage project settings, and access destructive actions like resetting data.',
+    title: 'Settings',
+    description: 'Configure your project details, invite team members with role-based access (Owner, Admin, Editor, Viewer), and connect integrations — Google Search Console, Google Analytics 4, and Webflow. Set your Anthropic API key here — it\'s required for the Analyzer and AI-powered features.',
     icon: <Settings size={24} />,
+    section: 'Resources',
     target: null,
-    position: 'center',
     view: 'settings',
   },
 
@@ -145,58 +137,54 @@ const STEPS = [
   {
     id: 'get-started',
     title: 'You\'re Ready!',
-    description: 'Start by setting your API key in Settings, then enter your website URL in the Analyzer. It will scan your site and give you an AEO score with actionable recommendations. Good luck!',
+    description: 'Here\'s your game plan: First, go to Settings and set your API key. Then open the AEO Guide and start with Phase 1 to audit your technical foundation. Use the Analyzer to scan your website and get a baseline score. From there, work through the phases — each task links directly to the tool you need. Good luck!',
     icon: <Rocket size={24} />,
+    section: "Let's Go",
     target: null,
-    position: 'center',
     view: null,
-    cta: 'Start Analyzing',
+    cta: 'Start with AEO Guide',
   },
 ]
 
 export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }) {
   const [step, setStep] = useState(0)
-  const [spotlightRect, setSpotlightRect] = useState(null)
   const [animating, setAnimating] = useState(false)
+  const prevHighlightRef = useRef(null)
   const trapRef = useFocusTrap(true)
 
   const currentStep = STEPS[step]
 
-  // Calculate spotlight position for current step
-  const updateSpotlight = useCallback(() => {
-    if (!currentStep.target) {
-      setSpotlightRect(null)
-      return
+  // Apply highlight glow to target element
+  const updateHighlight = useCallback(() => {
+    // Remove previous highlight
+    if (prevHighlightRef.current) {
+      prevHighlightRef.current.classList.remove('onboarding-highlight')
+      prevHighlightRef.current = null
     }
+    if (!currentStep.target) return
+
     const el = document.querySelector(currentStep.target)
     if (el) {
-      // Scroll the element into view within .content-scroll
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      // Wait for scroll to settle, then measure
-      setTimeout(() => {
-        const rect = el.getBoundingClientRect()
-        setSpotlightRect({
-          top: rect.top - 8,
-          left: rect.left - 8,
-          width: rect.width + 16,
-          height: rect.height + 16,
-        })
-      }, 400)
-    } else {
-      setSpotlightRect(null)
+      el.classList.add('onboarding-highlight')
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      prevHighlightRef.current = el
     }
   }, [currentStep])
 
   useEffect(() => {
-    // Delay spotlight update if we might be waiting for a view to mount
     const delay = currentStep.view ? 500 : 100
-    const timer = setTimeout(updateSpotlight, delay)
-    window.addEventListener('resize', updateSpotlight)
+    const timer = setTimeout(updateHighlight, delay)
+    return () => clearTimeout(timer)
+  }, [updateHighlight, currentStep])
+
+  // Cleanup highlight on unmount
+  useEffect(() => {
     return () => {
-      clearTimeout(timer)
-      window.removeEventListener('resize', updateSpotlight)
+      if (prevHighlightRef.current) {
+        prevHighlightRef.current.classList.remove('onboarding-highlight')
+      }
     }
-  }, [updateSpotlight, currentStep])
+  }, [])
 
   const navigateToStep = (nextStep, currentView) => {
     if (nextStep.view && nextStep.view !== currentView && setActiveView) {
@@ -234,93 +222,38 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
   }
 
   const handleComplete = () => {
+    if (prevHighlightRef.current) {
+      prevHighlightRef.current.classList.remove('onboarding-highlight')
+    }
     localStorage.setItem('aeo-onboarding-completed', 'true')
     onComplete()
   }
 
   const handleSkip = () => {
+    if (prevHighlightRef.current) {
+      prevHighlightRef.current.classList.remove('onboarding-highlight')
+    }
     localStorage.setItem('aeo-onboarding-completed', 'true')
     onSkip()
   }
 
   const handleCta = () => {
     handleComplete()
-    if (setActiveView) setActiveView('analyzer')
-  }
-
-  // Calculate card position based on spotlight (clamped to viewport)
-  const getCardStyle = () => {
-    if (currentStep.position === 'center' || !spotlightRect) {
-      return {
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-      }
-    }
-    const { position } = currentStep
-    const margin = 16
-    const cardW = 360
-    const cardH = 280
-
-    if (position === 'right') {
-      return {
-        top: Math.min(spotlightRect.top, window.innerHeight - cardH),
-        left: Math.min(spotlightRect.left + spotlightRect.width + margin, window.innerWidth - cardW),
-      }
-    }
-    if (position === 'bottom') {
-      return {
-        top: Math.min(spotlightRect.top + spotlightRect.height + margin, window.innerHeight - cardH),
-        left: Math.min(spotlightRect.left, window.innerWidth - cardW),
-      }
-    }
-    if (position === 'top') {
-      return {
-        bottom: Math.max(window.innerHeight - spotlightRect.top + margin, 20),
-        left: Math.min(spotlightRect.left, window.innerWidth - cardW),
-      }
-    }
-    return {
-      top: Math.min(spotlightRect.top + spotlightRect.height + margin, window.innerHeight - cardH),
-      left: Math.min(spotlightRect.left, window.innerWidth - cardW),
-    }
-  }
-
-  // Section label for step groups
-  const getSectionLabel = () => {
-    if (step <= 4) return 'Getting Started'
-    if (step <= 13) return 'Exploring the App'
-    return "Let's Go"
+    if (setActiveView) setActiveView('checklist')
   }
 
   return (
     <div className="onboarding-overlay">
       {/* Dark overlay */}
-      {!spotlightRect && (
-        <div
-          style={{
-            position: 'fixed', inset: 0,
-            background: 'rgba(0,0,0,0.6)',
-            zIndex: 300,
-          }}
-        />
-      )}
+      <div
+        style={{
+          position: 'fixed', inset: 0,
+          background: 'rgba(0,0,0,0.55)',
+          zIndex: 300,
+        }}
+      />
 
-      {/* Spotlight cutout */}
-      {spotlightRect && (
-        <div
-          className="onboarding-spotlight"
-          style={{
-            position: 'fixed',
-            top: spotlightRect.top,
-            left: spotlightRect.left,
-            width: spotlightRect.width,
-            height: spotlightRect.height,
-          }}
-        />
-      )}
-
-      {/* Tutorial card */}
+      {/* Tutorial card — always centered */}
       <div
         ref={trapRef}
         className="onboarding-card"
@@ -328,35 +261,22 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
         aria-modal="true"
         aria-labelledby="onboarding-title"
         style={{
-          ...getCardStyle(),
+          position: 'fixed',
+          top: '50%', left: '50%',
+          transform: 'translate(-50%, -50%)',
           opacity: animating ? 0 : 1,
           transition: 'opacity 150ms ease',
         }}
       >
-        {/* Close button */}
-        <button
-          onClick={handleSkip}
-          style={{
-            position: 'absolute', top: 12, right: 12,
-            background: 'none', border: 'none', cursor: 'pointer',
-            color: 'var(--text-tertiary)', padding: 4, borderRadius: 6,
-            display: 'flex', alignItems: 'center',
-          }}
-          title="Skip tutorial"
-          aria-label="Skip tutorial"
-        >
-          <X size={16} />
-        </button>
-
         {/* Section label + Step counter */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
           <span style={{
             fontSize: 10, fontWeight: 700, color: 'var(--color-phase-1)',
             textTransform: 'uppercase', letterSpacing: '0.5px',
-            padding: '2px 6px', borderRadius: 4,
+            padding: '2px 8px', borderRadius: 4,
             background: 'rgba(255,107,53,0.1)',
           }}>
-            {getSectionLabel()}
+            {currentStep.section}
           </span>
           <span style={{
             fontSize: 10, fontWeight: 600, color: 'var(--text-disabled)',
@@ -368,36 +288,37 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
 
         {/* Icon */}
         <div style={{
-          width: 44, height: 44, borderRadius: 12,
+          width: 48, height: 48, borderRadius: 14,
           background: 'rgba(255,107,53,0.12)', color: 'var(--color-phase-1)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          marginBottom: 14,
+          marginBottom: 16,
         }}>
           {currentStep.icon}
         </div>
 
         {/* Title */}
         <h3 id="onboarding-title" style={{
-          fontFamily: 'var(--font-heading)', fontSize: 16, fontWeight: 700,
-          color: 'var(--text-primary)', marginBottom: 8,
+          fontFamily: 'var(--font-heading)', fontSize: 17, fontWeight: 700,
+          color: 'var(--text-primary)', marginBottom: 10,
+          letterSpacing: '-0.3px',
         }}>
           {currentStep.title}
         </h3>
 
         {/* Description */}
         <p style={{
-          fontSize: 13, lineHeight: 1.55, color: 'var(--text-secondary)',
-          marginBottom: 20,
+          fontSize: 13, lineHeight: 1.6, color: 'var(--text-secondary)',
+          marginBottom: 24,
         }}>
           {currentStep.description}
         </p>
 
-        {/* Footer: dots + buttons */}
+        {/* Footer: progress + buttons */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          {/* Progress bar instead of dots (better for 15 steps) */}
+          {/* Progress bar */}
           <div style={{
-            flex: 1, maxWidth: 100, height: 3, borderRadius: 2,
-            background: 'var(--border-subtle)', marginRight: 12,
+            flex: 1, maxWidth: 120, height: 3, borderRadius: 2,
+            background: 'var(--border-subtle)', marginRight: 16,
           }}>
             <div style={{
               height: '100%', borderRadius: 2,
@@ -408,31 +329,33 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
           </div>
 
           {/* Buttons */}
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            {step > 0 && (
+              <button
+                onClick={handleSkip}
+                style={{
+                  padding: '7px 10px', fontSize: 11, fontWeight: 500,
+                  borderRadius: 6, border: 'none',
+                  background: 'transparent', color: 'var(--text-disabled)',
+                  cursor: 'pointer', fontFamily: 'var(--font-body)',
+                }}
+              >
+                Skip tour
+              </button>
+            )}
             {step > 0 && (
               <button
                 onClick={handlePrev}
                 style={{
+                  display: 'flex', alignItems: 'center', gap: 4,
                   padding: '7px 14px', fontSize: 12, fontWeight: 500,
                   borderRadius: 8, border: '1px solid var(--border-default)',
                   background: 'transparent', color: 'var(--text-secondary)',
                   cursor: 'pointer', fontFamily: 'var(--font-body)',
                 }}
               >
+                <ArrowLeft size={13} />
                 Back
-              </button>
-            )}
-            {step === 0 && (
-              <button
-                onClick={handleSkip}
-                style={{
-                  padding: '7px 14px', fontSize: 12, fontWeight: 500,
-                  borderRadius: 8, border: 'none',
-                  background: 'transparent', color: 'var(--text-tertiary)',
-                  cursor: 'pointer', fontFamily: 'var(--font-body)',
-                }}
-              >
-                Skip
               </button>
             )}
             {currentStep.cta ? (

@@ -318,7 +318,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       }
       if (e.key === 'Escape') {
         if (cmdPaletteOpen && !cmdPaletteClosing) { setCmdPaletteClosing(true); return }
-        if (newProjectModalOpen) { setNewProjectModalOpen(false); return }
+        if (newProjectModalOpen && !noProjects) { setNewProjectModalOpen(false); return }
         if (pdfDialogOpen && !pdfDialogClosing) { setPdfDialogClosing(true); return }
         if (emailDialogOpen && !emailDialogClosing) { setEmailDialogClosing(true); return }
         if (docItem && !overlayClosing) handleCloseOverlay()
@@ -396,9 +396,13 @@ function AuthenticatedApp({ user, onSignOut }) {
     setQuestionnaireProjectId(null)
   }, [questionnaireProjectId, updateProject])
 
-  const handleQuestionnaireSkip = useCallback(() => {
-    setQuestionnaireProjectId(null)
-  }, [])
+  // Auto-open project creation when user has no projects
+  const noProjects = !projectsLoading && projects.length === 0
+  useEffect(() => {
+    if (noProjects && !questionnaireProjectId) {
+      setNewProjectModalOpen(true)
+    }
+  }, [noProjects, questionnaireProjectId])
 
   const renderView = () => {
     if (projectsLoading) {
@@ -643,13 +647,13 @@ function AuthenticatedApp({ user, onSignOut }) {
         <NewProjectModal
           onClose={() => setNewProjectModalOpen(false)}
           onCreate={handleCreateProject}
+          required={noProjects}
         />
       )}
 
       {questionnaireProjectId && (
         <ProjectQuestionnaire
           onComplete={handleQuestionnaireComplete}
-          onSkip={handleQuestionnaireSkip}
         />
       )}
 
