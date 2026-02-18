@@ -427,9 +427,14 @@ function AuthenticatedApp({ user, onSignOut }) {
   }, [pendingProject, questionnaireProjectId, createProject, activeProjectId, updateProject])
 
   const handleQuestionnaireCancel = useCallback(() => {
-    // Cancel deferred creation — just clear the pending data
+    // Cancel deferred creation — clear pending data
     setPendingProject(null)
-  }, [])
+    // If user has no projects yet, re-open the "Create first project" modal
+    // so they don't land on an empty dashboard
+    if (noProjects) {
+      setNewProjectModalOpen(true)
+    }
+  }, [noProjects])
 
   useEffect(() => {
     if (noProjects && !questionnaireProjectId && !pendingProject) {

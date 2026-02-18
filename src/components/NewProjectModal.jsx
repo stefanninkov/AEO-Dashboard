@@ -1,17 +1,91 @@
-import { useState } from 'react'
-import { X, Plus, Rocket } from 'lucide-react'
+import { useState, useCallback } from 'react'
+import { X, Plus, Rocket, AlertCircle } from 'lucide-react'
 import { useFocusTrap } from '../hooks/useFocusTrap'
+
+/**
+ * Validate a URL string:
+ * - Must start with http:// or https://
+ * - Must have a domain with at least one dot (e.g., example.com)
+ * - TLD must be 2+ chars
+ */
+function isValidUrl(str) {
+  if (!str) return true // empty is fine (optional field)
+  try {
+    const url = new URL(str)
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return false
+    // Must have a dot in the hostname (e.g., "example.com", not "localhost")
+    const host = url.hostname
+    if (!host.includes('.')) return false
+    // TLD must be at least 2 characters
+    const parts = host.split('.')
+    const tld = parts[parts.length - 1]
+    if (tld.length < 2) return false
+    return true
+  } catch {
+    return false
+  }
+}
 
 export default function NewProjectModal({ onClose, onCreate, required }) {
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
+  const [urlError, setUrlError] = useState('')
+  const [urlTouched, setUrlTouched] = useState(false)
   const trapRef = useFocusTrap(true)
+
+  const validateUrl = useCallback((value) => {
+    if (!value.trim()) {
+      setUrlError('')
+      return true
+    }
+    // Auto-fix: if user typed domain without protocol, prepend https://
+    let testUrl = value.trim()
+    if (!/^https?:\/\//i.test(testUrl) && testUrl.includes('.')) {
+      testUrl = 'https://' + testUrl
+    }
+    if (!isValidUrl(testUrl)) {
+      setUrlError('Please enter a valid URL (e.g., https://example.com)')
+      return false
+    }
+    setUrlError('')
+    return true
+  }, [])
+
+  const handleUrlChange = (e) => {
+    const val = e.target.value
+    setUrl(val)
+    if (urlTouched) validateUrl(val)
+  }
+
+  const handleUrlBlur = () => {
+    setUrlTouched(true)
+    const trimmed = url.trim()
+    if (trimmed && !/^https?:\/\//i.test(trimmed) && trimmed.includes('.')) {
+      // Auto-prepend https:// on blur
+      setUrl('https://' + trimmed)
+      validateUrl('https://' + trimmed)
+    } else {
+      validateUrl(trimmed)
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!name.trim()) return
-    onCreate(name.trim(), url.trim())
+
+    const trimmedUrl = url.trim()
+    if (trimmedUrl && !validateUrl(trimmedUrl)) return
+
+    // Normalize: auto-prepend https:// if missing
+    let finalUrl = trimmedUrl
+    if (finalUrl && !/^https?:\/\//i.test(finalUrl) && finalUrl.includes('.')) {
+      finalUrl = 'https://' + finalUrl
+    }
+
+    onCreate(name.trim(), finalUrl)
   }
+
+  const canSubmit = name.trim() && !urlError
 
   return (
     <div className="modal-backdrop" onClick={required ? undefined : onClose}>
@@ -75,17 +149,25 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
               type="text"
               placeholder="https://example.com"
               value={url}
-              onChange={e => setUrl(e.target.value)}
+              onChange={handleUrlChange}
+              onBlur={handleUrlBlur}
               className="input-field"
+              style={urlError ? { borderColor: 'var(--color-error)' } : undefined}
             />
+            {urlError && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 6 }}>
+                <AlertCircle size={12} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
+                <span style={{ fontSize: 11, color: 'var(--color-error)' }}>{urlError}</span>
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
             <button
               type="submit"
-              disabled={!name.trim()}
+              disabled={!canSubmit}
               className="btn-primary"
-              style={{ flex: 1, opacity: name.trim() ? 1 : 0.5 }}
+              style={{ flex: 1, opacity: canSubmit ? 1 : 0.5 }}
             >
               {required ? <Rocket size={14} /> : <Plus size={14} />}
               {required ? 'Get Started' : 'Create Project'}
