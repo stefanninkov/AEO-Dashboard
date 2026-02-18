@@ -1,17 +1,18 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { MessageCircle, X, Bot, MessageSquare } from 'lucide-react'
 import FeedbackTab from './help/FeedbackTab'
 import HelpChatTab from './help/HelpChatTab'
 
 const TABS = [
-  { id: 'help', label: 'Help', icon: Bot },
   { id: 'feedback', label: 'Feedback', icon: MessageSquare },
+  { id: 'help', label: 'Help', icon: Bot },
 ]
 
 export default function HelpWidget({ user, activeView, activeProject, setActiveView }) {
   const [open, setOpen] = useState(false)
-  const [activeTab, setActiveTab] = useState('help')
+  const [activeTab, setActiveTab] = useState('feedback')
   const panelRef = useRef(null)
+  const btnRef = useRef(null)
 
   // Close on escape
   useEffect(() => {
@@ -23,22 +24,17 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
     return () => window.removeEventListener('keydown', handler)
   }, [open])
 
-  // Close when clicking outside
+  // Close when clicking outside (but not on the toggle button itself)
   useEffect(() => {
     if (!open) return
     const handler = (e) => {
+      if (btnRef.current && btnRef.current.contains(e.target)) return
       if (panelRef.current && !panelRef.current.contains(e.target)) {
         setOpen(false)
       }
     }
-    // Delay to prevent the open-click from immediately closing
-    const timer = setTimeout(() => {
-      document.addEventListener('mousedown', handler)
-    }, 100)
-    return () => {
-      clearTimeout(timer)
-      document.removeEventListener('mousedown', handler)
-    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
   }, [open])
 
   const handleNavigate = (view) => {
@@ -50,7 +46,8 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
     <>
       {/* Floating Button */}
       <button
-        onClick={() => setOpen(!open)}
+        ref={btnRef}
+        onClick={() => setOpen(prev => !prev)}
         className="help-widget-btn"
         style={{
           position: 'fixed',

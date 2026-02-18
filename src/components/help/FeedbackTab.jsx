@@ -27,6 +27,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
   const [message, setMessage] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState(null)
   const [rateLimited, setRateLimited] = useState(false)
   const [remainingTime, setRemainingTime] = useState(0)
 
@@ -57,6 +58,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
   const handleSubmit = async () => {
     if (!canSubmit) return
     setSubmitting(true)
+    setError(null)
 
     try {
       await addDoc(collection(db, 'feedback'), {
@@ -83,6 +85,11 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
       setSubmitted(true)
     } catch (err) {
       console.error('Failed to submit feedback:', err)
+      if (err.code === 'permission-denied') {
+        setError('Permission denied. Firestore security rules need to allow writes to the "feedback" collection.')
+      } else {
+        setError('Failed to submit feedback. Please try again.')
+      }
     } finally {
       setSubmitting(false)
     }
@@ -210,6 +217,13 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
           style={{ width: '100%', resize: 'vertical', fontSize: 12, lineHeight: 1.5 }}
         />
       </div>
+
+      {/* Error */}
+      {error && (
+        <p style={{ fontSize: 11, color: 'var(--color-error)', lineHeight: 1.5, margin: 0 }}>
+          {error}
+        </p>
+      )}
 
       {/* Submit */}
       <button
