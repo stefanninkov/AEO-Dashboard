@@ -220,6 +220,8 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
         style={{
           position: 'relative',
           width: '100%', maxWidth: 560,
+          maxHeight: 'calc(100vh - 40px)',
+          display: 'flex', flexDirection: 'column',
           background: 'var(--bg-card)',
           border: '1px solid var(--border-subtle)',
           borderRadius: 16,
@@ -230,7 +232,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
         onClick={e => e.stopPropagation()}
       >
         {/* Progress Bar */}
-        <div style={{ height: 3, background: 'var(--border-subtle)' }}>
+        <div style={{ height: 3, background: 'var(--border-subtle)', flexShrink: 0 }}>
           <div
             style={{
               height: '100%', borderRadius: 2,
@@ -247,7 +249,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
             padding: '32px 32px 24px',
             opacity: animating ? 0 : 1,
             transition: 'opacity 120ms ease',
-            minHeight: 380,
+            minHeight: 340,
+            flex: 1,
+            overflowY: 'auto',
           }}
         >
           {/* Header row: step indicator + cancel button */}
@@ -852,6 +856,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '16px 32px', borderTop: '1px solid var(--border-subtle)',
+          flexShrink: 0,
         }}>
           {/* Progress dots */}
           <div style={{ display: 'flex', gap: 6 }}>
