@@ -3,7 +3,8 @@ import { useDebounce } from '../hooks/useDebounce'
 import {
   Search, LayoutDashboard, Users, Zap,
   BarChart3, BookOpen, FlaskConical, Settings, Sun, Moon,
-  Plus, Download, FileText, CornerDownLeft
+  Plus, Download, FileText, CornerDownLeft, PenTool,
+  CalendarDays, Code2, Activity, Layers,
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useFocusTrap } from '../hooks/useFocusTrap'
@@ -13,10 +14,17 @@ const NAV_ITEMS = [
   { id: 'checklist', label: 'AEO Guide', icon: BookOpen, shortcut: '2' },
   { id: 'competitors', label: 'Competitors', icon: Users, shortcut: '3' },
   { id: 'analyzer', label: 'Analyzer', icon: Zap, shortcut: '4' },
-  { id: 'metrics', label: 'Metrics', icon: BarChart3, shortcut: '5' },
-  { id: 'docs', label: 'Documentation', icon: BookOpen, shortcut: '6' },
-  { id: 'testing', label: 'Testing', icon: FlaskConical, shortcut: '7' },
-  { id: 'settings', label: 'Settings', icon: Settings, shortcut: '8' },
+  { id: 'writer', label: 'Content Writer', icon: PenTool, shortcut: '5' },
+  { id: 'content-ops', label: 'Content Ops', icon: CalendarDays, shortcut: '6' },
+  { id: 'schema', label: 'Schema Generator', icon: Code2, shortcut: '7' },
+  { id: 'monitoring', label: 'Monitoring', icon: Activity, shortcut: '8' },
+  { id: 'metrics', label: 'Metrics', icon: BarChart3, shortcut: '9' },
+  { id: 'gsc', label: 'Search Console', icon: Search },
+  { id: 'ga4', label: 'AI Traffic', icon: Zap },
+  { id: 'aeo-impact', label: 'AEO Impact', icon: Layers },
+  { id: 'docs', label: 'Documentation', icon: BookOpen },
+  { id: 'testing', label: 'Testing', icon: FlaskConical },
+  { id: 'settings', label: 'Settings', icon: Settings },
 ]
 
 const TYPE_COLORS = {

@@ -749,7 +749,7 @@ export function getSmartRecommendations(project, phases, setActiveView) {
   }
 
   // ── 7. Content Suggestions ──
-  if (project.contentHistory?.length === 0 && hasApiKey) {
+  if (!project.contentHistory?.length && hasApiKey) {
     recs.push({
       id: 'write-first-content',
       text: 'Generate your first AEO-optimized content',
@@ -761,7 +761,7 @@ export function getSmartRecommendations(project, phases, setActiveView) {
     })
   }
 
-  if (project.schemaHistory?.length === 0 && hasApiKey) {
+  if (!project.schemaHistory?.length && hasApiKey) {
     recs.push({
       id: 'generate-first-schema',
       text: 'Generate structured data for your pages',

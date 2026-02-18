@@ -179,10 +179,12 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
   const handleCommentDelete = useCallback((itemId, commentId) => {
     const taskComments = comments[itemId] || []
+    const comment = taskComments.find(c => c.id === commentId)
+    if (comment?.authorUid && comment.authorUid !== user?.uid) return
     const newComments = { ...comments, [itemId]: taskComments.filter(c => c.id !== commentId) }
     if (newComments[itemId].length === 0) delete newComments[itemId]
     updateProject(activeProject.id, { comments: newComments })
-  }, [comments, activeProject?.id, updateProject])
+  }, [comments, activeProject?.id, updateProject, user?.uid])
 
   const togglePhase = useCallback((phaseId) => {
     setExpandedPhases(prev => ({ ...prev, [phaseId]: !prev[phaseId] }))
