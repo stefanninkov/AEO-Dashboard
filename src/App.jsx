@@ -329,7 +329,7 @@ function AuthenticatedApp({ user, onSignOut }) {
       if (e.key === 'Escape') {
         if (cmdPaletteOpen && !cmdPaletteClosing) { setCmdPaletteClosing(true); return }
         if (shortcutsOpen && !shortcutsClosing) { setShortcutsClosing(true); return }
-        if (newProjectModalOpen && !noProjects) { setNewProjectModalOpen(false); return }
+        if (newProjectModalOpen && projects.length > 0) { setNewProjectModalOpen(false); return }
         if (csvDialogOpen && !csvDialogClosing) { setCsvDialogClosing(true); return }
         if (pdfDialogOpen && !pdfDialogClosing) { setPdfDialogClosing(true); return }
         if (emailDialogOpen && !emailDialogClosing) { setEmailDialogClosing(true); return }
@@ -684,16 +684,16 @@ function AuthenticatedApp({ user, onSignOut }) {
 
       {newProjectModalOpen && (
         <NewProjectModal
-          onClose={() => setNewProjectModalOpen(false)}
+          onClose={projects.length === 0 ? undefined : () => setNewProjectModalOpen(false)}
           onCreate={handleCreateProject}
-          required={noProjects}
+          required={projects.length === 0}
         />
       )}
 
       {(questionnaireProjectId || pendingProject) && (
         <ProjectQuestionnaire
           onComplete={handleQuestionnaireComplete}
-          onCancel={pendingProject && !noProjects ? handleQuestionnaireCancel : undefined}
+          onCancel={pendingProject && projects.length > 0 ? handleQuestionnaireCancel : undefined}
           isNewProject={!!pendingProject}
           initialData={questionnaireProjectId ? projects.find(p => p.id === questionnaireProjectId)?.questionnaire : undefined}
         />
