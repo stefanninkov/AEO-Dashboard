@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { Search, CheckCircle2, Lightbulb, ChevronDown } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
 import VerifyDialog from '../components/VerifyDialog'
@@ -11,27 +12,20 @@ import PhaseCard from './checklist/PhaseCard'
 import PresenceAvatars from '../components/PresenceAvatars'
 import BulkActionBar from '../components/BulkActionBar'
 
-const KEY_PRINCIPLES = [
-  'AEO is about being the best answer, not just being found',
-  'Structured data is non-negotiable',
-  'The 40-60 word answer paragraph is your most powerful weapon',
-  'E-E-A-T matters more in AI search',
-  'Monitor relentlessly \u2014 AI engines evolve weekly',
-  'Test across ALL platforms \u2014 each behaves differently',
-  'AEO and SEO are complementary',
-]
-
-const DELIVERABLES = {
-  1: 'Complete audit document with content gaps and technical baseline metrics.',
-  2: 'Schema markup implemented and validated on all page templates.',
-  3: 'Optimized content with answer paragraphs, FAQ sections, and proper hierarchy.',
-  4: 'Fully crawlable site with semantic HTML, feeds, and optimized meta tags.',
-  5: 'Established brand entity with authority signals and citation network.',
-  6: 'Validated AEO implementation with test results across all AI platforms.',
-  7: 'Ongoing monitoring system with monthly reports and iteration plan.',
-}
+const PRINCIPLE_COUNT = 7
+const PHASE_COUNT = 7
 
 export default function ChecklistView({ phases, activeProject, toggleCheckItem, setActiveView, setDocItem, updateProject, user, onlineMembers, addNotification }) {
+  const { t } = useTranslation('checklist')
+  const keyPrinciples = useMemo(() =>
+    Array.from({ length: PRINCIPLE_COUNT }, (_, i) => t(`principles.${i}`)),
+  [t])
+  const deliverables = useMemo(() => {
+    const d = {}
+    for (let i = 1; i <= PHASE_COUNT; i++) d[i] = t(`deliverables.${i}`)
+    return d
+  }, [t])
+
   const firstPriority = getFirstPriorityPhase(activeProject?.questionnaire)
   const [principlesOpen, setPrinciplesOpen] = useState(false)
   const [expandedPhases, setExpandedPhases] = useState({ [firstPriority]: true })
@@ -426,7 +420,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         </button>
         {principlesOpen && (
           <div style={{ padding: '0 1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', borderTop: '1px solid var(--border-subtle)' }}>
-            {KEY_PRINCIPLES.map((principle, idx) => (
+            {keyPrinciples.map((principle, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', paddingTop: idx === 0 ? '0.75rem' : 0 }}>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', fontWeight: 700, color: 'var(--color-phase-5)', minWidth: '1.25rem', textAlign: 'right', flexShrink: 0, marginTop: '0.0625rem' }}>{idx + 1}.</span>
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{principle}</p>
@@ -547,7 +541,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           key={phase.id}
           phase={phase}
           progress={getPhaseProgress(phase)}
-          deliverable={DELIVERABLES[phase.number]}
+          deliverable={deliverables[phase.number]}
           isExpanded={expandedPhases[phase.id] || !!debouncedSearch.trim()}
           isPriority={getPhasePriority(phase.number, activeProject?.questionnaire)}
           isCelebrating={celebratingPhase === phase.id}

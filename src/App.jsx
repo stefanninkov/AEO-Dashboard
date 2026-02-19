@@ -13,7 +13,8 @@ import TopBar from './components/TopBar'
 import ErrorBoundary from './components/ErrorBoundary'
 import ConnectionBanner from './components/ConnectionBanner'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
-import { phases } from './data/aeo-checklist'
+import { phases as rawPhases } from './data/aeo-checklist'
+import { useChecklistTranslation } from './hooks/useChecklistTranslation'
 
 // Lazy-loaded views
 const DashboardView = lazy(() => import('./views/DashboardView'))
@@ -319,6 +320,9 @@ function AuthenticatedApp({ user, onSignOut }) {
   const permission = usePermission({ user, activeProject })
   const { onlineMembers } = usePresence({ user, activeProject, activeView, updateProject })
   const { notifications, unreadCount, addNotification, markRead, markAllRead, clearAll: clearNotifications } = useNotifications({ user, activeProject, updateProject })
+
+  // Translated checklist phases
+  const phases = useChecklistTranslation(rawPhases)
 
   // Auto-monitor
   const { shouldAutoRun, runMonitor } = useAutoMonitor({ activeProject, updateProject })

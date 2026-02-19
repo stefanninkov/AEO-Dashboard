@@ -5,11 +5,13 @@ import {
   TrendingDown, Minus, CheckCircle2, XCircle, BarChart3, Clock
 } from 'lucide-react'
 import { fetchSharedProject } from '../hooks/useShareLink'
-import { phases } from '../data/aeo-checklist'
+import { phases as rawPhases } from '../data/aeo-checklist'
+import { useChecklistTranslation } from '../hooks/useChecklistTranslation'
 
 // ─── Portal View (standalone, no auth) ───────────────────────
 export default function PortalView({ shareToken }) {
   const { t } = useTranslation('app')
+  const phases = useChecklistTranslation(rawPhases)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
