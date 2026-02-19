@@ -35,7 +35,7 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.js'],
     coverage: {
       provider: 'v8',
-      include: ['src/utils/**', 'src/hooks/**'],
+      include: ['src/utils/**', 'src/hooks/**', 'src/data/**'],
     },
   },
 })
