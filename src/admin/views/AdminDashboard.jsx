@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   Users, FolderKanban, Activity, CheckSquare,
   RefreshCw, Clock, UserPlus, TrendingUp, Zap, AlertTriangle,
+  Mail, MessageSquare, ArrowUpRight, ArrowDownRight, Minus,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 
@@ -18,7 +19,7 @@ function timeAgo(dateInput) {
 }
 
 function formatDate(dateInput) {
-  if (!dateInput) return '—'
+  if (!dateInput) return '\u2014'
   const date = dateInput.toDate ? dateInput.toDate() : new Date(dateInput)
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
@@ -64,8 +65,34 @@ const ACTIVITY_LABELS = {
   export_pdf: 'Exported PDF',
 }
 
-/* ── Stat Card ── */
-function StatCard({ icon: Icon, label, value, sublabel, color }) {
+/* ── Sparkline (SVG mini bar chart) ── */
+function Sparkline({ data, color, height = 32, width = 120 }) {
+  if (!data || data.length === 0) return null
+  const max = Math.max(...data.map(d => d.count), 1)
+  const barW = width / data.length - 1
+  return (
+    <svg width={width} height={height} style={{ display: 'block' }}>
+      {data.map((d, i) => {
+        const barH = (d.count / max) * (height - 2)
+        return (
+          <rect
+            key={i}
+            x={i * (barW + 1)}
+            y={height - barH - 1}
+            width={barW}
+            height={Math.max(barH, 1)}
+            rx={1}
+            fill={d.count > 0 ? color : `${color}30`}
+            opacity={d.count > 0 ? 0.85 : 0.3}
+          />
+        )
+      })}
+    </svg>
+  )
+}
+
+/* ── Stat Card (enhanced) ── */
+function StatCard({ icon: Icon, label, value, sublabel, color, trend, sparkData }) {
   return (
     <div className="card" style={{
       padding: '1.25rem',
@@ -73,41 +100,131 @@ function StatCard({ icon: Icon, label, value, sublabel, color }) {
       flexDirection: 'column',
       gap: '0.75rem',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-        <div style={{
-          width: '2rem',
-          height: '2rem',
-          borderRadius: '0.5rem',
-          background: `${color}15`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <Icon size={16} style={{ color }} />
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+          <div style={{
+            width: '2rem',
+            height: '2rem',
+            borderRadius: '0.5rem',
+            background: `${color}15`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Icon size={16} style={{ color }} />
+          </div>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.6875rem',
+            fontWeight: 700,
+            color: 'var(--text-disabled)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06rem',
+          }}>
+            {label}
+          </span>
         </div>
-        <span style={{
+        {trend !== undefined && trend !== null && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.125rem',
+            fontSize: '0.625rem',
+            fontWeight: 700,
+            fontFamily: 'var(--font-mono)',
+            color: trend > 0 ? '#10B981' : trend < 0 ? '#EF4444' : 'var(--text-disabled)',
+          }}>
+            {trend > 0 ? <ArrowUpRight size={10} /> : trend < 0 ? <ArrowDownRight size={10} /> : <Minus size={10} />}
+            {trend > 0 ? '+' : ''}{trend}
+          </div>
+        )}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+        <div>
+          <div style={{
+            fontFamily: 'var(--font-heading)',
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+            marginBottom: '0.25rem',
+          }}>
+            {value}
+          </div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+            {sublabel}
+          </div>
+        </div>
+        {sparkData && (
+          <Sparkline data={sparkData} color={color} height={28} width={80} />
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ── Trend Chart (larger, for sections) ── */
+function TrendChart({ data, color, title, height = 80 }) {
+  if (!data || data.length === 0) return null
+  const max = Math.max(...data.map(d => d.count), 1)
+  const barW = Math.floor(100 / data.length)
+
+  return (
+    <div>
+      {title && (
+        <div style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.6875rem',
           fontWeight: 700,
           color: 'var(--text-disabled)',
           textTransform: 'uppercase',
-          letterSpacing: '0.06rem',
+          letterSpacing: '0.04rem',
+          marginBottom: '0.75rem',
         }}>
-          {label}
-        </span>
-      </div>
-      <div>
-        <div style={{
-          fontFamily: 'var(--font-heading)',
-          fontSize: '1.5rem',
-          fontWeight: 700,
-          color: 'var(--text-primary)',
-          marginBottom: '0.25rem',
-        }}>
-          {value}
+          {title}
         </div>
-        <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
-          {sublabel}
+      )}
+      <div style={{ position: 'relative' }}>
+        <svg width="100%" height={height} viewBox={`0 0 ${data.length * barW} ${height}`} preserveAspectRatio="none" style={{ display: 'block' }}>
+          {data.map((d, i) => {
+            const barH = (d.count / max) * (height - 16)
+            return (
+              <g key={i}>
+                <rect
+                  x={i * barW + 1}
+                  y={height - barH - 14}
+                  width={barW - 2}
+                  height={Math.max(barH, 2)}
+                  rx={2}
+                  fill={d.count > 0 ? color : `${color}20`}
+                  opacity={d.count > 0 ? 0.8 : 0.25}
+                />
+                {d.count > 0 && (
+                  <text
+                    x={i * barW + barW / 2}
+                    y={height - barH - 17}
+                    textAnchor="middle"
+                    fill="var(--text-disabled)"
+                    fontSize="7"
+                    fontFamily="var(--font-mono)"
+                  >
+                    {d.count}
+                  </text>
+                )}
+              </g>
+            )
+          })}
+        </svg>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '0.25rem',
+        }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--text-disabled)' }}>
+            {data[0]?.date}
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--text-disabled)' }}>
+            {data[data.length - 1]?.date}
+          </span>
         </div>
       </div>
     </div>
@@ -157,6 +274,17 @@ export default function AdminDashboard({ user }) {
 
   if (!stats) return null
 
+  // Calculate weekly trends (this week vs last week)
+  const calcWeeklyTrend = (trend) => {
+    if (!trend || trend.length < 14) return null
+    const thisWeek = trend.slice(7).reduce((s, d) => s + d.count, 0)
+    const lastWeek = trend.slice(0, 7).reduce((s, d) => s + d.count, 0)
+    return thisWeek - lastWeek
+  }
+
+  const signupWeeklyTrend = calcWeeklyTrend(stats.signupTrend)
+  const waitlistWeeklyTrend = calcWeeklyTrend(stats.waitlistTrend)
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Header */}
@@ -172,7 +300,7 @@ export default function AdminDashboard({ user }) {
             Welcome, {user?.displayName || 'Admin'}
           </h2>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            Last updated: {stats.lastUpdated ? timeAgo(stats.lastUpdated) : '—'}
+            Last updated: {stats.lastUpdated ? timeAgo(stats.lastUpdated) : '\u2014'}
           </p>
         </div>
         <button
@@ -204,7 +332,7 @@ export default function AdminDashboard({ user }) {
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: 1.5 }}>
               {permissionWarning}
-              {' '}Go to <strong>Firebase Console → Firestore → Rules</strong> and add a rule allowing your UID
+              {' '}Go to <strong>Firebase Console &rarr; Firestore &rarr; Rules</strong> and add a rule allowing your UID
               to read all collections. See below for the rule to add.
             </div>
             <details style={{ marginTop: '0.5rem' }}>
@@ -249,6 +377,20 @@ service cloud.firestore {
         && request.auth.uid in resource.data.memberIds;
       allow read: if isSuperAdmin();
     }
+
+    match /waitlist/{docId} {
+      allow read: if isSuperAdmin();
+      allow create: if true;
+    }
+
+    match /feedback/{docId} {
+      allow read, write: if isSuperAdmin();
+      allow create: if request.auth != null;
+    }
+
+    match /config/{docId} {
+      allow read, write: if isSuperAdmin();
+    }
   }
 }`}</pre>
             </details>
@@ -256,25 +398,36 @@ service cloud.firestore {
         </div>
       )}
 
-      {/* Stat Cards */}
+      {/* Primary Stat Cards — 3+3 grid */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(13rem, 1fr))',
         gap: '1rem',
       }}>
         <StatCard
+          icon={Mail}
+          label="Waitlist"
+          value={stats.waitlistTotal}
+          sublabel={`${stats.waitlistThisWeek} this week \u00B7 ${stats.waitlistToday} today`}
+          color="#FF6B35"
+          trend={waitlistWeeklyTrend}
+          sparkData={stats.waitlistTrend}
+        />
+        <StatCard
           icon={Users}
           label="Total Users"
           value={stats.totalUsers}
           sublabel={`${stats.signupsThisWeek} new this week`}
-          color="#FF6B35"
+          color="#3B82F6"
+          trend={signupWeeklyTrend}
+          sparkData={stats.signupTrend}
         />
         <StatCard
           icon={Zap}
           label="Active Today"
           value={stats.activeToday}
           sublabel={`${stats.activeThisWeek} this week`}
-          color="#3B82F6"
+          color="#10B981"
         />
         <StatCard
           icon={FolderKanban}
@@ -288,8 +441,39 @@ service cloud.firestore {
           label="Tasks Completed"
           value={stats.completedTasks}
           sublabel={`of ${stats.totalTasks} total tasks`}
-          color="#10B981"
+          color="#8B5CF6"
         />
+        <StatCard
+          icon={MessageSquare}
+          label="Feedback"
+          value={stats.feedbackTotal}
+          sublabel={stats.feedbackNew > 0 ? `${stats.feedbackNew} unreviewed` : 'All reviewed'}
+          color={stats.feedbackNew > 0 ? '#F59E0B' : '#10B981'}
+        />
+      </div>
+
+      {/* Trend Charts Row */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '1rem',
+      }}>
+        <div className="card" style={{ padding: '1.25rem' }}>
+          <TrendChart
+            data={stats.waitlistTrend}
+            color="#FF6B35"
+            title="Waitlist Signups (14d)"
+            height={70}
+          />
+        </div>
+        <div className="card" style={{ padding: '1.25rem' }}>
+          <TrendChart
+            data={stats.activityTrend}
+            color="#3B82F6"
+            title="User Activity (14d)"
+            height={70}
+          />
+        </div>
       </div>
 
       {/* Two-column layout: Recent Users + Recent Activity */}
@@ -420,7 +604,7 @@ service cloud.firestore {
             </span>
           </div>
           <div style={{ maxHeight: '20rem', overflowY: 'auto' }}>
-            {stats.recentActivity.map((act, i) => (
+            {stats.recentActivity.slice(0, 20).map((act, i) => (
               <div key={act.id || i} style={{
                 display: 'flex',
                 alignItems: 'flex-start',
@@ -453,7 +637,7 @@ service cloud.firestore {
                     )}{' '}
                     {ACTIVITY_LABELS[act.type] || act.type}
                     {act.itemText && (
-                      <span style={{ color: 'var(--text-tertiary)' }}> — {act.itemText}</span>
+                      <span style={{ color: 'var(--text-tertiary)' }}> \u2014 {act.itemText}</span>
                     )}
                   </div>
                   <div style={{
@@ -469,6 +653,151 @@ service cloud.firestore {
             {stats.recentActivity.length === 0 && (
               <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
                 No activity recorded yet
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Waitlist + Feedback summary side by side */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '1rem',
+      }}>
+        {/* Recent Waitlist Entries */}
+        <div className="card" style={{ overflow: 'hidden' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '1rem 1.25rem',
+            borderBottom: '1px solid var(--border-subtle)',
+          }}>
+            <span style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04rem',
+            }}>
+              <Mail size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+              Latest Waitlist
+            </span>
+            <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>
+              {stats.waitlistTotal} total
+            </span>
+          </div>
+          <div style={{ maxHeight: '14rem', overflowY: 'auto' }}>
+            {(stats.waitlistEntries || []).slice(0, 8).map(entry => (
+              <div key={entry.id} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                padding: '0.625rem 1.25rem',
+                borderBottom: '1px solid var(--border-subtle)',
+              }}>
+                <div style={{
+                  width: '1.5rem', height: '1.5rem', borderRadius: 6,
+                  background: 'rgba(255,107,53,0.1)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}>
+                  <Mail size={10} style={{ color: '#FF6B35' }} />
+                </div>
+                <span style={{
+                  flex: 1, fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)',
+                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0,
+                }}>
+                  {entry.email}
+                </span>
+                <span style={{
+                  fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-disabled)', flexShrink: 0,
+                }}>
+                  {timeAgo(entry.signedUpAt)}
+                </span>
+              </div>
+            ))}
+            {(!stats.waitlistEntries || stats.waitlistEntries.length === 0) && (
+              <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
+                No waitlist signups yet
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Recent Feedback */}
+        <div className="card" style={{ overflow: 'hidden' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '1rem 1.25rem',
+            borderBottom: '1px solid var(--border-subtle)',
+          }}>
+            <span style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04rem',
+            }}>
+              <MessageSquare size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+              Latest Feedback
+            </span>
+            {stats.feedbackNew > 0 && (
+              <span style={{
+                fontSize: '0.625rem', fontWeight: 700,
+                padding: '0.125rem 0.5rem', borderRadius: 99,
+                background: 'rgba(245,158,11,0.15)', color: '#F59E0B',
+              }}>
+                {stats.feedbackNew} new
+              </span>
+            )}
+          </div>
+          <div style={{ maxHeight: '14rem', overflowY: 'auto' }}>
+            {(stats.feedbackEntries || []).slice(0, 8).map(fb => {
+              const RATING_EMOJI = { love: '\uD83D\uDE0D', good: '\uD83D\uDE0A', okay: '\uD83D\uDE10', frustrated: '\uD83D\uDE1F' }
+              const STATUS_COLORS = { new: '#F59E0B', reviewed: '#3B82F6', resolved: '#10B981' }
+              const fbStatus = fb.status || 'new'
+              return (
+                <div key={fb.id} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  padding: '0.625rem 1.25rem',
+                  borderBottom: '1px solid var(--border-subtle)',
+                }}>
+                  <span style={{ fontSize: '1rem', flexShrink: 0 }}>
+                    {RATING_EMOJI[fb.rating] || '\u2753'}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontSize: '0.8125rem', color: 'var(--text-primary)',
+                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }}>
+                      {fb.message || 'No message'}
+                    </div>
+                    <div style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', marginTop: '0.0625rem' }}>
+                      {fb.displayName || fb.userEmail || 'Anonymous'} \u00B7 {timeAgo(fb.createdAt)}
+                    </div>
+                  </div>
+                  <span style={{
+                    fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
+                    padding: '0.125rem 0.375rem', borderRadius: 99,
+                    background: `${STATUS_COLORS[fbStatus] || '#6B7280'}15`,
+                    color: STATUS_COLORS[fbStatus] || '#6B7280',
+                    flexShrink: 0,
+                  }}>
+                    {fbStatus}
+                  </span>
+                </div>
+              )
+            })}
+            {(!stats.feedbackEntries || stats.feedbackEntries.length === 0) && (
+              <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
+                No feedback yet
               </div>
             )}
           </div>

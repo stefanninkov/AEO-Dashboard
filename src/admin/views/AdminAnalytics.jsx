@@ -1,5 +1,8 @@
 import { useMemo } from 'react'
-import { BarChart3, Users, FolderKanban, CheckSquare, Activity, TrendingUp } from 'lucide-react'
+import {
+  BarChart3, Users, FolderKanban, CheckSquare, Activity,
+  TrendingUp, Mail, MessageSquare, UserPlus, Zap,
+} from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 
 /* ── Helpers ── */
@@ -15,7 +18,7 @@ function BarItem({ label, value, max, color }) {
   const pct = max > 0 ? (value / max) * 100 : 0
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.375rem 0' }}>
-      <div style={{ width: '7rem', fontSize: '0.75rem', color: 'var(--text-secondary)', textAlign: 'right', flexShrink: 0 }}>
+      <div style={{ width: '7rem', fontSize: '0.75rem', color: 'var(--text-secondary)', textAlign: 'right', flexShrink: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
         {label}
       </div>
       <div style={{ flex: 1, height: '1.25rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', overflow: 'hidden' }}>
@@ -48,6 +51,108 @@ function StatBox({ icon: Icon, label, value, color }) {
   )
 }
 
+/* ── Trend Chart ── */
+function TrendChart({ data, color, title, height = 100 }) {
+  if (!data || data.length === 0) return null
+  const max = Math.max(...data.map(d => d.count), 1)
+  const barW = Math.floor(100 / data.length)
+  const total = data.reduce((s, d) => s + d.count, 0)
+
+  return (
+    <div className="card" style={{ padding: '1.25rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+          color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
+        }}>
+          {title}
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color,
+          fontWeight: 700,
+        }}>
+          {total} total
+        </div>
+      </div>
+      <svg width="100%" height={height} viewBox={`0 0 ${data.length * barW} ${height}`} preserveAspectRatio="none" style={{ display: 'block' }}>
+        {data.map((d, i) => {
+          const barH = (d.count / max) * (height - 20)
+          return (
+            <g key={i}>
+              <rect
+                x={i * barW + 1}
+                y={height - barH - 16}
+                width={barW - 2}
+                height={Math.max(barH, 2)}
+                rx={2}
+                fill={d.count > 0 ? color : `${color}20`}
+                opacity={d.count > 0 ? 0.8 : 0.25}
+              />
+              {d.count > 0 && (
+                <text
+                  x={i * barW + barW / 2}
+                  y={height - barH - 19}
+                  textAnchor="middle"
+                  fill="var(--text-disabled)"
+                  fontSize="7"
+                  fontFamily="var(--font-mono)"
+                >
+                  {d.count}
+                </text>
+              )}
+            </g>
+          )
+        })}
+      </svg>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.25rem' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--text-disabled)' }}>
+          {data[0]?.date}
+        </span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--text-disabled)' }}>
+          {data[Math.floor(data.length / 2)]?.date}
+        </span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--text-disabled)' }}>
+          {data[data.length - 1]?.date}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+/* ── Growth Metric ── */
+function GrowthMetric({ label, thisWeek, lastWeek, color }) {
+  const change = thisWeek - lastWeek
+  const pctChange = lastWeek > 0 ? Math.round((change / lastWeek) * 100) : thisWeek > 0 ? 100 : 0
+  const isPositive = change > 0
+  const isNeutral = change === 0
+
+  return (
+    <div style={{
+      padding: '1rem',
+      borderRadius: '0.75rem',
+      background: 'var(--hover-bg)',
+    }}>
+      <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.05rem', marginBottom: '0.5rem' }}>
+        {label}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+        <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+          {thisWeek}
+        </span>
+        <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>this week</span>
+      </div>
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.375rem',
+        fontSize: '0.6875rem', fontWeight: 600, fontFamily: 'var(--font-mono)',
+        color: isNeutral ? 'var(--text-disabled)' : isPositive ? '#10B981' : '#EF4444',
+      }}>
+        {isPositive ? '+' : ''}{change} ({isPositive ? '+' : ''}{pctChange}%)
+        <span style={{ color: 'var(--text-disabled)', fontWeight: 400, marginLeft: '0.25rem' }}>vs last week ({lastWeek})</span>
+      </div>
+    </div>
+  )
+}
+
 export default function AdminAnalytics({ user }) {
   const { stats, loading } = useAdminStats(user)
 
@@ -56,6 +161,7 @@ export default function AdminAnalytics({ user }) {
 
     const now = new Date()
     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+    const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000)
 
     // Activity type breakdown
     const typeCounts = {}
@@ -92,7 +198,55 @@ export default function AdminAnalytics({ user }) {
     // Task completion rate
     const taskRate = stats.totalTasks > 0 ? Math.round((stats.completedTasks / stats.totalTasks) * 100) : 0
 
-    return { topTypes, maxTypeCount, completionBuckets, maxBucket, activeRatio, avgTasks, taskRate }
+    // Week-over-week growth comparisons from trend data
+    const calcWeekComparison = (trend) => {
+      if (!trend || trend.length < 14) return { thisWeek: 0, lastWeek: 0 }
+      const thisWeek = trend.slice(7).reduce((s, d) => s + d.count, 0)
+      const lastWeek = trend.slice(0, 7).reduce((s, d) => s + d.count, 0)
+      return { thisWeek, lastWeek }
+    }
+
+    const signupGrowth = calcWeekComparison(stats.signupTrend)
+    const waitlistGrowth = calcWeekComparison(stats.waitlistTrend)
+    const activityGrowth = calcWeekComparison(stats.activityTrend)
+
+    // Waitlist conversion funnel
+    const waitlistConverted = (stats.waitlistEntries || []).filter(e => e.status === 'converted').length
+    const waitlistActive = (stats.waitlistEntries || []).filter(e => !e.status || e.status === 'active').length
+    const conversionRate = stats.waitlistTotal > 0 ? Math.round((waitlistConverted / stats.waitlistTotal) * 100) : 0
+
+    // Feedback sentiment breakdown
+    const sentimentCounts = { love: 0, good: 0, okay: 0, frustrated: 0 }
+    for (const fb of (stats.feedbackEntries || [])) {
+      if (fb.rating && sentimentCounts[fb.rating] !== undefined) {
+        sentimentCounts[fb.rating]++
+      }
+    }
+    const totalFeedbackWithRating = Object.values(sentimentCounts).reduce((s, v) => s + v, 0)
+    const satisfactionRate = totalFeedbackWithRating > 0
+      ? Math.round(((sentimentCounts.love + sentimentCounts.good) / totalFeedbackWithRating) * 100)
+      : 0
+
+    // Top active projects (by activity count)
+    const projectActivityCounts = {}
+    for (const act of (stats.recentActivity || [])) {
+      if (act._projectName) {
+        projectActivityCounts[act._projectName] = (projectActivityCounts[act._projectName] || 0) + 1
+      }
+    }
+    const topProjects = Object.entries(projectActivityCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+    const maxProjectActivity = topProjects.length > 0 ? topProjects[0][1] : 0
+
+    return {
+      topTypes, maxTypeCount, completionBuckets, maxBucket,
+      activeRatio, avgTasks, taskRate,
+      signupGrowth, waitlistGrowth, activityGrowth,
+      waitlistConverted, waitlistActive, conversionRate,
+      sentimentCounts, satisfactionRate,
+      topProjects, maxProjectActivity,
+    }
   }, [stats])
 
   if (loading && !stats) {
@@ -114,6 +268,8 @@ export default function AdminAnalytics({ user }) {
 
   const BAR_COLORS = ['#FF6B35', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#F59E0B', '#06B6D4', '#EF4444']
   const BUCKET_COLORS = { '0%': '#6B7280', '1-25%': '#EF4444', '26-50%': '#F59E0B', '51-75%': '#3B82F6', '76-99%': '#10B981', '100%': '#8B5CF6' }
+  const SENTIMENT_EMOJI = { love: '\uD83D\uDE0D', good: '\uD83D\uDE0A', okay: '\uD83D\uDE10', frustrated: '\uD83D\uDE1F' }
+  const SENTIMENT_COLORS = { love: '#10B981', good: '#3B82F6', okay: '#F59E0B', frustrated: '#EF4444' }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -122,18 +278,76 @@ export default function AdminAnalytics({ user }) {
           Platform Analytics
         </h2>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-          Usage patterns and platform health metrics
+          Usage patterns, growth metrics, and platform health
         </p>
       </div>
 
-      {/* Key metrics */}
+      {/* Key Metrics Row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, 1fr))', gap: '0.75rem' }}>
         <StatBox icon={Users} label="Active Rate (7d)" value={`${analytics?.activeRatio || 0}%`} color="#3B82F6" />
         <StatBox icon={CheckSquare} label="Task Completion" value={`${analytics?.taskRate || 0}%`} color="#10B981" />
         <StatBox icon={FolderKanban} label="Avg Tasks/Project" value={analytics?.avgTasks || 0} color="#8B5CF6" />
         <StatBox icon={Activity} label="Recent Events" value={stats?.recentActivity?.length || 0} color="#FF6B35" />
+        <StatBox icon={Mail} label="Waitlist Convert" value={`${analytics?.conversionRate || 0}%`} color="#0EA5E9" />
+        <StatBox icon={MessageSquare} label="Satisfaction" value={`${analytics?.satisfactionRate || 0}%`} color="#EC4899" />
       </div>
 
+      {/* Growth Metrics */}
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+          color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
+          marginBottom: '1rem',
+        }}>
+          <TrendingUp size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          Week-over-Week Growth
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(15rem, 1fr))', gap: '0.75rem' }}>
+          <GrowthMetric
+            label="User Signups"
+            thisWeek={analytics?.signupGrowth?.thisWeek || 0}
+            lastWeek={analytics?.signupGrowth?.lastWeek || 0}
+            color="#3B82F6"
+          />
+          <GrowthMetric
+            label="Waitlist Signups"
+            thisWeek={analytics?.waitlistGrowth?.thisWeek || 0}
+            lastWeek={analytics?.waitlistGrowth?.lastWeek || 0}
+            color="#FF6B35"
+          />
+          <GrowthMetric
+            label="User Activity"
+            thisWeek={analytics?.activityGrowth?.thisWeek || 0}
+            lastWeek={analytics?.activityGrowth?.lastWeek || 0}
+            color="#10B981"
+          />
+        </div>
+      </div>
+
+      {/* Trend Charts */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        <TrendChart
+          data={stats?.signupTrend}
+          color="#3B82F6"
+          title="User Signups (14d)"
+          height={90}
+        />
+        <TrendChart
+          data={stats?.waitlistTrend}
+          color="#FF6B35"
+          title="Waitlist Signups (14d)"
+          height={90}
+        />
+      </div>
+
+      <TrendChart
+        data={stats?.activityTrend}
+        color="#10B981"
+        title="Daily Activity (14d)"
+        height={90}
+      />
+
+      {/* Charts Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
         {/* Activity type breakdown */}
         <div className="card" style={{ padding: '1.25rem' }}>
@@ -183,6 +397,126 @@ export default function AdminAnalytics({ user }) {
           ) : (
             <p style={{ color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>No project data</p>
           )}
+        </div>
+      </div>
+
+      {/* Bottom row: Sentiment + Top Projects */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        {/* Feedback Sentiment */}
+        <div className="card" style={{ padding: '1.25rem' }}>
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+            color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
+          }}>
+            Feedback Sentiment
+          </div>
+          {stats?.feedbackTotal > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {Object.entries(analytics?.sentimentCounts || {}).map(([key, count]) => (
+                <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <span style={{ fontSize: '1.125rem', width: '1.5rem', textAlign: 'center' }}>{SENTIMENT_EMOJI[key]}</span>
+                  <div style={{ flex: 1, height: '1.25rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', overflow: 'hidden' }}>
+                    <div style={{
+                      width: `${stats.feedbackTotal > 0 ? (count / stats.feedbackTotal) * 100 : 0}%`,
+                      height: '100%',
+                      borderRadius: '0.25rem',
+                      background: SENTIMENT_COLORS[key],
+                      transition: 'width 0.3s',
+                    }} />
+                  </div>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-tertiary)', width: '2rem', textAlign: 'right' }}>
+                    {count}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p style={{ color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>No feedback data</p>
+          )}
+        </div>
+
+        {/* Most Active Projects */}
+        <div className="card" style={{ padding: '1.25rem' }}>
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+            color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
+          }}>
+            Most Active Projects
+          </div>
+          {analytics?.topProjects?.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
+              {analytics.topProjects.map(([name, count], i) => (
+                <BarItem
+                  key={name}
+                  label={name}
+                  value={count}
+                  max={analytics.maxProjectActivity}
+                  color={BAR_COLORS[i % BAR_COLORS.length]}
+                />
+              ))}
+            </div>
+          ) : (
+            <p style={{ color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>No project activity</p>
+          )}
+        </div>
+      </div>
+
+      {/* Waitlist Funnel */}
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+          color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
+        }}>
+          <UserPlus size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          Waitlist Funnel
+        </div>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          {[
+            { label: 'Total Signups', value: stats?.waitlistTotal || 0, color: '#FF6B35' },
+            { label: 'Active', value: analytics?.waitlistActive || 0, color: '#3B82F6' },
+            { label: 'Converted', value: analytics?.waitlistConverted || 0, color: '#10B981' },
+            { label: 'Conversion Rate', value: `${analytics?.conversionRate || 0}%`, color: '#8B5CF6' },
+          ].map((item, i) => (
+            <div key={item.label} style={{ flex: 1, textAlign: 'center', position: 'relative' }}>
+              <div style={{
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                background: `${item.color}08`,
+                border: `1px solid ${item.color}20`,
+              }}>
+                <div style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
+                  color: item.color,
+                  marginBottom: '0.25rem',
+                }}>
+                  {item.value}
+                </div>
+                <div style={{
+                  fontSize: '0.625rem',
+                  fontWeight: 600,
+                  color: 'var(--text-disabled)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04rem',
+                }}>
+                  {item.label}
+                </div>
+              </div>
+              {i < 3 && (
+                <div style={{
+                  position: 'absolute',
+                  right: '-0.625rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--text-disabled)',
+                  fontSize: '0.75rem',
+                }}>
+                  &rarr;
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>

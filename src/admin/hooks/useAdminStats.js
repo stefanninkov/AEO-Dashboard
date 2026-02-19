@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, where, orderBy } from 'firebase/firestore'
 import { db } from '../../firebase'
 import logger from '../../utils/logger'
 
@@ -10,6 +10,7 @@ import logger from '../../utils/logger'
  *   1. Try reading all users (requires Firestore rules granting admin read access)
  *   2. If that fails (permission denied), fall back to reading only the current user's data
  *   3. Projects: try both legacy subcollections and shared top-level collection
+ *   4. Waitlist + Feedback: fetched from their own top-level collections
  *
  * To enable full admin access, update Firestore security rules to allow
  * the super admin UID to read the entire `users` and `projects` collections.
@@ -142,7 +143,29 @@ export function useAdminStats(currentUser) {
         logger.error('Failed to fetch shared projects:', err)
       }
 
-      // 3. Compute stats
+      // 3. Fetch waitlist entries
+      let waitlistEntries = []
+      try {
+        const waitlistSnap = await getDocs(
+          query(collection(db, 'waitlist'), orderBy('signedUpAt', 'desc'))
+        )
+        waitlistEntries = waitlistSnap.docs.map(d => ({ id: d.id, ...d.data() }))
+      } catch (err) {
+        logger.warn('Failed to fetch waitlist:', err)
+      }
+
+      // 4. Fetch feedback entries
+      let feedbackEntries = []
+      try {
+        const feedbackSnap = await getDocs(
+          query(collection(db, 'feedback'), orderBy('createdAt', 'desc'))
+        )
+        feedbackEntries = feedbackSnap.docs.map(d => ({ id: d.id, ...d.data() }))
+      } catch (err) {
+        logger.warn('Failed to fetch feedback:', err)
+      }
+
+      // 5. Compute stats
       const now = new Date()
       const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
       const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
@@ -214,6 +237,70 @@ export function useAdminStats(currentUser) {
         })
         .slice(0, 10)
 
+      // Waitlist stats
+      const waitlistTotal = waitlistEntries.length
+      const waitlistThisWeek = waitlistEntries.filter(e => {
+        const d = parseDate(e.signedUpAt)
+        return d && d >= weekAgo
+      }).length
+      const waitlistToday = waitlistEntries.filter(e => {
+        const d = parseDate(e.signedUpAt)
+        return d && d >= todayStart
+      }).length
+
+      // Feedback stats
+      const feedbackTotal = feedbackEntries.length
+      const feedbackNew = feedbackEntries.filter(f => !f.status || f.status === 'new').length
+      const feedbackThisWeek = feedbackEntries.filter(f => {
+        const d = parseDate(f.createdAt)
+        return d && d >= weekAgo
+      }).length
+
+      // Daily signup trend (last 14 days)
+      const signupTrend = []
+      for (let i = 13; i >= 0; i--) {
+        const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i)
+        const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000)
+        const count = users.filter(u => {
+          const d = parseDate(u.createdAt)
+          return d && d >= dayStart && d < dayEnd
+        }).length
+        signupTrend.push({
+          date: dayStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          count,
+        })
+      }
+
+      // Daily waitlist trend (last 14 days)
+      const waitlistTrend = []
+      for (let i = 13; i >= 0; i--) {
+        const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i)
+        const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000)
+        const count = waitlistEntries.filter(e => {
+          const d = parseDate(e.signedUpAt)
+          return d && d >= dayStart && d < dayEnd
+        }).length
+        waitlistTrend.push({
+          date: dayStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          count,
+        })
+      }
+
+      // Daily activity trend (last 14 days)
+      const activityTrend = []
+      for (let i = 13; i >= 0; i--) {
+        const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i)
+        const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000)
+        const count = allActivities.filter(a => {
+          const d = a.timestamp ? new Date(a.timestamp) : null
+          return d && d >= dayStart && d < dayEnd
+        }).length
+        activityTrend.push({
+          date: dayStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          count,
+        })
+      }
+
       setStats({
         users,
         totalUsers: users.length,
@@ -231,6 +318,23 @@ export function useAdminStats(currentUser) {
 
         recentActivity,
         recentSignups,
+
+        // Waitlist
+        waitlistEntries,
+        waitlistTotal,
+        waitlistThisWeek,
+        waitlistToday,
+
+        // Feedback
+        feedbackEntries,
+        feedbackTotal,
+        feedbackNew,
+        feedbackThisWeek,
+
+        // Trends
+        signupTrend,
+        waitlistTrend,
+        activityTrend,
 
         fullAccess,
         lastUpdated: new Date(),
