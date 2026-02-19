@@ -93,7 +93,7 @@ export default function AdminChatLogs({ user }) {
       </div>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(7rem, 1fr))', gap: '0.75rem' }}>
         {[
           { label: 'Total Sessions', value: stats.total, color: '#FF6B35' },
           { label: 'This Week', value: stats.thisWeek, color: '#3B82F6' },

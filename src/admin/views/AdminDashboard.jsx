@@ -239,7 +239,7 @@ function DashboardSkeleton() {
         <div style={{ width: '12rem', height: '1rem', borderRadius: '0.25rem', background: 'var(--hover-bg)' }} />
         <div style={{ width: '20rem', height: '0.75rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', marginTop: '0.75rem' }} />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))', gap: '1rem' }}>
         {[1, 2, 3, 4].map(i => (
           <div key={i} className="card" style={{ padding: '1.25rem', height: '6rem' }}>
             <div style={{ width: '5rem', height: '0.75rem', borderRadius: '0.25rem', background: 'var(--hover-bg)' }} />
@@ -455,7 +455,7 @@ service cloud.firestore {
       {/* Trend Charts Row */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(18rem, 1fr))',
         gap: '1rem',
       }}>
         <div className="card" style={{ padding: '1.25rem' }}>
@@ -479,7 +479,7 @@ service cloud.firestore {
       {/* Two-column layout: Recent Users + Recent Activity */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(18rem, 1fr))',
         gap: '1rem',
       }}>
         {/* Recent Users */}
@@ -662,7 +662,7 @@ service cloud.firestore {
       {/* Recent Waitlist + Feedback summary side by side */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(18rem, 1fr))',
         gap: '1rem',
       }}>
         {/* Recent Waitlist Entries */}

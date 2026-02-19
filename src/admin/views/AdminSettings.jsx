@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Settings, Shield, Bell, Globe, Database, Copy, Check, Save, Loader } from 'lucide-react'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
+import logger from '../../utils/logger'
 
 /* ── Toggle ── */
 function Toggle({ checked, onChange, label, disabled }) {
@@ -71,7 +72,7 @@ export default function AdminSettings({ user }) {
         if (data.emailNotifications !== undefined) setEmailNotifications(data.emailNotifications)
       }
     } catch (err) {
-      console.warn('Could not load config (may not have permissions):', err.message)
+      logger.warn('Could not load config (may not have permissions):', err.message)
     } finally {
       setLoadingConfig(false)
     }
@@ -96,7 +97,7 @@ export default function AdminSettings({ user }) {
       setHasChanges(false)
       setTimeout(() => setSaveStatus(null), 3000)
     } catch (err) {
-      console.error('Failed to save config:', err)
+      logger.error('Failed to save config:', err)
       setSaveStatus('error')
     } finally {
       setSaving(false)

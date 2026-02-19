@@ -159,7 +159,7 @@ export default function AdminFeedback({ user }) {
       </div>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(5rem, 1fr))', gap: '0.75rem' }}>
         {Object.entries(RATING_EMOJI).map(([key, emoji]) => (
           <div key={key} className="card" style={{ padding: '1rem', textAlign: 'center' }}>
             <div style={{ fontSize: 24, marginBottom: 4 }}>{emoji}</div>
