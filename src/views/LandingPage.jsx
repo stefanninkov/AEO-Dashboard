@@ -417,7 +417,7 @@ const MOCKUP_SIDEBAR_ITEMS = [
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [navSolid, setNavSolid] = useState(false)
-  const [pricingPeriod, setPricingPeriod] = useState('yearly')
+  const [pricingPeriod, setPricingPeriod] = useState('quarterly')
   const [openFaq, setOpenFaq] = useState(null)
 
   const rootRef = useRef(null)
