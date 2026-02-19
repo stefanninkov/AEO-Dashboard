@@ -105,11 +105,11 @@ const STEPS = [
 const PRICING = [
   {
     name: 'Starter',
-    monthlyPrice: 0,
-    yearlyPrice: 0,
-    description: 'For individuals exploring AEO',
-    features: ['1 project', '88-point checklist', 'Basic site analyzer', 'Community support'],
-    cta: 'Get Started Free',
+    monthlyPrice: 29,
+    yearlyPrice: 23,
+    description: 'For individuals starting with AEO',
+    features: ['1 project', 'Phase 1-2 checklist', '5 analyzer scans/mo', 'Basic schema generator'],
+    cta: 'Start Free Trial',
     featured: false,
   },
   {
@@ -117,7 +117,7 @@ const PRICING = [
     monthlyPrice: 49,
     yearlyPrice: 39,
     description: 'For agencies & SEO professionals',
-    features: ['10 projects', 'AI content writer', 'Schema generator', 'Multi-engine testing', 'Client portal', 'Email digests', 'Priority support'],
+    features: ['10 projects', 'All 7 checklist phases', 'Unlimited scans & tests', 'AI content writer', 'Client portal', 'Priority support'],
     cta: 'Start Free Trial',
     featured: true,
   },
@@ -126,8 +126,8 @@ const PRICING = [
     monthlyPrice: 149,
     yearlyPrice: 119,
     description: 'For teams & large agencies',
-    features: ['Unlimited projects', 'White-label portal', 'Webflow integration', 'Auto-monitoring', 'API access', 'Custom onboarding', 'Dedicated support'],
-    cta: 'Contact Sales',
+    features: ['Unlimited projects', 'White-label portal', 'API access', 'Auto-monitoring', 'Custom onboarding', 'Dedicated support'],
+    cta: 'Start Free Trial',
     featured: false,
   },
 ]
@@ -189,8 +189,8 @@ const FAQ_ITEMS = [
     answer: 'No. AEO Dashboard is designed for both technical and non-technical users. The checklist provides step-by-step guidance, the AI content writer generates optimized content automatically, and the schema generator creates markup through a visual interface \u2014 no coding required.',
   },
   {
-    question: 'Is there a free plan available?',
-    answer: 'Yes. The Starter plan is completely free and includes one project, the full 88-point AEO checklist, and basic site analysis. It\'s perfect for individuals exploring Answer Engine Optimization before upgrading to the Professional plan for agency features.',
+    question: 'Is there a free trial available?',
+    answer: 'Yes! All plans include a 14-day free trial with full access to every feature. Start risk-free \u2014 no credit card required during the trial period.',
   },
 ]
 
