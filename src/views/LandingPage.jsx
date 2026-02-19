@@ -106,6 +106,7 @@ const PRICING = [
   {
     name: 'Starter',
     monthlyPrice: 29,
+    quarterlyPrice: 25,
     yearlyPrice: 23,
     description: 'For individuals starting with AEO',
     features: [
@@ -122,6 +123,7 @@ const PRICING = [
   {
     name: 'Professional',
     monthlyPrice: 49,
+    quarterlyPrice: 42,
     yearlyPrice: 39,
     description: 'For agencies & SEO professionals',
     features: [
@@ -142,6 +144,7 @@ const PRICING = [
   {
     name: 'Enterprise',
     monthlyPrice: 149,
+    quarterlyPrice: 127,
     yearlyPrice: 119,
     description: 'For teams & large agencies',
     features: [
@@ -414,7 +417,7 @@ const MOCKUP_SIDEBAR_ITEMS = [
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [navSolid, setNavSolid] = useState(false)
-  const [pricingAnnual, setPricingAnnual] = useState(true)
+  const [pricingPeriod, setPricingPeriod] = useState('yearly')
   const [openFaq, setOpenFaq] = useState(null)
 
   const rootRef = useRef(null)
@@ -819,14 +822,20 @@ export default function LandingPage() {
           <div className="lp-pricing-toggle-wrapper">
             <div className="lp-pricing-toggle">
               <button
-                className={`lp-pricing-toggle-btn ${!pricingAnnual ? 'lp-active' : ''}`}
-                onClick={() => setPricingAnnual(false)}
+                className={`lp-pricing-toggle-btn ${pricingPeriod === 'monthly' ? 'lp-active' : ''}`}
+                onClick={() => setPricingPeriod('monthly')}
               >
                 Monthly
               </button>
               <button
-                className={`lp-pricing-toggle-btn ${pricingAnnual ? 'lp-active' : ''}`}
-                onClick={() => setPricingAnnual(true)}
+                className={`lp-pricing-toggle-btn ${pricingPeriod === 'quarterly' ? 'lp-active' : ''}`}
+                onClick={() => setPricingPeriod('quarterly')}
+              >
+                Quarterly <span style={{ fontSize: '0.6875rem', marginLeft: '0.375rem', opacity: 0.9 }}>Save 15%</span>
+              </button>
+              <button
+                className={`lp-pricing-toggle-btn ${pricingPeriod === 'yearly' ? 'lp-active' : ''}`}
+                onClick={() => setPricingPeriod('yearly')}
               >
                 Annual <span style={{ fontSize: '0.6875rem', marginLeft: '0.375rem', opacity: 0.9 }}>Save 20%</span>
               </button>
@@ -839,9 +848,9 @@ export default function LandingPage() {
                 <h3>{tier.name}</h3>
                 <p className="lp-pricing-card-desc">{tier.description}</p>
                 <div className="lp-pricing-price">
-                  ${pricingAnnual ? tier.yearlyPrice : tier.monthlyPrice}
+                  ${pricingPeriod === 'yearly' ? tier.yearlyPrice : pricingPeriod === 'quarterly' ? tier.quarterlyPrice : tier.monthlyPrice}
                   <span>
-                    {pricingAnnual ? '/mo, billed yearly' : '/month'}
+                    {pricingPeriod === 'yearly' ? '/mo, billed yearly' : pricingPeriod === 'quarterly' ? '/mo, billed quarterly' : '/month'}
                   </span>
                 </div>
                 <div className="lp-pricing-divider" />
