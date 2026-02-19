@@ -1,2 +1,231 @@
 {
+  "nav": {
+    "links": {
+      "0": "What is AEO?",
+      "1": "Phases",
+      "2": "Features",
+      "3": "FAQ"
+    },
+    "cta": "Join Waitlist",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "badge": "Coming Soon \u2014 Early Access for Select Users",
+    "heading": "Get Found by <1>AI Search Engines</1>",
+    "headingPrefix": "Get Found by ",
+    "headingAccent": "AI Search Engines",
+    "subtitle": "The first platform built for Answer Engine Optimization. Get cited by ChatGPT, Perplexity, Gemini, and every AI that matters.",
+    "emailPlaceholder": "Enter your email",
+    "cta": "Join Waitlist",
+    "joinedCount_one": "{{count}} person has already joined",
+    "joinedCount_other": "{{count}} people have already joined"
+  },
+  "education": {
+    "label": "Education",
+    "title": "What is Answer Engine Optimization?",
+    "description": "<strong>Answer Engine Optimization (AEO) is the practice of optimizing website content to be selected, cited, and surfaced by AI-powered answer engines.</strong> Unlike traditional SEO that targets search engine result pages, AEO focuses on making your content the preferred source that large language models like ChatGPT, Perplexity, and Google Gemini reference when generating answers.",
+    "descriptionBold": "Answer Engine Optimization (AEO) is the practice of optimizing website content to be selected, cited, and surfaced by AI-powered answer engines.",
+    "descriptionRest": " Unlike traditional SEO that targets search engine result pages, AEO focuses on making your content the preferred source that large language models like ChatGPT, Perplexity, and Google Gemini reference when generating answers.",
+    "comparisonTitle": "AEO vs Traditional SEO",
+    "pillarsTitle": "The 7 Pillars of AEO"
+  },
+  "aeoVsSeo": {
+    "columns": {
+      "aspect": "Aspect",
+      "seo": "Traditional SEO",
+      "aeo": "AEO"
+    },
+    "rows": {
+      "0": {
+        "aspect": "Primary Goal",
+        "seo": "Rank in search results",
+        "aeo": "Be cited in AI answers"
+      },
+      "1": {
+        "aspect": "Key Metric",
+        "seo": "Position & click-through rate",
+        "aeo": "Citation frequency & accuracy"
+      },
+      "2": {
+        "aspect": "Content Format",
+        "seo": "Keywords & backlinks",
+        "aeo": "Structured data & direct answers"
+      },
+      "3": {
+        "aspect": "Target System",
+        "seo": "Google, Bing crawlers",
+        "aeo": "LLMs, RAG pipelines, AI agents"
+      },
+      "4": {
+        "aspect": "Optimization",
+        "seo": "Meta tags & page speed",
+        "aeo": "Schema markup & entity clarity"
+      },
+      "5": {
+        "aspect": "Time Horizon",
+        "seo": "Weeks to months",
+        "aeo": "Days to weeks (re-indexed by AI)"
+      }
+    }
+  },
+  "pillars": {
+    "0": "Structured Data & Schema Markup",
+    "1": "Direct Answer Formatting",
+    "2": "Entity Authority & E-E-A-T",
+    "3": "Multi-Platform Optimization",
+    "4": "AI Crawler Accessibility",
+    "5": "Content Freshness & Accuracy",
+    "6": "Citation Signal Building"
+  },
+  "phases": {
+    "sectionLabel": "The Journey",
+    "sectionTitle": "Your Path to AI Visibility",
+    "sectionSubtitle": "7 phases that take you from invisible to cited. Each phase builds on the last \u2014 here\u2019s what to expect.",
+    "footer": "The <strong>99-point checklist</strong> guides you through every task in every phase.",
+    "footerBold": "99-point checklist",
+    "footerPrefix": "The ",
+    "footerSuffix": " guides you through every task in every phase.",
+    "0": {
+      "title": "Foundation & Audit",
+      "timeline": "Week 1-2",
+      "description": "Audit existing content and technical infrastructure. Map questions, analyze competitors, and establish your AEO baseline.",
+      "visibility": "Know where you stand \u2014 baseline metrics and content gaps identified"
+    },
+    "1": {
+      "title": "Structured Data & Schema",
+      "timeline": "Week 2-4",
+      "description": "Implement FAQ, HowTo, Article, Product, and Organization schema markup to make your content machine-readable.",
+      "visibility": "AI engines can now read and understand your content structure"
+    },
+    "2": {
+      "title": "Content Optimization",
+      "timeline": "Week 3-8",
+      "description": "Restructure content with answer paragraphs, heading hierarchy, comparison tables, and topic clusters.",
+      "visibility": "Your content becomes the best possible answer for AI queries"
+    },
+    "3": {
+      "title": "Technical AEO",
+      "timeline": "Week 4-6",
+      "description": "Configure AI bot access, semantic HTML, RSS feeds, internal linking, and meta optimization.",
+      "visibility": "AI crawlers can access and extract your content efficiently"
+    },
+    "4": {
+      "title": "Authority & Trust",
+      "timeline": "Week 6-12+",
+      "description": "Build E-E-A-T signals, authority backlinks, Google Business Profile, and citation networks.",
+      "visibility": "AI engines trust your content as a credible, authoritative source"
+    },
+    "5": {
+      "title": "Testing & Validation",
+      "timeline": "Week 6-8",
+      "description": "Test across ChatGPT, Perplexity, Google AI, and Bing Copilot. Validate schema and crawlability.",
+      "visibility": "Verify you appear across all major AI platforms"
+    },
+    "6": {
+      "title": "Monitor & Iterate",
+      "timeline": "Week 8+",
+      "description": "Track AI citations, A/B test answer formats, benchmark competitors, and re-optimize monthly.",
+      "visibility": "Continuous improvement \u2014 stay visible as AI engines evolve weekly"
+    }
+  },
+  "features": {
+    "sectionLabel": "What You Get",
+    "sectionTitle": "Built for AEO from the Ground Up",
+    "sectionSubtitle": "Everything you need to optimize, test, and monitor your AI search visibility \u2014 in one platform.",
+    "0": {
+      "title": "99-Point AEO Checklist",
+      "description": "Phase-by-phase tasks covering every aspect of AEO \u2014 from schema markup to content structure to AI crawler access."
+    },
+    "1": {
+      "title": "AI-Powered Site Analyzer",
+      "description": "Enter any URL and get an instant AEO readiness score with actionable recommendations."
+    },
+    "2": {
+      "title": "Multi-Engine Testing Lab",
+      "description": "Test how your content appears across ChatGPT, Perplexity, Claude, and Gemini simultaneously."
+    },
+    "3": {
+      "title": "AI Content Writer",
+      "description": "Generate AEO-optimized content with structured data and direct answer formatting built in."
+    },
+    "4": {
+      "title": "Schema Generator",
+      "description": "Point-and-click markup builder for FAQ, HowTo, Article, and more \u2014 no coding required."
+    },
+    "5": {
+      "title": "Monitoring & Alerts",
+      "description": "Track AI citation changes over time and get alerts when your visibility shifts."
+    }
+  },
+  "faq": {
+    "sectionLabel": "FAQ",
+    "sectionTitle": "Frequently Asked Questions",
+    "0": {
+      "question": "What is Answer Engine Optimization (AEO)?",
+      "answer": "Answer Engine Optimization is the practice of optimizing website content to be cited by AI-powered answer engines like ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Unlike traditional SEO which targets search rankings, AEO focuses on structured data, direct answer formatting, and entity authority to ensure AI systems reference your content."
+    },
+    "1": {
+      "question": "How is AEO different from traditional SEO?",
+      "answer": "While SEO optimizes for search engine rankings and click-through rates, AEO optimizes for AI citation and inclusion in generated answers. AEO emphasizes schema markup, concise answer formatting, entity clarity, and E-E-A-T signals that help large language models identify and cite authoritative sources."
+    },
+    "2": {
+      "question": "Who is AEO Dashboard built for?",
+      "answer": "AEO Dashboard is built for agencies, SEO professionals, and digital marketers who want to future-proof their clients' online visibility. Whether you manage one website or hundreds, the platform scales with you."
+    },
+    "3": {
+      "question": "When will AEO Dashboard launch?",
+      "answer": "We're currently in the final stages of development. Join the waitlist to be notified the moment we launch. We'll also be selecting a small group of early access users to try the platform before the public release."
+    }
+  },
+  "earlyAccess": {
+    "title": "Want Early Access?",
+    "description": "Before we launch, we\u2019re giving a select group of early supporters access to the full platform. Join the waitlist for a chance to be one of the first to try AEO Dashboard \u2014 and help shape the product with your feedback.",
+    "benefits": {
+      "0": "Full platform access before launch",
+      "1": "Direct line to the founding team",
+      "2": "Help shape the product with feedback",
+      "3": "Free access during the early period"
+    },
+    "emailPlaceholder": "Enter your email",
+    "cta": "Join Waitlist",
+    "note": "We\u2019ll select ~10 early access users from the waitlist and reach out personally."
+  },
+  "footer": {
+    "brandDescription": "The complete toolkit for Answer Engine Optimization.",
+    "columns": {
+      "0": {
+        "title": "Product",
+        "links": {
+          "0": "What is AEO?",
+          "1": "Phases",
+          "2": "Features",
+          "3": "FAQ"
+        }
+      },
+      "1": {
+        "title": "Company",
+        "links": {
+          "0": "About",
+          "1": "Blog",
+          "2": "Contact",
+          "3": "Privacy Policy"
+        }
+      }
+    },
+    "copyright": "\u00a9 {{year}} AEO Dashboard. All rights reserved."
+  },
+  "success": {
+    "titleNew": "You're on the list!",
+    "titleExisting": "You're already on the list!",
+    "messageNew": "We'll notify you as soon as AEO Dashboard launches. Stay tuned!",
+    "messageExisting": "We already have your email. We'll notify you when we launch.",
+    "position": "#{{count}} on the waitlist",
+    "shareOnX": "Share on X",
+    "shareOnLinkedIn": "LinkedIn",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "close": "Close",
+    "shareText": "I just joined the waitlist for AEO Dashboard \u2014 the first platform built for Answer Engine Optimization. Get early access:"
+  }
 }

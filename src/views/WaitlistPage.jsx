@@ -1,130 +1,45 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useWaitlist } from '../hooks/useWaitlist'
 import { Check, Share2, Copy, Loader, Zap } from 'lucide-react'
 import './WaitlistPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
-   DATA CONSTANTS
+   NON-TRANSLATABLE DATA CONSTANTS
    ═══════════════════════════════════════════════════════════════ */
 
-const NAV_LINKS = [
-  { label: 'What is AEO?', href: '#what-is-aeo' },
-  { label: 'Phases', href: '#phases' },
-  { label: 'Features', href: '#features' },
-  { label: 'FAQ', href: '#faq' },
+const NAV_HREFS = [
+  { href: '#what-is-aeo' },
+  { href: '#phases' },
+  { href: '#features' },
+  { href: '#faq' },
 ]
 
-const AEO_VS_SEO = [
-  { aspect: 'Primary Goal', seo: 'Rank in search results', aeo: 'Be cited in AI answers' },
-  { aspect: 'Key Metric', seo: 'Position & click-through rate', aeo: 'Citation frequency & accuracy' },
-  { aspect: 'Content Format', seo: 'Keywords & backlinks', aeo: 'Structured data & direct answers' },
-  { aspect: 'Target System', seo: 'Google, Bing crawlers', aeo: 'LLMs, RAG pipelines, AI agents' },
-  { aspect: 'Optimization', seo: 'Meta tags & page speed', aeo: 'Schema markup & entity clarity' },
-  { aspect: 'Time Horizon', seo: 'Weeks to months', aeo: 'Days to weeks (re-indexed by AI)' },
+const PHASE_META = [
+  { number: 1, color: '#FF6B35', icon: '🏗️' },
+  { number: 2, color: '#7B2FBE', icon: '📊' },
+  { number: 3, color: '#0EA5E9', icon: '✏️' },
+  { number: 4, color: '#10B981', icon: '⚙️' },
+  { number: 5, color: '#F59E0B', icon: '🏆' },
+  { number: 6, color: '#EC4899', icon: '🧪' },
+  { number: 7, color: '#EF4444', icon: '📈' },
 ]
 
-const PILLARS = [
-  'Structured Data & Schema Markup',
-  'Direct Answer Formatting',
-  'Entity Authority & E-E-A-T',
-  'Multi-Platform Optimization',
-  'AI Crawler Accessibility',
-  'Content Freshness & Accuracy',
-  'Citation Signal Building',
-]
+const FEATURE_ICONS = ['✅', '🔍', '🧪', '✍️', '🏗️', '📡']
 
-const PHASES = [
-  {
-    number: 1, title: 'Foundation & Audit', timeline: 'Week 1-2', color: '#FF6B35', icon: '🏗️',
-    description: 'Audit existing content and technical infrastructure. Map questions, analyze competitors, and establish your AEO baseline.',
-    visibility: 'Know where you stand — baseline metrics and content gaps identified',
-  },
-  {
-    number: 2, title: 'Structured Data & Schema', timeline: 'Week 2-4', color: '#7B2FBE', icon: '📊',
-    description: 'Implement FAQ, HowTo, Article, Product, and Organization schema markup to make your content machine-readable.',
-    visibility: 'AI engines can now read and understand your content structure',
-  },
-  {
-    number: 3, title: 'Content Optimization', timeline: 'Week 3-8', color: '#0EA5E9', icon: '✏️',
-    description: 'Restructure content with answer paragraphs, heading hierarchy, comparison tables, and topic clusters.',
-    visibility: 'Your content becomes the best possible answer for AI queries',
-  },
-  {
-    number: 4, title: 'Technical AEO', timeline: 'Week 4-6', color: '#10B981', icon: '⚙️',
-    description: 'Configure AI bot access, semantic HTML, RSS feeds, internal linking, and meta optimization.',
-    visibility: 'AI crawlers can access and extract your content efficiently',
-  },
-  {
-    number: 5, title: 'Authority & Trust', timeline: 'Week 6-12+', color: '#F59E0B', icon: '🏆',
-    description: 'Build E-E-A-T signals, authority backlinks, Google Business Profile, and citation networks.',
-    visibility: 'AI engines trust your content as a credible, authoritative source',
-  },
-  {
-    number: 6, title: 'Testing & Validation', timeline: 'Week 6-8', color: '#EC4899', icon: '🧪',
-    description: 'Test across ChatGPT, Perplexity, Google AI, and Bing Copilot. Validate schema and crawlability.',
-    visibility: 'Verify you appear across all major AI platforms',
-  },
-  {
-    number: 7, title: 'Monitor & Iterate', timeline: 'Week 8+', color: '#EF4444', icon: '📈',
-    description: 'Track AI citations, A/B test answer formats, benchmark competitors, and re-optimize monthly.',
-    visibility: 'Continuous improvement — stay visible as AI engines evolve weekly',
-  },
-]
-
-const FEATURES_OVERVIEW = [
-  { icon: '✅', title: '99-Point AEO Checklist', description: 'Phase-by-phase tasks covering every aspect of AEO — from schema markup to content structure to AI crawler access.' },
-  { icon: '🔍', title: 'AI-Powered Site Analyzer', description: 'Enter any URL and get an instant AEO readiness score with actionable recommendations.' },
-  { icon: '🧪', title: 'Multi-Engine Testing Lab', description: 'Test how your content appears across ChatGPT, Perplexity, Claude, and Gemini simultaneously.' },
-  { icon: '✍️', title: 'AI Content Writer', description: 'Generate AEO-optimized content with structured data and direct answer formatting built in.' },
-  { icon: '🏗️', title: 'Schema Generator', description: 'Point-and-click markup builder for FAQ, HowTo, Article, and more — no coding required.' },
-  { icon: '📡', title: 'Monitoring & Alerts', description: 'Track AI citation changes over time and get alerts when your visibility shifts.' },
-]
-
-const FAQ_ITEMS = [
-  {
-    question: 'What is Answer Engine Optimization (AEO)?',
-    answer: 'Answer Engine Optimization is the practice of optimizing website content to be cited by AI-powered answer engines like ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Unlike traditional SEO which targets search rankings, AEO focuses on structured data, direct answer formatting, and entity authority to ensure AI systems reference your content.',
-  },
-  {
-    question: 'How is AEO different from traditional SEO?',
-    answer: 'While SEO optimizes for search engine rankings and click-through rates, AEO optimizes for AI citation and inclusion in generated answers. AEO emphasizes schema markup, concise answer formatting, entity clarity, and E-E-A-T signals that help large language models identify and cite authoritative sources.',
-  },
-  {
-    question: 'Who is AEO Dashboard built for?',
-    answer: 'AEO Dashboard is built for agencies, SEO professionals, and digital marketers who want to future-proof their clients\' online visibility. Whether you manage one website or hundreds, the platform scales with you.',
-  },
-  {
-    question: 'When will AEO Dashboard launch?',
-    answer: 'We\'re currently in the final stages of development. Join the waitlist to be notified the moment we launch. We\'ll also be selecting a small group of early access users to try the platform before the public release.',
-  },
-]
-
-const FOOTER_LINKS = [
-  {
-    title: 'Product',
-    links: [
-      { label: 'What is AEO?', href: '#what-is-aeo' },
-      { label: 'Phases', href: '#phases' },
-      { label: 'Features', href: '#features' },
-      { label: 'FAQ', href: '#faq' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About', href: '#' },
-      { label: 'Blog', href: '#' },
-      { label: 'Contact', href: '#' },
-      { label: 'Privacy Policy', href: '#' },
-    ],
-  },
-]
-
-const EARLY_ACCESS_BENEFITS = [
-  'Full platform access before launch',
-  'Direct line to the founding team',
-  'Help shape the product with feedback',
-  'Free access during the early period',
+const FOOTER_HREFS = [
+  [
+    { href: '#what-is-aeo' },
+    { href: '#phases' },
+    { href: '#features' },
+    { href: '#faq' },
+  ],
+  [
+    { href: '#' },
+    { href: '#' },
+    { href: '#' },
+    { href: '#' },
+  ],
 ]
 
 const BASE_PATH = import.meta.env.BASE_URL || '/AEO-Dashboard/'
@@ -135,6 +50,7 @@ const SITE_URL = `https://stefanninkov.github.io${BASE_PATH}`
    ═══════════════════════════════════════════════════════════════ */
 
 export default function WaitlistPage() {
+  const { t } = useTranslation('waitlist')
   const [email, setEmail] = useState('')
   const [navSolid, setNavSolid] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -142,6 +58,66 @@ export default function WaitlistPage() {
   const [openFaq, setOpenFaq] = useState(null)
   const rootRef = useRef(null)
   const { count, submitting, submitted, error, alreadySignedUp, submitEmail } = useWaitlist()
+
+  // ── Translated data arrays (rebuilt when language changes) ──
+
+  const NAV_LINKS = useMemo(() =>
+    NAV_HREFS.map((item, i) => ({
+      label: t(`nav.links.${i}`),
+      href: item.href,
+    })),
+  [t])
+
+  const AEO_VS_SEO = useMemo(() =>
+    Array.from({ length: 6 }, (_, i) => ({
+      aspect: t(`aeoVsSeo.rows.${i}.aspect`),
+      seo: t(`aeoVsSeo.rows.${i}.seo`),
+      aeo: t(`aeoVsSeo.rows.${i}.aeo`),
+    })),
+  [t])
+
+  const PILLARS = useMemo(() =>
+    Array.from({ length: 7 }, (_, i) => t(`pillars.${i}`)),
+  [t])
+
+  const PHASES = useMemo(() =>
+    PHASE_META.map((meta, i) => ({
+      ...meta,
+      title: t(`phases.${i}.title`),
+      timeline: t(`phases.${i}.timeline`),
+      description: t(`phases.${i}.description`),
+      visibility: t(`phases.${i}.visibility`),
+    })),
+  [t])
+
+  const FEATURES_OVERVIEW = useMemo(() =>
+    FEATURE_ICONS.map((icon, i) => ({
+      icon,
+      title: t(`features.${i}.title`),
+      description: t(`features.${i}.description`),
+    })),
+  [t])
+
+  const FAQ_ITEMS = useMemo(() =>
+    Array.from({ length: 4 }, (_, i) => ({
+      question: t(`faq.${i}.question`),
+      answer: t(`faq.${i}.answer`),
+    })),
+  [t])
+
+  const FOOTER_LINKS = useMemo(() =>
+    FOOTER_HREFS.map((col, ci) => ({
+      title: t(`footer.columns.${ci}.title`),
+      links: col.map((link, li) => ({
+        label: t(`footer.columns.${ci}.links.${li}`),
+        href: link.href,
+      })),
+    })),
+  [t])
+
+  const EARLY_ACCESS_BENEFITS = useMemo(() =>
+    Array.from({ length: 4 }, (_, i) => t(`earlyAccess.benefits.${i}`)),
+  [t])
 
   // Email validation
   const isValidEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
@@ -197,7 +173,7 @@ export default function WaitlistPage() {
         ],
       },
     ],
-  }), [])
+  }), [FAQ_ITEMS])
 
   // Scroll → solid nav
   useEffect(() => {
@@ -256,7 +232,7 @@ export default function WaitlistPage() {
   }
 
   // Share handlers
-  const shareText = 'I just joined the waitlist for AEO Dashboard — the first platform built for Answer Engine Optimization. Get early access:'
+  const shareText = t('success.shareText')
   const shareUrl = SITE_URL
 
   const shareTwitter = () => {
@@ -293,7 +269,7 @@ export default function WaitlistPage() {
           <div className="wl-nav-links">
             {NAV_LINKS.map((link) => (
               <a
-                key={link.label}
+                key={link.href}
                 href={link.href}
                 className="wl-nav-link"
                 onClick={(e) => scrollToSection(e, link.href)}
@@ -305,14 +281,14 @@ export default function WaitlistPage() {
               className="wl-nav-cta"
               onClick={(e) => scrollToSection(e, '#hero')}
             >
-              Join Waitlist
+              {t('nav.cta')}
             </button>
           </div>
 
           <button
             className={`wl-nav-hamburger ${mobileMenuOpen ? 'wl-open' : ''}`}
             onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={mobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
           >
             <span />
             <span />
@@ -325,7 +301,7 @@ export default function WaitlistPage() {
       <div className={`wl-nav-mobile-overlay ${mobileMenuOpen ? 'wl-open' : ''}`}>
         {NAV_LINKS.map((link) => (
           <a
-            key={link.label}
+            key={link.href}
             href={link.href}
             className="wl-nav-link"
             onClick={(e) => scrollToSection(e, link.href)}
@@ -337,7 +313,7 @@ export default function WaitlistPage() {
           className="wl-nav-cta"
           onClick={(e) => scrollToSection(e, '#hero')}
         >
-          Join Waitlist
+          {t('nav.cta')}
         </button>
       </div>
 
@@ -348,23 +324,22 @@ export default function WaitlistPage() {
           <div className="wl-hero-inner">
             <div className="wl-badge">
               <Zap size={14} />
-              Coming Soon — Early Access for Select Users
+              {t('hero.badge')}
             </div>
 
             <h1>
-              Get Found by <span>AI Search Engines</span>
+              {t('hero.headingPrefix')}<span>{t('hero.headingAccent')}</span>
             </h1>
 
             <p className="wl-hero-sub">
-              The first platform built for Answer Engine Optimization.
-              Get cited by ChatGPT, Perplexity, Gemini, and every AI that matters.
+              {t('hero.subtitle')}
             </p>
 
             <form className="wl-email-form" onSubmit={handleSubmit}>
               <input
                 type="email"
                 className="wl-email-input"
-                placeholder="Enter your email"
+                placeholder={t('hero.emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={submitting}
@@ -375,7 +350,7 @@ export default function WaitlistPage() {
                 className="wl-submit-btn"
                 disabled={submitting || !email.trim()}
               >
-                {submitting ? <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} /> : 'Join Waitlist'}
+                {submitting ? <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} /> : t('hero.cta')}
               </button>
             </form>
 
@@ -383,7 +358,7 @@ export default function WaitlistPage() {
 
             {count > 0 && (
               <p className="wl-counter">
-                <strong>{count.toLocaleString()}</strong> {count === 1 ? 'person has' : 'people have'} already joined
+                <strong>{count.toLocaleString()}</strong> {t('hero.joinedCount', { count })}
               </p>
             )}
           </div>
@@ -393,21 +368,21 @@ export default function WaitlistPage() {
         <section id="what-is-aeo" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">Education</span>
-              <h2 className="wl-section-title">What is Answer Engine Optimization?</h2>
+              <span className="wl-section-label">{t('education.label')}</span>
+              <h2 className="wl-section-title">{t('education.title')}</h2>
             </div>
             <div className="wl-aeo-content">
               <p className="wl-answer-paragraph">
-                <strong>Answer Engine Optimization (AEO) is the practice of optimizing website content to be selected, cited, and surfaced by AI-powered answer engines.</strong> Unlike traditional SEO that targets search engine result pages, AEO focuses on making your content the preferred source that large language models like ChatGPT, Perplexity, and Google Gemini reference when generating answers.
+                <strong>{t('education.descriptionBold')}</strong>{t('education.descriptionRest')}
               </p>
 
-              <h3>AEO vs Traditional SEO</h3>
+              <h3>{t('education.comparisonTitle')}</h3>
               <table className="wl-comparison-table">
                 <thead>
                   <tr>
-                    <th scope="col">Aspect</th>
-                    <th scope="col">Traditional SEO</th>
-                    <th scope="col">AEO</th>
+                    <th scope="col">{t('aeoVsSeo.columns.aspect')}</th>
+                    <th scope="col">{t('aeoVsSeo.columns.seo')}</th>
+                    <th scope="col">{t('aeoVsSeo.columns.aeo')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -421,7 +396,7 @@ export default function WaitlistPage() {
                 </tbody>
               </table>
 
-              <h3>The 7 Pillars of AEO</h3>
+              <h3>{t('education.pillarsTitle')}</h3>
               <ol className="wl-pillars-list">
                 {PILLARS.map((p, i) => (
                   <li key={i}>{p}</li>
@@ -435,9 +410,9 @@ export default function WaitlistPage() {
         <section id="phases" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">The Journey</span>
-              <h2 className="wl-section-title">Your Path to AI Visibility</h2>
-              <p className="wl-section-subtitle wl-centered">7 phases that take you from invisible to cited. Each phase builds on the last &mdash; here&rsquo;s what to expect.</p>
+              <span className="wl-section-label">{t('phases.sectionLabel')}</span>
+              <h2 className="wl-section-title">{t('phases.sectionTitle')}</h2>
+              <p className="wl-section-subtitle wl-centered">{t('phases.sectionSubtitle')}</p>
             </div>
             <div className="wl-phases">
               {PHASES.map((phase) => (
@@ -464,7 +439,7 @@ export default function WaitlistPage() {
               ))}
             </div>
             <p className="wl-phases-footer" data-animate>
-              The <strong>99-point checklist</strong> guides you through every task in every phase.
+              {t('phases.footerPrefix')}<strong>{t('phases.footerBold')}</strong>{t('phases.footerSuffix')}
             </p>
           </div>
         </section>
@@ -473,9 +448,9 @@ export default function WaitlistPage() {
         <section id="features" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">What You Get</span>
-              <h2 className="wl-section-title">Built for AEO from the Ground Up</h2>
-              <p className="wl-section-subtitle wl-centered">Everything you need to optimize, test, and monitor your AI search visibility — in one platform.</p>
+              <span className="wl-section-label">{t('features.sectionLabel')}</span>
+              <h2 className="wl-section-title">{t('features.sectionTitle')}</h2>
+              <p className="wl-section-subtitle wl-centered">{t('features.sectionSubtitle')}</p>
             </div>
             <div className="wl-features-grid">
               {FEATURES_OVERVIEW.map((f, i) => (
@@ -493,8 +468,8 @@ export default function WaitlistPage() {
         <section id="faq" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">FAQ</span>
-              <h2 className="wl-section-title">Frequently Asked Questions</h2>
+              <span className="wl-section-label">{t('faq.sectionLabel')}</span>
+              <h2 className="wl-section-title">{t('faq.sectionTitle')}</h2>
             </div>
             <div className="wl-faq-list">
               {FAQ_ITEMS.map((item, i) => (
@@ -520,15 +495,14 @@ export default function WaitlistPage() {
 
         {/* ═══════════ 7. EARLY ACCESS + FINAL CTA ═══════════ */}
         <section className="wl-early-access" data-animate>
-          <h2>Want Early Access?</h2>
+          <h2>{t('earlyAccess.title')}</h2>
           <p>
-            Before we launch, we&rsquo;re giving a select group of early supporters access to the full platform.
-            Join the waitlist for a chance to be one of the first to try AEO Dashboard &mdash; and help shape the product with your feedback.
+            {t('earlyAccess.description')}
           </p>
 
           <div className="wl-early-benefits">
-            {EARLY_ACCESS_BENEFITS.map((benefit) => (
-              <div key={benefit} className="wl-early-benefit">
+            {EARLY_ACCESS_BENEFITS.map((benefit, i) => (
+              <div key={i} className="wl-early-benefit">
                 <div className="wl-early-benefit-icon">
                   <Check size={12} style={{ color: '#FF6B35' }} />
                 </div>
@@ -545,7 +519,7 @@ export default function WaitlistPage() {
             <input
               type="email"
               className="wl-email-input"
-              placeholder="Enter your email"
+              placeholder={t('earlyAccess.emailPlaceholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={submitting}
@@ -556,11 +530,11 @@ export default function WaitlistPage() {
               className="wl-submit-btn"
               disabled={submitting || !email.trim()}
             >
-              {submitting ? <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} /> : 'Join Waitlist'}
+              {submitting ? <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} /> : t('earlyAccess.cta')}
             </button>
           </form>
 
-          <p className="wl-early-note">We&rsquo;ll select ~10 early access users from the waitlist and reach out personally.</p>
+          <p className="wl-early-note">{t('earlyAccess.note')}</p>
         </section>
 
       </main>
@@ -572,7 +546,7 @@ export default function WaitlistPage() {
             <span className="wl-footer-brand-logo">
               <span className="wl-nav-logo-accent">AEO</span>&nbsp;Dashboard
             </span>
-            <p>The complete toolkit for Answer Engine Optimization.</p>
+            <p>{t('footer.brandDescription')}</p>
           </div>
           {FOOTER_LINKS.map((col, i) => (
             <div key={i} className="wl-footer-col">
@@ -593,7 +567,7 @@ export default function WaitlistPage() {
           ))}
         </div>
         <div className="wl-footer-bottom">
-          <p>&copy; {new Date().getFullYear()} AEO Dashboard. All rights reserved.</p>
+          <p>{t('footer.copyright', { year: new Date().getFullYear() })}</p>
         </div>
       </footer>
 
@@ -604,30 +578,30 @@ export default function WaitlistPage() {
             <div className="wl-success-icon">
               <Check size={32} style={{ color: '#10B981' }} />
             </div>
-            <h2>{alreadySignedUp ? "You're already on the list!" : "You're on the list!"}</h2>
+            <h2>{alreadySignedUp ? t('success.titleExisting') : t('success.titleNew')}</h2>
             <p>
               {alreadySignedUp
-                ? "We already have your email. We'll notify you when we launch."
-                : "We'll notify you as soon as AEO Dashboard launches. Stay tuned!"}
+                ? t('success.messageExisting')
+                : t('success.messageNew')}
             </p>
             {count > 0 && (
               <p className="wl-success-position">
-                #{count.toLocaleString()} on the waitlist
+                {t('success.position', { count: count.toLocaleString() })}
               </p>
             )}
 
             <div className="wl-share-row">
               <button className="wl-share-btn" onClick={shareTwitter}>
                 <Share2 size={14} />
-                Share on X
+                {t('success.shareOnX')}
               </button>
               <button className="wl-share-btn" onClick={shareLinkedIn}>
                 <Share2 size={14} />
-                LinkedIn
+                {t('success.shareOnLinkedIn')}
               </button>
               <button className="wl-share-btn" onClick={copyLink}>
                 <Copy size={14} />
-                {copied ? 'Copied!' : 'Copy Link'}
+                {copied ? t('success.copied') : t('success.copyLink')}
               </button>
             </div>
 
@@ -635,7 +609,7 @@ export default function WaitlistPage() {
               className="wl-success-dismiss"
               onClick={() => window.location.reload()}
             >
-              Close
+              {t('success.close')}
             </button>
           </div>
         </div>
