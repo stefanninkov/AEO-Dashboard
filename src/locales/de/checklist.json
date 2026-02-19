@@ -1,1 +1,596 @@
-{}
+{
+  "phases": {
+    "phase-1": {
+      "title": "Grundlagen & Audit",
+      "timeline": "Woche 1–2",
+      "description": "Ermitteln Sie Ihre AEO-Ausgangsbasis durch ein Audit bestehender Inhalte und technischer Infrastruktur."
+    },
+    "phase-2": {
+      "title": "Strukturierte Daten & Schema",
+      "timeline": "Woche 2–4",
+      "description": "Implementieren Sie umfassendes Schema-Markup, um Ihre Inhalte für AI-Engines maschinenlesbar zu machen."
+    },
+    "phase-3": {
+      "title": "Content-Optimierung",
+      "timeline": "Woche 3–8",
+      "description": "Strukturieren und optimieren Sie Ihre Inhalte, um die bestmögliche Antwort für AI-Engines zu liefern."
+    },
+    "phase-4": {
+      "title": "Technisches AEO",
+      "timeline": "Woche 4–6",
+      "description": "Stellen Sie sicher, dass Ihre Website technisch für AI-Crawling, -Parsing und -Inhaltsextraktion optimiert ist."
+    },
+    "phase-5": {
+      "title": "Autorität & Vertrauenssignale",
+      "timeline": "Woche 6–12+",
+      "description": "Bauen Sie Markenautorität und Vertrauenssignale auf, die AI-Engines zur Bewertung der Quellenglaubwürdigkeit nutzen."
+    },
+    "phase-6": {
+      "title": "Tests & Validierung",
+      "timeline": "Woche 6–8",
+      "description": "Testen Sie Ihre AEO-Implementierung systematisch auf allen AI-Plattformen und validieren Sie das technische Setup."
+    },
+    "phase-7": {
+      "title": "Monitoring & Iteration",
+      "timeline": "Woche 8+ fortlaufend",
+      "description": "Etablieren Sie ein fortlaufendes Monitoring, verfolgen Sie Ergebnisse und verbessern Sie die AEO-Performance kontinuierlich."
+    }
+  },
+  "categories": {
+    "p1-content-audit": {
+      "name": "Content-Audit"
+    },
+    "p1-technical-baseline": {
+      "name": "Technische Ausgangsbasis"
+    },
+    "p2-core-schema": {
+      "name": "Kern-Schema"
+    },
+    "p2-advanced-schema": {
+      "name": "Erweitertes Schema"
+    },
+    "p3-content-structure": {
+      "name": "Inhaltsstruktur"
+    },
+    "p3-content-quality": {
+      "name": "Inhaltsqualität & E-E-A-T"
+    },
+    "p3-question-content": {
+      "name": "Frage-zuerst-Inhalte"
+    },
+    "p4-crawlability": {
+      "name": "Crawlbarkeit"
+    },
+    "p4-meta-feeds": {
+      "name": "Meta & Feed-Optimierung"
+    },
+    "p5-brand-entity": {
+      "name": "Marken-Entität"
+    },
+    "p5-backlinks": {
+      "name": "Backlinks & Zitierungen"
+    },
+    "p6-platform-testing": {
+      "name": "Plattform-Tests"
+    },
+    "p6-technical-validation": {
+      "name": "Technische Validierung"
+    },
+    "p6-testing-routine": {
+      "name": "Test-Routine"
+    },
+    "p7-tracking": {
+      "name": "Tracking"
+    },
+    "p7-continuous": {
+      "name": "Kontinuierliche Verbesserung"
+    }
+  },
+  "items": {
+    "p1-c1-i1": {
+      "text": "Alle Seiten auf fragebasierte Abdeckung prüfen",
+      "detail": "Überprüfen Sie jede Seite, um festzustellen, welche Nutzerfragen sie beantwortet, und identifizieren Sie Lücken in der Abdeckung.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p1-c1-i2": {
+      "text": "Seiten identifizieren, die bereits in AI Overviews / Featured Snippets erscheinen",
+      "detail": "Ermitteln Sie, welche Ihrer Seiten bereits von AI-Engines zitiert werden oder in Featured Snippets erscheinen.",
+      "actionLabel": "Search Console öffnen"
+    },
+    "p1-c1-i3": {
+      "text": "Von AI-Engines zitierte Wettbewerber-Inhalte analysieren",
+      "detail": "Recherchieren Sie, welche Wettbewerberseiten von AI-Plattformen zitiert werden, um zu verstehen, welche Formate erfolgreich sind.",
+      "actionLabel": "Wettbewerber öffnen"
+    },
+    "p1-c1-i4": {
+      "text": "Nutzerfragen entlang jeder Funnel-Stufe abbilden",
+      "detail": "Identifizieren Sie Fragen, die Nutzer in der Bewusstseins-, Abwägungs- und Entscheidungsphase stellen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p1-c1-i5": {
+      "text": "Bestehende FAQ-Seiten und Wissensdatenbank prüfen",
+      "detail": "Bewerten Sie vorhandene FAQ- und Hilfeinhalte auf Vollständigkeit, Format und AEO-Tauglichkeit.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p1-c1-i6": {
+      "text": "AI-Darstellung Ihrer Marke auf Richtigkeit prüfen",
+      "detail": "Überprüfen Sie, wie AI-Plattformen Ihre Marke beschreiben, und identifizieren Sie Ungenauigkeiten oder Wissenslücken.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p1-c1-i7": {
+      "text": "AEO-Themen nach Wirkung und Machbarkeit priorisieren",
+      "detail": "Bewerten Sie Themen-Chancen nach Suchvolumen, Wettbewerbsniveau, bestehender Autorität und Geschäftswert, um den Fokus richtig zu setzen.",
+      "actionLabel": "Content Ops öffnen"
+    },
+    "p1-c2-i1": {
+      "text": "robots.txt auf AI-Crawler-Zugriff prüfen (GPTBot, Google-Extended, ClaudeBot, PerplexityBot, CCBot, Bytespider)",
+      "detail": "Stellen Sie sicher, dass robots.txt die wichtigsten AI-Crawler nicht am Zugriff auf Ihre Inhalte hindert.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p1-c2-i2": {
+      "text": "sitemap.xml vollständig, valide und bei Google UND Bing eingereicht",
+      "detail": "Überprüfen Sie, ob die Sitemap alle wichtigen Seiten enthält und bei beiden Search Consoles eingereicht ist.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p1-c2-i3": {
+      "text": "Core Web Vitals prüfen (LCP < 2,5 s, INP < 200 ms, CLS < 0,1)",
+      "detail": "Messen und optimieren Sie Largest Contentful Paint, Interaction to Next Paint und Cumulative Layout Shift.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p1-c2-i4": {
+      "text": "SSL/HTTPS auf der gesamten Website sicherstellen",
+      "detail": "Bestätigen Sie, dass jede Seite über HTTPS mit gültigem SSL und ohne Mixed Content geladen wird.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p1-c2-i5": {
+      "text": "Mobile Responsiveness und Barrierefreiheit testen (Lighthouse)",
+      "detail": "Führen Sie Lighthouse-Audits für mobile Performance und Barrierefreiheit durch.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p1-c2-i6": {
+      "text": "Server-Logs auf AI-Crawler-Aktivität analysieren (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot)",
+      "detail": "Überprüfen Sie Server-Zugriffsprotokolle, um zu verstehen, welche AI-Crawler Ihre Website besuchen, welche Seiten sie priorisieren und wie häufig sie crawlen.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p2-c1-i1": {
+      "text": "FAQPage-Schema auf allen FAQ-Inhalten (JSON-LD)",
+      "detail": "Fügen Sie FAQPage-Strukturdaten zu jeder Seite mit FAQ-Inhalten im JSON-LD-Format hinzu.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c1-i2": {
+      "text": "HowTo-Schema für Tutorials/Anleitungen",
+      "detail": "Fügen Sie HowTo-Strukturdaten zu Tutorial- und Anleitungsinhalten hinzu.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c1-i3": {
+      "text": "Article/BlogPosting-Schema mit vollständigen Metadaten",
+      "detail": "Fügen Sie Article- oder BlogPosting-Schema mit Autor, Daten, Publisher und Bildern hinzu.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c1-i4": {
+      "text": "Product-Schema mit vollständigen Angebotsdaten",
+      "detail": "Fügen Sie Product-Schema mit Preis, Verfügbarkeit, Währung, Bewertungen und Marke hinzu.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c1-i5": {
+      "text": "Organization-Schema (Logo, sameAs, Kontakt)",
+      "detail": "Fügen Sie Organization-Schema mit vollständigen Unternehmensinformationen und Social-Media-Links hinzu.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c1-i6": {
+      "text": "BreadcrumbList-Schema auf jeder Seite",
+      "detail": "Implementieren Sie BreadcrumbList-Schema, um Suchmaschinen die Seitenhierarchie anzuzeigen.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c1-i7": {
+      "text": "CMS-Inhaltsmodelle für strukturierte Schema-Ausgabe entwerfen",
+      "detail": "Strukturieren Sie Ihre CMS-Collections und Inhaltstypen so, dass sie automatisch sauberes Schema-Markup erzeugen, ohne manuellen Aufwand.",
+      "actionLabel": "Dokumentation öffnen"
+    },
+    "p2-c2-i1": {
+      "text": "Speakable-Schema für Sprachsuche",
+      "detail": "Markieren Sie Inhaltsabschnitte, die besonders für Sprach- und Audiowiedergabe geeignet sind.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c2-i2": {
+      "text": "Review/AggregateRating-Schema",
+      "detail": "Fügen Sie Review- und Rating-Schema zu Inhalten mit Nutzer- oder Expertenbewertungen hinzu.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c2-i3": {
+      "text": "LocalBusiness-Schema falls zutreffend",
+      "detail": "Fügen Sie LocalBusiness-Schema für Unternehmen mit physischen Standorten hinzu.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c2-i4": {
+      "text": "VideoObject-Schema für Videos",
+      "detail": "Fügen Sie VideoObject-Schema zu allen Seiten mit eingebetteten Videos hinzu.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p2-c2-i5": {
+      "text": "ALLE Schema-Markups validieren — null Fehler überall",
+      "detail": "Führen Sie eine Validierung für jede Schema-Implementierung durch und beheben Sie alle Fehler und Warnungen.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p3-c1-i1": {
+      "text": "Umgekehrte-Pyramide-Format (Antwort zuerst, Details danach)",
+      "detail": "Strukturieren Sie Inhalte mit der direkten Antwort am Anfang, gefolgt von unterstützenden Details.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c1-i2": {
+      "text": "Klare H2/H3-Hierarchie passend zur Frageabsicht",
+      "detail": "Verwenden Sie Überschriften-Tags, die direkt zu den Fragen der Nutzer passen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c1-i3": {
+      "text": "40–60-Wörter-Antwortabsätze für Kernfragen (DIE zentrale AEO-Technik)",
+      "detail": "Schreiben Sie prägnante, eigenständige Antwortabsätze, die AI-Engines direkt extrahieren können.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c1-i4": {
+      "text": "TL;DR- / Zusammenfassungsboxen bei langen Inhalten",
+      "detail": "Fügen Sie Zusammenfassungen am Anfang langer Inhalte ein, um eine schnelle Antwortextraktion zu ermöglichen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c1-i5": {
+      "text": "Definitions-Formatierung ('[Begriff] ist [Definition]')",
+      "detail": "Verwenden Sie klare Definitionsformatierung, damit AI-Engines Ihre Definitionen leicht extrahieren und darstellen können.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c1-i6": {
+      "text": "Vergleichstabellen für 'vs'- und 'Beste'-Anfragen",
+      "detail": "Erstellen Sie strukturierte Vergleichstabellen für Wettbewerbs- und Listen-Anfragen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c1-i7": {
+      "text": "Inhaltsabschnitte eigenständig und unabhängig zitierbar gestalten",
+      "detail": "Schreiben Sie jeden Abschnitt so, dass er von AI-Engines extrahiert werden kann und ohne umgebenden Kontext vollständig verständlich bleibt.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c1-i8": {
+      "text": "Überschriften und Metadaten für AI-Antwortextraktion optimieren",
+      "detail": "Überarbeiten Sie Seitentitel und Meta-Beschreibungen, damit sie als prägnante Antworten dienen, die AI-Engines direkt referenzieren können.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p3-c1-i9": {
+      "text": "Inhalte als eigenständige 300–800-Wörter-Blöcke pro H2-Abschnitt strukturieren",
+      "detail": "Organisieren Sie Inhalte so, dass jeder H2-Abschnitt ein semantisch vollständiger, unabhängig abrufbarer Textabschnitt ist – optimiert für AI-RAG-Systeme (Retrieval-Augmented Generation).",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c2-i1": {
+      "text": "Autorenbiografien mit Qualifikationen + Person-Schema",
+      "detail": "Fügen Sie detaillierte Autoreninformationen mit Qualifikationen hinzu und verknüpfen Sie diese mit Person-Schema.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p3-c2-i2": {
+      "text": "Eigene Daten, Studien, Fallstudien",
+      "detail": "Erstellen und veröffentlichen Sie eigene Forschungsergebnisse, Daten und Fallstudien, die AI-Engines zitieren können.",
+      "actionLabel": "Content Ops öffnen"
+    },
+    "p3-c2-i3": {
+      "text": "'Zuletzt aktualisiert'-Datum (sichtbar + dateModified-Schema)",
+      "detail": "Zeigen Sie sichtbare Aktualisierungsdaten an und fügen Sie dateModified in das Schema-Markup ein.",
+      "actionLabel": "Schema-Generator öffnen"
+    },
+    "p3-c2-i4": {
+      "text": "Autoritative externe Quellen zitieren",
+      "detail": "Referenzieren und verlinken Sie autoritative Quellen, um Vertrauen aufzubauen und Recherche zu belegen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c2-i5": {
+      "text": "Themen-Cluster (Pillar-Seite + 5–15 unterstützende Seiten)",
+      "detail": "Bauen Sie thematische Autorität durch Pillar-Seiten auf, die mit unterstützenden Inhalten verknüpft sind.",
+      "actionLabel": "Content Ops öffnen"
+    },
+    "p3-c2-i6": {
+      "text": "Natürlicher, konversationeller Schreibstil",
+      "detail": "Schreiben Sie in einem Stil, der sowohl zur Informationsdarstellung durch AI-Engines als auch zur Fragestellung der Nutzer passt.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c2-i7": {
+      "text": "Konkrete Statistiken, Datenpunkte und Zahlen in Kerninhalten einbinden",
+      "detail": "Integrieren Sie belegte Statistiken, numerische Daten und quantitative Belege in Ihre Inhalte. Studien zeigen, dass Seiten mit konkreten Daten deutlich mehr AI-Zitierungen erhalten.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c2-i8": {
+      "text": "Expertenzitate mit Quellenangabe in autoritative Inhalte einbinden",
+      "detail": "Integrieren Sie direkte Zitate anerkannter Experten, Forschungsarbeiten oder Branchenführer in Ihre Inhalte, um Vertrauenssignale und die AI-Zitierwahrscheinlichkeit zu erhöhen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c3-i1": {
+      "text": "Eigene Q&A-Bereiche auf jeder Schlüsselseite (5–10 Fragen)",
+      "detail": "Fügen Sie strukturierte Q&A-Bereiche mit 5–10 relevanten Fragen auf wichtigen Seiten hinzu.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c3-i2": {
+      "text": "Content-Cluster für 'Nutzer fragen auch'-Fragen",
+      "detail": "Erstellen Sie Inhalte, die auf 'Nutzer fragen auch'-Fragen in Ihrer Nische abzielen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c3-i3": {
+      "text": "Optimierung für konversationelle Long-Tail-Suchanfragen",
+      "detail": "Optimieren Sie für natürlichsprachliche Long-Tail-Anfragen, die Nutzer in AI-Assistenten eingeben.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p3-c3-i4": {
+      "text": "Entitätsreiche Inhalte mit definierten Beziehungen",
+      "detail": "Erstellen Sie Inhalte, die Entitäten und deren Beziehungen klar definieren, um Präsenz im Knowledge Graph aufzubauen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p4-c1-i1": {
+      "text": "AI-Bot-Zugriffskonfiguration in robots.txt",
+      "detail": "Konfigurieren Sie robots.txt gezielt für optimale AI-Crawler-Zugriffsmuster.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c1-i7": {
+      "text": "robots.txt so konfigurieren, dass AI-Training-Bots und AI-Such-Bots unterschieden werden",
+      "detail": "Erlauben Sie AI-Such-Crawler, die Zitierungen ermöglichen (OAI-SearchBot, PerplexityBot), und blockieren Sie optional Training-Crawler (GPTBot, Google-Extended), die Inhalte ohne direkte Quellenangabe verwenden.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c1-i6": {
+      "text": "llms.txt-Datei im Website-Stammverzeichnis hinzufügen",
+      "detail": "Erstellen Sie eine /llms.txt-Datei, die LLMs eine strukturierte Zusammenfassung Ihrer Website, wichtiger Seiten und Dokumentation bereitstellt.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c1-i8": {
+      "text": "llms-full.txt mit vollständiger Dokumentation und Kerninhalten erstellen",
+      "detail": "Ergänzen Sie Ihre llms.txt-Zusammenfassung mit einer llms-full.txt-Datei, die Ihre vollständige Dokumentation, Anleitungen und Kerninhalte in einer einzelnen Markdown-Datei für die AI-Nutzung enthält.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c1-i2": {
+      "text": "Durchgängig semantisches HTML5 (<article>, <section>, <main> usw.)",
+      "detail": "Verwenden Sie korrekte semantische HTML5-Elemente, damit AI-Parser die Inhaltsstruktur verstehen.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c1-i3": {
+      "text": "JS-gerenderte Inhalte auch im initialen HTML (SSR/SSG)",
+      "detail": "Stellen Sie sicher, dass Inhalte in der initialen HTML-Antwort verfügbar sind und nicht erst nach JavaScript-Ausführung.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c1-i4": {
+      "text": "Interne Verlinkung mit beschreibendem Anchor Text",
+      "detail": "Bauen Sie eine starke interne Verlinkungsstruktur mit keywordreichen, beschreibenden Ankertexten auf.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c1-i5": {
+      "text": "Canonical URLs auf allen Seiten",
+      "detail": "Setzen Sie Canonical URLs, um Duplicate Content zu vermeiden und die Seitenautorität zu bündeln.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c2-i1": {
+      "text": "RSS/Atom-Feed mit vollständigem Inhalt",
+      "detail": "Stellen Sie RSS- oder Atom-Feeds mit vollständigem Artikelinhalt für die Nutzung durch AI-Engines bereit."
+    },
+    "p4-c2-i2": {
+      "text": "Open Graph + Twitter Card meta tags",
+      "detail": "Fügen Sie umfassende Open Graph- und Twitter Card-meta tags für Social-Media- und AI-Sharing hinzu.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p4-c2-i3": {
+      "text": "Knowledge-Graph-optimierte Meta-Beschreibungen (Antwort zuerst)",
+      "detail": "Schreiben Sie Meta-Beschreibungen, die mit der Antwort beginnen und für die AI-Extraktion optimiert sind.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p4-c2-i4": {
+      "text": "hreflang für mehrsprachige Inhalte",
+      "detail": "Implementieren Sie hreflang-Tags, damit AI-Engines die richtige Sprachversion ausliefern."
+    },
+    "p4-c2-i5": {
+      "text": "Umfassender Glossar-/Wissensdatenbank-Bereich",
+      "detail": "Erstellen Sie ein Glossar oder eine Wissensdatenbank, die Schlüsselbegriffe Ihrer Branche definiert.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p5-c1-i1": {
+      "text": "Google Business Profile optimiert",
+      "detail": "Vervollständigen und optimieren Sie Ihr Google Business Profile zur Etablierung der Marken-Entität.",
+      "actionLabel": "Google Business öffnen"
+    },
+    "p5-c1-i2": {
+      "text": "Wikipedia-/Wikidata-Einträge falls berechtigt",
+      "detail": "Etablieren Sie eine Wikipedia- und Wikidata-Präsenz für eine starke Knowledge-Graph-Integration.",
+      "actionLabel": "Wikidata öffnen"
+    },
+    "p5-c1-i3": {
+      "text": "Konsistente NAP-Daten in allen Verzeichnissen",
+      "detail": "Stellen Sie die Konsistenz von Name, Adresse und Telefonnummer in allen Branchenverzeichnissen und Zitierungen sicher."
+    },
+    "p5-c1-i4": {
+      "text": "Knowledge-Panel-Optimierung",
+      "detail": "Optimieren und pflegen Sie Ihr Google Knowledge Panel, um die Marken-Entität zu stärken.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p5-c1-i5": {
+      "text": "Präsenz auf autoritativen Branchen-Websites",
+      "detail": "Lassen Sie Ihre Marke auf anerkannten Branchen-Autoritätswebsites erwähnen oder zitieren."
+    },
+    "p5-c1-i6": {
+      "text": "Strategie zur Autoritätspositionierung definieren und dokumentieren",
+      "detail": "Entscheiden Sie, wie Sie Ihre Marke als Autorität positionieren möchten — als Branchenexperte, Datenanbieter, Wissensplattform oder Community-Leader — und richten Sie alle AEO-Inhalte entsprechend aus.",
+      "actionLabel": "Content Ops öffnen"
+    },
+    "p5-c2-i1": {
+      "text": "Thematisch relevante Backlinks von autoritativen Domains",
+      "detail": "Bauen Sie Backlinks von hochautoritativen Websites auf, die thematisch zu Ihren Inhalten passen."
+    },
+    "p5-c2-i2": {
+      "text": "Als Quelle in fremden Inhalten zitiert werden",
+      "detail": "Bauen Sie einen Ruf auf, bei dem andere Publisher Ihre Inhalte als Referenzquelle zitieren.",
+      "actionLabel": "Wettbewerber öffnen"
+    },
+    "p5-c2-i3": {
+      "text": "Präsenz auf Reddit, Quora, Stack Exchange",
+      "detail": "Bauen Sie eine authentische Präsenz auf Community-Plattformen auf, von denen AI-Engines Informationen beziehen."
+    },
+    "p5-c2-i4": {
+      "text": "Presseerwähnungen und Medienberichterstattung",
+      "detail": "Sichern Sie sich Presseberichterstattung und Medienerwähnungen, die die Markenautorität stärken."
+    },
+    "p5-c2-i5": {
+      "text": "Aktive Social-Media-Präsenz mit Thought Leadership",
+      "detail": "Pflegen Sie eine aktive Social-Media-Präsenz, die Expertise und Thought Leadership demonstriert."
+    },
+    "p5-c2-i6": {
+      "text": "Profile auf Bewertungsplattformen erstellen und optimieren (G2, Capterra, Trustpilot, Branchenverzeichnisse)",
+      "detail": "Websites mit Profilen auf 4+ Bewertungsplattformen werden 3x häufiger von ChatGPT zitiert. Erstellen und pflegen Sie Profile auf relevanten Bewertungs- und Verzeichnisplattformen.",
+      "actionLabel": "G2 öffnen"
+    },
+    "p6-c1-i1": {
+      "text": "Suchanfragen in ChatGPT testen (mit Browsing)",
+      "detail": "Testen Sie Ihre Zielanfragen in ChatGPT mit aktiviertem Browsing, um Zitierungen zu prüfen.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p6-c1-i2": {
+      "text": "Suchanfragen in Perplexity.ai testen (zeigt Quellen explizit)",
+      "detail": "Nutzen Sie Perplexity.ai zum Testen von Anfragen, da es Quellenzitierungen explizit anzeigt.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p6-c1-i3": {
+      "text": "In Google AI Overviews testen (Inkognito-Modus)",
+      "detail": "Testen Sie Zielanfragen in Google, um das Erscheinen in AI Overviews zu prüfen.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p6-c1-i4": {
+      "text": "In Bing Copilot testen",
+      "detail": "Testen Sie Anfragen in Bing Copilot zur Überprüfung von Zitierungen.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p6-c1-i5": {
+      "text": "In Claude, Gemini und anderen AI-Assistenten testen",
+      "detail": "Testen Sie auf allen wichtigen AI-Plattformen, um eine breite AEO-Abdeckung sicherzustellen.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p6-c2-i1": {
+      "text": "Schema über alle Seitenvorlagen hinweg validieren",
+      "detail": "Führen Sie Schema-Validierung auf jeder einzelnen Seitenvorlage durch, um null Fehler sicherzustellen.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p6-c2-i2": {
+      "text": "Crawlbarkeit mit AI-Bot-User-Agents testen (cURL-Simulation)",
+      "detail": "Simulieren Sie AI-Crawler-Anfragen, um zu überprüfen, ob Ihre Inhalte zugänglich sind.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p6-c2-i3": {
+      "text": "Bing Webmaster Tools-Indexierung überprüfen (entscheidend für ChatGPT)",
+      "detail": "Stellen Sie sicher, dass Ihre wichtigen Seiten in Bing indexiert sind, da ChatGPT Bing für das Browsing nutzt.",
+      "actionLabel": "Bing Webmaster Tools öffnen"
+    },
+    "p6-c2-i4": {
+      "text": "Inhaltsextraktionstest (Quelltext-Prüfung)",
+      "detail": "Überprüfen Sie, ob Ihre Kerninhalte im Seiten-Quelltext-HTML vorhanden sind und nicht nur per JavaScript gerendert werden.",
+      "actionLabel": "Analyzer öffnen"
+    },
+    "p6-c2-i5": {
+      "text": "Seitengeschwindigkeit benchmarken",
+      "detail": "Legen Sie Geschwindigkeits-Benchmarks für Schlüsselseiten fest, um die Performance über die Zeit zu verfolgen.",
+      "actionLabel": "PageSpeed Insights öffnen"
+    },
+    "p6-c3-i1": {
+      "text": "Wöchentlicher AEO-Testplan (Top-10-Anfragen, 30 Min.)",
+      "detail": "Etablieren Sie eine konsistente wöchentliche Testroutine für Ihre wichtigsten Suchanfragen.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p6-c3-i2": {
+      "text": "AEO-Test-Tabelle/-Tracker",
+      "detail": "Erstellen Sie eine strukturierte Tabelle, um AEO-Testergebnisse plattformübergreifend zu verfolgen.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p6-c3-i3": {
+      "text": "Ausgangswerte vor der Optimierung dokumentieren",
+      "detail": "Erfassen Sie die aktuelle AEO-Performance vor Änderungen, um die Wirkung messen zu können.",
+      "actionLabel": "Metriken öffnen"
+    },
+    "p7-c1-i1": {
+      "text": "AI-Overview-Auftritte in GSC überwachen",
+      "detail": "Verfolgen Sie Google AI Overview-Auftritte über die Search Console-Berichte.",
+      "actionLabel": "Search Console öffnen"
+    },
+    "p7-c1-i2": {
+      "text": "Zitierungen auf allen AI-Plattformen monatlich verfolgen",
+      "detail": "Führen Sie ein monatliches Tracking Ihrer Zitierungen auf allen großen AI-Plattformen durch.",
+      "actionLabel": "Metriken öffnen"
+    },
+    "p7-c1-i3": {
+      "text": "Referral-Traffic von AI-Quellen überwachen",
+      "detail": "Verfolgen Sie in Ihren Analysen den Traffic, der von AI-Plattformen stammt.",
+      "actionLabel": "AI-Traffic öffnen"
+    },
+    "p7-c1-i4": {
+      "text": "Featured-Snippet- und PAA-Präsenz verfolgen",
+      "detail": "Überwachen Sie Ihr Erscheinen in Featured Snippets und 'Nutzer fragen auch'-Boxen.",
+      "actionLabel": "Search Console öffnen"
+    },
+    "p7-c1-i5": {
+      "text": "Automatisierte Schema-Validierungsüberwachung",
+      "detail": "Richten Sie automatisiertes Monitoring ein, um Schema-Fehler zu erkennen, bevor sie die AEO-Performance beeinträchtigen.",
+      "actionLabel": "Monitoring öffnen"
+    },
+    "p7-c1-i6": {
+      "text": "AI Share of Voice messen — Prozentsatz der Prompts, in denen Ihre Marke vs. Wettbewerber erscheint",
+      "detail": "Verfolgen Sie, bei welchem Anteil relevanter AI-Anfragen Ihre Marke im Vergleich zu Wettbewerbern zitiert wird. AI Share of Voice entwickelt sich zur zentralen Kennzahl für den AEO-Erfolg.",
+      "actionLabel": "Wettbewerber öffnen"
+    },
+    "p7-c1-i7": {
+      "text": "Sentiment und Genauigkeit AI-generierter Markenbeschreibungen verfolgen",
+      "detail": "Überwachen Sie, ob AI-Plattformen Ihre Marke positiv, negativ oder ungenau beschreiben. Negative oder fehlerhafte AI-Beschreibungen können schädlicher sein als gar keine Zitierung.",
+      "actionLabel": "Testing öffnen"
+    },
+    "p7-c1-i8": {
+      "text": "AI-Crawler-Besuche, -Häufigkeit und neue Bot-User-Agents verfolgen",
+      "detail": "AI-Unternehmen führen regelmäßig neue Crawler ein und ändern User-Agent-Strings. Überwachen Sie Server-Logs auf neue Bots und aktualisieren Sie Ihre Zugriffskonfiguration entsprechend.",
+      "actionLabel": "Monitoring öffnen"
+    },
+    "p7-c2-i1": {
+      "text": "A/B-Tests für Antwortformate (Absatz vs. Liste vs. Tabelle)",
+      "detail": "Testen Sie verschiedene Inhaltsformate, um herauszufinden, welche AI-Engines für Ihre Anfragen bevorzugen.",
+      "actionLabel": "Content Writer öffnen"
+    },
+    "p7-c2-i2": {
+      "text": "Inhalte basierend auf Verhaltensänderungen der AI-Engines aktualisieren",
+      "detail": "Passen Sie Ihre Content-Strategie kontinuierlich an, wenn AI-Engines ihr Zitierverhalten weiterentwickeln.",
+      "actionLabel": "Monitoring öffnen"
+    },
+    "p7-c2-i3": {
+      "text": "Inhalte für neue Anfragemuster erweitern",
+      "detail": "Identifizieren und erstellen Sie Inhalte für aufkommende Anfragemuster in Ihrer Nische.",
+      "actionLabel": "Content Ops öffnen"
+    },
+    "p7-c2-i4": {
+      "text": "Monatliches Wettbewerber-Benchmarking",
+      "detail": "Vergleichen Sie Ihre AEO-Performance jeden Monat mit der Ihrer Wettbewerber.",
+      "actionLabel": "Wettbewerber öffnen"
+    },
+    "p7-c2-i5": {
+      "text": "ROI der AEO-Maßnahmen berichten",
+      "detail": "Quantifizieren und berichten Sie den geschäftlichen Nutzen und Return on Investment Ihrer AEO-Arbeit.",
+      "actionLabel": "AEO Impact öffnen"
+    },
+    "p7-c2-i6": {
+      "text": "Vierteljährlichen AEO-Re-Optimierungszyklus implementieren",
+      "detail": "Planen Sie vierteljährliche Reviews ein, um bestehende Inhalte basierend auf Verhaltensänderungen der AI-Engines und Performance-Daten neu zu optimieren.",
+      "actionLabel": "AEO-Leitfaden ansehen"
+    },
+    "p7-c2-i7": {
+      "text": "AI-generierte Fragen zu Ihrer Marke überwachen und beantworten",
+      "detail": "Verfolgen Sie, welche Fragen Nutzer AI-Engines speziell zu Ihrer Marke stellen, und stellen Sie sicher, dass Ihre Inhalte korrekte Antworten liefern.",
+      "actionLabel": "Testing öffnen"
+    }
+  },
+  "deliverables": {
+    "1": "Vollständiges Audit-Dokument mit Inhaltslücken und technischen Baseline-Metriken.",
+    "2": "Schema-Markup auf allen Seitenvorlagen implementiert und validiert.",
+    "3": "Optimierte Inhalte mit Antwortabsätzen, FAQ-Bereichen und korrekter Hierarchie.",
+    "4": "Vollständig crawlbare Website mit semantischem HTML, Feeds und optimierten meta tags.",
+    "5": "Etablierte Marken-Entität mit Autoritätssignalen und Zitierungsnetzwerk.",
+    "6": "Validierte AEO-Implementierung mit Testergebnissen über alle AI-Plattformen hinweg.",
+    "7": "Fortlaufendes Monitoring-System mit monatlichen Berichten und Iterationsplan."
+  },
+  "principles": [
+    "Bei AEO geht es darum, die beste Antwort zu sein — nicht nur gefunden zu werden",
+    "Strukturierte Daten sind nicht verhandelbar",
+    "Der 40–60-Wörter-Antwortabsatz ist Ihr wirksamstes Instrument",
+    "E-E-A-T ist bei der AI-Suche noch wichtiger",
+    "Überwachen Sie unermüdlich — AI-Engines entwickeln sich wöchentlich weiter",
+    "Testen Sie auf ALLEN Plattformen — jede verhält sich anders",
+    "AEO und SEO ergänzen sich gegenseitig"
+  ]
+}

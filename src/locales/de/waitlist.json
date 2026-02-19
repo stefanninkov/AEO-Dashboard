@@ -1,1 +1,231 @@
-{}
+{
+  "nav": {
+    "links": {
+      "0": "Was ist AEO?",
+      "1": "Phasen",
+      "2": "Features",
+      "3": "FAQ"
+    },
+    "cta": "Auf die Warteliste",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen"
+  },
+  "hero": {
+    "badge": "Demnächst verfügbar — Early Access für ausgewählte Nutzer",
+    "heading": "Werden Sie von <1>AI-Suchmaschinen</1> gefunden",
+    "headingPrefix": "Werden Sie von ",
+    "headingAccent": "AI-Suchmaschinen",
+    "subtitle": "Die erste Plattform, die speziell für Answer Engine Optimization entwickelt wurde. Werden Sie von ChatGPT, Perplexity, Gemini und jeder AI zitiert, die zählt.",
+    "emailPlaceholder": "E-Mail-Adresse eingeben",
+    "cta": "Auf die Warteliste",
+    "joinedCount_one": "{{count}} Person hat sich bereits angemeldet",
+    "joinedCount_other": "{{count}} Personen haben sich bereits angemeldet"
+  },
+  "education": {
+    "label": "Wissen",
+    "title": "Was ist Answer Engine Optimization?",
+    "description": "<strong>Answer Engine Optimization (AEO) ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen ausgewählt, zitiert und angezeigt werden.</strong> Im Gegensatz zu klassischem SEO, das auf Suchergebnisseiten abzielt, konzentriert sich AEO darauf, Ihren Content zur bevorzugten Quelle zu machen, die große Sprachmodelle wie ChatGPT, Perplexity und Google Gemini bei der Generierung von Antworten referenzieren.",
+    "descriptionBold": "Answer Engine Optimization (AEO) ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen ausgewählt, zitiert und angezeigt werden.",
+    "descriptionRest": " Im Gegensatz zu klassischem SEO, das auf Suchergebnisseiten abzielt, konzentriert sich AEO darauf, Ihren Content zur bevorzugten Quelle zu machen, die große Sprachmodelle wie ChatGPT, Perplexity und Google Gemini bei der Generierung von Antworten referenzieren.",
+    "comparisonTitle": "AEO vs. klassisches SEO",
+    "pillarsTitle": "Die 7 Säulen der AEO"
+  },
+  "aeoVsSeo": {
+    "columns": {
+      "aspect": "Aspekt",
+      "seo": "Klassisches SEO",
+      "aeo": "AEO"
+    },
+    "rows": {
+      "0": {
+        "aspect": "Primäres Ziel",
+        "seo": "In Suchergebnissen ranken",
+        "aeo": "In AI-Antworten zitiert werden"
+      },
+      "1": {
+        "aspect": "Wichtigste Kennzahl",
+        "seo": "Position & Klickrate",
+        "aeo": "Zitierungshäufigkeit & -genauigkeit"
+      },
+      "2": {
+        "aspect": "Inhaltsformat",
+        "seo": "Keywords & Backlinks",
+        "aeo": "Strukturierte Daten & direkte Antworten"
+      },
+      "3": {
+        "aspect": "Zielsystem",
+        "seo": "Google-, Bing-Crawler",
+        "aeo": "LLMs, RAG-Pipelines, AI-Agenten"
+      },
+      "4": {
+        "aspect": "Optimierung",
+        "seo": "Meta-Tags & Seitenladezeit",
+        "aeo": "Schema-Markup & Entity-Klarheit"
+      },
+      "5": {
+        "aspect": "Zeithorizont",
+        "seo": "Wochen bis Monate",
+        "aeo": "Tage bis Wochen (Neuindexierung durch AI)"
+      }
+    }
+  },
+  "pillars": {
+    "0": "Strukturierte Daten & Schema-Markup",
+    "1": "Direkte Antwortformatierung",
+    "2": "Entity-Autorität & E-E-A-T",
+    "3": "Multi-Plattform-Optimierung",
+    "4": "AI-Crawler-Zugänglichkeit",
+    "5": "Content-Aktualität & -Genauigkeit",
+    "6": "Aufbau von Zitierungssignalen"
+  },
+  "phases": {
+    "sectionLabel": "Der Weg",
+    "sectionTitle": "Ihr Weg zur AI-Sichtbarkeit",
+    "sectionSubtitle": "7 Phasen, die Sie von unsichtbar zu zitiert bringen. Jede Phase baut auf der vorherigen auf — hier erfahren Sie, was Sie erwartet.",
+    "footer": "Die <strong>99-Punkte-Checkliste</strong> führt Sie durch jede Aufgabe in jeder Phase.",
+    "footerBold": "99-Punkte-Checkliste",
+    "footerPrefix": "Die ",
+    "footerSuffix": " führt Sie durch jede Aufgabe in jeder Phase.",
+    "0": {
+      "title": "Fundament & Audit",
+      "timeline": "Woche 1–2",
+      "description": "Prüfen Sie bestehende Inhalte und technische Infrastruktur. Erfassen Sie Fragen, analysieren Sie Wettbewerber und erstellen Sie Ihre AEO-Ausgangsbasis.",
+      "visibility": "Wissen, wo Sie stehen — Ausgangswerte und Content-Lücken identifiziert"
+    },
+    "1": {
+      "title": "Strukturierte Daten & Schema",
+      "timeline": "Woche 2–4",
+      "description": "Implementieren Sie FAQ-, HowTo-, Article-, Product- und Organization-Schema-Markup, um Ihren Content maschinenlesbar zu machen.",
+      "visibility": "AI-Engines können jetzt Ihre Inhaltsstruktur lesen und verstehen"
+    },
+    "2": {
+      "title": "Content-Optimierung",
+      "timeline": "Woche 3–8",
+      "description": "Strukturieren Sie Inhalte um mit Antwortabsätzen, Überschriftenhierarchie, Vergleichstabellen und Themen-Clustern.",
+      "visibility": "Ihr Content wird zur bestmöglichen Antwort für AI-Anfragen"
+    },
+    "3": {
+      "title": "Technisches AEO",
+      "timeline": "Woche 4–6",
+      "description": "Konfigurieren Sie AI-Bot-Zugang, semantisches HTML, RSS-Feeds, interne Verlinkung und Meta-Optimierung.",
+      "visibility": "AI-Crawler können Ihren Content effizient abrufen und extrahieren"
+    },
+    "4": {
+      "title": "Autorität & Vertrauen",
+      "timeline": "Woche 6–12+",
+      "description": "Bauen Sie E-E-A-T-Signale, autoritative Backlinks, Google Business Profile und Zitierungsnetzwerke auf.",
+      "visibility": "AI-Engines vertrauen Ihrem Content als glaubwürdige, autoritative Quelle"
+    },
+    "5": {
+      "title": "Testing & Validierung",
+      "timeline": "Woche 6–8",
+      "description": "Testen Sie in ChatGPT, Perplexity, Google AI und Bing Copilot. Validieren Sie Schema und Crawlbarkeit.",
+      "visibility": "Überprüfen Sie, ob Sie auf allen wichtigen AI-Plattformen erscheinen"
+    },
+    "6": {
+      "title": "Überwachen & Iterieren",
+      "timeline": "Woche 8+",
+      "description": "Verfolgen Sie AI-Zitierungen, testen Sie Antwortformate per A/B-Test, benchmarken Sie Wettbewerber und optimieren Sie monatlich neu.",
+      "visibility": "Kontinuierliche Verbesserung — bleiben Sie sichtbar, während sich AI-Engines wöchentlich weiterentwickeln"
+    }
+  },
+  "features": {
+    "sectionLabel": "Was Sie erhalten",
+    "sectionTitle": "Von Grund auf für AEO entwickelt",
+    "sectionSubtitle": "Alles, was Sie zum Optimieren, Testen und Überwachen Ihrer AI-Suchsichtbarkeit brauchen — auf einer Plattform.",
+    "0": {
+      "title": "99-Punkte-AEO-Checkliste",
+      "description": "Phasenweise Aufgaben, die jeden Aspekt der AEO abdecken — von Schema-Markup über Inhaltsstruktur bis hin zum AI-Crawler-Zugang."
+    },
+    "1": {
+      "title": "AI-gestützter Website-Analysator",
+      "description": "Geben Sie eine beliebige URL ein und erhalten Sie sofort einen AEO-Bereitschafts-Score mit umsetzbaren Empfehlungen."
+    },
+    "2": {
+      "title": "Multi-Engine-Testlabor",
+      "description": "Testen Sie, wie Ihr Content in ChatGPT, Perplexity, Claude und Gemini gleichzeitig erscheint."
+    },
+    "3": {
+      "title": "AI-Content-Autor",
+      "description": "Generieren Sie AEO-optimierte Inhalte mit integrierten strukturierten Daten und direkter Antwortformatierung."
+    },
+    "4": {
+      "title": "Schema-Generator",
+      "description": "Point-and-Click-Markup-Builder für FAQ, HowTo, Article und mehr — keine Programmierkenntnisse erforderlich."
+    },
+    "5": {
+      "title": "Monitoring & Benachrichtigungen",
+      "description": "Verfolgen Sie AI-Zitierungsänderungen im Zeitverlauf und erhalten Sie Benachrichtigungen bei Sichtbarkeitsverschiebungen."
+    }
+  },
+  "faq": {
+    "sectionLabel": "FAQ",
+    "sectionTitle": "Häufig gestellte Fragen",
+    "0": {
+      "question": "Was ist Answer Engine Optimization (AEO)?",
+      "answer": "Answer Engine Optimization ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen wie ChatGPT, Perplexity, Google AI Overviews und Bing Copilot zitiert werden. Im Gegensatz zu klassischem SEO, das auf Suchergebnis-Rankings abzielt, konzentriert sich AEO auf strukturierte Daten, direkte Antwortformatierung und Entity-Autorität, um sicherzustellen, dass AI-Systeme Ihren Content referenzieren."
+    },
+    "1": {
+      "question": "Wie unterscheidet sich AEO von klassischem SEO?",
+      "answer": "Während SEO für Suchergebnis-Rankings und Klickraten optimiert, optimiert AEO für AI-Zitierung und Aufnahme in generierte Antworten. AEO betont Schema-Markup, prägnante Antwortformatierung, Entity-Klarheit und E-E-A-T-Signale, die großen Sprachmodellen helfen, autoritative Quellen zu identifizieren und zu zitieren."
+    },
+    "2": {
+      "question": "Für wen ist AEO Dashboard gedacht?",
+      "answer": "AEO Dashboard ist für Agenturen, SEO-Profis und digitale Marketer konzipiert, die die Online-Sichtbarkeit ihrer Kunden zukunftssicher machen möchten. Ob Sie eine Website oder Hunderte betreuen — die Plattform skaliert mit Ihnen."
+    },
+    "3": {
+      "question": "Wann wird AEO Dashboard veröffentlicht?",
+      "answer": "Wir befinden uns derzeit in den letzten Entwicklungsphasen. Tragen Sie sich in die Warteliste ein, um benachrichtigt zu werden, sobald wir starten. Wir werden außerdem eine kleine Gruppe von Early-Access-Nutzern auswählen, die die Plattform vor der öffentlichen Veröffentlichung testen können."
+    }
+  },
+  "earlyAccess": {
+    "title": "Early Access gewünscht?",
+    "description": "Vor dem Launch geben wir einer ausgewählten Gruppe von frühen Unterstützern Zugang zur vollständigen Plattform. Tragen Sie sich in die Warteliste ein, um die Chance zu erhalten, zu den Ersten zu gehören, die AEO Dashboard testen — und helfen Sie mit Ihrem Feedback, das Produkt zu gestalten.",
+    "benefits": {
+      "0": "Voller Plattform-Zugang vor dem Launch",
+      "1": "Direkter Draht zum Gründungsteam",
+      "2": "Helfen Sie mit Feedback, das Produkt zu gestalten",
+      "3": "Kostenloser Zugang während der Early-Access-Phase"
+    },
+    "emailPlaceholder": "E-Mail-Adresse eingeben",
+    "cta": "Auf die Warteliste",
+    "note": "Wir wählen ca. 10 Early-Access-Nutzer aus der Warteliste aus und kontaktieren sie persönlich."
+  },
+  "footer": {
+    "brandDescription": "Das komplette Toolkit für Answer Engine Optimization.",
+    "columns": {
+      "0": {
+        "title": "Produkt",
+        "links": {
+          "0": "Was ist AEO?",
+          "1": "Phasen",
+          "2": "Features",
+          "3": "FAQ"
+        }
+      },
+      "1": {
+        "title": "Unternehmen",
+        "links": {
+          "0": "Über uns",
+          "1": "Blog",
+          "2": "Kontakt",
+          "3": "Datenschutzerklärung"
+        }
+      }
+    },
+    "copyright": "\u00a9 {{year}} AEO Dashboard. Alle Rechte vorbehalten."
+  },
+  "success": {
+    "titleNew": "Sie sind auf der Liste!",
+    "titleExisting": "Sie stehen bereits auf der Liste!",
+    "messageNew": "Wir benachrichtigen Sie, sobald AEO Dashboard startet. Bleiben Sie dran!",
+    "messageExisting": "Wir haben Ihre E-Mail-Adresse bereits. Wir benachrichtigen Sie, wenn wir starten.",
+    "position": "#{{count}} auf der Warteliste",
+    "shareOnX": "Auf X teilen",
+    "shareOnLinkedIn": "LinkedIn",
+    "copyLink": "Link kopieren",
+    "copied": "Kopiert!",
+    "close": "Schließen",
+    "shareText": "Ich habe mich gerade in die Warteliste für AEO Dashboard eingetragen — die erste Plattform, die speziell für Answer Engine Optimization entwickelt wurde. Jetzt Early Access sichern:"
+  }
+}

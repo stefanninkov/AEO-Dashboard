@@ -1,1 +1,356 @@
-{}
+{
+  "nav": {
+    "links": {
+      "0": { "label": "Features" },
+      "1": { "label": "So funktioniert's" },
+      "2": { "label": "Preise" },
+      "3": { "label": "FAQ" }
+    },
+    "cta": "Jetzt starten",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen"
+  },
+
+  "hero": {
+    "badge": "Entwickelt für Agenturen & SEO-Teams",
+    "headingBefore": "Optimieren Sie Ihre Website für ",
+    "headingAccent": "AI-Suchmaschinen",
+    "subtitle": "Sorgen Sie dafür, dass Ihre Kunden von ChatGPT, Perplexity, Google AI Overviews und Bing Copilot zitiert werden. Das komplette AEO-Toolkit mit einer 99-Punkte-Checkliste, AI-gestütztem Analysator und kundengerechten Berichten.",
+    "ctaPrimary": "14 Tage kostenlos testen",
+    "ctaSecondary": "Features ansehen"
+  },
+
+  "platforms": {
+    "subtitle": "Optimieren Sie für jede wichtige AI-Plattform",
+    "names": ["ChatGPT", "Perplexity", "Google AI", "Bing Copilot", "Claude"]
+  },
+
+  "problems": {
+    "sectionLabel": "Das Problem",
+    "title": "Ihre Kunden sind für AI unsichtbar",
+    "subtitle": "Klassisches SEO allein reicht nicht mehr aus. AI-Suchmaschinen verändern die Art, wie Menschen Informationen finden — und die meisten Websites sind dafür nicht optimiert.",
+    "0": {
+      "title": "AI-Suche ersetzt Google",
+      "description": "Über 40% der Gen Z nutzen TikTok und ChatGPT anstelle von Google. Klassisches SEO allein garantiert keine Sichtbarkeit mehr."
+    },
+    "1": {
+      "title": "AI-Antworten zitieren wenige Quellen",
+      "description": "ChatGPT und Perplexity zitieren nur 3–5 Quellen pro Antwort. Wenn Sie nicht optimiert sind, bleiben Ihre Kunden für AI unsichtbar."
+    },
+    "2": {
+      "title": "Zero-Click ist die neue Normalität",
+      "description": "AI Overviews und direkte Antworten bedeuten, dass Nutzer Ihre Website nie besuchen. Sie müssen DIE Antwort sein, nicht nur ein Ergebnis."
+    }
+  },
+
+  "education": {
+    "sectionLabel": "Wissen",
+    "title": "Was ist Answer Engine Optimization?",
+    "paragraph1": "**Answer Engine Optimization (AEO) ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen ausgewählt, zitiert und angezeigt werden.** Im Gegensatz zu klassischem SEO, das auf Suchergebnisseiten abzielt, konzentriert sich AEO darauf, Ihren Content zur bevorzugten Quelle zu machen, die große Sprachmodelle wie ChatGPT, Perplexity und Google Gemini bei der Generierung von Antworten auf Nutzeranfragen referenzieren.",
+    "comparisonHeading": "AEO vs. klassisches SEO",
+    "paragraph2": "**Obwohl SEO und AEO gemeinsame Grundlagen teilen, unterscheiden sie sich in Zielsystemen, Erfolgskennzahlen und Optimierungstechniken.** SEO optimiert für Crawler und Ranking-Algorithmen; AEO optimiert für Sprachmodelle und Retrieval-Augmented-Generation-(RAG)-Pipelines. Die effektivsten digitalen Strategien kombinieren heute beide Ansätze, um die Sichtbarkeit in klassischer und AI-gestützter Suche zu maximieren.",
+    "pillarsHeading": "Die 7 Säulen der AEO"
+  },
+
+  "aeoVsSeo": {
+    "colAspect": "Aspekt",
+    "colSeo": "Klassisches SEO",
+    "colAeo": "AEO",
+    "0": { "aspect": "Primäres Ziel", "seo": "In Suchergebnissen ranken", "aeo": "In AI-Antworten zitiert werden" },
+    "1": { "aspect": "Wichtigste Kennzahl", "seo": "Position & Klickrate", "aeo": "Zitierungshäufigkeit & -genauigkeit" },
+    "2": { "aspect": "Inhaltsformat", "seo": "Keywords & Backlinks", "aeo": "Strukturierte Daten & direkte Antworten" },
+    "3": { "aspect": "Zielsystem", "seo": "Google-, Bing-Crawler", "aeo": "LLMs, RAG-Pipelines, AI-Agenten" },
+    "4": { "aspect": "Optimierung", "seo": "Meta-Tags & Seitenladezeit", "aeo": "Schema-Markup & Entity-Klarheit" },
+    "5": { "aspect": "Zeithorizont", "seo": "Wochen bis Monate", "aeo": "Tage bis Wochen (Neuindexierung durch AI)" }
+  },
+
+  "pillars": {
+    "0": "Strukturierte Daten & Schema-Markup",
+    "1": "Direkte Antwortformatierung",
+    "2": "Entity-Autorität & E-E-A-T",
+    "3": "Multi-Plattform-Optimierung",
+    "4": "AI-Crawler-Zugänglichkeit",
+    "5": "Content-Aktualität & -Genauigkeit",
+    "6": "Aufbau von Zitierungssignalen"
+  },
+
+  "features": {
+    "sectionLabel": "Features",
+    "title": "Alles, was Sie für AEO brauchen",
+    "subtitle": "Ein komplettes Toolkit zum Optimieren, Testen und Überwachen Ihrer AI-Suchsichtbarkeit.",
+    "big": {
+      "0": {
+        "badge": "Kernfeature",
+        "title": "99-Punkte-AEO-Checkliste",
+        "description": "Eine umfassende, phasenweise Checkliste, die jeden Aspekt der Answer Engine Optimization abdeckt. Von Schema-Markup über Inhaltsstruktur bis hin zu Entity-Optimierung und AI-Crawler-Zugang — verfolgen Sie jede Aufgabe über 7 Phasen mit integrierter Fortschrittsanalyse.",
+        "answerParagraph": "Eine AEO-Checkliste ist eine strukturierte Aufgabenliste, die Website-Betreiber durch jede Optimierung führt, die nötig ist, um in AI-generierten Antworten zu erscheinen. Sie umfasst Schema-Markup-Implementierung, Inhaltsumstrukturierung für direkte Antworten, Aufbau von Entity-Autorität und technische Konfigurationen, die AI-Crawlern helfen, Ihren Content zu verstehen und zu zitieren."
+      },
+      "1": {
+        "badge": "AI-gestützt",
+        "title": "Sofort-Website-Analysator",
+        "description": "Geben Sie eine beliebige URL ein und erhalten Sie sofort einen AEO-Bereitschafts-Score. Unser AI-gestützter Analysator prüft Schema-Markup, Inhaltsstruktur, Header-Hierarchie, FAQ-Formatierung und über 20 weitere Signale, die bestimmen, ob AI-Engines Ihren Content zitieren."
+      },
+      "2": {
+        "badge": "Multi-Engine",
+        "title": "AI-Such-Testlabor",
+        "description": "Testen Sie, wie Ihr Content in ChatGPT, Perplexity, Claude und Gemini gleichzeitig erscheint. Sehen Sie, welche AI-Engines Ihre Website zitieren, vergleichen Sie Antworten und identifizieren Sie Lücken in Ihrer AI-Sichtbarkeit über alle wichtigen Plattformen hinweg."
+      }
+    },
+    "gridTitle": "Und noch viel mehr",
+    "grid": {
+      "0": { "title": "Dashboard-Analysen", "description": "AEO-Gesundheits-Score, Phasen-Radar, Geschwindigkeitstracking und Trendanalyse." },
+      "1": { "title": "AI-Content-Autor", "description": "Generieren Sie AEO-optimierte Inhalte mit integriertem Schema-Markup." },
+      "2": { "title": "Schema-Generator", "description": "Point-and-Click-Schema-Markup-Builder für FAQ, HowTo und mehr." },
+      "3": { "title": "Auto-Monitoring", "description": "Verfolgen Sie AI-Zitierungsänderungen und erhalten Sie Benachrichtigungen bei Sichtbarkeitsverschiebungen." },
+      "4": { "title": "Kundenportal", "description": "Teilen Sie gebrandete, schreibgeschützte Dashboards mit Kunden über sichere Links." },
+      "5": { "title": "PWA & Offline", "description": "Installieren Sie die App nativ. Funktioniert offline mit vollem Funktionsumfang." },
+      "6": { "title": "E-Mail-Zusammenfassungen", "description": "Wöchentliche Fortschrittsberichte direkt in Ihren Posteingang." },
+      "7": { "title": "Webflow-Integration", "description": "Tiefe CMS-Integration für die Optimierung von Headless-Webflow-Websites." }
+    }
+  },
+
+  "steps": {
+    "sectionLabel": "So funktioniert's",
+    "title": "Drei Schritte zur AI-Sichtbarkeit",
+    "subtitle": "**Um für AI-Suchmaschinen zu optimieren, beginnen Sie mit einem Audit Ihrer aktuellen Sichtbarkeit, setzen Sie dann systematisch AEO-Best-Practices um und testen Sie kontinuierlich über mehrere AI-Plattformen.** Das AEO Dashboard begleitet Sie bei jedem Schritt mit umsetzbaren Werkzeugen und Echtzeit-Feedback.",
+    "bottomParagraph": "**Um von ChatGPT zitiert zu werden, benötigen Sie eine Kombination aus strukturierten Daten, autoritativen Inhalten und technischer Zugänglichkeit.** Implementieren Sie umfassendes Schema-Markup, formatieren Sie Inhalte als direkte Antworten auf häufige Fragen, bauen Sie Entity-Autorität durch konsistente und genaue Informationen auf und stellen Sie sicher, dass AI-Crawler frei auf Ihre Seiten zugreifen können. Das AEO Dashboard automatisiert diesen Prozess mit seiner 99-Punkte-Checkliste und AI-gestützten Analysetools.",
+    "0": {
+      "title": "Website prüfen",
+      "description": "Starten Sie den AI-gestützten Analysator für jede URL. Erhalten Sie sofort einen AEO-Bereitschafts-Score mit umsetzbaren Empfehlungen zur Verbesserung Ihrer AI-Suchsichtbarkeit."
+    },
+    "1": {
+      "title": "Mit der Checkliste optimieren",
+      "description": "Arbeiten Sie die 99-Punkte-Checkliste über 7 Phasen durch. Jede Aufgabe enthält Implementierungshinweise, und Ihr Fortschritt synchronisiert sich in Echtzeit über alle Geräte."
+    },
+    "2": {
+      "title": "Testen & Überwachen",
+      "description": "Testen Sie Ihren Content in ChatGPT, Perplexity, Claude und Gemini. Überwachen Sie Zitierungsänderungen im Zeitverlauf und belegen Sie den ROI gegenüber Ihren Kunden mit gebrandeten Berichten."
+    }
+  },
+
+  "pricing": {
+    "sectionLabel": "Preise",
+    "title": "Einfache, transparente Preise",
+    "subtitle": "14 Tage kostenlose Testphase bei jedem Plan. Keine Kreditkarte erforderlich. Keine versteckten Gebühren.",
+    "toggleMonthly": "Monatlich",
+    "toggleQuarterly": "Vierteljährlich",
+    "toggleQuarterlySave": "15% sparen",
+    "toggleAnnual": "Jährlich",
+    "toggleAnnualSave": "20% sparen",
+    "billedYearly": "/Monat, jährliche Abrechnung",
+    "billedQuarterly": "/Monat, vierteljährliche Abrechnung",
+    "billedMonthly": "/Monat",
+    "mostPopular": "Am beliebtesten",
+    "whiteLabel": {
+      "title": "White-Label benötigt?",
+      "description": "Der Enterprise-Plan beinhaltet vollständige White-Label-Funktionen. Branden Sie das Kundenportal mit dem Logo, den Farben und der Domain Ihrer Agentur."
+    },
+    "0": {
+      "name": "Starter",
+      "description": "Für Einzelpersonen, die mit AEO beginnen",
+      "cta": "14 Tage kostenlos testen",
+      "features": {
+        "0": "1 Projekt",
+        "1": "Checkliste Phase 1–2",
+        "2": "5 Analysator-Scans/Monat",
+        "3": "Einfacher Schema-Generator",
+        "4": "Dashboard-Analysen",
+        "5": "E-Mail-Zusammenfassung (wöchentlich)"
+      }
+    },
+    "1": {
+      "name": "Professional",
+      "description": "Für Agenturen & SEO-Profis",
+      "cta": "14 Tage kostenlos testen",
+      "features": {
+        "0": "10 Projekte",
+        "1": "Alle 7 Checklisten-Phasen",
+        "2": "Unbegrenzte Analysator-Scans",
+        "3": "AI-Content-Autor",
+        "4": "Multi-Engine-Testlabor",
+        "5": "Schema-Generator (alle Typen)",
+        "6": "Kundenportal (teilbar)",
+        "7": "Auto-Monitoring & Benachrichtigungen",
+        "8": "CSV- & PDF-Exporte",
+        "9": "Prioritäts-Support"
+      }
+    },
+    "2": {
+      "name": "Enterprise",
+      "description": "Für Teams & große Agenturen",
+      "cta": "14 Tage kostenlos testen",
+      "features": {
+        "0": "Unbegrenzte Projekte",
+        "1": "Alles aus Professional",
+        "2": "White-Label-Kundenportal",
+        "3": "API-Zugang",
+        "4": "Auto-Monitoring & Benachrichtigungen",
+        "5": "Teamzusammenarbeit & Rollen",
+        "6": "Individuelles Onboarding",
+        "7": "Persönlicher Account Manager"
+      }
+    }
+  },
+
+  "testimonials": {
+    "sectionLabel": "Kundenstimmen",
+    "title": "Geschätzt von SEO-Profis",
+    "0": {
+      "text": "Wir sind von null AI-Zitierungen dazu übergegangen, in 60% der relevanten ChatGPT-Antworten innerhalb von 3 Wochen zu erscheinen. Allein die Checkliste ist das 10-fache des Preises wert.",
+      "name": "Sarah Chen",
+      "role": "Head of SEO, DigitalFirst Agency"
+    },
+    "1": {
+      "text": "Das Kundenportal hat unseren Workflow komplett verändert. Kunden können ihren AEO-Fortschritt in Echtzeit sehen, ohne dass wir jede Woche manuelle Berichte erstellen müssen.",
+      "name": "Marcus Rodriguez",
+      "role": "Gründer, SearchWave Marketing"
+    },
+    "2": {
+      "text": "Endlich ein Tool, das AI-Suche als erstklassigen Kanal behandelt. Das Multi-Engine-Testlabor hat uns genau gezeigt, wo wir Zitierungen verpasst haben.",
+      "name": "Emily Park",
+      "role": "SEO-Direktorin, GrowthLab"
+    },
+    "3": {
+      "text": "Allein der Schema-Generator hat uns über 20 Stunden pro Kunde gespart. In Kombination mit dem Analysator ist es das vollständigste AEO-Toolkit auf dem Markt.",
+      "name": "James Mitchell",
+      "role": "Technischer SEO-Lead, Apex Digital"
+    }
+  },
+
+  "faq": {
+    "sectionLabel": "FAQ",
+    "title": "Häufig gestellte Fragen",
+    "0": {
+      "question": "Was ist Answer Engine Optimization (AEO)?",
+      "answer": "Answer Engine Optimization ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen wie ChatGPT, Perplexity, Google AI Overviews und Bing Copilot zitiert werden. Im Gegensatz zu klassischem SEO, das auf Suchergebnis-Rankings abzielt, konzentriert sich AEO auf strukturierte Daten, direkte Antwortformatierung und Entity-Autorität, um sicherzustellen, dass AI-Systeme Ihren Content referenzieren."
+    },
+    "1": {
+      "question": "Wie unterscheidet sich AEO von klassischem SEO?",
+      "answer": "Während SEO für Suchergebnis-Rankings und Klickraten optimiert, optimiert AEO für AI-Zitierung und Aufnahme in generierte Antworten. AEO betont Schema-Markup, prägnante Antwortformatierung, Entity-Klarheit und E-E-A-T-Signale, die großen Sprachmodellen helfen, autoritative Quellen zu identifizieren und zu zitieren."
+    },
+    "2": {
+      "question": "Welche AI-Plattformen unterstützt AEO Dashboard?",
+      "answer": "AEO Dashboard unterstützt Testing und Optimierung für ChatGPT, Perplexity, Google AI Overviews (Gemini), Bing Copilot, Claude und andere wichtige AI-Suchmaschinen. Das Multi-Engine-Testlabor ermöglicht es Ihnen, gleichzeitig zu vergleichen, wie Ihr Content auf allen Plattformen erscheint."
+    },
+    "3": {
+      "question": "Wie lange dauert es, bis man Ergebnisse von AEO sieht?",
+      "answer": "Die meisten Nutzer sehen messbare Verbesserungen bei AI-Zitierungen innerhalb von 2–4 Wochen nach Umsetzung der Checklisten-Empfehlungen. Schema-Markup-Änderungen werden in der Regel innerhalb von Tagen von AI-Crawlern erfasst, während Verbesserungen der Inhaltsstruktur 1–2 Wochen brauchen können, um sich in AI-generierten Antworten widerzuspiegeln."
+    },
+    "4": {
+      "question": "Kann ich AEO Dashboard für Kundenprojekte verwenden?",
+      "answer": "Absolut. AEO Dashboard ist für Agenturen und SEO-Profis konzipiert, die mehrere Kunden betreuen. Der Professional-Plan beinhaltet Kundenportale mit gebrandeten, teilbaren Dashboards, und der Enterprise-Plan bietet White-Label-Funktionen für ein vollständig gebrandetes Erlebnis."
+    },
+    "5": {
+      "question": "Was umfasst die 99-Punkte-Checkliste?",
+      "answer": "Die Checkliste umfasst 7 Phasen der AEO-Optimierung: technisches Fundament, Schema-Markup, Inhaltsstruktur, Entity-Optimierung, Multi-Plattform-Targeting, AI-Crawler-Zugang und laufendes Monitoring. Jede Aufgabe enthält Implementierungshinweise und verfolgt den Abschluss über Ihr gesamtes Team."
+    },
+    "6": {
+      "question": "Brauche ich technische Kenntnisse, um AEO Dashboard zu nutzen?",
+      "answer": "Nein. AEO Dashboard ist sowohl für technische als auch für nicht-technische Nutzer konzipiert. Die Checkliste bietet Schritt-für-Schritt-Anleitungen, der AI-Content-Autor generiert automatisch optimierte Inhalte, und der Schema-Generator erstellt Markup über eine visuelle Oberfläche — keine Programmierkenntnisse erforderlich."
+    },
+    "7": {
+      "question": "Gibt es eine kostenlose Testphase?",
+      "answer": "Ja! Alle Pläne beinhalten eine 14-tägige kostenlose Testphase mit vollem Zugang zu allen Funktionen. Starten Sie risikofrei — keine Kreditkarte während der Testphase erforderlich."
+    }
+  },
+
+  "cta": {
+    "title": "Bereit, die AI-Suche zu dominieren?",
+    "description": "Schließen Sie sich Hunderten von Agenturen an, die AEO Dashboard nutzen, um ihre Kunden von AI zitieren zu lassen. Starten Sie Ihre 14-tägige kostenlose Testphase — keine Kreditkarte erforderlich.",
+    "button": "Kostenlos testen"
+  },
+
+  "footer": {
+    "brandDescription": "Das komplette Toolkit für Answer Engine Optimization.",
+    "copyright": "\u00a9 {{year}} AEO Dashboard. Alle Rechte vorbehalten.",
+    "columns": {
+      "0": {
+        "title": "Produkt",
+        "links": {
+          "0": { "label": "Features" },
+          "1": { "label": "Preise" },
+          "2": { "label": "Checkliste" },
+          "3": { "label": "Analysator" }
+        }
+      },
+      "1": {
+        "title": "Ressourcen",
+        "links": {
+          "0": { "label": "Was ist AEO?" },
+          "1": { "label": "FAQ" },
+          "2": { "label": "Dokumentation" },
+          "3": { "label": "API-Referenz" }
+        }
+      },
+      "2": {
+        "title": "Unternehmen",
+        "links": {
+          "0": { "label": "Über uns" },
+          "1": { "label": "Blog" },
+          "2": { "label": "Kontakt" },
+          "3": { "label": "Datenschutzerklärung" }
+        }
+      }
+    }
+  },
+
+  "mockup": {
+    "sidebarLogo": "Dash",
+    "sidebarItems": {
+      "0": "Dashboard",
+      "1": "Checkliste",
+      "2": "Analysator",
+      "3": "Testlabor",
+      "4": "Content",
+      "5": "Monitoring"
+    },
+    "headerTitle": "AEO Dashboard",
+    "headerBadge": "Auf Kurs",
+    "stats": {
+      "0": { "label": "AEO-Score", "value": "78" },
+      "1": { "label": "Aufgaben erledigt", "value": "61/99" },
+      "2": { "label": "AI-Zitierungen", "value": "12" }
+    },
+    "checklist": {
+      "phaseTitle": "Phase 2: Schema-Markup",
+      "completeBadge": "50% abgeschlossen",
+      "items": {
+        "0": "JSON-LD-FAQ-Schema implementieren",
+        "1": "HowTo-strukturierte Daten hinzufügen",
+        "2": "Header-Hierarchie optimieren (H1–H4)",
+        "3": "Prägnante Antwortabsätze erstellen",
+        "4": "AI-Crawler-Zugang in robots.txt konfigurieren",
+        "5": "Entity-Autoritätssignale aufbauen"
+      }
+    },
+    "analyzer": {
+      "scoreLabel": "AEO-Score",
+      "metrics": {
+        "0": "Schema-Markup",
+        "1": "Inhaltsstruktur",
+        "2": "Header-Hierarchie",
+        "3": "FAQ-Formatierung",
+        "4": "Entity-Klarheit"
+      }
+    },
+    "testing": {
+      "engines": {
+        "0": { "name": "ChatGPT", "status": "Zitiert" },
+        "1": { "name": "Perplexity", "status": "Zitiert" },
+        "2": { "name": "Gemini", "status": "Nicht gefunden" },
+        "3": { "name": "Bing Copilot", "status": "Teilweise" }
+      }
+    }
+  },
+
+  "schema": {
+    "orgDescription": "Das komplette Toolkit für Answer Engine Optimization. Optimieren Sie Ihre Website, um von ChatGPT, Perplexity, Google AI Overviews und Bing Copilot zitiert zu werden.",
+    "webPageName": "AEO Dashboard - Optimieren Sie Ihre Website für AI-Suchmaschinen",
+    "webPageDescription": "Sorgen Sie dafür, dass Ihre Kunden von ChatGPT, Perplexity, Google AI Overviews und Bing Copilot zitiert werden. Das komplette AEO-Toolkit mit einer 99-Punkte-Checkliste, AI-gestütztem Analysator und kundengerechten Berichten.",
+    "appDescription": "Answer Engine Optimization-Plattform für Agenturen und SEO-Profis.",
+    "howToName": "Wie Sie für AI-Suchmaschinen optimieren",
+    "howToDescription": "Ein dreistufiger Prozess zur Optimierung Ihrer Website für AI-Suchmaschinen mit dem AEO Dashboard.",
+    "breadcrumbHome": "Startseite",
+    "breadcrumbApp": "AEO Dashboard"
+  }
+}
