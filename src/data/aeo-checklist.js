@@ -198,6 +198,21 @@ export const phases = [
                 { heading: 'Action Items', body: '1. Run Lighthouse mobile audits on top 10 templates\n2. Fix accessibility issues below 90 score\n3. Test on 3+ real mobile devices\n4. Add missing alt text\n5. Fix heading hierarchy\n6. Schedule quarterly audits' }
               ]
             }
+          },
+          {
+            id: 'p1-c2-i6',
+            text: 'Analyze server logs for AI crawler activity (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot)',
+            detail: 'Review server access logs to understand which AI crawlers visit your site, which pages they prioritize, and how frequently they crawl.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
+            doc: {
+              title: 'AI Crawler Log Analysis',
+              sections: [
+                { heading: 'Why This Matters', body: 'AI crawlers visit your site with vastly different frequencies and purposes. GPTBot has a crawl-to-refer ratio of approximately 1,700:1, meaning it crawls 1,700 pages for every one it references. ClaudeBot\'s ratio is even higher at 73,000:1. Understanding which bots visit, what they crawl, and how often reveals what AI systems find valuable about your content and where technical barriers exist.' },
+                { heading: 'Key AI Crawler User-Agents', body: 'GPTBot — OpenAI training crawler. OAI-SearchBot — OpenAI search/citation crawler. ClaudeBot — Anthropic\'s crawler. PerplexityBot — Perplexity.ai\'s crawler. Google-Extended — Google AI training crawler. Bytespider — ByteDance\'s crawler. CCBot — Common Crawl. Each appears in server logs with a distinct user-agent string you can filter for.' },
+                { heading: 'How to Analyze', body: 'Access your server logs (Apache: access.log, Nginx: access.log, or use a log analysis tool). Filter for AI bot user-agent strings. Track: which bots visit, crawl frequency per bot, which pages are crawled most, response codes returned, and crawl patterns over time. Compare crawled pages against your most-cited content to identify gaps.' },
+                { heading: 'Action Items', body: '1. Access your server logs or log analytics tool\n2. Filter for AI bot user-agent strings\n3. Document which bots visit and their crawl frequency\n4. Identify your most-crawled pages\n5. Compare crawl patterns to your AI citation data\n6. Investigate pages that are crawled but not cited (content issue) and pages not crawled at all (technical issue)\n7. Set up recurring log analysis on a monthly basis' }
+              ]
+            }
           }
         ]
       }
@@ -540,6 +555,21 @@ export const phases = [
                 { heading: 'Action Items', body: '1. Audit titles and metas on your top 50 pages\n2. Rewrite vague or clickbait titles to be descriptive\n3. Make every meta description a standalone answer\n4. Include target question keywords naturally\n5. A/B test new titles via Search Console CTR data' }
               ]
             }
+          },
+          {
+            id: 'p3-c1-i9',
+            text: 'Structure content as self-contained 300-800 word chunks per H2 section',
+            detail: 'Organize content so each H2 section is a semantically complete, independently retrievable passage optimized for AI RAG (Retrieval-Augmented Generation) systems.',
+            action: { view: 'writer', label: 'Open Content Writer' },
+            doc: {
+              title: 'Content Chunking for AI RAG Systems',
+              sections: [
+                { heading: 'Why This Matters', body: 'Modern AI search engines use RAG (Retrieval-Augmented Generation) to find answers. RAG systems break web pages into passages or "chunks" and retrieve the most relevant ones to generate answers. If your content sections are too short (under 300 words), they lack context. If too long (over 800 words), they dilute the key answer. Self-contained chunks of 300-800 words per H2 section are the sweet spot for RAG retrieval accuracy.' },
+                { heading: 'What Makes a Good Chunk', body: 'Each H2 section should: answer a specific question completely, make sense without reading any other section, define any terms it uses, include the key takeaway in the first 2-3 sentences, and end with a clear conclusion. Think of each section as a standalone mini-article that could be extracted and presented as a complete answer.' },
+                { heading: 'How to Restructure', body: 'Audit your top pages for section length and completeness. Split sections over 800 words into logical sub-sections with H3 headings. Expand sections under 300 words with supporting context. Remove cross-references like "as mentioned above" — each section should stand alone. Use the self-containment test: read each section in isolation and verify it makes complete sense.' },
+                { heading: 'Action Items', body: '1. Audit your top 20 pages for section lengths\n2. Split oversized sections (800+ words) into focused sub-sections\n3. Expand thin sections (under 300 words) with context\n4. Remove cross-section references and dependencies\n5. Run the self-containment test on each section\n6. Verify each H2 section answers one clear question\n7. Monitor which sections get cited by AI engines to validate your chunking' }
+              ]
+            }
           }
         ]
       },
@@ -634,6 +664,36 @@ export const phases = [
                 { heading: 'Writing Guidelines', body: 'Use second person ("you") for direct engagement. Keep sentences under 25 words on average. Avoid jargon unless defining it for your audience. Write at an 8th-10th grade reading level. Use active voice. Be direct — get to the point quickly.' },
                 { heading: 'Conversational Patterns', body: 'Mirror how users phrase questions in your answers. Use transitional phrases that flow naturally. Include examples that make concepts concrete. Break up text with headings, lists, and short paragraphs. Read your content aloud — if it sounds robotic, rewrite it.' },
                 { heading: 'Action Items', body: '1. Run readability analysis on top content\n2. Simplify language where possible\n3. Replace jargon with plain language\n4. Use active voice consistently\n5. Read content aloud to check naturalness' }
+              ]
+            }
+          },
+          {
+            id: 'p3-c2-i7',
+            text: 'Include specific statistics, data points, and numbers in key content',
+            detail: 'Embed sourced statistics, numerical data, and quantitative evidence within your content. Research shows pages with concrete data earn significantly more AI citations.',
+            action: { view: 'writer', label: 'Open Content Writer' },
+            doc: {
+              title: 'Statistics and Data Integration for AI Citations',
+              sections: [
+                { heading: 'Why This Matters', body: 'Research from Princeton and Georgia Tech (the GEO study) found that adding specific statistics to content boosts AI citation probability by over 5.5%. Pages with concrete data points, percentages, and numerical evidence are cited approximately 4x more frequently by AI engines than pages with only qualitative claims. AI systems prefer verifiable, specific information over vague generalizations.' },
+                { heading: 'Types of Data to Include', body: 'Embed these types of data in your content: industry statistics with source attribution, survey results and sample sizes, performance metrics and benchmarks, year-over-year comparisons, cost and pricing data, usage statistics, and original research findings. Always cite the source and date — AI engines weight recent, well-sourced data more heavily.' },
+                { heading: 'How to Integrate Effectively', body: 'Lead with data in your answer paragraphs: "According to [Source], 73% of..." Place key statistics in the first 2 sentences of each section. Use data tables for comparisons. Include the methodology or sample size for credibility. Format numbers consistently. Update statistics annually to maintain freshness signals.' },
+                { heading: 'Action Items', body: '1. Audit your top 20 pages for data density\n2. Add 3-5 sourced statistics per major article\n3. Place key data points in opening paragraphs\n4. Use data tables where comparisons are relevant\n5. Include source attribution and dates for all statistics\n6. Create a statistics refresh schedule (quarterly or annually)\n7. Track which data-rich pages get cited most by AI engines' }
+              ]
+            }
+          },
+          {
+            id: 'p3-c2-i8',
+            text: 'Add expert quotes with attribution to authoritative content',
+            detail: 'Embed direct quotes from recognized experts, research papers, or industry leaders within your content to boost trust signals and AI citation probability.',
+            action: { view: 'writer', label: 'Open Content Writer' },
+            doc: {
+              title: 'Expert Quotation Strategy for AEO',
+              sections: [
+                { heading: 'Why This Matters', body: 'The Princeton GEO (Generative Engine Optimization) study identified "Quotation Addition" as one of the top-performing optimization methods for AI citations. Direct quotes from recognized experts provide trust signals that AI engines weigh when selecting content to cite. Quotes are particularly effective in domains involving opinion, people, society, and expert knowledge.' },
+                { heading: 'What Makes an Effective Quote', body: 'Use quotes from: named individuals with verifiable credentials, published research papers, recognized industry leaders, official reports from trusted organizations, and subject matter experts with public profiles. The quote should add unique insight — not just restate what your content already says. Include the person\'s name, title, and organization for full attribution.' },
+                { heading: 'How to Source and Place Quotes', body: 'Source quotes from: interviews you conduct, published research papers, conference presentations, official press releases, and expert commentary platforms (HARO, Qwoted). Place quotes near the claims they support. Use blockquote formatting for visual distinction. Ensure the quoted expert is genuinely authoritative in the specific topic — relevance matters more than fame.' },
+                { heading: 'Action Items', body: '1. Identify your top 10 content pages that would benefit from expert quotes\n2. Source 1-2 relevant expert quotes per page\n3. Use proper attribution: name, title, organization\n4. Place quotes near related claims for contextual support\n5. Use blockquote HTML formatting\n6. Consider conducting original interviews for unique quotes\n7. Update quotes when newer expert commentary becomes available' }
               ]
             }
           }
@@ -732,6 +792,52 @@ export const phases = [
                 { heading: 'Configuration Strategy', body: 'Allow all AI bots access to content pages. Disallow admin, login, cart, and search result pages. Allow CSS and JS files (bots need these for rendering). Set a crawl-delay only if necessary for server performance. Reference your sitemap.' },
                 { heading: 'Testing', body: 'Test with each bot\'s user-agent via curl. Monitor server logs for crawl patterns. Verify no critical content paths are blocked. Check Google Search Console for crawl errors that might indicate issues.' },
                 { heading: 'Action Items', body: '1. Review and optimize robots.txt for AI bots\n2. Allow content directories, block admin/utility pages\n3. Ensure CSS/JS resources are accessible\n4. Test with curl for each AI bot user-agent\n5. Monitor crawl patterns in server logs' }
+              ]
+            }
+          },
+          {
+            id: 'p4-c1-i7',
+            text: 'Configure robots.txt to differentiate AI training bots vs AI search bots',
+            detail: 'Allow AI search crawlers that drive citations (OAI-SearchBot, PerplexityBot) while optionally blocking training crawlers (GPTBot, Google-Extended) that consume content without direct attribution.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
+            doc: {
+              title: 'Training Bots vs Search Bots Configuration',
+              sections: [
+                { heading: 'Why This Matters', body: 'Not all AI crawlers serve the same purpose. OpenAI now operates two separate bots: GPTBot (collects data for model training) and OAI-SearchBot (powers ChatGPT\'s browsing and search citations). Similarly, Google-Extended is for AI training while Googlebot handles search indexing. Allowing search bots drives citations and traffic; allowing training bots contributes your content to model training without direct attribution. You may want different policies for each.' },
+                { heading: 'Bot Classification', body: 'Training bots (contribute to model training): GPTBot (OpenAI), Google-Extended (Google AI/Gemini), CCBot (Common Crawl, used by many AI companies), Bytespider (ByteDance). Search/citation bots (drive actual citations and traffic): OAI-SearchBot (ChatGPT browsing), PerplexityBot (Perplexity.ai), ClaudeBot (Anthropic), Googlebot (Google Search/AI Overviews). Some bots serve dual purposes — ClaudeBot handles both training and search for Anthropic.' },
+                { heading: 'Configuration Strategy', body: 'Option A (maximize visibility): Allow all bots — maximizes training inclusion and citation potential. Option B (citations only): Allow search bots, block training bots — protects content from training while maintaining citation eligibility. Option C (selective): Allow specific bots based on your priorities. Configure in robots.txt with separate User-agent directives for each bot.' },
+                { heading: 'Action Items', body: '1. Decide your policy: allow all, citations only, or selective\n2. Identify which bots are training vs search crawlers\n3. Configure separate robots.txt rules for each category\n4. Test with curl to verify each bot\'s access\n5. Monitor server logs to confirm bots respect your rules\n6. Review and update quarterly as AI companies launch new bots' }
+              ]
+            }
+          },
+          {
+            id: 'p4-c1-i6',
+            text: 'Add llms.txt file to your website root',
+            detail: 'Create a /llms.txt file that provides LLMs with a structured summary of your site, key pages, and documentation.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
+            doc: {
+              title: 'llms.txt — The README for AI',
+              sections: [
+                { heading: 'Why This Matters', body: 'llms.txt is an emerging standard (proposed by Jina AI) that gives large language models a structured, human-readable summary of your site. While robots.txt controls crawler access, llms.txt tells AI what your site is about, which pages matter most, and where to find key information. Major companies like Anthropic, Cloudflare, and Stripe already publish one.' },
+                { heading: 'What to Include', body: 'Your llms.txt should contain: a brief description of your site/company, links to your most important pages (with short descriptions), documentation links, API references if applicable, and any key facts you want AI to know. Keep it concise — think of it as a README for AI models.' },
+                { heading: 'Format', body: 'Place at /llms.txt (website root). Use Markdown formatting. Start with a title (# Your Site Name), followed by a description, then organized sections with links. You can also create /llms-full.txt with more comprehensive information. There\'s no strict schema — clarity and completeness are what matter.' },
+                { heading: 'Example Structure', body: '# Your Company Name\n\n> Brief description of what your company does.\n\n## Key Pages\n- [Homepage](https://yoursite.com): Main landing page\n- [Products](https://yoursite.com/products): Product catalog\n- [Blog](https://yoursite.com/blog): Industry insights\n\n## Documentation\n- [API Docs](https://yoursite.com/docs): Full API reference\n- [Getting Started](https://yoursite.com/start): Quick start guide' },
+                { heading: 'Action Items', body: '1. Create /llms.txt at your website root\n2. Write a clear site description (2-3 sentences)\n3. List your most important pages with descriptions\n4. Include documentation and resource links\n5. Optionally create /llms-full.txt with expanded content\n6. Test by visiting yoursite.com/llms.txt in a browser\n7. Update whenever you add major new pages or sections' }
+              ]
+            }
+          },
+          {
+            id: 'p4-c1-i8',
+            text: 'Create llms-full.txt with complete documentation and key content',
+            detail: 'Complement your llms.txt summary with a llms-full.txt file containing your complete documentation, guides, and key content in a single Markdown file for AI consumption.',
+            action: { view: 'analyzer', label: 'Open Analyzer' },
+            doc: {
+              title: 'llms-full.txt — Complete Content for AI',
+              sections: [
+                { heading: 'Why This Matters', body: 'While llms.txt provides a curated summary, llms-full.txt gives AI systems your complete documentation and key content in a single, easily consumable Markdown file. Together they serve different needs: llms.txt is the executive summary; llms-full.txt is the comprehensive reference. AI models are actively crawling both files to build their understanding of websites and products.' },
+                { heading: 'What to Include', body: 'Your llms-full.txt should contain: complete product documentation, detailed feature descriptions, API references, getting started guides, FAQ content, pricing details, use case descriptions, and any other content you want AI systems to have comprehensive access to. Organize with clear Markdown headings and structure.' },
+                { heading: 'How to Create', body: 'Compile your most important documentation into a single Markdown file. Use clear heading hierarchy (H1 for main sections, H2 for subsections). Include internal links where relevant. Keep the file under 100KB for practical consumption. Update it whenever you publish significant new content or documentation changes. Reference llms-full.txt from your llms.txt file.' },
+                { heading: 'Action Items', body: '1. Compile your key documentation into Markdown format\n2. Organize with clear heading hierarchy\n3. Place at /llms-full.txt at your website root\n4. Reference it from your llms.txt file\n5. Keep under 100KB for practical AI consumption\n6. Update when major content changes\n7. Test accessibility by visiting yoursite.com/llms-full.txt' }
               ]
             }
           },
@@ -1055,6 +1161,21 @@ export const phases = [
                 { heading: 'Action Items', body: '1. Identify 2-3 priority platforms\n2. Complete all profile information\n3. Create a consistent posting schedule\n4. Share original thought leadership content\n5. Include social URLs in Organization schema sameAs' }
               ]
             }
+          },
+          {
+            id: 'p5-c2-i6',
+            text: 'Create and optimize profiles on review platforms (G2, Capterra, Trustpilot, industry directories)',
+            detail: 'Sites with profiles on 4+ review platforms are 3x more likely to be cited by ChatGPT. Create and maintain profiles on relevant review and directory platforms.',
+            action: { external: 'https://www.g2.com/', label: 'Open G2' },
+            doc: {
+              title: 'Review Platform Profiles for AI Citations',
+              sections: [
+                { heading: 'Why This Matters', body: 'Research shows that brands with profiles on 4 or more review and directory platforms are approximately 3x more likely to appear in ChatGPT responses. Review platforms like G2, Capterra, Trustpilot, and Yelp are high-authority domains that AI engines frequently reference when answering product and service recommendation queries. Having a presence on these platforms feeds directly into the AI citation ecosystem.' },
+                { heading: 'Key Platforms', body: 'General review platforms: Trustpilot, Google Reviews, Yelp, Better Business Bureau. Software/SaaS: G2, Capterra, TrustRadius, GetApp, Software Advice. B2B: Clutch, GoodFirms, DesignRush. Industry-specific: identify the top 3-5 directories in your specific industry. Professional: LinkedIn Company Page, Crunchbase. Choose platforms where your target audience actually looks for recommendations.' },
+                { heading: 'How to Optimize Profiles', body: 'Complete every available field on each platform. Use consistent brand name, description, and value proposition across all profiles (matches your Organization schema and NAP). Upload high-quality logos and images. Actively collect and respond to reviews. Keep product/service information current. Link profiles to your website and each other.' },
+                { heading: 'Action Items', body: '1. Identify 5-8 relevant review and directory platforms\n2. Create or claim your profile on each\n3. Complete all available profile fields\n4. Ensure brand description consistency across platforms\n5. Implement a review collection strategy\n6. Respond to all reviews (positive and negative)\n7. Update profiles quarterly to keep information current\n8. Add profile URLs to your Organization schema sameAs property' }
+              ]
+            }
           }
         ]
       }
@@ -1369,6 +1490,51 @@ export const phases = [
                 { heading: 'Tools and Methods', body: 'Use Google Search Console Enhancement reports (checks automatically). Set up scheduled crawls with Screaming Frog or Sitebulb for schema validation. Implement automated testing in CI/CD pipeline. Use ContentKing or similar for real-time monitoring.' },
                 { heading: 'Alert Setup', body: 'Configure alerts for: new schema errors in GSC, schema validation failures in CI/CD, pages losing structured data, and significant drops in rich result impressions.' },
                 { heading: 'Action Items', body: '1. Enable GSC Enhancement report alerts\n2. Add schema validation to CI/CD pipeline\n3. Set up weekly automated crawl and validation\n4. Configure alerts for error detection\n5. Establish a fix SLA for schema errors' }
+              ]
+            }
+          },
+          {
+            id: 'p7-c1-i6',
+            text: 'Measure AI Share of Voice \u2014 percentage of prompts where your brand appears vs competitors',
+            detail: 'Track what percentage of relevant AI queries cite your brand compared to competitors. AI Share of Voice is emerging as the key metric for measuring AEO success.',
+            action: { view: 'competitors', label: 'Open Competitors' },
+            doc: {
+              title: 'AI Share of Voice Tracking',
+              sections: [
+                { heading: 'Why This Matters', body: 'AI Share of Voice (SoV) is emerging as the "North Star metric" for AEO — it measures the percentage of relevant AI-generated answers where your brand is mentioned or cited versus competitors. Unlike traditional SEO rankings which show positions, AI SoV shows how often you are the answer. This metric directly correlates with brand visibility in the AI-first search era.' },
+                { heading: 'How to Measure', body: 'Define a set of 50-100 queries relevant to your business and industry. Run each query across ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Track which queries mention your brand, which mention competitors, and which mention neither. Calculate your SoV as: (queries citing your brand / total queries tested) \u00d7 100. Compare against top 3-5 competitors.' },
+                { heading: 'Tools and Automation', body: 'Manual tracking works for initial baselines but does not scale. Consider tools like: HubSpot\'s free AI Share of Voice tool, Otterly.AI, SE Ranking\'s SE Visible, Siftly, or Profound. These automate prompt testing across AI platforms and generate competitive SoV reports. Run measurements monthly for trend tracking.' },
+                { heading: 'Action Items', body: '1. Define 50-100 target queries for SoV tracking\n2. Establish a baseline SoV across all major AI platforms\n3. Identify top 3-5 competitors to benchmark against\n4. Set up monthly SoV measurement cadence\n5. Track SoV trends over time (should increase with optimization)\n6. Use SoV data to prioritize content optimization efforts\n7. Report SoV to stakeholders alongside traditional SEO metrics' }
+              ]
+            }
+          },
+          {
+            id: 'p7-c1-i7',
+            text: 'Track sentiment and accuracy of AI-generated brand descriptions',
+            detail: 'Monitor whether AI platforms describe your brand positively, negatively, or inaccurately. Negative or wrong AI descriptions can be more damaging than no citation at all.',
+            action: { view: 'testing', label: 'Open Testing' },
+            doc: {
+              title: 'AI Sentiment and Accuracy Monitoring',
+              sections: [
+                { heading: 'Why This Matters', body: 'Being cited by AI engines is only valuable if the citation is accurate and positive. AI platforms can perpetuate outdated information, competitor-favorable comparisons, or outright inaccuracies about your brand. A negative or wrong AI-generated description reaches every user who asks about you — and unlike a bad review, you cannot respond to it directly. Proactive monitoring lets you identify and address issues before they compound.' },
+                { heading: 'What to Monitor', body: 'Run branded queries across all major AI platforms monthly. Track: factual accuracy (correct products, pricing, founding date), sentiment (positive, neutral, negative tone), completeness (key differentiators mentioned), comparison framing (how you are positioned vs competitors), and freshness (does it reflect your current offerings). Document every inaccuracy.' },
+                { heading: 'How to Fix Issues', body: 'For inaccuracies: trace the error to its likely source (outdated web page, wrong directory listing, competitor content). Fix the source content and update your structured data. For negative sentiment: create content that directly addresses the criticism with evidence. For missing information: publish clear, prominent content about the missing details. AI engines update their knowledge over time as source content changes.' },
+                { heading: 'Action Items', body: '1. Run 20+ branded queries across all AI platforms monthly\n2. Categorize each response: accurate/inaccurate, positive/neutral/negative\n3. Document every inaccuracy with its likely source\n4. Fix source content for identified inaccuracies\n5. Create content addressing negative sentiment with evidence\n6. Re-test monthly to verify corrections propagate\n7. Track sentiment trends over time' }
+              ]
+            }
+          },
+          {
+            id: 'p7-c1-i8',
+            text: 'Track AI crawler visits, frequency, and emerging new bot user-agents',
+            detail: 'AI companies frequently introduce new crawlers and change user-agent strings. Monitor server logs for new bots and update your access configuration accordingly.',
+            action: { view: 'monitoring', label: 'Open Monitoring' },
+            doc: {
+              title: 'AI Crawler Behavior Monitoring',
+              sections: [
+                { heading: 'Why This Matters', body: 'The AI crawler landscape changes rapidly. Anthropic merged its "anthropic-ai" and "Claude-Web" user-agents into "ClaudeBot," temporarily giving the new bot unrestricted access to sites that had blocked the old names. OpenAI introduced OAI-SearchBot separately from GPTBot. New AI companies launch crawlers regularly. Without ongoing monitoring, your robots.txt configuration becomes outdated and you may be inadvertently blocking or allowing bots you did not intend to.' },
+                { heading: 'What to Track', body: 'Monitor server logs for: known AI bot user-agents and their crawl frequency, new or unrecognized bot user-agents, changes in crawl patterns (sudden increases or drops), which pages each bot prioritizes, response codes returned to bots, and crawl budget consumption. Set up alerts for new user-agent strings that match AI-related patterns.' },
+                { heading: 'Staying Current', body: 'Follow AI company announcements for new crawler introductions. Check the robots.txt documentation pages of major AI companies quarterly. Subscribe to SEO industry newsletters that track AI crawler changes. Maintain an internal registry of all known AI bot user-agents and their purposes (training vs search).' },
+                { heading: 'Action Items', body: '1. Set up monthly AI bot log analysis\n2. Create an internal registry of known AI crawler user-agents\n3. Configure alerts for new unrecognized bot user-agents\n4. Track crawl frequency trends per bot\n5. Update robots.txt when new bots are identified\n6. Follow AI company announcements for crawler changes\n7. Review and update your bot registry quarterly' }
               ]
             }
           }

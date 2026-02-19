@@ -162,7 +162,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
               {[
                 { num: '01', text: 'Track citations across ChatGPT, Perplexity, Gemini & more' },
                 { num: '02', text: 'Real-time AEO metrics with exportable reports' },
-                { num: '03', text: '88-point checklist covering all optimization phases' },
+                { num: '03', text: '99-point checklist covering all optimization phases' },
               ].map((item) => (
                 <div key={item.num} className="flex items-start gap-4">
                   <span className="font-mono text-[0.6875rem] font-bold shrink-0 mt-0.5 text-phase-1 opacity-70">{item.num}</span>

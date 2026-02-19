@@ -57,7 +57,7 @@ const STEPS = [
   {
     id: 'checklist',
     title: 'AEO Guide',
-    description: 'Your step-by-step roadmap with 88 tasks across 7 phases. Check items off as you complete them — progress saves automatically. Each task has a "Learn more" button with detailed documentation and an action button that takes you directly to the relevant tool. Start with Phase 1 to audit your technical foundation.',
+    description: 'Your step-by-step roadmap with 99 tasks across 7 phases. Check items off as you complete them — progress saves automatically. Each task has a "Learn more" button with detailed documentation and an action button that takes you directly to the relevant tool. Start with Phase 1 to audit your technical foundation.',
     icon: <CheckSquare size={24} />,
     section: 'Core Tools',
     target: '.checklist-stats-grid',
@@ -117,7 +117,7 @@ const STEPS = [
   {
     id: 'docs',
     title: 'Documentation',
-    description: 'Full documentation for every feature and every checklist task. The App Guide tab explains each tool in detail, AEO Reference has comprehensive docs for all 88 tasks, and FAQ answers common questions. Search across everything or browse by phase.',
+    description: 'Full documentation for every feature and every checklist task. The App Guide tab explains each tool in detail, AEO Reference has comprehensive docs for all 99 tasks, and FAQ answers common questions. Search across everything or browse by phase.',
     icon: <BookOpen size={24} />,
     section: 'Resources',
     target: null,

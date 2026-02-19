@@ -72,7 +72,7 @@ const PHASES = [
 ]
 
 const FEATURES_OVERVIEW = [
-  { icon: '✅', title: '88-Point AEO Checklist', description: 'Phase-by-phase tasks covering every aspect of AEO — from schema markup to content structure to AI crawler access.' },
+  { icon: '✅', title: '99-Point AEO Checklist', description: 'Phase-by-phase tasks covering every aspect of AEO — from schema markup to content structure to AI crawler access.' },
   { icon: '🔍', title: 'AI-Powered Site Analyzer', description: 'Enter any URL and get an instant AEO readiness score with actionable recommendations.' },
   { icon: '🧪', title: 'Multi-Engine Testing Lab', description: 'Test how your content appears across ChatGPT, Perplexity, Claude, and Gemini simultaneously.' },
   { icon: '✍️', title: 'AI Content Writer', description: 'Generate AEO-optimized content with structured data and direct answer formatting built in.' },
@@ -464,7 +464,7 @@ export default function WaitlistPage() {
               ))}
             </div>
             <p className="wl-phases-footer" data-animate>
-              The <strong>88-point checklist</strong> guides you through every task in every phase.
+              The <strong>99-point checklist</strong> guides you through every task in every phase.
             </p>
           </div>
         </section>

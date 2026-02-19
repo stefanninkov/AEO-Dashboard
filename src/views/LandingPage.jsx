@@ -57,7 +57,7 @@ const PILLARS = [
 const FEATURES_BIG = [
   {
     badge: 'Core Feature',
-    title: '88-Point AEO Checklist',
+    title: '99-Point AEO Checklist',
     description: 'A comprehensive, phase-by-phase checklist covering every aspect of Answer Engine Optimization. From schema markup to content structure, entity optimization to AI crawler access \u2014 track every task across 7 phases with built-in progress analytics.',
     answerParagraph: 'An AEO checklist is a structured task list that guides website owners through every optimization needed to appear in AI-generated answers. It covers schema markup implementation, content restructuring for direct answers, entity authority building, and technical configurations that help AI crawlers understand and cite your content.',
     mockupType: 'checklist',
@@ -94,7 +94,7 @@ const STEPS = [
   },
   {
     title: 'Optimize with the Checklist',
-    description: 'Work through the 88-point checklist across 7 phases. Each task includes guidance on implementation, and your progress syncs across devices in real-time.',
+    description: 'Work through the 99-point checklist across 7 phases. Each task includes guidance on implementation, and your progress syncs across devices in real-time.',
   },
   {
     title: 'Test & Monitor',
@@ -211,7 +211,7 @@ const FAQ_ITEMS = [
     answer: 'Absolutely. AEO Dashboard is built for agencies and SEO professionals managing multiple clients. The Professional plan includes client portals with branded, shareable dashboards, and the Enterprise plan offers white-label capabilities for a fully branded experience.',
   },
   {
-    question: 'What does the 88-point checklist cover?',
+    question: 'What does the 99-point checklist cover?',
     answer: 'The checklist spans 7 phases of AEO optimization: technical foundation, schema markup, content structure, entity optimization, multi-platform targeting, AI crawler access, and ongoing monitoring. Each task includes implementation guidance and tracks completion across your entire team.',
   },
   {
@@ -437,7 +437,7 @@ export default function LandingPage() {
         '@type': 'WebPage',
         name: 'AEO Dashboard - Optimize Your Website for AI Search Engines',
         url: BASE_URL,
-        description: 'Get your clients cited by ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. The complete AEO toolkit with an 88-point checklist, AI-powered analyzer, and client-ready reports.',
+        description: 'Get your clients cited by ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. The complete AEO toolkit with a 99-point checklist, AI-powered analyzer, and client-ready reports.',
         speakable: {
           '@type': 'SpeakableSpecification',
           cssSelector: ['#hero', '#what-is-aeo', '#how-it-works', '#faq'],
@@ -627,7 +627,7 @@ export default function LandingPage() {
             <h1>Optimize Your Website for <span>AI Search Engines</span></h1>
             <p className="lp-hero-sub">
               Get your clients cited by ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot.
-              The complete AEO toolkit with an 88-point checklist, AI-powered analyzer, and client-ready reports.
+              The complete AEO toolkit with a 99-point checklist, AI-powered analyzer, and client-ready reports.
             </p>
             <div className="lp-hero-ctas">
               <a href="/AEO-Dashboard/app" className="lp-btn-primary">Start 14-Day Free Trial</a>
@@ -656,7 +656,7 @@ export default function LandingPage() {
                   <div className="lp-mockup-stats">
                     {[
                       { label: 'AEO Score', value: '78', colorClass: 'lp-orange' },
-                      { label: 'Tasks Done', value: '54/88', colorClass: '' },
+                      { label: 'Tasks Done', value: '61/99', colorClass: '' },
                       { label: 'AI Citations', value: '12', colorClass: 'lp-green' },
                     ].map((stat, i) => (
                       <div key={i} className="lp-mockup-stat-card">
@@ -808,7 +808,7 @@ export default function LandingPage() {
             ))}
           </ol>
           <p className="lp-answer-paragraph" style={{ maxWidth: '768px', margin: '2rem auto 0' }}>
-            <strong>Getting cited by ChatGPT requires a combination of structured data, authoritative content, and technical accessibility.</strong> Implement comprehensive schema markup, format content as direct answers to common questions, build entity authority through consistent and accurate information, and ensure AI crawlers can freely access your pages. The AEO Dashboard automates this process with its 88-point checklist and AI-powered analysis tools.
+            <strong>Getting cited by ChatGPT requires a combination of structured data, authoritative content, and technical accessibility.</strong> Implement comprehensive schema markup, format content as direct answers to common questions, build entity authority through consistent and accurate information, and ensure AI crawlers can freely access your pages. The AEO Dashboard automates this process with its 99-point checklist and AI-powered analysis tools.
           </p>
         </section>
 
