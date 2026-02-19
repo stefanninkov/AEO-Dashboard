@@ -2,6 +2,7 @@
  * ProjectDataSection — Data management (export/import, clear data) + Danger Zone (reset, delete).
  */
 import { useState, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Database, AlertTriangle, Download, Upload, Trash2, RotateCcw } from 'lucide-react'
 import logger from '../../utils/logger'
 import {
@@ -9,6 +10,7 @@ import {
 } from './SettingsShared'
 
 export default function ProjectDataSection({ activeProject, updateProject, deleteProject, setActiveView }) {
+  const { t } = useTranslation('app')
   const [clearMetricsConfirm, setClearMetricsConfirm] = useState(false)
   const [clearMonitorConfirm, setClearMonitorConfirm] = useState(false)
   const [resetChecklistConfirm, setResetChecklistConfirm] = useState(false)
@@ -44,7 +46,7 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
       reader.onload = (ev) => {
         try {
           const imported = JSON.parse(ev.target.result)
-          if (window.confirm(`Import data from "${file.name}" into this project? This will merge the imported data.`)) {
+          if (window.confirm(t('projectData.importConfirm', { fileName: file.name }))) {
             const { id, userId, createdAt, ...mergeData } = imported
             updateProject(activeProject.id, mergeData)
           }
@@ -55,7 +57,7 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
       reader.readAsText(file)
     }
     input.click()
-  }, [activeProject, updateProject])
+  }, [activeProject, updateProject, t])
 
   const handleClearMetrics = useCallback(() => {
     if (!clearMetricsConfirm) { setClearMetricsConfirm(true); setTimeout(() => setClearMetricsConfirm(false), 4000); return }
@@ -85,36 +87,36 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
     <>
       {/* ── Data ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
-        <div style={sectionTitleStyle}><Database size={15} /> Data</div>
+        <div style={sectionTitleStyle}><Database size={15} /> {t('projectData.data')}</div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Transfer</span>
+          <span style={labelStyle}>{t('projectData.transfer')}</span>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={handleExportProject}>
-              <Download size={13} /> Export Project Data
+              <Download size={13} /> {t('projectData.exportProjectData')}
             </button>
             <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={handleImportProject}>
-              <Upload size={13} /> Import Project Data
+              <Upload size={13} /> {t('projectData.importProjectData')}
             </button>
           </div>
         </div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Stats</span>
+          <span style={labelStyle}>{t('projectData.stats')}</span>
           <div style={{ display: 'flex', gap: '1.25rem', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-            <span>Metrics history: <strong style={{ color: 'var(--text-primary)' }}>{metricsCount}</strong> entries</span>
-            <span>Monitor history: <strong style={{ color: 'var(--text-primary)' }}>{monitorCount}</strong> entries</span>
+            <span>{t('projectData.metricsHistory', { count: metricsCount })}</span>
+            <span>{t('projectData.monitorHistory', { count: monitorCount })}</span>
           </div>
         </div>
 
         <div style={lastRowStyle}>
-          <span style={labelStyle}>Clear Data</span>
+          <span style={labelStyle}>{t('projectData.clearData')}</span>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem', color: clearMetricsConfirm ? 'var(--color-error)' : undefined, borderColor: clearMetricsConfirm ? 'var(--color-error)' : undefined }} onClick={handleClearMetrics}>
-              <Trash2 size={13} /> {clearMetricsConfirm ? 'Are you sure?' : 'Clear Metrics History'}
+              <Trash2 size={13} /> {clearMetricsConfirm ? t('projectData.areYouSure') : t('projectData.clearMetricsHistory')}
             </button>
             <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem', color: clearMonitorConfirm ? 'var(--color-error)' : undefined, borderColor: clearMonitorConfirm ? 'var(--color-error)' : undefined }} onClick={handleClearMonitor}>
-              <Trash2 size={13} /> {clearMonitorConfirm ? 'Are you sure?' : 'Clear Monitor History'}
+              <Trash2 size={13} /> {clearMonitorConfirm ? t('projectData.areYouSure') : t('projectData.clearMonitorHistory')}
             </button>
           </div>
         </div>
@@ -122,41 +124,41 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
 
       {/* ── Danger Zone ── */}
       <div className="card" style={{ marginBottom: '1rem', borderColor: 'var(--color-error)', borderWidth: 1 }}>
-        <div style={{ ...sectionTitleStyle, color: 'var(--color-error)' }}><AlertTriangle size={15} /> Danger Zone</div>
+        <div style={{ ...sectionTitleStyle, color: 'var(--color-error)' }}><AlertTriangle size={15} /> {t('projectData.dangerZone')}</div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Reset Checklist</span>
+          <span style={labelStyle}>{t('projectData.resetChecklist')}</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {!resetChecklistConfirm ? (
               <button onClick={handleResetChecklist} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.4375rem 0.875rem', background: 'none', border: '1px solid var(--color-error)', borderRadius: '0.625rem', color: 'var(--color-error)', fontSize: '0.75rem', fontWeight: 500, fontFamily: 'var(--font-body)', cursor: 'pointer', transition: 'all 150ms ease' }}>
-                <RotateCcw size={13} /> Reset All Checklist Progress
+                <RotateCcw size={13} /> {t('projectData.resetAllChecklistProgress')}
               </button>
             ) : (
               <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-error)', fontWeight: 500 }}>Are you sure?</span>
-                <button onClick={handleResetChecklist} style={{ padding: '0.375rem 0.75rem', background: 'var(--color-error)', border: 'none', borderRadius: '0.5rem', color: '#fff', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer' }}>Confirm Reset</button>
-                <button onClick={() => setResetChecklistConfirm(false)} className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.375rem 0.75rem' }}>Cancel</button>
+                <span style={{ fontSize: '0.75rem', color: 'var(--color-error)', fontWeight: 500 }}>{t('projectData.areYouSure')}</span>
+                <button onClick={handleResetChecklist} style={{ padding: '0.375rem 0.75rem', background: 'var(--color-error)', border: 'none', borderRadius: '0.5rem', color: '#fff', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer' }}>{t('projectData.confirmReset')}</button>
+                <button onClick={() => setResetChecklistConfirm(false)} className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.375rem 0.75rem' }}>{t('projectData.cancel')}</button>
               </div>
             )}
           </div>
         </div>
 
         <div style={lastRowStyle}>
-          <span style={labelStyle}>Delete Project</span>
+          <span style={labelStyle}>{t('projectData.deleteProject')}</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {!deleteConfirm ? (
               <button onClick={() => setDeleteConfirm(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.4375rem 0.875rem', background: 'var(--color-error)', border: 'none', borderRadius: '0.625rem', color: '#fff', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer', transition: 'all 150ms ease' }}>
-                <Trash2 size={13} /> Delete Project
+                <Trash2 size={13} /> {t('projectData.deleteProject')}
               </button>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <span style={{ fontSize: '0.75rem', color: 'var(--color-error)', fontWeight: 500 }}>
-                  Type <strong>"{activeProject.name}"</strong> to confirm deletion:
+                  {t('projectData.typeNameToConfirm', { name: activeProject.name })}
                 </span>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <input className="input-field" value={deleteTypedName} onChange={(e) => setDeleteTypedName(e.target.value)} placeholder={activeProject.name} aria-label="Type project name to confirm deletion" style={{ width: '13.75rem', borderColor: 'var(--color-error)' }} />
-                  <button onClick={handleDeleteProject} disabled={deleteTypedName !== activeProject.name} style={{ padding: '0.4375rem 0.875rem', background: deleteTypedName === activeProject.name ? 'var(--color-error)' : 'var(--text-disabled)', border: 'none', borderRadius: '0.5rem', color: '#fff', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: deleteTypedName === activeProject.name ? 'pointer' : 'not-allowed', opacity: deleteTypedName === activeProject.name ? 1 : 0.5 }}>Delete Forever</button>
-                  <button onClick={() => { setDeleteConfirm(false); setDeleteTypedName('') }} className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.75rem' }}>Cancel</button>
+                  <button onClick={handleDeleteProject} disabled={deleteTypedName !== activeProject.name} style={{ padding: '0.4375rem 0.875rem', background: deleteTypedName === activeProject.name ? 'var(--color-error)' : 'var(--text-disabled)', border: 'none', borderRadius: '0.5rem', color: '#fff', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: deleteTypedName === activeProject.name ? 'pointer' : 'not-allowed', opacity: deleteTypedName === activeProject.name ? 1 : 0.5 }}>{t('projectData.deleteForever')}</button>
+                  <button onClick={() => { setDeleteConfirm(false); setDeleteTypedName('') }} className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.75rem' }}>{t('projectData.cancel')}</button>
                 </div>
               </div>
             )}

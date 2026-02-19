@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Plus, Zap, FileText, MessageSquare, Globe, Target, BarChart3 } from 'lucide-react'
 import { getSmartRecommendations, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
@@ -14,12 +15,12 @@ import QuickActions from './dashboard/QuickActions'
 import AnalyticsPanel from './dashboard/AnalyticsPanel'
 import ProgressSummaryCard from './dashboard/ProgressSummaryCard'
 
-const SUB_TABS = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'analytics', label: 'Analytics' },
-  { id: 'citations', label: 'Citations' },
-  { id: 'prompts', label: 'Prompts' },
-  { id: 'chatbots', label: 'Chatbots' },
+const SUB_TAB_KEYS = [
+  { id: 'overview', i18nKey: 'dashboard.overview' },
+  { id: 'analytics', i18nKey: 'dashboard.analytics' },
+  { id: 'citations', i18nKey: 'dashboard.citations' },
+  { id: 'prompts', i18nKey: 'dashboard.prompts' },
+  { id: 'chatbots', i18nKey: 'dashboard.chatbots' },
 ]
 
 const ENGINE_COLORS = PHASE_COLOR_ARRAY
@@ -41,19 +42,20 @@ const CustomTooltip = memo(function CustomTooltip({ active, payload, label }) {
   )
 })
 
-function DashboardEmptyState({ message, onAction }) {
+function DashboardEmptyState({ message, onAction, t }) {
   return (
     <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>
       <BarChart3 size={28} style={{ color: 'var(--text-disabled)' }} />
       <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
       <button onClick={onAction} className="btn-primary" style={{ padding: '0.4375rem 1rem', fontSize: '0.75rem', marginTop: '0.25rem' }}>
-        Run Metrics Analysis
+        {t('dashboard.runMetricsAnalysis')}
       </button>
     </div>
   )
 }
 
 export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid }) {
+  const { t } = useTranslation('app')
   const [subTab, setSubTab] = useState('overview')
 
   const getPhaseProgress = useCallback((phase) => {
@@ -140,7 +142,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       {/* Welcome */}
       <div>
         <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          Welcome back{userName ? `, ${userName}` : ''}
+          {userName ? t('dashboard.welcomeBackName', { name: userName }) : t('dashboard.welcomeBack')}
         </h2>
         {activeProject?.questionnaire?.completedAt ? (() => {
           const q = activeProject.questionnaire
@@ -162,14 +164,14 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           )
         })() : (
           <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
-            Here's an overview of your AEO projects and progress.
+            {t('dashboard.overviewSubtitle')}
           </p>
         )}
       </div>
 
       {/* Sub-tabs */}
       <div style={{ display: 'flex', gap: '0.25rem', borderRadius: '0.625rem', padding: '0.25rem', background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
-        {SUB_TABS.map(tab => (
+        {SUB_TAB_KEYS.map(tab => (
           <button
             key={tab.id}
             onClick={() => setSubTab(tab.id)}
@@ -181,7 +183,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               color: subTab === tab.id ? 'var(--text-primary)' : 'var(--text-tertiary)',
             }}
           >
-            {tab.label}
+            {t(tab.i18nKey)}
           </button>
         ))}
       </div>
@@ -191,10 +193,10 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         <>
           {/* 4 Stat Cards */}
           <div className="stats-grid-4">
-            <StatCard label="Total Citations" value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
-            <StatCard label="Total Prompts" value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
-            <StatCard label="Active AI Engines" value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
-            <StatCard label="AEO Score" value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
+            <StatCard label={t('dashboard.totalCitations')} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
+            <StatCard label={t('dashboard.totalPrompts')} value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
+            <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
+            <StatCard label={t('dashboard.aeoScore')} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
           </div>
 
           {/* Donut Chart — Phase Progress */}
@@ -208,14 +210,14 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           )}
 
           {/* Personalized Recommendations */}
-          <RecommendationsPanel recommendations={recommendations} contextLine={activeProject?.questionnaire?.completedAt ? getProjectContextLine(activeProject.questionnaire) : null} />
+          <RecommendationsPanel recommendations={recommendations} contextLine={activeProject?.questionnaire?.completedAt ? getProjectContextLine(activeProject.questionnaire, t) : null} />
 
           {/* Charts Row */}
           {latestMetrics && (
             <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                  AI Citations Over Time
+                  {t('dashboard.aiCitationsOverTime')}
                 </h3>
                 {chartData.length > 1 ? (
                   <ResponsiveContainer width="100%" height={220}>
@@ -231,14 +233,14 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                   </ResponsiveContainer>
                 ) : (
                   <div style={{ height: '13.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-                    Run multiple analyses to see trends
+                    {t('dashboard.runMultipleForTrends')}
                   </div>
                 )}
               </div>
 
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                  Bot Type Distribution
+                  {t('dashboard.botTypeDistribution')}
                 </h3>
                 {engineData.length > 0 ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
@@ -262,7 +264,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                   </div>
                 ) : (
                   <div style={{ height: '12.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-                    Run analysis to see distribution
+                    {t('dashboard.runAnalysisForDistribution')}
                   </div>
                 )}
               </div>
@@ -272,7 +274,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           {/* Phase Progress Card */}
           {activeProject && phases && (
             <div className="phase-progress-card">
-              <div className="phase-progress-card-header">Phase Progress</div>
+              <div className="phase-progress-card-header">{t('dashboard.phaseProgress')}</div>
               {phases.map(phase => {
                 const pp = getPhaseProgress(phase)
                 return (
@@ -297,7 +299,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
               marginBottom: '0.75rem',
             }}>
-              Recent Activity
+              {t('dashboard.recentActivity')}
             </div>
             <ActivityTimeline activities={activeProject?.activityLog || []} currentUserUid={currentUserUid} />
           </div>
@@ -317,14 +319,14 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           {latestMetrics ? (
             <>
               <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
-                <StatCard label="Total Citations" value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
-                <StatCard label="Active AI Engines" value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
-                <StatCard label="AEO Score" value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
+                <StatCard label={t('dashboard.totalCitations')} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
+                <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
+                <StatCard label={t('dashboard.aeoScore')} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
               </div>
 
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                  Citations Over Time
+                  {t('dashboard.citationsOverTime')}
                 </h3>
                 {citationsChartData.length > 1 ? (
                   <ResponsiveContainer width="100%" height={280}>
@@ -338,22 +340,22 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                   </ResponsiveContainer>
                 ) : (
                   <div style={{ height: '17.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-                    Run multiple analyses to see citation trends
+                    {t('dashboard.runMultipleForCitationTrends')}
                   </div>
                 )}
               </div>
 
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                  Citations by AI Engine
+                  {t('dashboard.citationsByAiEngine')}
                 </h3>
                 <div style={{ overflowX: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                     <thead>
                       <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                        <th scope="col" style={{ textAlign: 'left', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Engine</th>
-                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Citations</th>
-                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px', width: '40%' }}>Share</th>
+                        <th scope="col" style={{ textAlign: 'left', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('dashboard.engine')}</th>
+                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('dashboard.totalCitations')}</th>
+                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px', width: '40%' }}>{t('dashboard.share')}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -382,7 +384,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               </div>
             </>
           ) : (
-            <DashboardEmptyState onAction={emptyStateAction} message="Run a Metrics analysis to see citation data across AI engines." />
+            <DashboardEmptyState onAction={emptyStateAction} message={t('dashboard.runMetricsForCitations')} t={t} />
           )}
         </>
       )}
@@ -393,13 +395,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           {latestMetrics ? (
             <>
               <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
-                <StatCard label="Total Prompts" value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
-                <StatCard label="AEO Score" value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
+                <StatCard label={t('dashboard.totalPrompts')} value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
+                <StatCard label={t('dashboard.aeoScore')} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
               </div>
 
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                  Prompts Over Time
+                  {t('dashboard.promptsOverTime')}
                 </h3>
                 {promptsChartData.length > 1 ? (
                   <ResponsiveContainer width="100%" height={280}>
@@ -413,7 +415,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                   </ResponsiveContainer>
                 ) : (
                   <div style={{ height: '17.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-                    Run multiple analyses to see prompt trends
+                    {t('dashboard.runMultipleForPromptTrends')}
                   </div>
                 )}
               </div>
@@ -421,7 +423,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               {topPrompts.length > 0 && (
                 <div className="card" style={{ padding: '1.25rem' }}>
                   <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                    Top Prompt Categories
+                    {t('dashboard.topPromptCategories')}
                   </h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                     {topPrompts.slice(0, 10).map((prompt, i) => {
@@ -442,7 +444,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               )}
             </>
           ) : (
-            <DashboardEmptyState onAction={emptyStateAction} message="Run a Metrics analysis to see prompt data and trends." />
+            <DashboardEmptyState onAction={emptyStateAction} message={t('dashboard.runMetricsForPrompts')} t={t} />
           )}
         </>
       )}
@@ -453,13 +455,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           {latestMetrics ? (
             <>
               <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
-                <StatCard label="Active AI Engines" value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
-                <StatCard label="Total Citations" value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
+                <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
+                <StatCard label={t('dashboard.totalCitations')} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
               </div>
 
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                  AI Engine Distribution
+                  {t('dashboard.aiEngineDistribution')}
                 </h3>
                 {engineData.length > 0 ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', justifyContent: 'center' }}>
@@ -483,14 +485,14 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                   </div>
                 ) : (
                   <div style={{ height: '16.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-                    Run analysis to see engine distribution
+                    {t('dashboard.runAnalysisForEngineDistribution')}
                   </div>
                 )}
               </div>
 
               <div className="card" style={{ padding: '1.25rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                  Engine Details
+                  {t('dashboard.engineDetails')}
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(12.5rem, 1fr))', gap: '0.75rem' }}>
                   {allEngineData.map((engine, i) => (
@@ -503,7 +505,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                         {engine.citations.toLocaleString()}
                       </div>
                       <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
-                        {engine.citations > 0 ? 'citations found' : 'no citations yet'}
+                        {engine.citations > 0 ? t('dashboard.citationsFound') : t('dashboard.noCitationsYet')}
                       </p>
                     </div>
                   ))}
@@ -511,7 +513,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               </div>
             </>
           ) : (
-            <DashboardEmptyState onAction={emptyStateAction} message="Run a Metrics analysis to see chatbot and AI engine data." />
+            <DashboardEmptyState onAction={emptyStateAction} message={t('dashboard.runMetricsForChatbots')} t={t} />
           )}
         </>
       )}
@@ -520,13 +522,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       {!activeProject && projects.length === 0 && (
         <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
           <Zap size={32} className="text-phase-1" style={{ marginBottom: '1rem' }} />
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>No projects yet</h3>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{t('dashboard.noProjectsYet')}</h3>
           <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginBottom: '1.25rem', textAlign: 'center', maxWidth: '18.75rem' }}>
-            Create your first project to start tracking AEO progress.
+            {t('dashboard.createFirstProject')}
           </p>
           <button onClick={onNewProject} className="btn-primary">
             <Plus size={14} />
-            Create Project
+            {t('dashboard.createProject')}
           </button>
         </div>
       )}

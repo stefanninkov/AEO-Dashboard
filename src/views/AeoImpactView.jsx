@@ -11,6 +11,7 @@
  */
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Zap, TrendingUp, Globe, Search, BarChart3,
   RefreshCw, Loader2, ArrowRight, ExternalLink,
@@ -90,6 +91,7 @@ function AeoScoreGauge({ score, label }) {
    ══════════════════════════════════════════════════════════════════ */
 
 export default function AeoImpactView({ activeProject, user, setActiveView }) {
+  const { t } = useTranslation('app')
   const google = useGoogleIntegration(user)
   const gscProperty = activeProject?.gscProperty || null
   const ga4Property = activeProject?.ga4Property || null
@@ -181,9 +183,9 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
           <SharedSetupRequired
             setActiveView={setActiveView}
             checks={[
-              { label: `Google account — not connected`, ok: false },
-              { label: `Search Console property ${gscProperty ? '— connected' : '— not selected'}`, ok: !!gscProperty },
-              { label: `GA4 property ${ga4Property ? '— connected' : '— not selected'}`, ok: !!ga4Property },
+              { label: t('impact.googleNotConnected'), ok: false },
+              { label: gscProperty ? t('impact.gscConnected') : t('impact.gscNotSelected'), ok: !!gscProperty },
+              { label: ga4Property ? t('impact.ga4Connected') : t('impact.ga4NotSelected'), ok: !!ga4Property },
             ]}
           />
         )}
@@ -198,9 +200,9 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
         <SharedSetupRequired
           setActiveView={setActiveView}
           checks={[
-            { label: `Google account — connected`, ok: true },
-            { label: `Search Console property ${gscProperty ? '— connected' : '— not selected'}`, ok: !!gscProperty },
-            { label: `GA4 property ${ga4Property ? '— connected' : '— not selected'}`, ok: !!ga4Property },
+            { label: t('impact.googleConnected'), ok: true },
+            { label: gscProperty ? t('impact.gscConnected') : t('impact.gscNotSelected'), ok: !!gscProperty },
+            { label: ga4Property ? t('impact.ga4Connected') : t('impact.ga4NotSelected'), ok: !!ga4Property },
           ]}
         />
       </div>
@@ -311,7 +313,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
               </button>
             ))}
           </div>
-          <button className="icon-btn" onClick={handleRefresh} title="Refresh" disabled={loading}>
+          <button className="icon-btn" onClick={handleRefresh} title={t('common:actions.refresh')} disabled={loading}>
             {loading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={14} />}
           </button>
         </div>
@@ -331,7 +333,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
       {loading && !queryData && !aiTraffic && (
         <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
           <Loader2 size={24} style={{ color: 'var(--color-phase-1)', animation: 'spin 1s linear infinite', margin: '0 auto 0.75rem' }} />
-          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading cross-reference data...</p>
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>{t('impact.loading')}</p>
         </div>
       )}
 
@@ -340,22 +342,22 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
           {/* AEO Impact Score + Component Scores */}
           <div className="card" style={{ padding: '1.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexWrap: 'wrap', gap: '1.5rem' }}>
-              <AeoScoreGauge score={impact.totalScore} label="AEO Impact Score" />
+              <AeoScoreGauge score={impact.totalScore} label={t('impact.aeoImpactScore')} />
 
               <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-                <ScoreComponent label="AEO Query Ratio" score={impact.queryScore} weight="40%" detail={`${queryData.aeoQueryCount} of ${queryData.totalQueryCount} queries`} />
-                <ScoreComponent label="AEO Click Share" score={impact.clickShareScore} weight="30%" detail={fmtPct(queryData.aeoClickShare)} />
-                <ScoreComponent label="AI Traffic Share" score={impact.aiShareScore} weight="30%" detail={fmtPct(aiTraffic.aiSessionShare)} />
+                <ScoreComponent label={t('impact.aeoQueryRatio')} score={impact.queryScore} weight="40%" detail={t('impact.ofQueries', { aeo: queryData.aeoQueryCount, total: queryData.totalQueryCount })} />
+                <ScoreComponent label={t('impact.aeoClickShare')} score={impact.clickShareScore} weight="30%" detail={fmtPct(queryData.aeoClickShare)} />
+                <ScoreComponent label={t('impact.aiTrafficShare')} score={impact.aiShareScore} weight="30%" detail={fmtPct(aiTraffic.aiSessionShare)} />
               </div>
             </div>
           </div>
 
           {/* Summary Stats */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: '0.75rem' }}>
-            <StatCard icon={Search} label="AEO Queries" value={fmt(queryData.aeoQueryCount)} subValue={`of ${fmt(queryData.totalQueryCount)} total`} color="var(--color-phase-5)" />
-            <StatCard icon={Zap} label="AI Sessions" value={fmt(aiTraffic.totalAiSessions)} subValue={fmtPct(aiTraffic.aiSessionShare)} color="var(--color-phase-1)" />
-            <StatCard icon={Target} label="Cross-Referenced Pages" value={crossReferencedPages.length} subValue="appear in both GSC + GA4" color="var(--color-phase-7)" />
-            <StatCard icon={TrendingUp} label="AI Click Share" value={fmtPct(queryData.aeoClickShare)} subValue="of total GSC clicks" color="var(--color-success)" />
+            <StatCard icon={Search} label={t('impact.aeoQueries')} value={fmt(queryData.aeoQueryCount)} subValue={t('impact.ofTotal', { value: fmt(queryData.totalQueryCount) })} color="var(--color-phase-5)" />
+            <StatCard icon={Zap} label={t('impact.aiSessions')} value={fmt(aiTraffic.totalAiSessions)} subValue={fmtPct(aiTraffic.aiSessionShare)} color="var(--color-phase-1)" />
+            <StatCard icon={Target} label={t('impact.crossReferencedPages')} value={crossReferencedPages.length} subValue={t('impact.crossReferencedSub')} color="var(--color-phase-7)" />
+            <StatCard icon={TrendingUp} label={t('impact.aiClickShare')} value={fmtPct(queryData.aeoClickShare)} subValue={t('impact.ofTotalGscClicks')} color="var(--color-success)" />
           </div>
 
           {/* Cross-Referenced Pages Table */}
@@ -369,7 +371,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
                 fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)',
               }}>
-                Cross-Referenced Pages — GSC Rankings + AI Traffic
+                {t('impact.crossRefTitle')}
               </span>
             </div>
 
@@ -384,7 +386,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
                   borderBottom: '1px solid var(--border-subtle)',
                   background: 'var(--hover-bg)',
                 }}>
-                  {['Page', 'GSC Clicks', 'Position', 'CTR', 'AI Sessions', 'AI Users'].map(h => (
+                  {[t('impact.colPage'), t('impact.colGscClicks'), t('impact.colPosition'), t('impact.colCtr'), t('impact.colAiSessions'), t('impact.colAiUsers')].map(h => (
                     <span key={h} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04rem', color: 'var(--text-disabled)' }}>
                       {h}
                     </span>
@@ -431,8 +433,8 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
             ) : (
               <EmptyState
                 icon={Sparkles}
-                title="No cross-referenced pages yet"
-                description="No pages currently rank in GSC AEO queries AND receive AI traffic. Keep optimizing — this intersection is where AEO magic happens."
+                title={t('impact.noCrossRefTitle')}
+                description={t('impact.noCrossRefDesc')}
                 color="var(--color-phase-7)"
                 compact
               />
@@ -456,13 +458,14 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
 
 /* ── View Header (reusable) ── */
 function ViewHeader() {
+  const { t } = useTranslation('app')
   return (
     <div>
       <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-        AEO Impact
+        {t('impact.title')}
       </h2>
       <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-        Cross-reference Search Console + GA4 data to measure your AEO performance
+        {t('impact.subtitle')}
       </p>
     </div>
   )
@@ -470,6 +473,7 @@ function ViewHeader() {
 
 /* ── Score Component ── */
 function ScoreComponent({ label, score, weight, detail }) {
+  const { t } = useTranslation('app')
   const color = score >= 70 ? 'var(--color-success)' : score >= 40 ? 'var(--color-warning)' : 'var(--color-error)'
   return (
     <div style={{ textAlign: 'center', minWidth: '7rem' }}>
@@ -480,7 +484,7 @@ function ScoreComponent({ label, score, weight, detail }) {
         {label}
       </div>
       <div style={{ fontSize: '0.5625rem', color: 'var(--text-disabled)', marginTop: '0.125rem' }}>
-        Weight: {weight}
+        {t('impact.weight', { value: weight })}
       </div>
       {detail && (
         <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>

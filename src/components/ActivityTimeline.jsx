@@ -1,51 +1,87 @@
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   CheckCircle2, XCircle, StickyNote, Zap, Download,
   UserPlus, UserMinus, Clock, MessageSquare, Shield,
   FileText, Code, Activity, Filter
 } from 'lucide-react'
 
-const TYPE_CONFIG = {
-  check: { icon: CheckCircle2, color: 'var(--color-success)', label: 'Completed' },
-  uncheck: { icon: XCircle, color: 'var(--text-disabled)', label: 'Unchecked' },
-  note: { icon: StickyNote, color: 'var(--color-phase-3)', label: 'Added note to' },
-  analyze: { icon: Zap, color: 'var(--color-phase-1)', label: 'Analyzed' },
-  export: { icon: Download, color: 'var(--color-phase-2)', label: 'Exported report' },
-  competitor_add: { icon: UserPlus, color: 'var(--color-phase-4)', label: 'Added competitor' },
-  competitor_remove: { icon: UserMinus, color: 'var(--color-error)', label: 'Removed competitor' },
-  create_project: { icon: CheckCircle2, color: 'var(--color-phase-5)', label: 'Created project' },
-  task_assign: { icon: UserPlus, color: 'var(--color-phase-2)', label: 'Assigned' },
-  task_unassign: { icon: UserMinus, color: 'var(--text-disabled)', label: 'Unassigned' },
-  comment: { icon: MessageSquare, color: 'var(--color-phase-4)', label: 'Commented on' },
-  member_add: { icon: UserPlus, color: 'var(--color-success)', label: 'Added member' },
-  member_remove: { icon: UserMinus, color: 'var(--color-error)', label: 'Removed member' },
-  role_change: { icon: Shield, color: 'var(--color-phase-5)', label: 'Changed role' },
-  monitor: { icon: Activity, color: 'var(--color-phase-1)', label: 'Ran monitoring' },
-  contentWrite: { icon: FileText, color: 'var(--color-phase-3)', label: 'Generated content' },
-  schemaGenerate: { icon: Code, color: 'var(--color-phase-4)', label: 'Generated schema' },
-  generateFix: { icon: Zap, color: 'var(--color-phase-2)', label: 'Generated fix' },
+const TYPE_ICONS = {
+  check: CheckCircle2,
+  uncheck: XCircle,
+  note: StickyNote,
+  analyze: Zap,
+  export: Download,
+  competitor_add: UserPlus,
+  competitor_remove: UserMinus,
+  create_project: CheckCircle2,
+  task_assign: UserPlus,
+  task_unassign: UserMinus,
+  comment: MessageSquare,
+  member_add: UserPlus,
+  member_remove: UserMinus,
+  role_change: Shield,
+  monitor: Activity,
+  contentWrite: FileText,
+  schemaGenerate: Code,
+  generateFix: Zap,
 }
 
-const FILTER_GROUPS = {
-  all: { label: 'All' },
-  tasks: { label: 'Tasks', types: ['check', 'uncheck', 'note', 'task_assign', 'task_unassign', 'comment'] },
-  team: { label: 'Team', types: ['member_add', 'member_remove', 'role_change'] },
-  tools: { label: 'Tools', types: ['analyze', 'export', 'monitor', 'contentWrite', 'schemaGenerate', 'generateFix', 'competitor_add', 'competitor_remove'] },
+const TYPE_COLORS = {
+  check: 'var(--color-success)',
+  uncheck: 'var(--text-disabled)',
+  note: 'var(--color-phase-3)',
+  analyze: 'var(--color-phase-1)',
+  export: 'var(--color-phase-2)',
+  competitor_add: 'var(--color-phase-4)',
+  competitor_remove: 'var(--color-error)',
+  create_project: 'var(--color-phase-5)',
+  task_assign: 'var(--color-phase-2)',
+  task_unassign: 'var(--text-disabled)',
+  comment: 'var(--color-phase-4)',
+  member_add: 'var(--color-success)',
+  member_remove: 'var(--color-error)',
+  role_change: 'var(--color-phase-5)',
+  monitor: 'var(--color-phase-1)',
+  contentWrite: 'var(--color-phase-3)',
+  schemaGenerate: 'var(--color-phase-4)',
+  generateFix: 'var(--color-phase-2)',
 }
 
-function getDateLabel(dateStr) {
+const TYPE_I18N_KEYS = {
+  check: 'activity.typeCompleted',
+  uncheck: 'activity.typeUnchecked',
+  note: 'activity.typeAddedNote',
+  analyze: 'activity.typeAnalyzed',
+  export: 'activity.typeExported',
+  competitor_add: 'activity.typeCompetitorAdd',
+  competitor_remove: 'activity.typeCompetitorRemove',
+  create_project: 'activity.typeCreatedProject',
+  task_assign: 'activity.typeAssigned',
+  task_unassign: 'activity.typeUnassigned',
+  comment: 'activity.typeCommented',
+  member_add: 'activity.typeMemberAdd',
+  member_remove: 'activity.typeMemberRemove',
+  role_change: 'activity.typeRoleChange',
+  monitor: 'activity.typeMonitor',
+  contentWrite: 'activity.typeContentWrite',
+  schemaGenerate: 'activity.typeSchemaGenerate',
+  generateFix: 'activity.typeGenerateFix',
+}
+
+function getDateLabel(dateStr, t) {
   const date = new Date(dateStr)
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const entryDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
   const diffDays = Math.floor((today - entryDate) / (1000 * 60 * 60 * 24))
 
-  if (diffDays === 0) return 'Today'
-  if (diffDays === 1) return 'Yesterday'
+  if (diffDays === 0) return t('time.today')
+  if (diffDays === 1) return t('time.yesterday')
   return date.toLocaleDateString('en', { month: 'short', day: 'numeric' })
 }
 
-function getRelativeTime(dateStr) {
+function getRelativeTime(dateStr, t) {
   const date = new Date(dateStr)
   const now = new Date()
   const diffMs = now - date
@@ -53,66 +89,66 @@ function getRelativeTime(dateStr) {
   const diffHours = Math.floor(diffMs / 3600000)
   const diffDays = Math.floor(diffMs / 86400000)
 
-  if (diffMins < 1) return 'Just now'
-  if (diffMins < 60) return `${diffMins}m ago`
-  if (diffHours < 24) return `${diffHours}h ago`
-  if (diffDays < 7) return `${diffDays}d ago`
+  if (diffMins < 1) return t('time.justNow')
+  if (diffMins < 60) return t('time.minutesAgo', { count: diffMins })
+  if (diffHours < 24) return t('time.hoursAgo', { count: diffHours })
+  if (diffDays < 7) return t('time.daysAgo', { count: diffDays })
   return new Date(dateStr).toLocaleDateString('en', { month: 'short', day: 'numeric' })
 }
 
-function getAuthorLabel(activity, currentUserUid) {
+function getAuthorLabel(activity, currentUserUid, t) {
   if (!activity.authorUid && !activity.authorName) return null
-  if (activity.authorUid === currentUserUid) return 'You'
-  return activity.authorName || 'Someone'
+  if (activity.authorUid === currentUserUid) return t('activity.you')
+  return activity.authorName || t('activity.someone')
 }
 
-function getDescription(activity, currentUserUid) {
-  const config = TYPE_CONFIG[activity.type] || { label: activity.type }
-  const author = getAuthorLabel(activity, currentUserUid)
+function getDescription(activity, currentUserUid, t) {
+  const label = t(TYPE_I18N_KEYS[activity.type] || `activity.type${activity.type}`, { defaultValue: activity.type })
+  const author = getAuthorLabel(activity, currentUserUid, t)
   const prefix = author ? `${author} — ` : ''
 
   switch (activity.type) {
     case 'check':
     case 'uncheck':
-      return `${prefix}${config.label}: ${activity.taskText || 'task'}`
+      return `${prefix}${label}: ${activity.taskText || 'task'}`
     case 'note':
-      return `${prefix}${config.label}: ${activity.taskText || 'task'}`
+      return `${prefix}${label}: ${activity.taskText || 'task'}`
     case 'analyze':
       return activity.score !== undefined
-        ? `${prefix}${config.label} ${activity.url || 'site'} — Score: ${activity.score}`
-        : `${prefix}${config.label} ${activity.url || 'site'}`
+        ? `${prefix}${label} ${activity.url || 'site'} — Score: ${activity.score}`
+        : `${prefix}${label} ${activity.url || 'site'}`
     case 'export':
-      return `${prefix}${config.label}`
+      return `${prefix}${label}`
     case 'competitor_add':
-      return `${prefix}${config.label}: ${activity.url || 'competitor'}`
+      return `${prefix}${label}: ${activity.url || 'competitor'}`
     case 'competitor_remove':
-      return `${prefix}${config.label}: ${activity.url || 'competitor'}`
+      return `${prefix}${label}: ${activity.url || 'competitor'}`
     case 'create_project':
-      return `${prefix}${config.label}`
+      return `${prefix}${label}`
     case 'task_assign':
-      return `${prefix}${config.label} "${activity.taskText || 'task'}" to ${activity.assigneeName || 'member'}`
+      return `${prefix}${label} "${activity.taskText || 'task'}" to ${activity.assigneeName || 'member'}`
     case 'task_unassign':
-      return `${prefix}${config.label} ${activity.assigneeName || 'member'} from "${activity.taskText || 'task'}"`
+      return `${prefix}${label} ${activity.assigneeName || 'member'} from "${activity.taskText || 'task'}"`
     case 'comment':
-      return `${prefix}${config.label} "${activity.taskText || 'task'}"`
+      return `${prefix}${label} "${activity.taskText || 'task'}"`
     case 'member_add':
-      return `${prefix}${config.label}: ${activity.memberName || 'member'}`
+      return `${prefix}${label}: ${activity.memberName || 'member'}`
     case 'member_remove':
-      return `${prefix}${config.label}: ${activity.memberName || 'member'}`
+      return `${prefix}${label}: ${activity.memberName || 'member'}`
     case 'role_change':
-      return `${prefix}${config.label} for ${activity.memberName || 'member'} to ${activity.newRole || 'role'}`
+      return `${prefix}${label} for ${activity.memberName || 'member'} to ${activity.newRole || 'role'}`
     case 'monitor':
       return activity.score !== undefined
-        ? `${prefix}${config.label} — Score: ${activity.score}`
-        : `${prefix}${config.label}`
+        ? `${prefix}${label} — Score: ${activity.score}`
+        : `${prefix}${label}`
     case 'contentWrite':
-      return `${prefix}${config.label}: ${activity.topic || 'content'}`
+      return `${prefix}${label}: ${activity.topic || 'content'}`
     case 'schemaGenerate':
-      return `${prefix}${config.label}: ${activity.topic || 'schema'}`
+      return `${prefix}${label}: ${activity.topic || 'schema'}`
     case 'generateFix':
-      return `${prefix}${config.label} for ${activity.itemName || 'item'}`
+      return `${prefix}${label} for ${activity.itemName || 'item'}`
     default:
-      return `${prefix}${config.label}`
+      return `${prefix}${label}`
   }
 }
 
@@ -130,9 +166,17 @@ function getAvatarColor(uid) {
 }
 
 export default function ActivityTimeline({ activities = [], maxVisible = 10, currentUserUid }) {
+  const { t } = useTranslation()
   const [visibleCount, setVisibleCount] = useState(maxVisible)
   const [filterGroup, setFilterGroup] = useState('all')
   const [filterUser, setFilterUser] = useState('all')
+
+  const FILTER_GROUPS = useMemo(() => ({
+    all: { label: t('activity.filterAll') },
+    tasks: { label: t('activity.filterTasks'), types: ['check', 'uncheck', 'note', 'task_assign', 'task_unassign', 'comment'] },
+    team: { label: t('activity.filterTeam'), types: ['member_add', 'member_remove', 'role_change'] },
+    tools: { label: t('activity.filterTools'), types: ['analyze', 'export', 'monitor', 'contentWrite', 'schemaGenerate', 'generateFix', 'competitor_add', 'competitor_remove'] },
+  }), [t])
 
   // Collect unique authors for user filter
   const authors = useMemo(() => {
@@ -156,7 +200,7 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
       list = list.filter(a => a.authorUid === filterUser)
     }
     return list
-  }, [activities, filterGroup, filterUser])
+  }, [activities, filterGroup, filterUser, FILTER_GROUPS])
 
   const visibleActivities = filteredActivities.slice(0, visibleCount)
   const hasMore = filteredActivities.length > visibleCount
@@ -168,7 +212,7 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
     let currentLabel = null
 
     visibleActivities.forEach(activity => {
-      const label = getDateLabel(activity.timestamp)
+      const label = getDateLabel(activity.timestamp, t)
       if (label !== currentLabel) {
         currentLabel = label
         groups.push({ label, items: [] })
@@ -177,14 +221,14 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
     })
 
     return groups
-  }, [visibleActivities])
+  }, [visibleActivities, t])
 
   if (activities.length === 0) {
     return (
       <div className="activity-empty">
         <Clock size={20} style={{ color: 'var(--text-disabled)', marginBottom: '0.5rem' }} />
-        <p>No activity yet</p>
-        <p className="activity-empty-sub">Start checking off tasks to see your progress here.</p>
+        <p>{t('activity.noActivity')}</p>
+        <p className="activity-empty-sub">{t('activity.startChecking')}</p>
       </div>
     )
   }
@@ -210,10 +254,10 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
               value={filterUser}
               onChange={e => { setFilterUser(e.target.value); setVisibleCount(maxVisible) }}
             >
-              <option value="all">All members</option>
+              <option value="all">{t('activity.allMembers')}</option>
               {authors.map(([uid, name]) => (
                 <option key={uid} value={uid}>
-                  {uid === currentUserUid ? 'You' : name}
+                  {uid === currentUserUid ? t('activity.you') : name}
                 </option>
               ))}
             </select>
@@ -224,7 +268,7 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
       {filteredActivities.length === 0 ? (
         <div className="activity-empty" style={{ padding: '1rem 0' }}>
           <Filter size={16} style={{ color: 'var(--text-disabled)', marginBottom: '0.375rem' }} />
-          <p>No matching activity</p>
+          <p>{t('activity.noMatchingActivity')}</p>
         </div>
       ) : (
         <>
@@ -232,8 +276,8 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
             <div key={`${group.label}-${gi}`} className="activity-date-group">
               <div className="activity-date-label">{group.label}</div>
               {group.items.map(activity => {
-                const config = TYPE_CONFIG[activity.type] || { icon: Clock, color: 'var(--text-disabled)' }
-                const Icon = config.icon
+                const color = TYPE_COLORS[activity.type] || 'var(--text-disabled)'
+                const Icon = TYPE_ICONS[activity.type] || Clock
                 const hasAuthor = activity.authorUid || activity.authorName
                 return (
                   <div key={activity.id} className="activity-item">
@@ -248,7 +292,7 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
                     ) : (
                       <div
                         className="activity-dot"
-                        style={{ background: config.color + '18', color: config.color }}
+                        style={{ background: color + '18', color }}
                       >
                         <Icon size={12} />
                       </div>
@@ -256,13 +300,13 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
                     <div className="activity-content">
                       <div className="activity-text">
                         {hasAuthor && (
-                          <span className="activity-type-badge" style={{ background: config.color + '18', color: config.color }}>
+                          <span className="activity-type-badge" style={{ background: color + '18', color }}>
                             <Icon size={9} />
                           </span>
                         )}
-                        {getDescription(activity, currentUserUid)}
+                        {getDescription(activity, currentUserUid, t)}
                       </div>
-                      <div className="activity-time">{getRelativeTime(activity.timestamp)}</div>
+                      <div className="activity-time">{getRelativeTime(activity.timestamp, t)}</div>
                     </div>
                   </div>
                 )
@@ -275,7 +319,7 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
               className="activity-show-more"
               onClick={() => setVisibleCount(prev => prev + 10)}
             >
-              Show more ({filteredActivities.length - visibleCount} remaining)
+              {t('actions.showMore', { count: filteredActivities.length - visibleCount })}
             </button>
           )}
         </>

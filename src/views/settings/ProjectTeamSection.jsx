@@ -3,6 +3,7 @@
  * Moved from standalone TeamView into Settings.
  */
 import { useState, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Users2, UserPlus, Shield, ShieldCheck, Eye, Crown,
   Mail, Trash2, Copy, Check, AlertCircle, Loader2, X,
@@ -45,6 +46,7 @@ const fieldLabelStyle = {
 }
 
 function InviteModal({ onClose, onInvite, loading }) {
+  const { t } = useTranslation('app')
   const [email, setEmail] = useState('')
   const [role, setRole] = useState(ROLES.editor)
 
@@ -81,7 +83,7 @@ function InviteModal({ onClose, onInvite, loading }) {
             fontWeight: 700,
             color: 'var(--text-primary)',
           }}>
-            Invite Team Member
+            {t('team.inviteTeamMember')}
           </h3>
           <button className="icon-btn" onClick={onClose} aria-label="Close">
             <X size={16} />
@@ -90,7 +92,7 @@ function InviteModal({ onClose, onInvite, loading }) {
 
         <form onSubmit={handleSubmit} style={{ padding: '1.25rem' }}>
           <div style={{ marginBottom: '1rem' }}>
-            <label style={fieldLabelStyle}>Email address</label>
+            <label style={fieldLabelStyle}>{t('team.emailAddress')}</label>
             <div style={{ position: 'relative' }}>
               <Mail size={15} style={{
                 position: 'absolute',
@@ -114,7 +116,7 @@ function InviteModal({ onClose, onInvite, loading }) {
           </div>
 
           <div style={{ marginBottom: '1.25rem' }}>
-            <label style={fieldLabelStyle}>Role</label>
+            <label style={fieldLabelStyle}>{t('team.role')}</label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {Object.values(ROLES).filter(r => r !== ROLES.admin).map((r) => (
                 <label
@@ -163,11 +165,11 @@ function InviteModal({ onClose, onInvite, loading }) {
 
           <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
             <button type="button" className="btn-secondary" onClick={onClose}>
-              Cancel
+              {t('team.cancel')}
             </button>
             <button type="submit" className="btn-primary" disabled={loading || !email.trim()}>
               {loading ? <Loader2 size={14} className="animate-spin" /> : <UserPlus size={14} />}
-              Send Invite
+              {t('team.sendInvite')}
             </button>
           </div>
         </form>
@@ -177,7 +179,7 @@ function InviteModal({ onClose, onInvite, loading }) {
 }
 
 /* ── Role Badge ── */
-function RoleBadge({ role, isOwner }) {
+function RoleBadge({ role, isOwner, t }) {
   const config = {
     admin: { bg: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)', icon: ShieldCheck },
     editor: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6', icon: Shield },
@@ -200,7 +202,7 @@ function RoleBadge({ role, isOwner }) {
       whiteSpace: 'nowrap',
     }}>
       {isOwner ? <Crown size={11} /> : <Icon size={11} />}
-      {isOwner ? 'Owner' : ROLE_LABELS[role]}
+      {isOwner ? (t ? t('team.owner') : 'Owner') : ROLE_LABELS[role]}
     </span>
   )
 }
@@ -219,6 +221,7 @@ const thStyle = {
 
 /* ── Main Section ── */
 export default function ProjectTeamSection({ activeProject, updateProject, user, permission }) {
+  const { t } = useTranslation('app')
   const [inviteOpen, setInviteOpen] = useState(false)
   const [inviteLoading, setInviteLoading] = useState(false)
   const [inviteError, setInviteError] = useState(null)
@@ -237,11 +240,11 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
     setInviteSuccess(null)
 
     if (members.some(m => m.email === email)) {
-      setInviteError('This person is already a team member.')
+      setInviteError(t('team.alreadyMember'))
       return
     }
     if (invitations.some(i => i.email === email)) {
-      setInviteError('An invitation has already been sent to this email.')
+      setInviteError(t('team.alreadyInvited'))
       return
     }
 
@@ -259,11 +262,11 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
         invitations: [...invitations, newInvitation],
       })
       logAndDispatch('member_add', { memberName: email, memberRole: role }, user)
-      setInviteSuccess(`Invitation sent to ${email}`)
+      setInviteSuccess(t('team.inviteSent', { email }))
       setInviteOpen(false)
       setTimeout(() => setInviteSuccess(null), 4000)
     } catch {
-      setInviteError('Failed to send invitation. Please try again.')
+      setInviteError(t('team.inviteFailed'))
     } finally {
       setInviteLoading(false)
     }
@@ -318,7 +321,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
         <div style={{ ...sectionTitleStyle, justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Users2 size={15} />
-            Team
+            {t('team.title')}
             <span style={{
               fontSize: '0.6875rem',
               fontWeight: 500,
@@ -338,7 +341,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                 style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem' }}
               >
                 {copied ? <Check size={12} style={{ color: 'var(--color-success)' }} /> : <Copy size={12} />}
-                {copied ? 'Copied!' : 'Invite Link'}
+                {copied ? t('team.copied') : t('team.inviteLink')}
               </button>
               <button
                 className="btn-primary"
@@ -346,7 +349,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                 style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem' }}
               >
                 <UserPlus size={12} />
-                Invite
+                {t('team.invite')}
               </button>
             </div>
           )}
@@ -384,10 +387,10 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
             <thead>
               <tr>
-                <th scope="col" style={thStyle}>Member</th>
-                <th scope="col" style={thStyle}>Role</th>
-                <th scope="col" style={{ ...thStyle, width: '7.5rem' }}>Joined</th>
-                {canManage && <th scope="col" style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>Actions</th>}
+                <th scope="col" style={thStyle}>{t('team.memberColumn')}</th>
+                <th scope="col" style={thStyle}>{t('team.roleColumn')}</th>
+                <th scope="col" style={{ ...thStyle, width: '7.5rem' }}>{t('team.joinedColumn')}</th>
+                {canManage && <th scope="col" style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>{t('team.actionsColumn')}</th>}
               </tr>
             </thead>
             <tbody>
@@ -431,7 +434,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                             alignItems: 'center',
                             gap: '0.375rem',
                           }}>
-                            {member.displayName || 'Unknown'}
+                            {member.displayName || t('team.unknown')}
                             {isSelf && (
                               <span style={{
                                 fontSize: '0.625rem',
@@ -441,7 +444,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                                 color: 'var(--text-tertiary)',
                                 fontWeight: 500,
                               }}>
-                                you
+                                {t('team.you')}
                               </span>
                             )}
                           </div>
@@ -470,12 +473,12 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                             cursor: 'pointer',
                           }}
                         >
-                          <option value="admin">Admin</option>
-                          <option value="editor">Editor</option>
-                          <option value="viewer">Viewer</option>
+                          <option value="admin">{t('team.admin')}</option>
+                          <option value="editor">{t('team.editor')}</option>
+                          <option value="viewer">{t('team.viewer')}</option>
                         </select>
                       ) : (
-                        <RoleBadge role={member.role} isOwner={isOwner} />
+                        <RoleBadge role={member.role} isOwner={isOwner} t={t} />
                       )}
                     </td>
                     <td style={{
@@ -493,7 +496,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                               <button
                                 className="icon-btn"
                                 onClick={() => handleRemoveMember(member.uid)}
-                                title="Confirm remove"
+                                title={t('team.confirmRemove')}
                                 style={{ color: 'var(--color-error)' }}
                               >
                                 <Check size={14} />
@@ -501,7 +504,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                               <button
                                 className="icon-btn"
                                 onClick={() => setConfirmRemove(null)}
-                                title="Cancel"
+                                title={t('team.cancelAction')}
                               >
                                 <X size={14} />
                               </button>
@@ -510,7 +513,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                             <button
                               className="icon-btn"
                               onClick={() => setConfirmRemove(member.uid)}
-                              title="Remove member"
+                              title={t('team.removeMember')}
                             >
                               <Trash2 size={14} />
                             </button>
@@ -542,7 +545,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
               color: 'var(--text-tertiary)',
             }}>
               <Mail size={13} />
-              Pending Invitations
+              {t('team.pendingInvitations')}
               <span style={{
                 fontSize: '0.625rem',
                 fontWeight: 500,
@@ -559,11 +562,11 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                 <thead>
                   <tr>
-                    <th scope="col" style={thStyle}>Email</th>
-                    <th scope="col" style={thStyle}>Role</th>
-                    <th scope="col" style={thStyle}>Invited By</th>
-                    <th scope="col" style={{ ...thStyle, width: '7.5rem' }}>Date</th>
-                    {canManage && <th scope="col" style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>Actions</th>}
+                    <th scope="col" style={thStyle}>{t('team.emailColumn')}</th>
+                    <th scope="col" style={thStyle}>{t('team.roleColumn')}</th>
+                    <th scope="col" style={thStyle}>{t('team.invitedByColumn')}</th>
+                    <th scope="col" style={{ ...thStyle, width: '7.5rem' }}>{t('team.dateColumn')}</th>
+                    {canManage && <th scope="col" style={{ ...thStyle, width: '4rem', textAlign: 'center' }}>{t('team.actionsColumn')}</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -596,7 +599,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                         </div>
                       </td>
                       <td style={{ padding: '0.75rem 0.875rem' }}>
-                        <RoleBadge role={inv.role} />
+                        <RoleBadge role={inv.role} t={t} />
                       </td>
                       <td style={{
                         padding: '0.75rem 0.875rem',
@@ -616,7 +619,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                           <button
                             className="icon-btn"
                             onClick={() => handleCancelInvitation(inv.email)}
-                            title="Cancel invitation"
+                            title={t('team.cancelInvitation')}
                           >
                             <X size={14} />
                           </button>
@@ -643,7 +646,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
             color: 'var(--text-tertiary)',
           }}>
             <Shield size={13} />
-            Role Permissions
+            {t('team.rolePermissions')}
           </div>
 
           <div style={{ padding: '0.75rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -659,7 +662,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                   background: 'var(--hover-bg)',
                 }}
               >
-                <RoleBadge role={r} />
+                <RoleBadge role={r} t={t} />
                 <p style={{
                   fontSize: '0.6875rem',
                   color: 'var(--text-tertiary)',

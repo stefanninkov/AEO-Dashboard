@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Mail, Lock, User, Eye, EyeOff, AlertCircle, Loader2, ArrowRight, Zap, Building2, CheckCircle2 } from 'lucide-react'
 
 /* Pre-seed a default dev account on first load */
@@ -18,6 +19,7 @@ function seedDevAccount() {
 seedDevAccount()
 
 export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetPassword, error, clearError }) {
+  const { t } = useTranslation()
   const [mode, setMode] = useState('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -36,8 +38,8 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
   const activeError = error || localError
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 50)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setMounted(true), 50)
+    return () => clearTimeout(timer)
   }, [])
 
   const handleSubmit = async (e) => {
@@ -46,21 +48,21 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
     clearError?.()
 
     if (!email.trim() || !password.trim()) {
-      setLocalError('Please fill in all fields.')
+      setLocalError(t('auth.fillAllFields'))
       return
     }
 
     if (mode === 'signup') {
       if (password !== confirmPassword) {
-        setLocalError('Passwords do not match.')
+        setLocalError(t('auth.passwordsMismatch'))
         return
       }
       if (password.length < 6) {
-        setLocalError('Password must be at least 6 characters.')
+        setLocalError(t('auth.passwordMinLength'))
         return
       }
       if (!displayName.trim()) {
-        setLocalError('Please enter your name.')
+        setLocalError(t('auth.enterName'))
         return
       }
     }
@@ -105,7 +107,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
   const handleForgotPassword = async (e) => {
     e.preventDefault()
     if (!resetEmail.trim()) {
-      setLocalError('Please enter your email address.')
+      setLocalError(t('auth.enterEmail'))
       return
     }
     setLocalError(null)
@@ -144,11 +146,11 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                 <Zap size={20} className="text-phase-1" />
               </div>
               <h1 className="text-xl font-semibold text-text-primary font-heading tracking-tight">
-                AEO Dashboard
+                {t('sidebar.appName')}
               </h1>
             </div>
             <p className="text-sm mt-1 ml-[3.25rem] text-text-tertiary">
-              Answer Engine Optimization
+              {t('login.tagline')}
             </p>
           </div>
 
@@ -160,9 +162,9 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
 
             <div className="space-y-4">
               {[
-                { num: '01', text: 'Track citations across ChatGPT, Perplexity, Gemini & more' },
-                { num: '02', text: 'Real-time AEO metrics with exportable reports' },
-                { num: '03', text: '99-point checklist covering all optimization phases' },
+                { num: '01', text: t('login.feature1') },
+                { num: '02', text: t('login.feature2') },
+                { num: '03', text: t('login.feature3') },
               ].map((item) => (
                 <div key={item.num} className="flex items-start gap-4">
                   <span className="font-mono text-[0.6875rem] font-bold shrink-0 mt-0.5 text-phase-1 opacity-70">{item.num}</span>
@@ -173,7 +175,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           </div>
 
           <p className="text-[0.6875rem] text-text-disabled">
-            v2.0 — Built for AEO professionals
+            {t('login.version')}
           </p>
         </div>
       </div>
@@ -195,11 +197,11 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                 <Zap size={18} className="text-phase-1" />
               </div>
               <h1 className="font-heading text-xl font-semibold text-text-primary tracking-tight">
-                AEO Dashboard
+                {t('sidebar.appName')}
               </h1>
             </div>
             <p className="text-text-tertiary text-[0.8125rem]">
-              Answer Engine Optimization
+              {t('login.tagline')}
             </p>
           </div>
 
@@ -208,10 +210,10 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
             <div>
               <div className="mb-7">
                 <h2 className="font-heading text-[1.25rem] font-semibold tracking-tight text-text-primary">
-                  Reset your password
+                  {t('auth.resetYourPassword')}
                 </h2>
                 <p className="text-[0.8125rem] text-text-tertiary mt-1.5">
-                  Enter your email and we&apos;ll send you a reset link.
+                  {t('auth.resetDescription')}
                 </p>
               </div>
 
@@ -230,26 +232,26 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                   <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(16, 185, 129, 0.1)' }}>
                     <CheckCircle2 size={24} style={{ color: '#10B981' }} />
                   </div>
-                  <p className="text-[0.9375rem] font-medium text-text-primary mb-2">Check your email</p>
+                  <p className="text-[0.9375rem] font-medium text-text-primary mb-2">{t('auth.checkYourEmail')}</p>
                   <p className="text-[0.8125rem] text-text-tertiary mb-6">
-                    We sent a password reset link to <strong className="text-text-secondary">{resetEmail}</strong>
+                    {t('auth.resetSentTo')} <strong className="text-text-secondary">{resetEmail}</strong>
                   </p>
                   <button
                     onClick={() => { setForgotPassword(false); setResetSent(false); setLocalError(null); clearError?.() }}
                     className="text-phase-1 text-[0.8125rem] font-medium hover:underline transition-all"
                   >
-                    ← Back to sign in
+                    {t('auth.backToSignIn')}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleForgotPassword} className="space-y-3">
                   <div>
-                    <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Email address</label>
+                    <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">{t('auth.emailAddress')}</label>
                     <div className="relative">
                       <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                       <input
                         type="email"
-                        placeholder="you@example.com"
+                        placeholder={t('auth.placeholderEmail')}
                         value={resetEmail}
                         onChange={(e) => setResetEmail(e.target.value)}
                         className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
@@ -266,7 +268,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                     {resetLoading ? (
                       <Loader2 size={16} className="animate-spin" />
                     ) : (
-                      'Send Reset Link'
+                      t('actions.sendResetLink')
                     )}
                   </button>
                 </form>
@@ -278,7 +280,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                     onClick={() => { setForgotPassword(false); setLocalError(null); clearError?.() }}
                     className="text-phase-1 font-medium hover:underline transition-all"
                   >
-                    ← Back to sign in
+                    {t('auth.backToSignIn')}
                   </button>
                 </p>
               )}
@@ -288,12 +290,12 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           {/* Welcome text */}
           <div className="mb-7">
             <h2 className="font-heading text-[1.25rem] font-semibold tracking-tight text-text-primary">
-              {mode === 'signin' ? 'Welcome back' : 'Create your account'}
+              {mode === 'signin' ? t('auth.welcomeBack') : t('auth.createYourAccount')}
             </h2>
             <p className="text-[0.8125rem] text-text-tertiary mt-1.5">
               {mode === 'signin'
-                ? 'Sign in to your account to continue.'
-                : 'Get started with AEO Dashboard today.'}
+                ? t('auth.signInContinue')
+                : t('auth.getStarted')}
             </p>
           </div>
 
@@ -310,13 +312,13 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
               <path d="M3.964 10.707A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/>
               <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.462.891 11.426 0 9 0A8.997 8.997 0 00.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
             </svg>
-            Continue with Google
+            {t('auth.continueWithGoogle')}
           </button>
 
           {/* Divider */}
           <div className="flex items-center gap-4 my-6">
             <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
-            <span className="text-[0.6875rem] text-text-tertiary font-medium">or continue with email</span>
+            <span className="text-[0.6875rem] text-text-tertiary font-medium">{t('auth.orContinueWithEmail')}</span>
             <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
           </div>
 
@@ -335,12 +337,12 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           <form onSubmit={handleSubmit} className="space-y-3">
             {mode === 'signup' && (
               <div>
-                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Full name</label>
+                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">{t('auth.fullName')}</label>
                 <div className="relative">
                   <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                   <input
                     type="text"
-                    placeholder="John Doe"
+                    placeholder={t('auth.placeholderName')}
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
@@ -352,12 +354,12 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
             )}
 
             <div>
-              <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Email address</label>
+              <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">{t('auth.emailAddress')}</label>
               <div className="relative">
                 <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                 <input
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder={t('auth.placeholderEmail')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
@@ -369,14 +371,14 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-[0.6875rem] font-medium text-text-tertiary">Password</label>
+                <label className="text-[0.6875rem] font-medium text-text-tertiary">{t('auth.password')}</label>
                 {mode === 'signin' && onResetPassword && (
                   <button
                     type="button"
                     onClick={() => { setForgotPassword(true); setResetEmail(email); setResetSent(false); setLocalError(null); clearError?.() }}
                     className="text-[0.6875rem] text-text-disabled hover:text-phase-1 transition-colors"
                   >
-                    Forgot password?
+                    {t('auth.forgotPassword')}
                   </button>
                 )}
               </div>
@@ -384,7 +386,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                 <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder={t('auth.placeholderPassword')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-11 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
@@ -403,12 +405,12 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
 
             {mode === 'signup' && (
               <div>
-                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Confirm password</label>
+                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">{t('auth.confirmPassword')}</label>
                 <div className="relative">
                   <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                   <input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Confirm your password"
+                    placeholder={t('auth.placeholderConfirmPassword')}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
@@ -420,12 +422,12 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
 
             {mode === 'signup' && (
               <div>
-                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">Agency / Company <span className="text-text-disabled">(optional)</span></label>
+                <label className="text-[0.6875rem] font-medium text-text-tertiary mb-1.5 block">{t('auth.agencyCompany')} <span className="text-text-disabled">({t('auth.optional')})</span></label>
                 <div className="relative">
                   <Building2 size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-disabled pointer-events-none" />
                   <input
                     type="text"
-                    placeholder="Your agency or company name"
+                    placeholder={t('auth.placeholderAgency')}
                     value={agency}
                     onChange={(e) => setAgency(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
@@ -444,7 +446,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                 <Loader2 size={16} className="animate-spin" />
               ) : (
                 <>
-                  {mode === 'signin' ? 'Sign In' : 'Create Account'}
+                  {mode === 'signin' ? t('auth.signIn') : t('auth.createAccount')}
                   <ArrowRight size={15} />
                 </>
               )}
@@ -455,22 +457,22 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           <p className="text-center text-[0.8125rem] text-text-tertiary mt-6">
             {mode === 'signin' ? (
               <>
-                Don&apos;t have an account?{' '}
+                {t('auth.dontHaveAccount')}{' '}
                 <button
                   onClick={() => switchMode('signup')}
                   className="text-phase-1 font-medium hover:underline transition-all"
                 >
-                  Sign up
+                  {t('auth.signUp')}
                 </button>
               </>
             ) : (
               <>
-                Already have an account?{' '}
+                {t('auth.alreadyHaveAccount')}{' '}
                 <button
                   onClick={() => switchMode('signin')}
                   className="text-phase-1 font-medium hover:underline transition-all"
                 >
-                  Sign in
+                  {t('auth.signIn')}
                 </button>
               </>
             )}
@@ -478,7 +480,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
 
           {/* Footer */}
           <p className="text-center text-[0.6875rem] text-text-disabled mt-8">
-            By continuing, you agree to our terms of service.
+            {t('auth.termsNotice')}
           </p>
           </>
           )}

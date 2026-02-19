@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Search, BookOpen, ChevronRight, ChevronDown, LayoutDashboard,
   Users, Zap as ZapIcon, PenTool, CalendarDays, Code2, Activity,
@@ -337,6 +338,7 @@ export const FAQ_ITEMS = [
 
 /* ─── Component ───────────────────────────────────────────────── */
 export default function DocsView({ phases, setDocItem, setActiveView }) {
+  const { t } = useTranslation('app')
   const [activeTab, setActiveTab] = useState('guide')
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 200)
@@ -423,10 +425,10 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
       {/* Header */}
       <div>
         <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.3px] text-text-primary mb-1">
-          Documentation
+          {t('docs.title')}
         </h2>
         <p className="text-[0.8125rem] text-text-secondary">
-          Learn how every feature works, browse AEO reference material, and find answers to common questions.
+          {t('docs.subtitle')}
         </p>
       </div>
 
@@ -470,7 +472,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
           placeholder={
             activeTab === 'guide' ? 'Search features...' :
             activeTab === 'faq' ? 'Search questions...' :
-            'Search documentation...'
+            t('docs.searchPlaceholder')
           }
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
@@ -618,7 +620,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               className={`docs-filter-pill${!selectedPhase ? ' active' : ''}`}
               style={!selectedPhase ? { backgroundColor: 'var(--color-phase-1)' } : undefined}
             >
-              All Phases
+              {t('docs.allPhases')}
             </button>
             {phases.map(phase => (
               <button
@@ -677,7 +679,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <BookOpen size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">No documentation found</h3>
+              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('docs.noResults')}</h3>
               <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">Try adjusting your search or phase filter to find what you&apos;re looking for.</p>
             </div>
           )}

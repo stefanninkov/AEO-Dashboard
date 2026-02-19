@@ -2,6 +2,7 @@
  * ProjectIntegrationsSection — Monitoring, Client Portal, EmailJS, Email Digest.
  */
 import { useState, useCallback, useEffect } from 'react'
+import { useTranslation, Trans } from 'react-i18next'
 import {
   Activity, Share2, Mail, Link2, Copy, Check, Loader2, Save, Send, X,
 } from 'lucide-react'
@@ -15,6 +16,7 @@ import {
 } from './SettingsShared'
 
 export default function ProjectIntegrationsSection({ activeProject, updateProject, user }) {
+  const { t } = useTranslation('app')
   const { addToast } = useToast()
 
   // Monitoring
@@ -53,12 +55,12 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
 
   // Derived
   const lastMonitorRun = activeProject?.lastMonitorRun
-    ? new Date(activeProject.lastMonitorRun).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-    : 'Never'
+    ? new Date(activeProject.lastMonitorRun).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+    : t('integrations.never')
   const emailConfigExists = emailServiceId.trim() && emailTemplateId.trim() && emailPublicKey.trim()
   const lastDigestSent = activeProject?.settings?.lastDigestSent
-    ? new Date(activeProject.settings.lastDigestSent).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-    : 'Never'
+    ? new Date(activeProject.settings.lastDigestSent).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+    : t('integrations.never')
 
   // Helpers to update settings
   const updateSetting = useCallback((key, val) => {
@@ -129,48 +131,48 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
     <>
       {/* ── Monitoring ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
-        <div style={sectionTitleStyle}><Activity size={15} /> Monitoring</div>
+        <div style={sectionTitleStyle}><Activity size={15} /> {t('integrations.monitoring')}</div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Auto-monitoring</span>
+          <span style={labelStyle}>{t('integrations.autoMonitoring')}</span>
           <ToggleSwitch checked={monitoringEnabled} onChange={handleMonitoringToggle} label="Toggle auto-monitoring" />
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{monitoringEnabled ? 'Enabled' : 'Disabled'}</span>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{monitoringEnabled ? t('integrations.enabled') : t('integrations.disabled')}</span>
         </div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Check Interval</span>
+          <span style={labelStyle}>{t('integrations.checkInterval')}</span>
           <select style={smallSelectStyle} value={monitoringInterval} onChange={(e) => handleMonitoringInterval(e.target.value)} aria-label="Check interval">
-            <option value="1d">Every day</option>
-            <option value="3d">Every 3 days</option>
-            <option value="7d">Every 7 days</option>
-            <option value="14d">Every 14 days</option>
-            <option value="30d">Every 30 days</option>
+            <option value="1d">{t('integrations.everyDay')}</option>
+            <option value="3d">{t('integrations.every3Days')}</option>
+            <option value="7d">{t('integrations.every7Days')}</option>
+            <option value="14d">{t('integrations.every14Days')}</option>
+            <option value="30d">{t('integrations.every30Days')}</option>
           </select>
         </div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Alert Threshold</span>
+          <span style={labelStyle}>{t('integrations.alertThreshold')}</span>
           <input type="number" className="input-field" value={alertThreshold} onChange={(e) => handleAlertThreshold(e.target.value)} min={1} max={50} aria-label="Alert threshold percentage" style={{ width: '5rem' }} />
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>% change triggers alert</span>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('integrations.changeTriggers')}</span>
         </div>
 
         <div style={lastRowStyle}>
-          <span style={labelStyle}>Last Run</span>
+          <span style={labelStyle}>{t('integrations.lastRun')}</span>
           <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{lastMonitorRun}</span>
         </div>
       </div>
 
       {/* ── Client Portal ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
-        <div style={sectionTitleStyle}><Share2 size={15} /> Client Portal</div>
+        <div style={sectionTitleStyle}><Share2 size={15} /> {t('integrations.clientPortal')}</div>
         <div style={{ padding: '0 1.25rem 1rem' }}>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem', lineHeight: 1.6 }}>
-            Generate a read-only link to share project progress, metrics, and analysis with clients — no login required.
+            {t('integrations.clientPortalDesc')}
           </p>
 
           <button className="btn-primary" style={{ fontSize: '0.8125rem', padding: '0.5rem 1rem', marginBottom: shareLink ? '0.75rem' : 0 }} onClick={handleGenerateShareLink} disabled={generatingLink}>
             {generatingLink ? <Loader2 size={14} className="portal-spinner" style={{ animation: 'spin 1s linear infinite' }} /> : <Link2 size={14} />}
-            {generatingLink ? 'Generating\u2026' : 'Generate Share Link'}
+            {generatingLink ? t('integrations.generating') : t('integrations.generateShareLink')}
           </button>
 
           {shareLink && (
@@ -178,7 +180,7 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
               <input type="text" value={shareLink} readOnly style={{ flex: 1, background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '0.75rem', fontFamily: '"JetBrains Mono", monospace', outline: 'none' }} onClick={e => e.target.select()} />
               <button className="btn-secondary" style={{ padding: '0.375rem 0.625rem', fontSize: '0.6875rem', flexShrink: 0 }} onClick={handleCopyLink}>
                 {linkCopied ? <Check size={13} /> : <Copy size={13} />}
-                {linkCopied ? 'Copied!' : 'Copy'}
+                {linkCopied ? t('integrations.copied') : t('common:actions.copy')}
               </button>
             </div>
           )}
@@ -186,14 +188,14 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
           {existingShares.length > 0 && (
             <div style={{ marginTop: '0.75rem' }}>
               <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                Active Links ({existingShares.length})
+                {t('integrations.activeLinks', { count: existingShares.length })}
               </span>
               {existingShares.map(share => (
                 <div key={share.token} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0', fontSize: '0.75rem' }}>
                   <Link2 size={12} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
-                  <span style={{ color: 'var(--text-secondary)', flex: 1, fontFamily: '"JetBrains Mono", monospace', fontSize: '0.6875rem' }}>\u2026{share.token.slice(-8)}</span>
+                  <span style={{ color: 'var(--text-secondary)', flex: 1, fontFamily: '"JetBrains Mono", monospace', fontSize: '0.6875rem' }}>{'\u2026'}{share.token.slice(-8)}</span>
                   <span style={{ color: 'var(--text-tertiary)', fontSize: '0.6875rem' }}>{new Date(share.createdAt).toLocaleDateString()}</span>
-                  <button onClick={() => handleRevokeShare(share.token)} style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '0.25rem' }} title="Revoke link" aria-label="Revoke share link"><X size={13} /></button>
+                  <button onClick={() => handleRevokeShare(share.token)} style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '0.25rem' }} title={t('integrations.revokeLink')} aria-label={t('integrations.revokeLink')}><X size={13} /></button>
                 </div>
               ))}
             </div>
@@ -203,31 +205,30 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
 
       {/* ── EmailJS ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
-        <div style={sectionTitleStyle}><Mail size={15} /> Email Service (EmailJS)</div>
+        <div style={sectionTitleStyle}><Mail size={15} /> {t('integrations.emailService')}</div>
         <div style={{ padding: '0 1.25rem 0.5rem' }}>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
-            Configure EmailJS to send emails directly from the app — reports, digests, and notifications. Free at{' '}
-            <a href="https://emailjs.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-phase-1)', textDecoration: 'underline' }}>emailjs.com</a> (200 emails/month).
+            <Trans i18nKey="integrations.emailServiceDesc" t={t} components={{ link: <a href="https://emailjs.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-phase-1)', textDecoration: 'underline' }} /> }} />
           </p>
         </div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Service ID</span>
+          <span style={labelStyle}>{t('integrations.serviceId')}</span>
           <input className="input-field" value={emailServiceId} onChange={(e) => setEmailServiceId(e.target.value)} placeholder="service_xxxxxxx" aria-label="EmailJS Service ID" style={{ flex: 1 }} />
         </div>
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Template ID</span>
+          <span style={labelStyle}>{t('integrations.templateId')}</span>
           <input className="input-field" value={emailTemplateId} onChange={(e) => setEmailTemplateId(e.target.value)} placeholder="template_xxxxxxx" aria-label="EmailJS Template ID" style={{ flex: 1 }} />
         </div>
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Public Key</span>
+          <span style={labelStyle}>{t('integrations.publicKey')}</span>
           <input className="input-field" value={emailPublicKey} onChange={(e) => setEmailPublicKey(e.target.value)} placeholder="Your public key" aria-label="EmailJS Public Key" style={{ flex: 1 }} />
         </div>
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Status</span>
+          <span style={labelStyle}>{t('integrations.status')}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: emailConfigExists ? 'var(--color-success)' : 'var(--text-disabled)', flexShrink: 0 }} />
-            <span style={{ fontSize: '0.8125rem', color: emailConfigExists ? 'var(--color-success)' : 'var(--text-tertiary)' }}>{emailConfigExists ? 'Configured' : 'Not configured'}</span>
+            <span style={{ fontSize: '0.8125rem', color: emailConfigExists ? 'var(--color-success)' : 'var(--text-tertiary)' }}>{emailConfigExists ? t('integrations.configured') : t('integrations.notConfigured')}</span>
           </div>
         </div>
         <div style={lastRowStyle}>
@@ -235,11 +236,11 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveEmailConfig}>
               {emailConfigSaved ? <Check size={13} /> : <Save size={13} />}
-              {emailConfigSaved ? 'Saved' : 'Save'}
+              {emailConfigSaved ? t('integrations.saved') : t('common:actions.save')}
             </button>
             <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={handleTestEmail} disabled={testingSend || !emailConfigExists}>
               {testingSend ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> : <Send size={13} />}
-              {testingSend ? 'Sending\u2026' : 'Send Test'}
+              {testingSend ? t('integrations.sending') : t('integrations.sendTest')}
             </button>
           </div>
         </div>
@@ -247,48 +248,48 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
 
       {/* ── Email Digest ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
-        <div style={sectionTitleStyle}><Mail size={15} /> Email Digest</div>
+        <div style={sectionTitleStyle}><Mail size={15} /> {t('integrations.emailDigest')}</div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Auto-digest</span>
+          <span style={labelStyle}>{t('integrations.autoDigest')}</span>
           <ToggleSwitch checked={digestEnabled} onChange={handleDigestToggle} label="Toggle email digest" />
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{digestEnabled ? 'Enabled' : 'Disabled'}</span>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{digestEnabled ? t('integrations.enabled') : t('integrations.disabled')}</span>
         </div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Frequency</span>
+          <span style={labelStyle}>{t('integrations.frequency')}</span>
           <select style={smallSelectStyle} value={digestInterval} onChange={(e) => handleDigestInterval(e.target.value)} aria-label="Digest frequency">
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
+            <option value="daily">{t('integrations.daily')}</option>
+            <option value="weekly">{t('integrations.weekly')}</option>
+            <option value="monthly">{t('integrations.monthly')}</option>
           </select>
         </div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Recipient</span>
+          <span style={labelStyle}>{t('integrations.recipient')}</span>
           <input className="input-field" type="email" value={digestEmail} onChange={(e) => handleDigestEmail(e.target.value)} placeholder="you@example.com" aria-label="Digest recipient email" style={{ flex: 1 }} />
         </div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}>Include</span>
+          <span style={labelStyle}>{t('integrations.include')}</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
               <input type="checkbox" checked={digestIncludeMetrics} onChange={(e) => handleDigestIncludeMetrics(e.target.checked)} style={{ accentColor: 'var(--color-phase-1)' }} />
-              AEO Metrics &amp; Scores
+              {t('integrations.aeoMetricsScores')}
             </label>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
               <input type="checkbox" checked={digestIncludeAlerts} onChange={(e) => handleDigestIncludeAlerts(e.target.checked)} style={{ accentColor: 'var(--color-phase-1)' }} />
-              Score Change Alerts
+              {t('integrations.scoreChangeAlerts')}
             </label>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
               <input type="checkbox" checked={digestIncludeRecommendations} onChange={(e) => handleDigestIncludeRecommendations(e.target.checked)} style={{ accentColor: 'var(--color-phase-1)' }} />
-              Analysis &amp; Recommendations
+              {t('integrations.analysisRecommendations')}
             </label>
           </div>
         </div>
 
         <div style={lastRowStyle}>
-          <span style={labelStyle}>Last Sent</span>
+          <span style={labelStyle}>{t('integrations.lastSent')}</span>
           <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{lastDigestSent}</span>
         </div>
       </div>

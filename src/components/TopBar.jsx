@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
@@ -37,6 +38,7 @@ export default memo(function TopBar({
   onMarkAllRead,
   onClearNotifications,
 }) {
+  const { t } = useTranslation()
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [editName, setEditName] = useState('')
@@ -71,7 +73,7 @@ export default memo(function TopBar({
   }
 
   const handleDelete = (id, name) => {
-    if (window.confirm(`Delete project "${name}"? This cannot be undone.`)) {
+    if (window.confirm(t('topbar.deleteConfirm', { name }))) {
       deleteProject(id)
     }
   }
@@ -82,14 +84,14 @@ export default memo(function TopBar({
 
     // Navigation items
     const navItems = [
-      { label: 'Dashboard', view: 'dashboard', type: 'Navigation' },
-      { label: 'Competitors', view: 'competitors', type: 'Navigation' },
-      { label: 'AEO Guide', view: 'checklist', type: 'Navigation' },
-      { label: 'Analyzer', view: 'analyzer', type: 'Navigation' },
-      { label: 'Metrics', view: 'metrics', type: 'Navigation' },
-      { label: 'Documentation', view: 'docs', type: 'Navigation' },
-      { label: 'Testing', view: 'testing', type: 'Navigation' },
-      { label: 'Settings', view: 'settings', type: 'Navigation' },
+      { label: t('nav.dashboard'), view: 'dashboard', type: 'Navigation' },
+      { label: t('nav.competitors'), view: 'competitors', type: 'Navigation' },
+      { label: t('nav.checklist'), view: 'checklist', type: 'Navigation' },
+      { label: t('nav.analyzer'), view: 'analyzer', type: 'Navigation' },
+      { label: t('nav.metrics'), view: 'metrics', type: 'Navigation' },
+      { label: t('nav.docs'), view: 'docs', type: 'Navigation' },
+      { label: t('nav.testing'), view: 'testing', type: 'Navigation' },
+      { label: t('nav.settings'), view: 'settings', type: 'Navigation' },
     ]
     items.push(...navItems)
 
@@ -143,14 +145,14 @@ export default memo(function TopBar({
 
     // Quick actions
     items.push(
-      { label: 'Create New Project', type: 'Action', action: 'newProject' },
-      { label: 'Run Analyzer', type: 'Action', view: 'analyzer' },
-      { label: 'Run Metrics', type: 'Action', view: 'metrics' },
-      { label: 'Export Report', type: 'Action', action: 'export' },
+      { label: t('actions.createNewProject'), type: 'Action', action: 'newProject' },
+      { label: t('actions.runAnalyzer'), type: 'Action', view: 'analyzer' },
+      { label: t('actions.runMetrics'), type: 'Action', view: 'metrics' },
+      { label: t('actions.exportReport'), type: 'Action', action: 'export' },
     )
 
     return items
-  }, [phases, activeProject])
+  }, [phases, activeProject, t])
 
   // Filter results (debounced)
   const searchResults = useMemo(() => {
@@ -222,7 +224,7 @@ export default memo(function TopBar({
       {/* ── Row 1: Project switcher + Search + Actions ── */}
       <div className="top-bar-row-1">
         {/* Hamburger menu (visible on tablet/mobile) */}
-        <button className="hamburger-btn" onClick={onToggleSidebar} aria-label="Toggle sidebar">
+        <button className="hamburger-btn" onClick={onToggleSidebar} aria-label={t('topbar.toggleSidebar')}>
           <Menu size={18} />
         </button>
 
@@ -240,7 +242,7 @@ export default memo(function TopBar({
             }}
           >
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>
-              {activeProject?.name || 'No Project'}
+              {activeProject?.name || t('topbar.noProject')}
             </span>
             <ChevronDown size={12} style={{ flexShrink: 0, opacity: 0.5, transform: dropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }} />
           </button>
@@ -255,7 +257,7 @@ export default memo(function TopBar({
               }}
             >
               <div style={{ padding: '0.625rem 0.875rem', borderBottom: '1px solid var(--border-subtle)' }}>
-                <p style={{ fontSize: '0.625rem', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-disabled)' }}>Projects</p>
+                <p style={{ fontSize: '0.625rem', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-disabled)' }}>{t('topbar.projects')}</p>
               </div>
               <div style={{ maxHeight: '15rem', overflowY: 'auto' }}>
                 {projects.map(project => (
@@ -280,13 +282,13 @@ export default memo(function TopBar({
                           onKeyDown={e => e.key === 'Enter' && handleRename(project.id)}
                           className="input-field"
                           style={{ flex: 1, minWidth: 0, padding: '0.3125rem 0.625rem', fontSize: '0.8125rem' }}
-                          aria-label="Project name"
+                          aria-label={t('topbar.projectName')}
                           autoFocus
                         />
-                        <button onClick={() => handleRename(project.id)} className="icon-btn" style={{ color: 'var(--color-success)' }} aria-label="Confirm rename">
+                        <button onClick={() => handleRename(project.id)} className="icon-btn" style={{ color: 'var(--color-success)' }} aria-label={t('actions.confirmRename')}>
                           <Check size={14} />
                         </button>
-                        <button onClick={() => setEditingId(null)} className="icon-btn" aria-label="Cancel rename">
+                        <button onClick={() => setEditingId(null)} className="icon-btn" aria-label={t('actions.cancelRename')}>
                           <X size={14} />
                         </button>
                       </div>
@@ -303,16 +305,16 @@ export default memo(function TopBar({
                           <button
                             onClick={() => { setEditingId(project.id); setEditName(project.name) }}
                             className="icon-btn"
-                            title="Rename"
-                            aria-label="Rename project"
+                            title={t('actions.rename')}
+                            aria-label={t('actions.rename')}
                           >
                             <Pencil size={12} />
                           </button>
                           <button
                             onClick={() => handleDelete(project.id, project.name)}
                             className="icon-btn"
-                            title="Delete"
-                            aria-label="Delete project"
+                            title={t('actions.delete')}
+                            aria-label={t('actions.delete')}
                           >
                             <Trash2 size={12} />
                           </button>
@@ -341,12 +343,12 @@ export default memo(function TopBar({
             <input
               ref={searchInputRef}
               type="text"
-              placeholder="Search... (Ctrl+K)"
+              placeholder={t('topbar.searchPlaceholder')}
               value={searchQuery}
               onChange={e => { setSearchQuery(e.target.value); setSearchOpen(true); setActiveIndex(-1) }}
               onFocus={() => setSearchOpen(true)}
               onKeyDown={handleSearchKeyDown}
-              aria-label="Search"
+              aria-label={t('actions.search')}
               style={{
                 flex: 1, minWidth: 0, background: 'transparent', border: 'none', outline: 'none',
                 fontSize: '0.8125rem', color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
@@ -356,7 +358,7 @@ export default memo(function TopBar({
               <button
                 onClick={() => { setSearchQuery(''); setSearchOpen(false) }}
                 className="icon-btn"
-                aria-label="Clear search"
+                aria-label={t('topbar.clearSearch')}
               >
                 <X size={12} />
               </button>
@@ -393,13 +395,13 @@ export default memo(function TopBar({
                 ))
               ) : (
                 <div className="search-empty">
-                  No results for "{searchQuery}"
+                  {t('topbar.noResults', { query: searchQuery })}
                 </div>
               )}
             </div>
           )}
           <div className="sr-only" aria-live="polite">
-            {searchOpen && debouncedSearch.trim() ? `${searchResults.length} results found` : ''}
+            {searchOpen && debouncedSearch.trim() ? t('topbar.resultsFound', { count: searchResults.length }) : ''}
           </div>
         </div>
 
@@ -407,18 +409,18 @@ export default memo(function TopBar({
         <div className="top-bar-actions">
           <button onClick={onNewProject} className="btn-primary" style={{ padding: '0.4375rem 0.875rem', fontSize: '0.75rem' }}>
             <Plus size={13} />
-            <span className="hidden sm:inline">New Project</span>
+            <span className="hidden sm:inline">{t('actions.newProject')}</span>
           </button>
-          <button onClick={onRefresh} className="icon-btn" title="Refresh" aria-label="Refresh data">
+          <button onClick={onRefresh} className="icon-btn" title={t('actions.refresh')} aria-label={t('topbar.refreshData')}>
             <RefreshCw size={14} />
           </button>
-          <button onClick={onExport} className="icon-btn hidden sm:flex" title="Export PDF" aria-label="Export PDF report">
+          <button onClick={onExport} className="icon-btn hidden sm:flex" title={t('actions.exportPdf')} aria-label={t('actions.exportPdf')}>
             <Download size={14} />
           </button>
-          <button onClick={onCsvExport} className="icon-btn hidden sm:flex" title="Export CSV" aria-label="Export CSV data">
+          <button onClick={onCsvExport} className="icon-btn hidden sm:flex" title={t('actions.exportCsv')} aria-label={t('actions.exportCsv')}>
             <Table2 size={14} />
           </button>
-          <button onClick={onEmail} className="icon-btn" title="Email report" aria-label="Email report">
+          <button onClick={onEmail} className="icon-btn" title={t('actions.emailReport')} aria-label={t('actions.emailReport')}>
             <Mail size={14} />
           </button>
           <NotificationCenter
@@ -458,7 +460,7 @@ export default memo(function TopBar({
                 key={ps.id}
                 className="phase-badge"
                 style={isComplete ? { background: ps.color + '18', borderColor: ps.color + '30', color: ps.color } : {}}
-                title={`Phase ${ps.number}: ${phasePct}% (${ps.checked}/${ps.total})`}
+                title={t('topbar.phase', { number: ps.number, pct: phasePct, checked: ps.checked, total: ps.total })}
               >
                 P{ps.number} {phasePct}%
               </div>

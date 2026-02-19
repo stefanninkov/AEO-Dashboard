@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Bell, CheckCircle2, MessageSquare, UserPlus, UserMinus,
   Zap, X, CheckCheck, Trash2
@@ -22,17 +23,17 @@ const VIEW_MAP = {
   score_change: 'metrics',
 }
 
-function getRelativeTime(dateStr) {
+function getRelativeTime(dateStr, t) {
   const date = new Date(dateStr)
   const now = new Date()
   const diffMs = now - date
   const diffMins = Math.floor(diffMs / 60000)
   const diffHours = Math.floor(diffMs / 3600000)
   const diffDays = Math.floor(diffMs / 86400000)
-  if (diffMins < 1) return 'Just now'
-  if (diffMins < 60) return `${diffMins}m ago`
-  if (diffHours < 24) return `${diffHours}h ago`
-  if (diffDays < 7) return `${diffDays}d ago`
+  if (diffMins < 1) return t('time.justNow')
+  if (diffMins < 60) return t('time.minutesAgo', { count: diffMins })
+  if (diffHours < 24) return t('time.hoursAgo', { count: diffHours })
+  if (diffDays < 7) return t('time.daysAgo', { count: diffDays })
   return date.toLocaleDateString('en', { month: 'short', day: 'numeric' })
 }
 
@@ -44,6 +45,7 @@ export default function NotificationCenter({
   onClearAll,
   setActiveView,
 }) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const prevUnreadRef = useRef(unreadCount)
@@ -121,8 +123,8 @@ export default function NotificationCenter({
       <button
         onClick={() => setOpen(!open)}
         className="notif-bell"
-        title={unreadCount > 0 ? `${unreadCount} unread notifications` : 'Notifications'}
-        aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
+        title={unreadCount > 0 ? t('notifications.unreadCount', { count: unreadCount }) : t('notifications.title')}
+        aria-label={`${t('notifications.title')}${unreadCount > 0 ? ` (${unreadCount})` : ''}`}
       >
         <Bell size={16} />
         {unreadCount > 0 && (
@@ -134,14 +136,14 @@ export default function NotificationCenter({
       {open && (
         <div className="notif-panel">
           <div className="notif-panel-header">
-            <span className="notif-panel-title">Notifications</span>
+            <span className="notif-panel-title">{t('notifications.title')}</span>
             <div style={{ display: 'flex', gap: '0.25rem' }}>
               {unreadCount > 0 && (
                 <button
                   onClick={() => { onMarkAllRead(); }}
                   className="notif-action-btn"
-                  title="Mark all as read"
-                  aria-label="Mark all as read"
+                  title={t('notifications.markAllRead')}
+                  aria-label={t('notifications.markAllRead')}
                 >
                   <CheckCheck size={13} />
                 </button>
@@ -150,8 +152,8 @@ export default function NotificationCenter({
                 <button
                   onClick={() => { onClearAll(); setOpen(false) }}
                   className="notif-action-btn"
-                  title="Clear all"
-                  aria-label="Clear all notifications"
+                  title={t('notifications.clearAll')}
+                  aria-label={t('notifications.clearAll')}
                 >
                   <Trash2 size={13} />
                 </button>
@@ -159,8 +161,8 @@ export default function NotificationCenter({
               <button
                 onClick={() => setOpen(false)}
                 className="notif-action-btn"
-                title="Close"
-                aria-label="Close notifications"
+                title={t('actions.close')}
+                aria-label={t('actions.close')}
               >
                 <X size={13} />
               </button>
@@ -171,8 +173,8 @@ export default function NotificationCenter({
             {groupedNotifications.length === 0 ? (
               <div className="notif-empty">
                 <Bell size={20} style={{ color: 'var(--text-disabled)', marginBottom: '0.375rem' }} />
-                <p>No notifications</p>
-                <p className="notif-empty-sub">You'll be notified about team activity here.</p>
+                <p>{t('notifications.noNotifications')}</p>
+                <p className="notif-empty-sub">{t('notifications.noNotificationsDesc')}</p>
               </div>
             ) : (
               groupedNotifications.map(notif => {
@@ -186,7 +188,7 @@ export default function NotificationCenter({
                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleNotifClick(notif) } }}
                     role="button"
                     tabIndex={0}
-                    aria-label={`${notif.message}. Click to navigate.`}
+                    aria-label={t('notifications.clickToNavigate', { message: notif.message })}
                     style={{ cursor: 'pointer' }}
                   >
                     <div
@@ -205,11 +207,11 @@ export default function NotificationCenter({
                             background: config.color + '18', color: config.color,
                             marginLeft: '0.375rem', whiteSpace: 'nowrap',
                           }}>
-                            +{notif.count - 1} more
+                            {t('notifications.moreCount', { count: notif.count - 1 })}
                           </span>
                         )}
                       </p>
-                      <span className="notif-time">{getRelativeTime(notif.timestamp)}</span>
+                      <span className="notif-time">{getRelativeTime(notif.timestamp, t)}</span>
                     </div>
                     {!notif.read && <div className="notif-unread-dot" />}
                   </div>

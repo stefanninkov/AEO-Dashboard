@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { X, Plus, Rocket, AlertCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
 /**
@@ -27,6 +28,7 @@ function isValidUrl(str) {
 }
 
 export default function NewProjectModal({ onClose, onCreate, required }) {
+  const { t } = useTranslation('app')
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
   const [urlError, setUrlError] = useState('')
@@ -44,7 +46,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
       testUrl = 'https://' + testUrl
     }
     if (!isValidUrl(testUrl)) {
-      setUrlError('Please enter a valid URL (e.g., https://example.com)')
+      setUrlError(t('newProject.invalidUrl'))
       return false
     }
     setUrlError('')
@@ -101,7 +103,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: required ? 8 : 24 }}>
           <h2 id="new-project-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
-            {required ? 'Create Your First Project' : 'New Project'}
+            {required ? t('newProject.createFirst') : t('newProject.title')}
           </h2>
           {!required && (
             <button
@@ -119,7 +121,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
 
         {required && (
           <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 24, lineHeight: 1.5 }}>
-            Each project tracks a website's AEO optimization. Enter your project name and website URL to get started.
+            {t('newProject.helpText')}
           </p>
         )}
 
@@ -127,12 +129,12 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
             <label htmlFor="project-name" style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
-              Project Name
+              {t('newProject.projectName')}
             </label>
             <input
               id="project-name"
               type="text"
-              placeholder="My Website"
+              placeholder={t('newProject.namePlaceholder')}
               value={name}
               onChange={e => setName(e.target.value)}
               className="input-field"
@@ -142,12 +144,12 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
 
           <div>
             <label htmlFor="project-url" style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
-              Website URL <span style={{ fontWeight: 400, color: 'var(--text-tertiary)' }}>(optional)</span>
+              {t('newProject.websiteUrl')} <span style={{ fontWeight: 400, color: 'var(--text-tertiary)' }}>{t('newProject.urlOptional')}</span>
             </label>
             <input
               id="project-url"
               type="text"
-              placeholder="https://example.com"
+              placeholder={t('newProject.urlPlaceholder')}
               value={url}
               onChange={handleUrlChange}
               onBlur={handleUrlBlur}
@@ -170,7 +172,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
               style={{ flex: 1, opacity: canSubmit ? 1 : 0.5 }}
             >
               {required ? <Rocket size={14} /> : <Plus size={14} />}
-              {required ? 'Get Started' : 'Create Project'}
+              {required ? t('newProject.getStarted') : t('newProject.createProject')}
             </button>
             {!required && (
               <button
@@ -178,7 +180,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
                 onClick={onClose}
                 className="btn-secondary"
               >
-                Cancel
+                {t('newProject.cancel')}
               </button>
             )}
           </div>

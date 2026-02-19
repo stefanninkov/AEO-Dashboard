@@ -10,6 +10,7 @@
  */
 
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Search, TrendingUp, MousePointerClick, Eye, ArrowUpDown,
   Filter, Download, RefreshCw, Loader2,
@@ -124,6 +125,7 @@ function MiniSparkline({ data, dataKey = 'clicks', color = 'var(--color-phase-1)
    ══════════════════════════════════════════════════════════════════ */
 
 export default function GscView({ activeProject, updateProject, user, setActiveView }) {
+  const { t } = useTranslation('app')
   const google = useGoogleIntegration(user)
   const gscProperty = activeProject?.gscProperty || null
 
@@ -213,10 +215,10 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            Search Console
+            {t('gsc.title')}
           </h2>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            Real search performance data from Google Search Console
+            {t('gsc.subtitle')}
           </p>
         </div>
         {google.isExpired ? (
@@ -225,8 +227,8 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
           <NotConnectedState
             setActiveView={setActiveView}
             preset="gsc"
-            title="Connect Google Account"
-            description="Connect your Google account in Settings to view Search Console data. This will show real search performance, AEO query detection, and page analytics."
+            title={t('gsc.connectTitle')}
+            description={t('gsc.connectDesc')}
           />
         )}
       </div>
@@ -238,17 +240,17 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            Search Console
+            {t('gsc.title')}
           </h2>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            Real search performance data from Google Search Console
+            {t('gsc.subtitle')}
           </p>
         </div>
         <NoPropertyState
           setActiveView={setActiveView}
           preset="search"
-          title="Select a Search Console Property"
-          description="Your Google account is connected. Select a Search Console property in the project settings to start viewing data."
+          title={t('gsc.selectTitle')}
+          description={t('gsc.selectDesc')}
         />
       </div>
     )
@@ -259,9 +261,9 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
   const fmtPos = (n) => typeof n === 'number' ? n.toFixed(1) : '—'
 
   const TABS = [
-    { id: 'queries', label: 'All Queries', icon: Search },
-    { id: 'aeo', label: 'AEO Queries', icon: Zap },
-    { id: 'pages', label: 'Pages', icon: Globe },
+    { id: 'queries', label: t('gsc.tabAllQueries'), icon: Search },
+    { id: 'aeo', label: t('gsc.tabAeoQueries'), icon: Zap },
+    { id: 'pages', label: t('gsc.tabPages'), icon: Globe },
   ]
 
   const DATE_PRESETS = [
@@ -279,10 +281,10 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            Search Console
+            {t('gsc.title')}
           </h2>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            {formatSiteUrl(gscProperty)} — real search performance data
+            {t('gsc.subtitleProperty', { property: formatSiteUrl(gscProperty) })}
           </p>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -309,10 +311,10 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
               </button>
             ))}
           </div>
-          <button className="icon-btn" onClick={refresh} title="Refresh data" disabled={loading}>
+          <button className="icon-btn" onClick={refresh} title={t('gsc.refresh')} disabled={loading}>
             {loading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={14} />}
           </button>
-          <button className="icon-btn" onClick={handleExportCsv} title="Export CSV">
+          <button className="icon-btn" onClick={handleExportCsv} title={t('gsc.exportCsv')}>
             <Download size={14} />
           </button>
         </div>
@@ -333,33 +335,33 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: '0.75rem' }}>
           <StatCard
             icon={MousePointerClick}
-            label="Total Clicks"
+            label={t('gsc.totalClicks')}
             value={fmt(queryData.totalClicks)}
             color="#FF6B35"
           />
           <StatCard
             icon={Eye}
-            label="Total Impressions"
+            label={t('gsc.totalImpressions')}
             value={fmt(queryData.totalImpressions)}
             color="#3B82F6"
           />
           <StatCard
             icon={TrendingUp}
-            label="Avg CTR"
+            label={t('gsc.avgCtr')}
             value={fmtPct(queryData.avgCtr)}
             color="#10B981"
           />
           <StatCard
             icon={ArrowUpDown}
-            label="Avg Position"
+            label={t('gsc.avgPosition')}
             value={fmtPos(queryData.avgPosition)}
             color="#8B5CF6"
           />
           <StatCard
             icon={Zap}
-            label="AEO Queries"
+            label={t('gsc.aeoQueries')}
             value={fmt(queryData.aeoQueryCount)}
-            subValue={`${fmtPct(queryData.aeoClickShare)} of clicks`}
+            subValue={t('gsc.ofClicks', { value: fmtPct(queryData.aeoClickShare) })}
             color="#F59E0B"
           />
         </div>
@@ -373,7 +375,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
               fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
               textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)',
             }}>
-              Daily Clicks
+              {t('gsc.dailyClicks')}
             </span>
             <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
               {dateData.rows[0]?.date} — {dateData.rows[dateData.rows.length - 1]?.date}
@@ -421,7 +423,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
           <Filter size={12} style={{ position: 'absolute', left: '0.625rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)' }} />
           <input
             className="input-field"
-            placeholder={activeTab === 'pages' ? 'Filter pages...' : 'Filter queries...'}
+            placeholder={activeTab === 'pages' ? t('gsc.filterPages') : t('gsc.filterQueries')}
             value={searchFilter}
             onChange={(e) => setSearchFilter(e.target.value)}
             style={{ paddingLeft: '1.75rem', fontSize: '0.75rem', height: '2rem' }}
@@ -433,7 +435,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
       {loading && !queryData && (
         <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
           <Loader2 size={24} style={{ color: 'var(--color-phase-1)', animation: 'spin 1s linear infinite', margin: '0 auto 0.75rem' }} />
-          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading Search Console data...</p>
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>{t('gsc.loading')}</p>
         </div>
       )}
 
@@ -450,23 +452,23 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
             background: 'var(--hover-bg)',
             alignItems: 'center',
           }}>
-            <SortHeader label="Query" sortKey="query" currentSort={sort} onSort={(k) => handleSort(k)} />
+            <SortHeader label={t('gsc.query')} sortKey="query" currentSort={sort} onSort={(k) => handleSort(k)} />
             {activeTab === 'aeo' && (
               <>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)' }}>Type</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)' }}>{t('gsc.type')}</span>
                 <span />
               </>
             )}
-            <SortHeader label="Clicks" sortKey="clicks" currentSort={sort} onSort={handleSort} />
-            <SortHeader label="Impr" sortKey="impressions" currentSort={sort} onSort={handleSort} />
-            <SortHeader label="CTR" sortKey="ctr" currentSort={sort} onSort={handleSort} />
-            <SortHeader label="Pos" sortKey="position" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.clicks')} sortKey="clicks" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.impr')} sortKey="impressions" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.ctr')} sortKey="ctr" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.pos')} sortKey="position" currentSort={sort} onSort={handleSort} />
           </div>
 
           {/* Rows */}
           {filteredQueryRows.length === 0 ? (
             <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-              {searchFilter ? 'No matching queries' : 'No query data available'}
+              {searchFilter ? t('gsc.noMatchingQueries') : t('gsc.noQueryData')}
             </div>
           ) : (
             filteredQueryRows.map((row, i) => (
@@ -529,7 +531,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
                 fontFamily: 'var(--font-body)', cursor: 'pointer',
               }}
             >
-              Show more
+              {t('gsc.showMore')}
               <ChevronRight size={12} style={{ transform: 'rotate(90deg)' }} />
             </button>
           )}
@@ -549,17 +551,17 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
             background: 'var(--hover-bg)',
             alignItems: 'center',
           }}>
-            <SortHeader label="Page" sortKey="page" currentSort={sort} onSort={handleSort} />
-            <SortHeader label="Clicks" sortKey="clicks" currentSort={sort} onSort={handleSort} />
-            <SortHeader label="Impr" sortKey="impressions" currentSort={sort} onSort={handleSort} />
-            <SortHeader label="CTR" sortKey="ctr" currentSort={sort} onSort={handleSort} />
-            <SortHeader label="Pos" sortKey="position" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.page')} sortKey="page" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.clicks')} sortKey="clicks" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.impr')} sortKey="impressions" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.ctr')} sortKey="ctr" currentSort={sort} onSort={handleSort} />
+            <SortHeader label={t('gsc.pos')} sortKey="position" currentSort={sort} onSort={handleSort} />
             <span />
           </div>
 
           {filteredPageRows.length === 0 ? (
             <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-              {searchFilter ? 'No matching pages' : 'No page data available'}
+              {searchFilter ? t('gsc.noMatchingPages') : t('gsc.noPageData')}
             </div>
           ) : (
             filteredPageRows.map((row, i) => {
@@ -610,7 +612,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}
-                    title="Open page"
+                    title={t('gsc.openPage')}
                   >
                     <ExternalLink size={12} />
                   </a>
@@ -630,7 +632,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
                 fontFamily: 'var(--font-body)', cursor: 'pointer',
               }}
             >
-              Show more
+              {t('gsc.showMore')}
               <ChevronRight size={12} style={{ transform: 'rotate(90deg)' }} />
             </button>
           )}

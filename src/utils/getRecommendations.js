@@ -148,20 +148,24 @@ function resolveCountries(questionnaire) {
 /**
  * getProjectContextLine — short one-liner for view subtitles.
  * e.g.: "E-Commerce · Germany, Europe · B2C · German, English"
+ * Accepts optional `t` function from react-i18next for translations; falls back to static labels.
  */
-export function getProjectContextLine(questionnaire) {
+export function getProjectContextLine(questionnaire, t) {
   if (!questionnaire?.completedAt) return ''
+  const il = t ? (k => t(`labels.industry.${k}`, k)) : (k => INDUSTRY_LABELS[k] || k)
+  const rl = t ? (k => t(`labels.region.${k}`, k)) : (k => REGION_LABELS[k] || k)
+  const al = t ? (k => t(`labels.audience.${k}`, k)) : (k => AUDIENCE_LABELS[k] || k)
   const parts = []
-  if (questionnaire.industry) parts.push(INDUSTRY_LABELS[questionnaire.industry] || questionnaire.industry)
+  if (questionnaire.industry) parts.push(il(questionnaire.industry))
   const countries = resolveCountries(questionnaire)
   if (countries.length > 0 && questionnaire.region) {
-    parts.push(`${countries.map(c => COUNTRY_LABELS[c] || c).join(', ')}, ${REGION_LABELS[questionnaire.region] || questionnaire.region}`)
+    parts.push(`${countries.map(c => COUNTRY_LABELS[c] || c).join(', ')}, ${rl(questionnaire.region)}`)
   } else if (countries.length > 0) {
     parts.push(countries.map(c => COUNTRY_LABELS[c] || c).join(', '))
   } else if (questionnaire.region) {
-    parts.push(REGION_LABELS[questionnaire.region] || questionnaire.region)
+    parts.push(rl(questionnaire.region))
   }
-  if (questionnaire.audience) parts.push(AUDIENCE_LABELS[questionnaire.audience] || questionnaire.audience)
+  if (questionnaire.audience) parts.push(al(questionnaire.audience))
   const langs = questionnaire.languages?.filter(l => l !== 'en')
   if (langs?.length > 0) {
     const allLangs = questionnaire.languages.map(l => LANGUAGE_LABELS[l] || l)

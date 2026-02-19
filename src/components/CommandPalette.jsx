@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import {
   Search, LayoutDashboard, Users, Zap,
@@ -9,22 +10,40 @@ import {
 import { useTheme } from '../contexts/ThemeContext'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
-const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, shortcut: '1' },
-  { id: 'checklist', label: 'AEO Guide', icon: BookOpen, shortcut: '2' },
-  { id: 'competitors', label: 'Competitors', icon: Users, shortcut: '3' },
-  { id: 'analyzer', label: 'Analyzer', icon: Zap, shortcut: '4' },
-  { id: 'writer', label: 'Content Writer', icon: PenTool, shortcut: '5' },
-  { id: 'content-ops', label: 'Content Ops', icon: CalendarDays, shortcut: '6' },
-  { id: 'schema', label: 'Schema Generator', icon: Code2, shortcut: '7' },
-  { id: 'monitoring', label: 'Monitoring', icon: Activity, shortcut: '8' },
-  { id: 'metrics', label: 'Metrics', icon: BarChart3, shortcut: '9' },
-  { id: 'gsc', label: 'Search Console', icon: Search },
-  { id: 'ga4', label: 'AI Traffic', icon: Zap },
-  { id: 'aeo-impact', label: 'AEO Impact', icon: Layers },
-  { id: 'docs', label: 'Documentation', icon: BookOpen },
-  { id: 'testing', label: 'Testing', icon: FlaskConical },
-  { id: 'settings', label: 'Settings', icon: Settings },
+const NAV_ICONS = {
+  dashboard: LayoutDashboard,
+  checklist: BookOpen,
+  competitors: Users,
+  analyzer: Zap,
+  writer: PenTool,
+  'content-ops': CalendarDays,
+  schema: Code2,
+  monitoring: Activity,
+  metrics: BarChart3,
+  gsc: Search,
+  ga4: Zap,
+  'aeo-impact': Layers,
+  docs: BookOpen,
+  testing: FlaskConical,
+  settings: Settings,
+}
+
+const NAV_KEYS = [
+  { id: 'dashboard', i18nKey: 'nav.dashboard', shortcut: '1' },
+  { id: 'checklist', i18nKey: 'nav.checklist', shortcut: '2' },
+  { id: 'competitors', i18nKey: 'nav.competitors', shortcut: '3' },
+  { id: 'analyzer', i18nKey: 'nav.analyzer', shortcut: '4' },
+  { id: 'writer', i18nKey: 'nav.writer', shortcut: '5' },
+  { id: 'content-ops', i18nKey: 'nav.contentOps', shortcut: '6' },
+  { id: 'schema', i18nKey: 'nav.schema', shortcut: '7' },
+  { id: 'monitoring', i18nKey: 'nav.monitoring', shortcut: '8' },
+  { id: 'metrics', i18nKey: 'nav.metrics', shortcut: '9' },
+  { id: 'gsc', i18nKey: 'nav.searchConsole' },
+  { id: 'ga4', i18nKey: 'nav.aiTraffic' },
+  { id: 'aeo-impact', i18nKey: 'nav.aeoImpact' },
+  { id: 'docs', i18nKey: 'nav.docs' },
+  { id: 'testing', i18nKey: 'nav.testing' },
+  { id: 'settings', i18nKey: 'nav.settings' },
 ]
 
 const TYPE_COLORS = {
@@ -49,6 +68,7 @@ export default function CommandPalette({
   onExport,
   setDocItem,
 }) {
+  const { t } = useTranslation()
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebounce(query, 100)
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -62,12 +82,12 @@ export default function CommandPalette({
     const items = []
 
     // 1. Navigation items
-    NAV_ITEMS.forEach(nav => {
+    NAV_KEYS.forEach(nav => {
       items.push({
         id: `nav-${nav.id}`,
         type: 'Navigation',
-        label: nav.label,
-        icon: nav.icon,
+        label: t(nav.i18nKey),
+        icon: NAV_ICONS[nav.id],
         shortcut: nav.shortcut,
         action: () => setActiveView(nav.id),
       })
@@ -78,28 +98,28 @@ export default function CommandPalette({
       {
         id: 'action-new-project',
         type: 'Action',
-        label: 'Create New Project',
+        label: t('actions.createNewProject'),
         icon: Plus,
         action: () => onNewProject(),
       },
       {
         id: 'action-analyzer',
         type: 'Action',
-        label: 'Run Analyzer',
+        label: t('actions.runAnalyzer'),
         icon: Zap,
         action: () => setActiveView('analyzer'),
       },
       {
         id: 'action-export',
         type: 'Action',
-        label: 'Export Report',
+        label: t('actions.exportReport'),
         icon: Download,
         action: () => onExport(),
       },
       {
         id: 'action-toggle-theme',
         type: 'Action',
-        label: theme === 'dark' ? 'Switch to Light Mode' : theme === 'light' ? 'Switch to Auto Mode' : 'Switch to Dark Mode',
+        label: theme === 'dark' ? t('commandPalette.switchToLightMode') : theme === 'light' ? t('commandPalette.switchToAutoMode') : t('commandPalette.switchToDarkMode'),
         icon: theme === 'dark' ? Sun : theme === 'light' ? Sun : Moon,
         action: () => toggleTheme(),
       },
@@ -163,7 +183,7 @@ export default function CommandPalette({
     }
 
     return items
-  }, [phases, activeProject, projects, theme, setActiveView, onNewProject, onExport, toggleTheme, setDocItem, setActiveProjectId])
+  }, [phases, activeProject, projects, theme, t, setActiveView, onNewProject, onExport, toggleTheme, setDocItem, setActiveProjectId])
 
   // Filter results based on debounced query
   const filteredResults = useMemo(() => {
@@ -267,7 +287,7 @@ export default function CommandPalette({
         className="cmd-palette-panel"
         role="dialog"
         aria-modal="true"
-        aria-label="Command palette"
+        aria-label={t('commandPalette.placeholder')}
         onClick={e => e.stopPropagation()}
         style={{
           animation: isClosing
@@ -282,7 +302,7 @@ export default function CommandPalette({
           <input
             ref={inputRef}
             type="text"
-            placeholder="Type a command or search..."
+            placeholder={t('commandPalette.placeholder')}
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -352,12 +372,12 @@ export default function CommandPalette({
                           fontSize: '0.6875rem',
                           color: item.checked ? 'var(--color-success)' : 'var(--text-disabled)',
                         }}>
-                          {item.checked ? 'Done' : 'Todo'}
+                          {item.checked ? t('status.done') : t('status.todo')}
                         </span>
                       )}
                       {item.isActive && (
                         <span style={{ fontSize: '0.6875rem', color: 'var(--color-phase-1)' }}>
-                          Active
+                          {t('status.active')}
                         </span>
                       )}
                     </div>
@@ -367,24 +387,24 @@ export default function CommandPalette({
             ))
           ) : (
             <div className="cmd-palette-empty">
-              No results for &ldquo;{query}&rdquo;
+              {t('commandPalette.noResults', { query })}
             </div>
           )}
         </div>
         <div className="sr-only" aria-live="polite">
-          {debouncedQuery.trim() ? `${filteredResults.length} results found` : ''}
+          {debouncedQuery.trim() ? t('topbar.resultsFound', { count: filteredResults.length }) : ''}
         </div>
 
         {/* Footer with keyboard hints */}
         <div className="cmd-palette-footer">
           <span className="cmd-palette-footer-hint">
-            <CornerDownLeft size={12} /> Select
+            <CornerDownLeft size={12} /> {t('actions.select')}
           </span>
           <span className="cmd-palette-footer-hint">
-            <span style={{ fontSize: '0.6875rem' }}>&uarr;&darr;</span> Navigate
+            <span style={{ fontSize: '0.6875rem' }}>&uarr;&darr;</span> {t('actions.navigate')}
           </span>
           <span className="cmd-palette-footer-hint">
-            <kbd className="cmd-palette-kbd-sm">ESC</kbd> Close
+            <kbd className="cmd-palette-kbd-sm">ESC</kbd> {t('actions.close')}
           </span>
         </div>
       </div>

@@ -1,36 +1,7 @@
 import { createPortal } from 'react-dom'
+import { useTranslation } from 'react-i18next'
 import { X, Keyboard } from 'lucide-react'
 import { useFocusTrap } from '../hooks/useFocusTrap'
-
-const SHORTCUT_GROUPS = [
-  {
-    title: 'Navigation',
-    shortcuts: [
-      { keys: ['1'], desc: 'Dashboard' },
-      { keys: ['2'], desc: 'AEO Guide' },
-      { keys: ['3'], desc: 'Competitors' },
-      { keys: ['4'], desc: 'Analyzer' },
-      { keys: ['5'], desc: 'Content Writer' },
-      { keys: ['6'], desc: 'Content Ops' },
-      { keys: ['7'], desc: 'Schema Generator' },
-      { keys: ['8'], desc: 'Monitoring' },
-      { keys: ['9'], desc: 'Metrics' },
-    ],
-  },
-  {
-    title: 'Actions',
-    shortcuts: [
-      { keys: ['⌘', 'K'], desc: 'Open command palette' },
-      { keys: ['Esc'], desc: 'Close modal / overlay' },
-    ],
-  },
-  {
-    title: 'Help',
-    shortcuts: [
-      { keys: ['?'], desc: 'Toggle this shortcuts panel' },
-    ],
-  },
-]
 
 const kbdStyle = {
   fontFamily: 'var(--font-heading)',
@@ -48,7 +19,38 @@ const kbdStyle = {
 }
 
 export default function KeyboardShortcutsModal({ isOpen, isClosing, onClose, onExited }) {
+  const { t } = useTranslation()
   const trapRef = useFocusTrap(isOpen && !isClosing)
+
+  const SHORTCUT_GROUPS = [
+    {
+      title: t('shortcuts.navigation'),
+      shortcuts: [
+        { keys: ['1'], desc: t('nav.dashboard') },
+        { keys: ['2'], desc: t('nav.checklist') },
+        { keys: ['3'], desc: t('nav.competitors') },
+        { keys: ['4'], desc: t('nav.analyzer') },
+        { keys: ['5'], desc: t('nav.writer') },
+        { keys: ['6'], desc: t('nav.contentOps') },
+        { keys: ['7'], desc: t('nav.schema') },
+        { keys: ['8'], desc: t('nav.monitoring') },
+        { keys: ['9'], desc: t('nav.metrics') },
+      ],
+    },
+    {
+      title: t('shortcuts.actions'),
+      shortcuts: [
+        { keys: ['⌘', 'K'], desc: t('shortcuts.openCommandPalette') },
+        { keys: ['Esc'], desc: t('shortcuts.closeModalOverlay') },
+      ],
+    },
+    {
+      title: t('shortcuts.helpGroup'),
+      shortcuts: [
+        { keys: ['?'], desc: t('shortcuts.toggleShortcuts') },
+      ],
+    },
+  ]
 
   if (!isOpen && !isClosing) return null
 
@@ -106,12 +108,12 @@ export default function KeyboardShortcutsModal({ isOpen, isClosing, onClose, onE
               fontFamily: 'var(--font-heading)', fontSize: '0.875rem',
               fontWeight: 700, color: 'var(--text-primary)', margin: 0,
             }}>
-              Keyboard Shortcuts
+              {t('shortcuts.title')}
             </h2>
           </div>
           <button
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t('actions.close')}
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               width: '1.75rem', height: '1.75rem', borderRadius: '0.375rem',
@@ -165,7 +167,7 @@ export default function KeyboardShortcutsModal({ isOpen, isClosing, onClose, onE
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>
-            Press <kbd style={{ ...kbdStyle, fontSize: '0.625rem', padding: '0.125rem 0.3125rem' }}>?</kbd> to toggle
+            {t('shortcuts.pressToToggle', { key: '?' })}
           </span>
         </div>
       </div>

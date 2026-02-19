@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Users, Activity, PieChart } from 'lucide-react'
 import CompetitorsOverviewTab from './competitors/CompetitorsOverviewTab'
 import CompetitorMonitoringTab from './competitors/CompetitorMonitoringTab'
 import CitationShareTab from './competitors/CitationShareTab'
 
 export default function CompetitorsView({ activeProject, updateProject, user }) {
+  const { t } = useTranslation('app')
   const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'monitoring' | 'citation'
 
   const undismissedAlertCount = useMemo(() => {
@@ -29,13 +31,13 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700,
           color: 'var(--text-primary)', margin: 0,
         }}>
-          Competitor Intelligence
+          {t('competitors.title')}
         </h1>
         <p style={{
           fontSize: '0.8125rem', color: 'var(--text-secondary)',
           margin: '0.25rem 0 0', lineHeight: 1.5,
         }}>
-          Analyze competitors, track AEO scores over time, and monitor brand citations across AI engines.
+          {t('competitors.subtitle')}
         </p>
       </div>
 

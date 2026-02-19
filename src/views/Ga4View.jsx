@@ -12,6 +12,7 @@
  */
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Zap, BarChart3, Users, Clock, ArrowUpDown, Globe,
   RefreshCw, Loader2, TrendingUp, ExternalLink,
@@ -121,6 +122,7 @@ function TrendChart({ data, height = 64 }) {
    ══════════════════════════════════════════════════════════════════ */
 
 export default function Ga4View({ activeProject, user, setActiveView }) {
+  const { t } = useTranslation('app')
   const google = useGoogleIntegration(user)
   const ga4Property = activeProject?.ga4Property || null
   const propertyId = ga4Property ? getPropertyId(ga4Property) : null
@@ -234,10 +236,10 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            AI Traffic
+            {t('ga4.title')}
           </h2>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            Track visitors from ChatGPT, Perplexity, Gemini, Claude, and other AI engines
+            {t('ga4.subtitle')}
           </p>
         </div>
         {google.isExpired ? (
@@ -246,8 +248,8 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
           <NotConnectedState
             setActiveView={setActiveView}
             preset="ga4"
-            title="Connect Google Account"
-            description="Connect your Google account in Settings to view GA4 AI traffic data. See exactly which AI engines are sending visitors to your site."
+            title={t('ga4.connectTitle')}
+            description={t('ga4.connectDesc')}
           />
         )}
       </div>
@@ -259,17 +261,17 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            AI Traffic
+            {t('ga4.title')}
           </h2>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            Track visitors from ChatGPT, Perplexity, Gemini, Claude, and other AI engines
+            {t('ga4.subtitle')}
           </p>
         </div>
         <NoPropertyState
           setActiveView={setActiveView}
           preset="search"
-          title="Select a GA4 Property"
-          description="Your Google account is connected. Select a GA4 property in the project settings to start viewing AI traffic data."
+          title={t('ga4.selectTitle')}
+          description={t('ga4.selectDesc')}
         />
       </div>
     )
@@ -292,10 +294,10 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            AI Traffic
+            {t('ga4.title')}
           </h2>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            Traffic from ChatGPT, Perplexity, Gemini, Claude, Copilot, and other AI engines
+            {t('ga4.subtitleShort')}
           </p>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -315,7 +317,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
               </button>
             ))}
           </div>
-          <button className="icon-btn" onClick={fetchData} title="Refresh" disabled={loading}>
+          <button className="icon-btn" onClick={fetchData} title={t('common:actions.refresh')} disabled={loading}>
             {loading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={14} />}
           </button>
         </div>
@@ -335,7 +337,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
       {loading && !trafficData && (
         <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
           <Loader2 size={24} style={{ color: 'var(--color-phase-1)', animation: 'spin 1s linear infinite', margin: '0 auto 0.75rem' }} />
-          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading AI traffic data...</p>
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>{t('ga4.loading')}</p>
         </div>
       )}
 
@@ -345,29 +347,29 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: '0.75rem' }}>
             <StatCard
               icon={Zap}
-              label="AI Sessions"
+              label={t('ga4.aiSessions')}
               value={fmt(trafficData.totalAiSessions)}
-              subValue={`${fmtPct(trafficData.aiSessionShare)} of total traffic`}
+              subValue={t('ga4.ofTotalTraffic', { value: fmtPct(trafficData.aiSessionShare) })}
               color="#FF6B35"
             />
             <StatCard
               icon={Globe}
-              label="Total Sessions"
+              label={t('ga4.totalSessions')}
               value={fmt(trafficData.totalSessions)}
               color="#3B82F6"
             />
             <StatCard
               icon={Users}
-              label="AI Sources"
+              label={t('ga4.aiSources')}
               value={aiSourceBreakdown.length}
-              subValue={`out of ${AI_REFERRAL_SOURCES.length} tracked`}
+              subValue={t('ga4.outOfTracked', { count: AI_REFERRAL_SOURCES.length })}
               color="#8B5CF6"
             />
             <StatCard
               icon={TrendingUp}
-              label="Top AI Source"
+              label={t('ga4.topAiSource')}
               value={aiSourceBreakdown[0]?.source.label || '—'}
-              subValue={aiSourceBreakdown[0] ? `${fmt(aiSourceBreakdown[0].sessions)} sessions` : ''}
+              subValue={aiSourceBreakdown[0] ? `${fmt(aiSourceBreakdown[0].sessions)} ${t('ga4.sessions').toLowerCase()}` : ''}
               color={aiSourceBreakdown[0]?.source.color || '#6B7280'}
             />
           </div>
@@ -380,7 +382,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                 fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)', marginBottom: '0.75rem',
               }}>
-                Traffic by AI Platform
+                {t('ga4.trafficByPlatform')}
               </div>
               {aiSourceBreakdown.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -396,10 +398,10 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                 </div>
               ) : (
                 <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-                  No AI traffic detected in this period.
+                  {t('ga4.noAiTraffic')}
                   <br />
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-                    This is normal for many sites — AI referral traffic is still emerging.
+                    {t('ga4.noAiTrafficNormal')}
                   </span>
                 </div>
               )}
@@ -411,7 +413,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                 fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)', marginBottom: '0.75rem',
               }}>
-                Daily AI Traffic Trend
+                {t('ga4.dailyTrend')}
               </div>
               {trendData && trendData.length > 0 ? (
                 <>
@@ -427,7 +429,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                 </>
               ) : (
                 <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: '0.8125rem' }}>
-                  No trend data available
+                  {t('ga4.noTrendData')}
                 </div>
               )}
             </div>
@@ -441,7 +443,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                 textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)',
                 padding: '1rem 1.25rem 0.5rem',
               }}>
-                Top Landing Pages from AI Traffic
+                {t('ga4.topLandingPages')}
               </div>
 
               {/* Header */}
@@ -453,10 +455,10 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                 borderBottom: '1px solid var(--border-subtle)',
                 background: 'var(--hover-bg)',
               }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)' }}>Page</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)', textAlign: 'right' }}>Sessions</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)', textAlign: 'right' }}>Users</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)' }}>Sources</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)' }}>{t('gsc.page')}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)', textAlign: 'right' }}>{t('ga4.sessions')}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)', textAlign: 'right' }}>{t('ga4.users')}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)' }}>{t('ga4.sources')}</span>
               </div>
 
               {landingPages.slice(0, 20).map((page, i) => (
@@ -516,12 +518,10 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
           {trafficData.totalAiSessions === 0 && (
             <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
               <div style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', fontWeight: 600 }}>
-                No AI traffic detected yet
+                {t('ga4.noAiTrafficYetTitle')}
               </div>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', lineHeight: 1.6, maxWidth: '32rem', margin: '0 auto' }}>
-                AI-referred traffic (from ChatGPT, Perplexity, etc.) is still rare for many sites.
-                As AI engines increasingly cite sources, you'll start seeing traffic here.
-                Focus on AEO optimization to increase your chances of being cited.
+                {t('ga4.noAiTrafficYetDesc')}
               </p>
             </div>
           )}

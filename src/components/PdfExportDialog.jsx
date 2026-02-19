@@ -1,24 +1,27 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { X, FileText, Download } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useToast } from './Toast'
 import { generatePdf } from '../utils/generatePdf'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import logger from '../utils/logger'
 
-const SECTIONS = [
-  { key: 'summary', label: 'Executive Summary', desc: 'Overall score & progress', default: true },
-  { key: 'phases', label: 'Phase-by-phase breakdown', desc: 'Detailed status per phase', default: true },
-  { key: 'completed', label: 'Completed tasks list', desc: 'All checked items', default: true },
-  { key: 'remaining', label: 'Remaining tasks', desc: 'Prioritized unchecked items', default: true },
-  { key: 'notes', label: 'Task notes', desc: 'Your audit findings per task', default: false },
-  { key: 'analyzer', label: 'Analyzer results', desc: 'Site analysis data (if available)', default: false },
-]
-
 export default function PdfExportDialog({ activeProject, phases, updateProject, user, onClose, isClosing, onExited }) {
+  const { t } = useTranslation('app')
   const { addToast } = useToast()
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const trapRef = useFocusTrap(!isClosing)
+
+  const SECTIONS = useMemo(() => [
+    { key: 'summary', label: t('pdfExport.sections.summary'), desc: t('pdfExport.sections.summaryDesc'), default: true },
+    { key: 'phases', label: t('pdfExport.sections.phases'), desc: t('pdfExport.sections.phasesDesc'), default: true },
+    { key: 'completed', label: t('pdfExport.sections.completed'), desc: t('pdfExport.sections.completedDesc'), default: true },
+    { key: 'remaining', label: t('pdfExport.sections.remaining'), desc: t('pdfExport.sections.remainingDesc'), default: true },
+    { key: 'notes', label: t('pdfExport.sections.notes'), desc: t('pdfExport.sections.notesDesc'), default: false },
+    { key: 'analyzer', label: t('pdfExport.sections.analyzer'), desc: t('pdfExport.sections.analyzerDesc'), default: false },
+  ], [t])
+
   const [agencyName, setAgencyName] = useState('')
   const [reportDate, setReportDate] = useState(
     new Date().toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric' })
@@ -116,8 +119,8 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
             <FileText size={16} style={{ color: 'var(--color-phase-3)' }} />
           </div>
           <div className="email-modal-header-text">
-            <h3 id="pdf-export-title" className="email-modal-title">Export Report</h3>
-            <p className="email-modal-subtitle">Generate a PDF report for your client</p>
+            <h3 id="pdf-export-title" className="email-modal-title">{t('pdfExport.title')}</h3>
+            <p className="email-modal-subtitle">{t('pdfExport.subtitle')}</p>
           </div>
         </div>
 
@@ -128,19 +131,19 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
         <div className="email-modal-body">
           {/* Project Info */}
           <div style={{ padding: '0.75rem', background: 'var(--bg-page)', borderRadius: '0.5rem', border: '1px solid var(--border-subtle)' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)', marginBottom: '0.375rem' }}>Project</div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)', marginBottom: '0.375rem' }}>{t('pdfExport.project')}</div>
             <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{activeProject?.name || 'Untitled'}</div>
             {activeProject?.url && <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</div>}
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem' }}>
-              {totalDone}/{totalItems} tasks complete ({overallPercent}%)
+              {totalDone}/{totalItems} {t('pdfExport.tasksComplete')} ({overallPercent}%)
             </div>
           </div>
 
           {/* Sections */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <label className="email-modal-label">Include in Report</label>
-              <button onClick={selectAll} className="checklist-bulk-link">Select all</button>
+              <label className="email-modal-label">{t('pdfExport.includeInReport')}</label>
+              <button onClick={selectAll} className="checklist-bulk-link">{t('pdfExport.selectAll')}</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               {SECTIONS.map(section => {
@@ -178,11 +181,11 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
 
           {/* Branding */}
           <div>
-            <label htmlFor="agency-name" className="email-modal-label">Agency Name</label>
+            <label htmlFor="agency-name" className="email-modal-label">{t('pdfExport.agencyName')}</label>
             <input
               id="agency-name"
               type="text"
-              placeholder="Your Agency Name"
+              placeholder={t('pdfExport.agencyPlaceholder')}
               value={agencyName}
               onChange={e => setAgencyName(e.target.value)}
               className="email-modal-input"
@@ -190,7 +193,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
           </div>
 
           <div>
-            <label htmlFor="report-date" className="email-modal-label">Report Date</label>
+            <label htmlFor="report-date" className="email-modal-label">{t('pdfExport.reportDate')}</label>
             <input
               id="report-date"
               type="text"
@@ -210,10 +213,10 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
             style={{ flex: 1 }}
           >
             <Download size={14} />
-            {generating ? 'Generating...' : 'Generate PDF'}
+            {generating ? t('pdfExport.generating') : t('pdfExport.generate')}
           </button>
           <button onClick={onClose} className="email-modal-cancel-btn">
-            Cancel
+            {t('pdfExport.cancel')}
           </button>
         </div>
       </div>

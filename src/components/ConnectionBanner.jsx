@@ -4,17 +4,19 @@
  */
 import { WifiOff, ShieldAlert, X } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function ConnectionBanner({ error }) {
   const [dismissed, setDismissed] = useState(false)
+  const { t } = useTranslation()
 
   if (!error || dismissed) return null
 
   const isPermission = error === 'permission'
   const Icon = isPermission ? ShieldAlert : WifiOff
   const message = isPermission
-    ? 'Permission denied — your data may be read-only. Check Firebase security rules.'
-    : 'Connection lost — changes will sync when reconnected.'
+    ? t('connection.permissionDenied')
+    : t('connection.connectionLost')
   const bgColor = isPermission
     ? 'rgba(239, 68, 68, 0.08)'
     : 'rgba(245, 158, 11, 0.08)'
@@ -45,7 +47,7 @@ export default function ConnectionBanner({ error }) {
       <span style={{ flex: 1 }}>{message}</span>
       <button
         onClick={() => setDismissed(true)}
-        aria-label="Dismiss connection warning"
+        aria-label={t('connection.dismiss')}
         style={{
           padding: '0.25rem',
           border: 'none',

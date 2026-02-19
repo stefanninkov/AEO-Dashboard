@@ -1,4 +1,5 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Zap, LayoutDashboard, Zap as ZapIcon,
   BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, Plus,
@@ -30,26 +31,59 @@ function getAvatarColor(name) {
   return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length]
 }
 
-const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'checklist', label: 'AEO Guide', icon: BookOpen },
-  { id: 'competitors', label: 'Competitors', icon: Users },
-  { id: 'analyzer', label: 'Analyzer', icon: ZapIcon },
-  { id: 'writer', label: 'Content Writer', icon: PenTool },
-  { id: 'content-ops', label: 'Content Ops', icon: CalendarDays },
-  { id: 'schema', label: 'Schema Generator', icon: Code2 },
-  { id: 'monitoring', label: 'Monitoring', icon: Activity },
-  { id: 'metrics', label: 'Metrics', icon: BarChart3 },
-  { id: 'gsc', label: 'Search Console', icon: Search },
-  { id: 'ga4', label: 'AI Traffic', icon: Zap },
-  { id: 'aeo-impact', label: 'AEO Impact', icon: Layers },
-  { id: 'docs', label: 'Documentation', icon: BookOpen },
-  { id: 'testing', label: 'Testing', icon: FlaskConical },
-  { id: 'settings', label: 'Settings', icon: Settings },
+const NAV_ICONS = {
+  dashboard: LayoutDashboard,
+  checklist: BookOpen,
+  competitors: Users,
+  analyzer: ZapIcon,
+  writer: PenTool,
+  'content-ops': CalendarDays,
+  schema: Code2,
+  monitoring: Activity,
+  metrics: BarChart3,
+  gsc: Search,
+  ga4: Zap,
+  'aeo-impact': Layers,
+  docs: BookOpen,
+  testing: FlaskConical,
+  settings: Settings,
+}
+
+const NAV_KEYS = [
+  'dashboard', 'checklist', 'competitors', 'analyzer', 'writer',
+  'content-ops', 'schema', 'monitoring', 'metrics', 'gsc',
+  'ga4', 'aeo-impact', 'docs', 'testing', 'settings',
 ]
+
+const NAV_I18N_KEYS = {
+  dashboard: 'nav.dashboard',
+  checklist: 'nav.checklist',
+  competitors: 'nav.competitors',
+  analyzer: 'nav.analyzer',
+  writer: 'nav.writer',
+  'content-ops': 'nav.contentOps',
+  schema: 'nav.schema',
+  monitoring: 'nav.monitoring',
+  metrics: 'nav.metrics',
+  gsc: 'nav.searchConsole',
+  ga4: 'nav.aiTraffic',
+  'aeo-impact': 'nav.aeoImpact',
+  docs: 'nav.docs',
+  testing: 'nav.testing',
+  settings: 'nav.settings',
+}
 
 export default memo(function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar, onlineMembers }) {
   const { theme, toggleTheme } = useTheme()
+  const { t } = useTranslation()
+
+  const navItems = useMemo(() =>
+    NAV_KEYS.map(id => ({
+      id,
+      label: t(NAV_I18N_KEYS[id]),
+      icon: NAV_ICONS[id],
+    })),
+  [t])
 
   const handleNav = (viewId) => {
     setActiveView(viewId)
@@ -61,7 +95,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
       {/* Logo */}
       <div className="sidebar-logo">
         <Zap size={20} className="text-phase-1" style={{ flexShrink: 0 }} />
-        <span className="sidebar-logo-text">AEO Dashboard</span>
+        <span className="sidebar-logo-text">{t('sidebar.appName')}</span>
       </div>
 
       {/* New Project Button */}
@@ -72,16 +106,16 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
           style={{ width: '100%', padding: '0.5625rem 1rem', fontSize: '0.8125rem' }}
         >
           <Plus size={14} />
-          New Project
+          {t('actions.newProject')}
         </button>
       </div>
 
       {/* Section: Main */}
-      <div className="sidebar-section-label">Main</div>
+      <div className="sidebar-section-label">{t('sections.main')}</div>
 
       {/* Nav Items */}
       <nav>
-        {NAV_ITEMS.map(item => {
+        {navItems.map(item => {
           const Icon = item.icon
           const isActive = activeView === item.id
           return (
@@ -111,7 +145,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
       )}
 
       {/* Section: Tools */}
-      <div className="sidebar-section-label">Tools</div>
+      <div className="sidebar-section-label">{t('sections.tools')}</div>
 
       {/* Theme Toggle */}
       <button
@@ -122,7 +156,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
         aria-label={`Dark mode: ${theme === 'dark' ? 'on' : 'off'}`}
       >
         {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-        {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+        {theme === 'dark' ? t('sidebar.lightMode') : t('sidebar.darkMode')}
       </button>
 
       {/* Spacer */}
@@ -148,7 +182,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p className="sidebar-user-name">
-            {user?.displayName || 'User'}
+            {user?.displayName || t('sidebar.user')}
           </p>
           <p className="sidebar-user-email">
             {user?.email || ''}
@@ -158,16 +192,16 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
           <button
             onClick={() => { handleNav('settings'); }}
             className="icon-btn"
-            title="Settings"
-            aria-label="Settings"
+            title={t('nav.settings')}
+            aria-label={t('nav.settings')}
           >
             <Settings size={14} />
           </button>
           <button
             onClick={onSignOut}
             className="icon-btn"
-            title="Sign out"
-            aria-label="Sign out"
+            title={t('auth.signOut')}
+            aria-label={t('auth.signOut')}
           >
             <LogOut size={14} />
           </button>

@@ -1,19 +1,14 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson } from 'lucide-react'
 import { callAnthropicApi } from '../utils/apiClient'
 import { getAnalyzerIndustryContext, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, ENGINE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
 
-// ─── Schema Types ────────────────────────────────────────────
-const SCHEMA_TYPES = [
-  {
-    id: 'faqPage',
-    label: 'FAQ Page',
-    icon: '❓',
-    description: 'FAQPage schema for question & answer sections',
-    schemaType: 'FAQPage',
-    prompt: (topic, context, pageUrl) => `Generate FAQPage structured data (JSON-LD) for: "${topic}"
+// ─── Prompt functions (kept at module scope — sent to AI API, not translated) ──
+const SCHEMA_PROMPTS = {
+  faqPage: (topic, context, pageUrl) => `Generate FAQPage structured data (JSON-LD) for: "${topic}"
 ${context ? `\nWebsite context: ${context}` : ''}
 ${pageUrl ? `\nPage URL: ${pageUrl}` : ''}
 
@@ -28,14 +23,7 @@ Return JSON in this exact format:
   "implementation": "Step-by-step instructions for adding this to a webpage",
   "seoNotes": "How this schema helps with AEO and featured snippets"
 }`,
-  },
-  {
-    id: 'howTo',
-    label: 'How-To',
-    icon: '📋',
-    description: 'HowTo schema for step-by-step instructions',
-    schemaType: 'HowTo',
-    prompt: (topic, context, pageUrl) => `Generate HowTo structured data (JSON-LD) for: "${topic}"
+  howTo: (topic, context, pageUrl) => `Generate HowTo structured data (JSON-LD) for: "${topic}"
 ${context ? `\nWebsite context: ${context}` : ''}
 ${pageUrl ? `\nPage URL: ${pageUrl}` : ''}
 
@@ -50,14 +38,7 @@ Return JSON in this exact format:
   "implementation": "Step-by-step instructions for adding this to a webpage",
   "seoNotes": "How this schema helps with AEO and featured snippets"
 }`,
-  },
-  {
-    id: 'article',
-    label: 'Article',
-    icon: '📰',
-    description: 'Article schema for blog posts & news articles',
-    schemaType: 'Article',
-    prompt: (topic, context, pageUrl) => `Generate Article structured data (JSON-LD) for: "${topic}"
+  article: (topic, context, pageUrl) => `Generate Article structured data (JSON-LD) for: "${topic}"
 ${context ? `\nWebsite context: ${context}` : ''}
 ${pageUrl ? `\nPage URL: ${pageUrl}` : ''}
 
@@ -72,14 +53,7 @@ Return JSON in this exact format:
   "implementation": "Step-by-step instructions for adding this to a webpage",
   "seoNotes": "How this schema helps with AEO and featured snippets"
 }`,
-  },
-  {
-    id: 'product',
-    label: 'Product',
-    icon: '🛍️',
-    description: 'Product schema with offers, ratings & reviews',
-    schemaType: 'Product',
-    prompt: (topic, context, pageUrl) => `Generate Product structured data (JSON-LD) for: "${topic}"
+  product: (topic, context, pageUrl) => `Generate Product structured data (JSON-LD) for: "${topic}"
 ${context ? `\nWebsite context: ${context}` : ''}
 ${pageUrl ? `\nPage URL: ${pageUrl}` : ''}
 
@@ -94,14 +68,7 @@ Return JSON in this exact format:
   "implementation": "Step-by-step instructions for adding this to a webpage",
   "seoNotes": "How this schema helps with AEO and rich results"
 }`,
-  },
-  {
-    id: 'localBusiness',
-    label: 'Local Business',
-    icon: '📍',
-    description: 'LocalBusiness schema for physical locations',
-    schemaType: 'LocalBusiness',
-    prompt: (topic, context, pageUrl) => `Generate LocalBusiness structured data (JSON-LD) for: "${topic}"
+  localBusiness: (topic, context, pageUrl) => `Generate LocalBusiness structured data (JSON-LD) for: "${topic}"
 ${context ? `\nWebsite context: ${context}` : ''}
 ${pageUrl ? `\nPage URL: ${pageUrl}` : ''}
 
@@ -116,14 +83,7 @@ Return JSON in this exact format:
   "implementation": "Step-by-step instructions for adding this to a webpage",
   "seoNotes": "How this schema helps with AEO and local search"
 }`,
-  },
-  {
-    id: 'organization',
-    label: 'Organization',
-    icon: '🏢',
-    description: 'Organization schema for company identity',
-    schemaType: 'Organization',
-    prompt: (topic, context, pageUrl) => `Generate Organization structured data (JSON-LD) for: "${topic}"
+  organization: (topic, context, pageUrl) => `Generate Organization structured data (JSON-LD) for: "${topic}"
 ${context ? `\nWebsite context: ${context}` : ''}
 ${pageUrl ? `\nPage URL: ${pageUrl}` : ''}
 
@@ -138,14 +98,7 @@ Return JSON in this exact format:
   "implementation": "Step-by-step instructions for adding this to a webpage",
   "seoNotes": "How this schema helps with AEO and knowledge panels"
 }`,
-  },
-  {
-    id: 'breadcrumb',
-    label: 'Breadcrumb',
-    icon: '🔗',
-    description: 'BreadcrumbList schema for navigation paths',
-    schemaType: 'BreadcrumbList',
-    prompt: (topic, context, pageUrl) => `Generate BreadcrumbList structured data (JSON-LD) for: "${topic}"
+  breadcrumb: (topic, context, pageUrl) => `Generate BreadcrumbList structured data (JSON-LD) for: "${topic}"
 ${context ? `\nWebsite context: ${context}` : ''}
 ${pageUrl ? `\nPage URL: ${pageUrl}` : ''}
 
@@ -160,14 +113,7 @@ Return JSON in this exact format:
   "implementation": "Step-by-step instructions for adding this to a webpage",
   "seoNotes": "How this schema helps with AEO and search appearance"
 }`,
-  },
-  {
-    id: 'video',
-    label: 'Video',
-    icon: '🎬',
-    description: 'VideoObject schema for video content',
-    schemaType: 'VideoObject',
-    prompt: (topic, context, pageUrl) => `Generate VideoObject structured data (JSON-LD) for: "${topic}"
+  video: (topic, context, pageUrl) => `Generate VideoObject structured data (JSON-LD) for: "${topic}"
 ${context ? `\nWebsite context: ${context}` : ''}
 ${pageUrl ? `\nPage URL: ${pageUrl}` : ''}
 
@@ -182,11 +128,35 @@ Return JSON in this exact format:
   "implementation": "Step-by-step instructions for adding this to a webpage",
   "seoNotes": "How this schema helps with AEO and video rich results"
 }`,
-  },
+}
+
+// ─── Schema type metadata (static, not translated) ──
+const SCHEMA_TYPE_META = [
+  { id: 'faqPage',       icon: '❓', schemaType: 'FAQPage' },
+  { id: 'howTo',         icon: '📋', schemaType: 'HowTo' },
+  { id: 'article',       icon: '📰', schemaType: 'Article' },
+  { id: 'product',       icon: '🛍️', schemaType: 'Product' },
+  { id: 'localBusiness', icon: '📍', schemaType: 'LocalBusiness' },
+  { id: 'organization',  icon: '🏢', schemaType: 'Organization' },
+  { id: 'breadcrumb',    icon: '🔗', schemaType: 'BreadcrumbList' },
+  { id: 'video',         icon: '🎬', schemaType: 'VideoObject' },
 ]
+
+// Map type ids to i18n keys
+const TYPE_KEY_MAP = {
+  faqPage: 'faq',
+  howTo: 'howTo',
+  article: 'article',
+  product: 'product',
+  localBusiness: 'localBusiness',
+  organization: 'organization',
+  breadcrumb: 'breadcrumb',
+  video: 'video',
+}
 
 // ─── Main Component ──────────────────────────────────────────
 export default function SchemaGeneratorView({ activeProject, updateProject, user }) {
+  const { t } = useTranslation('app')
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const [topic, setTopic] = useState('')
   const [pageUrl, setPageUrl] = useState('')
@@ -199,13 +169,24 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
   const [showHistory, setShowHistory] = useState(false)
   const [apiKey] = useState(() => localStorage.getItem('anthropic-api-key') || '')
 
+  // ── Translated SCHEMA_TYPES ──
+  const SCHEMA_TYPES = useMemo(() =>
+    SCHEMA_TYPE_META.map(meta => ({
+      ...meta,
+      label: t(`schema.types.${TYPE_KEY_MAP[meta.id]}`),
+      description: t(`schema.descriptions.${TYPE_KEY_MAP[meta.id]}`),
+      prompt: SCHEMA_PROMPTS[meta.id],
+    })),
+    [t]
+  )
+
   const history = activeProject?.schemaHistory || []
 
   // ── Generate Schema ──
   const generate = async () => {
     if (!topic.trim() || loading) return
     if (!apiKey) {
-      setError('Please set your Anthropic API key in the Analyzer view first.')
+      setError(t('schema.apiKeyMissing'))
       return
     }
 
@@ -252,7 +233,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
         // Log activity
         logAndDispatch('schemaGenerate', { type: selectedType, topic: topic.slice(0, 60) }, user)
       } else {
-        setError('Could not parse the generated schema. Please try again.')
+        setError(t('schema.parseError'))
       }
     } catch (err) {
       logger.error('Schema generator error:', err)
@@ -301,7 +282,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
         <div className="schema-header-left">
           <Code2 size={24} className="schema-header-icon" />
           <div>
-            <h1 className="schema-title">Schema Markup Generator</h1>
+            <h1 className="schema-title">{t('schema.markupGenerator')}</h1>
             <p className="schema-subtitle">
               {activeProject?.questionnaire?.completedAt ? (() => {
                 const q = activeProject.questionnaire
@@ -313,8 +294,11 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
                 const engines = q.targetEngines?.includes('all') ? 'all AI engines' : q.targetEngines?.length > 0
                   ? q.targetEngines.map(e => ENGINE_LABELS[e] || e).join(', ')
                   : null
-                return `Generate schemas for your ${industry} business${location ? ` in ${location}` : ''}${engines ? ` — optimized for ${engines}` : ''}`
-              })() : 'Generate JSON-LD structured data optimized for AI answer engines'}
+                let subtitle = t('schema.generateForIndustry', { industry })
+                if (location) subtitle += t('schema.inLocation', { location })
+                if (engines) subtitle += t('schema.optimizedFor', { engines })
+                return subtitle
+              })() : t('schema.defaultSubtitle')}
             </p>
           </div>
         </div>
@@ -324,7 +308,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             onClick={() => setShowHistory(!showHistory)}
           >
             <Clock size={16} />
-            History ({history.length})
+            {t('schema.historyCount', { count: history.length })}
             {showHistory ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
           </button>
         )}
@@ -349,7 +333,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
                 <button
                   className="schema-history-delete"
                   onClick={() => deleteHistoryItem(entry.id)}
-                  aria-label="Delete history item"
+                  aria-label={t('schema.deleteHistoryItem')}
                 >
                   <Trash2 size={14} />
                 </button>
@@ -378,7 +362,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       <div className="schema-form-card">
         <div className="schema-form-row">
           <div className="schema-form-field schema-form-field-wide">
-            <label className="schema-label">Topic / Subject *</label>
+            <label className="schema-label">{t('schema.topicLabel')}</label>
             <input
               type="text"
               className="schema-input"
@@ -393,7 +377,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             />
           </div>
           <div className="schema-form-field">
-            <label className="schema-label">Page URL (optional)</label>
+            <label className="schema-label">{t('schema.pageUrlLabel')}</label>
             <input
               type="url"
               className="schema-input"
@@ -411,12 +395,12 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           {loading ? (
             <>
               <Loader2 size={18} className="schema-spinner" />
-              Generating Schema…
+              {t('schema.generatingSchema')}
             </>
           ) : (
             <>
               <Sparkles size={18} />
-              Generate Schema Markup
+              {t('schema.generateMarkup')}
             </>
           )}
         </button>
@@ -434,8 +418,8 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       {loading && (
         <div className="schema-loading-card">
           <Loader2 size={32} className="schema-spinner" />
-          <p>Generating {SCHEMA_TYPES.find(t => t.id === selectedType)?.schemaType} structured data…</p>
-          <span className="schema-loading-sub">This usually takes 10-15 seconds</span>
+          <p>{t('schema.generatingType', { type: SCHEMA_TYPES.find(st => st.id === selectedType)?.schemaType })}</p>
+          <span className="schema-loading-sub">{t('schema.loadingHint')}</span>
         </div>
       )}
 
@@ -454,11 +438,11 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             <div className="schema-result-actions">
               <button className="schema-copy-btn schema-copy-script" onClick={copyJsonLd}>
                 {copiedJsonLd ? <Check size={16} /> : <Copy size={16} />}
-                {copiedJsonLd ? 'Copied!' : 'Copy <script> Tag'}
+                {copiedJsonLd ? t('schema.copied') : t('schema.copyScriptTag')}
               </button>
               <button className="schema-copy-btn" onClick={copyRawJson}>
                 {copied ? <Check size={16} /> : <Copy size={16} />}
-                {copied ? 'Copied!' : 'Copy JSON'}
+                {copied ? t('schema.copied') : t('schema.copyJson')}
               </button>
             </div>
           </div>
@@ -467,7 +451,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           <div className="schema-code-section">
             <div className="schema-code-label">
               <Code2 size={14} />
-              JSON-LD Markup
+              {t('schema.jsonLdMarkup')}
             </div>
             <pre className="schema-code-block">
               <code>{`<script type="application/ld+json">\n${JSON.stringify(result.content.jsonLd, null, 2)}\n</script>`}</code>
@@ -479,7 +463,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             <div className="schema-impl-section">
               <h3 className="schema-section-title">
                 <Plus size={16} />
-                Implementation Guide
+                {t('schema.implementationGuide')}
               </h3>
               <div className="schema-impl-content">
                 {result.content.implementation.split('\n').map((line, i) => (
@@ -494,7 +478,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             <div className="schema-seo-section">
               <h3 className="schema-section-title">
                 <Sparkles size={16} />
-                AEO Impact Notes
+                {t('schema.aeoImpactNotes')}
               </h3>
               <p className="schema-seo-content">{result.content.seoNotes}</p>
             </div>
@@ -522,13 +506,13 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       {!result && !loading && !error && (
         <div className="schema-empty">
           <Code2 size={48} strokeWidth={1} />
-          <h3>Generate Schema Markup</h3>
-          <p>Select a schema type, enter your topic, and generate valid JSON-LD structured data optimized for AI answer engines.</p>
+          <h3>{t('schema.emptyTitle')}</h3>
+          <p>{t('schema.emptyDesc')}</p>
           <div className="schema-empty-types">
-            {SCHEMA_TYPES.slice(0, 4).map(t => (
-              <span key={t.id} className="schema-empty-tag">{t.icon} {t.label}</span>
+            {SCHEMA_TYPES.slice(0, 4).map(st => (
+              <span key={st.id} className="schema-empty-tag">{st.icon} {st.label}</span>
             ))}
-            <span className="schema-empty-tag">+{SCHEMA_TYPES.length - 4} more</span>
+            <span className="schema-empty-tag">{t('schema.emptyMore', { count: SCHEMA_TYPES.length - 4 })}</span>
           </div>
         </div>
       )}

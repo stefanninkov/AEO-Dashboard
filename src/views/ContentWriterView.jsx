@@ -1,17 +1,19 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PenTool, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle } from 'lucide-react'
 import { callAnthropicApi } from '../utils/apiClient'
 import { getAnalyzerIndustryContext, AUDIENCE_LABELS, INDUSTRY_LABELS, LANGUAGE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
 
-const CONTENT_TYPES = [
-  {
-    id: 'faq',
-    label: 'FAQ Section',
-    icon: '❓',
-    description: 'Generate AEO-optimized Q&A pairs with schema-ready structure',
-    prompt: (topic, context, tone) => `Generate an AEO-optimized FAQ section about "${topic}".
+function buildContentTypes(t) {
+  return [
+    {
+      id: 'faq',
+      label: t('writer.types.faq'),
+      icon: '❓',
+      description: t('writer.typeDescriptions.faq'),
+      prompt: (topic, context, tone) => `Generate an AEO-optimized FAQ section about "${topic}".
 ${context}
 
 Requirements:
@@ -35,13 +37,13 @@ Return as JSON:
   ],
   "schemaNote": "Brief note about implementing FAQPage schema for this content"
 }`,
-  },
-  {
-    id: 'howto',
-    label: 'How-To Guide',
-    icon: '📋',
-    description: 'Step-by-step guides structured for AI citation',
-    prompt: (topic, context, tone) => `Create an AEO-optimized how-to guide about "${topic}".
+    },
+    {
+      id: 'howto',
+      label: t('writer.types.howTo'),
+      icon: '📋',
+      description: t('writer.typeDescriptions.howTo'),
+      prompt: (topic, context, tone) => `Create an AEO-optimized how-to guide about "${topic}".
 ${context}
 
 Requirements:
@@ -70,13 +72,13 @@ Return as JSON:
   "conclusion": "Wrap-up paragraph",
   "schemaNote": "Brief note about implementing HowTo schema for this content"
 }`,
-  },
-  {
-    id: 'comparison',
-    label: 'Comparison Article',
-    icon: '⚖️',
-    description: 'Structured comparison content for decision-making queries',
-    prompt: (topic, context, tone) => `Write an AEO-optimized comparison article about "${topic}".
+    },
+    {
+      id: 'comparison',
+      label: t('writer.types.comparison'),
+      icon: '⚖️',
+      description: t('writer.typeDescriptions.comparison'),
+      prompt: (topic, context, tone) => `Write an AEO-optimized comparison article about "${topic}".
 ${context}
 
 Requirements:
@@ -108,13 +110,13 @@ Return as JSON:
   },
   "schemaNote": "Brief note about comparison content schema"
 }`,
-  },
-  {
-    id: 'product',
-    label: 'Product Description',
-    icon: '🛍️',
-    description: 'AEO-ready product/service descriptions with schema hints',
-    prompt: (topic, context, tone) => `Write an AEO-optimized product/service description for "${topic}".
+    },
+    {
+      id: 'product',
+      label: t('writer.types.product'),
+      icon: '🛍️',
+      description: t('writer.typeDescriptions.product'),
+      prompt: (topic, context, tone) => `Write an AEO-optimized product/service description for "${topic}".
 ${context}
 
 Requirements:
@@ -151,13 +153,13 @@ Return as JSON:
   ],
   "schemaNote": "Brief note about Product/Service schema for this content"
 }`,
-  },
-  {
-    id: 'definition',
-    label: 'Definition Article',
-    icon: '📖',
-    description: 'Authoritative "What is X" content for featured snippets',
-    prompt: (topic, context, tone) => `Write an AEO-optimized definition article about "${topic}".
+    },
+    {
+      id: 'definition',
+      label: t('writer.types.definition'),
+      icon: '📖',
+      description: t('writer.typeDescriptions.definition'),
+      prompt: (topic, context, tone) => `Write an AEO-optimized definition article about "${topic}".
 ${context}
 
 Requirements:
@@ -189,17 +191,21 @@ Return as JSON:
   ],
   "schemaNote": "Brief note about DefinedTerm/Article schema for this content"
 }`,
-  },
-]
+    },
+  ]
+}
 
-const TONE_OPTIONS = [
-  { id: 'professional', label: 'Professional' },
-  { id: 'conversational', label: 'Conversational' },
-  { id: 'technical', label: 'Technical' },
-  { id: 'friendly', label: 'Friendly' },
-]
+function buildToneOptions(t) {
+  return [
+    { id: 'professional', label: t('writer.tones.professional') },
+    { id: 'conversational', label: t('writer.tones.conversational') },
+    { id: 'technical', label: t('writer.tones.technical') },
+    { id: 'friendly', label: t('writer.tones.friendly') },
+  ]
+}
 
 export default function ContentWriterView({ activeProject, updateProject, user }) {
+  const { t } = useTranslation('app')
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const [topic, setTopic] = useState('')
   const [selectedType, setSelectedType] = useState('faq')
@@ -211,12 +217,15 @@ export default function ContentWriterView({ activeProject, updateProject, user }
   const [showHistory, setShowHistory] = useState(false)
   const [apiKey] = useState(() => localStorage.getItem('anthropic-api-key') || '')
 
+  const CONTENT_TYPES = useMemo(() => buildContentTypes(t), [t])
+  const TONE_OPTIONS = useMemo(() => buildToneOptions(t), [t])
+
   const history = activeProject?.contentHistory || []
 
   const generate = async () => {
     if (!topic.trim() || loading) return
     if (!apiKey) {
-      setError('Please set your Anthropic API key in the Analyzer view first.')
+      setError(t('writer.apiKeyError'))
       return
     }
 
@@ -224,7 +233,7 @@ export default function ContentWriterView({ activeProject, updateProject, user }
     setError(null)
     setResult(null)
 
-    const contentType = CONTENT_TYPES.find(t => t.id === selectedType)
+    const contentType = CONTENT_TYPES.find(ct => ct.id === selectedType)
     const context = getAnalyzerIndustryContext(activeProject?.questionnaire)
 
     try {
@@ -269,7 +278,7 @@ Return ONLY valid JSON matching the requested format.`,
         // Log activity
         logAndDispatch('contentWrite', { type: selectedType, topic: topic.slice(0, 60) }, user)
       } else {
-        setError('Could not parse the generated content. Please try again.')
+        setError(t('writer.parseError'))
       }
     } catch (err) {
       logger.error('Content writer error:', err)
@@ -321,7 +330,7 @@ Return ONLY valid JSON matching the requested format.`,
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">Content Writer</h2>
+          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">{t('writer.title')}</h2>
           <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-2/10 text-phase-2 font-medium">{activeProject?.name}</span>
         </div>
         <p className="text-[0.8125rem] text-text-secondary">
@@ -330,8 +339,20 @@ Return ONLY valid JSON matching the requested format.`,
             const audience = AUDIENCE_LABELS[q.audience] || null
             const industry = INDUSTRY_LABELS[q.industry] || q.industry
             const langNames = q.languages?.length > 0 ? q.languages.map(l => LANGUAGE_LABELS[l] || l).join(', ') : null
-            return `Generate content${audience ? ` for ${audience} audiences` : ''}${langNames && langNames !== 'English' ? ` in ${langNames}` : ''}${industry ? ` — ${industry} focus` : ''}`
-          })() : 'Generate AEO-optimized content that AI assistants love to cite.'}
+            let subtitle = t('writer.generate')
+            if (audience) {
+              subtitle = t('writer.generateForAudience', { audience })
+            } else {
+              subtitle = t('writer.subtitle')
+            }
+            if (langNames && langNames !== 'English') {
+              subtitle += t('writer.inLanguage', { languages: langNames })
+            }
+            if (industry) {
+              subtitle += t('writer.industryFocus', { industry })
+            }
+            return subtitle
+          })() : t('writer.defaultCiteContent')}
         </p>
       </div>
 
@@ -354,16 +375,16 @@ Return ONLY valid JSON matching the requested format.`,
       <div className="cw-form-card">
         <div className="cw-form-row">
           <div className="cw-form-field" style={{ flex: 1 }}>
-            <label htmlFor="cw-topic" className="cw-label">Topic or Subject</label>
+            <label htmlFor="cw-topic" className="cw-label">{t('writer.topicLabel')}</label>
             <input
               id="cw-topic"
               type="text"
               placeholder={
-                selectedType === 'faq' ? 'e.g., AEO best practices for e-commerce'
-                : selectedType === 'howto' ? 'e.g., How to implement FAQ schema markup'
-                : selectedType === 'comparison' ? 'e.g., React vs Vue for SEO-heavy sites'
-                : selectedType === 'product' ? 'e.g., AEO Dashboard - AI-powered optimization tool'
-                : 'e.g., Answer Engine Optimization'
+                selectedType === 'faq' ? t('writer.placeholders.faq')
+                : selectedType === 'howto' ? t('writer.placeholders.howTo')
+                : selectedType === 'comparison' ? t('writer.placeholders.comparison')
+                : selectedType === 'product' ? t('writer.placeholders.product')
+                : t('writer.placeholders.definition')
               }
               value={topic}
               onChange={e => setTopic(e.target.value)}
@@ -372,15 +393,15 @@ Return ONLY valid JSON matching the requested format.`,
             />
           </div>
           <div className="cw-form-field">
-            <label htmlFor="cw-tone" className="cw-label">Tone</label>
+            <label htmlFor="cw-tone" className="cw-label">{t('writer.tone')}</label>
             <select
               id="cw-tone"
               value={tone}
               onChange={e => setTone(e.target.value)}
               className="cw-select"
             >
-              {TONE_OPTIONS.map(t => (
-                <option key={t.id} value={t.id}>{t.label}</option>
+              {TONE_OPTIONS.map(toneOpt => (
+                <option key={toneOpt.id} value={toneOpt.id}>{toneOpt.label}</option>
               ))}
             </select>
           </div>
@@ -393,7 +414,7 @@ Return ONLY valid JSON matching the requested format.`,
             className="metrics-run-btn"
           >
             {loading ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-            Generate Content
+            {t('writer.generateContent')}
           </button>
 
           {history.length > 0 && (
@@ -402,14 +423,14 @@ Return ONLY valid JSON matching the requested format.`,
               className="cw-history-toggle"
             >
               <Clock size={14} />
-              History ({history.length})
+              {t('writer.historyCount', { count: history.length })}
               {showHistory ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             </button>
           )}
         </div>
 
         {!apiKey && (
-          <p className="text-[0.6875rem] text-warning mt-2">Set your API key in the Analyzer view to use the content writer.</p>
+          <p className="text-[0.6875rem] text-warning mt-2">{t('writer.apiKeyMissing')}</p>
         )}
       </div>
 
@@ -418,7 +439,7 @@ Return ONLY valid JSON matching the requested format.`,
         <div className="bg-error/10 border border-error/30 rounded-xl p-4 flex items-start gap-3 fade-in-up">
           <AlertCircle size={18} className="text-error flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-error">Generation Error</p>
+            <p className="text-sm font-medium text-error">{t('writer.generationError')}</p>
             <p className="text-xs text-text-secondary mt-1">{error}</p>
           </div>
         </div>
@@ -427,9 +448,9 @@ Return ONLY valid JSON matching the requested format.`,
       {/* History Panel */}
       {showHistory && history.length > 0 && (
         <div className="cw-history-panel fade-in-up">
-          <p className="cw-section-title">Recent Generations</p>
+          <p className="cw-section-title">{t('writer.recentGenerations')}</p>
           {history.map(entry => {
-            const typeInfo = CONTENT_TYPES.find(t => t.id === entry.type)
+            const typeInfo = CONTENT_TYPES.find(ct => ct.id === entry.type)
             return (
               <div key={entry.id} className="cw-history-item">
                 <button onClick={() => loadFromHistory(entry)} className="cw-history-item-main">
@@ -444,8 +465,8 @@ Return ONLY valid JSON matching the requested format.`,
                 <button
                   onClick={() => deleteHistoryItem(entry.id)}
                   className="cw-history-delete"
-                  title="Delete"
-                  aria-label="Delete history item"
+                  title={t('writer.delete')}
+                  aria-label={t('writer.deleteHistoryItem')}
                 >
                   <Trash2 size={12} />
                 </button>
@@ -460,8 +481,8 @@ Return ONLY valid JSON matching the requested format.`,
         <div className="cw-loading-card fade-in-up">
           <Loader2 size={24} className="animate-spin" style={{ color: 'var(--color-phase-2)' }} />
           <div>
-            <p className="text-sm font-medium text-text-primary">Generating {CONTENT_TYPES.find(t => t.id === selectedType)?.label}...</p>
-            <p className="text-xs text-text-tertiary mt-0.5">This typically takes 5-15 seconds</p>
+            <p className="text-sm font-medium text-text-primary">{t('writer.generatingType', { type: CONTENT_TYPES.find(ct => ct.id === selectedType)?.label })}</p>
+            <p className="text-xs text-text-tertiary mt-0.5">{t('writer.generatingTime')}</p>
           </div>
         </div>
       )}
@@ -477,18 +498,18 @@ Return ONLY valid JSON matching the requested format.`,
             <button
               onClick={() => copyContent(contentToMarkdown(result))}
               className="cw-copy-all-btn"
-              title="Copy as Markdown"
-              aria-label="Copy content as Markdown"
+              title={t('writer.copyAsMarkdown')}
+              aria-label={t('writer.copyContentAsMarkdown')}
             >
               {copied ? <Check size={14} /> : <Copy size={14} />}
-              {copied ? 'Copied!' : 'Copy Markdown'}
+              {copied ? t('writer.copied') : t('writer.copyMarkdown')}
             </button>
           </div>
           {renderContent(result)}
           {result.content.schemaNote && (
             <div className="cw-schema-note">
               <Sparkles size={12} style={{ color: 'var(--color-phase-3)', flexShrink: 0 }} />
-              <span><strong>Schema Tip:</strong> {result.content.schemaNote}</span>
+              <span><strong>{t('writer.schemaTip')}</strong> {result.content.schemaNote}</span>
             </div>
           )}
         </div>
@@ -500,9 +521,9 @@ Return ONLY valid JSON matching the requested format.`,
           <div className="analyzer-empty-icon">
             <PenTool size={28} className="text-text-tertiary" />
           </div>
-          <h3 className="analyzer-empty-title">Ready to write</h3>
+          <h3 className="analyzer-empty-title">{t('writer.readyToWrite')}</h3>
           <p className="analyzer-empty-text">
-            Choose a content type, enter your topic, and let AI generate AEO-optimized content.
+            {t('writer.readyToWriteDesc')}
           </p>
         </div>
       )}

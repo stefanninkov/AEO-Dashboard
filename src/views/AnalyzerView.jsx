@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Globe, Link2, Loader2, AlertCircle, Zap, Search, FileText } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
@@ -13,6 +14,7 @@ import {
 import PageAnalyzerTab from './analyzer/PageAnalyzerTab'
 
 export default function AnalyzerView({ activeProject, updateProject, user }) {
+  const { t } = useTranslation('app')
   const [activeTab, setActiveTab] = useState('site') // 'site' | 'pages'
   const [mode, setMode] = useState('url') // 'webflow' | 'url'
   const [url, setUrl] = useState(activeProject?.url || '')
@@ -498,7 +500,7 @@ Return ONLY valid JSON:
                 className="metrics-run-btn"
               >
                 {loading ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
-                Analyze
+                {loading ? t('analyzer.analyzing') : t('analyzer.analyze')}
               </button>
             </div>
           )}

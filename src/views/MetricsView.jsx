@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   FileText, MessageSquare, Globe, Target, TrendingUp, TrendingDown, Minus,
   Loader2, AlertCircle, RefreshCw, ArrowUp, ArrowDown, BarChart3
@@ -182,6 +183,7 @@ const TABS = [
 
 /* ── Main MetricsView ── */
 export default function MetricsView({ activeProject, updateProject, dateRange }) {
+  const { t } = useTranslation('app')
   const { engineColors: themeEngineColors } = useChartColors()
   const [activeTab, setActiveTab] = useState('overview')
   const { refreshing, progress, error, fetchMetrics, getLatestMetrics, getMetricsForRange } = useAeoMetrics({
@@ -209,7 +211,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
       {/* Header */}
       <div className="metrics-header">
         <div>
-          <h2 className="view-title">AEO Metrics</h2>
+          <h2 className="view-title">{t('metrics.title')}</h2>
           <p className="view-subtitle">
             {activeProject.name} — {activeProject.url || 'No URL set'}
           </p>
@@ -256,7 +258,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
           <div className="metrics-empty-icon">
             <BarChart3 size={24} className="text-text-tertiary" />
           </div>
-          <h3 className="font-heading text-base font-bold mb-2">No Metrics Data Yet</h3>
+          <h3 className="font-heading text-base font-bold mb-2">{t('metrics.noData')}</h3>
           <p className="text-sm text-text-tertiary mb-4 text-center max-w-sm">
             Click "Run Analysis" to fetch real-time AEO metrics for your project using AI-powered analysis.
           </p>
@@ -345,7 +347,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
 
         {/* AEO Score Gauge */}
         <div className="metrics-chart-card">
-          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Overall AEO Score</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.overallScore')}</h3>
           <div className="flex flex-col items-center justify-center py-4">
             <div className="relative w-40 h-40">
               <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
@@ -395,7 +397,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
       {/* History trend */}
       {rangeMetrics.length > 1 && (
         <div className="metrics-chart-card">
-          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">Score Trend</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.trend')}</h3>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={rangeMetrics.slice(-14).map(m => ({
               date: new Date(m.timestamp).toLocaleDateString('en', { month: 'short', day: 'numeric' }),

@@ -1,22 +1,24 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { X, Table2, Download } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useToast } from './Toast'
 import { exportChecklist, exportMetrics, exportActivity, exportCompetitors } from '../utils/generateCsv'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import logger from '../utils/logger'
 
-const SECTIONS = [
-  { key: 'checklist', label: 'Checklist Data', desc: 'Phase, category, task, status, assignee, notes', default: true },
-  { key: 'metrics', label: 'Metrics History', desc: 'Date, score, citations by engine', default: true, dataKey: 'metricsHistory' },
-  { key: 'activity', label: 'Activity Log', desc: 'Date, type, author, description', default: false, dataKey: 'activityLog' },
-  { key: 'competitors', label: 'Competitors', desc: 'Name, URL, citation share', default: false, dataKey: 'competitors' },
-]
-
 export default function CsvExportDialog({ activeProject, phases, updateProject, user, onClose, isClosing, onExited }) {
+  const { t } = useTranslation('app')
   const { addToast } = useToast()
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const trapRef = useFocusTrap(!isClosing)
+
+  const SECTIONS = useMemo(() => [
+    { key: 'checklist', label: t('csvExport.sections.checklist'), desc: t('csvExport.sections.checklistDesc'), default: true },
+    { key: 'metrics', label: t('csvExport.sections.metrics'), desc: t('csvExport.sections.metricsDesc'), default: true, dataKey: 'metricsHistory' },
+    { key: 'activity', label: t('csvExport.sections.activity'), desc: t('csvExport.sections.activityDesc'), default: false, dataKey: 'activityLog' },
+    { key: 'competitors', label: t('csvExport.sections.competitors'), desc: t('csvExport.sections.competitorsDesc'), default: false, dataKey: 'competitors' },
+  ], [t])
   const [selectedSections, setSelectedSections] = useState(() => {
     const init = {}
     SECTIONS.forEach(s => { init[s.key] = s.default })
@@ -145,8 +147,8 @@ export default function CsvExportDialog({ activeProject, phases, updateProject, 
             <Table2 size={16} style={{ color: 'var(--color-phase-4)' }} />
           </div>
           <div className="email-modal-header-text">
-            <h3 id="csv-export-title" className="email-modal-title">Export CSV Data</h3>
-            <p className="email-modal-subtitle">Download project data as spreadsheet-ready CSV</p>
+            <h3 id="csv-export-title" className="email-modal-title">{t('csvExport.title')}</h3>
+            <p className="email-modal-subtitle">{t('csvExport.subtitle')}</p>
           </div>
         </div>
 
@@ -168,8 +170,8 @@ export default function CsvExportDialog({ activeProject, phases, updateProject, 
           {/* Sections */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <label className="email-modal-label">Export Sections</label>
-              <button onClick={selectAll} className="checklist-bulk-link">Select all</button>
+              <label className="email-modal-label">{t('csvExport.exportSections')}</label>
+              <button onClick={selectAll} className="checklist-bulk-link">{t('csvExport.selectAll')}</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               {SECTIONS.map(section => {
@@ -196,7 +198,7 @@ export default function CsvExportDialog({ activeProject, phases, updateProject, 
                       <div style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{section.label}</div>
                       <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
                         {section.desc}
-                        {disabled && ' (no data)'}
+                        {disabled && ` ${t('csvExport.noData')}`}
                       </div>
                     </div>
                   </label>
@@ -215,10 +217,10 @@ export default function CsvExportDialog({ activeProject, phases, updateProject, 
             style={{ flex: 1 }}
           >
             <Download size={14} />
-            {generating ? 'Exporting...' : `Download ${selectedCount} CSV${selectedCount !== 1 ? 's' : ''}`}
+            {generating ? t('csvExport.exporting') : (selectedCount !== 1 ? t('csvExport.downloadPlural', { count: selectedCount }) : t('csvExport.download', { count: selectedCount }))}
           </button>
           <button onClick={onClose} className="email-modal-cancel-btn">
-            Cancel
+            {t('csvExport.cancel')}
           </button>
         </div>
       </div>

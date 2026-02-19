@@ -5,6 +5,7 @@ import {
   GraduationCap, Megaphone, Store, Newspaper, Briefcase,
   Lightbulb, Search, Globe, Monitor,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
   GOAL_LABELS, MATURITY_LABELS, COUNTRY_OPTIONS, COUNTRY_LABELS,
@@ -14,83 +15,77 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const TOTAL_STEPS = 6
 
-const INDUSTRY_OPTIONS = [
-  { value: 'saas', label: 'SaaS / Software', icon: Layers },
-  { value: 'ecommerce', label: 'E-Commerce', icon: ShoppingCart },
-  { value: 'healthcare', label: 'Healthcare', icon: Heart },
-  { value: 'finance', label: 'Finance', icon: Landmark },
-  { value: 'legal', label: 'Legal', icon: Scale },
-  { value: 'realestate', label: 'Real Estate', icon: Home },
-  { value: 'education', label: 'Education', icon: GraduationCap },
-  { value: 'agency', label: 'Agency', icon: Megaphone },
-  { value: 'localbusiness', label: 'Local Business', icon: Store },
-  { value: 'media', label: 'Media', icon: Newspaper },
-  { value: 'other', label: 'Other', icon: Briefcase },
+/* Non-translatable metadata — icons, colors, values stay module-scope */
+const INDUSTRY_META = [
+  { value: 'saas', icon: Layers },
+  { value: 'ecommerce', icon: ShoppingCart },
+  { value: 'healthcare', icon: Heart },
+  { value: 'finance', icon: Landmark },
+  { value: 'legal', icon: Scale },
+  { value: 'realestate', icon: Home },
+  { value: 'education', icon: GraduationCap },
+  { value: 'agency', icon: Megaphone },
+  { value: 'localbusiness', icon: Store },
+  { value: 'media', icon: Newspaper },
+  { value: 'other', icon: Briefcase },
 ]
 
-const REGION_OPTIONS = [
-  { value: 'us', label: 'US' },
-  { value: 'europe', label: 'Europe' },
-  { value: 'uk', label: 'UK' },
-  { value: 'apac', label: 'Asia-Pacific' },
-  { value: 'latam', label: 'LATAM' },
-  { value: 'mena', label: 'MENA' },
-  { value: 'global', label: 'Global' },
+const REGION_IDS = ['us', 'europe', 'uk', 'apac', 'latam', 'mena', 'global']
+const AUDIENCE_IDS = ['b2b', 'b2c', 'both']
+const GOAL_IDS = ['citations', 'answers', 'traffic', 'brand', 'all']
+
+const ENGINE_META = [
+  { value: 'chatgpt', color: '#10A37F' },
+  { value: 'perplexity', color: '#7B2FBE' },
+  { value: 'google-aio', color: '#4285F4' },
+  { value: 'bing-copilot', color: '#00A4EF' },
+  { value: 'claude', color: '#D97706' },
+  { value: 'all', color: '#FF6B35' },
 ]
 
-const AUDIENCE_OPTIONS = [
-  { value: 'b2b', label: 'B2B', desc: 'Business customers' },
-  { value: 'b2c', label: 'B2C', desc: 'Individual consumers' },
-  { value: 'both', label: 'Both', desc: 'B2B and B2C' },
-]
-
-const GOAL_OPTIONS = [
-  { value: 'citations', label: 'Get Cited', desc: 'Appear as a source in AI answers' },
-  { value: 'answers', label: 'Show in Answers', desc: 'Be directly featured in AI results' },
-  { value: 'traffic', label: 'Drive Traffic', desc: 'Get referral visits from AI engines' },
-  { value: 'brand', label: 'Brand Authority', desc: 'Build recognition in AI ecosystems' },
-  { value: 'all', label: 'Full Strategy', desc: 'Citations, answers, traffic & brand' },
-]
-
-const ENGINE_OPTIONS = [
-  { value: 'chatgpt', label: 'ChatGPT', color: '#10A37F' },
-  { value: 'perplexity', label: 'Perplexity', color: '#7B2FBE' },
-  { value: 'google-aio', label: 'Google AI', color: '#4285F4' },
-  { value: 'bing-copilot', label: 'Bing Copilot', color: '#00A4EF' },
-  { value: 'claude', label: 'Claude', color: '#D97706' },
-  { value: 'all', label: 'All Engines', color: '#FF6B35' },
-]
-
-const CONTENT_OPTIONS = [
-  { value: 'blog', label: 'Blog / Articles', desc: 'Written content & guides' },
-  { value: 'product', label: 'Product Pages', desc: 'Product listings & info' },
-  { value: 'docs', label: 'Documentation', desc: 'Technical docs & guides' },
-  { value: 'landing', label: 'Landing Pages', desc: 'Marketing & conversion pages' },
-  { value: 'mixed', label: 'Mixed', desc: 'Multiple content types' },
-]
-
-const MATURITY_OPTIONS = [
-  { value: 'beginner', label: 'Just Starting', desc: 'New to AEO, starting from scratch' },
-  { value: 'basics', label: 'Some Basics', desc: 'Basic SEO done, AEO is new' },
-  { value: 'intermediate', label: 'Intermediate', desc: 'Some AEO implemented already' },
-  { value: 'advanced', label: 'Advanced', desc: 'Active AEO, looking to optimize' },
-]
-
-const CMS_OPTIONS = [
-  { value: 'wordpress', label: 'WordPress' },
-  { value: 'shopify', label: 'Shopify' },
-  { value: 'webflow', label: 'Webflow' },
-  { value: 'wix', label: 'Wix' },
-  { value: 'squarespace', label: 'Squarespace' },
-  { value: 'custom', label: 'Custom' },
-  { value: 'other', label: 'Other' },
-]
+const CONTENT_IDS = ['blog', 'product', 'docs', 'landing', 'mixed']
+const MATURITY_IDS = ['beginner', 'basics', 'intermediate', 'advanced']
+const CMS_IDS = ['wordpress', 'shopify', 'webflow', 'wix', 'squarespace', 'custom', 'other']
 
 export default function ProjectQuestionnaire({ onComplete, onCancel, initialData, isNewProject }) {
+  const { t } = useTranslation('app')
   const [step, setStep] = useState(0)
   const [animating, setAnimating] = useState(false)
   const [countrySearch, setCountrySearch] = useState('')
   const trapRef = useFocusTrap(true)
+
+  /* Build translated option arrays */
+  const INDUSTRY_OPTIONS = useMemo(() => INDUSTRY_META.map(m => ({
+    ...m, label: t(`labels.industry.${m.value}`),
+  })), [t])
+
+  const REGION_OPTIONS = useMemo(() => REGION_IDS.map(id => ({
+    value: id, label: t(`labels.region.${id}`),
+  })), [t])
+
+  const AUDIENCE_OPTIONS = useMemo(() => AUDIENCE_IDS.map(id => ({
+    value: id, label: t(`questionnaire.audience.${id}.label`), desc: t(`questionnaire.audience.${id}.desc`),
+  })), [t])
+
+  const GOAL_OPTIONS = useMemo(() => GOAL_IDS.map(id => ({
+    value: id, label: t(`questionnaire.goal.${id}.label`), desc: t(`questionnaire.goal.${id}.desc`),
+  })), [t])
+
+  const ENGINE_OPTIONS = useMemo(() => ENGINE_META.map(m => ({
+    ...m, label: t(`labels.engine.${m.value}`),
+  })), [t])
+
+  const CONTENT_OPTIONS = useMemo(() => CONTENT_IDS.map(id => ({
+    value: id, label: t(`questionnaire.content.${id}.label`), desc: t(`questionnaire.content.${id}.desc`),
+  })), [t])
+
+  const MATURITY_OPTIONS = useMemo(() => MATURITY_IDS.map(id => ({
+    value: id, label: t(`questionnaire.maturity.${id}.label`), desc: t(`questionnaire.maturity.${id}.desc`),
+  })), [t])
+
+  const CMS_OPTIONS = useMemo(() => CMS_IDS.map(id => ({
+    value: id, label: t(`labels.cms.${id}`),
+  })), [t])
   const [answers, setAnswers] = useState({
     industry: initialData?.industry || null,
     industryOther: initialData?.industryOther || '',
@@ -262,7 +257,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               padding: '2px 8px', borderRadius: 4,
               background: 'rgba(255,107,53,0.1)',
             }}>
-              Step {step + 1} of {TOTAL_STEPS}
+              {t('questionnaire.stepOf', { current: step + 1, total: TOTAL_STEPS })}
             </span>
             {onCancel && isNewProject && (
               <button
@@ -284,10 +279,10 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
           {step === 0 && (
             <div>
               <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
-                Tell us about your business
+                {t('questionnaire.step0.title')}
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 16 }}>
-                This helps us tailor recommendations to your industry.
+                {t('questionnaire.step0.desc')}
               </p>
 
               {/* Why this matters callout */}
@@ -299,13 +294,13 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               }}>
                 <Lightbulb size={15} style={{ color: 'var(--color-phase-1)', flexShrink: 0, marginTop: 1 }} />
                 <p style={{ fontSize: 11.5, color: 'var(--text-secondary)', lineHeight: 1.5, margin: 0 }}>
-                  <strong style={{ color: 'var(--text-primary)' }}>Why this matters:</strong> Your answers directly shape every recommendation, schema suggestion, and content strategy in this dashboard. The more accurate your profile, the more relevant and actionable your AEO roadmap becomes.
+                  <strong style={{ color: 'var(--text-primary)' }}>{t('questionnaire.step0.whyMatters')}</strong> {t('questionnaire.step0.whyMattersDesc')}
                 </p>
               </div>
 
               {/* Industry Grid */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Industry
+                {t('questionnaire.step0.industryLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 16 }}>
                 {INDUSTRY_OPTIONS.map(opt => {
@@ -334,7 +329,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               {answers.industry === 'other' && (
                 <input
                   type="text"
-                  placeholder="Describe your industry..."
+                  placeholder={t('questionnaire.step0.industryOtherPlaceholder')}
                   value={answers.industryOther}
                   onChange={e => update('industryOther', e.target.value)}
                   className="input-field"
@@ -344,7 +339,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
 
               {/* Region Chips */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Primary Region
+                {t('questionnaire.step0.regionLabel')}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: countryOptions.length > 0 ? 14 : 0 }}>
                 {REGION_OPTIONS.map(opt => {
@@ -375,7 +370,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               {(countryOptions.length > 0 || (answers.countries?.length > 0)) && answers.region && answers.region !== 'global' && (
                 <div>
                   <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    Countries <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional — select one or more for local targeting)</span>
+                    {t('questionnaire.step0.countriesLabel')} <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>{t('questionnaire.step0.countriesHint')}</span>
                   </p>
 
                   {/* Selected countries chips */}
@@ -407,7 +402,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                     <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }} />
                     <input
                       type="text"
-                      placeholder="Search countries..."
+                      placeholder={t('questionnaire.step0.searchCountries')}
                       value={countrySearch}
                       onChange={e => setCountrySearch(e.target.value)}
                       className="input-field"
@@ -446,15 +441,15 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
           {step === 1 && (
             <div>
               <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
-                Who are you targeting?
+                {t('questionnaire.step1.title')}
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
-                Understanding your audience and goals helps us prioritize the right AEO strategies.
+                {t('questionnaire.step1.desc')}
               </p>
 
               {/* Audience */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Target Audience
+                {t('questionnaire.step1.audienceLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 20 }}>
                 {AUDIENCE_OPTIONS.map(opt => {
@@ -480,7 +475,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
 
               {/* Primary Goal */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Primary Goal
+                {t('questionnaire.step1.goalLabel')}
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {GOAL_OPTIONS.map(opt => {
@@ -514,10 +509,10 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
           {step === 2 && (
             <div>
               <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
-                Which AI engines matter most?
+                {t('questionnaire.step2.title')}
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
-                Select the AI platforms you want to optimize for. We'll focus your metrics and testing on these.
+                {t('questionnaire.step2.desc')}
               </p>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
@@ -565,15 +560,15 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
           {step === 3 && (
             <div>
               <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
-                Your content & experience
+                {t('questionnaire.step3.title')}
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
-                This helps us customize your checklist priority order.
+                {t('questionnaire.step3.desc')}
               </p>
 
               {/* Content Type */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Main Content Type
+                {t('questionnaire.step3.contentLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 20 }}>
                 {CONTENT_OPTIONS.map(opt => {
@@ -599,7 +594,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
 
               {/* Maturity */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                AEO Experience Level
+                {t('questionnaire.step3.maturityLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
                 {MATURITY_OPTIONS.map(opt => {
@@ -629,16 +624,16 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
           {step === 4 && (
             <div>
               <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
-                About your business
+                {t('questionnaire.step4.title')}
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
-                Help us understand your business so we can give you specific, actionable advice.
+                {t('questionnaire.step4.desc')}
               </p>
 
               {/* Languages */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 <Globe size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />
-                Target Languages
+                {t('questionnaire.step4.languagesLabel')}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
                 {LANGUAGE_OPTIONS.map(opt => {
@@ -663,15 +658,15 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
 
               {/* Business Description */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Business Description
+                {t('questionnaire.step4.businessDescLabel')}
               </p>
               <p style={{ fontSize: 10.5, color: 'var(--text-tertiary)', marginBottom: 6, lineHeight: 1.4 }}>
-                The more detail you provide, the more personalized your schema suggestions, content strategies, and recommendations will be.
+                {t('questionnaire.step4.businessDescHint')}
               </p>
               <textarea
                 value={answers.businessDescription}
                 onChange={e => update('businessDescription', e.target.value)}
-                placeholder="Briefly describe what your business does and who you serve. E.g.: We're a cloud hosting company serving small businesses across Europe, offering managed hosting and API integrations."
+                placeholder={t('questionnaire.step4.businessDescPlaceholder')}
                 className="input-field"
                 rows={3}
                 style={{ width: '100%', resize: 'vertical', fontSize: 12, lineHeight: 1.5, marginBottom: 14 }}
@@ -679,16 +674,16 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
 
               {/* Top Products/Services */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Products / Services
+                {t('questionnaire.step4.servicesLabel')}
               </p>
               <p style={{ fontSize: 10.5, color: 'var(--text-tertiary)', marginBottom: 6, lineHeight: 1.4 }}>
-                List your main offerings — this helps us suggest the right schema types and content topics for your business.
+                {t('questionnaire.step4.servicesHint')}
               </p>
               <input
                 type="text"
                 value={answers.topServices}
                 onChange={e => update('topServices', e.target.value)}
-                placeholder="e.g., cloud hosting, API integrations, consulting services"
+                placeholder={t('questionnaire.step4.servicesPlaceholder')}
                 className="input-field"
                 style={{ width: '100%', marginBottom: 14, fontSize: 12 }}
               />
@@ -696,7 +691,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               {/* CMS */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 <Monitor size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />
-                CMS / Platform <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+                {t('questionnaire.step4.cmsLabel')} <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>{t('questionnaire.step4.cmsHint')}</span>
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {CMS_OPTIONS.map(opt => {
@@ -725,21 +720,21 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
           {step === 5 && (
             <div>
               <h3 id="questionnaire-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
-                Current technical state
+                {t('questionnaire.step5.title')}
               </h3>
               <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 20 }}>
-                This helps us suggest the right starting point for your optimization.
+                {t('questionnaire.step5.desc')}
               </p>
 
               {/* Schema */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Do you have schema markup on your site?
+                {t('questionnaire.step5.schemaLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 20 }}>
                 {[
-                  { value: 'yes', label: 'Yes' },
-                  { value: 'no', label: 'No' },
-                  { value: 'unknown', label: "Don't Know" },
+                  { value: 'yes', label: t('questionnaire.step5.schemaYes') },
+                  { value: 'no', label: t('questionnaire.step5.schemaNo') },
+                  { value: 'unknown', label: t('questionnaire.step5.schemaDontKnow') },
                 ].map(opt => {
                   const isSelected = answers.hasSchema === opt.value
                   return (
@@ -764,14 +759,14 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
 
               {/* Update cadence */}
               <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                How often do you update content?
+                {t('questionnaire.step5.cadenceLabel')}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {[
-                  { value: 'weekly', label: 'Weekly' },
-                  { value: 'monthly', label: 'Monthly' },
-                  { value: 'rarely', label: 'Rarely' },
-                  { value: 'never', label: 'Never' },
+                  { value: 'weekly', label: t('questionnaire.step5.cadenceWeekly') },
+                  { value: 'monthly', label: t('questionnaire.step5.cadenceMonthly') },
+                  { value: 'rarely', label: t('questionnaire.step5.cadenceRarely') },
+                  { value: 'never', label: t('questionnaire.step5.cadenceNever') },
                 ].map(opt => {
                   const isSelected = answers.updateCadence === opt.value
                   return (
@@ -799,7 +794,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                 border: '1px solid rgba(255,107,53,0.1)',
               }}>
                 <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-phase-1)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>
-                  Your Profile Summary
+                  {t('questionnaire.step5.profileSummary')}
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                   {answers.industry && (
@@ -828,7 +823,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                   )}
                   {answers.targetEngines.length > 0 && (
                     <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
-                      {answers.targetEngines.includes('all') ? 'All Engines' : `${answers.targetEngines.length} engines`}
+                      {answers.targetEngines.includes('all') ? t('questionnaire.step5.allEngines') : t('questionnaire.step5.enginesCount', { count: answers.targetEngines.length })}
                     </span>
                   )}
                   {answers.maturity && (
@@ -886,7 +881,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                 }}
               >
                 <ArrowLeft size={13} />
-                Back
+                {t('questionnaire.back')}
               </button>
             )}
             <button
@@ -901,11 +896,11 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               {step === TOTAL_STEPS - 1 ? (
                 <>
                   <Rocket size={13} />
-                  Finish Setup
+                  {t('questionnaire.finish')}
                 </>
               ) : (
                 <>
-                  Next
+                  {t('questionnaire.next')}
                   <ArrowRight size={13} />
                 </>
               )}
