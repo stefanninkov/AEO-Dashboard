@@ -108,8 +108,15 @@ const PRICING = [
     monthlyPrice: 29,
     yearlyPrice: 23,
     description: 'For individuals starting with AEO',
-    features: ['1 project', 'Phase 1-2 checklist', '5 analyzer scans/mo', 'Basic schema generator'],
-    cta: 'Start Free Trial',
+    features: [
+      '1 project',
+      'Phase 1-2 checklist',
+      '5 analyzer scans/mo',
+      'Basic schema generator',
+      'Dashboard analytics',
+      'Email digest (weekly)',
+    ],
+    cta: 'Start 14-Day Free Trial',
     featured: false,
   },
   {
@@ -117,8 +124,19 @@ const PRICING = [
     monthlyPrice: 49,
     yearlyPrice: 39,
     description: 'For agencies & SEO professionals',
-    features: ['10 projects', 'All 7 checklist phases', 'Unlimited scans & tests', 'AI content writer', 'Client portal', 'Priority support'],
-    cta: 'Start Free Trial',
+    features: [
+      '10 projects',
+      'All 7 checklist phases',
+      'Unlimited analyzer scans',
+      'AI content writer',
+      'Multi-engine testing lab',
+      'Schema generator (all types)',
+      'Client portal (shareable)',
+      'Auto-monitoring & alerts',
+      'CSV & PDF exports',
+      'Priority support',
+    ],
+    cta: 'Start 14-Day Free Trial',
     featured: true,
   },
   {
@@ -126,8 +144,17 @@ const PRICING = [
     monthlyPrice: 149,
     yearlyPrice: 119,
     description: 'For teams & large agencies',
-    features: ['Unlimited projects', 'White-label portal', 'API access', 'Auto-monitoring', 'Custom onboarding', 'Dedicated support'],
-    cta: 'Start Free Trial',
+    features: [
+      'Unlimited projects',
+      'Everything in Professional',
+      'White-label client portal',
+      'API access',
+      'Auto-monitoring & alerts',
+      'Team collaboration & roles',
+      'Custom onboarding',
+      'Dedicated account manager',
+    ],
+    cta: 'Start 14-Day Free Trial',
     featured: false,
   },
 ]
@@ -600,7 +627,7 @@ export default function LandingPage() {
               The complete AEO toolkit with an 88-point checklist, AI-powered analyzer, and client-ready reports.
             </p>
             <div className="lp-hero-ctas">
-              <a href="/AEO-Dashboard/app" className="lp-btn-primary">Start Free &mdash; No Card Required</a>
+              <a href="/AEO-Dashboard/app" className="lp-btn-primary">Start 14-Day Free Trial</a>
               <a href="#features" className="lp-btn-secondary" onClick={(e) => scrollToSection(e, '#features')}>See Features</a>
             </div>
 
@@ -787,7 +814,7 @@ export default function LandingPage() {
           <div className="lp-section-center">
             <span className="lp-section-label">Pricing</span>
             <h2 className="lp-section-title">Simple, Transparent Pricing</h2>
-            <p className="lp-section-subtitle">Start free. Upgrade when you&rsquo;re ready. No hidden fees.</p>
+            <p className="lp-section-subtitle">14-day free trial on every plan. No credit card required. No hidden fees.</p>
           </div>
           <div className="lp-pricing-toggle-wrapper">
             <div className="lp-pricing-toggle">
@@ -814,7 +841,7 @@ export default function LandingPage() {
                 <div className="lp-pricing-price">
                   ${pricingAnnual ? tier.yearlyPrice : tier.monthlyPrice}
                   <span>
-                    {tier.monthlyPrice === 0 ? '/forever' : pricingAnnual ? '/mo, billed yearly' : '/month'}
+                    {pricingAnnual ? '/mo, billed yearly' : '/month'}
                   </span>
                 </div>
                 <div className="lp-pricing-divider" />
@@ -893,8 +920,8 @@ export default function LandingPage() {
         <section id="cta" className="lp-section" aria-label="Get started" data-animate>
           <div className="lp-final-cta">
             <h2>Ready to Dominate AI Search?</h2>
-            <p>Join hundreds of agencies using AEO Dashboard to get their clients cited by AI. Start with the free plan &mdash; no credit card required.</p>
-            <a href="/AEO-Dashboard/app" className="lp-btn-primary">Get Started Free</a>
+            <p>Join hundreds of agencies using AEO Dashboard to get their clients cited by AI. Start your 14-day free trial &mdash; no credit card required.</p>
+            <a href="/AEO-Dashboard/app" className="lp-btn-primary">Start Free Trial</a>
           </div>
         </section>
 
