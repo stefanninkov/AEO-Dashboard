@@ -131,6 +131,9 @@ const PortalView = lazy(() => import('./views/PortalView'))
 /* ── Waitlist Page (lazy — default route, no auth required) ── */
 const WaitlistPage = lazy(() => import('./views/WaitlistPage'))
 
+/* ── Landing Page (lazy — loads at ?/features, no auth required) ── */
+const LandingPage = lazy(() => import('./views/LandingPage'))
+
 /* ── Admin Panel (lazy — only loads if ?/admin is in URL) ── */
 const AdminApp = lazy(() => import('./admin/AdminApp'))
 
@@ -151,6 +154,15 @@ function isAdminPath() {
   const s = window.location.search
   if (p.includes('/admin')) return true
   if (s.startsWith('?/admin')) return true
+  return false
+}
+
+/** Detect whether the current URL targets the full features/landing page */
+function isFeaturesPath() {
+  const p = window.location.pathname
+  const s = window.location.search
+  if (p.includes('/features')) return true
+  if (s.startsWith('?/features')) return true
   return false
 }
 
@@ -193,7 +205,16 @@ export default function App() {
     return <AdminRouter />
   }
 
-  // 3. Waitlist page — default for non-app paths
+  // 3. Full features/landing page — ?/features
+  if (isFeaturesPath()) {
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        <LandingPage />
+      </Suspense>
+    )
+  }
+
+  // 4. Waitlist page — default for non-app paths
   if (!isAppPath()) {
     return (
       <Suspense fallback={<LoadingScreen />}>
@@ -202,7 +223,7 @@ export default function App() {
     )
   }
 
-  // 4. Dashboard app — needs auth
+  // 5. Dashboard app — needs auth
   return <DashboardApp />
 }
 
