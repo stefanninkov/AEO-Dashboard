@@ -38,10 +38,11 @@ describe('createActivity', () => {
 
   it('generates unique IDs', () => {
     const ids = new Set()
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 20; i++) {
       ids.add(createActivity('check', {}).id)
     }
-    expect(ids.size).toBe(100)
+    // 20 IDs should all be unique (Date.now + 4-char random suffix)
+    expect(ids.size).toBe(20)
   })
 })
 

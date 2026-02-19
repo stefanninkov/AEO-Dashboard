@@ -3,10 +3,12 @@
  */
 import { useState, useEffect, useCallback } from 'react'
 import {
-  User, Key, Palette, Save, Check, Eye, EyeOff, Plug, Loader2, RefreshCw,
+  User, Key, Palette, Globe, Save, Check, Eye, EyeOff, Plug, Loader2, RefreshCw,
   Unplug, RotateCcw, ClipboardList,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useTheme } from '../../contexts/ThemeContext'
+import { SUPPORTED_LANGUAGES, loadLanguage } from '../../i18n'
 import { useGoogleIntegration } from '../../hooks/useGoogleIntegration'
 import { isGoogleOAuthConfigured } from '../../utils/googleAuth'
 import { useToast } from '../../components/Toast'
@@ -18,8 +20,12 @@ import {
 
 export default function UserSettingsSection({ user }) {
   const { theme, setTheme } = useTheme()
+  const { i18n } = useTranslation()
   const { addToast } = useToast()
   const google = useGoogleIntegration(user)
+
+  // Language
+  const [currentLang, setCurrentLang] = useState(i18n.language?.split('-')[0] || 'en')
 
   // Profile
   const [displayName, setDisplayName] = useState(user?.displayName || '')
@@ -89,6 +95,16 @@ export default function UserSettingsSection({ user }) {
     setNotificationSound(val)
     const prefs = JSON.parse(localStorage.getItem('aeo-user-preferences') || '{}')
     localStorage.setItem('aeo-user-preferences', JSON.stringify({ ...prefs, notificationSound: val }))
+  }, [])
+
+  const handleLanguageChange = useCallback(async (code) => {
+    setCurrentLang(code)
+    try {
+      await loadLanguage(code)
+    } catch (err) {
+      logger.warn('Failed to load language:', err)
+      setCurrentLang('en')
+    }
   }, [])
 
   return (
@@ -265,6 +281,15 @@ export default function UserSettingsSection({ user }) {
             <option value="dark">Dark</option>
             <option value="light">Light</option>
             <option value="auto">Auto (System)</option>
+          </select>
+        </div>
+
+        <div style={settingsRowStyle}>
+          <span style={labelStyle}><Globe size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.375rem' }} />Language</span>
+          <select style={smallSelectStyle} value={currentLang} onChange={(e) => handleLanguageChange(e.target.value)} aria-label="Language">
+            {SUPPORTED_LANGUAGES.map(lang => (
+              <option key={lang.code} value={lang.code}>{lang.nativeLabel}</option>
+            ))}
           </select>
         </div>
 

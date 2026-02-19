@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import './i18n' // Initialize i18next before any component renders
 import { ThemeProvider } from './contexts/ThemeContext'
 import { ToastProvider } from './components/Toast'
 import App from './App.jsx'

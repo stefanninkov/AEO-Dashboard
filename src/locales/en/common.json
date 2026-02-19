@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "checklist": "AEO Guide",
+    "competitors": "Competitors",
+    "analyzer": "Analyzer",
+    "writer": "Content Writer",
+    "contentOps": "Content Ops",
+    "schema": "Schema Generator",
+    "monitoring": "Monitoring",
+    "metrics": "Metrics",
+    "searchConsole": "Search Console",
+    "aiTraffic": "AI Traffic",
+    "aeoImpact": "AEO Impact",
+    "docs": "Documentation",
+    "testing": "Testing",
+    "settings": "Settings"
+  },
+  "sections": {
+    "main": "Main",
+    "tools": "Tools",
+    "analytics": "Analytics"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "close": "Close",
+    "export": "Export",
+    "refresh": "Refresh",
+    "search": "Search",
+    "learnMore": "Learn more",
+    "undo": "Undo",
+    "retry": "Retry",
+    "confirm": "Confirm",
+    "copy": "Copy",
+    "share": "Share",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "back": "Back",
+    "next": "Next",
+    "clear": "Clear",
+    "clearAll": "Clear all",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all"
+  },
+  "status": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "error": "Something went wrong",
+    "noData": "No data yet",
+    "offline": "You are offline",
+    "connected": "Connected",
+    "disconnected": "Disconnected"
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "createAccount": "Create account",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "noNotifications": "No notifications"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "de": "Deutsch",
+    "sr": "Srpski"
+  }
+}
