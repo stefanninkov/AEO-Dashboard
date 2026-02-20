@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react'
-import { X, FileText, Download } from 'lucide-react'
+import { useState, useMemo, useRef } from 'react'
+import { X, FileText, Download, Upload, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useToast } from './Toast'
 import { generatePdf } from '../utils/generatePdf'
@@ -12,6 +12,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
   const { addToast } = useToast()
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const trapRef = useFocusTrap(!isClosing)
+  const logoInputRef = useRef(null)
 
   const SECTIONS = useMemo(() => [
     { key: 'summary', label: t('pdfExport.sections.summary'), desc: t('pdfExport.sections.summaryDesc'), default: true },
@@ -20,6 +21,9 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
     { key: 'remaining', label: t('pdfExport.sections.remaining'), desc: t('pdfExport.sections.remainingDesc'), default: true },
     { key: 'notes', label: t('pdfExport.sections.notes'), desc: t('pdfExport.sections.notesDesc'), default: false },
     { key: 'analyzer', label: t('pdfExport.sections.analyzer'), desc: t('pdfExport.sections.analyzerDesc'), default: false },
+    { key: 'competitors', label: t('pdfExport.sections.competitors'), desc: t('pdfExport.sections.competitorsDesc'), default: false },
+    { key: 'metrics', label: t('pdfExport.sections.metrics'), desc: t('pdfExport.sections.metricsDesc'), default: false },
+    { key: 'contentCalendar', label: t('pdfExport.sections.contentCalendar'), desc: t('pdfExport.sections.contentCalendarDesc'), default: false },
   ], [t])
 
   const [agencyName, setAgencyName] = useState('')
@@ -32,6 +36,8 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
     return init
   })
   const [generating, setGenerating] = useState(false)
+  const [logoDataUrl, setLogoDataUrl] = useState(null)
+  const [accentColor, setAccentColor] = useState('#FF6B35')
 
   const toggleSection = (key) => {
     setSelectedSections(prev => ({ ...prev, [key]: !prev[key] }))
@@ -44,6 +50,31 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
   }
 
   const hasAnalyzer = !!activeProject?.analyzerResults
+  const hasCompetitors = !!activeProject?.competitors?.length
+  const hasMetrics = !!activeProject?.metricsHistory?.length
+  const hasCalendar = !!activeProject?.contentCalendar?.length
+
+  // Determine disabled state per section
+  const isDisabled = (key) => {
+    if (key === 'analyzer') return !hasAnalyzer
+    if (key === 'competitors') return !hasCompetitors
+    if (key === 'metrics') return !hasMetrics
+    if (key === 'contentCalendar') return !hasCalendar
+    return false
+  }
+
+  // Logo upload handler
+  const handleLogoUpload = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (file.size > 512000) {
+      addToast('error', 'Logo must be under 500 KB')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => setLogoDataUrl(reader.result)
+    reader.readAsDataURL(file)
+  }
 
   // Compute quick stats
   const checked = activeProject?.checked || {}
@@ -64,6 +95,8 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
         sections: selectedSections,
         agencyName: agencyName.trim() || 'AEO Dashboard',
         reportDate,
+        logoDataUrl,
+        accentColor,
       })
       addToast('success', t('pdfExport.success'))
       // Log export activity
@@ -147,7 +180,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               {SECTIONS.map(section => {
-                const disabled = section.key === 'analyzer' && !hasAnalyzer
+                const disabled = isDisabled(section.key)
                 return (
                   <label
                     key={section.key}
@@ -170,7 +203,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
                       <div style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{section.label}</div>
                       <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
                         {section.desc}
-                        {section.key === 'analyzer' && !hasAnalyzer && ' (no data)'}
+                        {disabled && ' (no data)'}
                       </div>
                     </div>
                   </label>
@@ -190,6 +223,59 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
               onChange={e => setAgencyName(e.target.value)}
               className="email-modal-input"
             />
+          </div>
+
+          {/* Logo Upload */}
+          <div>
+            <label className="email-modal-label">{t('pdfExport.logoUpload')}</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+              {logoDataUrl ? (
+                <>
+                  <img
+                    src={logoDataUrl}
+                    alt="Logo preview"
+                    style={{ width: 36, height: 36, objectFit: 'contain', borderRadius: '0.375rem', border: '1px solid var(--border-subtle)', background: 'var(--bg-page)' }}
+                  />
+                  <button
+                    onClick={() => { setLogoDataUrl(null); if (logoInputRef.current) logoInputRef.current.value = '' }}
+                    className="checklist-bulk-link"
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: 'var(--text-tertiary)' }}
+                  >
+                    <Trash2 size={12} /> {t('pdfExport.logoRemove')}
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => logoInputRef.current?.click()}
+                  className="checklist-bulk-link"
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', padding: '0.375rem 0.625rem', border: '1px dashed var(--border-subtle)', borderRadius: '0.375rem' }}
+                >
+                  <Upload size={12} /> {t('pdfExport.logoUploadHint')}
+                </button>
+              )}
+              <input
+                ref={logoInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/svg+xml"
+                onChange={handleLogoUpload}
+                style={{ display: 'none' }}
+              />
+            </div>
+          </div>
+
+          {/* Accent Color */}
+          <div>
+            <label htmlFor="accent-color" className="email-modal-label">{t('pdfExport.accentColor')}</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+              <input
+                id="accent-color"
+                type="color"
+                value={accentColor}
+                onChange={e => setAccentColor(e.target.value)}
+                style={{ width: 32, height: 32, padding: 0, border: '1px solid var(--border-subtle)', borderRadius: '0.375rem', cursor: 'pointer', background: 'transparent' }}
+              />
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('pdfExport.accentColorHint')}</span>
+            </div>
           </div>
 
           <div>

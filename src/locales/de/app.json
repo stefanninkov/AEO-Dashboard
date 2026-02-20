@@ -991,8 +991,19 @@
       "notes": "Aufgabennotizen",
       "notesDesc": "An Checklisten-Einträge angehängte Notizen",
       "analyzer": "Analysator-Ergebnisse",
-      "analyzerDesc": "Website-Analyse und Empfehlungen"
+      "analyzerDesc": "Website-Analyse und Empfehlungen",
+      "competitors": "Wettbewerbsanalyse",
+      "competitorsDesc": "Rankings, Scores und strategische Einblicke",
+      "metrics": "Leistungskennzahlen",
+      "metricsDesc": "Score- und Zitierverlauf im Zeitverlauf",
+      "contentCalendar": "Inhaltskalender",
+      "contentCalendarDesc": "Geplante Inhalte und Veröffentlichungsstatus"
     },
+    "logoUpload": "Logo",
+    "logoUploadHint": "PNG oder JPEG, max. 500 KB",
+    "logoRemove": "Entfernen",
+    "accentColor": "Akzentfarbe",
+    "accentColorHint": "Benutzerdefinierte Markenfarbe für den Bericht",
     "success": "Bericht erstellt und heruntergeladen!",
     "error": "Bericht konnte nicht erstellt werden. Bitte versuchen Sie es erneut."
   },

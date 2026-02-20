@@ -23,6 +23,8 @@ export default defineConfig({
           'vendor-recharts': ['recharts'],
           // Lucide icons — used everywhere but tree-shakeable
           'vendor-lucide': ['lucide-react'],
+          // i18n — changes less frequently than app code
+          'vendor-i18n': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
           // PDF export — heavy, only loaded when user exports
           'vendor-jspdf': ['jspdf'],
         },

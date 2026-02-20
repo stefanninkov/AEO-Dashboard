@@ -7,14 +7,15 @@ import { useNotifications } from './hooks/useNotifications'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
 import { useDigestScheduler } from './hooks/useDigestScheduler'
-import LoginPage from './components/LoginPage'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import ErrorBoundary from './components/ErrorBoundary'
 import ConnectionBanner from './components/ConnectionBanner'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
-import { phases as rawPhases } from './data/aeo-checklist'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
+
+// Lazy-loaded: LoginPage (only needed before auth) + aeo-checklist data (large string payload)
+const LoginPage = lazy(() => import('./components/LoginPage'))
 
 // Lazy-loaded views
 const DashboardView = lazy(() => import('./views/DashboardView'))
@@ -236,14 +237,16 @@ function AdminRouter() {
 
   if (!user) {
     return (
-      <LoginPage
-        onSignIn={signIn}
-        onSignUp={signUp}
-        onGoogleSignIn={signInWithGoogle}
-        onResetPassword={resetPassword}
-        error={authError}
-        clearError={clearError}
-      />
+      <Suspense fallback={<LoadingScreen />}>
+        <LoginPage
+          onSignIn={signIn}
+          onSignUp={signUp}
+          onGoogleSignIn={signInWithGoogle}
+          onResetPassword={resetPassword}
+          error={authError}
+          clearError={clearError}
+        />
+      </Suspense>
     )
   }
 
@@ -262,14 +265,16 @@ function DashboardApp() {
 
   if (!user) {
     return (
-      <LoginPage
-        onSignIn={signIn}
-        onSignUp={signUp}
-        onGoogleSignIn={signInWithGoogle}
-        onResetPassword={resetPassword}
-        error={authError}
-        clearError={clearError}
-      />
+      <Suspense fallback={<LoadingScreen />}>
+        <LoginPage
+          onSignIn={signIn}
+          onSignUp={signUp}
+          onGoogleSignIn={signInWithGoogle}
+          onResetPassword={resetPassword}
+          error={authError}
+          clearError={clearError}
+        />
+      </Suspense>
     )
   }
 
@@ -300,6 +305,12 @@ function AuthenticatedApp({ user, onSignOut }) {
     return localStorage.getItem('aeo-onboarding-completed') !== 'true'
   })
 
+  // Lazy-load the checklist data (large string payload — ~60-80 KB minified)
+  const [rawPhases, setRawPhases] = useState(null)
+  useEffect(() => {
+    import('./data/aeo-checklist').then(mod => setRawPhases(mod.phases))
+  }, [])
+
   const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), [])
   const closeSidebar = useCallback(() => setSidebarOpen(false), [])
 
@@ -321,7 +332,7 @@ function AuthenticatedApp({ user, onSignOut }) {
   const { onlineMembers } = usePresence({ user, activeProject, activeView, updateProject })
   const { notifications, unreadCount, addNotification, markRead, markAllRead, clearAll: clearNotifications } = useNotifications({ user, activeProject, updateProject })
 
-  // Translated checklist phases
+  // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
 
   // Auto-monitor
@@ -467,6 +478,9 @@ function AuthenticatedApp({ user, onSignOut }) {
       setNewProjectModalOpen(true)
     }
   }, [noProjects, questionnaireProjectId, pendingProject])
+
+  // Show loading skeleton while checklist data is loading (must be after all hooks)
+  if (!phases) return <DashboardSkeleton />
 
   const renderView = () => {
     if (projectsLoading) {

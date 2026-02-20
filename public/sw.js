@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'aeo-v2'
+const CACHE_VERSION = 'aeo-v3'
 const STATIC_CACHE = CACHE_VERSION + '-static'
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime'
 
@@ -39,7 +39,7 @@ self.addEventListener('activate', function (event) {
   )
 })
 
-// Fetch — network-first with cache fallback
+// Fetch — intelligent caching strategy per resource type
 self.addEventListener('fetch', function (event) {
   var request = event.request
   var url = new URL(request.url)
@@ -47,14 +47,47 @@ self.addEventListener('fetch', function (event) {
   // Skip non-GET
   if (request.method !== 'GET') return
 
-  // Skip external domains (APIs, fonts, Firebase)
-  if (url.origin !== location.origin) return
-
-  // Skip Vite hashed assets — they have unique names per build
-  if (url.pathname.indexOf('/assets/') !== -1) {
+  // ── Vite hashed assets (immutable) — cache-first, never re-fetch ──
+  // These have content-hash filenames; new builds produce new filenames
+  if (url.origin === location.origin && url.pathname.indexOf('/assets/') !== -1) {
+    event.respondWith(
+      caches.open(STATIC_CACHE).then(function (cache) {
+        return cache.match(request).then(function (cached) {
+          if (cached) return cached
+          return fetch(request).then(function (response) {
+            if (response && response.status === 200) {
+              cache.put(request, response.clone())
+            }
+            return response
+          })
+        })
+      })
+    )
     return
   }
 
+  // ── Google Fonts — cache-first with long TTL ──
+  if (url.hostname === 'fonts.gstatic.com' || url.hostname === 'fonts.googleapis.com') {
+    event.respondWith(
+      caches.open(STATIC_CACHE).then(function (cache) {
+        return cache.match(request).then(function (cached) {
+          if (cached) return cached
+          return fetch(request).then(function (response) {
+            if (response && response.status === 200) {
+              cache.put(request, response.clone())
+            }
+            return response
+          })
+        })
+      })
+    )
+    return
+  }
+
+  // ── Skip Firebase and other external APIs ──
+  if (url.origin !== location.origin) return
+
+  // ── App shell and other same-origin — network-first with cache fallback ──
   event.respondWith(
     fetch(request)
       .then(function (response) {

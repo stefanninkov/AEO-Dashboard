@@ -38,6 +38,20 @@ jobs:
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
           VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
 
+      - name: Report bundle sizes
+        run: |
+          echo "## Bundle Sizes" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          ls -lhS dist/assets/*.js dist/assets/*.css >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: '.lighthouserc.json'
+
       - uses: actions/configure-pages@v4
 
       - uses: actions/upload-pages-artifact@v3

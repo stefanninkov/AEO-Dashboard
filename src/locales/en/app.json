@@ -991,8 +991,19 @@
       "notes": "Task notes",
       "notesDesc": "Notes attached to checklist items",
       "analyzer": "Analyzer results",
-      "analyzerDesc": "Site analysis and recommendations"
+      "analyzerDesc": "Site analysis and recommendations",
+      "competitors": "Competitor Analysis",
+      "competitorsDesc": "Rankings, scores, and strategic insights",
+      "metrics": "Performance Metrics",
+      "metricsDesc": "Score and citation history over time",
+      "contentCalendar": "Content Calendar",
+      "contentCalendarDesc": "Scheduled content and publication status"
     },
+    "logoUpload": "Logo",
+    "logoUploadHint": "PNG or JPEG, max 500 KB",
+    "logoRemove": "Remove",
+    "accentColor": "Accent Color",
+    "accentColorHint": "Custom brand color for the report",
     "success": "Report generated and downloaded!",
     "error": "Failed to generate report. Please try again."
   },
