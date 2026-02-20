@@ -48,7 +48,7 @@
     "title": "What is Answer Engine Optimization?",
     "paragraph1": "**Answer Engine Optimization (AEO) is the practice of optimizing website content to be selected, cited, and surfaced by AI-powered answer engines.** Unlike traditional SEO that targets search engine result pages, AEO focuses on making your content the preferred source that large language models like ChatGPT, Perplexity, and Google Gemini reference when generating answers to user queries.",
     "comparisonHeading": "AEO vs Traditional SEO",
-    "paragraph2": "**While SEO and AEO share common foundations, they differ in target systems, success metrics, and optimization techniques.** SEO optimizes for crawlers and ranking algorithms; AEO optimizes for language models and retrieval-augmented generation (RAG) pipelines. The most effective digital strategies now combine both approaches to maximize visibility across traditional and AI-powered search.",
+    "paragraph2": "**While SEO and AEO share common foundations, they differ in target systems, success metrics, and optimization techniques.** SEO optimizes for crawlers and ranking algorithms; AEO optimizes for language models and retrieval-augmented generation (RAG) pipelines. AEO encompasses GEO (Generative Engine Optimization), a research-validated approach developed at Princeton and Georgia Tech that provides experimentally proven techniques for maximizing AI citation probability. The most effective digital strategies now combine both approaches to maximize visibility across traditional and AI-powered search.",
     "pillarsHeading": "The 7 Pillars of AEO"
   },
 
@@ -222,7 +222,7 @@
     "title": "Frequently Asked Questions",
     "0": {
       "question": "What is Answer Engine Optimization (AEO)?",
-      "answer": "Answer Engine Optimization is the practice of optimizing website content to be cited by AI-powered answer engines like ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Unlike traditional SEO which targets search rankings, AEO focuses on structured data, direct answer formatting, and entity authority to ensure AI systems reference your content."
+      "answer": "Answer Engine Optimization is the practice of optimizing website content to be cited by AI-powered answer engines like ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Unlike traditional SEO which targets search rankings, AEO focuses on structured data, direct answer formatting, and entity authority to ensure AI systems reference your content. AEO encompasses GEO (Generative Engine Optimization), a research-validated approach from Princeton and Georgia Tech that provides experimentally proven techniques for maximizing AI citation probability."
     },
     "1": {
       "question": "How is AEO different from traditional SEO?",
@@ -242,7 +242,7 @@
     },
     "5": {
       "question": "What does the 99-point checklist cover?",
-      "answer": "The checklist spans 7 phases of AEO optimization: technical foundation, schema markup, content structure, entity optimization, multi-platform targeting, AI crawler access, and ongoing monitoring. Each task includes implementation guidance and tracks completion across your entire team."
+      "answer": "The checklist spans 7 phases of AEO optimization: technical foundation, schema markup, content structure, entity optimization, multi-platform targeting, AI crawler access, and ongoing monitoring. It integrates GEO (Generative Engine Optimization) techniques throughout — research-validated methods for maximizing AI citation probability. Each task includes implementation guidance and tracks completion across your entire team."
     },
     "6": {
       "question": "Do I need technical skills to use AEO Dashboard?",

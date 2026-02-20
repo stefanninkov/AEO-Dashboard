@@ -122,7 +122,7 @@
         "sections": [
           {
             "heading": "Why This Matters",
-            "body": "Pages already appearing in AI Overviews or featured snippets have proven authority and format that AI engines trust. These are your highest-value AEO assets — they show what is already working so you can replicate success patterns."
+            "body": "Pages already appearing in AI Overviews or featured snippets have proven authority and format that AI engines trust. These are your highest-value AEO assets — they show what is already working so you can replicate success patterns. Your current AI citation profile is your GEO (Generative Engine Optimization) baseline — pages already cited have content patterns worth reverse-engineering."
           },
           {
             "heading": "How to Find Them",
@@ -148,7 +148,7 @@
         "sections": [
           {
             "heading": "Why This Matters",
-            "body": "Understanding which competitor content gets cited by AI engines reveals the formats, depth, and authority signals that answer engines prefer. Competitors appearing in AI results have cracked the code for your niche — study them."
+            "body": "Understanding which competitor content gets cited by AI engines reveals the formats, depth, and authority signals that answer engines prefer. Competitors appearing in AI results have cracked the code for your niche — study them. This is applied GEO research — studying which competitor content earns generative engine citations reveals the same optimization signals the Princeton GEO study measured experimentally."
           },
           {
             "heading": "How to Conduct the Analysis",
@@ -754,7 +754,7 @@
         "sections": [
           {
             "heading": "Why This Matters",
-            "body": "AI engines extract answers from the first relevant paragraph they find. If your answer is buried after an introduction, history lesson, or preamble, AI will skip your content for a competitor that leads with the answer. The inverted pyramid puts your answer first."
+            "body": "AI engines extract answers from the first relevant paragraph they find. If your answer is buried after an introduction, history lesson, or preamble, AI will skip your content for a competitor that leads with the answer. The inverted pyramid puts your answer first. GEO research supports this with evidence of position bias — content in the first paragraph has significantly higher citation probability in generative engines like ChatGPT, Perplexity, and Google AI Overviews."
           },
           {
             "heading": "How to Structure",
@@ -806,7 +806,7 @@
         "sections": [
           {
             "heading": "Why This Is THE Key Technique",
-            "body": "This is the single most important AEO technique. AI engines overwhelmingly prefer extracting concise, self-contained paragraphs of 40-60 words. This length is long enough to be a complete answer but short enough to be quoted directly. Featured snippets and AI Overviews are built from these."
+            "body": "This is the single most important AEO technique. AI engines overwhelmingly prefer extracting concise, self-contained paragraphs of 40-60 words. This length is long enough to be a complete answer but short enough to be quoted directly. Featured snippets and AI Overviews are built from these. The Princeton GEO (Generative Engine Optimization) study confirms this — content fluency and ease of understanding are among the most reliable predictors of AI citation across all tested generative engines."
           },
           {
             "heading": "How to Write One",
@@ -959,7 +959,7 @@
     },
     "p3-c1-i9": {
       "text": "Structure content as self-contained 300-800 word chunks per H2 section",
-      "detail": "Organize content so each H2 section is a semantically complete, independently retrievable passage optimized for AI RAG (Retrieval-Augmented Generation) systems.",
+      "detail": "Organize content so each H2 section is a semantically complete, independently retrievable passage optimized for AI RAG (Retrieval-Augmented Generation) systems. GEO research identifies RAG-optimized chunking as a foundational technique — content that cannot be cleanly retrieved in a single passage is less likely to be cited by generative engines.",
       "actionLabel": "Open Content Writer",
       "doc": {
         "title": "Content Chunking for AI RAG Systems",
@@ -1018,7 +1018,7 @@
         "sections": [
           {
             "heading": "Why This Matters",
-            "body": "AI engines strongly prefer citing primary sources with original data. If you generate unique research, surveys, or case studies, you become the authoritative source that both AI engines and other sites cite. This is the highest-value AEO content you can create."
+            "body": "AI engines strongly prefer citing primary sources with original data. If you generate unique research, surveys, or case studies, you become the authoritative source that both AI engines and other sites cite. This is the highest-value AEO content you can create. GEO research confirms this quantitatively — pages containing unique, verifiable data earn significantly more generative engine citations than equivalent content without original statistics."
           },
           {
             "heading": "Types of Original Content",
@@ -1063,7 +1063,7 @@
     },
     "p3-c2-i4": {
       "text": "Cite authoritative external sources",
-      "detail": "Reference and link to authoritative sources to build trust and demonstrate research.",
+      "detail": "Reference and link to authoritative sources to build trust and demonstrate research. The GEO study named 'Cite Sources' as a top optimization technique — content that references authoritative sources correlates with higher AI citation probability across all generative engines.",
       "actionLabel": "Open Content Writer",
       "doc": {
         "title": "External Source Citations",
@@ -1122,7 +1122,7 @@
         "sections": [
           {
             "heading": "Why This Matters",
-            "body": "AI engines synthesize answers that sound natural and conversational. Content written in a natural, clear style is easier for AI to extract and present. Overly formal, jargon-heavy, or marketing-speak content gets skipped in favor of clear, direct language."
+            "body": "AI engines synthesize answers that sound natural and conversational. Content written in a natural, clear style is easier for AI to extract and present. Overly formal, jargon-heavy, or marketing-speak content gets skipped in favor of clear, direct language. The GEO study's 'Fluency Optimization' finding supports this — clear, naturally readable content was among the consistently positive signals for generative engine citation selection."
           },
           {
             "heading": "Writing Guidelines",
@@ -1141,7 +1141,7 @@
     },
     "p3-c2-i7": {
       "text": "Include specific statistics, data points, and numbers in key content",
-      "detail": "Embed sourced statistics, numerical data, and quantitative evidence within your content. Research shows pages with concrete data earn significantly more AI citations.",
+      "detail": "Embed sourced statistics, numerical data, and quantitative evidence within your content. The Princeton GEO (Generative Engine Optimization) study found this single technique boosts AI citation probability by over 5.5% — making it the highest-impact GEO optimization.",
       "actionLabel": "Open Content Writer",
       "doc": {
         "title": "Statistics and Data Integration for AI Citations",
@@ -1167,7 +1167,7 @@
     },
     "p3-c2-i8": {
       "text": "Add expert quotes with attribution to authoritative content",
-      "detail": "Embed direct quotes from recognized experts, research papers, or industry leaders within your content to boost trust signals and AI citation probability.",
+      "detail": "Embed direct quotes from recognized experts, research papers, or industry leaders within your content to boost trust signals and AI citation probability. The Princeton GEO study ranked 'Quotation Addition' as a top-3 optimization method for generative engine citation lift.",
       "actionLabel": "Open Content Writer",
       "doc": {
         "title": "Expert Quotation Strategy for AEO",
@@ -1349,7 +1349,7 @@
     },
     "p4-c1-i6": {
       "text": "Add llms.txt file to your website root",
-      "detail": "Create a /llms.txt file that provides LLMs with a structured summary of your site, key pages, and documentation.",
+      "detail": "Create a /llms.txt file that provides LLMs with a structured summary of your site, key pages, and documentation. This is a GEO infrastructure technique — it tells generative engines directly what your site is about and which content to prioritize, bypassing the uncertainty of standard crawl-and-parse.",
       "actionLabel": "Open Analyzer",
       "doc": {
         "title": "llms.txt — The README for AI",
@@ -1379,7 +1379,7 @@
     },
     "p4-c1-i8": {
       "text": "Create llms-full.txt with complete documentation and key content",
-      "detail": "Complement your llms.txt summary with a llms-full.txt file containing your complete documentation, guides, and key content in a single Markdown file for AI consumption.",
+      "detail": "Complement your llms.txt summary with a llms-full.txt file containing your complete documentation, guides, and key content in a single Markdown file for AI consumption. This GEO content-delivery technique curates your best content directly for LLM ingestion — instead of hoping crawlers find and extract it correctly.",
       "actionLabel": "Open Analyzer",
       "doc": {
         "title": "llms-full.txt — Complete Content for AI",
@@ -2047,7 +2047,7 @@
     },
     "p6-c1-i5": {
       "text": "Test in Claude, Gemini, other AI assistants",
-      "detail": "Test across all major AI platforms to ensure broad AEO coverage.",
+      "detail": "Test across all major AI platforms to ensure broad AEO coverage. GEO research tested optimization effectiveness specifically across ChatGPT, Gemini, and Claude — different generative engines weight content signals differently, so cross-platform testing reveals GEO-specific gaps.",
       "actionLabel": "Open Testing",
       "doc": {
         "title": "Multi-Platform AI Testing",
@@ -2418,7 +2418,7 @@
         "sections": [
           {
             "heading": "Why This Matters",
-            "body": "AI Share of Voice (SoV) is emerging as the \"North Star metric\" for AEO — it measures the percentage of relevant AI-generated answers where your brand is mentioned or cited versus competitors. Unlike traditional SEO rankings which show positions, AI SoV shows how often you are the answer. This metric directly correlates with brand visibility in the AI-first search era."
+            "body": "AI Share of Voice (SoV) is emerging as the \"North Star metric\" for AEO — it measures the percentage of relevant AI-generated answers where your brand is mentioned or cited versus competitors. Unlike traditional SEO rankings which show positions, AI SoV shows how often you are the answer. This metric directly correlates with brand visibility in the AI-first search era. In GEO terms, AI Share of Voice is the North Star metric — the Princeton GEO study used citation rate across generative platforms as its primary measure of optimization effectiveness."
           },
           {
             "heading": "How to Measure",
@@ -2496,7 +2496,7 @@
         "sections": [
           {
             "heading": "Why This Matters",
-            "body": "Different query types favor different content formats. \"What is\" queries prefer paragraph answers. \"How to\" queries prefer step lists. \"Best X\" queries prefer tables. Testing reveals the optimal format for each of your key query types."
+            "body": "Different query types favor different content formats. \"What is\" queries prefer paragraph answers. \"How to\" queries prefer step lists. \"Best X\" queries prefer tables. Testing reveals the optimal format for each of your key query types. This mirrors GEO research methodology — the Princeton GEO study tested which content formats earned more citations across generative engines, and your A/B testing replicates this for your specific niche."
           },
           {
             "heading": "How to Test",

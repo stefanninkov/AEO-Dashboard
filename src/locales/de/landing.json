@@ -48,7 +48,7 @@
     "title": "Was ist Answer Engine Optimization?",
     "paragraph1": "**Answer Engine Optimization (AEO) ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen ausgewählt, zitiert und angezeigt werden.** Im Gegensatz zu klassischem SEO, das auf Suchergebnisseiten abzielt, konzentriert sich AEO darauf, Ihren Content zur bevorzugten Quelle zu machen, die große Sprachmodelle wie ChatGPT, Perplexity und Google Gemini bei der Generierung von Antworten auf Nutzeranfragen referenzieren.",
     "comparisonHeading": "AEO vs. klassisches SEO",
-    "paragraph2": "**Obwohl SEO und AEO gemeinsame Grundlagen teilen, unterscheiden sie sich in Zielsystemen, Erfolgskennzahlen und Optimierungstechniken.** SEO optimiert für Crawler und Ranking-Algorithmen; AEO optimiert für Sprachmodelle und Retrieval-Augmented-Generation-(RAG)-Pipelines. Die effektivsten digitalen Strategien kombinieren heute beide Ansätze, um die Sichtbarkeit in klassischer und AI-gestützter Suche zu maximieren.",
+    "paragraph2": "**Obwohl SEO und AEO gemeinsame Grundlagen teilen, unterscheiden sie sich in Zielsystemen, Erfolgskennzahlen und Optimierungstechniken.** SEO optimiert für Crawler und Ranking-Algorithmen; AEO optimiert für Sprachmodelle und Retrieval-Augmented-Generation-(RAG)-Pipelines. AEO umfasst GEO (Generative Engine Optimization), einen forschungsvalidierten Ansatz, der an Princeton und Georgia Tech entwickelt wurde und experimentell bewiesene Techniken zur Maximierung der AI-Zitierwahrscheinlichkeit bereitstellt. Die effektivsten digitalen Strategien kombinieren heute beide Ansätze, um die Sichtbarkeit in klassischer und AI-gestützter Suche zu maximieren.",
     "pillarsHeading": "Die 7 Säulen der AEO"
   },
 
@@ -222,7 +222,7 @@
     "title": "Häufig gestellte Fragen",
     "0": {
       "question": "Was ist Answer Engine Optimization (AEO)?",
-      "answer": "Answer Engine Optimization ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen wie ChatGPT, Perplexity, Google AI Overviews und Bing Copilot zitiert werden. Im Gegensatz zu klassischem SEO, das auf Suchergebnis-Rankings abzielt, konzentriert sich AEO auf strukturierte Daten, direkte Antwortformatierung und Entity-Autorität, um sicherzustellen, dass AI-Systeme Ihren Content referenzieren."
+      "answer": "Answer Engine Optimization ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen wie ChatGPT, Perplexity, Google AI Overviews und Bing Copilot zitiert werden. Im Gegensatz zu klassischem SEO, das auf Suchergebnis-Rankings abzielt, konzentriert sich AEO auf strukturierte Daten, direkte Antwortformatierung und Entity-Autorität, um sicherzustellen, dass AI-Systeme Ihren Content referenzieren. AEO umfasst GEO (Generative Engine Optimization), einen forschungsvalidierten Ansatz von Princeton und Georgia Tech, der experimentell bewiesene Techniken zur Maximierung der AI-Zitierwahrscheinlichkeit bereitstellt."
     },
     "1": {
       "question": "Wie unterscheidet sich AEO von klassischem SEO?",
@@ -242,7 +242,7 @@
     },
     "5": {
       "question": "Was umfasst die 99-Punkte-Checkliste?",
-      "answer": "Die Checkliste umfasst 7 Phasen der AEO-Optimierung: technisches Fundament, Schema-Markup, Inhaltsstruktur, Entity-Optimierung, Multi-Plattform-Targeting, AI-Crawler-Zugang und laufendes Monitoring. Jede Aufgabe enthält Implementierungshinweise und verfolgt den Abschluss über Ihr gesamtes Team."
+      "answer": "Die Checkliste umfasst 7 Phasen der AEO-Optimierung: technisches Fundament, Schema-Markup, Inhaltsstruktur, Entity-Optimierung, Multi-Plattform-Targeting, AI-Crawler-Zugang und laufendes Monitoring. Sie integriert durchgängig GEO (Generative Engine Optimization)-Techniken — forschungsvalidierte Methoden zur Maximierung der AI-Zitierwahrscheinlichkeit. Jede Aufgabe enthält Implementierungshinweise und verfolgt den Abschluss über Ihr gesamtes Team."
     },
     "6": {
       "question": "Brauche ich technische Kenntnisse, um AEO Dashboard zu nutzen?",

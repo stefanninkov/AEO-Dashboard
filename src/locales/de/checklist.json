@@ -94,12 +94,12 @@
     },
     "p1-c1-i2": {
       "text": "Seiten identifizieren, die bereits in AI Overviews / Featured Snippets erscheinen",
-      "detail": "Ermitteln Sie, welche Ihrer Seiten bereits von AI-Engines zitiert werden oder in Featured Snippets erscheinen.",
+      "detail": "Ermitteln Sie, welche Ihrer Seiten bereits von AI-Engines zitiert werden oder in Featured Snippets erscheinen. Ihr aktuelles AI-Zitierungsprofil ist Ihre GEO (Generative Engine Optimization)-Baseline — bereits zitierte Seiten weisen Content-Muster auf, die es sich lohnt, rückwärts zu analysieren.",
       "actionLabel": "Search Console öffnen"
     },
     "p1-c1-i3": {
       "text": "Von AI-Engines zitierte Wettbewerber-Inhalte analysieren",
-      "detail": "Recherchieren Sie, welche Wettbewerberseiten von AI-Plattformen zitiert werden, um zu verstehen, welche Formate erfolgreich sind.",
+      "detail": "Recherchieren Sie, welche Wettbewerberseiten von AI-Plattformen zitiert werden, um zu verstehen, welche Formate erfolgreich sind. Dies ist angewandte GEO-Forschung — die Analyse, welche Wettbewerberinhalte Generative-Engine-Zitierungen erhalten, offenbart dieselben Optimierungssignale, die die Princeton GEO-Studie experimentell gemessen hat.",
       "actionLabel": "Wettbewerber öffnen"
     },
     "p1-c1-i4": {
@@ -214,7 +214,7 @@
     },
     "p3-c1-i1": {
       "text": "Umgekehrte-Pyramide-Format (Antwort zuerst, Details danach)",
-      "detail": "Strukturieren Sie Inhalte mit der direkten Antwort am Anfang, gefolgt von unterstützenden Details.",
+      "detail": "Strukturieren Sie Inhalte mit der direkten Antwort am Anfang, gefolgt von unterstützenden Details. GEO-Forschung belegt dies mit Erkenntnissen zum Positionsbias — Inhalte im ersten Absatz haben eine signifikant höhere Zitierwahrscheinlichkeit in Generative Engines wie ChatGPT, Perplexity und Google AI Overviews.",
       "actionLabel": "Content Writer öffnen"
     },
     "p3-c1-i2": {
@@ -224,7 +224,7 @@
     },
     "p3-c1-i3": {
       "text": "40–60-Wörter-Antwortabsätze für Kernfragen (DIE zentrale AEO-Technik)",
-      "detail": "Schreiben Sie prägnante, eigenständige Antwortabsätze, die AI-Engines direkt extrahieren können.",
+      "detail": "Schreiben Sie prägnante, eigenständige Antwortabsätze, die AI-Engines direkt extrahieren können. Die Princeton GEO (Generative Engine Optimization)-Studie bestätigt dies — inhaltliche Verständlichkeit und Leseflüssigkeit gehören zu den zuverlässigsten Prädiktoren für AI-Zitierungen über alle getesteten Generative Engines hinweg.",
       "actionLabel": "Content Writer öffnen"
     },
     "p3-c1-i4": {
@@ -254,7 +254,7 @@
     },
     "p3-c1-i9": {
       "text": "Inhalte als eigenständige 300–800-Wörter-Blöcke pro H2-Abschnitt strukturieren",
-      "detail": "Organisieren Sie Inhalte so, dass jeder H2-Abschnitt ein semantisch vollständiger, unabhängig abrufbarer Textabschnitt ist – optimiert für AI-RAG-Systeme (Retrieval-Augmented Generation).",
+      "detail": "Organisieren Sie Inhalte so, dass jeder H2-Abschnitt ein semantisch vollständiger, unabhängig abrufbarer Textabschnitt ist – optimiert für AI-RAG-Systeme (Retrieval-Augmented Generation). GEO-Forschung identifiziert RAG-optimiertes Chunking als fundamentale Technik — Inhalte, die nicht sauber als einzelner Textabschnitt abgerufen werden können, werden mit geringerer Wahrscheinlichkeit von Generative Engines zitiert.",
       "actionLabel": "Content Writer öffnen"
     },
     "p3-c2-i1": {
@@ -264,7 +264,7 @@
     },
     "p3-c2-i2": {
       "text": "Eigene Daten, Studien, Fallstudien",
-      "detail": "Erstellen und veröffentlichen Sie eigene Forschungsergebnisse, Daten und Fallstudien, die AI-Engines zitieren können.",
+      "detail": "Erstellen und veröffentlichen Sie eigene Forschungsergebnisse, Daten und Fallstudien, die AI-Engines zitieren können. GEO-Forschung bestätigt dies quantitativ — Seiten mit einzigartigen, überprüfbaren Daten erhalten signifikant mehr Generative-Engine-Zitierungen als vergleichbare Inhalte ohne Originalstatistiken.",
       "actionLabel": "Content Ops öffnen"
     },
     "p3-c2-i3": {
@@ -274,7 +274,7 @@
     },
     "p3-c2-i4": {
       "text": "Autoritative externe Quellen zitieren",
-      "detail": "Referenzieren und verlinken Sie autoritative Quellen, um Vertrauen aufzubauen und Recherche zu belegen.",
+      "detail": "Referenzieren und verlinken Sie autoritative Quellen, um Vertrauen aufzubauen und Recherche zu belegen. Die GEO-Studie identifizierte 'Cite Sources' als eine der wirkungsvollsten Optimierungstechniken — Inhalte, die autoritative Quellen referenzieren, korrelieren mit einer höheren AI-Zitierwahrscheinlichkeit über alle Generative Engines hinweg.",
       "actionLabel": "Content Writer öffnen"
     },
     "p3-c2-i5": {
@@ -284,17 +284,17 @@
     },
     "p3-c2-i6": {
       "text": "Natürlicher, konversationeller Schreibstil",
-      "detail": "Schreiben Sie in einem Stil, der sowohl zur Informationsdarstellung durch AI-Engines als auch zur Fragestellung der Nutzer passt.",
+      "detail": "Schreiben Sie in einem Stil, der sowohl zur Informationsdarstellung durch AI-Engines als auch zur Fragestellung der Nutzer passt. Die GEO-Studie zur 'Fluency Optimization' untermauert dies — klar und natürlich lesbare Inhalte gehörten zu den durchgehend positiven Signalen für die Zitierauswahl durch Generative Engines.",
       "actionLabel": "Content Writer öffnen"
     },
     "p3-c2-i7": {
       "text": "Konkrete Statistiken, Datenpunkte und Zahlen in Kerninhalten einbinden",
-      "detail": "Integrieren Sie belegte Statistiken, numerische Daten und quantitative Belege in Ihre Inhalte. Studien zeigen, dass Seiten mit konkreten Daten deutlich mehr AI-Zitierungen erhalten.",
+      "detail": "Integrieren Sie belegte Statistiken, numerische Daten und quantitative Belege in Ihre Inhalte. Die Princeton GEO (Generative Engine Optimization)-Studie ergab, dass diese einzelne Technik die AI-Zitierwahrscheinlichkeit um über 5,5% steigert — damit ist sie die wirkungsvollste GEO-Optimierung.",
       "actionLabel": "Content Writer öffnen"
     },
     "p3-c2-i8": {
       "text": "Expertenzitate mit Quellenangabe in autoritative Inhalte einbinden",
-      "detail": "Integrieren Sie direkte Zitate anerkannter Experten, Forschungsarbeiten oder Branchenführer in Ihre Inhalte, um Vertrauenssignale und die AI-Zitierwahrscheinlichkeit zu erhöhen.",
+      "detail": "Integrieren Sie direkte Zitate anerkannter Experten, Forschungsarbeiten oder Branchenführer in Ihre Inhalte, um Vertrauenssignale und die AI-Zitierwahrscheinlichkeit zu erhöhen. Die Princeton GEO-Studie stufte 'Quotation Addition' als eine der Top-3-Optimierungsmethoden für die Steigerung von Generative-Engine-Zitierungen ein.",
       "actionLabel": "Content Writer öffnen"
     },
     "p3-c3-i1": {
@@ -329,12 +329,12 @@
     },
     "p4-c1-i6": {
       "text": "llms.txt-Datei im Website-Stammverzeichnis hinzufügen",
-      "detail": "Erstellen Sie eine /llms.txt-Datei, die LLMs eine strukturierte Zusammenfassung Ihrer Website, wichtiger Seiten und Dokumentation bereitstellt.",
+      "detail": "Erstellen Sie eine /llms.txt-Datei, die LLMs eine strukturierte Zusammenfassung Ihrer Website, wichtiger Seiten und Dokumentation bereitstellt. Dies ist eine GEO-Infrastrukturtechnik — sie teilt Generative Engines direkt mit, worum es auf Ihrer Website geht und welche Inhalte priorisiert werden sollen, und umgeht die Unsicherheit des standardmäßigen Crawl-und-Parse-Verfahrens.",
       "actionLabel": "Analyzer öffnen"
     },
     "p4-c1-i8": {
       "text": "llms-full.txt mit vollständiger Dokumentation und Kerninhalten erstellen",
-      "detail": "Ergänzen Sie Ihre llms.txt-Zusammenfassung mit einer llms-full.txt-Datei, die Ihre vollständige Dokumentation, Anleitungen und Kerninhalte in einer einzelnen Markdown-Datei für die AI-Nutzung enthält.",
+      "detail": "Ergänzen Sie Ihre llms.txt-Zusammenfassung mit einer llms-full.txt-Datei, die Ihre vollständige Dokumentation, Anleitungen und Kerninhalte in einer einzelnen Markdown-Datei für die AI-Nutzung enthält. Diese GEO-Content-Delivery-Technik kuratiert Ihre besten Inhalte direkt für die LLM-Aufnahme — anstatt zu hoffen, dass Crawler sie finden und korrekt extrahieren.",
       "actionLabel": "Analyzer öffnen"
     },
     "p4-c1-i2": {
@@ -456,7 +456,7 @@
     },
     "p6-c1-i5": {
       "text": "In Claude, Gemini und anderen AI-Assistenten testen",
-      "detail": "Testen Sie auf allen wichtigen AI-Plattformen, um eine breite AEO-Abdeckung sicherzustellen.",
+      "detail": "Testen Sie auf allen wichtigen AI-Plattformen, um eine breite AEO-Abdeckung sicherzustellen. GEO-Forschung testete die Optimierungseffektivität speziell über ChatGPT, Gemini und Claude hinweg — verschiedene Generative Engines gewichten Inhaltssignale unterschiedlich, sodass plattformübergreifendes Testing GEO-spezifische Lücken aufdeckt.",
       "actionLabel": "Testing öffnen"
     },
     "p6-c2-i1": {
@@ -526,7 +526,7 @@
     },
     "p7-c1-i6": {
       "text": "AI Share of Voice messen — Prozentsatz der Prompts, in denen Ihre Marke vs. Wettbewerber erscheint",
-      "detail": "Verfolgen Sie, bei welchem Anteil relevanter AI-Anfragen Ihre Marke im Vergleich zu Wettbewerbern zitiert wird. AI Share of Voice entwickelt sich zur zentralen Kennzahl für den AEO-Erfolg.",
+      "detail": "Verfolgen Sie, bei welchem Anteil relevanter AI-Anfragen Ihre Marke im Vergleich zu Wettbewerbern zitiert wird. AI Share of Voice entwickelt sich zur zentralen Kennzahl für den AEO-Erfolg. In GEO-Begriffen ist AI Share of Voice die North-Star-Kennzahl — die Princeton GEO-Studie nutzte die Zitierrate über Generative-Plattformen hinweg als primäres Maß für die Optimierungseffektivität.",
       "actionLabel": "Wettbewerber öffnen"
     },
     "p7-c1-i7": {
@@ -541,7 +541,7 @@
     },
     "p7-c2-i1": {
       "text": "A/B-Tests für Antwortformate (Absatz vs. Liste vs. Tabelle)",
-      "detail": "Testen Sie verschiedene Inhaltsformate, um herauszufinden, welche AI-Engines für Ihre Anfragen bevorzugen.",
+      "detail": "Testen Sie verschiedene Inhaltsformate, um herauszufinden, welche AI-Engines für Ihre Anfragen bevorzugen. Dies entspricht der GEO-Forschungsmethodik — die Princeton GEO-Studie testete, welche Inhaltsformate mehr Zitierungen über Generative Engines hinweg erzielen, und Ihre A/B-Tests replizieren dies für Ihre spezifische Nische.",
       "actionLabel": "Content Writer öffnen"
     },
     "p7-c2-i2": {

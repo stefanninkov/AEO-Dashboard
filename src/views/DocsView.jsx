@@ -5,7 +5,7 @@ import {
   Users, Zap as ZapIcon, PenTool, CalendarDays, Code2, Activity,
   BarChart3, Search as SearchIcon, Zap, Layers, FlaskConical,
   Settings, ArrowRight, ExternalLink, Info, Lightbulb,
-  Rocket, HelpCircle,
+  Rocket, HelpCircle, Sparkles,
 } from 'lucide-react'
 import { useDebounce } from '../hooks/useDebounce'
 
@@ -63,6 +63,31 @@ export const APP_SECTIONS = [
       {
         title: 'Comments & Collaboration',
         body: 'Each checklist item has a comment thread — hover over any task to see the comment icon. Team members can discuss implementation details, share notes, and coordinate work directly on each task. Comments include timestamps and author info for team tracking.',
+      },
+    ],
+  },
+  {
+    id: 'geo-guide',
+    icon: Sparkles,
+    title: 'GEO Guide',
+    color: '#8B5CF6',
+    description: 'Generative Engine Optimization — the research-backed discipline for maximizing AI citation probability.',
+    items: [
+      {
+        title: 'What is Generative Engine Optimization (GEO)?',
+        body: 'GEO (Generative Engine Optimization) is a research-backed discipline focused on optimizing content to be cited by generative AI systems — ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Originally described in a 2023 Princeton/Georgia Tech study, GEO identifies specific, measurable techniques for improving AI citation rates: statistics integration, expert quotation addition, fluency optimization, and position bias correction. AEO Dashboard integrates GEO techniques throughout its 7-phase checklist.',
+      },
+      {
+        title: 'GEO vs AEO: How They Relate',
+        body: 'AEO (Answer Engine Optimization) is the broader discipline of making content citable by AI answer engines. GEO is a precision layer on top of AEO — it uses experimentally validated techniques derived from measuring actual citation rates across generative engines. Every GEO best practice is a valid AEO technique, but not every AEO technique has been formally studied in the GEO framework. Think of GEO as the research-validated, evidence-based subset of AEO.',
+      },
+      {
+        title: 'The Top GEO Techniques by Citation Lift',
+        body: 'The Princeton/Georgia Tech GEO study measured citation lift across content optimization strategies. Top performers: (1) Statistics Integration — adding sourced data points boosts citation probability by over 5.5%; (2) Fluency Optimization — clear, active-voice sentences with unambiguous structure improve AI extractability; (3) Quotation Addition — expert quotes with full attribution significantly increase trust signals; (4) Cite Sources — referencing authoritative external sources correlates with higher citation rates. These techniques are integrated into Phase 3 of the AEO checklist.',
+      },
+      {
+        title: 'GEO Citation Gap Analysis',
+        body: 'The most important GEO diagnostic is the citation gap: the difference between pages AI engines crawl and pages they actually cite. AI crawlers visit far more pages than they ultimately reference in generated answers. Identifying which of your crawled-but-not-cited pages fall in this gap — and applying GEO techniques to close it — is the core GEO workflow. Use the Testing view to measure citation rates and compare them with your server log AI crawler data.',
       },
     ],
   },
@@ -333,6 +358,14 @@ export const FAQ_ITEMS = [
   {
     q: 'Is my data saved automatically?',
     a: 'Yes. All checklist progress, settings, and project data is saved automatically to the cloud (Firebase). Changes sync in real-time across all team members\' devices. There\'s no manual save button needed.',
+  },
+  {
+    q: 'What is GEO and how is it different from AEO?',
+    a: 'GEO (Generative Engine Optimization) is a research-backed discipline from a 2023 Princeton/Georgia Tech study focused on maximizing citation probability in generative AI engines. AEO is the broader practice of optimizing for all AI answer engines. GEO is essentially the evidence-based, research-validated subset of AEO — it provides specific, experimentally measured techniques like statistics integration, expert quotation addition, and fluency optimization. The AEO Dashboard integrates GEO techniques throughout its checklist, with explicit GEO callouts on relevant items.',
+  },
+  {
+    q: 'Which checklist items are GEO-related?',
+    a: 'GEO techniques are woven throughout the checklist rather than isolated in a single phase. Key GEO items include: statistics integration and expert quotes (Phase 3, Content Quality), RAG-optimized content chunking (Phase 3, Content Structure), llms.txt and llms-full.txt (Phase 4, Technical AEO), cross-platform generative engine testing (Phase 6), and AI Share of Voice monitoring (Phase 7). Look for "GEO" mentions in item details and documentation to identify all GEO-enhanced tasks.',
   },
 ]
 

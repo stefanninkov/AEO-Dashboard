@@ -69,6 +69,28 @@
         }
       ]
     },
+    "geo-guide": {
+      "title": "GEO-Leitfaden",
+      "description": "Generative Engine Optimization — die forschungsbasierte Disziplin zur Maximierung der AI-Zitierwahrscheinlichkeit.",
+      "items": [
+        {
+          "title": "Was ist Generative Engine Optimization (GEO)?",
+          "body": "GEO (Generative Engine Optimization) ist eine forschungsbasierte Disziplin, die sich auf die Optimierung von Inhalten konzentriert, damit diese von generativen AI-Systemen zitiert werden — ChatGPT, Perplexity, Google AI Overviews und Bing Copilot. Ursprünglich in einer 2023er-Studie von Princeton/Georgia Tech beschrieben, identifiziert GEO spezifische, messbare Techniken zur Verbesserung von AI-Zitierungsraten: Statistik-Integration, Hinzufügen von Expertenzitaten, Verständlichkeitsoptimierung und Korrektur des Positionsbias. Das AEO Dashboard integriert GEO-Techniken durchgängig in seine 7-Phasen-Checkliste."
+        },
+        {
+          "title": "GEO vs. AEO: Wie sie zusammenhängen",
+          "body": "AEO (Answer Engine Optimization) ist die übergeordnete Disziplin, Inhalte für AI-Suchmaschinen zitierbar zu machen. GEO ist eine Präzisionsschicht auf AEO — es nutzt experimentell validierte Techniken, die aus der Messung tatsächlicher Zitierungsraten über Generative Engines gewonnen wurden. Jede GEO-Best-Practice ist eine gültige AEO-Technik, aber nicht jede AEO-Technik wurde im GEO-Rahmenwerk formal untersucht. Betrachten Sie GEO als die forschungsvalidierte, evidenzbasierte Teilmenge von AEO."
+        },
+        {
+          "title": "Die wirkungsvollsten GEO-Techniken nach Zitierungs-Lift",
+          "body": "Die Princeton/Georgia Tech GEO-Studie maß den Zitierungs-Lift verschiedener Content-Optimierungsstrategien. Die besten Ergebnisse: (1) Statistik-Integration — das Hinzufügen belegter Datenpunkte steigert die Zitierwahrscheinlichkeit um über 5,5%; (2) Verständlichkeitsoptimierung — klare Sätze im Aktiv mit eindeutiger Struktur verbessern die AI-Extrahierbarkeit; (3) Hinzufügen von Zitaten — Expertenzitate mit vollständiger Quellenangabe erhöhen Vertrauenssignale signifikant; (4) Quellen zitieren — das Referenzieren autoritativer externer Quellen korreliert mit höheren Zitierungsraten. Diese Techniken sind in Phase 3 der AEO-Checkliste integriert."
+        },
+        {
+          "title": "GEO-Zitierungslücken-Analyse",
+          "body": "Die wichtigste GEO-Diagnose ist die Zitierungslücke: die Differenz zwischen Seiten, die AI-Engines crawlen, und Seiten, die sie tatsächlich zitieren. AI-Crawler besuchen weit mehr Seiten, als sie letztlich in generierten Antworten referenzieren. Zu identifizieren, welche Ihrer gecrawlten-aber-nicht-zitierten Seiten in diese Lücke fallen — und GEO-Techniken anzuwenden, um sie zu schließen — ist der zentrale GEO-Workflow. Nutzen Sie die Testing-Ansicht, um Zitierungsraten zu messen und mit Ihren Server-Log-Daten der AI-Crawler zu vergleichen."
+        }
+      ]
+    },
     "competitors": {
       "title": "Wettbewerber",
       "description": "Analysieren und verfolgen Sie die AEO-Strategien Ihrer Wettbewerber.",
@@ -286,6 +308,14 @@
     {
       "q": "Werden meine Daten automatisch gespeichert?",
       "a": "Ja. Alle Checklisten-Fortschritte, Einstellungen und Projektdaten werden automatisch in der Cloud (Firebase) gespeichert. Änderungen werden in Echtzeit über alle Geräte der Teammitglieder synchronisiert. Es ist kein manuelles Speichern erforderlich."
+    },
+    {
+      "q": "Was ist GEO und wie unterscheidet es sich von AEO?",
+      "a": "GEO (Generative Engine Optimization) ist eine forschungsbasierte Disziplin aus einer 2023er-Studie von Princeton/Georgia Tech, die sich auf die Maximierung der Zitierwahrscheinlichkeit in generativen AI-Engines konzentriert. AEO ist die übergeordnete Praxis der Optimierung für alle AI-Suchmaschinen. GEO ist im Wesentlichen die evidenzbasierte, forschungsvalidierte Teilmenge von AEO — es bietet spezifische, experimentell gemessene Techniken wie Statistik-Integration, Hinzufügen von Expertenzitaten und Verständlichkeitsoptimierung. Das AEO Dashboard integriert GEO-Techniken durchgängig in seine Checkliste, mit expliziten GEO-Hinweisen bei relevanten Einträgen."
+    },
+    {
+      "q": "Welche Checklisten-Einträge sind GEO-relevant?",
+      "a": "GEO-Techniken sind durchgängig in die Checkliste eingewoben, statt in einer einzelnen Phase isoliert zu sein. Wichtige GEO-Einträge umfassen: Statistik-Integration und Expertenzitate (Phase 3, Inhaltsqualität), RAG-optimiertes Content-Chunking (Phase 3, Inhaltsstruktur), llms.txt und llms-full.txt (Phase 4, Technisches AEO), plattformübergreifendes Generative-Engine-Testing (Phase 6) und AI Share of Voice-Monitoring (Phase 7). Achten Sie auf \u201eGEO\u201c-Erwähnungen in Eintragsdetails und Dokumentation, um alle GEO-erweiterten Aufgaben zu identifizieren."
     }
   ]
 }

@@ -35,7 +35,7 @@ export const phases = [
             doc: {
               title: 'Identifying Existing AI Overview Appearances',
               sections: [
-                { heading: 'Why This Matters', body: 'Pages already appearing in AI Overviews or featured snippets have proven authority and format that AI engines trust. These are your highest-value AEO assets — they show what is already working so you can replicate success patterns.' },
+                { heading: 'Why This Matters', body: 'Pages already appearing in AI Overviews or featured snippets have proven authority and format that AI engines trust. These are your highest-value AEO assets — they show what is already working so you can replicate success patterns. Your current AI citation profile is your GEO (Generative Engine Optimization) baseline — pages already cited have content patterns worth reverse-engineering.' },
                 { heading: 'How to Find Them', body: 'Use Google Search Console filtered by "Search Appearance > Featured Snippet." Tools like Ahrefs or SEMrush can identify snippet positions. Manually search your top 50 keywords in incognito and note which trigger AI Overviews. Check Perplexity.ai and ChatGPT for your key topics.' },
                 { heading: 'Analyzing What Works', body: 'For each page appearing in AI results, document: the exact query, the format of cited content (paragraph, list, table), word count of the cited section, and schema markup present. Look for patterns — concise, direct answers in specific formats dominate.' },
                 { heading: 'Action Items', body: '1. Run a featured snippet audit in your SEO tool\n2. Search top 50 queries in Google AI Overview mode\n3. Test 20 core queries in Perplexity.ai and ChatGPT\n4. Create a "wins" spreadsheet documenting every AI appearance\n5. Analyze content format patterns across winning pages' }
@@ -50,7 +50,7 @@ export const phases = [
             doc: {
               title: 'Competitive Analysis for AI Engine Citations',
               sections: [
-                { heading: 'Why This Matters', body: 'Understanding which competitor content gets cited by AI engines reveals the formats, depth, and authority signals that answer engines prefer. Competitors appearing in AI results have cracked the code for your niche — study them.' },
+                { heading: 'Why This Matters', body: 'Understanding which competitor content gets cited by AI engines reveals the formats, depth, and authority signals that answer engines prefer. Competitors appearing in AI results have cracked the code for your niche — study them. This is applied GEO research — studying which competitor content earns generative engine citations reveals the same optimization signals the Princeton GEO study measured experimentally.' },
                 { heading: 'How to Conduct the Analysis', body: 'Identify your top 5-10 competitors. Search 30-50 relevant queries in Perplexity.ai (shows sources explicitly), ChatGPT with browsing, and Google AI Overviews. Record which domains appear most, which pages get cited, and the exact content pulled.' },
                 { heading: 'What to Analyze', body: 'For each cited competitor page examine: content structure (headings, lists, tables), word count, schema markup, freshness, author credentials, sources cited, and domain authority. Pay close attention to the specific paragraphs AI engines quote — these reveal the ideal answer format.' },
                 { heading: 'Action Items', body: '1. List top 20 queries where competitors are cited but you are not\n2. Document the format and depth of winning content\n3. Create briefs for content that exceeds competitor quality\n4. Focus on adding unique value: original data, expert quotes, better visuals\n5. Track changes in AI citations monthly after publishing' }
@@ -443,7 +443,7 @@ export const phases = [
             doc: {
               title: 'Inverted Pyramid Content Structure',
               sections: [
-                { heading: 'Why This Matters', body: 'AI engines extract answers from the first relevant paragraph they find. If your answer is buried after an introduction, history lesson, or preamble, AI will skip your content for a competitor that leads with the answer. The inverted pyramid puts your answer first.' },
+                { heading: 'Why This Matters', body: 'AI engines extract answers from the first relevant paragraph they find. If your answer is buried after an introduction, history lesson, or preamble, AI will skip your content for a competitor that leads with the answer. The inverted pyramid puts your answer first. GEO research supports this with evidence of position bias — content in the first paragraph has significantly higher citation probability in generative engines like ChatGPT, Perplexity, and Google AI Overviews.' },
                 { heading: 'How to Structure', body: 'Paragraph 1: Direct, complete answer to the query (40-60 words). Paragraph 2-3: Essential supporting context. Remaining content: Deep details, examples, edge cases. Think like a journalist writing a news story — the headline and first paragraph should give you everything you need.' },
                 { heading: 'Examples', body: 'Bad: "In this article, we\'ll explore the fascinating history of..."\nGood: "A reverse proxy is a server that sits between client devices and backend servers, forwarding client requests to the appropriate server. It provides load balancing, SSL termination, and caching."' },
                 { heading: 'Action Items', body: '1. Audit your top 20 pages for answer placement\n2. Move the core answer to the first paragraph\n3. Remove filler introductions\n4. Keep the answer paragraph to 40-60 words\n5. Follow with supporting details in descending importance' }
@@ -473,7 +473,7 @@ export const phases = [
             doc: {
               title: 'The 40-60 Word Answer Paragraph',
               sections: [
-                { heading: 'Why This Is THE Key Technique', body: 'This is the single most important AEO technique. AI engines overwhelmingly prefer extracting concise, self-contained paragraphs of 40-60 words. This length is long enough to be a complete answer but short enough to be quoted directly. Featured snippets and AI Overviews are built from these.' },
+                { heading: 'Why This Is THE Key Technique', body: 'This is the single most important AEO technique. AI engines overwhelmingly prefer extracting concise, self-contained paragraphs of 40-60 words. This length is long enough to be a complete answer but short enough to be quoted directly. Featured snippets and AI Overviews are built from these. The Princeton GEO (Generative Engine Optimization) study confirms this — content fluency and ease of understanding are among the most reliable predictors of AI citation across all tested generative engines.' },
                 { heading: 'How to Write One', body: 'Start with the entity or concept name. Use "is" or "are" to create a definition-style opening. Include the most essential details. End with a key differentiator or important nuance. The paragraph should make complete sense in isolation — as if it were the only text a reader would see.' },
                 { heading: 'Examples', body: 'Example (52 words): "Answer Engine Optimization (AEO) is the practice of optimizing web content to be selected, cited, and presented by AI-powered search engines and virtual assistants. Unlike traditional SEO which focuses on ranking in search results, AEO focuses on being the direct answer that AI platforms provide to user questions."' },
                 { heading: 'Where to Place Them', body: 'Immediately after every H2 question heading. At the top of FAQ answers. In the opening paragraph of every article. In definition boxes or callouts. Anywhere you answer a key question — lead with a 40-60 word answer paragraph.' },
@@ -559,7 +559,7 @@ export const phases = [
           {
             id: 'p3-c1-i9',
             text: 'Structure content as self-contained 300-800 word chunks per H2 section',
-            detail: 'Organize content so each H2 section is a semantically complete, independently retrievable passage optimized for AI RAG (Retrieval-Augmented Generation) systems.',
+            detail: 'Organize content so each H2 section is a semantically complete, independently retrievable passage optimized for AI RAG (Retrieval-Augmented Generation) systems. GEO research identifies RAG-optimized chunking as a foundational technique — content that cannot be cleanly retrieved in a single passage is less likely to be cited by generative engines.',
             action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Content Chunking for AI RAG Systems',
@@ -600,7 +600,7 @@ export const phases = [
             doc: {
               title: 'Original Research and Data',
               sections: [
-                { heading: 'Why This Matters', body: 'AI engines strongly prefer citing primary sources with original data. If you generate unique research, surveys, or case studies, you become the authoritative source that both AI engines and other sites cite. This is the highest-value AEO content you can create.' },
+                { heading: 'Why This Matters', body: 'AI engines strongly prefer citing primary sources with original data. If you generate unique research, surveys, or case studies, you become the authoritative source that both AI engines and other sites cite. This is the highest-value AEO content you can create. GEO research confirms this quantitatively — pages containing unique, verifiable data earn significantly more generative engine citations than equivalent content without original statistics.' },
                 { heading: 'Types of Original Content', body: 'Industry surveys and reports. Internal data analysis. Case studies with real metrics. A/B test results. Benchmarking studies. Expert interviews with unique insights. Original frameworks or methodologies.' },
                 { heading: 'How to Optimize for AI Citation', body: 'Include specific numbers and statistics prominently. Use clear data visualization. State findings in extractable paragraphs. Include methodology for credibility. Use Dataset schema for structured data. Make key findings available in the first few paragraphs.' },
                 { heading: 'Action Items', body: '1. Identify unique data your business generates\n2. Plan 2-4 original research pieces per year\n3. Format findings for easy AI extraction\n4. Add Dataset schema where applicable\n5. Promote research for backlinks and citations' }
@@ -625,7 +625,7 @@ export const phases = [
           {
             id: 'p3-c2-i4',
             text: 'Cite authoritative external sources',
-            detail: 'Reference and link to authoritative sources to build trust and demonstrate research.',
+            detail: 'Reference and link to authoritative sources to build trust and demonstrate research. The GEO study named \'Cite Sources\' as a top optimization technique — content that references authoritative sources correlates with higher AI citation probability across all generative engines.',
             action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'External Source Citations',
@@ -660,7 +660,7 @@ export const phases = [
             doc: {
               title: 'Conversational Writing for AEO',
               sections: [
-                { heading: 'Why This Matters', body: 'AI engines synthesize answers that sound natural and conversational. Content written in a natural, clear style is easier for AI to extract and present. Overly formal, jargon-heavy, or marketing-speak content gets skipped in favor of clear, direct language.' },
+                { heading: 'Why This Matters', body: 'AI engines synthesize answers that sound natural and conversational. Content written in a natural, clear style is easier for AI to extract and present. Overly formal, jargon-heavy, or marketing-speak content gets skipped in favor of clear, direct language. The GEO study\'s \'Fluency Optimization\' finding supports this — clear, naturally readable content was among the consistently positive signals for generative engine citation selection.' },
                 { heading: 'Writing Guidelines', body: 'Use second person ("you") for direct engagement. Keep sentences under 25 words on average. Avoid jargon unless defining it for your audience. Write at an 8th-10th grade reading level. Use active voice. Be direct — get to the point quickly.' },
                 { heading: 'Conversational Patterns', body: 'Mirror how users phrase questions in your answers. Use transitional phrases that flow naturally. Include examples that make concepts concrete. Break up text with headings, lists, and short paragraphs. Read your content aloud — if it sounds robotic, rewrite it.' },
                 { heading: 'Action Items', body: '1. Run readability analysis on top content\n2. Simplify language where possible\n3. Replace jargon with plain language\n4. Use active voice consistently\n5. Read content aloud to check naturalness' }
@@ -670,7 +670,7 @@ export const phases = [
           {
             id: 'p3-c2-i7',
             text: 'Include specific statistics, data points, and numbers in key content',
-            detail: 'Embed sourced statistics, numerical data, and quantitative evidence within your content. Research shows pages with concrete data earn significantly more AI citations.',
+            detail: 'Embed sourced statistics, numerical data, and quantitative evidence within your content. The Princeton GEO (Generative Engine Optimization) study found this single technique boosts AI citation probability by over 5.5% — making it the highest-impact GEO optimization.',
             action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Statistics and Data Integration for AI Citations',
@@ -685,7 +685,7 @@ export const phases = [
           {
             id: 'p3-c2-i8',
             text: 'Add expert quotes with attribution to authoritative content',
-            detail: 'Embed direct quotes from recognized experts, research papers, or industry leaders within your content to boost trust signals and AI citation probability.',
+            detail: 'Embed direct quotes from recognized experts, research papers, or industry leaders within your content to boost trust signals and AI citation probability. The Princeton GEO study ranked \'Quotation Addition\' as a top-3 optimization method for generative engine citation lift.',
             action: { view: 'writer', label: 'Open Content Writer' },
             doc: {
               title: 'Expert Quotation Strategy for AEO',
@@ -813,7 +813,7 @@ export const phases = [
           {
             id: 'p4-c1-i6',
             text: 'Add llms.txt file to your website root',
-            detail: 'Create a /llms.txt file that provides LLMs with a structured summary of your site, key pages, and documentation.',
+            detail: 'Create a /llms.txt file that provides LLMs with a structured summary of your site, key pages, and documentation. This is a GEO infrastructure technique — it tells generative engines directly what your site is about and which content to prioritize, bypassing the uncertainty of standard crawl-and-parse.',
             action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'llms.txt — The README for AI',
@@ -829,7 +829,7 @@ export const phases = [
           {
             id: 'p4-c1-i8',
             text: 'Create llms-full.txt with complete documentation and key content',
-            detail: 'Complement your llms.txt summary with a llms-full.txt file containing your complete documentation, guides, and key content in a single Markdown file for AI consumption.',
+            detail: 'Complement your llms.txt summary with a llms-full.txt file containing your complete documentation, guides, and key content in a single Markdown file for AI consumption. This GEO content-delivery technique curates your best content directly for LLM ingestion — instead of hoping crawlers find and extract it correctly.',
             action: { view: 'analyzer', label: 'Open Analyzer' },
             doc: {
               title: 'llms-full.txt — Complete Content for AI',
@@ -1257,7 +1257,7 @@ export const phases = [
           {
             id: 'p6-c1-i5',
             text: 'Test in Claude, Gemini, other AI assistants',
-            detail: 'Test across all major AI platforms to ensure broad AEO coverage.',
+            detail: 'Test across all major AI platforms to ensure broad AEO coverage. GEO research tested optimization effectiveness specifically across ChatGPT, Gemini, and Claude — different generative engines weight content signals differently, so cross-platform testing reveals GEO-specific gaps.',
             action: { view: 'testing', label: 'Open Testing' },
             doc: {
               title: 'Multi-Platform AI Testing',
@@ -1501,7 +1501,7 @@ export const phases = [
             doc: {
               title: 'AI Share of Voice Tracking',
               sections: [
-                { heading: 'Why This Matters', body: 'AI Share of Voice (SoV) is emerging as the "North Star metric" for AEO — it measures the percentage of relevant AI-generated answers where your brand is mentioned or cited versus competitors. Unlike traditional SEO rankings which show positions, AI SoV shows how often you are the answer. This metric directly correlates with brand visibility in the AI-first search era.' },
+                { heading: 'Why This Matters', body: 'AI Share of Voice (SoV) is emerging as the "North Star metric" for AEO — it measures the percentage of relevant AI-generated answers where your brand is mentioned or cited versus competitors. Unlike traditional SEO rankings which show positions, AI SoV shows how often you are the answer. This metric directly correlates with brand visibility in the AI-first search era. In GEO terms, AI Share of Voice is the North Star metric — the Princeton GEO study used citation rate across generative platforms as its primary measure of optimization effectiveness.' },
                 { heading: 'How to Measure', body: 'Define a set of 50-100 queries relevant to your business and industry. Run each query across ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Track which queries mention your brand, which mention competitors, and which mention neither. Calculate your SoV as: (queries citing your brand / total queries tested) \u00d7 100. Compare against top 3-5 competitors.' },
                 { heading: 'Tools and Automation', body: 'Manual tracking works for initial baselines but does not scale. Consider tools like: HubSpot\'s free AI Share of Voice tool, Otterly.AI, SE Ranking\'s SE Visible, Siftly, or Profound. These automate prompt testing across AI platforms and generate competitive SoV reports. Run measurements monthly for trend tracking.' },
                 { heading: 'Action Items', body: '1. Define 50-100 target queries for SoV tracking\n2. Establish a baseline SoV across all major AI platforms\n3. Identify top 3-5 competitors to benchmark against\n4. Set up monthly SoV measurement cadence\n5. Track SoV trends over time (should increase with optimization)\n6. Use SoV data to prioritize content optimization efforts\n7. Report SoV to stakeholders alongside traditional SEO metrics' }
@@ -1552,7 +1552,7 @@ export const phases = [
             doc: {
               title: 'A/B Testing Answer Formats',
               sections: [
-                { heading: 'Why This Matters', body: 'Different query types favor different content formats. "What is" queries prefer paragraph answers. "How to" queries prefer step lists. "Best X" queries prefer tables. Testing reveals the optimal format for each of your key query types.' },
+                { heading: 'Why This Matters', body: 'Different query types favor different content formats. "What is" queries prefer paragraph answers. "How to" queries prefer step lists. "Best X" queries prefer tables. Testing reveals the optimal format for each of your key query types. This mirrors GEO research methodology — the Princeton GEO study tested which content formats earned more citations across generative engines, and your A/B testing replicates this for your specific niche.' },
                 { heading: 'How to Test', body: 'Identify queries where you\'re partially cited or not cited. Create alternative format versions of the same content. Deploy one format, test after 2-4 weeks, then try the alternative. Compare citation rates between formats.' },
                 { heading: 'Format Options', body: 'Paragraph: Best for definitions and explanations (40-60 words). Ordered list: Best for processes and steps. Unordered list: Best for features and benefits. Table: Best for comparisons and specifications. Combination: Use multiple formats on one page for different sections.' },
                 { heading: 'Action Items', body: '1. Identify queries with suboptimal citation rates\n2. Test alternative content formats\n3. Allow 2-4 weeks between format changes\n4. Track citation rates per format\n5. Roll out winning formats across similar content' }
