@@ -6,6 +6,7 @@ import {
   RefreshCw, Download, Mail, Menu, Table2
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
+import LanguageSwitcher from './LanguageSwitcher'
 
 const TYPE_COLORS = {
   Navigation: 'var(--color-phase-1)',
@@ -423,6 +424,7 @@ export default memo(function TopBar({
           <button onClick={onEmail} className="icon-btn" title={t('actions.emailReport')} aria-label={t('actions.emailReport')}>
             <Mail size={14} />
           </button>
+          <LanguageSwitcher variant="app" />
           <NotificationCenter
             notifications={notifications}
             unreadCount={unreadCount}

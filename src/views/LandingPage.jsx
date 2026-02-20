@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 import './LandingPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -498,6 +499,7 @@ export default function LandingPage() {
                 {link.label}
               </a>
             ))}
+            <LanguageSwitcher variant="landing" />
             <a href="/AEO-Dashboard/app" className="lp-nav-cta">{t('nav.cta')}</a>
           </div>
 
@@ -525,6 +527,7 @@ export default function LandingPage() {
             {link.label}
           </a>
         ))}
+        <LanguageSwitcher variant="landing" />
         <a href="/AEO-Dashboard/app" className="lp-nav-cta">{t('nav.cta')}</a>
       </div>
 

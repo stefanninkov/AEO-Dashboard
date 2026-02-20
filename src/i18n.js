@@ -111,4 +111,10 @@ export async function loadLanguage(lng) {
   return i18n.changeLanguage(lng)
 }
 
+// Auto-restore persisted non-English language on startup
+const persistedLang = localStorage.getItem('aeo-language')
+if (persistedLang && persistedLang !== 'en' && lazyBundles[persistedLang]) {
+  loadLanguage(persistedLang)
+}
+
 export default i18n

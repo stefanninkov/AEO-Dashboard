@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useWaitlist } from '../hooks/useWaitlist'
 import { Check, Share2, Copy, Loader, Zap } from 'lucide-react'
 import './WaitlistPage.css'
@@ -277,6 +278,7 @@ export default function WaitlistPage() {
                 {link.label}
               </a>
             ))}
+            <LanguageSwitcher variant="landing" />
             <button
               className="wl-nav-cta"
               onClick={(e) => scrollToSection(e, '#hero')}
@@ -309,6 +311,7 @@ export default function WaitlistPage() {
             {link.label}
           </a>
         ))}
+        <LanguageSwitcher variant="landing" />
         <button
           className="wl-nav-cta"
           onClick={(e) => scrollToSection(e, '#hero')}
