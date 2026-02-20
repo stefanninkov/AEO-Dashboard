@@ -1,7 +1,9 @@
 import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 export default memo(function StatCard({ label, value, trend, icon, iconColor }) {
+  const { t } = useTranslation('app')
   return (
     <div className="stat-card">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.625rem' }}>
@@ -30,7 +32,7 @@ export default memo(function StatCard({ label, value, trend, icon, iconColor }) 
             fontSize: '0.6875rem', fontWeight: 500,
             color: trend > 0 ? 'var(--color-success)' : trend < 0 ? 'var(--color-error)' : 'var(--text-tertiary)',
           }}>
-            {trend > 0 ? '+' : ''}{trend}% vs last period
+            {trend > 0 ? '+' : ''}{trend}% {t('dashboard.statCard.vsLastPeriod')}
           </span>
         </div>
       )}

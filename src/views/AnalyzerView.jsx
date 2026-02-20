@@ -380,10 +380,10 @@ Return ONLY valid JSON:
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">Analyzer</h2>
+          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">{t('analyzer.title')}</h2>
           <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
         </div>
-        <p className="text-[0.8125rem] text-text-secondary">Analyze your website or individual pages for AEO readiness.</p>
+        <p className="text-[0.8125rem] text-text-secondary">{t('analyzer.subtitle')}</p>
       </div>
 
       {/* ── Top-Level Tabs ── */}
@@ -400,7 +400,7 @@ Return ONLY valid JSON:
           }}
         >
           <Globe size={14} />
-          Site Analysis
+          {t('analyzer.siteAnalysis')}
         </button>
         <button
           onClick={() => setActiveTab('pages')}
@@ -414,7 +414,7 @@ Return ONLY valid JSON:
           }}
         >
           <FileText size={14} />
-          Page Analysis
+          {t('analyzer.pageAnalysis')}
           {pageCount > 0 && (
             <span style={{
               fontSize: '0.625rem', fontWeight: 700, fontFamily: 'var(--font-mono)',
@@ -434,8 +434,8 @@ Return ONLY valid JSON:
           {/* API Key */}
           {showApiKey && (
             <div className="analyzer-api-card analyzer-api-card-accent fade-in-up">
-              <h3 className="analyzer-api-title">API Key Required</h3>
-              <p className="text-[0.8125rem] text-text-secondary mb-3">Enter your Anthropic API key to use the analyzer:</p>
+              <h3 className="analyzer-api-title">{t('analyzer.apiKeyRequired')}</h3>
+              <p className="text-[0.8125rem] text-text-secondary mb-3">{t('analyzer.enterApiKey')}</p>
               <div className="analyzer-url-row">
                 <input
                   type="password"
@@ -448,10 +448,10 @@ Return ONLY valid JSON:
                   onClick={() => saveApiKey(apiKey)}
                   className="metrics-run-btn"
                 >
-                  Save
+                  {t('analyzer.save')}
                 </button>
               </div>
-              <p className="text-[0.6875rem] text-text-tertiary mt-2">Key is stored locally in your browser only.</p>
+              <p className="text-[0.6875rem] text-text-tertiary mt-2">{t('analyzer.keyStoredLocally')}</p>
             </div>
           )}
 
@@ -463,7 +463,7 @@ Return ONLY valid JSON:
               style={mode === 'url' ? { backgroundColor: 'var(--color-phase-1)' } : {}}
             >
               <Globe size={14} />
-              URL Scan
+              {t('analyzer.urlScan')}
             </button>
             <button
               onClick={() => setMode('webflow')}
@@ -471,14 +471,14 @@ Return ONLY valid JSON:
               style={mode === 'webflow' ? { backgroundColor: 'var(--color-phase-2)' } : {}}
             >
               <Link2 size={14} />
-              Webflow Connect
+              {t('analyzer.webflowConnect')}
             </button>
             {!showApiKey && apiKey && (
               <button
                 onClick={() => setShowApiKey(true)}
                 className="ml-auto text-[0.6875rem] text-text-tertiary hover:text-text-secondary transition-colors"
               >
-                Change API Key
+                {t('analyzer.changeApiKey')}
               </button>
             )}
           </div>

@@ -1,6 +1,8 @@
 import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default memo(function PhaseDonut({ phases, getPhaseProgress, onNavigate }) {
+  const { t } = useTranslation('app')
   const phaseData = phases.map(phase => {
     const prog = getPhaseProgress(phase)
     return { ...phase, ...prog }
@@ -48,7 +50,7 @@ export default memo(function PhaseDonut({ phases, getPhaseProgress, onNavigate }
             {overallPercent}%
           </text>
           <text x="80" y="94" textAnchor="middle" style={{ fontFamily: 'var(--font-body)', fontSize: '11px', fill: 'var(--text-tertiary)' }}>
-            Complete
+            {t('dashboard.phaseDonut.complete')}
           </text>
         </svg>
       </div>
@@ -60,7 +62,7 @@ export default memo(function PhaseDonut({ phases, getPhaseProgress, onNavigate }
           textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
           marginBottom: '0.25rem',
         }}>
-          Phase Progress
+          {t('dashboard.phaseDonut.phaseProgress')}
         </div>
         {phaseData.map(p => (
           <button

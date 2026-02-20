@@ -1,13 +1,14 @@
 import { useMemo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Award, Star, Trophy, Crown, ArrowRight, BarChart3, ChevronRight } from 'lucide-react'
 import { BarChart, Bar, ResponsiveContainer, XAxis, Tooltip } from 'recharts'
 import { useChartColors } from '../../utils/chartColors'
 
-const MILESTONES = [
-  { pct: 25, label: 'Getting Started', icon: Award },
-  { pct: 50, label: 'Halfway There', icon: Star },
-  { pct: 75, label: 'Almost Done', icon: Trophy },
-  { pct: 100, label: 'AEO Master', icon: Crown },
+const MILESTONE_META = [
+  { pct: 25, icon: Award },
+  { pct: 50, icon: Star },
+  { pct: 75, icon: Trophy },
+  { pct: 100, icon: Crown },
 ]
 
 /* ── Tooltip ── */
@@ -26,8 +27,16 @@ function MiniTooltip({ active, payload, label }) {
 }
 
 export default function ProgressSummaryCard({ activeProject, phases, setActiveView }) {
+  const { t } = useTranslation('app')
   const { phaseColors } = useChartColors()
   const checked = activeProject?.checked || {}
+
+  const MILESTONES = useMemo(() => [
+    { ...MILESTONE_META[0], label: t('dashboard.progressSummary.gettingStarted') },
+    { ...MILESTONE_META[1], label: t('dashboard.progressSummary.halfwayThere') },
+    { ...MILESTONE_META[2], label: t('dashboard.progressSummary.almostDone') },
+    { ...MILESTONE_META[3], label: t('dashboard.progressSummary.aeoMaster') },
+  ], [t])
 
   /* ── Completion stats ── */
   const { total, done, pct } = useMemo(() => {
@@ -101,13 +110,13 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
             fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
             textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
           }}>
-            Milestones
+            {t('dashboard.progressSummary.milestones')}
           </h3>
           <span style={{
             marginLeft: 'auto', fontSize: '0.75rem', fontWeight: 600,
             color: 'var(--text-primary)', fontFamily: 'var(--font-heading)',
           }}>
-            {done}/{total} tasks
+            {t('dashboard.progressSummary.tasksProgress', { done, total })}
           </span>
         </div>
 
@@ -159,7 +168,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
             fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
             textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
           }}>
-            Quick Wins
+            {t('dashboard.progressSummary.quickWins')}
           </h3>
         </div>
 
@@ -199,7 +208,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
           </div>
         ) : (
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', textAlign: 'center', padding: '0.5rem 0' }}>
-            All tasks complete — amazing work!
+            {t('dashboard.progressSummary.allComplete')}
           </p>
         )}
       </div>
@@ -215,7 +224,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
             fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
             textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
           }}>
-            Activity — Last 14 Days
+            {t('dashboard.progressSummary.activityLast14')}
           </h3>
         </div>
         {hasTimelineData ? (
@@ -233,7 +242,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
           </ResponsiveContainer>
         ) : (
           <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)', textAlign: 'center', padding: '1rem 0' }}>
-            Complete checklist tasks to see your activity
+            {t('dashboard.progressSummary.completeTasksForActivity')}
           </p>
         )}
       </div>
@@ -252,7 +261,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
         onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
         onMouseLeave={e => e.currentTarget.style.background = 'none'}
       >
-        Open Checklist
+        {t('dashboard.progressSummary.openChecklist')}
         <ArrowRight size={12} />
       </button>
     </div>

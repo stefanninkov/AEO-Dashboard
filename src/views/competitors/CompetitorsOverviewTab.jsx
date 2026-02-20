@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Users, Plus, Trash2, RefreshCw, Loader2, AlertCircle, TrendingUp,
   TrendingDown, Minus, ExternalLink, Lightbulb, Target, Sparkles
@@ -41,6 +42,7 @@ export function MiniSparkline({ data }) {
 }
 
 export default function CompetitorsOverviewTab({ activeProject, updateProject, user }) {
+  const { t } = useTranslation('app')
   const [newName, setNewName] = useState('')
   const [newUrl, setNewUrl] = useState('')
 
@@ -69,7 +71,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
       <div className="card" style={{ padding: '1.25rem' }}>
         <div style={{ display: 'flex', gap: '0.625rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '8.75rem' }}>
-            <label htmlFor="competitor-name" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>Company Name</label>
+            <label htmlFor="competitor-name" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>{t('competitors.companyName')}</label>
             <input
               id="competitor-name"
               className="input-field"
@@ -80,7 +82,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
             />
           </div>
           <div style={{ flex: 2, minWidth: '12.5rem' }}>
-            <label htmlFor="competitor-url" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>Website URL</label>
+            <label htmlFor="competitor-url" style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'block', marginBottom: '0.25rem' }}>{t('competitors.websiteUrl')}</label>
             <input
               id="competitor-url"
               className="input-field"
@@ -97,7 +99,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
             style={{ padding: '0.625rem 1.125rem', fontSize: '0.8125rem', flexShrink: 0 }}
           >
             <Plus size={14} />
-            Add
+            {t('competitors.add')}
           </button>
         </div>
       </div>
@@ -111,7 +113,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
           style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem' }}
         >
           {analyzing ? <Loader2 size={14} className="spin" /> : <RefreshCw size={14} />}
-          {analyzing ? 'Analyzing...' : 'Run Analysis'}
+          {analyzing ? t('competitors.analyzing') : t('competitors.runAnalysis')}
         </button>
       </div>
 
@@ -121,7 +123,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.625rem' }}>
             <Sparkles size={14} style={{ color: 'var(--color-phase-5)' }} />
             <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-              Suggested competitors in {INDUSTRY_LABELS[activeProject.questionnaire.industry]}
+              {t('competitors.suggestedIn', { industry: INDUSTRY_LABELS[activeProject.questionnaire.industry] })}
             </span>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -167,13 +169,13 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
       {sorted.length > 0 && (
         <div className="card table-scroll-wrap" style={{ overflow: 'hidden' }}>
           <div style={{ padding: '1rem 1.25rem', fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            Rankings
+            {t('competitors.rankings')}
           </div>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
               <thead>
                 <tr style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                  {['Rank', 'Company', 'AEO Score', 'Mentions', 'Avg Pos', 'Trend', '30-Day', ''].map((h, i) => (
+                  {[t('competitors.colRank'), t('competitors.colCompany'), t('competitors.colAeoScore'), t('competitors.colMentions'), t('competitors.colAvgPos'), t('competitors.colTrend'), t('competitors.col30Day'), ''].map((h, i) => (
                     <th scope="col" key={i} style={{
                       padding: '0.625rem 0.875rem', fontSize: '0.6875rem', fontFamily: 'var(--font-heading)',
                       fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase',
@@ -204,7 +206,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <span style={{ fontWeight: comp.isOwn ? 700 : 500, color: comp.isOwn ? 'var(--color-phase-3)' : 'var(--text-primary)' }}>
                           {comp.name}
-                          {comp.isOwn && <span style={{ fontSize: '0.625rem', marginLeft: '0.375rem', color: 'var(--color-phase-3)', fontWeight: 600 }}>YOU</span>}
+                          {comp.isOwn && <span style={{ fontSize: '0.625rem', marginLeft: '0.375rem', color: 'var(--color-phase-3)', fontWeight: 600 }}>{t('competitors.you')}</span>}
                         </span>
                       </div>
                       <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.0625rem' }}>{comp.url}</div>
@@ -260,13 +262,13 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
         <div className="resp-grid-sidebar" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
           <div className="card" style={{ padding: '1.25rem', overflow: 'auto' }}>
             <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
-              Category Performance Heat Map
+              {t('competitors.categoryHeatMap')}
             </h3>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.75rem' }}>
               <thead>
                 <tr>
                   <th scope="col" style={{ padding: '0.5rem 0.625rem', textAlign: 'left', fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)', fontWeight: 600 }}>
-                    Category
+                    {t('competitors.category')}
                   </th>
                   {heatMap.competitors.map(name => (
                     <th scope="col" key={name} style={{
@@ -315,20 +317,20 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                 <Lightbulb size={16} style={{ color: 'var(--color-phase-3)' }} />
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                  AI Insights
+                  {t('competitors.aiInsights')}
                 </h3>
               </div>
               <div style={{ marginBottom: '1rem' }}>
-                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Key Insight</p>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('competitors.keyInsight')}</p>
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6 }}>{aiSummary.keyInsight}</p>
               </div>
               <div>
-                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Opportunity</p>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('competitors.opportunity')}</p>
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6 }}>{aiSummary.opportunity}</p>
               </div>
               {analysis?.timestamp && (
                 <p style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', marginTop: '1rem' }}>
-                  Last analysis: {new Date(analysis.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                  {t('competitors.lastAnalysis')}: {new Date(analysis.timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </p>
               )}
             </div>
@@ -340,8 +342,8 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
       {competitors.length === 0 && !analyzing && (
         <EmptyState
           icon={Target}
-          title="No Competitors Added"
-          description="Add competitor URLs above to compare your AEO performance. Your own site will be automatically included in the analysis."
+          title={t('competitors.noCompetitorsAdded')}
+          description={t('competitors.noCompetitorsAddedDesc')}
           color="var(--color-phase-5)"
         />
       )}

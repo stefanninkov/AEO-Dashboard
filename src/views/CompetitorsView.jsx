@@ -17,8 +17,8 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
     return (
       <div className="flex flex-col items-center justify-center py-24 fade-in-up">
         <Users size={48} style={{ color: 'var(--text-tertiary)', marginBottom: '1rem' }} />
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.5rem' }}>No Project Selected</h3>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>Select a project to view competitor insights.</p>
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.5rem' }}>{t('competitors.noProjectSelected')}</h3>
+        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>{t('competitors.noProjectSelectedDesc')}</p>
       </div>
     )
   }
@@ -53,20 +53,20 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           active={activeTab === 'overview'}
           onClick={() => setActiveTab('overview')}
           icon={<Users size={14} />}
-          label="Overview"
+          label={t('competitors.tabOverview')}
         />
         <TabButton
           active={activeTab === 'monitoring'}
           onClick={() => setActiveTab('monitoring')}
           icon={<Activity size={14} />}
-          label="Monitoring"
+          label={t('competitors.tabMonitoring')}
           badge={undismissedAlertCount > 0 ? undismissedAlertCount : null}
         />
         <TabButton
           active={activeTab === 'citation'}
           onClick={() => setActiveTab('citation')}
           icon={<PieChart size={14} />}
-          label="Citation Share"
+          label={t('competitors.tabCitationShare')}
         />
       </div>
 
