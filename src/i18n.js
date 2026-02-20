@@ -8,6 +8,7 @@ import appEn from './locales/en/app.json'
 import checklistEn from './locales/en/checklist.json'
 import landingEn from './locales/en/landing.json'
 import waitlistEn from './locales/en/waitlist.json'
+import docsEn from './locales/en/docs.json'
 
 export const SUPPORTED_LANGUAGES = [
   { code: 'en', label: 'English', nativeLabel: 'English' },
@@ -26,11 +27,12 @@ i18n
         checklist: checklistEn,
         landing: landingEn,
         waitlist: waitlistEn,
+        docs: docsEn,
       },
     },
     fallbackLng: 'en',
     defaultNS: 'common',
-    ns: ['common', 'app', 'checklist', 'landing', 'waitlist'],
+    ns: ['common', 'app', 'checklist', 'landing', 'waitlist', 'docs'],
     interpolation: {
       escapeValue: false, // React already escapes
     },
@@ -59,12 +61,14 @@ const lazyBundles = {
       import('./locales/de/checklist.json'),
       import('./locales/de/landing.json'),
       import('./locales/de/waitlist.json'),
-    ]).then(([common, app, checklist, landing, waitlist]) => ({
+      import('./locales/de/docs.json'),
+    ]).then(([common, app, checklist, landing, waitlist, docs]) => ({
       common: common.default,
       app: app.default,
       checklist: checklist.default,
       landing: landing.default,
       waitlist: waitlist.default,
+      docs: docs.default,
     })),
   sr: () =>
     Promise.all([
@@ -73,12 +77,14 @@ const lazyBundles = {
       import('./locales/sr/checklist.json'),
       import('./locales/sr/landing.json'),
       import('./locales/sr/waitlist.json'),
-    ]).then(([common, app, checklist, landing, waitlist]) => ({
+      import('./locales/sr/docs.json'),
+    ]).then(([common, app, checklist, landing, waitlist, docs]) => ({
       common: common.default,
       app: app.default,
       checklist: checklist.default,
       landing: landing.default,
       waitlist: waitlist.default,
+      docs: docs.default,
     })),
 }
 

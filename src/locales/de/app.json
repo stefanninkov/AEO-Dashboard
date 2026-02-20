@@ -43,7 +43,6 @@
     "noProjectsYet": "Noch keine Projekte",
     "createFirstProject": "Erstellen Sie Ihr erstes Projekt, um den AEO-Fortschritt zu verfolgen.",
     "createProject": "Projekt erstellen",
-    "quickActions": "Schnellaktionen",
     "totalProgress": "Gesamtfortschritt",
     "citationRate": "Zitierungsrate",
     "monitorChecks": "Monitor-Prüfungen",
@@ -171,7 +170,18 @@
     "impact": "Auswirkung",
     "high": "Hoch",
     "medium": "Mittel",
-    "low": "Niedrig"
+    "low": "Niedrig",
+    "enterApiKeyFirst": "Bitte geben Sie zuerst Ihren Anthropic API-Schlüssel ein, um den Analyzer zu verwenden.",
+    "webflowParseError": "Webflow-Seiten konnten nicht gelesen werden. Möglicherweise müssen Sie sich zuerst bei Webflow authentifizieren.",
+    "parseError": "Analyseergebnisse konnten nicht verarbeitet werden.",
+    "parseErrorAccess": "Analyseergebnisse konnten nicht verarbeitet werden. Die KI konnte möglicherweise nicht auf die Seite zugreifen.",
+    "webflowConnectDesc": "Verbinden Sie sich mit Webflow, um Ihre Seiten direkt zu analysieren.",
+    "refreshSites": "Seiten aktualisieren",
+    "loadSites": "Seiten laden",
+    "selectSite": "Seite auswählen",
+    "analysisError": "Analysefehler",
+    "readyToAnalyze": "Bereit zur Analyse",
+    "readyToAnalyzeDesc": "Geben Sie eine URL ein oder verbinden Sie sich mit Webflow, um die AEO-Bereitschaft Ihrer Seite zu analysieren."
   },
   "writer": {
     "title": "Content-Autor",
@@ -647,13 +657,6 @@
     "ga4Connected": "GA4-Property — verbunden",
     "ga4NotSelected": "GA4-Property — nicht ausgewählt"
   },
-  "docs": {
-    "title": "Dokumentation",
-    "subtitle": "Erfahren Sie mehr über AEO-Optimierung",
-    "searchPlaceholder": "Dokumentation durchsuchen...",
-    "allPhases": "Alle Phasen",
-    "noResults": "Keine Dokumentation entspricht Ihrer Suche"
-  },
   "portal": {
     "title": "Kundenportal",
     "loading": "Geteilter Bericht wird geladen…",
@@ -989,7 +992,9 @@
       "notesDesc": "An Checklisten-Einträge angehängte Notizen",
       "analyzer": "Analysator-Ergebnisse",
       "analyzerDesc": "Website-Analyse und Empfehlungen"
-    }
+    },
+    "success": "Bericht erstellt und heruntergeladen!",
+    "error": "Bericht konnte nicht erstellt werden. Bitte versuchen Sie es erneut."
   },
   "csvExport": {
     "title": "CSV-Daten exportieren",
@@ -1010,6 +1015,74 @@
       "activityDesc": "Letzte Aktivitäten und Teamaktionen",
       "competitors": "Wettbewerber",
       "competitorsDesc": "Wettbewerber-URLs, Scores und Analysen"
+    },
+    "noSectionsSelected": "Keine Bereiche für den Export ausgewählt",
+    "downloadedCount": "{{count}} CSV-Datei(en) heruntergeladen!",
+    "error": "CSV-Export fehlgeschlagen. Bitte versuchen Sie es erneut."
+  },
+  "contentOps": {
+    "title": "Content-Operationen",
+    "subtitle": "Planen Sie Content-Arbeit im Zusammenhang mit Ihrer AEO-Checkliste und generieren Sie KI-gestützte Content-Briefs.",
+    "tabCalendar": "Kalender",
+    "tabBriefs": "Briefs",
+    "statTotal": "Gesamt",
+    "overdue": "Überfällig",
+    "today": "Heute",
+    "week": "Woche",
+    "month": "Monat",
+    "addEntry": "Eintrag hinzufügen",
+    "emptyTitle": "Noch keine Inhalte geplant",
+    "emptyDesc": "Klicken Sie auf einen Tag oder die Schaltfläche \"Eintrag hinzufügen\", um Content-Arbeit zu planen. Verknüpfen Sie Einträge mit Checklisten-Aufgaben, um sie beim Veröffentlichen automatisch abzuschließen.",
+    "moreEntries": "+{{count}} weitere",
+    "status": {
+      "scheduled": "Geplant",
+      "in-progress": "In Bearbeitung",
+      "review": "Überprüfung",
+      "published": "Veröffentlicht"
+    },
+    "days": {
+      "mon": "Mo",
+      "tue": "Di",
+      "wed": "Mi",
+      "thu": "Do",
+      "fri": "Fr",
+      "sat": "Sa",
+      "sun": "So"
+    },
+    "months": {
+      "january": "Januar",
+      "february": "Februar",
+      "march": "März",
+      "april": "April",
+      "may": "Mai",
+      "june": "Juni",
+      "july": "Juli",
+      "august": "August",
+      "september": "September",
+      "october": "Oktober",
+      "november": "November",
+      "december": "Dezember"
+    },
+    "form": {
+      "editEntry": "Eintrag bearbeiten",
+      "newEntry": "Neuer Kalendereintrag",
+      "titleLabel": "Titel *",
+      "titlePlaceholder": "z.B. /services Antwort-Absätze umschreiben",
+      "scheduledDate": "Geplantes Datum",
+      "linkedTask": "Verknüpfte Checklisten-Aufgabe",
+      "none": "Keine",
+      "phase": "Phase",
+      "pageUrl": "Seiten-URL",
+      "assignedTo": "Zugewiesen an",
+      "unassigned": "Nicht zugewiesen",
+      "status": "Status",
+      "linkedBrief": "Verknüpftes Content-Brief",
+      "notes": "Notizen",
+      "notesPlaceholder": "Zusätzliche Notizen...",
+      "delete": "Löschen",
+      "cancel": "Abbrechen",
+      "saveChanges": "Änderungen speichern",
+      "addEntry": "Eintrag hinzufügen"
     }
   },
   "emailReport": {

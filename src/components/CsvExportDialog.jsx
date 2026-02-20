@@ -68,7 +68,7 @@ export default function CsvExportDialog({ activeProject, phases, updateProject, 
       const selectedKeys = Object.keys(selectedSections).filter(k => selectedSections[k] && hasData(k))
 
       if (selectedKeys.length === 0) {
-        addToast('error', 'No sections selected for export')
+        addToast('error', t('csvExport.noSectionsSelected'))
         setGenerating(false)
         return
       }
@@ -91,7 +91,7 @@ export default function CsvExportDialog({ activeProject, phases, updateProject, 
       }
 
       if (exported.length > 0) {
-        addToast('success', `${exported.length} CSV file${exported.length > 1 ? 's' : ''} downloaded!`)
+        addToast('success', t('csvExport.downloadedCount', { count: exported.length }))
         if (updateProject && activeProject?.id) {
           logAndDispatch('export', { format: 'csv', files: exported }, user)
         }
@@ -99,7 +99,7 @@ export default function CsvExportDialog({ activeProject, phases, updateProject, 
       onClose()
     } catch (err) {
       logger.error('CSV export error:', err)
-      addToast('error', 'Failed to export CSV. Please try again.')
+      addToast('error', t('csvExport.error'))
     } finally {
       setGenerating(false)
     }
@@ -159,11 +159,11 @@ export default function CsvExportDialog({ activeProject, phases, updateProject, 
         <div className="email-modal-body">
           {/* Project Info */}
           <div style={{ padding: '0.75rem', background: 'var(--bg-page)', borderRadius: '0.5rem', border: '1px solid var(--border-subtle)' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)', marginBottom: '0.375rem' }}>Project</div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)', marginBottom: '0.375rem' }}>{t('pdfExport.project')}</div>
             <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{activeProject?.name || 'Untitled'}</div>
             {activeProject?.url && <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</div>}
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem' }}>
-              {totalDone}/{totalItems} tasks complete ({overallPercent}%)
+              {totalDone}/{totalItems} {t('pdfExport.tasksComplete')} ({overallPercent}%)
             </div>
           </div>
 

@@ -3,15 +3,12 @@ import {
   ChevronLeft, ChevronRight, Plus, Calendar as CalendarIcon,
   CheckCircle2, Clock, AlertTriangle, LayoutGrid, List,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import useContentCalendar, {
   STATUS_COLORS, getWeekStart, getWeekDays, getMonthDays,
   formatDateKey, isToday, isOverdue,
 } from './useContentCalendar'
 import EntryForm from './EntryForm'
-
-const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December']
 
 /* ── Stat Card ── */
 function StatCard({ label, value, sub, color }) {
@@ -36,7 +33,7 @@ function StatCard({ label, value, sub, color }) {
 }
 
 /* ── Entry Card (rendered inside day cells) ── */
-function EntryCard({ entry, compact, onClick, members }) {
+function EntryCard({ entry, compact, onClick, members, t }) {
   const statusColor = STATUS_COLORS[entry.status] || 'var(--text-tertiary)'
   const overdue = isOverdue(entry)
   const assignee = members?.find(m => m.uid === entry.assignedTo)
@@ -77,7 +74,7 @@ function EntryCard({ entry, compact, onClick, members }) {
             color: statusColor,
             fontFamily: 'var(--font-heading)',
           }}>
-            {entry.status}
+            {t('contentOps.status.' + entry.status)}
           </span>
           {entry.checklistItemId && (
             <CheckCircle2 size={10} style={{ color: 'var(--text-tertiary)' }} />
@@ -103,11 +100,24 @@ function EntryCard({ entry, compact, onClick, members }) {
 
 /* ── Main Calendar View ── */
 export default function CalendarView({ activeProject, updateProject, user, phases, toggleCheckItem }) {
+  const { t } = useTranslation('app')
   const cal = useContentCalendar({ activeProject, updateProject, user, toggleCheckItem })
   const [showForm, setShowForm] = useState(false)
 
   const members = activeProject?.members || []
   const briefs = activeProject?.contentBriefs || []
+
+  const dayNames = useMemo(() => [
+    t('contentOps.days.mon'), t('contentOps.days.tue'), t('contentOps.days.wed'),
+    t('contentOps.days.thu'), t('contentOps.days.fri'), t('contentOps.days.sat'), t('contentOps.days.sun'),
+  ], [t])
+
+  const monthNames = useMemo(() => [
+    t('contentOps.months.january'), t('contentOps.months.february'), t('contentOps.months.march'),
+    t('contentOps.months.april'), t('contentOps.months.may'), t('contentOps.months.june'),
+    t('contentOps.months.july'), t('contentOps.months.august'), t('contentOps.months.september'),
+    t('contentOps.months.october'), t('contentOps.months.november'), t('contentOps.months.december'),
+  ], [t])
 
   /* ── Week data ── */
   const weekStart = useMemo(() => getWeekStart(cal.viewDate), [cal.viewDate])
@@ -150,12 +160,17 @@ export default function CalendarView({ activeProject, updateProject, user, phase
     end.setDate(end.getDate() + 6)
     const sameMonth = weekStart.getMonth() === end.getMonth()
     if (sameMonth) {
-      return `${weekStart.getDate()} - ${end.getDate()} ${MONTH_NAMES[weekStart.getMonth()]} ${weekStart.getFullYear()}`
+      return `${weekStart.getDate()} - ${end.getDate()} ${monthNames[weekStart.getMonth()]} ${weekStart.getFullYear()}`
     }
-    return `${weekStart.getDate()} ${MONTH_NAMES[weekStart.getMonth()].slice(0, 3)} - ${end.getDate()} ${MONTH_NAMES[end.getMonth()].slice(0, 3)} ${end.getFullYear()}`
-  }, [weekStart])
+    return `${weekStart.getDate()} ${monthNames[weekStart.getMonth()].slice(0, 3)} - ${end.getDate()} ${monthNames[end.getMonth()].slice(0, 3)} ${end.getFullYear()}`
+  }, [weekStart, monthNames])
 
-  const monthLabel = `${MONTH_NAMES[cal.viewDate.getMonth()]} ${cal.viewDate.getFullYear()}`
+  const monthLabel = `${monthNames[cal.viewDate.getMonth()]} ${cal.viewDate.getFullYear()}`
+
+  const viewModes = useMemo(() => [
+    { id: 'week', icon: List, label: t('contentOps.week') },
+    { id: 'month', icon: LayoutGrid, label: t('contentOps.month') },
+  ], [t])
 
   const navBtnStyle = {
     background: 'none', border: '1px solid var(--border-subtle)',
@@ -167,12 +182,12 @@ export default function CalendarView({ activeProject, updateProject, user, phase
     <div>
       {/* Stats row */}
       <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-        <StatCard label="Total" value={cal.stats.total} />
-        <StatCard label="Scheduled" value={cal.stats.scheduled} color="var(--color-phase-1)" />
-        <StatCard label="In Progress" value={cal.stats.inProgress} color="var(--color-phase-2)" />
-        <StatCard label="Published" value={cal.stats.published} color="var(--color-phase-3)" />
+        <StatCard label={t('contentOps.statTotal')} value={cal.stats.total} />
+        <StatCard label={t('contentOps.status.scheduled')} value={cal.stats.scheduled} color="var(--color-phase-1)" />
+        <StatCard label={t('contentOps.status.in-progress')} value={cal.stats.inProgress} color="var(--color-phase-2)" />
+        <StatCard label={t('contentOps.status.published')} value={cal.stats.published} color="var(--color-phase-3)" />
         {cal.stats.overdue > 0 && (
-          <StatCard label="Overdue" value={cal.stats.overdue} color="#EF4444" />
+          <StatCard label={t('contentOps.overdue')} value={cal.stats.overdue} color="#EF4444" />
         )}
       </div>
 
@@ -189,7 +204,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
             ...navBtnStyle, fontSize: '0.75rem', padding: '0.3125rem 0.625rem',
             fontFamily: 'var(--font-body)', fontWeight: 600,
           }}>
-            Today
+            {t('contentOps.today')}
           </button>
           <button onClick={cal.calendarMode === 'week' ? cal.goToNextWeek : cal.goToNextMonth} style={navBtnStyle}>
             <ChevronRight size={14} />
@@ -208,7 +223,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
             display: 'flex', borderRadius: '0.5rem', border: '1px solid var(--border-subtle)',
             overflow: 'hidden',
           }}>
-            {[{ id: 'week', icon: List, label: 'Week' }, { id: 'month', icon: LayoutGrid, label: 'Month' }].map(v => (
+            {viewModes.map(v => (
               <button
                 key={v.id}
                 onClick={() => cal.setCalendarMode(v.id)}
@@ -237,7 +252,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
               fontFamily: 'var(--font-body)',
             }}
           >
-            <Plus size={14} /> Add Entry
+            <Plus size={14} /> {t('contentOps.addEntry')}
           </button>
         </div>
       </div>
@@ -277,7 +292,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
                     textTransform: 'uppercase', letterSpacing: '0.5px',
                     color: today ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
                   }}>
-                    {DAY_NAMES[i]}
+                    {dayNames[i]}
                   </span>
                   <span style={{
                     fontSize: '0.8125rem', fontWeight: 700,
@@ -301,6 +316,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
                       compact={false}
                       onClick={handleEntryClick}
                       members={members}
+                      t={t}
                     />
                   ))}
                 </div>
@@ -318,7 +334,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
             display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 0,
             borderBottom: '1px solid var(--border-subtle)',
           }}>
-            {DAY_NAMES.map(d => (
+            {dayNames.map(d => (
               <div key={d} style={{
                 padding: '0.375rem', textAlign: 'center',
                 fontSize: '0.625rem', fontFamily: 'var(--font-heading)', fontWeight: 700,
@@ -372,6 +388,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
                           compact
                           onClick={handleEntryClick}
                           members={members}
+                          t={t}
                         />
                       ))}
                       {dayEntries.length > 2 && (
@@ -379,7 +396,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
                           fontSize: '0.5625rem', color: 'var(--text-tertiary)',
                           textAlign: 'center', fontWeight: 600,
                         }}>
-                          +{dayEntries.length - 2} more
+                          {t('contentOps.moreEntries', { count: dayEntries.length - 2 })}
                         </div>
                       )}
                     </div>
@@ -402,11 +419,10 @@ export default function CalendarView({ activeProject, updateProject, user, phase
             fontFamily: 'var(--font-heading)', fontSize: '0.9375rem',
             fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.375rem',
           }}>
-            No content scheduled yet
+            {t('contentOps.emptyTitle')}
           </div>
           <div style={{ fontSize: '0.8125rem', maxWidth: '24rem', margin: '0 auto', lineHeight: 1.5 }}>
-            Click any day or the "Add Entry" button to schedule content work.
-            Link entries to checklist tasks to auto-complete them when published.
+            {t('contentOps.emptyDesc')}
           </div>
         </div>
       )}

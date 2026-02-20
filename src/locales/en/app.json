@@ -43,7 +43,6 @@
     "noProjectsYet": "No projects yet",
     "createFirstProject": "Create your first project to start tracking AEO progress.",
     "createProject": "Create Project",
-    "quickActions": "Quick Actions",
     "totalProgress": "Total Progress",
     "citationRate": "Citation Rate",
     "monitorChecks": "Monitor Checks",
@@ -171,7 +170,18 @@
     "impact": "Impact",
     "high": "High",
     "medium": "Medium",
-    "low": "Low"
+    "low": "Low",
+    "enterApiKeyFirst": "Please enter your Anthropic API key to use the analyzer.",
+    "webflowParseError": "Could not parse Webflow sites. You may need to authenticate with Webflow first.",
+    "parseError": "Could not parse analysis results.",
+    "parseErrorAccess": "Could not parse analysis results. The AI may not have been able to access the site.",
+    "webflowConnectDesc": "Connect to Webflow to analyze your sites directly.",
+    "refreshSites": "Refresh Sites",
+    "loadSites": "Load Sites",
+    "selectSite": "Select a site",
+    "analysisError": "Analysis Error",
+    "readyToAnalyze": "Ready to analyze",
+    "readyToAnalyzeDesc": "Enter a URL or connect to Webflow to analyze your site's AEO readiness."
   },
   "writer": {
     "title": "Content Writer",
@@ -647,13 +657,6 @@
     "ga4Connected": "GA4 property — connected",
     "ga4NotSelected": "GA4 property — not selected"
   },
-  "docs": {
-    "title": "Documentation",
-    "subtitle": "Learn about AEO optimization",
-    "searchPlaceholder": "Search documentation...",
-    "allPhases": "All Phases",
-    "noResults": "No documentation matches your search"
-  },
   "portal": {
     "title": "Client Portal",
     "loading": "Loading shared report…",
@@ -989,7 +992,9 @@
       "notesDesc": "Notes attached to checklist items",
       "analyzer": "Analyzer results",
       "analyzerDesc": "Site analysis and recommendations"
-    }
+    },
+    "success": "Report generated and downloaded!",
+    "error": "Failed to generate report. Please try again."
   },
   "csvExport": {
     "title": "Export CSV Data",
@@ -1010,6 +1015,74 @@
       "activityDesc": "Recent activity and team actions",
       "competitors": "Competitors",
       "competitorsDesc": "Competitor URLs, scores, and analysis"
+    },
+    "noSectionsSelected": "No sections selected for export",
+    "downloadedCount": "{{count}} CSV file(s) downloaded!",
+    "error": "Failed to export CSV. Please try again."
+  },
+  "contentOps": {
+    "title": "Content Operations",
+    "subtitle": "Schedule content work tied to your AEO checklist and generate AI-powered content briefs.",
+    "tabCalendar": "Calendar",
+    "tabBriefs": "Briefs",
+    "statTotal": "Total",
+    "overdue": "Overdue",
+    "today": "Today",
+    "week": "Week",
+    "month": "Month",
+    "addEntry": "Add Entry",
+    "emptyTitle": "No content scheduled yet",
+    "emptyDesc": "Click any day or the \"Add Entry\" button to schedule content work. Link entries to checklist tasks to auto-complete them when published.",
+    "moreEntries": "+{{count}} more",
+    "status": {
+      "scheduled": "Scheduled",
+      "in-progress": "In Progress",
+      "review": "Review",
+      "published": "Published"
+    },
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "form": {
+      "editEntry": "Edit Entry",
+      "newEntry": "New Calendar Entry",
+      "titleLabel": "Title *",
+      "titlePlaceholder": "e.g. Rewrite /services answer paragraphs",
+      "scheduledDate": "Scheduled Date",
+      "linkedTask": "Linked Checklist Task",
+      "none": "None",
+      "phase": "Phase",
+      "pageUrl": "Page URL",
+      "assignedTo": "Assigned To",
+      "unassigned": "Unassigned",
+      "status": "Status",
+      "linkedBrief": "Linked Content Brief",
+      "notes": "Notes",
+      "notesPlaceholder": "Additional notes...",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "addEntry": "Add Entry"
     }
   },
   "emailReport": {

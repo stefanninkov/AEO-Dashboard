@@ -1,0 +1,291 @@
+{
+  "title": "Documentation & Help",
+  "subtitle": "Learn how to use each tool and understand AEO best practices.",
+  "searchPlaceholder": "Search documentation...",
+  "searchFeatures": "Search features...",
+  "searchQuestions": "Search questions...",
+  "allPhases": "All Phases",
+  "noResults": "No matching results",
+  "noResultsDesc": "Try adjusting your search or phase filter to find what you're looking for.",
+  "noMatchingFeatures": "No matching features found",
+  "noMatchingQuestions": "No matching questions",
+  "tryDifferentSearch": "Try a different search term.",
+  "showingDocs": "Showing {{shown}} of {{total}} documents",
+  "phase": "Phase",
+  "doc": "doc",
+  "docs": "docs",
+  "open": "Open",
+  "tabs": {
+    "guide": "App Guide",
+    "reference": "AEO Reference",
+    "faq": "FAQ"
+  },
+  "sections": {
+    "getting-started": {
+      "title": "Getting Started",
+      "description": "Everything you need to know to start using AEO Dashboard effectively.",
+      "items": [
+        {
+          "title": "What is AEO Dashboard?",
+          "body": "AEO Dashboard is an all-in-one Answer Engine Optimization platform that helps you optimize your website to appear in AI-generated answers \u2014 from ChatGPT and Google AI Overviews to Perplexity, Bing Copilot, and other AI assistants. Instead of just ranking in traditional search results, AEO ensures your content gets cited and referenced by AI systems."
+        },
+        {
+          "title": "What is Answer Engine Optimization (AEO)?",
+          "body": "AEO is the practice of optimizing your content so that AI-powered search engines and assistants use your website as a source when generating answers. This includes optimizing structured data, content authority, entity recognition, technical SEO, and more. It\u2019s the evolution of traditional SEO for the AI era."
+        },
+        {
+          "title": "How the Dashboard Works",
+          "body": "Your Dashboard provides a high-level overview of your AEO performance \u2014 checklist progress across 7 phases, key metrics at a glance, and quick access to all tools. Think of it as your mission control for AEO optimization. The circular progress indicator shows your overall completion, while phase breakdowns help you identify where to focus next."
+        },
+        {
+          "title": "Navigating the App",
+          "body": "Use the sidebar to switch between tools. Each tool serves a specific purpose in your AEO workflow. You can also use keyboard shortcuts (\u2318+1 through \u2318+9) to quickly jump between views, or press \u2318+K to open the Command Palette for fast navigation and actions. The sidebar can be collapsed on mobile by tapping outside it."
+        },
+        {
+          "title": "Projects & Workspaces",
+          "body": "Each project represents a website or domain you\u2019re optimizing. You can create multiple projects from the sidebar, each with its own checklist progress, settings, and data. Team members can be invited to collaborate on projects with role-based permissions (Owner, Admin, Editor, Viewer)."
+        }
+      ]
+    },
+    "aeo-guide": {
+      "title": "AEO Guide",
+      "description": "Your step-by-step roadmap through all 7 phases of Answer Engine Optimization.",
+      "items": [
+        {
+          "title": "The 7 Phases of AEO",
+          "body": "The AEO Guide organizes optimization into 7 progressive phases: (1) Technical Foundation \u2014 crawlability, site speed, security; (2) Schema & Structured Data \u2014 JSON-LD markup for AI comprehension; (3) Content Authority \u2014 establishing expertise and trust signals; (4) AI Discoverability \u2014 making your content findable by AI engines; (5) Brand & Entity \u2014 building your entity footprint; (6) Testing & Validation \u2014 verifying your optimizations work; (7) Monitoring & Iteration \u2014 tracking performance and iterating."
+        },
+        {
+          "title": "Checklist Items",
+          "body": "Each phase contains categorized tasks. Check off items as you complete them \u2014 your progress is saved automatically. Each item has a detail description, a \"Learn more\" button that opens comprehensive documentation, and an action button that takes you directly to the relevant in-app tool. Items with colored action buttons can be completed right inside the app."
+        },
+        {
+          "title": "Smart Prioritization",
+          "body": "When you first set up a project, the questionnaire determines which phase opens by default based on your current AEO maturity. For example, if you haven\u2019t implemented structured data yet, Phase 2 opens first. This helps you focus on the highest-impact tasks for your situation."
+        },
+        {
+          "title": "Comments & Collaboration",
+          "body": "Each checklist item has a comment thread \u2014 hover over any task to see the comment icon. Team members can discuss implementation details, share notes, and coordinate work directly on each task. Comments include timestamps and author info for team tracking."
+        }
+      ]
+    },
+    "competitors": {
+      "title": "Competitors",
+      "description": "Analyze and track competitor AEO strategies.",
+      "items": [
+        {
+          "title": "Competitor Tracking",
+          "body": "Add competitor domains to track their AEO performance alongside yours. The competitor view lets you compare structured data implementation, content strategies, and AI visibility side by side. This helps identify gaps in your strategy and opportunities your competitors may have missed."
+        },
+        {
+          "title": "Adding Competitors",
+          "body": "Enter competitor URLs to start tracking them. The system analyzes their schema markup, content structure, and technical SEO signals. You can track multiple competitors per project and remove them at any time."
+        }
+      ]
+    },
+    "analyzer": {
+      "title": "Analyzer",
+      "description": "Analyze any URL for AEO readiness and get actionable recommendations.",
+      "items": [
+        {
+          "title": "How the Analyzer Works",
+          "body": "Enter any URL and the Analyzer scans it for AEO readiness. It checks structured data, content quality signals, technical SEO factors, heading structure, meta tags, and more. Results are presented as a score with detailed recommendations for improvement."
+        },
+        {
+          "title": "Understanding Results",
+          "body": "The analysis breaks down into categories: structured data coverage, content authority signals, technical foundation, and AI discoverability factors. Each category shows what\u2019s working well (green), what needs attention (yellow), and critical issues (red). Action items are prioritized by impact."
+        },
+        {
+          "title": "When to Use It",
+          "body": "Run the Analyzer when you\u2019re starting a new project, after making significant content changes, or when checking specific pages for AEO compliance. It\u2019s especially useful for auditing individual pages against the AEO checklist requirements."
+        }
+      ]
+    },
+    "writer": {
+      "title": "Content Writer",
+      "description": "AI-powered content creation optimized for Answer Engine visibility.",
+      "items": [
+        {
+          "title": "AI Content Generation",
+          "body": "The Content Writer helps you create AEO-optimized content using AI. It generates content that\u2019s structured for AI comprehension \u2014 with clear headings, concise answers to likely questions, and proper formatting that AI engines prefer when sourcing information."
+        },
+        {
+          "title": "Content Templates",
+          "body": "Choose from templates designed for different content types: FAQ pages, how-to guides, product descriptions, comparison articles, and more. Each template is structured to maximize the chance of being cited by AI assistants."
+        },
+        {
+          "title": "Optimization Tips",
+          "body": "The writer includes real-time suggestions for improving AI visibility: sentence clarity, answer-readiness, entity mentions, and factual precision. Content that\u2019s clear, concise, and authoritative performs best with AI systems."
+        }
+      ]
+    },
+    "content-ops": {
+      "title": "Content Ops",
+      "description": "Plan and manage your content operations and publishing pipeline.",
+      "items": [
+        {
+          "title": "Content Calendar",
+          "body": "Content Ops provides a content management and planning workspace. Organize your content pipeline, track what needs to be created or updated, and ensure consistent publishing. This helps maintain the content freshness signals that AI engines value."
+        },
+        {
+          "title": "Workflow Management",
+          "body": "Track content through stages from ideation to published. Assign content tasks to team members, set deadlines, and monitor progress. A consistent content workflow ensures your AEO strategy stays on track."
+        }
+      ]
+    },
+    "schema": {
+      "title": "Schema Generator",
+      "description": "Generate JSON-LD structured data markup for AI engines.",
+      "items": [
+        {
+          "title": "What is Schema Markup?",
+          "body": "Schema markup (structured data) is JSON-LD code that helps AI engines understand your content. It tells AI systems exactly what your page is about \u2014 whether it\u2019s a FAQ, product, article, organization, or any other entity type. This is one of the most important factors for AI visibility."
+        },
+        {
+          "title": "Generating Schema",
+          "body": "Select a schema type (FAQPage, HowTo, Article, Product, Organization, etc.), fill in the required fields, and the generator outputs valid JSON-LD code ready to paste into your website\u2019s <head> tag. The generator validates your markup against Google\u2019s requirements."
+        },
+        {
+          "title": "Schema Types for AEO",
+          "body": "The most impactful schema types for AI visibility: FAQPage (for question-answer content), HowTo (for instructional content), Article (for editorial content), Organization (for brand identity), Product (for e-commerce), and Speakable (marking content optimized for voice/AI reading)."
+        }
+      ]
+    },
+    "monitoring": {
+      "title": "Monitoring",
+      "description": "Real-time monitoring of your AEO performance signals.",
+      "items": [
+        {
+          "title": "Performance Monitoring",
+          "body": "The Monitoring tab tracks your AEO health in real-time. It watches for changes in structured data validity, content indexing status, and technical health signals. Set up alerts to be notified when something needs attention."
+        },
+        {
+          "title": "What Gets Tracked",
+          "body": "Monitoring covers: schema validation status, page load performance, crawl errors, indexing status, content changes, and competitor movements. The dashboard surfaces the most critical items so you can respond quickly to issues."
+        }
+      ]
+    },
+    "metrics": {
+      "title": "Metrics",
+      "description": "Detailed analytics and performance metrics for your AEO efforts.",
+      "items": [
+        {
+          "title": "AEO Metrics Overview",
+          "body": "The Metrics tab provides detailed analytics about your AEO performance over time. Track trends in AI citations, answer appearances, click-through rates from AI surfaces, and overall visibility scores. Use the date range selector to view different time periods."
+        },
+        {
+          "title": "Key Metrics to Watch",
+          "body": "Focus on: AI citation rate (how often AI engines reference your content), answer appearance rate (how often you appear in AI-generated answers), structured data coverage (percentage of pages with valid schema), and content authority score (aggregate trust signals)."
+        }
+      ]
+    },
+    "gsc": {
+      "title": "Search Console",
+      "description": "Google Search Console integration for search performance data.",
+      "items": [
+        {
+          "title": "Search Console Integration",
+          "body": "Connect your Google Search Console account to pull in real search performance data. This shows how your pages perform in Google Search results \u2014 impressions, clicks, CTR, and average position. This data helps you understand which pages are being found by Google\u2019s AI systems."
+        },
+        {
+          "title": "Connecting Your Account",
+          "body": "Go to Settings to connect your Google Search Console property. Once connected, data flows automatically into the Search Console tab. You\u2019ll see query-level data showing exactly what search terms are driving traffic to your site."
+        }
+      ]
+    },
+    "ga4": {
+      "title": "AI Traffic",
+      "description": "Track traffic specifically coming from AI engines and assistants.",
+      "items": [
+        {
+          "title": "AI Traffic Tracking",
+          "body": "The AI Traffic tab (GA4 integration) specifically tracks visitors coming from AI-powered sources: ChatGPT, Google AI Overviews, Perplexity, Bing Copilot, Claude, and other AI assistants. This is the most direct measure of your AEO success."
+        },
+        {
+          "title": "Setting Up Tracking",
+          "body": "Connect your Google Analytics 4 property in Settings. The system automatically identifies AI-referral traffic using known AI engine referrer patterns. This separates AI-driven traffic from traditional organic search traffic."
+        }
+      ]
+    },
+    "aeo-impact": {
+      "title": "AEO Impact",
+      "description": "Measure the business impact of your AEO optimization efforts.",
+      "items": [
+        {
+          "title": "Impact Measurement",
+          "body": "AEO Impact connects your optimization work to business outcomes. It correlates checklist progress with traffic changes, citation growth, and conversion metrics. This helps you demonstrate ROI and prioritize the highest-impact activities."
+        },
+        {
+          "title": "Before & After Analysis",
+          "body": "Track how specific optimizations (adding schema, improving content, fixing technical issues) affected your AI visibility over time. The impact timeline shows changes alongside your optimization milestones."
+        }
+      ]
+    },
+    "testing": {
+      "title": "Testing",
+      "description": "Test how AI engines respond to your content with real queries.",
+      "items": [
+        {
+          "title": "Query Testing",
+          "body": "The Testing tab lets you test queries against AI engines to see if your content appears in their responses. Enter questions that your target audience might ask, and see how AI systems respond \u2014 whether they cite your content, reference your brand, or miss you entirely."
+        },
+        {
+          "title": "Test Strategies",
+          "body": "Test different types of queries: branded queries (mentions of your brand), topical queries (questions in your expertise area), comparison queries (your brand vs competitors), and long-tail queries (specific questions your content answers). Track which queries you\u2019re winning and which need work."
+        }
+      ]
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Configure your project, team, integrations, and account preferences.",
+      "items": [
+        {
+          "title": "Project Settings",
+          "body": "Configure your project details: site URL, project name, description, and AEO questionnaire answers. The questionnaire responses affect which AEO Guide phase is prioritized and which recommendations you receive. You can re-take the questionnaire at any time."
+        },
+        {
+          "title": "Team Management",
+          "body": "Invite team members by email with role-based access: Owner (full control), Admin (manage team & settings), Editor (edit content & checklist), and Viewer (read-only access). Team activity is tracked in the activity timeline."
+        },
+        {
+          "title": "Integrations",
+          "body": "Connect external services: Google Search Console (search performance data), Google Analytics 4 (AI traffic tracking), and Webflow (CMS integration). Each integration enriches your dashboard with real data from your actual website performance."
+        },
+        {
+          "title": "Theme & Preferences",
+          "body": "Toggle between light and dark mode using the theme switcher in the sidebar. The app respects your system preference by default. Keyboard shortcuts and other UI preferences can be customized."
+        }
+      ]
+    }
+  },
+  "faq": [
+    {
+      "q": "How is AEO different from traditional SEO?",
+      "a": "Traditional SEO focuses on ranking in search engine results pages (SERPs). AEO focuses on being cited as a source by AI-powered systems \u2014 ChatGPT, Google AI Overviews, Perplexity, etc. While there\u2019s significant overlap (good SEO helps AEO), AEO specifically emphasizes structured data, content clarity, entity recognition, and authoritative sourcing that AI systems value."
+    },
+    {
+      "q": "Do I need to complete all 7 phases?",
+      "a": "Ideally yes, but prioritize based on your current maturity. Phase 1 (Technical Foundation) and Phase 2 (Schema) are the most impactful starting points. The AEO Guide\u2019s smart prioritization opens the most relevant phase for your situation. You can work through phases in parallel \u2014 they\u2019re not strictly sequential."
+    },
+    {
+      "q": "How often should I check my AEO metrics?",
+      "a": "Monitor weekly at minimum. AI visibility can change quickly as AI models update and competitors optimize. The Monitoring tab helps you stay on top of changes, and the Metrics tab shows trends over time. Set up the most critical alerts to be notified of significant changes."
+    },
+    {
+      "q": "Can I use this for multiple websites?",
+      "a": "Yes! Create a separate project for each website or domain. Each project maintains its own checklist progress, settings, and integrations. Switch between projects using the project selector in the sidebar."
+    },
+    {
+      "q": "What keyboard shortcuts are available?",
+      "a": "Press \u2318+K (or Ctrl+K on Windows) to open the Command Palette, which shows all available actions. Use \u2318+1 through \u2318+9 to quickly switch between views. \u2318+N creates a new project, and Escape closes modals and overlays."
+    },
+    {
+      "q": "How does team collaboration work?",
+      "a": "Invite team members from Settings \u2192 Team. Each member gets a role (Owner, Admin, Editor, Viewer) that controls what they can do. Real-time presence shows who\u2019s online. Checklist items support comments for discussion, and all activity is logged in the team timeline."
+    },
+    {
+      "q": "Is my data saved automatically?",
+      "a": "Yes. All checklist progress, settings, and project data is saved automatically to the cloud (Firebase). Changes sync in real-time across all team members\u2019 devices. There\u2019s no manual save button needed."
+    }
+  ]
+}

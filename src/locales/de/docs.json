@@ -1,0 +1,291 @@
+{
+  "title": "Dokumentation & Hilfe",
+  "subtitle": "Erfahren Sie, wie Sie jedes Werkzeug verwenden und AEO-Best-Practices verstehen.",
+  "searchPlaceholder": "Dokumentation durchsuchen...",
+  "searchFeatures": "Funktionen suchen...",
+  "searchQuestions": "Fragen suchen...",
+  "allPhases": "Alle Phasen",
+  "noResults": "Keine passenden Ergebnisse",
+  "noResultsDesc": "Versuchen Sie, Ihre Suche oder den Phasenfilter anzupassen, um das Gewünschte zu finden.",
+  "noMatchingFeatures": "Keine passenden Funktionen gefunden",
+  "noMatchingQuestions": "Keine passenden Fragen",
+  "tryDifferentSearch": "Versuchen Sie einen anderen Suchbegriff.",
+  "showingDocs": "{{shown}} von {{total}} Dokumenten werden angezeigt",
+  "phase": "Phase",
+  "doc": "Dok.",
+  "docs": "Dok.",
+  "open": "Öffnen",
+  "tabs": {
+    "guide": "App-Leitfaden",
+    "reference": "AEO-Referenz",
+    "faq": "FAQ"
+  },
+  "sections": {
+    "getting-started": {
+      "title": "Erste Schritte",
+      "description": "Alles, was Sie wissen müssen, um das AEO Dashboard effektiv zu nutzen.",
+      "items": [
+        {
+          "title": "Was ist das AEO Dashboard?",
+          "body": "Das AEO Dashboard ist eine All-in-One-Plattform für Answer Engine Optimization, die Ihnen hilft, Ihre Website so zu optimieren, dass sie in KI-generierten Antworten erscheint — von ChatGPT und Google AI Overviews bis zu Perplexity, Bing Copilot und anderen KI-Assistenten. Statt nur in traditionellen Suchergebnissen zu ranken, stellt AEO sicher, dass Ihre Inhalte von KI-Systemen zitiert und referenziert werden."
+        },
+        {
+          "title": "Was ist Answer Engine Optimization (AEO)?",
+          "body": "AEO ist die Praxis, Ihre Inhalte so zu optimieren, dass KI-gestützte Suchmaschinen und Assistenten Ihre Website als Quelle verwenden, wenn sie Antworten generieren. Dazu gehören die Optimierung strukturierter Daten, der Inhaltsautorität, der Entitätserkennung, der technischen SEO und mehr. Es ist die Weiterentwicklung traditioneller SEO für das KI-Zeitalter."
+        },
+        {
+          "title": "Wie das Dashboard funktioniert",
+          "body": "Ihr Dashboard bietet einen Überblick über Ihre AEO-Leistung — Checklisten-Fortschritt über 7 Phasen, wichtige Kennzahlen auf einen Blick und schnellen Zugriff auf alle Werkzeuge. Betrachten Sie es als Ihre Kommandozentrale für AEO-Optimierung. Der kreisförmige Fortschrittsindikator zeigt Ihren Gesamtabschluss, während die Phasenaufschlüsselungen Ihnen helfen, zu erkennen, wo Sie sich als Nächstes konzentrieren sollten."
+        },
+        {
+          "title": "In der App navigieren",
+          "body": "Verwenden Sie die Seitenleiste, um zwischen Werkzeugen zu wechseln. Jedes Werkzeug dient einem bestimmten Zweck in Ihrem AEO-Workflow. Sie können auch Tastenkürzel (\u2318+1 bis \u2318+9) verwenden, um schnell zwischen Ansichten zu wechseln, oder \u2318+K drücken, um die Befehlspalette für schnelle Navigation und Aktionen zu öffnen. Die Seitenleiste kann auf Mobilgeräten durch Tippen außerhalb geschlossen werden."
+        },
+        {
+          "title": "Projekte & Arbeitsbereiche",
+          "body": "Jedes Projekt repräsentiert eine Website oder Domain, die Sie optimieren. Sie können mehrere Projekte über die Seitenleiste erstellen, jedes mit eigenem Checklisten-Fortschritt, eigenen Einstellungen und Daten. Teammitglieder können zur Zusammenarbeit an Projekten mit rollenbasierten Berechtigungen eingeladen werden (Eigentümer, Admin, Bearbeiter, Betrachter)."
+        }
+      ]
+    },
+    "aeo-guide": {
+      "title": "AEO-Leitfaden",
+      "description": "Ihre Schritt-für-Schritt-Roadmap durch alle 7 Phasen der Answer Engine Optimization.",
+      "items": [
+        {
+          "title": "Die 7 Phasen der AEO",
+          "body": "Der AEO-Leitfaden organisiert die Optimierung in 7 aufeinander aufbauende Phasen: (1) Technische Grundlage — Crawlbarkeit, Seitengeschwindigkeit, Sicherheit; (2) Schema & Strukturierte Daten — JSON-LD-Markup für KI-Verständnis; (3) Inhaltsautorität — Aufbau von Expertise und Vertrauenssignalen; (4) KI-Auffindbarkeit — Ihre Inhalte für KI-Engines auffindbar machen; (5) Marke & Entität — Aufbau Ihres Entitäts-Fußabdrucks; (6) Testing & Validierung — Überprüfung, ob Ihre Optimierungen wirken; (7) Monitoring & Iteration — Leistung verfolgen und iterieren."
+        },
+        {
+          "title": "Checklisten-Einträge",
+          "body": "Jede Phase enthält kategorisierte Aufgaben. Haken Sie Einträge ab, wenn Sie sie erledigt haben — Ihr Fortschritt wird automatisch gespeichert. Jeder Eintrag hat eine detaillierte Beschreibung, einen \"Mehr erfahren\"-Button, der umfassende Dokumentation öffnet, und einen Aktions-Button, der Sie direkt zum relevanten In-App-Werkzeug führt. Einträge mit farbigen Aktions-Buttons können direkt in der App abgeschlossen werden."
+        },
+        {
+          "title": "Intelligente Priorisierung",
+          "body": "Wenn Sie ein Projekt erstmals einrichten, bestimmt der Fragebogen, welche Phase standardmäßig geöffnet wird, basierend auf Ihrem aktuellen AEO-Reifegrad. Wenn Sie beispielsweise noch keine strukturierten Daten implementiert haben, wird Phase 2 zuerst geöffnet. Dies hilft Ihnen, sich auf die Aufgaben mit dem größten Einfluss für Ihre Situation zu konzentrieren."
+        },
+        {
+          "title": "Kommentare & Zusammenarbeit",
+          "body": "Jeder Checklisten-Eintrag hat einen Kommentar-Thread — fahren Sie über eine Aufgabe, um das Kommentarsymbol zu sehen. Teammitglieder können Implementierungsdetails besprechen, Notizen teilen und die Arbeit direkt an jeder Aufgabe koordinieren. Kommentare enthalten Zeitstempel und Autorinformationen für die Team-Nachverfolgung."
+        }
+      ]
+    },
+    "competitors": {
+      "title": "Wettbewerber",
+      "description": "Analysieren und verfolgen Sie die AEO-Strategien Ihrer Wettbewerber.",
+      "items": [
+        {
+          "title": "Wettbewerber-Tracking",
+          "body": "Fügen Sie Wettbewerber-Domains hinzu, um deren AEO-Leistung neben Ihrer eigenen zu verfolgen. Die Wettbewerberansicht ermöglicht es Ihnen, die Implementierung strukturierter Daten, Content-Strategien und KI-Sichtbarkeit nebeneinander zu vergleichen. Dies hilft dabei, Lücken in Ihrer Strategie und Chancen zu identifizieren, die Ihre Wettbewerber möglicherweise übersehen haben."
+        },
+        {
+          "title": "Wettbewerber hinzufügen",
+          "body": "Geben Sie Wettbewerber-URLs ein, um mit dem Tracking zu beginnen. Das System analysiert deren Schema-Markup, Inhaltsstruktur und technische SEO-Signale. Sie können mehrere Wettbewerber pro Projekt verfolgen und sie jederzeit entfernen."
+        }
+      ]
+    },
+    "analyzer": {
+      "title": "Analysator",
+      "description": "Analysieren Sie jede URL auf AEO-Bereitschaft und erhalten Sie umsetzbare Empfehlungen.",
+      "items": [
+        {
+          "title": "Wie der Analysator funktioniert",
+          "body": "Geben Sie eine beliebige URL ein und der Analysator prüft sie auf AEO-Bereitschaft. Er überprüft strukturierte Daten, Inhaltsqualitätssignale, technische SEO-Faktoren, Überschriftenstruktur, Meta-Tags und mehr. Die Ergebnisse werden als Score mit detaillierten Verbesserungsempfehlungen präsentiert."
+        },
+        {
+          "title": "Ergebnisse verstehen",
+          "body": "Die Analyse gliedert sich in Kategorien: Abdeckung strukturierter Daten, Inhaltsautoritätssignale, technische Grundlage und KI-Auffindbarkeitsfaktoren. Jede Kategorie zeigt, was gut funktioniert (grün), was Aufmerksamkeit erfordert (gelb) und kritische Probleme (rot). Handlungsempfehlungen werden nach Auswirkung priorisiert."
+        },
+        {
+          "title": "Wann man ihn verwenden sollte",
+          "body": "Verwenden Sie den Analysator, wenn Sie ein neues Projekt starten, nach wesentlichen Inhaltsänderungen oder wenn Sie bestimmte Seiten auf AEO-Konformität prüfen. Er ist besonders nützlich für die Überprüfung einzelner Seiten anhand der AEO-Checklisten-Anforderungen."
+        }
+      ]
+    },
+    "writer": {
+      "title": "Content-Autor",
+      "description": "KI-gestützte Inhaltserstellung, optimiert für Answer-Engine-Sichtbarkeit.",
+      "items": [
+        {
+          "title": "KI-Inhaltsgenerierung",
+          "body": "Der Content-Autor hilft Ihnen, AEO-optimierte Inhalte mit KI zu erstellen. Er generiert Inhalte, die für KI-Verständnis strukturiert sind — mit klaren Überschriften, prägnanten Antworten auf wahrscheinliche Fragen und korrekter Formatierung, die KI-Engines bevorzugen, wenn sie Informationen beschaffen."
+        },
+        {
+          "title": "Inhaltsvorlagen",
+          "body": "Wählen Sie aus Vorlagen, die für verschiedene Inhaltstypen konzipiert sind: FAQ-Seiten, Anleitungen, Produktbeschreibungen, Vergleichsartikel und mehr. Jede Vorlage ist so strukturiert, dass die Chance maximiert wird, von KI-Assistenten zitiert zu werden."
+        },
+        {
+          "title": "Optimierungstipps",
+          "body": "Der Autor enthält Echtzeit-Vorschläge zur Verbesserung der KI-Sichtbarkeit: Satzklarheit, Antwortbereitschaft, Entitätserwähnungen und faktische Präzision. Inhalte, die klar, prägnant und autoritativ sind, schneiden bei KI-Systemen am besten ab."
+        }
+      ]
+    },
+    "content-ops": {
+      "title": "Content-Operationen",
+      "description": "Planen und verwalten Sie Ihre Content-Operationen und Veröffentlichungs-Pipeline.",
+      "items": [
+        {
+          "title": "Content-Kalender",
+          "body": "Content-Operationen bieten einen Arbeitsbereich für Content-Management und -Planung. Organisieren Sie Ihre Content-Pipeline, verfolgen Sie, was erstellt oder aktualisiert werden muss, und sorgen Sie für konsistente Veröffentlichung. Dies hilft, die Content-Aktualitätssignale aufrechtzuerhalten, die KI-Engines schätzen."
+        },
+        {
+          "title": "Workflow-Management",
+          "body": "Verfolgen Sie Inhalte durch die Phasen von der Ideenfindung bis zur Veröffentlichung. Weisen Sie Content-Aufgaben Teammitgliedern zu, setzen Sie Fristen und überwachen Sie den Fortschritt. Ein konsistenter Content-Workflow stellt sicher, dass Ihre AEO-Strategie auf Kurs bleibt."
+        }
+      ]
+    },
+    "schema": {
+      "title": "Schema-Generator",
+      "description": "Generieren Sie JSON-LD-strukturiertes Daten-Markup für KI-Engines.",
+      "items": [
+        {
+          "title": "Was ist Schema-Markup?",
+          "body": "Schema-Markup (strukturierte Daten) ist JSON-LD-Code, der KI-Engines hilft, Ihre Inhalte zu verstehen. Er teilt KI-Systemen genau mit, worum es auf Ihrer Seite geht — ob es sich um eine FAQ, ein Produkt, einen Artikel, eine Organisation oder einen anderen Entitätstyp handelt. Dies ist einer der wichtigsten Faktoren für KI-Sichtbarkeit."
+        },
+        {
+          "title": "Schema generieren",
+          "body": "Wählen Sie einen Schema-Typ (FAQPage, HowTo, Article, Product, Organization usw.), füllen Sie die erforderlichen Felder aus und der Generator gibt gültigen JSON-LD-Code aus, der direkt in den <head>-Tag Ihrer Website eingefügt werden kann. Der Generator validiert Ihr Markup gegen die Anforderungen von Google."
+        },
+        {
+          "title": "Schema-Typen für AEO",
+          "body": "Die wirkungsvollsten Schema-Typen für KI-Sichtbarkeit: FAQPage (für Frage-Antwort-Inhalte), HowTo (für Anleitungsinhalte), Article (für redaktionelle Inhalte), Organization (für Markenidentität), Product (für E-Commerce) und Speakable (Markierung von Inhalten, die für Sprach-/KI-Wiedergabe optimiert sind)."
+        }
+      ]
+    },
+    "monitoring": {
+      "title": "Monitoring",
+      "description": "Echtzeit-Überwachung Ihrer AEO-Leistungssignale.",
+      "items": [
+        {
+          "title": "Leistungsüberwachung",
+          "body": "Der Monitoring-Tab verfolgt Ihre AEO-Gesundheit in Echtzeit. Er überwacht Änderungen bei der Validität strukturierter Daten, dem Content-Indexierungsstatus und technischen Gesundheitssignalen. Richten Sie Benachrichtigungen ein, um informiert zu werden, wenn etwas Aufmerksamkeit erfordert."
+        },
+        {
+          "title": "Was wird verfolgt",
+          "body": "Das Monitoring umfasst: Schema-Validierungsstatus, Seitenladeperformance, Crawl-Fehler, Indexierungsstatus, Inhaltsänderungen und Wettbewerberbewegungen. Das Dashboard hebt die kritischsten Punkte hervor, damit Sie schnell auf Probleme reagieren können."
+        }
+      ]
+    },
+    "metrics": {
+      "title": "Metriken",
+      "description": "Detaillierte Analysen und Leistungsmetriken für Ihre AEO-Bemühungen.",
+      "items": [
+        {
+          "title": "AEO-Metriken-Überblick",
+          "body": "Der Metriken-Tab bietet detaillierte Analysen zu Ihrer AEO-Leistung im Zeitverlauf. Verfolgen Sie Trends bei KI-Zitierungen, Antworterscheinungen, Klickraten von KI-Oberflächen und Gesamtsichtbarkeitswerten. Verwenden Sie den Zeitraumwähler, um verschiedene Zeiträume anzuzeigen."
+        },
+        {
+          "title": "Wichtige zu beobachtende Metriken",
+          "body": "Konzentrieren Sie sich auf: KI-Zitierungsrate (wie oft KI-Engines Ihre Inhalte referenzieren), Antwort-Erscheinungsrate (wie oft Sie in KI-generierten Antworten erscheinen), Abdeckung strukturierter Daten (Prozentsatz der Seiten mit gültigem Schema) und Inhaltsautoritäts-Score (aggregierte Vertrauenssignale)."
+        }
+      ]
+    },
+    "gsc": {
+      "title": "Search Console",
+      "description": "Google Search Console-Integration für Suchleistungsdaten.",
+      "items": [
+        {
+          "title": "Search Console-Integration",
+          "body": "Verbinden Sie Ihr Google Search Console-Konto, um echte Suchleistungsdaten einzubinden. Dies zeigt, wie Ihre Seiten in Google-Suchergebnissen abschneiden — Impressionen, Klicks, CTR und durchschnittliche Position. Diese Daten helfen Ihnen zu verstehen, welche Seiten von Googles KI-Systemen gefunden werden."
+        },
+        {
+          "title": "Konto verbinden",
+          "body": "Gehen Sie zu den Einstellungen, um Ihre Google Search Console-Property zu verbinden. Nach der Verbindung fließen die Daten automatisch in den Search Console-Tab. Sie sehen Daten auf Abfrageebene, die genau zeigen, welche Suchbegriffe Traffic auf Ihre Website bringen."
+        }
+      ]
+    },
+    "ga4": {
+      "title": "KI-Traffic",
+      "description": "Verfolgen Sie Traffic, der speziell von KI-Engines und -Assistenten kommt.",
+      "items": [
+        {
+          "title": "KI-Traffic-Tracking",
+          "body": "Der KI-Traffic-Tab (GA4-Integration) verfolgt speziell Besucher, die von KI-gestützten Quellen kommen: ChatGPT, Google AI Overviews, Perplexity, Bing Copilot, Claude und andere KI-Assistenten. Dies ist das direkteste Maß für Ihren AEO-Erfolg."
+        },
+        {
+          "title": "Tracking einrichten",
+          "body": "Verbinden Sie Ihre Google Analytics 4-Property in den Einstellungen. Das System identifiziert automatisch KI-Referral-Traffic anhand bekannter KI-Engine-Referrer-Muster. Dies trennt KI-gestützten Traffic von traditionellem organischen Suchtraffic."
+        }
+      ]
+    },
+    "aeo-impact": {
+      "title": "AEO-Impact",
+      "description": "Messen Sie die geschäftliche Auswirkung Ihrer AEO-Optimierungsbemühungen.",
+      "items": [
+        {
+          "title": "Impact-Messung",
+          "body": "AEO-Impact verbindet Ihre Optimierungsarbeit mit Geschäftsergebnissen. Es korreliert Checklisten-Fortschritt mit Traffic-Änderungen, Zitierungswachstum und Conversion-Metriken. Dies hilft Ihnen, den ROI nachzuweisen und die Aktivitäten mit dem größten Einfluss zu priorisieren."
+        },
+        {
+          "title": "Vorher-Nachher-Analyse",
+          "body": "Verfolgen Sie, wie spezifische Optimierungen (Schema hinzufügen, Inhalte verbessern, technische Probleme beheben) Ihre KI-Sichtbarkeit im Laufe der Zeit beeinflusst haben. Die Impact-Zeitleiste zeigt Änderungen neben Ihren Optimierungsmeilensteinen."
+        }
+      ]
+    },
+    "testing": {
+      "title": "Testing",
+      "description": "Testen Sie, wie KI-Engines mit echten Abfragen auf Ihre Inhalte reagieren.",
+      "items": [
+        {
+          "title": "Abfrage-Testing",
+          "body": "Der Testing-Tab ermöglicht es Ihnen, Abfragen gegen KI-Engines zu testen, um zu sehen, ob Ihre Inhalte in deren Antworten erscheinen. Geben Sie Fragen ein, die Ihre Zielgruppe stellen könnte, und sehen Sie, wie KI-Systeme reagieren — ob sie Ihre Inhalte zitieren, Ihre Marke referenzieren oder Sie ganz übersehen."
+        },
+        {
+          "title": "Test-Strategien",
+          "body": "Testen Sie verschiedene Arten von Abfragen: Markenabfragen (Erwähnungen Ihrer Marke), thematische Abfragen (Fragen in Ihrem Fachgebiet), Vergleichsabfragen (Ihre Marke vs. Wettbewerber) und Long-Tail-Abfragen (spezifische Fragen, die Ihre Inhalte beantworten). Verfolgen Sie, welche Abfragen Sie gewinnen und welche Arbeit erfordern."
+        }
+      ]
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "description": "Konfigurieren Sie Ihr Projekt, Team, Integrationen und Kontoeinstellungen.",
+      "items": [
+        {
+          "title": "Projekteinstellungen",
+          "body": "Konfigurieren Sie Ihre Projektdetails: Website-URL, Projektname, Beschreibung und AEO-Fragebogen-Antworten. Die Fragebogen-Antworten beeinflussen, welche AEO-Leitfaden-Phase priorisiert wird und welche Empfehlungen Sie erhalten. Sie können den Fragebogen jederzeit erneut ausfüllen."
+        },
+        {
+          "title": "Team-Verwaltung",
+          "body": "Laden Sie Teammitglieder per E-Mail mit rollenbasiertem Zugriff ein: Eigentümer (volle Kontrolle), Admin (Team & Einstellungen verwalten), Bearbeiter (Inhalte & Checkliste bearbeiten) und Betrachter (nur Lesezugriff). Teamaktivitäten werden in der Aktivitäts-Zeitleiste verfolgt."
+        },
+        {
+          "title": "Integrationen",
+          "body": "Verbinden Sie externe Dienste: Google Search Console (Suchleistungsdaten), Google Analytics 4 (KI-Traffic-Tracking) und Webflow (CMS-Integration). Jede Integration bereichert Ihr Dashboard mit echten Daten aus der tatsächlichen Leistung Ihrer Website."
+        },
+        {
+          "title": "Design & Einstellungen",
+          "body": "Wechseln Sie zwischen hellem und dunklem Modus über den Design-Umschalter in der Seitenleiste. Die App respektiert standardmäßig Ihre Systemeinstellung. Tastenkürzel und andere UI-Einstellungen können angepasst werden."
+        }
+      ]
+    }
+  },
+  "faq": [
+    {
+      "q": "Wie unterscheidet sich AEO von traditionellem SEO?",
+      "a": "Traditionelles SEO konzentriert sich auf das Ranking in Suchergebnisseiten (SERPs). AEO konzentriert sich darauf, als Quelle von KI-gestützten Systemen zitiert zu werden — ChatGPT, Google AI Overviews, Perplexity usw. Obwohl es erhebliche Überschneidungen gibt (gutes SEO hilft AEO), betont AEO speziell strukturierte Daten, Inhaltsklarheit, Entitätserkennung und autoritative Quellenarbeit, die KI-Systeme schätzen."
+    },
+    {
+      "q": "Muss ich alle 7 Phasen abschließen?",
+      "a": "Idealerweise ja, aber priorisieren Sie basierend auf Ihrem aktuellen Reifegrad. Phase 1 (Technische Grundlage) und Phase 2 (Schema) sind die wirkungsvollsten Ausgangspunkte. Die intelligente Priorisierung des AEO-Leitfadens öffnet die relevanteste Phase für Ihre Situation. Sie können parallel an Phasen arbeiten — sie sind nicht streng sequentiell."
+    },
+    {
+      "q": "Wie oft sollte ich meine AEO-Metriken überprüfen?",
+      "a": "Mindestens wöchentlich überwachen. Die KI-Sichtbarkeit kann sich schnell ändern, wenn KI-Modelle aktualisiert werden und Wettbewerber optimieren. Der Monitoring-Tab hilft Ihnen, Änderungen im Blick zu behalten, und der Metriken-Tab zeigt Trends im Zeitverlauf. Richten Sie die wichtigsten Benachrichtigungen ein, um über signifikante Änderungen informiert zu werden."
+    },
+    {
+      "q": "Kann ich das für mehrere Websites verwenden?",
+      "a": "Ja! Erstellen Sie ein separates Projekt für jede Website oder Domain. Jedes Projekt behält seinen eigenen Checklisten-Fortschritt, eigene Einstellungen und Integrationen. Wechseln Sie zwischen Projekten über den Projektauswähler in der Seitenleiste."
+    },
+    {
+      "q": "Welche Tastenkürzel gibt es?",
+      "a": "Drücken Sie \u2318+K (oder Strg+K unter Windows), um die Befehlspalette zu öffnen, die alle verfügbaren Aktionen anzeigt. Verwenden Sie \u2318+1 bis \u2318+9, um schnell zwischen Ansichten zu wechseln. \u2318+N erstellt ein neues Projekt, und Escape schließt Modale und Overlays."
+    },
+    {
+      "q": "Wie funktioniert die Teamzusammenarbeit?",
+      "a": "Laden Sie Teammitglieder über Einstellungen \u2192 Team ein. Jedes Mitglied erhält eine Rolle (Eigentümer, Admin, Bearbeiter, Betrachter), die steuert, was es tun kann. Echtzeit-Präsenz zeigt, wer online ist. Checklisten-Einträge unterstützen Kommentare zur Diskussion, und alle Aktivitäten werden in der Team-Zeitleiste protokolliert."
+    },
+    {
+      "q": "Werden meine Daten automatisch gespeichert?",
+      "a": "Ja. Alle Checklisten-Fortschritte, Einstellungen und Projektdaten werden automatisch in der Cloud (Firebase) gespeichert. Änderungen werden in Echtzeit über alle Geräte der Teammitglieder synchronisiert. Es ist kein manuelles Speichern erforderlich."
+    }
+  ]
+}

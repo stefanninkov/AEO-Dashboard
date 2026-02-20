@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { X, Trash2, Link2, CheckSquare, Calendar as CalendarIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { STATUS_OPTIONS, formatDateKey } from './useContentCalendar'
 
 /* ── Flatten all checklist items from phases for the task dropdown ── */
@@ -32,6 +33,7 @@ export default function EntryForm({
   onDelete,
   onClose,
 }) {
+  const { t } = useTranslation('app')
   const isEditing = !!entry
 
   const [title, setTitle] = useState(entry?.title || '')
@@ -154,7 +156,7 @@ export default function EntryForm({
               fontWeight: 700,
               color: 'var(--text-primary)',
             }}>
-              {isEditing ? 'Edit Entry' : 'New Calendar Entry'}
+              {isEditing ? t('contentOps.form.editEntry') : t('contentOps.form.newEntry')}
             </span>
           </div>
           <button onClick={onClose} style={{
@@ -176,11 +178,11 @@ export default function EntryForm({
         }}>
           {/* Title */}
           <div>
-            <label style={labelStyle}>Title *</label>
+            <label style={labelStyle}>{t('contentOps.form.titleLabel')}</label>
             <input
               value={title}
               onChange={e => setTitle(e.target.value)}
-              placeholder="e.g. Rewrite /services answer paragraphs"
+              placeholder={t('contentOps.form.titlePlaceholder')}
               style={inputStyle}
               autoFocus
             />
@@ -188,7 +190,7 @@ export default function EntryForm({
 
           {/* Date */}
           <div>
-            <label style={labelStyle}>Scheduled Date</label>
+            <label style={labelStyle}>{t('contentOps.form.scheduledDate')}</label>
             <input
               type="date"
               value={scheduledDate}
@@ -201,7 +203,7 @@ export default function EntryForm({
           <div>
             <label style={labelStyle}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <CheckSquare size={11} /> Linked Checklist Task
+                <CheckSquare size={11} /> {t('contentOps.form.linkedTask')}
               </span>
             </label>
             <select
@@ -209,10 +211,10 @@ export default function EntryForm({
               onChange={e => handleChecklistSelect(e.target.value)}
               style={{ ...inputStyle, cursor: 'pointer' }}
             >
-              <option value="">None</option>
+              <option value="">{t('contentOps.form.none')}</option>
               {/* Group by phase */}
               {phases?.map(phase => (
-                <optgroup key={phase.id} label={`Phase ${phase.number}: ${phase.title}`}>
+                <optgroup key={phase.id} label={`${t('contentOps.form.phase')} ${phase.number}: ${phase.title}`}>
                   {phase.categories.flatMap(cat =>
                     cat.items.map(item => (
                       <option key={item.id} value={item.id}>
@@ -229,7 +231,7 @@ export default function EntryForm({
           <div>
             <label style={labelStyle}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <Link2 size={11} /> Page URL
+                <Link2 size={11} /> {t('contentOps.form.pageUrl')}
               </span>
             </label>
             <input
@@ -243,13 +245,13 @@ export default function EntryForm({
           {/* Assignee */}
           {members?.length > 0 && (
             <div>
-              <label style={labelStyle}>Assigned To</label>
+              <label style={labelStyle}>{t('contentOps.form.assignedTo')}</label>
               <select
                 value={assignedTo}
                 onChange={e => setAssignedTo(e.target.value)}
                 style={{ ...inputStyle, cursor: 'pointer' }}
               >
-                <option value="">Unassigned</option>
+                <option value="">{t('contentOps.form.unassigned')}</option>
                 {members.map(m => (
                   <option key={m.uid} value={m.uid}>
                     {m.displayName || m.email}
@@ -261,7 +263,7 @@ export default function EntryForm({
 
           {/* Status */}
           <div>
-            <label style={labelStyle}>Status</label>
+            <label style={labelStyle}>{t('contentOps.form.status')}</label>
             <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
               {STATUS_OPTIONS.map(opt => (
                 <button
@@ -280,7 +282,7 @@ export default function EntryForm({
                     transition: 'all 150ms',
                   }}
                 >
-                  {opt.label}
+                  {t('contentOps.status.' + opt.value)}
                 </button>
               ))}
             </div>
@@ -289,13 +291,13 @@ export default function EntryForm({
           {/* Linked brief */}
           {briefs?.length > 0 && (
             <div>
-              <label style={labelStyle}>Linked Content Brief</label>
+              <label style={labelStyle}>{t('contentOps.form.linkedBrief')}</label>
               <select
                 value={briefId}
                 onChange={e => setBriefId(e.target.value)}
                 style={{ ...inputStyle, cursor: 'pointer' }}
               >
-                <option value="">None</option>
+                <option value="">{t('contentOps.form.none')}</option>
                 {briefs.map(b => (
                   <option key={b.id} value={b.id}>
                     {b.targetQuery} ({new Date(b.createdAt).toLocaleDateString()})
@@ -307,11 +309,11 @@ export default function EntryForm({
 
           {/* Notes */}
           <div>
-            <label style={labelStyle}>Notes</label>
+            <label style={labelStyle}>{t('contentOps.form.notes')}</label>
             <textarea
               value={notes}
               onChange={e => setNotes(e.target.value)}
-              placeholder="Additional notes..."
+              placeholder={t('contentOps.form.notesPlaceholder')}
               rows={3}
               style={{ ...inputStyle, resize: 'vertical', minHeight: '4rem' }}
             />
@@ -338,7 +340,7 @@ export default function EntryForm({
                 fontFamily: 'var(--font-body)',
               }}
             >
-              <Trash2 size={13} /> Delete
+              <Trash2 size={13} /> {t('contentOps.form.delete')}
             </button>
           ) : <div />}
 
@@ -349,7 +351,7 @@ export default function EntryForm({
               color: 'var(--text-secondary)', fontSize: '0.8125rem', fontWeight: 600,
               cursor: 'pointer', fontFamily: 'var(--font-body)',
             }}>
-              Cancel
+              {t('contentOps.form.cancel')}
             </button>
             <button
               onClick={handleSave}
@@ -363,7 +365,7 @@ export default function EntryForm({
                 fontFamily: 'var(--font-body)',
               }}
             >
-              {isEditing ? 'Save Changes' : 'Add Entry'}
+              {isEditing ? t('contentOps.form.saveChanges') : t('contentOps.form.addEntry')}
             </button>
           </div>
         </div>

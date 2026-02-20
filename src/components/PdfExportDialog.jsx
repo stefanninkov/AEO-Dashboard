@@ -65,7 +65,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
         agencyName: agencyName.trim() || 'AEO Dashboard',
         reportDate,
       })
-      addToast('success', 'Report generated and downloaded!')
+      addToast('success', t('pdfExport.success'))
       // Log export activity
       if (updateProject && activeProject?.id) {
         logAndDispatch('export', { filename: `AEO-Report-${(activeProject.name || 'Project').replace(/[^a-zA-Z0-9]/g, '-')}` }, user)
@@ -73,7 +73,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
       onClose()
     } catch (err) {
       logger.error('PDF generation error:', err)
-      addToast('error', 'Failed to generate report. Please try again.')
+      addToast('error', t('pdfExport.error'))
     } finally {
       setGenerating(false)
     }

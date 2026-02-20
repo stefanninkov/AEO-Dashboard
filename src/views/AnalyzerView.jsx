@@ -155,7 +155,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
   const fetchWebflowSites = async () => {
     if (!apiKey) {
       setShowApiKey(true)
-      setError('Please enter your Anthropic API key first.')
+      setError(t('analyzer.enterApiKeyFirst'))
       return
     }
     setWebflowLoading(true)
@@ -187,7 +187,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
         }
       } catch {
         setWebflowSites([])
-        setError('Could not parse Webflow sites. You may need to authenticate with Webflow first.')
+        setError(t('analyzer.webflowParseError'))
       }
     } catch (err) {
       logger.error('Webflow fetch error:', err)
@@ -200,7 +200,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
   const analyzeWebflowSite = async (site) => {
     if (!apiKey) {
       setShowApiKey(true)
-      setError('Please enter your Anthropic API key to use the analyzer.')
+      setError(t('analyzer.enterApiKeyFirst'))
       return
     }
     setSelectedSite(site)
@@ -281,7 +281,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
         // Log analyze activity
         logAndDispatch('analyze', { url, score: parsed.overallScore }, user)
       } else {
-        setError('Could not parse analysis results.')
+        setError(t('analyzer.parseError'))
       }
     } catch (err) {
       logger.error('Webflow analysis error:', err)
@@ -296,7 +296,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
     if (!url.trim()) return
     if (!apiKey) {
       setShowApiKey(true)
-      setError('Please enter your Anthropic API key to use the analyzer.')
+      setError(t('analyzer.enterApiKeyFirst'))
       return
     }
     setLoading(true)
@@ -365,7 +365,7 @@ Return ONLY valid JSON:
         // Log analyze activity
         logAndDispatch('analyze', { url, score: parsed.overallScore }, user)
       } else {
-        setError('Could not parse analysis results. The AI may not have been able to access the site.')
+        setError(t('analyzer.parseErrorAccess'))
       }
     } catch (err) {
       logger.error('Analyzer error:', err)
@@ -509,20 +509,20 @@ Return ONLY valid JSON:
           {mode === 'webflow' && (
             <div className="analyzer-api-card space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-[0.8125rem] text-text-secondary">Connect to Webflow to analyze your sites directly.</p>
+                <p className="text-[0.8125rem] text-text-secondary">{t('analyzer.webflowConnectDesc')}</p>
                 <button
                   onClick={fetchWebflowSites}
                   disabled={webflowLoading}
                   className="px-4 py-2 bg-phase-2 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
                 >
                   {webflowLoading ? <Loader2 size={14} className="animate-spin" /> : <Link2 size={14} />}
-                  {webflowSites.length > 0 ? 'Refresh Sites' : 'Load Sites'}
+                  {webflowSites.length > 0 ? t('analyzer.refreshSites') : t('analyzer.loadSites')}
                 </button>
               </div>
 
               {webflowSites.length > 0 && (
                 <div className="space-y-2">
-                  <p className="text-[0.625rem] text-text-tertiary font-heading uppercase tracking-[0.0625rem]">Select a site</p>
+                  <p className="text-[0.625rem] text-text-tertiary font-heading uppercase tracking-[0.0625rem]">{t('analyzer.selectSite')}</p>
                   {webflowSites.map((site, idx) => (
                     <button
                       key={idx}
@@ -552,7 +552,7 @@ Return ONLY valid JSON:
             <div className="analyzer-error bg-error/10 border border-error/30 rounded-xl p-4 flex items-start gap-3 fade-in-up">
               <AlertCircle size={18} className="text-error flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-medium text-error">Analysis Error</p>
+                <p className="text-sm font-medium text-error">{t('analyzer.analysisError')}</p>
                 <p className="text-xs text-text-secondary mt-1">{error}</p>
               </div>
             </div>
@@ -564,9 +564,9 @@ Return ONLY valid JSON:
               <div className="analyzer-empty-icon">
                 <Search size={28} className="text-text-tertiary" />
               </div>
-              <h3 className="analyzer-empty-title">Ready to analyze</h3>
+              <h3 className="analyzer-empty-title">{t('analyzer.readyToAnalyze')}</h3>
               <p className="analyzer-empty-text">
-                Enter a URL or connect to Webflow to analyze your site's AEO readiness.
+                {t('analyzer.readyToAnalyzeDesc')}
               </p>
             </div>
           )}

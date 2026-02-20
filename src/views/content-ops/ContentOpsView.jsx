@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react'
 import { CalendarDays, FileText } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import CalendarView from './CalendarView'
 import BriefView from './BriefView'
 
 export default function ContentOpsView({ activeProject, updateProject, user, phases, toggleCheckItem }) {
+  const { t } = useTranslation('app')
   const [activeTab, setActiveTab] = useState('calendar') // 'calendar' | 'briefs'
 
   const calendarCount = (activeProject?.contentCalendar || []).length
@@ -17,13 +19,13 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
           fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700,
           color: 'var(--text-primary)', margin: 0,
         }}>
-          Content Operations
+          {t('contentOps.title')}
         </h1>
         <p style={{
           fontSize: '0.8125rem', color: 'var(--text-secondary)',
           margin: '0.25rem 0 0', lineHeight: 1.5,
         }}>
-          Schedule content work tied to your AEO checklist and generate AI-powered content briefs.
+          {t('contentOps.subtitle')}
         </p>
       </div>
 
@@ -47,7 +49,7 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
           }}
         >
           <CalendarDays size={14} />
-          Calendar
+          {t('contentOps.tabCalendar')}
           {calendarCount > 0 && (
             <span style={{
               fontSize: '0.625rem', fontWeight: 700, fontFamily: 'var(--font-heading)',
@@ -72,7 +74,7 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
           }}
         >
           <FileText size={14} />
-          Briefs
+          {t('contentOps.tabBriefs')}
           {briefCount > 0 && (
             <span style={{
               fontSize: '0.625rem', fontWeight: 700, fontFamily: 'var(--font-heading)',

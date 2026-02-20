@@ -338,13 +338,30 @@ export const FAQ_ITEMS = [
 
 /* ─── Component ───────────────────────────────────────────────── */
 export default function DocsView({ phases, setDocItem, setActiveView }) {
-  const { t } = useTranslation('app')
+  const { t } = useTranslation('docs')
   const [activeTab, setActiveTab] = useState('guide')
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 200)
   const [selectedPhase, setSelectedPhase] = useState(null)
   const [expandedSections, setExpandedSections] = useState({})
   const [expandedFaq, setExpandedFaq] = useState({})
+
+  /* ─── Translated section data ──────────────────────────────── */
+  const translatedSections = useMemo(() => APP_SECTIONS.map(section => ({
+    ...section,
+    title: t(`sections.${section.id}.title`),
+    description: t(`sections.${section.id}.description`),
+    items: section.items.map((item, idx) => ({
+      ...item,
+      title: t(`sections.${section.id}.items.${idx}.title`),
+      body: t(`sections.${section.id}.items.${idx}.body`),
+    })),
+  })), [t])
+
+  const translatedFaq = useMemo(() => FAQ_ITEMS.map((item, idx) => ({
+    q: t(`faq.${idx}.q`),
+    a: t(`faq.${idx}.a`),
+  })), [t])
 
   const toggleSection = (id) => {
     setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }))
@@ -393,9 +410,9 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
 
   /* ─── Guide search filter ──────────────────────────────────── */
   const filteredGuide = useMemo(() => {
-    if (!debouncedSearch.trim() || activeTab !== 'guide') return APP_SECTIONS
+    if (!debouncedSearch.trim() || activeTab !== 'guide') return translatedSections
     const q = debouncedSearch.toLowerCase()
-    return APP_SECTIONS.map(section => ({
+    return translatedSections.map(section => ({
       ...section,
       items: section.items.filter(item =>
         item.title.toLowerCase().includes(q) ||
@@ -403,32 +420,32 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
         section.title.toLowerCase().includes(q)
       )
     })).filter(section => section.items.length > 0)
-  }, [debouncedSearch, activeTab])
+  }, [debouncedSearch, activeTab, translatedSections])
 
   const filteredFaq = useMemo(() => {
-    if (!debouncedSearch.trim() || activeTab !== 'faq') return FAQ_ITEMS
+    if (!debouncedSearch.trim() || activeTab !== 'faq') return translatedFaq
     const q = debouncedSearch.toLowerCase()
-    return FAQ_ITEMS.filter(item =>
+    return translatedFaq.filter(item =>
       item.q.toLowerCase().includes(q) ||
       item.a.toLowerCase().includes(q)
     )
-  }, [debouncedSearch, activeTab])
+  }, [debouncedSearch, activeTab, translatedFaq])
 
-  const TABS = [
-    { id: 'guide', label: 'App Guide', icon: Lightbulb },
-    { id: 'reference', label: 'AEO Reference', icon: BookOpen },
-    { id: 'faq', label: 'FAQ', icon: HelpCircle },
-  ]
+  const TABS = useMemo(() => [
+    { id: 'guide', label: t('tabs.guide'), icon: Lightbulb },
+    { id: 'reference', label: t('tabs.reference'), icon: BookOpen },
+    { id: 'faq', label: t('tabs.faq'), icon: HelpCircle },
+  ], [t])
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.3px] text-text-primary mb-1">
-          {t('docs.title')}
+          {t('title')}
         </h2>
         <p className="text-[0.8125rem] text-text-secondary">
-          {t('docs.subtitle')}
+          {t('subtitle')}
         </p>
       </div>
 
@@ -470,9 +487,9 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
         <input
           type="text"
           placeholder={
-            activeTab === 'guide' ? 'Search features...' :
-            activeTab === 'faq' ? 'Search questions...' :
-            t('docs.searchPlaceholder')
+            activeTab === 'guide' ? t('searchFeatures') :
+            activeTab === 'faq' ? t('searchQuestions') :
+            t('searchPlaceholder')
           }
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
@@ -544,7 +561,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        Open <ArrowRight size={10} />
+                        {t('open')} <ArrowRight size={10} />
                       </span>
                     )}
                     <ChevronDown
@@ -603,8 +620,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <Search size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">No matching features found</h3>
-              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">Try a different search term.</p>
+              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('noMatchingFeatures')}</h3>
+              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{t('tryDifferentSearch')}</p>
             </div>
           )}
         </div>
@@ -620,7 +637,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               className={`docs-filter-pill${!selectedPhase ? ' active' : ''}`}
               style={!selectedPhase ? { backgroundColor: 'var(--color-phase-1)' } : undefined}
             >
-              {t('docs.allPhases')}
+              {t('allPhases')}
             </button>
             {phases.map(phase => (
               <button
@@ -629,14 +646,14 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                 className={`docs-filter-pill${selectedPhase === phase.id ? ' active' : ''}`}
                 style={selectedPhase === phase.id ? { backgroundColor: phase.color } : undefined}
               >
-                {phase.icon} Phase {phase.number}
+                {phase.icon} {t('phase')} {phase.number}
               </button>
             ))}
           </div>
 
           {/* Doc count */}
           <p className="docs-count">
-            Showing {filteredDocs.length} of {allDocs.length} documents
+            {t('showingDocs', { shown: filteredDocs.length, total: allDocs.length })}
           </p>
 
           {/* Doc List - grouped by phase */}
@@ -644,8 +661,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
             <div key={phase.id} className="docs-phase-group">
               <div className="docs-phase-header">
                 <span className="docs-phase-icon">{phase.icon}</span>
-                <span className="docs-phase-label">Phase {phase.number}: {phase.title}</span>
-                <span className="docs-phase-count">{phase.docs.length} {phase.docs.length === 1 ? 'doc' : 'docs'}</span>
+                <span className="docs-phase-label">{t('phase')} {phase.number}: {phase.title}</span>
+                <span className="docs-phase-count">{phase.docs.length} {phase.docs.length === 1 ? t('doc') : t('docs')}</span>
               </div>
               {phase.docs.map(doc => (
                 <button
@@ -679,8 +696,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <BookOpen size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('docs.noResults')}</h3>
-              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">Try adjusting your search or phase filter to find what you&apos;re looking for.</p>
+              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('noResults')}</h3>
+              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{t('noResultsDesc')}</p>
             </div>
           )}
         </>
@@ -751,8 +768,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <HelpCircle size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">No matching questions</h3>
-              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">Try a different search term.</p>
+              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('noMatchingQuestions')}</h3>
+              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{t('tryDifferentSearch')}</p>
             </div>
           )}
         </div>
