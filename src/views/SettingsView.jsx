@@ -82,7 +82,8 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem('aeo-settings-tab') || 'profile'
   })
-  const [selectedProjectForSettings, setSelectedProjectForSettings] = useState(null)
+  // Auto-select the active project when entering the Projects tab
+  const [selectedProjectForSettings, setSelectedProjectForSettings] = useState(activeProject || null)
   const [activeProjectSubTab, setActiveProjectSubTab] = useState('general')
   const google = useGoogleIntegration(user)
 
@@ -91,6 +92,13 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
     if (!selectedProjectForSettings) return null
     return projects.find(p => p.id === selectedProjectForSettings.id) || selectedProjectForSettings
   }, [projects, selectedProjectForSettings])
+
+  // Auto-select active project when it changes
+  useEffect(() => {
+    if (activeProject && !selectedProjectForSettings) {
+      setSelectedProjectForSettings(activeProject)
+    }
+  }, [activeProject]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Clear drill-down if the selected project was deleted
   useEffect(() => {
