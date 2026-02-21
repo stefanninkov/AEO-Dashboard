@@ -19,44 +19,33 @@ html, body, #root {
    SCALING SYSTEM — fluid rem based on viewport
    ══════════════════════════════════════════════════ */
 
-/* Desktop */
+/* Desktop: 1440 ideal, 992–1920 range, divisor = 1440/16 = 90 */
 :root {
-  --size-unit: 16;
-  --size-container-ideal: 1440;
-  --size-container-min: 992px;
-  --size-container-max: 1920px;
-  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
-  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+  --size-font: calc(clamp(62rem, 100vw, 120rem) / 90);
 }
 
 html {
   font-size: var(--size-font);
 }
 
-/* Tablet */
-@media screen and (max-width: 991px) {
+/* Tablet: 834 ideal, 768–991 range, divisor = 834/16 = 52.125 */
+@media screen and (max-width: 61.9375rem) {
   :root {
-    --size-container-ideal: 834;
-    --size-container-min: 768px;
-    --size-container-max: 991px;
+    --size-font: calc(clamp(48rem, 100vw, 61.9375rem) / 52.125);
   }
 }
 
-/* Mobile Landscape */
-@media screen and (max-width: 767px) {
+/* Mobile Landscape: 550 ideal, 480–767 range, divisor = 550/16 = 34.375 */
+@media screen and (max-width: 47.9375rem) {
   :root {
-    --size-container-ideal: 550;
-    --size-container-min: 480px;
-    --size-container-max: 767px;
+    --size-font: calc(clamp(30rem, 100vw, 47.9375rem) / 34.375);
   }
 }
 
-/* Mobile Portrait */
-@media screen and (max-width: 479px) {
+/* Mobile Portrait: 375 ideal, 320–479 range, divisor = 375/16 = 23.4375 */
+@media screen and (max-width: 29.9375rem) {
   :root {
-    --size-container-ideal: 375;
-    --size-container-min: 320px;
-    --size-container-max: 479px;
+    --size-font: calc(clamp(20rem, 100vw, 29.9375rem) / 23.4375);
   }
 }
 

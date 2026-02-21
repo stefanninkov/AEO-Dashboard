@@ -94,7 +94,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
     <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
       {/* Logo */}
       <div className="sidebar-logo">
-        <Zap size={20} className="text-phase-1" style={{ flexShrink: 0 }} />
+        <Sparkles size={20} className="text-phase-1" style={{ flexShrink: 0 }} />
         <span className="sidebar-logo-text">{t('sidebar.appName')}</span>
       </div>
 
@@ -195,7 +195,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
             title={t('nav.settings')}
             aria-label={t('nav.settings')}
           >
-            <Settings size={14} />
+            <SlidersHorizontal size={14} />
           </button>
           <button
             onClick={onSignOut}
