@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Settings, Shield, Bell, Globe, Database, Copy, Check, Save, Loader } from 'lucide-react'
+import { Settings, Shield, Bell, Globe, Database, Copy, Check, Save, Loader, ScrollText, Mail, Trash2 } from 'lucide-react'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import logger from '../../utils/logger'
+import { getAuditLog, clearAuditLog, getDigestPrefs, setDigestPrefs } from '../utils/adminDigest'
 
 /* ── Toggle ── */
 function Toggle({ checked, onChange, label, disabled }) {
@@ -44,6 +45,143 @@ function SettingSection({ icon: Icon, title, children }) {
       </div>
       {children}
     </div>
+  )
+}
+
+/* ── Admin Digest Section ── */
+function AdminDigestSection() {
+  const [prefs, setPrefsState] = useState(getDigestPrefs)
+  const [saved, setSaved] = useState(false)
+
+  const handleChange = (key, value) => {
+    const updated = { ...prefs, [key]: value }
+    setPrefsState(updated)
+    setDigestPrefs(updated)
+    setSaved(true)
+    setTimeout(() => setSaved(false), 1500)
+  }
+
+  return (
+    <SettingSection icon={Mail} title="Admin Digest">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <Toggle
+          label="Send me a daily digest"
+          checked={prefs.dailyDigest || false}
+          onChange={(v) => handleChange('dailyDigest', v)}
+        />
+        <Toggle
+          label="Send me a weekly digest"
+          checked={prefs.weeklyDigest || false}
+          onChange={(v) => handleChange('weeklyDigest', v)}
+        />
+        <div>
+          <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.05rem', marginBottom: '0.375rem' }}>
+            Digest Email
+          </div>
+          <input
+            className="input-field"
+            value={prefs.digestEmail || ''}
+            onChange={(e) => handleChange('digestEmail', e.target.value)}
+            placeholder="your@email.com"
+            style={{ width: '100%', fontSize: '0.8125rem' }}
+          />
+        </div>
+        <div style={{
+          padding: '0.625rem 0.75rem', borderRadius: '0.5rem',
+          background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.15)',
+          fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: 1.5,
+        }}>
+          Digest emails are sent via EmailJS. Make sure your EmailJS credentials are configured in your project's integration settings.
+        </div>
+        {saved && (
+          <span style={{ fontSize: '0.75rem', color: '#10B981', fontWeight: 600 }}>
+            Preferences saved
+          </span>
+        )}
+      </div>
+    </SettingSection>
+  )
+}
+
+/* ── Admin Audit Log Section ── */
+function AdminAuditLogSection() {
+  const [log, setLog] = useState(getAuditLog)
+
+  const handleClear = () => {
+    if (window.confirm('Clear the entire audit log?')) {
+      clearAuditLog()
+      setLog([])
+    }
+  }
+
+  return (
+    <SettingSection icon={ScrollText} title="Admin Audit Log">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+        <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+          {log.length} {log.length === 1 ? 'entry' : 'entries'}
+        </span>
+        {log.length > 0 && (
+          <button
+            onClick={handleClear}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: '0.6875rem', color: 'var(--text-disabled)',
+              display: 'flex', alignItems: 'center', gap: '0.25rem',
+            }}
+          >
+            <Trash2 size={11} /> Clear
+          </button>
+        )}
+      </div>
+
+      {log.length === 0 ? (
+        <div style={{
+          padding: '1.5rem', textAlign: 'center',
+          color: 'var(--text-disabled)', fontSize: '0.8125rem',
+        }}>
+          No admin actions recorded yet.
+        </div>
+      ) : (
+        <div style={{
+          maxHeight: '16rem', overflow: 'auto',
+          border: '1px solid var(--border-subtle)', borderRadius: '0.5rem',
+        }}>
+          {log.slice(0, 50).map((entry, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex', alignItems: 'flex-start', gap: '0.625rem',
+                padding: '0.5rem 0.75rem',
+                borderBottom: i < Math.min(log.length, 50) - 1 ? '1px solid var(--border-subtle)' : 'none',
+                fontSize: '0.75rem',
+              }}
+            >
+              <span style={{
+                color: 'var(--text-disabled)', fontFamily: 'var(--font-mono)',
+                fontSize: '0.6875rem', flexShrink: 0, minWidth: '7rem',
+              }}>
+                {new Date(entry.timestamp).toLocaleDateString(undefined, {
+                  month: 'short', day: 'numeric',
+                })}{' '}
+                {new Date(entry.timestamp).toLocaleTimeString(undefined, {
+                  hour: '2-digit', minute: '2-digit',
+                })}
+              </span>
+              <div style={{ flex: 1 }}>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
+                  {entry.action}
+                </span>
+                {entry.details && (
+                  <span style={{ color: 'var(--text-tertiary)', marginLeft: '0.375rem' }}>
+                    {entry.details}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </SettingSection>
   )
 }
 
@@ -272,6 +410,12 @@ export default function AdminSettings({ user }) {
           </div>
         </SettingSection>
       </div>
+
+      {/* ── Admin Digest ── */}
+      <AdminDigestSection />
+
+      {/* ── Audit Log ── */}
+      <AdminAuditLogSection />
     </div>
   )
 }

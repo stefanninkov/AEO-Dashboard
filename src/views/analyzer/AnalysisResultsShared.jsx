@@ -76,14 +76,14 @@ export function AnalyzerItemRow({ item }) {
 }
 
 /* ── Item row with fix generator hook ── */
-export function AnalyzerItemWithFix({ item, categoryName, siteUrl, apiKey, existingFix, onFixGenerated }) {
+export function AnalyzerItemWithFix({ item, categoryName, siteUrl, existingFix, onFixGenerated }) {
   const config = STATUS_CONFIG[item.status] || STATUS_CONFIG.fail
   const Icon = config.icon
 
   const {
     fix, loading, error, showPanel, copied,
     generateFix, togglePanel, copyToClipboard,
-  } = useFixGenerator({ item, categoryName, siteUrl, apiKey, existingFix, onFixGenerated })
+  } = useFixGenerator({ item, categoryName, siteUrl, existingFix, onFixGenerated })
 
   return (
     <div>
@@ -98,7 +98,6 @@ export function AnalyzerItemWithFix({ item, categoryName, siteUrl, apiKey, exist
             hasFix={!!fix}
             loading={loading}
             showPanel={showPanel}
-            apiKey={apiKey}
             itemName={item.name}
             onGenerate={generateFix}
             onTogglePanel={togglePanel}
@@ -125,7 +124,7 @@ export function AnalyzerItemWithFix({ item, categoryName, siteUrl, apiKey, exist
 }
 
 /* ── Full Analysis Results Display ── */
-export function AnalysisResults({ results, apiKey, siteUrl, fixes, onFixGenerated, failItems, onBulkFix }) {
+export function AnalysisResults({ results, siteUrl, fixes, onFixGenerated, failItems, onBulkFix }) {
   const scoreColor = results.overallScore >= 70 ? 'text-success' : results.overallScore >= 40 ? 'text-warning' : 'text-error'
 
   return (
@@ -159,7 +158,6 @@ export function AnalysisResults({ results, apiKey, siteUrl, fixes, onFixGenerate
       {/* Bulk Fix Generator */}
       <BulkFixGenerator
         failItems={failItems}
-        apiKey={apiKey}
         existingFixes={fixes}
         onStartBulk={onBulkFix}
       />
@@ -183,7 +181,6 @@ export function AnalysisResults({ results, apiKey, siteUrl, fixes, onFixGenerate
                   item={item}
                   categoryName={category.name}
                   siteUrl={siteUrl}
-                  apiKey={apiKey}
                   existingFix={fixes[`${category.name}::${item.name}`]}
                   onFixGenerated={onFixGenerated}
                 />

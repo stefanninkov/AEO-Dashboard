@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { hasApiKey } from '../utils/aiProvider'
 import { useTranslation } from 'react-i18next'
 import {
   Activity, Clock, Play, CheckCircle2, XCircle, AlertCircle,
@@ -86,7 +87,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
   useEffect(() => {
     if (!settings.monitoringEnabled) return
     if (!activeProject?.url || !queryCount) return
-    if (!localStorage.getItem('anthropic-api-key')) return
+    if (!hasApiKey()) return
 
     const checkSchedule = () => {
       const lastRun = activeProject.lastMonitorRun

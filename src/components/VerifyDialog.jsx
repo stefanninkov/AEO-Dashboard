@@ -5,6 +5,8 @@ import {
   Loader2, AlertCircle, ShieldCheck, UserCheck
 } from 'lucide-react'
 import { useFocusTrap } from '../hooks/useFocusTrap'
+import { callAI } from '../utils/apiClient'
+import { hasApiKey } from '../utils/aiProvider'
 
 export default function VerifyDialog({ item, projectUrl, onVerified, onCancel, isClosing, onExited }) {
   const [mode, setMode] = useState(null) // null | 'ai' | 'manual'
@@ -20,17 +22,14 @@ export default function VerifyDialog({ item, projectUrl, onVerified, onCancel, i
     setLoading(true)
     setError(null)
 
-    const apiKey = localStorage.getItem('anthropic-api-key')
-    if (!apiKey) {
-      setError('No Anthropic API key found. Please set it in the Analyzer tab first.')
+    if (!hasApiKey()) {
+      setError('No API key found. Please set it in Settings → API & Usage.')
       setLoading(false)
       return
     }
 
     try {
-      const { callAnthropicApi } = await import('../utils/apiClient')
-      const data = await callAnthropicApi({
-        apiKey,
+      const result = await callAI({
         maxTokens: 1500,
         messages: [{
           role: 'user',
@@ -50,14 +49,8 @@ Search for and visit this website, then evaluate whether this specific item has 
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
         },
       })
-      if (data.error) throw new Error(data.error.message)
 
-      const textContent = data.content
-        ?.filter(c => c.type === 'text')
-        .map(c => c.text)
-        .join('\n') || ''
-
-      const clean = textContent.replace(/```json\s?|```/g, '').trim()
+      const clean = result.text.replace(/```json\s?|```/g, '').trim()
       const jsonMatch = clean.match(/\{[\s\S]*\}/)
       if (jsonMatch) {
         setAiResult(JSON.parse(jsonMatch[0]))

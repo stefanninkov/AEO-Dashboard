@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Wand2, Loader2, CheckCircle2, XCircle } from 'lucide-react'
+import { hasApiKey } from '../../utils/aiProvider'
 
 /**
  * BulkFixGenerator — generates fixes for all fail/partial items at once.
  * Shows a progress bar and processes items sequentially to avoid rate limits.
  */
-export default function BulkFixGenerator({ failItems, apiKey, existingFixes, onStartBulk }) {
+export default function BulkFixGenerator({ failItems, existingFixes, onStartBulk }) {
   const [running, setRunning] = useState(false)
   const [progress, setProgress] = useState({ current: 0, total: 0, successes: 0, failures: 0 })
 
@@ -46,9 +47,9 @@ export default function BulkFixGenerator({ failItems, apiKey, existingFixes, onS
         <>
           <button
             onClick={handleBulk}
-            disabled={!apiKey}
+            disabled={!hasApiKey()}
             className="bulk-fix-btn"
-            title={!apiKey ? 'API key required' : 'Generate fixes for all issues'}
+            title={!hasApiKey() ? 'API key required' : 'Generate fixes for all issues'}
           >
             <Wand2 size={14} />
             Generate All Fixes ({itemsNeedingFix.length} items)

@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react'
+import { callAI } from '../utils/apiClient'
+import { hasApiKey } from '../utils/aiProvider'
 
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000
 
@@ -12,7 +14,7 @@ export function useAutoMonitor({ activeProject, updateProject }) {
     if (!activeProject) return false
     if (!activeProject.url) return false
     if (!activeProject.queryTracker?.length) return false
-    if (!localStorage.getItem('anthropic-api-key')) return false
+    if (!hasApiKey()) return false
 
     const lastRun = activeProject.lastMonitorRun
     if (!lastRun) return true
@@ -27,9 +29,8 @@ export function useAutoMonitor({ activeProject, updateProject }) {
       return
     }
 
-    const apiKey = localStorage.getItem('anthropic-api-key')
-    if (!apiKey) {
-      setError('No API key found. Set it in the Analyzer tab.')
+    if (!hasApiKey()) {
+      setError('No API key found. Set it in Settings → API & Usage.')
       return
     }
 
@@ -54,9 +55,7 @@ export function useAutoMonitor({ activeProject, updateProject }) {
       setProgress({ current: i + 1, total: queries.length })
 
       try {
-        const { callAnthropicApi } = await import('../utils/apiClient')
-        const data = await callAnthropicApi({
-          apiKey,
+        const result = await callAI({
           maxTokens: 2000,
           messages: [{
             role: 'user',
@@ -74,14 +73,8 @@ Return ONLY valid JSON:
             tools: [{ type: 'web_search_20250305', name: 'web_search' }],
           },
         })
-        if (data.error) throw new Error(data.error.message)
 
-        const textContent = data.content
-          ?.filter(c => c.type === 'text')
-          .map(c => c.text)
-          .join('\n') || ''
-
-        const clean = textContent.replace(/```json\s?|```/g, '').trim()
+        const clean = result.text.replace(/```json\s?|```/g, '').trim()
         const jsonMatch = clean.match(/\{[\s\S]*\}/)
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0])

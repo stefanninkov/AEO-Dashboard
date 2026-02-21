@@ -11,7 +11,8 @@
  */
 
 import { useState, useCallback, useMemo } from 'react'
-import { callAnthropicApi } from '../../utils/apiClient'
+import { callAI } from '../../utils/apiClient'
+import { hasApiKey } from '../../utils/aiProvider'
 import { getAnalyzerIndustryContext } from '../../utils/getRecommendations'
 import { parseAnalysisJSON, parseFixJSON, computeCategoryScore } from './AnalysisResultsShared'
 import { createActivity, appendActivity } from '../../utils/activityLogger'
@@ -105,7 +106,7 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
   const [error, setError] = useState(null)
   const [selectedPageUrl, setSelectedPageUrl] = useState(null)
 
-  const apiKey = useMemo(() => localStorage.getItem('anthropic-api-key') || '', [])
+  const apiKeyAvailable = hasApiKey()
   const pageAnalyses = activeProject?.pageAnalyses || {}
   const pageAnalyzerFixes = activeProject?.pageAnalyzerFixes || {}
 
@@ -150,8 +151,8 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
   const analyzePage = useCallback(async (rawUrl, label) => {
     const url = normalizePageUrl(rawUrl)
     if (!url) return
-    if (!apiKey) {
-      setError('Please enter your Anthropic API key in the Site Analysis tab.')
+    if (!hasApiKey()) {
+      setError('Please set your API key in Settings → API & Usage.')
       return
     }
 
@@ -159,8 +160,7 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
     setError(null)
 
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const result = await callAI({
         messages: [{
           role: 'user',
           content: buildPageAnalysisPrompt(url, activeProject?.questionnaire),
@@ -170,14 +170,7 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
         },
       })
 
-      if (data.error) throw new Error(data.error.message)
-
-      const textContent = data.content
-        ?.filter(item => item.type === 'text')
-        .map(item => item.text)
-        .join('\n') || ''
-
-      const parsed = parseAnalysisJSON(textContent)
+      const parsed = parseAnalysisJSON(result.text)
       if (parsed) {
         const result = {
           ...parsed,
@@ -207,12 +200,12 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
     } finally {
       setAnalyzing(false)
     }
-  }, [apiKey, activeProject, pageAnalyses, updateProject, user])
+  }, [activeProject, pageAnalyses, updateProject, user])
 
   // ── Batch analyze multiple pages ──
   const analyzePages = useCallback(async (urls) => {
-    if (!apiKey) {
-      setError('Please enter your Anthropic API key in the Site Analysis tab.')
+    if (!hasApiKey()) {
+      setError('Please set your API key in Settings → API & Usage.')
       return
     }
 
@@ -226,8 +219,7 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
     for (let i = 0; i < normalized.length; i++) {
       const url = normalized[i]
       try {
-        const data = await callAnthropicApi({
-          apiKey,
+        const result = await callAI({
           messages: [{
             role: 'user',
             content: buildPageAnalysisPrompt(url, activeProject?.questionnaire),
@@ -237,13 +229,8 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
           },
         })
 
-        if (!data.error) {
-          const textContent = data.content
-            ?.filter(item => item.type === 'text')
-            .map(item => item.text)
-            .join('\n') || ''
-
-          const parsed = parseAnalysisJSON(textContent)
+        {
+          const parsed = parseAnalysisJSON(result.text)
           if (parsed) {
             updated[url] = {
               ...parsed,
@@ -280,7 +267,7 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
 
     setAnalyzing(false)
     setProgress({ current: 0, total: 0 })
-  }, [apiKey, activeProject, pageAnalyses, updateProject, user])
+  }, [activeProject, pageAnalyses, updateProject, user])
 
   // ── Re-analyze existing page ──
   const reanalyzePage = useCallback(async (url) => {
@@ -351,8 +338,7 @@ export function usePageAnalyzer({ activeProject, updateProject, user }) {
     for (let i = 0; i < items.length; i++) {
       const { item, categoryName } = items[i]
       try {
-        const data = await callAnthropicApi({
-          apiKey,
+        const result = await callAI({
           maxTokens: 4000,
           system: `You are an AEO (Answer Engine Optimization) expert. Generate practical, ready-to-use fixes for website issues. Always provide:
 1. A brief explanation of WHY this matters for AEO
@@ -387,12 +373,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
           }],
         })
 
-        const textContent = data.content
-          ?.filter(c => c.type === 'text')
-          .map(c => c.text)
-          .join('\n') || ''
-
-        const parsed = parseFixJSON(textContent)
+        const parsed = parseFixJSON(result.text)
         if (parsed) {
           const fixData = {
             ...parsed,
@@ -413,7 +394,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
         await new Promise(resolve => setTimeout(resolve, 500))
       }
     }
-  }, [apiKey, handlePageFixGenerated])
+  }, [handlePageFixGenerated])
 
   return {
     // State

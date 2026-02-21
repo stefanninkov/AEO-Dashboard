@@ -1,3 +1,5 @@
+import { hasApiKey as checkApiKey } from './aiProvider'
+
 /* ── Industry Labels ── */
 export const INDUSTRY_LABELS = {
   saas: 'SaaS / Software',
@@ -368,7 +370,7 @@ export function getSmartRecommendations(project, phases, setActiveView) {
   const monitorHistory = project.monitorHistory || []
   const analyzerResults = project.analyzerResults
   const competitors = project.competitors || []
-  const hasApiKey = !!localStorage.getItem('anthropic-api-key')
+  const hasApiKey = checkApiKey()
 
   // ── Helper: compute checklist progress ──
   const getPhaseProgress = (phase) => {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { hasApiKey } from '../../utils/aiProvider'
 import {
   PieChart as PieChartIcon, Play, Loader2, AlertTriangle, Clock,
   Settings, ChevronDown, ChevronUp, ExternalLink, Check, X,
@@ -108,7 +109,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
   useEffect(() => {
     if (!settings.brandMonitorEnabled) return
     if (!activeProject?.url || competitors.length === 0) return
-    if (!localStorage.getItem('anthropic-api-key')) return
+    if (!hasApiKey()) return
 
     const checkSchedule = () => {
       const lastRun = activeProject.lastCitationShareRun

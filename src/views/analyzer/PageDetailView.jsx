@@ -9,14 +9,9 @@ import { useMemo } from 'react'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import { AnalysisResults } from './AnalysisResultsShared'
 import { shortPageUrl } from './usePageAnalyzer'
-import { callAnthropicApi } from '../../utils/apiClient'
-import { parseFixJSON } from './AnalysisResultsShared'
-import logger from '../../utils/logger'
-
 export default function PageDetailView({
   pageUrl,
   pageData,
-  apiKey,
   fixes,
   onFixGenerated,
   onBulkFix,
@@ -104,7 +99,6 @@ export default function PageDetailView({
       {/* Full analysis results (shared component) */}
       <AnalysisResults
         results={pageData}
-        apiKey={apiKey}
         siteUrl={pageUrl}
         fixes={fixes}
         onFixGenerated={handleFixGenerated}

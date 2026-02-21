@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { hasApiKey } from '../../utils/aiProvider'
 import {
   Activity, Play, Loader2, AlertTriangle, TrendingUp, TrendingDown,
   ChevronDown, ChevronUp, Search, XCircle, CheckCircle2, Clock,
@@ -91,7 +92,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
   useEffect(() => {
     if (!settings.competitorMonitorEnabled) return
     if (!activeProject?.url || competitors.length === 0) return
-    if (!localStorage.getItem('anthropic-api-key')) return
+    if (!hasApiKey()) return
 
     const checkSchedule = () => {
       const lastRun = activeProject.lastCompetitorMonitorRun

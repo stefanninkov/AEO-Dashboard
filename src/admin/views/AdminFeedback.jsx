@@ -1,44 +1,41 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { MessageSquare, Search, RefreshCw, Filter, ChevronDown, ChevronUp, Monitor, Globe, Eye, CheckCircle } from 'lucide-react'
+import {
+  MessageSquare, Search, RefreshCw, Filter, ChevronDown, ChevronUp,
+  Monitor, Eye, CheckCircle, Bug, Lightbulb, MessageCircle,
+  AlertTriangle, ArrowUp, Minus as MinusIcon, Clock,
+} from 'lucide-react'
 import { collection, getDocs, doc, updateDoc, orderBy, query } from 'firebase/firestore'
 import { db } from '../../firebase'
 
-const RATING_EMOJI = {
-  love: '\uD83D\uDE0D',
-  good: '\uD83D\uDE0A',
-  okay: '\uD83D\uDE10',
-  frustrated: '\uD83D\uDE1F',
+const RATING_EMOJI = { love: '\uD83D\uDE0D', good: '\uD83D\uDE0A', okay: '\uD83D\uDE10', frustrated: '\uD83D\uDE1F' }
+const RATING_LABELS = { love: 'Love it', good: 'Good', okay: 'Okay', frustrated: 'Frustrating' }
+
+const CATEGORY_CONFIG = {
+  bug: { label: 'Bug Report', icon: Bug, color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
+  feature: { label: 'Feature Request', icon: Lightbulb, color: '#8B5CF6', bg: 'rgba(139,92,246,0.1)' },
+  general: { label: 'General', icon: MessageCircle, color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
 }
 
-const RATING_LABELS = {
-  love: 'Love it',
-  good: 'Good',
-  okay: 'Okay',
-  frustrated: 'Frustrating',
+const SEVERITY_CONFIG = {
+  blocker: { label: 'Blocker', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
+  major: { label: 'Major', color: '#F97316', bg: 'rgba(249,115,22,0.1)' },
+  minor: { label: 'Minor', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+  cosmetic: { label: 'Cosmetic', color: '#6B7280', bg: 'rgba(107,114,128,0.1)' },
 }
 
-const CATEGORY_LABELS = {
-  bug: 'Bug Report',
-  feature: 'Feature Request',
-  general: 'General',
+const PRIORITY_CONFIG = {
+  critical: { label: 'Critical', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
+  nice: { label: 'Nice to Have', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
+  idea: { label: 'Just an Idea', color: '#6B7280', bg: 'rgba(107,114,128,0.1)' },
 }
 
-const CATEGORY_COLORS = {
-  bug: '#EF4444',
-  feature: '#8B5CF6',
-  general: '#3B82F6',
-}
-
-const STATUS_LABELS = {
-  new: 'New',
-  reviewed: 'Reviewed',
-  resolved: 'Resolved',
-}
-
-const STATUS_COLORS = {
-  new: '#F59E0B',
-  reviewed: '#3B82F6',
-  resolved: '#10B981',
+const STATUS_CONFIG = {
+  new: { label: 'New', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+  reviewed: { label: 'Reviewed', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
+  planned: { label: 'Planned', color: '#8B5CF6', bg: 'rgba(139,92,246,0.1)' },
+  'in-progress': { label: 'In Progress', color: '#F97316', bg: 'rgba(249,115,22,0.1)' },
+  resolved: { label: 'Resolved', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
+  declined: { label: 'Declined', color: '#6B7280', bg: 'rgba(107,114,128,0.1)' },
 }
 
 function timeAgo(dateInput) {
@@ -53,12 +50,27 @@ function timeAgo(dateInput) {
   return date.toLocaleDateString()
 }
 
+function Badge({ config, value }) {
+  const c = config[value]
+  if (!c) return null
+  return (
+    <span style={{
+      fontSize: '0.625rem', fontWeight: 700,
+      padding: '0.125rem 0.4375rem', borderRadius: 99,
+      background: c.bg, color: c.color, whiteSpace: 'nowrap',
+    }}>
+      {c.label}
+    </span>
+  )
+}
+
 export default function AdminFeedback({ user }) {
   const [feedback, setFeedback] = useState([])
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [categoryFilter, setCategoryFilter] = useState('all')
   const [expandedId, setExpandedId] = useState(null)
   const [adminNotes, setAdminNotes] = useState({})
 
@@ -104,7 +116,10 @@ export default function AdminFeedback({ user }) {
   const filtered = useMemo(() => {
     let list = feedback
     if (statusFilter !== 'all') {
-      list = list.filter(f => f.status === statusFilter)
+      list = list.filter(f => (f.status || 'new') === statusFilter)
+    }
+    if (categoryFilter !== 'all') {
+      list = list.filter(f => f.category === categoryFilter)
     }
     if (search.trim()) {
       const q = search.toLowerCase()
@@ -112,24 +127,34 @@ export default function AdminFeedback({ user }) {
         (f.message || '').toLowerCase().includes(q) ||
         (f.displayName || '').toLowerCase().includes(q) ||
         (f.userEmail || '').toLowerCase().includes(q) ||
-        (CATEGORY_LABELS[f.category] || '').toLowerCase().includes(q)
+        (f.featureTitle || '').toLowerCase().includes(q) ||
+        (f.fields?.what_happened || '').toLowerCase().includes(q) ||
+        (f.fields?.description || '').toLowerCase().includes(q)
       )
     }
     return list
-  }, [feedback, statusFilter, search])
+  }, [feedback, statusFilter, categoryFilter, search])
 
   // Stats
   const stats = useMemo(() => {
     const total = feedback.length
-    const newCount = feedback.filter(f => f.status === 'new').length
+    const newCount = feedback.filter(f => !f.status || f.status === 'new').length
     const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
     const thisWeek = feedback.filter(f => {
       const date = f.createdAt?.toDate ? f.createdAt.toDate() : new Date(f.createdAt)
       return date.getTime() > weekAgo
     }).length
+    const bugs = feedback.filter(f => f.category === 'bug').length
+    const features = feedback.filter(f => f.category === 'feature').length
+    const general = feedback.filter(f => f.category === 'general' || !f.category).length
     const ratings = { love: 0, good: 0, okay: 0, frustrated: 0 }
     feedback.forEach(f => { if (f.rating && ratings[f.rating] !== undefined) ratings[f.rating]++ })
-    return { total, newCount, thisWeek, ratings }
+    // Severity breakdown for bugs
+    const severities = { blocker: 0, major: 0, minor: 0, cosmetic: 0 }
+    feedback.filter(f => f.category === 'bug').forEach(f => {
+      if (f.severity && severities[f.severity] !== undefined) severities[f.severity]++
+    })
+    return { total, newCount, thisWeek, bugs, features, general, ratings, severities }
   }, [feedback])
 
   if (loading) {
@@ -158,15 +183,78 @@ export default function AdminFeedback({ user }) {
         </button>
       </div>
 
-      {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(5rem, 1fr))', gap: '0.75rem' }}>
+      {/* Category Overview Cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(8rem, 1fr))', gap: '0.75rem' }}>
+        {/* Bug Reports */}
+        <div
+          className="card"
+          onClick={() => setCategoryFilter(categoryFilter === 'bug' ? 'all' : 'bug')}
+          style={{
+            padding: '1rem', textAlign: 'center', cursor: 'pointer',
+            border: categoryFilter === 'bug' ? '2px solid #EF4444' : '2px solid transparent',
+            transition: 'border-color 150ms',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem', marginBottom: '0.375rem' }}>
+            <Bug size={14} style={{ color: '#EF4444' }} />
+            <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Bugs</span>
+          </div>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
+            {stats.bugs}
+          </div>
+          {stats.severities.blocker > 0 && (
+            <div style={{ fontSize: '0.5625rem', color: '#EF4444', fontWeight: 700, marginTop: '0.25rem' }}>
+              {stats.severities.blocker} blocker{stats.severities.blocker > 1 ? 's' : ''}
+            </div>
+          )}
+        </div>
+
+        {/* Feature Requests */}
+        <div
+          className="card"
+          onClick={() => setCategoryFilter(categoryFilter === 'feature' ? 'all' : 'feature')}
+          style={{
+            padding: '1rem', textAlign: 'center', cursor: 'pointer',
+            border: categoryFilter === 'feature' ? '2px solid #8B5CF6' : '2px solid transparent',
+            transition: 'border-color 150ms',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem', marginBottom: '0.375rem' }}>
+            <Lightbulb size={14} style={{ color: '#8B5CF6' }} />
+            <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Features</span>
+          </div>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
+            {stats.features}
+          </div>
+        </div>
+
+        {/* General */}
+        <div
+          className="card"
+          onClick={() => setCategoryFilter(categoryFilter === 'general' ? 'all' : 'general')}
+          style={{
+            padding: '1rem', textAlign: 'center', cursor: 'pointer',
+            border: categoryFilter === 'general' ? '2px solid #3B82F6' : '2px solid transparent',
+            transition: 'border-color 150ms',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem', marginBottom: '0.375rem' }}>
+            <MessageCircle size={14} style={{ color: '#3B82F6' }} />
+            <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>General</span>
+          </div>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
+            {stats.general}
+          </div>
+        </div>
+
+        {/* Rating Distribution */}
         {Object.entries(RATING_EMOJI).map(([key, emoji]) => (
           <div key={key} className="card" style={{ padding: '1rem', textAlign: 'center' }}>
-            <div style={{ fontSize: 24, marginBottom: 4 }}>{emoji}</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
+            <div style={{ fontSize: 20, marginBottom: 2 }}>{emoji}</div>
+            <div style={{ fontSize: '1.125rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
               {stats.ratings[key]}
             </div>
-            <div style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>{RATING_LABELS[key]}</div>
+            <div style={{ fontSize: '0.5625rem', color: 'var(--text-disabled)' }}>{RATING_LABELS[key]}</div>
           </div>
         ))}
       </div>
@@ -190,30 +278,34 @@ export default function AdminFeedback({ user }) {
             onChange={e => setStatusFilter(e.target.value)}
             style={{
               background: 'transparent', border: 'none', outline: 'none',
-              color: 'var(--text-primary)', fontSize: '0.8125rem', fontFamily: 'var(--font-body)',
-              cursor: 'pointer',
+              color: 'var(--text-primary)', fontSize: '0.8125rem', fontFamily: 'var(--font-body)', cursor: 'pointer',
             }}
           >
             <option value="all">All Status</option>
             <option value="new">New</option>
             <option value="reviewed">Reviewed</option>
+            <option value="planned">Planned</option>
+            <option value="in-progress">In Progress</option>
             <option value="resolved">Resolved</option>
+            <option value="declined">Declined</option>
           </select>
         </div>
       </div>
 
       {/* Feedback List */}
       <div className="card" style={{ overflow: 'hidden' }}>
-        <div style={{ maxHeight: '40rem', overflowY: 'auto' }}>
+        <div style={{ maxHeight: '50rem', overflowY: 'auto' }}>
           {filtered.map(item => {
             const isExpanded = expandedId === item.id
+            const cat = CATEGORY_CONFIG[item.category] || CATEGORY_CONFIG.general
+            const CatIcon = cat.icon
             return (
               <div key={item.id}>
                 {/* Row */}
                 <div
                   onClick={() => setExpandedId(isExpanded ? null : item.id)}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: '0.875rem',
+                    display: 'flex', alignItems: 'center', gap: '0.75rem',
                     padding: '0.875rem 1.25rem',
                     borderBottom: '1px solid var(--border-subtle)',
                     cursor: 'pointer',
@@ -221,62 +313,50 @@ export default function AdminFeedback({ user }) {
                     transition: 'background 150ms',
                   }}
                 >
-                  {/* Rating */}
-                  <span style={{ fontSize: 20, flexShrink: 0 }}>
-                    {RATING_EMOJI[item.rating] || '\u2753'}
-                  </span>
-
-                  {/* Time */}
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '0.6875rem',
-                    color: 'var(--text-disabled)', minWidth: '4rem', flexShrink: 0,
+                  {/* Category icon */}
+                  <div style={{
+                    width: '1.75rem', height: '1.75rem', borderRadius: '0.5rem',
+                    background: cat.bg, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0,
                   }}>
-                    {timeAgo(item.createdAt)}
-                  </span>
+                    <CatIcon size={12} style={{ color: cat.color }} />
+                  </div>
 
-                  {/* User */}
-                  <span style={{
-                    fontSize: '0.8125rem', fontWeight: 600,
-                    color: 'var(--text-primary)', minWidth: '6rem', flexShrink: 0,
-                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                  }}>
-                    {item.displayName || item.userEmail || 'Anonymous'}
-                  </span>
-
-                  {/* Category */}
-                  {item.category && (
-                    <span style={{
-                      fontSize: '0.6875rem', fontWeight: 600,
-                      padding: '0.125rem 0.5rem', borderRadius: 99,
-                      background: `${CATEGORY_COLORS[item.category] || '#6B7280'}15`,
-                      color: CATEGORY_COLORS[item.category] || '#6B7280',
-                      flexShrink: 0,
-                    }}>
-                      {CATEGORY_LABELS[item.category] || item.category}
+                  {/* Rating (for general) */}
+                  {item.rating && (
+                    <span style={{ fontSize: '1rem', flexShrink: 0 }}>
+                      {RATING_EMOJI[item.rating] || ''}
                     </span>
                   )}
 
-                  {/* Message preview */}
-                  <span style={{
-                    flex: 1, fontSize: '0.8125rem', color: 'var(--text-tertiary)',
-                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                    minWidth: 0,
-                  }}>
-                    {item.message}
-                  </span>
+                  {/* Main content */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', marginBottom: '0.125rem', flexWrap: 'wrap' }}>
+                      {/* Title or message preview */}
+                      <span style={{
+                        fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)',
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '20rem',
+                      }}>
+                        {item.featureTitle || (item.message ? item.message.slice(0, 80) : 'No message')}
+                      </span>
+                      {/* Severity badge (bugs) */}
+                      {item.severity && <Badge config={SEVERITY_CONFIG} value={item.severity} />}
+                      {/* Priority badge (features) */}
+                      {item.priority && <Badge config={PRIORITY_CONFIG} value={item.priority} />}
+                    </div>
+                    <div style={{ fontSize: '0.625rem', color: 'var(--text-disabled)' }}>
+                      {item.displayName || item.userEmail || 'Anonymous'} &middot; {timeAgo(item.createdAt)}
+                      {item.area && <> &middot; {item.area}</>}
+                    </div>
+                  </div>
 
                   {/* Status */}
-                  <span style={{
-                    fontSize: '0.6875rem', fontWeight: 600,
-                    padding: '0.125rem 0.5rem', borderRadius: 99,
-                    background: `${STATUS_COLORS[item.status] || '#6B7280'}15`,
-                    color: STATUS_COLORS[item.status] || '#6B7280',
-                    flexShrink: 0,
-                  }}>
-                    {STATUS_LABELS[item.status] || item.status || 'new'}
-                  </span>
+                  <Badge config={STATUS_CONFIG} value={item.status || 'new'} />
 
-                  {isExpanded ? <ChevronUp size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} /> : <ChevronDown size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />}
+                  {isExpanded
+                    ? <ChevronUp size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+                    : <ChevronDown size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+                  }
                 </div>
 
                 {/* Expanded Detail */}
@@ -287,11 +367,67 @@ export default function AdminFeedback({ user }) {
                     borderBottom: '1px solid var(--border-subtle)',
                     display: 'flex', flexDirection: 'column', gap: '0.75rem',
                   }}>
-                    {/* Full message */}
-                    <div>
-                      <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Message</p>
-                      <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{item.message}</p>
-                    </div>
+                    {/* Category-specific fields */}
+                    {item.category === 'bug' && (
+                      <>
+                        <div>
+                          <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#EF4444', marginBottom: '0.25rem', textTransform: 'uppercase' }}>What Happened</p>
+                          <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                            {item.fields?.what_happened || item.message || 'N/A'}
+                          </p>
+                        </div>
+                        {item.fields?.expected && (
+                          <div>
+                            <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Expected Behavior</p>
+                            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                              {item.fields.expected}
+                            </p>
+                          </div>
+                        )}
+                        {item.fields?.steps && (
+                          <div>
+                            <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Steps to Reproduce</p>
+                            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                              {item.fields.steps}
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                    {item.category === 'feature' && (
+                      <>
+                        {item.featureTitle && (
+                          <div>
+                            <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#8B5CF6', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Feature</p>
+                            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>{item.featureTitle}</p>
+                          </div>
+                        )}
+                        <div>
+                          <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Description</p>
+                          <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                            {item.fields?.description || item.message || 'N/A'}
+                          </p>
+                        </div>
+                        {item.fields?.use_case && (
+                          <div>
+                            <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Use Case</p>
+                            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                              {item.fields.use_case}
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                    {(item.category === 'general' || !item.category) && (
+                      <div>
+                        <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Message</p>
+                        <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                          {item.fields?.message || item.message || 'N/A'}
+                        </p>
+                      </div>
+                    )}
 
                     {/* Context */}
                     {item.context && (
@@ -316,6 +452,11 @@ export default function AdminFeedback({ user }) {
                           {item.context.projectName && (
                             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
                               {item.context.projectName}
+                            </span>
+                          )}
+                          {item.userEmail && (
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                              {item.userEmail}
                             </span>
                           )}
                         </div>
@@ -348,33 +489,33 @@ export default function AdminFeedback({ user }) {
                     </div>
 
                     {/* Status actions */}
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      {item.status !== 'reviewed' && (
-                        <button
-                          onClick={() => handleStatusChange(item.id, 'reviewed')}
-                          style={{
-                            display: 'flex', alignItems: 'center', gap: 4,
-                            padding: '0.375rem 0.75rem', borderRadius: 8, border: 'none',
-                            background: `${STATUS_COLORS.reviewed}15`, color: STATUS_COLORS.reviewed,
-                            cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)',
-                          }}
-                        >
-                          <Eye size={12} /> Mark Reviewed
-                        </button>
-                      )}
-                      {item.status !== 'resolved' && (
-                        <button
-                          onClick={() => handleStatusChange(item.id, 'resolved')}
-                          style={{
-                            display: 'flex', alignItems: 'center', gap: 4,
-                            padding: '0.375rem 0.75rem', borderRadius: 8, border: 'none',
-                            background: `${STATUS_COLORS.resolved}15`, color: STATUS_COLORS.resolved,
-                            cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)',
-                          }}
-                        >
-                          <CheckCircle size={12} /> Mark Resolved
-                        </button>
-                      )}
+                    <div>
+                      <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', marginBottom: '0.375rem', textTransform: 'uppercase' }}>Set Status</p>
+                      <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
+                        {Object.entries(STATUS_CONFIG).map(([key, conf]) => {
+                          const isCurrent = (item.status || 'new') === key
+                          return (
+                            <button
+                              key={key}
+                              onClick={() => !isCurrent && handleStatusChange(item.id, key)}
+                              style={{
+                                display: 'flex', alignItems: 'center', gap: 4,
+                                padding: '0.375rem 0.625rem', borderRadius: 6,
+                                border: isCurrent ? `1.5px solid ${conf.color}` : '1.5px solid transparent',
+                                background: isCurrent ? conf.bg : 'var(--hover-bg)',
+                                color: isCurrent ? conf.color : 'var(--text-tertiary)',
+                                cursor: isCurrent ? 'default' : 'pointer',
+                                fontSize: '0.6875rem', fontWeight: 600, fontFamily: 'var(--font-body)',
+                                opacity: isCurrent ? 1 : 0.8,
+                                transition: 'all 150ms',
+                              }}
+                            >
+                              {isCurrent && <CheckCircle size={10} />}
+                              {conf.label}
+                            </button>
+                          )
+                        })}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -383,7 +524,7 @@ export default function AdminFeedback({ user }) {
           })}
           {filtered.length === 0 && (
             <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
-              {search || statusFilter !== 'all' ? 'No matching feedback' : 'No feedback received yet'}
+              {search || statusFilter !== 'all' || categoryFilter !== 'all' ? 'No matching feedback' : 'No feedback received yet'}
             </div>
           )}
         </div>

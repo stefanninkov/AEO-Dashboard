@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { hasApiKey } from '../../utils/aiProvider'
 import {
   Search, Globe, Loader2, AlertCircle, Copy, Check,
   Trash2, Clock, FileText, ChevronRight, ExternalLink,
@@ -271,14 +272,14 @@ export default function BriefView({ activeProject, updateProject, user }) {
     await navigator.clipboard.writeText(md)
   }
 
-  const apiKey = localStorage.getItem('anthropic-api-key')
+  const apiKeyAvailable = hasApiKey()
 
   return (
     <div style={{ display: 'flex', gap: '1rem', minHeight: '24rem' }}>
       {/* Main content */}
       <div style={{ flex: 1, minWidth: 0 }}>
         {/* API key warning */}
-        {!apiKey && (
+        {!apiKeyAvailable && (
           <div style={{
             background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)',
             borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem',
@@ -343,14 +344,14 @@ export default function BriefView({ activeProject, updateProject, user }) {
             <div style={{ alignSelf: 'flex-end' }}>
               <button
                 onClick={handleGenerate}
-                disabled={!query.trim() || brief.generating || !apiKey}
+                disabled={!query.trim() || brief.generating || !apiKeyAvailable}
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.375rem',
                   padding: '0.5rem 1rem', borderRadius: '0.5rem',
                   border: 'none', background: 'var(--color-phase-1)',
                   color: '#fff', fontSize: '0.8125rem', fontWeight: 600,
-                  cursor: (!query.trim() || brief.generating || !apiKey) ? 'not-allowed' : 'pointer',
-                  opacity: (!query.trim() || brief.generating || !apiKey) ? 0.5 : 1,
+                  cursor: (!query.trim() || brief.generating || !apiKeyAvailable) ? 'not-allowed' : 'pointer',
+                  opacity: (!query.trim() || brief.generating || !apiKeyAvailable) ? 0.5 : 1,
                   fontFamily: 'var(--font-body)', whiteSpace: 'nowrap',
                 }}
               >

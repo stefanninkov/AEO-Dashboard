@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson } from 'lucide-react'
-import { callAnthropicApi } from '../utils/apiClient'
+import { callAI } from '../utils/apiClient'
+import { hasApiKey } from '../utils/aiProvider'
 import { getAnalyzerIndustryContext, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, ENGINE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
@@ -167,7 +168,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
   const [copied, setCopied] = useState(false)
   const [copiedJsonLd, setCopiedJsonLd] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
-  const [apiKey] = useState(() => localStorage.getItem('anthropic-api-key') || '')
+  const apiKeySet = hasApiKey()
 
   // ── Translated SCHEMA_TYPES ──
   const SCHEMA_TYPES = useMemo(() =>
@@ -185,7 +186,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
   // ── Generate Schema ──
   const generate = async () => {
     if (!topic.trim() || loading) return
-    if (!apiKey) {
+    if (!hasApiKey()) {
       setError(t('schema.apiKeyMissing'))
       return
     }
@@ -198,8 +199,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
     const context = getAnalyzerIndustryContext(activeProject?.questionnaire)
 
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 4000,
         system: `You are an expert in structured data and Schema.org markup for AEO (Answer Engine Optimization). You generate valid, comprehensive JSON-LD structured data that maximizes visibility in AI answer engines like Google SGE, ChatGPT, Perplexity, and Bing Chat. Always return valid JSON-LD with @context set to "https://schema.org". Never include comments in the JSON-LD.`,
         messages: [{
@@ -208,10 +208,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
         }],
       })
 
-      const textContent = data.content
-        ?.filter(c => c.type === 'text')
-        .map(c => c.text)
-        .join('\n') || ''
+      const textContent = data.text
 
       const parsed = parseJSON(textContent)
       if (parsed && parsed.jsonLd) {
@@ -390,7 +387,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
         <button
           className="schema-generate-btn"
           onClick={generate}
-          disabled={!topic.trim() || loading || !apiKey}
+          disabled={!topic.trim() || loading || !apiKeySet}
         >
           {loading ? (
             <>

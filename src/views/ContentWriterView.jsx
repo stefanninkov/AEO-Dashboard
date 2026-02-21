@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PenTool, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle } from 'lucide-react'
-import { callAnthropicApi } from '../utils/apiClient'
+import { callAI } from '../utils/apiClient'
+import { hasApiKey } from '../utils/aiProvider'
 import { getAnalyzerIndustryContext, AUDIENCE_LABELS, INDUSTRY_LABELS, LANGUAGE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
@@ -215,7 +216,7 @@ export default function ContentWriterView({ activeProject, updateProject, user }
   const [result, setResult] = useState(null)
   const [copied, setCopied] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
-  const [apiKey] = useState(() => localStorage.getItem('anthropic-api-key') || '')
+  const apiKeySet = hasApiKey()
 
   const CONTENT_TYPES = useMemo(() => buildContentTypes(t), [t])
   const TONE_OPTIONS = useMemo(() => buildToneOptions(t), [t])
@@ -224,7 +225,7 @@ export default function ContentWriterView({ activeProject, updateProject, user }
 
   const generate = async () => {
     if (!topic.trim() || loading) return
-    if (!apiKey) {
+    if (!hasApiKey()) {
       setError(t('writer.apiKeyError'))
       return
     }
@@ -237,8 +238,7 @@ export default function ContentWriterView({ activeProject, updateProject, user }
     const context = getAnalyzerIndustryContext(activeProject?.questionnaire)
 
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 4000,
         system: `You are an expert AEO (Answer Engine Optimization) content writer. Generate content optimized for AI assistants like ChatGPT, Perplexity, and Google AI Overviews. Your content should:
 - Lead with direct, clear answers that AI can cite
@@ -254,10 +254,7 @@ Return ONLY valid JSON matching the requested format.`,
         }],
       })
 
-      const textContent = data.content
-        ?.filter(c => c.type === 'text')
-        .map(c => c.text)
-        .join('\n') || ''
+      const textContent = data.text
 
       const parsed = parseJSON(textContent)
       if (parsed) {
@@ -410,7 +407,7 @@ Return ONLY valid JSON matching the requested format.`,
         <div className="cw-form-actions">
           <button
             onClick={generate}
-            disabled={loading || !topic.trim() || !apiKey}
+            disabled={loading || !topic.trim() || !apiKeySet}
             className="metrics-run-btn"
           >
             {loading ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
@@ -429,7 +426,7 @@ Return ONLY valid JSON matching the requested format.`,
           )}
         </div>
 
-        {!apiKey && (
+        {!apiKeySet && (
           <p className="text-[0.6875rem] text-warning mt-2">{t('writer.apiKeyMissing')}</p>
         )}
       </div>

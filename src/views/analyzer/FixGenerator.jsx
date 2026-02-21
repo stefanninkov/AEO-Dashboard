@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Wand2, Loader2, Copy, Check, ChevronDown, ChevronUp, RotateCcw, Sparkles } from 'lucide-react'
-import { callAnthropicApi } from '../../utils/apiClient'
+import { callAI } from '../../utils/apiClient'
+import { hasApiKey } from '../../utils/aiProvider'
 import logger from '../../utils/logger'
 
 /**
  * useFixGenerator — hook managing fix generation state for a single item.
  */
-export function useFixGenerator({ item, categoryName, siteUrl, apiKey, existingFix, onFixGenerated }) {
+export function useFixGenerator({ item, categoryName, siteUrl, existingFix, onFixGenerated }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [fix, setFix] = useState(existingFix || null)
@@ -14,14 +15,13 @@ export function useFixGenerator({ item, categoryName, siteUrl, apiKey, existingF
   const [copied, setCopied] = useState(null)
 
   const generateFix = async () => {
-    if (!apiKey) return
+    if (!hasApiKey()) return
     setLoading(true)
     setError(null)
     setShowPanel(true)
 
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 4000,
         system: `You are an AEO (Answer Engine Optimization) expert. Generate practical, ready-to-use fixes for website issues. Always provide:
 1. A brief explanation of WHY this matters for AEO
@@ -57,12 +57,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
         }],
       })
 
-      const textContent = data.content
-        ?.filter(c => c.type === 'text')
-        .map(c => c.text)
-        .join('\n') || ''
-
-      const parsed = parseFixJSON(textContent)
+      const parsed = parseFixJSON(data.text)
       if (parsed) {
         const fixData = {
           ...parsed,
@@ -100,7 +95,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
 /**
  * FixButton — small inline button for the item row.
  */
-export function FixButton({ hasFix, loading, showPanel, apiKey, itemName, onGenerate, onTogglePanel }) {
+export function FixButton({ hasFix, loading, showPanel, itemName, onGenerate, onTogglePanel }) {
   if (loading) {
     return (
       <span className="fix-generate-btn" style={{ cursor: 'default', opacity: 0.7 }}>
@@ -133,9 +128,9 @@ export function FixButton({ hasFix, loading, showPanel, apiKey, itemName, onGene
   return (
     <button
       onClick={onGenerate}
-      disabled={!apiKey}
+      disabled={!hasApiKey()}
       className="fix-generate-btn"
-      title={!apiKey ? 'API key required' : `Generate fix for ${itemName}`}
+      title={!hasApiKey() ? 'API key required' : `Generate fix for ${itemName}`}
       aria-label={`Generate fix for ${itemName}`}
     >
       <Wand2 size={12} />

@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from 'react'
-import { callAnthropicApi } from '../../utils/apiClient'
+import { callAI } from '../../utils/apiClient'
+import { hasApiKey } from '../../utils/aiProvider'
 import { getAnalyzerIndustryContext } from '../../utils/getRecommendations'
 import { createActivity, appendActivity } from '../../utils/activityLogger'
 import { fireWebhooks } from '../../utils/webhookDispatcher'
@@ -120,9 +121,8 @@ export default function useContentBrief({ activeProject, updateProject, user }) 
   )
 
   const generateBrief = useCallback(async (targetQuery, pageUrl) => {
-    const apiKey = localStorage.getItem('anthropic-api-key')
-    if (!apiKey) {
-      setError('Please set your Anthropic API key in Settings.')
+    if (!hasApiKey()) {
+      setError('Please set your API key in Settings.')
       return null
     }
     if (!targetQuery.trim()) {
@@ -160,8 +160,7 @@ export default function useContentBrief({ activeProject, updateProject, user }) 
         pageAnalysis,
       })
 
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 4000,
         system: `You are an expert AEO (Answer Engine Optimization) content strategist.
 You create comprehensive content briefs that help writers produce content optimized for AI engine citations.
@@ -173,7 +172,7 @@ Return ONLY valid JSON.`,
         },
       })
 
-      const responseText = extractResponseText(data)
+      const responseText = data.text
       const brief = parseBriefJSON(responseText)
 
       if (!brief) {

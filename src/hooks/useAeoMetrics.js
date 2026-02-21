@@ -1,5 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { ENGINE_COLORS } from '../utils/chartColors'
+import { callAI } from '../utils/apiClient'
+import { hasApiKey } from '../utils/aiProvider'
 
 const AI_ENGINES = Object.entries(ENGINE_COLORS).map(([name, color]) => ({ name, color }))
 
@@ -31,9 +33,8 @@ export function useAeoMetrics({ activeProject, updateProject, dateRange }) {
       return
     }
 
-    const apiKey = localStorage.getItem('anthropic-api-key')
-    if (!apiKey) {
-      setError('No API key found. Set it in the Analyzer tab.')
+    if (!hasApiKey()) {
+      setError('No API key found. Set it in Settings → API & Usage.')
       return
     }
 
@@ -72,7 +73,7 @@ Return ONLY valid JSON:
   "uniqueSources": <number of unique pages cited>
 }`
 
-      const engineData = await callApi(apiKey, enginePrompt)
+      const engineData = await callApi(enginePrompt)
       if (engineData?.engines) {
         engineData.engines.forEach(e => {
           const config = AI_ENGINES.find(ai => ai.name === e.name)
@@ -108,7 +109,7 @@ Return ONLY valid JSON:
   "overallScore": <0-100 AEO score for the whole site>
 }`
 
-      const pageData = await callApi(apiKey, pagePrompt)
+      const pageData = await callApi(pagePrompt)
       const pages = pageData?.pages || []
       const overallScore = pageData?.overallScore || 0
 
@@ -130,7 +131,7 @@ Return ONLY valid JSON:
   "avgPromptLength": <average word count>
 }`
 
-        const queryData = await callApi(apiKey, queryPrompt)
+        const queryData = await callApi(queryPrompt)
         promptCategories = queryData?.categories || []
       }
 
@@ -210,24 +211,16 @@ Return ONLY valid JSON:
   }
 }
 
-async function callApi(apiKey, prompt) {
-  const { callAnthropicApi } = await import('../utils/apiClient')
-  const data = await callAnthropicApi({
-    apiKey,
+async function callApi(prompt) {
+  const result = await callAI({
     maxTokens: 3000,
     messages: [{ role: 'user', content: prompt }],
     extraBody: {
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
     },
   })
-  if (data.error) throw new Error(data.error.message)
 
-  const textContent = data.content
-    ?.filter(c => c.type === 'text')
-    .map(c => c.text)
-    .join('\n') || ''
-
-  const clean = textContent.replace(/```json\s?|```/g, '').trim()
+  const clean = result.text.replace(/```json\s?|```/g, '').trim()
   const jsonMatch = clean.match(/\{[\s\S]*\}/)
   if (jsonMatch) {
     return JSON.parse(jsonMatch[0])

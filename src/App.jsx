@@ -629,6 +629,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             user={user}
             setActiveView={setActiveView}
             permission={permission}
+            projects={projects}
           />
         )
       default:

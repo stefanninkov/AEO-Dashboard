@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Globe, Link2, Loader2, AlertCircle, Zap, Search, FileText } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
-import { callAnthropicApi } from '../utils/apiClient'
+import { callAI } from '../utils/apiClient'
+import { getApiKey, setApiKey as setProviderApiKey, hasApiKey } from '../utils/aiProvider'
 import logger from '../utils/logger'
 import { useFixGenerator, FixButton, FixPanel } from './analyzer/FixGenerator'
 import BulkFixGenerator from './analyzer/BulkFixGenerator'
@@ -21,7 +22,7 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [results, setResults] = useState(activeProject?.analyzerResults || null)
-  const [apiKey, setApiKey] = useState(localStorage.getItem('anthropic-api-key') || '')
+  const [apiKey, setApiKey] = useState(() => getApiKey() || '')
   const [showApiKey, setShowApiKey] = useState(!apiKey)
 
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
@@ -49,7 +50,7 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
 
   const saveApiKey = (key) => {
     setApiKey(key)
-    localStorage.setItem('anthropic-api-key', key)
+    setProviderApiKey(undefined, key)
     setShowApiKey(false)
   }
 
@@ -71,8 +72,7 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
     for (let i = 0; i < items.length; i++) {
       const { item, categoryName } = items[i]
       try {
-        const data = await callAnthropicApi({
-          apiKey,
+        const data = await callAI({
           maxTokens: 4000,
           system: `You are an AEO (Answer Engine Optimization) expert. Generate practical, ready-to-use fixes for website issues. Always provide:
 1. A brief explanation of WHY this matters for AEO
@@ -108,10 +108,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
           }],
         })
 
-        const textContent = data.content
-          ?.filter(c => c.type === 'text')
-          .map(c => c.text)
-          .join('\n') || ''
+        const textContent = data.text
 
         const parsed = parseFixJSON(textContent)
         if (parsed) {
@@ -153,7 +150,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
 
   // --- Webflow MCP Analysis ---
   const fetchWebflowSites = async () => {
-    if (!apiKey) {
+    if (!hasApiKey()) {
       setShowApiKey(true)
       setError(t('analyzer.enterApiKeyFirst'))
       return
@@ -161,8 +158,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
     setWebflowLoading(true)
     setError(null)
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         messages: [{ role: 'user', content: 'List all my Webflow sites with their site IDs and domains. Return as JSON array: [{"id": "...", "name": "...", "domain": "..."}]' }],
         extraBody: {
           mcp_servers: [{
@@ -172,12 +168,8 @@ Provide a specific, implementable fix with code that can be directly copied and 
           }]
         },
       })
-      if (data.error) throw new Error(data.error.message)
 
-      const textContent = data.content
-        ?.filter(item => item.type === 'text')
-        .map(item => item.text)
-        .join('\n') || ''
+      const textContent = data.text
 
       try {
         const clean = textContent.replace(/```json\s?|```/g, '').trim()
@@ -198,7 +190,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
   }
 
   const analyzeWebflowSite = async (site) => {
-    if (!apiKey) {
+    if (!hasApiKey()) {
       setShowApiKey(true)
       setError(t('analyzer.enterApiKeyFirst'))
       return
@@ -207,8 +199,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
     setLoading(true)
     setError(null)
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 8000,
         messages: [{
           role: 'user',
@@ -267,12 +258,8 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
           }]
         },
       })
-      if (data.error) throw new Error(data.error.message)
 
-      const textContent = data.content
-        ?.filter(item => item.type === 'text')
-        .map(item => item.text)
-        .join('\n') || ''
+      const textContent = data.text
 
       const parsed = parseAnalysisJSON(textContent)
       if (parsed) {
@@ -294,7 +281,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
   // --- URL Analysis ---
   const analyzeUrl = async () => {
     if (!url.trim()) return
-    if (!apiKey) {
+    if (!hasApiKey()) {
       setShowApiKey(true)
       setError(t('analyzer.enterApiKeyFirst'))
       return
@@ -302,8 +289,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
     setLoading(true)
     setError(null)
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         messages: [{
           role: 'user',
           content: `Analyze this URL for AEO readiness: ${url}${getAnalyzerIndustryContext(activeProject?.questionnaire)}
@@ -351,12 +337,8 @@ Return ONLY valid JSON:
           tools: [{ type: 'web_search_20250305', name: 'web_search' }],
         },
       })
-      if (data.error) throw new Error(data.error.message)
 
-      const textContent = data.content
-        ?.filter(item => item.type === 'text')
-        .map(item => item.text)
-        .join('\n') || ''
+      const textContent = data.text
 
       const parsed = parseAnalysisJSON(textContent)
       if (parsed) {
@@ -473,7 +455,7 @@ Return ONLY valid JSON:
               <Link2 size={14} />
               {t('analyzer.webflowConnect')}
             </button>
-            {!showApiKey && apiKey && (
+            {!showApiKey && hasApiKey() && (
               <button
                 onClick={() => setShowApiKey(true)}
                 className="ml-auto text-[0.6875rem] text-text-tertiary hover:text-text-secondary transition-colors"
@@ -575,7 +557,6 @@ Return ONLY valid JSON:
           {results && !loading && (
             <AnalysisResults
               results={results}
-              apiKey={apiKey}
               siteUrl={results.url || activeProject?.url}
               fixes={fixes}
               onFixGenerated={handleFixGenerated}

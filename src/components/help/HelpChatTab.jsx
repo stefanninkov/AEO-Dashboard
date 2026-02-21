@@ -2,10 +2,9 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { Send, Bot, User, AlertCircle, Settings, Loader } from 'lucide-react'
 import { collection, addDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
-import { callAnthropicApi } from '../../utils/apiClient'
+import { callAI } from '../../utils/apiClient'
+import { hasApiKey, getFastModel } from '../../utils/aiProvider'
 import { buildHelpSystemPrompt } from '../../utils/helpAssistantPrompt'
-
-const HAIKU_MODEL = 'claude-haiku-4-20250414'
 const MAX_CONTEXT_MESSAGES = 6
 const MAX_TOKENS = 500
 
@@ -24,7 +23,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
   const scrollRef = useRef(null)
   const inputRef = useRef(null)
 
-  const apiKey = typeof window !== 'undefined' ? localStorage.getItem('anthropic-api-key') : null
+  const apiKeyAvailable = typeof window !== 'undefined' ? hasApiKey() : false
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
@@ -69,7 +68,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
   }, [user, activeView, activeProject, sessionDocId])
 
   const sendMessage = useCallback(async (text) => {
-    if (!text.trim() || loading || !apiKey) return
+    if (!text.trim() || loading || !apiKeyAvailable) return
 
     const userMsg = { role: 'user', content: text.trim(), timestamp: new Date().toISOString() }
     const updatedMessages = [...messages, userMsg]
@@ -84,16 +83,15 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
         content: m.content,
       }))
 
-      const response = await callAnthropicApi({
-        apiKey,
+      const response = await callAI({
         messages: contextMessages,
         system: buildHelpSystemPrompt(),
         maxTokens: MAX_TOKENS,
-        model: HAIKU_MODEL,
+        model: getFastModel(),
         retries: 1,
       })
 
-      const assistantContent = response.content?.[0]?.text || 'Sorry, I couldn\'t generate a response. Please try again.'
+      const assistantContent = response.text || 'Sorry, I couldn\'t generate a response. Please try again.'
       const assistantMsg = { role: 'assistant', content: assistantContent, timestamp: new Date().toISOString() }
       const finalMessages = [...updatedMessages, assistantMsg]
       setMessages(finalMessages)
@@ -113,7 +111,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
     } finally {
       setLoading(false)
     }
-  }, [messages, loading, apiKey, saveChatSession])
+  }, [messages, loading, apiKeyAvailable, saveChatSession])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -121,7 +119,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
   }
 
   // No API key state
-  if (!apiKey) {
+  if (!apiKeyAvailable) {
     return (
       <div style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center',

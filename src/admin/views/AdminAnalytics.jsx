@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import {
   BarChart3, Users, FolderKanban, CheckSquare, Activity,
   TrendingUp, Mail, MessageSquare, UserPlus, Zap,
+  Target, Clock, Layers,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 
@@ -14,7 +15,7 @@ const parseDate = (d) => {
 }
 
 /* ── Simple bar component ── */
-function BarItem({ label, value, max, color }) {
+function BarItem({ label, value, max, color, suffix }) {
   const pct = max > 0 ? (value / max) * 100 : 0
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.375rem 0' }}>
@@ -24,8 +25,8 @@ function BarItem({ label, value, max, color }) {
       <div style={{ flex: 1, height: '1.25rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', overflow: 'hidden' }}>
         <div style={{ width: `${pct}%`, height: '100%', borderRadius: '0.25rem', background: color, transition: 'width 0.3s' }} />
       </div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-tertiary)', width: '2.5rem', textAlign: 'right', flexShrink: 0 }}>
-        {value}
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-tertiary)', width: '3rem', textAlign: 'right', flexShrink: 0 }}>
+        {value}{suffix || ''}
       </div>
     </div>
   )
@@ -153,15 +154,68 @@ function GrowthMetric({ label, thisWeek, lastWeek, color }) {
   )
 }
 
+/* ── Engagement Depth Stacked Bar ── */
+function EngagementDepthChart({ data }) {
+  if (!data) return null
+  const total = data.signedUpOnly + data.light + data.medium + data.heavy
+  if (total === 0) return null
+
+  const segments = [
+    { key: 'signedUpOnly', label: 'Signed Up Only', color: '#6B7280', count: data.signedUpOnly },
+    { key: 'light', label: 'Light (1-10)', color: '#3B82F6', count: data.light },
+    { key: 'medium', label: 'Medium (11-50)', color: '#F59E0B', count: data.medium },
+    { key: 'heavy', label: 'Heavy (50+)', color: '#10B981', count: data.heavy },
+  ]
+
+  return (
+    <div>
+      {/* Stacked bar */}
+      <div style={{ display: 'flex', height: '2rem', borderRadius: '0.375rem', overflow: 'hidden', marginBottom: '0.75rem' }}>
+        {segments.map(s => {
+          const pct = (s.count / total) * 100
+          if (pct === 0) return null
+          return (
+            <div
+              key={s.key}
+              style={{
+                width: `${pct}%`,
+                background: s.color,
+                opacity: 0.75,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: pct > 5 ? 'auto' : 0,
+              }}
+              title={`${s.label}: ${s.count} (${Math.round(pct)}%)`}
+            >
+              {pct > 8 && (
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, color: 'white' }}>
+                  {Math.round(pct)}%
+                </span>
+              )}
+            </div>
+          )
+        })}
+      </div>
+      {/* Legend */}
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+        {segments.map(s => (
+          <div key={s.key} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+            <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: s.color }} />
+            <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)' }}>{s.label}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-disabled)', fontWeight: 600 }}>({s.count})</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function AdminAnalytics({ user }) {
   const { stats, loading } = useAdminStats(user)
 
   const analytics = useMemo(() => {
     if (!stats) return null
-
-    const now = new Date()
-    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-    const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000)
 
     // Activity type breakdown
     const typeCounts = {}
@@ -210,12 +264,12 @@ export default function AdminAnalytics({ user }) {
     const waitlistGrowth = calcWeekComparison(stats.waitlistTrend)
     const activityGrowth = calcWeekComparison(stats.activityTrend)
 
-    // Waitlist conversion funnel
+    // Waitlist conversion
     const waitlistConverted = (stats.waitlistEntries || []).filter(e => e.status === 'converted').length
     const waitlistActive = (stats.waitlistEntries || []).filter(e => !e.status || e.status === 'active').length
     const conversionRate = stats.waitlistTotal > 0 ? Math.round((waitlistConverted / stats.waitlistTotal) * 100) : 0
 
-    // Feedback sentiment breakdown
+    // Feedback sentiment
     const sentimentCounts = { love: 0, good: 0, okay: 0, frustrated: 0 }
     for (const fb of (stats.feedbackEntries || [])) {
       if (fb.rating && sentimentCounts[fb.rating] !== undefined) {
@@ -227,7 +281,7 @@ export default function AdminAnalytics({ user }) {
       ? Math.round(((sentimentCounts.love + sentimentCounts.good) / totalFeedbackWithRating) * 100)
       : 0
 
-    // Top active projects (by activity count)
+    // Top active projects
     const projectActivityCounts = {}
     for (const act of (stats.recentActivity || [])) {
       if (act._projectName) {
@@ -239,6 +293,17 @@ export default function AdminAnalytics({ user }) {
       .slice(0, 6)
     const maxProjectActivity = topProjects.length > 0 ? topProjects[0][1] : 0
 
+    // Feature adoption (from featureUsage)
+    const featureAdoption = stats.featureUsage ? Object.entries(stats.featureUsage).map(([key, val]) => ({
+      key,
+      label: {
+        analyzer: 'Analyzer', contentWriter: 'Content Writer', competitors: 'Competitors',
+        metrics: 'Metrics', schema: 'Schema Generator', calendar: 'Content Calendar',
+        export: 'PDF Export', team: 'Team Members',
+      }[key] || key,
+      ...val,
+    })).sort((a, b) => b.pct - a.pct) : []
+
     return {
       topTypes, maxTypeCount, completionBuckets, maxBucket,
       activeRatio, avgTasks, taskRate,
@@ -246,6 +311,7 @@ export default function AdminAnalytics({ user }) {
       waitlistConverted, waitlistActive, conversionRate,
       sentimentCounts, satisfactionRate,
       topProjects, maxProjectActivity,
+      featureAdoption,
     }
   }, [stats])
 
@@ -270,6 +336,11 @@ export default function AdminAnalytics({ user }) {
   const BUCKET_COLORS = { '0%': '#6B7280', '1-25%': '#EF4444', '26-50%': '#F59E0B', '51-75%': '#3B82F6', '76-99%': '#10B981', '100%': '#8B5CF6' }
   const SENTIMENT_EMOJI = { love: '\uD83D\uDE0D', good: '\uD83D\uDE0A', okay: '\uD83D\uDE10', frustrated: '\uD83D\uDE1F' }
   const SENTIMENT_COLORS = { love: '#10B981', good: '#3B82F6', okay: '#F59E0B', frustrated: '#EF4444' }
+  const FEATURE_COLORS = {
+    analyzer: '#FF6B35', contentWriter: '#3B82F6', competitors: '#8B5CF6',
+    metrics: '#10B981', schema: '#EC4899', calendar: '#F59E0B',
+    export: '#06B6D4', team: '#EF4444',
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -278,7 +349,7 @@ export default function AdminAnalytics({ user }) {
           Platform Analytics
         </h2>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-          Usage patterns, growth metrics, and platform health
+          Usage patterns, growth metrics, feature adoption, and engagement depth
         </p>
       </div>
 
@@ -291,6 +362,157 @@ export default function AdminAnalytics({ user }) {
         <StatBox icon={Mail} label="Waitlist Convert" value={`${analytics?.conversionRate || 0}%`} color="#0EA5E9" />
         <StatBox icon={MessageSquare} label="Satisfaction" value={`${analytics?.satisfactionRate || 0}%`} color="#EC4899" />
       </div>
+
+      {/* NEW: Feature Adoption Chart */}
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+          color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
+          marginBottom: '1rem',
+        }}>
+          <Target size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          Feature Adoption (% of projects)
+        </div>
+        {analytics?.featureAdoption?.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+            {analytics.featureAdoption.map(f => (
+              <div key={f.key} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.375rem 0' }}>
+                <div style={{ width: '8rem', fontSize: '0.75rem', color: 'var(--text-secondary)', textAlign: 'right', flexShrink: 0 }}>
+                  {f.label}
+                </div>
+                <div style={{ flex: 1, height: '1.5rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', overflow: 'hidden', position: 'relative' }}>
+                  <div style={{
+                    width: `${f.pct}%`, height: '100%', borderRadius: '0.25rem',
+                    background: FEATURE_COLORS[f.key] || '#6B7280',
+                    opacity: 0.7, transition: 'width 0.3s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    minWidth: f.pct > 0 ? '2rem' : 0,
+                  }}>
+                    {f.pct > 10 && (
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, color: 'white' }}>
+                        {f.pct}%
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--text-tertiary)', width: '4rem', textAlign: 'right', flexShrink: 0 }}>
+                  {f.used}/{f.total}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p style={{ color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>No project data</p>
+        )}
+      </div>
+
+      {/* NEW: Engagement Depth */}
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+          color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
+          marginBottom: '1rem',
+        }}>
+          <Layers size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          Engagement Depth
+        </div>
+        <EngagementDepthChart data={stats?.engagementDepth} />
+      </div>
+
+      {/* NEW: Onboarding Time Metrics */}
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+          color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
+          marginBottom: '1rem',
+        }}>
+          <Clock size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          Time to Value
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, 1fr))', gap: '0.75rem' }}>
+          <div style={{ padding: '1rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: '#3B82F6' }}>
+              {stats?.onboardingTimes?.avgToFirstCheck != null ? `${stats.onboardingTimes.avgToFirstCheck}d` : '--'}
+            </div>
+            <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.04rem', marginTop: '0.25rem' }}>
+              Avg days to first check
+            </div>
+            <div style={{ fontSize: '0.5625rem', color: 'var(--text-disabled)', marginTop: '0.125rem' }}>
+              {stats?.onboardingTimes?.rawToFirstCheck?.length || 0} users tracked
+            </div>
+          </div>
+          <div style={{ padding: '1rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: '#FF6B35' }}>
+              {stats?.onboardingTimes?.avgToAnalyzer != null ? `${stats.onboardingTimes.avgToAnalyzer}d` : '--'}
+            </div>
+            <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.04rem', marginTop: '0.25rem' }}>
+              Avg days to first analyzer
+            </div>
+            <div style={{ fontSize: '0.5625rem', color: 'var(--text-disabled)', marginTop: '0.125rem' }}>
+              {stats?.onboardingTimes?.rawToAnalyzer?.length || 0} users tracked
+            </div>
+          </div>
+          <div style={{ padding: '1rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: '#10B981' }}>
+              {stats?.avgAnalyzerScore != null ? stats.avgAnalyzerScore : '--'}
+            </div>
+            <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.04rem', marginTop: '0.25rem' }}>
+              Avg analyzer score
+            </div>
+            <div style={{ fontSize: '0.5625rem', color: 'var(--text-disabled)', marginTop: '0.125rem' }}>
+              Across all projects
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* NEW: Aggregate Intelligence */}
+      {((stats?.topIndustries?.length > 0) || (stats?.topCms?.length > 0)) && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          {stats?.topIndustries?.length > 0 && (
+            <div className="card" style={{ padding: '1.25rem' }}>
+              <div style={{
+                fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+                color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
+              }}>
+                Top Industries
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
+                {stats.topIndustries.slice(0, 6).map(([industry, count], i) => (
+                  <BarItem
+                    key={industry}
+                    label={industry}
+                    value={count}
+                    max={stats.topIndustries[0]?.[1] || 1}
+                    color={BAR_COLORS[i % BAR_COLORS.length]}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+          {stats?.topCms?.length > 0 && (
+            <div className="card" style={{ padding: '1.25rem' }}>
+              <div style={{
+                fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+                color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
+              }}>
+                Top CMS Platforms
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
+                {stats.topCms.slice(0, 6).map(([cms, count], i) => (
+                  <BarItem
+                    key={cms}
+                    label={cms}
+                    value={count}
+                    max={stats.topCms[0]?.[1] || 1}
+                    color={BAR_COLORS[i % BAR_COLORS.length]}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Growth Metrics */}
       <div className="card" style={{ padding: '1.25rem' }}>

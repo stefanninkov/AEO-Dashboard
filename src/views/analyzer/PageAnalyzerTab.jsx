@@ -7,6 +7,7 @@
  */
 
 import { useState, useMemo } from 'react'
+import { hasApiKey } from '../../utils/aiProvider'
 import {
   FileText, TrendingDown, AlertTriangle, BarChart3,
   Zap, Loader2, Plus, Download as ImportIcon, Search,
@@ -49,7 +50,7 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
 
   const pa = usePageAnalyzer({ activeProject, updateProject, user })
 
-  const apiKey = localStorage.getItem('anthropic-api-key') || ''
+  const apiKeyAvailable = hasApiKey()
 
   // ── Add & Analyze ──
   const handleAnalyze = async () => {
@@ -75,7 +76,6 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
       <PageDetailView
         pageUrl={pa.selectedPageUrl}
         pageData={pageData}
-        apiKey={apiKey}
         fixes={pa.getPageFixes(pa.selectedPageUrl)}
         onFixGenerated={pa.handlePageFixGenerated}
         onBulkFix={pa.handlePageBulkFix}
@@ -142,7 +142,7 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
           />
           <button
             onClick={handleAnalyze}
-            disabled={pa.analyzing || !newUrl.trim() || !apiKey}
+            disabled={pa.analyzing || !newUrl.trim() || !apiKeyAvailable}
             className="metrics-run-btn"
             style={{ whiteSpace: 'nowrap' }}
           >
@@ -167,9 +167,9 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
           )}
         </div>
 
-        {!apiKey && (
+        {!apiKeyAvailable && (
           <p style={{ fontSize: '0.6875rem', color: 'var(--color-warning)', marginTop: '0.375rem' }}>
-            Enter your Anthropic API key in the Site Analysis tab first.
+            Set your API key in Settings → API & Usage first.
           </p>
         )}
       </div>

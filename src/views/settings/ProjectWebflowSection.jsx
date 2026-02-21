@@ -7,7 +7,8 @@ import {
   Globe, Loader2, AlertCircle, CheckCircle2, Copy, Check, RefreshCw,
   Code2, FileText, Search, Layers, ArrowRight, ExternalLink, Zap
 } from 'lucide-react'
-import { callAnthropicApi } from '../../utils/apiClient'
+import { callAI } from '../../utils/apiClient'
+import { hasApiKey } from '../../utils/aiProvider'
 import { useToast } from '../../components/Toast'
 import logger from '../../utils/logger'
 import { sectionTitleStyle } from './SettingsShared'
@@ -29,7 +30,7 @@ const TABS = [
 ]
 
 export default function ProjectWebflowSection({ activeProject, updateProject }) {
-  const [apiKey] = useState(() => localStorage.getItem('anthropic-api-key') || '')
+  const apiKeyAvailable = hasApiKey()
   const [activeTab, setActiveTab] = useState('sites')
   const [sites, setSites] = useState([])
   const [selectedSite, setSelectedSite] = useState(null)
@@ -62,19 +63,18 @@ export default function ProjectWebflowSection({ activeProject, updateProject }) 
 
   // ── Fetch Sites ──
   const handleFetchSites = useCallback(async () => {
-    if (!apiKey) { setError('Add your Anthropic API key in Settings first.'); return }
+    if (!apiKeyAvailable) { setError('Add your API key in Settings first.'); return }
     setLoading(true)
     setError(null)
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         messages: [{
           role: 'user',
           content: 'List all my Webflow sites with their site IDs, names, and domains. Return ONLY valid JSON: [{"id":"...","name":"...","domain":"..."}]',
         }],
         extraBody: MCP_CONFIG,
       })
-      const text = data.content?.filter(c => c.type === 'text').map(c => c.text).join('\n') || ''
+      const text = data.text
       const clean = text.replace(/```json\s?|```/g, '').trim()
       const match = clean.match(/\[[\s\S]*\]/)
       if (match) {
@@ -91,7 +91,7 @@ export default function ProjectWebflowSection({ activeProject, updateProject }) 
     } finally {
       setLoading(false)
     }
-  }, [apiKey, addToast])
+  }, [apiKeyAvailable, addToast])
 
   // ── Select Site ──
   const handleSelectSite = (site) => {
@@ -105,13 +105,12 @@ export default function ProjectWebflowSection({ activeProject, updateProject }) 
   // ── AEO Audit ──
   const handleAudit = useCallback(async () => {
     if (!selectedSite) { setError('Select a site first.'); return }
-    if (!apiKey) { setError('Add your Anthropic API key in Settings.'); return }
+    if (!apiKeyAvailable) { setError('Add your API key in Settings.'); return }
     setAuditLoading(true)
     setAuditResults(null)
     setError(null)
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 8000,
         messages: [{
           role: 'user',
@@ -144,7 +143,7 @@ Return ONLY valid JSON:
         }],
         extraBody: MCP_CONFIG,
       })
-      const text = data.content?.filter(c => c.type === 'text').map(c => c.text).join('\n') || ''
+      const text = data.text
       const clean = text.replace(/```json\s?|```/g, '').trim()
       const match = clean.match(/\{[\s\S]*\}/)
       if (match) {
@@ -165,18 +164,17 @@ Return ONLY valid JSON:
     } finally {
       setAuditLoading(false)
     }
-  }, [selectedSite, apiKey, activeProject, updateProject, addToast])
+  }, [selectedSite, apiKeyAvailable, activeProject, updateProject, addToast])
 
   // ── Schema Inject ──
   const handleGenerateSchema = useCallback(async () => {
     if (!selectedSite) { setError('Select a site first.'); return }
-    if (!apiKey) return
+    if (!apiKeyAvailable) return
     setSchemaLoading(true)
     setSchemaCode('')
     setError(null)
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 6000,
         messages: [{
           role: 'user',
@@ -195,7 +193,7 @@ Include a comment explaining where to paste it in Webflow (Settings > Custom Cod
         }],
         extraBody: MCP_CONFIG,
       })
-      const text = data.content?.filter(c => c.type === 'text').map(c => c.text).join('\n') || ''
+      const text = data.text
       setSchemaCode(text)
       addToast('success', 'Schema markup generated')
     } catch (err) {
@@ -204,12 +202,12 @@ Include a comment explaining where to paste it in Webflow (Settings > Custom Cod
     } finally {
       setSchemaLoading(false)
     }
-  }, [selectedSite, apiKey, addToast])
+  }, [selectedSite, apiKeyAvailable, addToast])
 
   // ── Content Generation ──
   const handleGenerateContent = useCallback(async () => {
     if (!selectedSite) { setError('Select a site first.'); return }
-    if (!apiKey || !contentTopic.trim()) return
+    if (!apiKeyAvailable || !contentTopic.trim()) return
     setContentLoading(true)
     setContentResult('')
     setError(null)
@@ -222,8 +220,7 @@ Include a comment explaining where to paste it in Webflow (Settings > Custom Cod
     }
 
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 6000,
         messages: [{
           role: 'user',
@@ -236,7 +233,7 @@ The content should be:
         }],
         extraBody: MCP_CONFIG,
       })
-      const text = data.content?.filter(c => c.type === 'text').map(c => c.text).join('\n') || ''
+      const text = data.text
       setContentResult(text)
       addToast('success', 'Content generated')
     } catch (err) {
@@ -245,18 +242,17 @@ The content should be:
     } finally {
       setContentLoading(false)
     }
-  }, [selectedSite, apiKey, contentTopic, contentType, addToast])
+  }, [selectedSite, apiKeyAvailable, contentTopic, contentType, addToast])
 
   // ── Fetch Pages ──
   const handleFetchPages = useCallback(async () => {
     if (!selectedSite) { setError('Select a site first.'); return }
-    if (!apiKey) return
+    if (!apiKeyAvailable) return
     setPagesLoading(true)
     setPages([])
     setError(null)
     try {
-      const data = await callAnthropicApi({
-        apiKey,
+      const data = await callAI({
         maxTokens: 6000,
         messages: [{
           role: 'user',
@@ -279,7 +275,7 @@ Return ONLY valid JSON:
         }],
         extraBody: MCP_CONFIG,
       })
-      const text = data.content?.filter(c => c.type === 'text').map(c => c.text).join('\n') || ''
+      const text = data.text
       const clean = text.replace(/```json\s?|```/g, '').trim()
       const match = clean.match(/\[[\s\S]*\]/)
       if (match) {
@@ -292,7 +288,7 @@ Return ONLY valid JSON:
     } finally {
       setPagesLoading(false)
     }
-  }, [selectedSite, apiKey, addToast])
+  }, [selectedSite, apiKeyAvailable, addToast])
 
   // ── Copy Helper ──
   const handleCopy = async (text, setter) => {

@@ -68,8 +68,8 @@ export function useCitationShare({ activeProject, updateProject, user }) {
   // ── Run citation share check ──
   const runCitationCheck = useCallback(async () => {
     if (checking) return
-    const apiKey = localStorage.getItem('anthropic-api-key')
-    if (!apiKey) { setError('No API key found. Set it in Settings.'); return }
+    const { hasApiKey } = await import('../utils/aiProvider')
+    if (!hasApiKey()) { setError('No API key found. Set it in Settings.'); return }
     if (!activeProject?.url) { setError('No project URL set.'); return }
 
     const competitors = activeProject.competitors || []
@@ -135,7 +135,7 @@ Return ONLY valid JSON:
   }
 }`
 
-        const result = await callApi(apiKey, prompt)
+        const result = await callApi(prompt)
 
         const queryResult = { query, brands: {} }
 
@@ -253,22 +253,17 @@ Return ONLY valid JSON:
 }
 
 // ── API Helper ──
-async function callApi(apiKey, prompt) {
-  const { callAnthropicApi } = await import('../utils/apiClient')
-  const data = await callAnthropicApi({
-    apiKey,
+async function callApi(prompt) {
+  const { callAI } = await import('../utils/apiClient')
+  const data = await callAI({
     maxTokens: 4000,
     messages: [{ role: 'user', content: prompt }],
     extraBody: {
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
     },
   })
-  if (data.error) throw new Error(data.error.message)
 
-  const textContent = data.content
-    ?.filter(c => c.type === 'text')
-    .map(c => c.text)
-    .join('\n') || ''
+  const textContent = data.text
 
   const clean = textContent.replace(/```json\s?|```/g, '').trim()
   const jsonMatch = clean.match(/\{[\s\S]*\}/)

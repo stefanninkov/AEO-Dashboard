@@ -1,4 +1,7 @@
 import logger from './logger'
+import { getActiveProvider, getApiKey, getModel, getProviderConfig } from './aiProvider'
+import { callOpenAiApi } from './openaiClient'
+import { trackUsage } from './usageTracker'
 
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages'
 const ANTHROPIC_API_VERSION = '2023-06-01'
@@ -85,6 +88,108 @@ export async function callAnthropicApi({
   }
 
   throw lastError
+}
+
+/**
+ * Provider-agnostic AI call wrapper.
+ *
+ * Reads the active provider + API key from localStorage (via aiProvider.js),
+ * routes to the appropriate client, normalizes the response, and tracks usage.
+ *
+ * @param {Object} options
+ * @param {Array}  options.messages - Messages array
+ * @param {string} [options.system] - Optional system prompt
+ * @param {number} [options.maxTokens=4000] - Max tokens
+ * @param {string} [options.model] - Override model (defaults to provider's selected model)
+ * @param {number} [options.retries=2] - Number of retry attempts
+ * @param {Object} [options.extraBody] - Additional body fields (tools, etc.)
+ * @returns {Promise<{text: string, raw: Object, usage: {inputTokens: number, outputTokens: number}, provider: string, model: string}>}
+ */
+export async function callAI({
+  messages,
+  system,
+  maxTokens = 4000,
+  model,
+  retries = 2,
+  extraBody,
+} = {}) {
+  const provider = getActiveProvider()
+  const apiKey = getApiKey(provider)
+  if (!apiKey) {
+    const config = getProviderConfig(provider)
+    throw new Error(`No API key set for ${config.name}. Please add your API key in Settings → API & Usage.`)
+  }
+
+  const config = getProviderConfig(provider)
+  const resolvedModel = model || getModel(provider)
+
+  // Filter unsupported tools for this provider
+  let filteredBody = extraBody
+  if (!config.supportsWebSearch && extraBody?.tools) {
+    filteredBody = {
+      ...extraBody,
+      tools: extraBody.tools.filter(t =>
+        t.type !== 'web_search_20250305' && t.name !== 'web_search'
+      ),
+    }
+    if (filteredBody.tools.length === 0) {
+      const { tools, ...rest } = filteredBody
+      filteredBody = Object.keys(rest).length > 0 ? rest : undefined
+    }
+  }
+
+  const startTime = Date.now()
+  let result
+
+  if (provider === 'openai') {
+    result = await callOpenAiApi({
+      apiKey,
+      messages,
+      system,
+      maxTokens,
+      model: resolvedModel,
+      retries,
+      extraBody: filteredBody,
+    })
+  } else {
+    result = await callAnthropicApi({
+      apiKey,
+      messages,
+      system,
+      maxTokens,
+      model: resolvedModel,
+      retries,
+      extraBody: filteredBody,
+    })
+  }
+
+  // Normalize response into a consistent shape
+  const normalized = {
+    text: provider === 'openai'
+      ? (result.choices?.[0]?.message?.content || '')
+      : (result.content?.find(b => b.type === 'text')?.text || ''),
+    raw: result,
+    usage: provider === 'openai'
+      ? { inputTokens: result.usage?.prompt_tokens || 0, outputTokens: result.usage?.completion_tokens || 0 }
+      : { inputTokens: result.usage?.input_tokens || 0, outputTokens: result.usage?.output_tokens || 0 },
+    provider,
+    model: resolvedModel,
+  }
+
+  // Track usage (fire-and-forget, never blocks)
+  try {
+    trackUsage({
+      provider,
+      model: resolvedModel,
+      inputTokens: normalized.usage.inputTokens,
+      outputTokens: normalized.usage.outputTokens,
+      durationMs: Date.now() - startTime,
+    })
+  } catch {
+    // Usage tracking should never break API calls
+  }
+
+  return normalized
 }
 
 export { ANTHROPIC_API_URL, ANTHROPIC_API_VERSION, ANTHROPIC_MODEL }
