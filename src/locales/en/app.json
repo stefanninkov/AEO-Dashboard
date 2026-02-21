@@ -1005,7 +1005,9 @@
     "accentColor": "Accent Color",
     "accentColorHint": "Custom brand color for the report",
     "success": "Report generated and downloaded!",
-    "error": "Failed to generate report. Please try again."
+    "error": "Failed to generate report. Please try again.",
+    "noDataTitle": "No progress data yet",
+    "noDataDesc": "Start completing checklist items, run the site analyzer, or add competitors to generate a meaningful report. You can still export a blank template."
   },
   "csvExport": {
     "title": "Export CSV Data",

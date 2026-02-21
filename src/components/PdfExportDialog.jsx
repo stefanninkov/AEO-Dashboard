@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react'
-import { X, FileText, Download, Upload, Trash2 } from 'lucide-react'
+import { X, FileText, Download, Upload, Trash2, Info } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useToast } from './Toast'
 import { generatePdf } from '../utils/generatePdf'
@@ -171,6 +171,25 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
               {totalDone}/{totalItems} {t('pdfExport.tasksComplete')} ({overallPercent}%)
             </div>
           </div>
+
+          {/* Empty project info banner */}
+          {totalDone === 0 && !hasAnalyzer && !hasCompetitors && !hasMetrics && !hasCalendar && (
+            <div style={{
+              padding: '0.75rem', background: 'color-mix(in srgb, var(--color-phase-5) 10%, transparent)',
+              borderRadius: '0.5rem', border: '0.0625rem solid color-mix(in srgb, var(--color-phase-5) 25%, transparent)',
+              display: 'flex', alignItems: 'flex-start', gap: '0.5rem',
+            }}>
+              <Info size={16} style={{ color: 'var(--color-phase-5)', flexShrink: 0, marginTop: '0.0625rem' }} />
+              <div>
+                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.125rem' }}>
+                  {t('pdfExport.noDataTitle')}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                  {t('pdfExport.noDataDesc')}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Sections */}
           <div>

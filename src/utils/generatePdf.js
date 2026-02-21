@@ -163,41 +163,43 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
     y += 14
 
     // Phase breakdown table
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(12)
-    doc.setTextColor(30, 30, 30)
-    doc.text('Phase Breakdown', margin, y)
-    y += 6
+    if (phaseProgress.length > 0) {
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(12)
+      doc.setTextColor(30, 30, 30)
+      doc.text('Phase Breakdown', margin, y)
+      y += 6
 
-    doc.autoTable({
-      startY: y,
-      head: [['Phase', 'Complete', 'Total', 'Progress', 'Status']],
-      body: phaseProgress.map(pp => {
-        const status = pp.percent === 100 ? 'Complete' : pp.percent >= 50 ? 'In Progress' : pp.percent > 0 ? 'Started' : 'Not Started'
-        return [
-          `Phase ${pp.phase.number}: ${pp.phase.title}`,
-          pp.done.toString(),
-          pp.total.toString(),
-          `${pp.percent}%`,
-          status,
-        ]
-      }),
-      margin: { left: margin, right: margin },
-      styles: { fontSize: 9, cellPadding: 3, textColor: [60, 60, 60] },
-      headStyles: { fillColor: [50, 50, 50], textColor: [255, 255, 255], fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [248, 248, 248] },
-      didParseCell: (data) => {
-        if (data.section === 'body' && data.column.index === 4) {
-          const status = data.cell.text[0]
-          if (status === 'Complete') data.cell.styles.textColor = [16, 185, 129]
-          else if (status === 'In Progress') data.cell.styles.textColor = [14, 165, 233]
-          else if (status === 'Started') data.cell.styles.textColor = [245, 158, 11]
-          else data.cell.styles.textColor = [180, 180, 180]
-        }
-      },
-    })
+      doc.autoTable({
+        startY: y,
+        head: [['Phase', 'Complete', 'Total', 'Progress', 'Status']],
+        body: phaseProgress.map(pp => {
+          const status = pp.percent === 100 ? 'Complete' : pp.percent >= 50 ? 'In Progress' : pp.percent > 0 ? 'Started' : 'Not Started'
+          return [
+            `Phase ${pp.phase.number}: ${pp.phase.title}`,
+            pp.done.toString(),
+            pp.total.toString(),
+            `${pp.percent}%`,
+            status,
+          ]
+        }),
+        margin: { left: margin, right: margin },
+        styles: { fontSize: 9, cellPadding: 3, textColor: [60, 60, 60] },
+        headStyles: { fillColor: [50, 50, 50], textColor: [255, 255, 255], fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [248, 248, 248] },
+        didParseCell: (data) => {
+          if (data.section === 'body' && data.column.index === 4) {
+            const status = data.cell.text[0]
+            if (status === 'Complete') data.cell.styles.textColor = [16, 185, 129]
+            else if (status === 'In Progress') data.cell.styles.textColor = [14, 165, 233]
+            else if (status === 'Started') data.cell.styles.textColor = [245, 158, 11]
+            else data.cell.styles.textColor = [180, 180, 180]
+          }
+        },
+      })
 
-    y = doc.lastAutoTable.finalY + 12
+      y = doc.lastAutoTable.finalY + 12
+    }
 
     // Top priorities (next unchecked tasks)
     const priorities = []

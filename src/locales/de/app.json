@@ -1005,7 +1005,9 @@
     "accentColor": "Akzentfarbe",
     "accentColorHint": "Benutzerdefinierte Markenfarbe für den Bericht",
     "success": "Bericht erstellt und heruntergeladen!",
-    "error": "Bericht konnte nicht erstellt werden. Bitte versuchen Sie es erneut."
+    "error": "Bericht konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",
+    "noDataTitle": "Noch keine Fortschrittsdaten",
+    "noDataDesc": "Beginnen Sie mit der Bearbeitung von Checklisten-Punkten, starten Sie den Site-Analyzer oder fügen Sie Wettbewerber hinzu, um einen aussagekräftigen Bericht zu erstellen. Sie können trotzdem eine leere Vorlage exportieren."
   },
   "csvExport": {
     "title": "CSV-Daten exportieren",
