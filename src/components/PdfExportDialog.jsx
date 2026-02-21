@@ -106,7 +106,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
       onClose()
     } catch (err) {
       logger.error('PDF generation error:', err)
-      addToast('error', t('pdfExport.error'))
+      addToast('error', err?.message || t('pdfExport.error'))
     } finally {
       setGenerating(false)
     }

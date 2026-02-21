@@ -26,6 +26,7 @@ export default memo(function TopBar({
   dateRange,
   setDateRange,
   onRefresh,
+  refreshing,
   onExport,
   onCsvExport,
   onEmail,
@@ -412,8 +413,8 @@ export default memo(function TopBar({
             <Plus size={13} />
             <span className="hidden sm:inline">{t('actions.newProject')}</span>
           </button>
-          <button onClick={onRefresh} className="icon-btn" title={t('actions.refresh')} aria-label={t('topbar.refreshData')}>
-            <RefreshCw size={14} />
+          <button onClick={onRefresh} className="icon-btn" title={t('actions.refresh')} aria-label={t('topbar.refreshData')} disabled={refreshing}>
+            <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
           </button>
           <button onClick={onExport} className="icon-btn hidden sm:flex" title={t('actions.exportPdf')} aria-label={t('actions.exportPdf')}>
             <Download size={14} />

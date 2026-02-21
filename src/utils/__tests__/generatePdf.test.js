@@ -30,7 +30,7 @@ function createMockDoc() {
 vi.mock('jspdf', () => ({
   default: function MockJsPDF() { return mockDoc },
 }))
-vi.mock('jspdf-autotable', () => ({}))
+vi.mock('jspdf-autotable', () => ({ default: vi.fn() }))
 
 /* ── Test data ── */
 

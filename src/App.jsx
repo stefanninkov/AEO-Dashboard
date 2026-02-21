@@ -418,9 +418,15 @@ function AuthenticatedApp({ user, onSignOut }) {
     if (scrollEl) scrollEl.scrollTop = 0
   }, [activeView])
 
+  const [refreshing, setRefreshing] = useState(false)
   const handleRefresh = useCallback(() => {
+    if (refreshing) return
+    setRefreshing(true)
+    // Dispatch global refresh event (listened by useAeoMetrics and other hooks)
     window.dispatchEvent(new CustomEvent('aeo-refresh', { detail: { dateRange } }))
-  }, [dateRange])
+    // Visual feedback: spin for 800ms
+    setTimeout(() => setRefreshing(false), 800)
+  }, [dateRange, refreshing])
 
   const handleExport = useCallback(() => {
     setPdfDialogClosing(false)
@@ -672,6 +678,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             dateRange={dateRange}
             setDateRange={setDateRange}
             onRefresh={handleRefresh}
+            refreshing={refreshing}
             onExport={handleExport}
             onCsvExport={handleCsvExport}
             onEmail={handleEmail}
