@@ -58,7 +58,7 @@ function FeaturePill({ used, label }) {
       fontSize: '0.625rem', fontWeight: 600,
       color: used ? '#10B981' : 'var(--text-disabled)',
       background: used ? 'rgba(16,185,129,0.08)' : 'var(--hover-bg)',
-      border: `1px solid ${used ? 'rgba(16,185,129,0.15)' : 'var(--border-subtle)'}`,
+      border: `0.0625rem solid ${used ? 'rgba(16,185,129,0.15)' : 'var(--border-subtle)'}`,
     }}>
       {used ? '\u2713' : '\u2717'} {label}
     </span>
@@ -214,7 +214,7 @@ function ProjectDetail({ project, healthData, onClose }) {
             {members.map((m, i) => (
               <div key={m.uid || i} style={{
                 padding: '0.375rem 0.75rem', borderRadius: '1rem',
-                background: 'var(--bg-input)', border: '1px solid var(--border-subtle)',
+                background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)',
                 fontSize: '0.75rem', color: 'var(--text-secondary)',
               }}>
                 {m.displayName || m.email || m.uid}
@@ -278,7 +278,7 @@ function HealthFilters({ filter, setFilter, counts }) {
             fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer',
             background: filter === p.key ? `${p.color}18` : 'var(--hover-bg)',
             color: filter === p.key ? p.color : 'var(--text-disabled)',
-            outline: filter === p.key ? `1px solid ${p.color}40` : 'none',
+            outline: filter === p.key ? `0.0625rem solid ${p.color}40` : 'none',
           }}
         >
           {p.label} ({p.count || 0})
@@ -392,7 +392,7 @@ export default function AdminProjects({ user }) {
   if (loading && !stats) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '2px solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading projects...</p>
       </div>
     )
@@ -436,7 +436,7 @@ export default function AdminProjects({ user }) {
         ].map(item => (
           <div key={item.label} style={{
             padding: '0.75rem', borderRadius: '0.75rem',
-            background: `${item.color}08`, border: `1px solid ${item.color}15`,
+            background: `${item.color}08`, border: `0.0625rem solid ${item.color}15`,
             textAlign: 'center', cursor: 'pointer',
           }}
           onClick={() => setHealthFilter(healthFilter === item.label.toLowerCase().replace(' ', '-') ? 'all' : item.label.toLowerCase().replace(' ', '-'))}
@@ -502,11 +502,11 @@ export default function AdminProjects({ user }) {
                       textTransform: 'uppercase', letterSpacing: '0.06rem',
                       color: sortKey === col.key ? 'var(--text-primary)' : 'var(--text-disabled)',
                       textAlign: 'left', padding: '0.625rem 1.25rem',
-                      borderBottom: '1px solid var(--border-subtle)', cursor: 'pointer', userSelect: 'none',
+                      borderBottom: '0.0625rem solid var(--border-subtle)', cursor: 'pointer', userSelect: 'none',
                     }}
                   >
                     {col.label}
-                    {sortKey === col.key && (sortDir === 'asc' ? <ChevronUp size={12} style={{ display: 'inline', verticalAlign: '-2px', marginLeft: '0.25rem' }} /> : <ChevronDown size={12} style={{ display: 'inline', verticalAlign: '-2px', marginLeft: '0.25rem' }} />)}
+                    {sortKey === col.key && (sortDir === 'asc' ? <ChevronUp size={12} style={{ display: 'inline', verticalAlign: '-0.125rem', marginLeft: '0.25rem' }} /> : <ChevronDown size={12} style={{ display: 'inline', verticalAlign: '-0.125rem', marginLeft: '0.25rem' }} />)}
                   </th>
                 ))}
               </tr>
@@ -522,7 +522,7 @@ export default function AdminProjects({ user }) {
                   <tr
                     key={p.id}
                     onClick={() => setSelectedProjectId(isSelected ? null : p.id)}
-                    style={{ borderBottom: '1px solid var(--border-subtle)', cursor: 'pointer', background: isSelected ? 'var(--hover-bg)' : 'transparent' }}
+                    style={{ borderBottom: '0.0625rem solid var(--border-subtle)', cursor: 'pointer', background: isSelected ? 'var(--hover-bg)' : 'transparent' }}
                     onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'var(--hover-bg)' }}
                     onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent' }}
                   >

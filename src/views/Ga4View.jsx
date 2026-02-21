@@ -97,12 +97,12 @@ function TrendChart({ data, height = 64 }) {
   const barWidth = Math.max(3, Math.min(8, 300 / data.length))
 
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1px', height }}>
+    <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.0625rem', height }}>
       {data.map((d, i) => (
-        <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0px', height: '100%', justifyContent: 'flex-end' }}>
+        <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0', height: '100%', justifyContent: 'flex-end' }}>
           <div
             style={{
-              width: barWidth, borderRadius: '1px 1px 0 0',
+              width: barWidth, borderRadius: '0.0625rem 0.0625rem 0 0',
               height: `${Math.max(1, (d.aiSessions / maxAi) * 100)}%`,
               background: 'var(--color-phase-1)',
               opacity: 0.6 + (i / data.length) * 0.4,
@@ -452,7 +452,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                 gridTemplateColumns: '1fr 4.5rem 4rem 6rem',
                 gap: '0.5rem',
                 padding: '0.5rem 1.25rem',
-                borderBottom: '1px solid var(--border-subtle)',
+                borderBottom: '0.0625rem solid var(--border-subtle)',
                 background: 'var(--hover-bg)',
               }}>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)' }}>{t('gsc.page')}</span>
@@ -469,7 +469,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                     gridTemplateColumns: '1fr 4.5rem 4rem 6rem',
                     gap: '0.5rem',
                     padding: '0.5rem 1.25rem',
-                    borderBottom: '1px solid var(--border-subtle)',
+                    borderBottom: '0.0625rem solid var(--border-subtle)',
                     alignItems: 'center',
                     transition: 'background 100ms',
                   }}

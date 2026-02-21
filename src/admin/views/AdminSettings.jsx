@@ -15,7 +15,7 @@ function Toggle({ checked, onChange, label, disabled }) {
         style={{
           width: '2.5rem', height: '1.375rem', borderRadius: '0.6875rem',
           background: checked ? 'var(--color-phase-1)' : 'var(--hover-bg)',
-          border: '1px solid var(--border-subtle)',
+          border: '0.0625rem solid var(--border-subtle)',
           position: 'relative', cursor: disabled ? 'not-allowed' : 'pointer', transition: 'background 0.2s',
         }}
       >
@@ -36,7 +36,7 @@ function SettingSection({ icon: Icon, title, children }) {
     <div className="card" style={{ padding: '1.25rem' }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '1rem',
-        paddingBottom: '0.75rem', borderBottom: '1px solid var(--border-subtle)',
+        paddingBottom: '0.75rem', borderBottom: '0.0625rem solid var(--border-subtle)',
       }}>
         <Icon size={16} style={{ color: 'var(--color-phase-1)' }} />
         <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>
@@ -88,7 +88,7 @@ function AdminDigestSection() {
         </div>
         <div style={{
           padding: '0.625rem 0.75rem', borderRadius: '0.5rem',
-          background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.15)',
+          background: 'rgba(245,158,11,0.08)', border: '0.0625rem solid rgba(245,158,11,0.15)',
           fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: 1.5,
         }}>
           Digest emails are sent via EmailJS. Make sure your EmailJS credentials are configured in your project's integration settings.
@@ -144,7 +144,7 @@ function AdminAuditLogSection() {
       ) : (
         <div style={{
           maxHeight: '16rem', overflow: 'auto',
-          border: '1px solid var(--border-subtle)', borderRadius: '0.5rem',
+          border: '0.0625rem solid var(--border-subtle)', borderRadius: '0.5rem',
         }}>
           {log.slice(0, 50).map((entry, i) => (
             <div
@@ -152,7 +152,7 @@ function AdminAuditLogSection() {
               style={{
                 display: 'flex', alignItems: 'flex-start', gap: '0.625rem',
                 padding: '0.5rem 0.75rem',
-                borderBottom: i < Math.min(log.length, 50) - 1 ? '1px solid var(--border-subtle)' : 'none',
+                borderBottom: i < Math.min(log.length, 50) - 1 ? '0.0625rem solid var(--border-subtle)' : 'none',
                 fontSize: '0.75rem',
               }}
             >
@@ -318,7 +318,7 @@ export default function AdminSettings({ user }) {
               padding: '0.5rem 0.75rem',
               borderRadius: '0.5rem',
               background: 'rgba(59,130,246,0.08)',
-              border: '1px solid rgba(59,130,246,0.15)',
+              border: '0.0625rem solid rgba(59,130,246,0.15)',
               fontSize: '0.75rem',
               color: 'var(--text-tertiary)',
               lineHeight: 1.5,
@@ -345,7 +345,7 @@ export default function AdminSettings({ user }) {
             padding: '0.625rem 0.75rem',
             borderRadius: '0.5rem',
             background: 'rgba(245,158,11,0.08)',
-            border: '1px solid rgba(245,158,11,0.15)',
+            border: '0.0625rem solid rgba(245,158,11,0.15)',
             fontSize: '0.75rem',
             color: 'var(--text-tertiary)',
             lineHeight: 1.5,

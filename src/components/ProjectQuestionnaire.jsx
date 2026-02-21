@@ -201,7 +201,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
         style={{
           position: 'absolute', inset: 0,
           background: 'rgba(0,0,0,0.7)',
-          backdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(0.5rem)',
           animation: 'backdrop-fade-in 200ms ease-out both',
         }}
       />
@@ -215,10 +215,10 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
         style={{
           position: 'relative',
           width: '100%', maxWidth: 560,
-          maxHeight: 'calc(100vh - 40px)',
+          maxHeight: 'calc(100vh - 2.5rem)',
           display: 'flex', flexDirection: 'column',
           background: 'var(--bg-card)',
-          border: '1px solid var(--border-subtle)',
+          border: '0.0625rem solid var(--border-subtle)',
           borderRadius: 16,
           boxShadow: 'var(--shadow-lg)',
           overflow: 'hidden',
@@ -241,7 +241,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
         {/* Content */}
         <div
           style={{
-            padding: '32px 32px 24px',
+            padding: '2rem 2rem 1.5rem',
             opacity: animating ? 0 : 1,
             transition: 'opacity 120ms ease',
             minHeight: 340,
@@ -253,8 +253,8 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <span style={{
               fontSize: 10, fontWeight: 700, color: 'var(--color-phase-1)',
-              textTransform: 'uppercase', letterSpacing: '0.5px',
-              padding: '2px 8px', borderRadius: 4,
+              textTransform: 'uppercase', letterSpacing: '0.0313rem',
+              padding: '0.125rem 0.5rem', borderRadius: 4,
               background: 'rgba(255,107,53,0.1)',
             }}>
               {t('questionnaire.stepOf', { current: step + 1, total: TOTAL_STEPS })}
@@ -287,9 +287,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
 
               {/* Why this matters callout */}
               <div style={{
-                display: 'flex', gap: 10, padding: '10px 14px', borderRadius: 10,
+                display: 'flex', gap: 10, padding: '0.625rem 0.875rem', borderRadius: 10,
                 background: 'rgba(255,107,53,0.06)',
-                border: '1px solid rgba(255,107,53,0.12)',
+                border: '0.0625rem solid rgba(255,107,53,0.12)',
                 marginBottom: 18,
               }}>
                 <Lightbulb size={15} style={{ color: 'var(--color-phase-1)', flexShrink: 0, marginTop: 1 }} />
@@ -299,7 +299,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </div>
 
               {/* Industry Grid */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step0.industryLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 16 }}>
@@ -312,9 +312,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       onClick={() => update('industry', opt.value)}
                       style={{
                         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-                        padding: '12px 6px', borderRadius: 10, cursor: 'pointer',
+                        padding: '0.75rem 0.375rem', borderRadius: 10, cursor: 'pointer',
                         background: isSelected ? 'rgba(255,107,53,0.1)' : 'var(--hover-bg)',
-                        border: isSelected ? '2px solid var(--color-phase-1)' : '2px solid transparent',
+                        border: isSelected ? '0.125rem solid var(--color-phase-1)' : '0.125rem solid transparent',
                         color: isSelected ? 'var(--color-phase-1)' : 'var(--text-secondary)',
                         transition: 'all 150ms', fontFamily: 'var(--font-body)',
                       }}
@@ -338,7 +338,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               )}
 
               {/* Region Chips */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step0.regionLabel')}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: countryOptions.length > 0 ? 14 : 0 }}>
@@ -353,7 +353,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                         setCountrySearch('')
                       }}
                       style={{
-                        padding: '7px 14px', borderRadius: 99, cursor: 'pointer',
+                        padding: '0.4375rem 0.875rem', borderRadius: 99, cursor: 'pointer',
                         fontSize: 12, fontWeight: 500, fontFamily: 'var(--font-body)',
                         background: isSelected ? 'var(--color-phase-1)' : 'var(--hover-bg)',
                         color: isSelected ? '#fff' : 'var(--text-secondary)',
@@ -369,7 +369,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               {/* Country Selection (optional, multi-select, only when region has countries) */}
               {(countryOptions.length > 0 || (answers.countries?.length > 0)) && answers.region && answers.region !== 'global' && (
                 <div>
-                  <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                     {t('questionnaire.step0.countriesLabel')} <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>{t('questionnaire.step0.countriesHint')}</span>
                   </p>
 
@@ -379,10 +379,10 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       {answers.countries.map(code => (
                         <span key={code} style={{
                           display: 'inline-flex', alignItems: 'center', gap: 4,
-                          padding: '4px 10px', borderRadius: 6,
+                          padding: '0.25rem 0.625rem', borderRadius: 6,
                           fontSize: 11, fontWeight: 600,
                           background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
-                          border: '1px solid rgba(255,107,53,0.2)',
+                          border: '0.0625rem solid rgba(255,107,53,0.2)',
                         }}>
                           {COUNTRY_LABELS[code] || code}
                           <button
@@ -421,10 +421,10 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                           key={opt.value}
                           onClick={() => toggleCountry(opt.value)}
                           style={{
-                            padding: '4px 10px', borderRadius: 6, cursor: 'pointer',
+                            padding: '0.25rem 0.625rem', borderRadius: 6, cursor: 'pointer',
                             fontSize: 11, fontWeight: 500, fontFamily: 'var(--font-body)',
                             background: 'var(--hover-bg)', color: 'var(--text-secondary)',
-                            border: '1px solid var(--border-subtle)', transition: 'all 120ms',
+                            border: '0.0625rem solid var(--border-subtle)', transition: 'all 120ms',
                           }}
                         >
                           {opt.label}
@@ -448,7 +448,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </p>
 
               {/* Audience */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step1.audienceLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 20 }}>
@@ -459,9 +459,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       key={opt.value}
                       onClick={() => update('audience', opt.value)}
                       style={{
-                        padding: '14px 12px', borderRadius: 10, cursor: 'pointer',
+                        padding: '0.875rem 0.75rem', borderRadius: 10, cursor: 'pointer',
                         background: isSelected ? 'rgba(255,107,53,0.1)' : 'var(--hover-bg)',
-                        border: isSelected ? '2px solid var(--color-phase-1)' : '2px solid transparent',
+                        border: isSelected ? '0.125rem solid var(--color-phase-1)' : '0.125rem solid transparent',
                         textAlign: 'center', fontFamily: 'var(--font-body)',
                         transition: 'all 150ms',
                       }}
@@ -474,7 +474,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </div>
 
               {/* Primary Goal */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step1.goalLabel')}
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -486,9 +486,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       onClick={() => update('primaryGoal', opt.value)}
                       style={{
                         display: 'flex', alignItems: 'center', gap: 12,
-                        padding: '12px 14px', borderRadius: 10, cursor: 'pointer',
+                        padding: '0.75rem 0.875rem', borderRadius: 10, cursor: 'pointer',
                         background: isSelected ? 'rgba(255,107,53,0.1)' : 'var(--hover-bg)',
-                        border: isSelected ? '2px solid var(--color-phase-1)' : '2px solid transparent',
+                        border: isSelected ? '0.125rem solid var(--color-phase-1)' : '0.125rem solid transparent',
                         textAlign: 'left', fontFamily: 'var(--font-body)',
                         transition: 'all 150ms',
                       }}
@@ -527,9 +527,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       disabled={disabled}
                       style={{
                         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
-                        padding: '16px 10px', borderRadius: 12, cursor: disabled ? 'default' : 'pointer',
+                        padding: '1rem 0.625rem', borderRadius: 12, cursor: disabled ? 'default' : 'pointer',
                         background: isSelected ? `${opt.color}15` : 'var(--hover-bg)',
-                        border: isSelected ? `2px solid ${opt.color}` : '2px solid transparent',
+                        border: isSelected ? `0.125rem solid ${opt.color}` : '0.125rem solid transparent',
                         opacity: disabled ? 0.4 : 1,
                         transition: 'all 150ms', fontFamily: 'var(--font-body)',
                       }}
@@ -567,7 +567,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </p>
 
               {/* Content Type */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step3.contentLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 20 }}>
@@ -578,9 +578,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       key={opt.value}
                       onClick={() => update('contentType', opt.value)}
                       style={{
-                        padding: '12px 10px', borderRadius: 10, cursor: 'pointer',
+                        padding: '0.75rem 0.625rem', borderRadius: 10, cursor: 'pointer',
                         background: isSelected ? 'rgba(46,204,113,0.1)' : 'var(--hover-bg)',
-                        border: isSelected ? '2px solid var(--color-phase-3)' : '2px solid transparent',
+                        border: isSelected ? '0.125rem solid var(--color-phase-3)' : '0.125rem solid transparent',
                         textAlign: 'center', fontFamily: 'var(--font-body)',
                         transition: 'all 150ms',
                       }}
@@ -593,7 +593,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </div>
 
               {/* Maturity */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step3.maturityLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
@@ -604,9 +604,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       key={opt.value}
                       onClick={() => update('maturity', opt.value)}
                       style={{
-                        padding: '12px', borderRadius: 10, cursor: 'pointer',
+                        padding: '0.75rem', borderRadius: 10, cursor: 'pointer',
                         background: isSelected ? 'rgba(46,204,113,0.1)' : 'var(--hover-bg)',
-                        border: isSelected ? '2px solid var(--color-phase-3)' : '2px solid transparent',
+                        border: isSelected ? '0.125rem solid var(--color-phase-3)' : '0.125rem solid transparent',
                         textAlign: 'left', fontFamily: 'var(--font-body)',
                         transition: 'all 150ms',
                       }}
@@ -631,7 +631,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </p>
 
               {/* Languages */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 <Globe size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />
                 {t('questionnaire.step4.languagesLabel')}
               </p>
@@ -643,7 +643,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       key={opt.value}
                       onClick={() => toggleLanguage(opt.value)}
                       style={{
-                        padding: '5px 12px', borderRadius: 99, cursor: 'pointer',
+                        padding: '0.3125rem 0.75rem', borderRadius: 99, cursor: 'pointer',
                         fontSize: 11, fontWeight: 500, fontFamily: 'var(--font-body)',
                         background: isSelected ? 'var(--color-phase-4)' : 'var(--hover-bg)',
                         color: isSelected ? '#fff' : 'var(--text-secondary)',
@@ -657,7 +657,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </div>
 
               {/* Business Description */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step4.businessDescLabel')}
               </p>
               <p style={{ fontSize: 10.5, color: 'var(--text-tertiary)', marginBottom: 6, lineHeight: 1.4 }}>
@@ -673,7 +673,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               />
 
               {/* Top Products/Services */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step4.servicesLabel')}
               </p>
               <p style={{ fontSize: 10.5, color: 'var(--text-tertiary)', marginBottom: 6, lineHeight: 1.4 }}>
@@ -689,7 +689,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               />
 
               {/* CMS */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 <Monitor size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />
                 {t('questionnaire.step4.cmsLabel')} <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>{t('questionnaire.step4.cmsHint')}</span>
               </p>
@@ -701,7 +701,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       key={opt.value}
                       onClick={() => update('cms', isSelected ? null : opt.value)}
                       style={{
-                        padding: '6px 14px', borderRadius: 99, cursor: 'pointer',
+                        padding: '0.375rem 0.875rem', borderRadius: 99, cursor: 'pointer',
                         fontSize: 11, fontWeight: 500, fontFamily: 'var(--font-body)',
                         background: isSelected ? 'var(--color-phase-4)' : 'var(--hover-bg)',
                         color: isSelected ? '#fff' : 'var(--text-secondary)',
@@ -727,7 +727,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </p>
 
               {/* Schema */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step5.schemaLabel')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 20 }}>
@@ -742,9 +742,9 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       key={opt.value}
                       onClick={() => update('hasSchema', opt.value)}
                       style={{
-                        padding: '14px', borderRadius: 10, cursor: 'pointer',
+                        padding: '0.875rem', borderRadius: 10, cursor: 'pointer',
                         background: isSelected ? 'rgba(123,47,190,0.1)' : 'var(--hover-bg)',
-                        border: isSelected ? '2px solid var(--color-phase-2)' : '2px solid transparent',
+                        border: isSelected ? '0.125rem solid var(--color-phase-2)' : '0.125rem solid transparent',
                         textAlign: 'center', fontFamily: 'var(--font-body)',
                         fontSize: 13, fontWeight: 600,
                         color: isSelected ? 'var(--color-phase-2)' : 'var(--text-secondary)',
@@ -758,7 +758,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               </div>
 
               {/* Update cadence */}
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
                 {t('questionnaire.step5.cadenceLabel')}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -774,7 +774,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                       key={opt.value}
                       onClick={() => update('updateCadence', opt.value)}
                       style={{
-                        padding: '8px 16px', borderRadius: 99, cursor: 'pointer',
+                        padding: '0.5rem 1rem', borderRadius: 99, cursor: 'pointer',
                         fontSize: 12, fontWeight: 500, fontFamily: 'var(--font-body)',
                         background: isSelected ? 'var(--color-phase-2)' : 'var(--hover-bg)',
                         color: isSelected ? '#fff' : 'var(--text-secondary)',
@@ -791,53 +791,53 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               <div style={{
                 marginTop: 24, padding: 16, borderRadius: 12,
                 background: 'rgba(255,107,53,0.05)',
-                border: '1px solid rgba(255,107,53,0.1)',
+                border: '0.0625rem solid rgba(255,107,53,0.1)',
               }}>
-                <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-phase-1)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-phase-1)', textTransform: 'uppercase', letterSpacing: '0.0313rem', marginBottom: 8 }}>
                   {t('questionnaire.step5.profileSummary')}
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                   {answers.industry && (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {INDUSTRY_LABELS[answers.industry] || answers.industry}
                     </span>
                   )}
                   {answers.countries?.length > 0 ? (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {answers.countries.map(c => COUNTRY_LABELS[c] || c).join(', ')}{answers.region ? `, ${REGION_LABELS[answers.region]}` : ''}
                     </span>
                   ) : answers.region && (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {REGION_LABELS[answers.region]}
                     </span>
                   )}
                   {answers.audience && (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {AUDIENCE_LABELS[answers.audience]}
                     </span>
                   )}
                   {answers.primaryGoal && (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {GOAL_LABELS[answers.primaryGoal]}
                     </span>
                   )}
                   {answers.targetEngines.length > 0 && (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {answers.targetEngines.includes('all') ? t('questionnaire.step5.allEngines') : t('questionnaire.step5.enginesCount', { count: answers.targetEngines.length })}
                     </span>
                   )}
                   {answers.maturity && (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {MATURITY_LABELS[answers.maturity]}
                     </span>
                   )}
                   {answers.languages.length > 0 && (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {answers.languages.map(l => LANGUAGE_LABELS[l] || l).join(', ')}
                     </span>
                   )}
                   {answers.cms && (
-                    <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: 11, padding: '0.1875rem 0.5rem', borderRadius: 6, background: 'var(--hover-bg)', color: 'var(--text-secondary)' }}>
                       {CMS_LABELS[answers.cms] || answers.cms}
                     </span>
                   )}
@@ -850,7 +850,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
         {/* Footer */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '16px 32px', borderTop: '1px solid var(--border-subtle)',
+          padding: '1rem 2rem', borderTop: '0.0625rem solid var(--border-subtle)',
           flexShrink: 0,
         }}>
           {/* Progress dots */}
@@ -874,8 +874,8 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
                 onClick={handlePrev}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 4,
-                  padding: '8px 14px', fontSize: 12, fontWeight: 500,
-                  borderRadius: 8, border: '1px solid var(--border-default)',
+                  padding: '0.5rem 0.875rem', fontSize: 12, fontWeight: 500,
+                  borderRadius: 8, border: '0.0625rem solid var(--border-default)',
                   background: 'transparent', color: 'var(--text-secondary)',
                   cursor: 'pointer', fontFamily: 'var(--font-body)',
                 }}
@@ -889,7 +889,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
               disabled={!canProceed()}
               className="btn-primary"
               style={{
-                padding: '8px 18px', fontSize: 12,
+                padding: '0.5rem 1.125rem', fontSize: 12,
                 opacity: canProceed() ? 1 : 0.4,
               }}
             >

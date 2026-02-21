@@ -53,7 +53,7 @@ export default function Ga4PropertySelector({
           gap: '0.5rem',
           padding: compact ? '0.4375rem 0.75rem' : '0.5625rem 1rem',
           background: 'var(--bg-input)',
-          border: '1px solid var(--border-default)',
+          border: '0.0625rem solid var(--border-default)',
           borderRadius: '0.625rem',
           color: selectedProperty ? 'var(--text-primary)' : 'var(--text-tertiary)',
           fontSize: compact ? '0.75rem' : '0.8125rem',
@@ -90,9 +90,9 @@ export default function Ga4PropertySelector({
             right: 0,
             marginTop: '0.25rem',
             background: 'var(--bg-card)',
-            border: '1px solid var(--border-subtle)',
+            border: '0.0625rem solid var(--border-subtle)',
             borderRadius: '0.75rem',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+            boxShadow: '0 0.5rem 2rem rgba(0,0,0,0.25)',
             zIndex: 100,
             maxHeight: '18rem',
             overflowY: 'auto',
@@ -103,7 +103,7 @@ export default function Ga4PropertySelector({
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '0.625rem 0.75rem',
-              borderBottom: '1px solid var(--border-subtle)',
+              borderBottom: '0.0625rem solid var(--border-subtle)',
             }}>
               <span style={{
                 fontFamily: 'var(--font-mono)',
@@ -187,7 +187,7 @@ export default function Ga4PropertySelector({
                         display: 'flex', alignItems: 'center', gap: '0.625rem',
                         width: '100%', padding: '0.5rem 0.75rem',
                         background: isSelected ? 'rgba(16,185,129,0.06)' : 'transparent',
-                        border: 'none', borderBottom: '1px solid var(--border-subtle)',
+                        border: 'none', borderBottom: '0.0625rem solid var(--border-subtle)',
                         cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)',
                         transition: 'background 100ms',
                       }}

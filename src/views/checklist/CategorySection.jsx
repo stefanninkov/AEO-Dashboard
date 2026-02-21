@@ -46,7 +46,7 @@ export default memo(function CategorySection({
   const hiddenCount = items.length - INITIAL_VISIBLE
 
   return (
-    <div style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+    <div style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
       <div
         role="button"
         tabIndex={0}
@@ -60,7 +60,7 @@ export default memo(function CategorySection({
             size={10}
             style={{ color: 'var(--text-disabled)', transform: isExpanded ? 'none' : 'rotate(-90deg)', transition: 'transform 200ms' }}
           />
-          <h4 style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{category.name}</h4>
+          <h4 style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.0625rem' }}>{category.name}</h4>
           <span style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', fontWeight: 500 }}>{catState.checkedCount}/{catState.total}</span>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }} onClick={e => e.stopPropagation()}>

@@ -134,7 +134,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.375rem',
                   padding: '0.375rem 0.75rem', borderRadius: '0.5rem',
-                  background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+                  background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
                   cursor: 'pointer', fontFamily: 'var(--font-body)',
                   fontSize: '0.75rem', color: 'var(--text-secondary)',
                   transition: 'all 150ms',
@@ -157,7 +157,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
       {error && (
         <div className="fade-in-up" style={{
           display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.875rem',
-          background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)',
+          background: 'rgba(239,68,68,0.08)', border: '0.0625rem solid rgba(239,68,68,0.2)',
           borderRadius: '0.75rem', fontSize: '0.8125rem', color: 'var(--color-error)',
         }}>
           <AlertCircle size={14} />
@@ -174,13 +174,13 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
               <thead>
-                <tr style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                <tr style={{ borderTop: '0.0625rem solid var(--border-subtle)' }}>
                   {[t('competitors.colRank'), t('competitors.colCompany'), t('competitors.colAeoScore'), t('competitors.colMentions'), t('competitors.colAvgPos'), t('competitors.colTrend'), t('competitors.col30Day'), ''].map((h, i) => (
                     <th scope="col" key={i} style={{
                       padding: '0.625rem 0.875rem', fontSize: '0.6875rem', fontFamily: 'var(--font-heading)',
                       fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase',
-                      letterSpacing: '0.5px', textAlign: i >= 2 && i <= 6 ? 'center' : 'left',
-                      borderBottom: '1px solid var(--border-subtle)',
+                      letterSpacing: '0.0313rem', textAlign: i >= 2 && i <= 6 ? 'center' : 'left',
+                      borderBottom: '0.0625rem solid var(--border-subtle)',
                     }}>
                       {h}
                     </th>
@@ -192,7 +192,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
                   <tr
                     key={comp.id}
                     style={{
-                      borderBottom: '1px solid var(--border-subtle)',
+                      borderBottom: '0.0625rem solid var(--border-subtle)',
                       background: comp.isOwn ? 'rgba(14, 165, 233, 0.06)' : 'transparent',
                       transition: 'background 100ms',
                     }}
@@ -283,7 +283,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
               </thead>
               <tbody>
                 {heatMap.categories.map(cat => (
-                  <tr key={cat} style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                  <tr key={cat} style={{ borderTop: '0.0625rem solid var(--border-subtle)' }}>
                     <td style={{ padding: '0.625rem', fontWeight: 500, color: 'var(--text-primary)' }}>
                       {CATEGORY_LABELS[cat] || cat}
                     </td>
@@ -321,11 +321,11 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
                 </h3>
               </div>
               <div style={{ marginBottom: '1rem' }}>
-                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('competitors.keyInsight')}</p>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>{t('competitors.keyInsight')}</p>
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6 }}>{aiSummary.keyInsight}</p>
               </div>
               <div>
-                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('competitors.opportunity')}</p>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>{t('competitors.opportunity')}</p>
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6 }}>{aiSummary.opportunity}</p>
               </div>
               {analysis?.timestamp && (

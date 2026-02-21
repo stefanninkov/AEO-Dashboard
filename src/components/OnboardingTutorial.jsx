@@ -163,15 +163,15 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
           <span style={{
             fontSize: 10, fontWeight: 700, color: 'var(--color-phase-1)',
-            textTransform: 'uppercase', letterSpacing: '0.5px',
-            padding: '2px 8px', borderRadius: 4,
+            textTransform: 'uppercase', letterSpacing: '0.0313rem',
+            padding: '0.125rem 0.5rem', borderRadius: 4,
             background: 'rgba(255,107,53,0.1)',
           }}>
             {currentStep.section}
           </span>
           <span style={{
             fontSize: 10, fontWeight: 600, color: 'var(--text-disabled)',
-            textTransform: 'uppercase', letterSpacing: '0.5px',
+            textTransform: 'uppercase', letterSpacing: '0.0313rem',
           }}>
             {step + 1} / {STEPS.length}
           </span>
@@ -191,7 +191,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
         <h3 id="onboarding-title" style={{
           fontFamily: 'var(--font-heading)', fontSize: 17, fontWeight: 700,
           color: 'var(--text-primary)', marginBottom: 10,
-          letterSpacing: '-0.3px',
+          letterSpacing: '-0.0187rem',
         }}>
           {currentStep.title}
         </h3>
@@ -225,7 +225,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
               <button
                 onClick={handleSkip}
                 style={{
-                  padding: '7px 10px', fontSize: 11, fontWeight: 500,
+                  padding: '0.4375rem 0.625rem', fontSize: 11, fontWeight: 500,
                   borderRadius: 6, border: 'none',
                   background: 'transparent', color: 'var(--text-disabled)',
                   cursor: 'pointer', fontFamily: 'var(--font-body)',
@@ -239,8 +239,8 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
                 onClick={handlePrev}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 4,
-                  padding: '7px 14px', fontSize: 12, fontWeight: 500,
-                  borderRadius: 8, border: '1px solid var(--border-default)',
+                  padding: '0.4375rem 0.875rem', fontSize: 12, fontWeight: 500,
+                  borderRadius: 8, border: '0.0625rem solid var(--border-default)',
                   background: 'transparent', color: 'var(--text-secondary)',
                   cursor: 'pointer', fontFamily: 'var(--font-body)',
                 }}
@@ -253,7 +253,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
               <button
                 onClick={handleCta}
                 className="btn-primary"
-                style={{ padding: '7px 16px', fontSize: 12 }}
+                style={{ padding: '0.4375rem 1rem', fontSize: 12 }}
               >
                 {currentStep.cta}
                 <ArrowRight size={13} style={{ marginLeft: 4 }} />
@@ -262,7 +262,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
               <button
                 onClick={handleNext}
                 className="btn-primary"
-                style={{ padding: '7px 16px', fontSize: 12 }}
+                style={{ padding: '0.4375rem 1rem', fontSize: 12 }}
               >
                 {step === STEPS.length - 1 ? t('onboarding.finish') : t('onboarding.next')}
                 <ArrowRight size={13} style={{ marginLeft: 4 }} />

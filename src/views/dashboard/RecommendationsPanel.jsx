@@ -64,8 +64,8 @@ export default function RecommendationsPanel({ recommendations, contextLine }) {
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
                 padding: '0.625rem 0.875rem', borderRadius: '0.625rem',
                 background: 'var(--hover-bg)',
-                border: '1px solid var(--border-subtle)',
-                borderLeft: rec.category ? `3px solid ${cat.color || 'var(--border-subtle)'}` : undefined,
+                border: '0.0625rem solid var(--border-subtle)',
+                borderLeft: rec.category ? `0.1875rem solid ${cat.color || 'var(--border-subtle)'}` : undefined,
               }}
             >
               <PriorityIcon priority={rec.priority} />

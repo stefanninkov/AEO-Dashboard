@@ -32,7 +32,7 @@ export default function IntegrationsSection({ user }) {
           <div style={{ padding: '0 1.25rem 1.25rem' }}>
             <div style={{
               padding: '0.75rem 1rem', borderRadius: '0.625rem',
-              background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.15)',
+              background: 'rgba(245,158,11,0.08)', border: '0.0625rem solid rgba(245,158,11,0.15)',
               fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: 1.6,
             }}>
               <strong style={{ color: 'var(--text-secondary)' }}>{t('userSettings.setupRequired')}</strong>
@@ -120,7 +120,7 @@ export default function IntegrationsSection({ user }) {
               <div style={{ padding: '0 1.25rem 0.5rem' }}>
                 <div style={{
                   padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-                  background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)',
+                  background: 'rgba(239,68,68,0.08)', border: '0.0625rem solid rgba(239,68,68,0.15)',
                   fontSize: '0.75rem', color: 'var(--color-error)', lineHeight: 1.5,
                 }}>
                   {google.error}

@@ -69,7 +69,7 @@ export default function AdminChatLogs({ user }) {
   if (loading) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '2px solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading chat logs...</p>
       </div>
     )
@@ -138,7 +138,7 @@ export default function AdminChatLogs({ user }) {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '0.875rem',
                     padding: '0.875rem 1.25rem',
-                    borderBottom: '1px solid var(--border-subtle)',
+                    borderBottom: '0.0625rem solid var(--border-subtle)',
                     cursor: 'pointer',
                     background: isExpanded ? 'var(--hover-bg)' : 'transparent',
                     transition: 'background 150ms',
@@ -198,7 +198,7 @@ export default function AdminChatLogs({ user }) {
                   <div style={{
                     padding: '1rem 1.25rem 1rem 3.5rem',
                     background: 'var(--hover-bg)',
-                    borderBottom: '1px solid var(--border-subtle)',
+                    borderBottom: '0.0625rem solid var(--border-subtle)',
                     display: 'flex', flexDirection: 'column', gap: '0.75rem',
                   }}>
                     {(log.messages || []).map((msg, i) => (

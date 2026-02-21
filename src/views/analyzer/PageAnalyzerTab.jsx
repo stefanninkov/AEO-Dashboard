@@ -203,7 +203,7 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
       {pa.error && (
         <div className="card" style={{
           padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem',
-          background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)',
+          background: 'rgba(239,68,68,0.06)', border: '0.0625rem solid rgba(239,68,68,0.15)',
         }}>
           <AlertTriangle size={14} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
           <span style={{ fontSize: '0.8125rem', color: 'var(--color-error)', flex: 1 }}>{pa.error}</span>
@@ -223,7 +223,7 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
       {pa.analyzing && pa.progress.total <= 1 && (
         <div className="card" style={{ padding: '2.5rem', textAlign: 'center' }}>
           <div style={{
-            width: '1.5rem', height: '1.5rem', border: '2px solid var(--hover-bg)',
+            width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--hover-bg)',
             borderTopColor: 'var(--color-phase-1)', borderRadius: '50%',
             animation: 'spin 1s linear infinite', margin: '0 auto 0.75rem',
           }} />

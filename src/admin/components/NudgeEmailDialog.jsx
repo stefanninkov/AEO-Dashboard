@@ -146,7 +146,7 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
         <div style={{
           display: 'flex', alignItems: 'center', gap: '0.75rem',
           padding: '1.25rem 1.5rem',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: '0.0625rem solid var(--border-subtle)',
         }}>
           <Mail size={18} style={{ color: 'var(--color-phase-1)' }} />
           <div style={{ flex: 1 }}>
@@ -190,7 +190,7 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
               onChange={(e) => handleTemplateChange(e.target.value)}
               style={{
                 width: '100%', padding: '0.5rem 0.75rem',
-                background: 'var(--bg-input)', border: '1px solid var(--border-default)',
+                background: 'var(--bg-input)', border: '0.0625rem solid var(--border-default)',
                 borderRadius: '0.625rem', color: 'var(--text-primary)',
                 fontSize: '0.8125rem', fontFamily: 'var(--font-body)',
                 cursor: 'pointer',
@@ -233,7 +233,7 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
               rows={10}
               style={{
                 width: '100%', padding: '0.75rem',
-                background: 'var(--bg-input)', border: '1px solid var(--border-default)',
+                background: 'var(--bg-input)', border: '0.0625rem solid var(--border-default)',
                 borderRadius: '0.625rem', color: 'var(--text-primary)',
                 fontSize: '0.8125rem', fontFamily: 'var(--font-body)',
                 lineHeight: 1.6, resize: 'vertical', outline: 'none',
@@ -245,7 +245,7 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
           {error && (
             <div style={{
               padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-              background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)',
+              background: 'rgba(239,68,68,0.08)', border: '0.0625rem solid rgba(239,68,68,0.15)',
               fontSize: '0.75rem', color: 'var(--color-error)',
             }}>
               {error}
@@ -257,7 +257,7 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
           gap: '0.75rem', padding: '1rem 1.5rem',
-          borderTop: '1px solid var(--border-subtle)',
+          borderTop: '0.0625rem solid var(--border-subtle)',
         }}>
           <button
             className="btn-secondary"

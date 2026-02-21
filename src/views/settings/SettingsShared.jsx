@@ -21,19 +21,19 @@ export function ToggleSwitch({ checked, onChange, label }) {
 
 export const sectionLabelStyle = {
   fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
-  textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--text-disabled)',
+  textTransform: 'uppercase', letterSpacing: '0.0938rem', color: 'var(--text-disabled)',
   padding: '1.5rem 0 0.75rem',
 }
 
 export const sectionTitleStyle = {
   display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-heading)',
   fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', padding: '1.125rem 1.25rem 0.875rem',
-  borderBottom: '1px solid var(--border-subtle)',
+  borderBottom: '0.0625rem solid var(--border-subtle)',
 }
 
 export const settingsRowStyle = {
   display: 'flex', alignItems: 'center', gap: '0.875rem', padding: '0.875rem 1.25rem',
-  borderBottom: '1px solid var(--border-subtle)', flexWrap: 'wrap',
+  borderBottom: '0.0625rem solid var(--border-subtle)', flexWrap: 'wrap',
 }
 
 export const lastRowStyle = {
@@ -51,7 +51,7 @@ export const inlineSaveBtnStyle = {
 }
 
 export const smallSelectStyle = {
-  padding: '0.5rem 0.75rem', background: 'var(--bg-input)', border: '1px solid var(--border-default)',
+  padding: '0.5rem 0.75rem', background: 'var(--bg-input)', border: '0.0625rem solid var(--border-default)',
   borderRadius: '0.625rem', color: 'var(--text-primary)', fontSize: '0.8125rem', fontFamily: 'var(--font-body)',
   outline: 'none', cursor: 'pointer',
 }

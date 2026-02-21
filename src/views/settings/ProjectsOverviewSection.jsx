@@ -105,7 +105,7 @@ export default function ProjectsOverviewSection({ projects = [], onNavigateToPro
         }}>
           <div style={{
             padding: '0.875rem', borderRadius: '0.625rem',
-            background: 'var(--bg-input)', border: '1px solid var(--border-subtle)',
+            background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)',
             textAlign: 'center',
           }}>
             <div style={{
@@ -121,7 +121,7 @@ export default function ProjectsOverviewSection({ projects = [], onNavigateToPro
 
           <div style={{
             padding: '0.875rem', borderRadius: '0.625rem',
-            background: 'var(--bg-input)', border: '1px solid var(--border-subtle)',
+            background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)',
             textAlign: 'center',
           }}>
             <div style={{
@@ -137,7 +137,7 @@ export default function ProjectsOverviewSection({ projects = [], onNavigateToPro
 
           <div style={{
             padding: '0.875rem', borderRadius: '0.625rem',
-            background: 'var(--bg-input)', border: '1px solid var(--border-subtle)',
+            background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)',
             textAlign: 'center',
           }}>
             <div style={{
@@ -177,7 +177,7 @@ export default function ProjectsOverviewSection({ projects = [], onNavigateToPro
               <div style={{
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
                 padding: '0.875rem 1.25rem',
-                borderBottom: '1px solid var(--border-subtle)',
+                borderBottom: '0.0625rem solid var(--border-subtle)',
               }}>
                 <Globe size={14} style={{ color: 'var(--color-phase-1)', flexShrink: 0 }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -210,7 +210,7 @@ export default function ProjectsOverviewSection({ projects = [], onNavigateToPro
 
               {/* Phase bars */}
               <div style={{
-                display: 'flex', gap: '3px',
+                display: 'flex', gap: '0.1875rem',
                 padding: '0.75rem 1.25rem',
               }}>
                 {project.progress.byPhase.map(phase => (
@@ -220,14 +220,14 @@ export default function ProjectsOverviewSection({ projects = [], onNavigateToPro
                     style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}
                   >
                     <div style={{
-                      height: '4px', borderRadius: '2px',
+                      height: '0.25rem', borderRadius: '0.125rem',
                       background: 'var(--border-subtle)',
                       overflow: 'hidden',
                     }}>
                       <div style={{
                         height: '100%', width: `${phase.pct}%`,
                         background: phase.color,
-                        borderRadius: '2px',
+                        borderRadius: '0.125rem',
                         transition: 'width 0.3s ease',
                       }} />
                     </div>

@@ -26,7 +26,7 @@ export default function ChecklistStats({ totalProgress, phaseCount }) {
       {/* Overall Progress */}
       <div className="card" style={{ padding: '1.25rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-tertiary)' }}>Overall Progress</span>
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.075rem', color: 'var(--text-tertiary)' }}>Overall Progress</span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             <AnimatedNumber value={totalProgress.done} />/{totalProgress.total} <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>(<AnimatedNumber value={totalProgress.percent} />%)</span>
           </span>

@@ -37,20 +37,20 @@ function BriefSection({ icon: Icon, title, children, color }) {
   return (
     <div style={{
       background: 'var(--card-bg)',
-      border: '1px solid var(--border-subtle)',
+      border: '0.0625rem solid var(--border-subtle)',
       borderRadius: '0.75rem',
       overflow: 'hidden',
     }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.5rem',
         padding: '0.75rem 1rem',
-        borderBottom: '1px solid var(--border-subtle)',
+        borderBottom: '0.0625rem solid var(--border-subtle)',
         background: 'var(--hover-bg)',
       }}>
         <Icon size={14} style={{ color: color || 'var(--color-phase-1)' }} />
         <span style={{
           fontFamily: 'var(--font-heading)', fontSize: '0.75rem', fontWeight: 700,
-          textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--text-primary)',
+          textTransform: 'uppercase', letterSpacing: '0.0313rem', color: 'var(--text-primary)',
         }}>
           {title}
         </span>
@@ -76,14 +76,14 @@ function BriefDisplay({ briefEntry, onCopy, onRemove }) {
   const itemStyle = {
     fontSize: '0.8125rem', color: 'var(--text-primary)', lineHeight: 1.6,
     padding: '0.3125rem 0',
-    borderBottom: '1px solid var(--border-subtle)',
+    borderBottom: '0.0625rem solid var(--border-subtle)',
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
       {/* Header */}
       <div style={{
-        background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+        background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
         borderRadius: '0.75rem', padding: '1rem 1.25rem',
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem' }}>
@@ -115,7 +115,7 @@ function BriefDisplay({ briefEntry, onCopy, onRemove }) {
             <button onClick={handleCopy} style={{
               display: 'flex', alignItems: 'center', gap: '0.25rem',
               padding: '0.3125rem 0.625rem', borderRadius: '0.375rem',
-              border: '1px solid var(--border-subtle)', background: 'transparent',
+              border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
               color: copied ? '#10B981' : 'var(--text-secondary)',
               fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer',
               fontFamily: 'var(--font-body)',
@@ -124,7 +124,7 @@ function BriefDisplay({ briefEntry, onCopy, onRemove }) {
             </button>
             <button onClick={() => onRemove(briefEntry.id)} style={{
               display: 'flex', alignItems: 'center', padding: '0.3125rem',
-              borderRadius: '0.375rem', border: '1px solid var(--border-subtle)',
+              borderRadius: '0.375rem', border: '0.0625rem solid var(--border-subtle)',
               background: 'transparent', color: 'var(--text-tertiary)',
               cursor: 'pointer',
             }}>
@@ -281,7 +281,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
         {/* API key warning */}
         {!apiKeyAvailable && (
           <div style={{
-            background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)',
+            background: 'rgba(239,68,68,0.08)', border: '0.0625rem solid rgba(239,68,68,0.2)',
             borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem',
             display: 'flex', alignItems: 'center', gap: '0.5rem',
             color: '#EF4444', fontSize: '0.8125rem',
@@ -293,14 +293,14 @@ export default function BriefView({ activeProject, updateProject, user }) {
 
         {/* Input row */}
         <div style={{
-          background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
           borderRadius: '0.75rem', padding: '1rem', marginBottom: '1rem',
         }}>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <div style={{ flex: '2 1 14rem' }}>
               <label style={{
                 display: 'block', fontSize: '0.6875rem', fontFamily: 'var(--font-heading)',
-                fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px',
+                fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.0313rem',
                 color: 'var(--text-tertiary)', marginBottom: '0.25rem',
               }}>
                 Target Query *
@@ -313,7 +313,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
                 disabled={brief.generating}
                 style={{
                   width: '100%', padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-                  border: '1px solid var(--border-subtle)', background: 'var(--hover-bg)',
+                  border: '0.0625rem solid var(--border-subtle)', background: 'var(--hover-bg)',
                   color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
                   fontSize: '0.8125rem', outline: 'none',
                 }}
@@ -322,7 +322,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
             <div style={{ flex: '1 1 10rem' }}>
               <label style={{
                 display: 'block', fontSize: '0.6875rem', fontFamily: 'var(--font-heading)',
-                fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px',
+                fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.0313rem',
                 color: 'var(--text-tertiary)', marginBottom: '0.25rem',
               }}>
                 Page URL (optional)
@@ -335,7 +335,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
                 disabled={brief.generating}
                 style={{
                   width: '100%', padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-                  border: '1px solid var(--border-subtle)', background: 'var(--hover-bg)',
+                  border: '0.0625rem solid var(--border-subtle)', background: 'var(--hover-bg)',
                   color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
                   fontSize: '0.8125rem', outline: 'none',
                 }}
@@ -364,7 +364,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
         {/* Error */}
         {brief.error && (
           <div style={{
-            background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)',
+            background: 'rgba(239,68,68,0.08)', border: '0.0625rem solid rgba(239,68,68,0.2)',
             borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             fontSize: '0.8125rem', color: '#EF4444',
@@ -412,7 +412,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <div style={{
               fontSize: '0.6875rem', fontFamily: 'var(--font-heading)', fontWeight: 700,
-              textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--text-tertiary)',
+              textTransform: 'uppercase', letterSpacing: '0.0313rem', color: 'var(--text-tertiary)',
               marginBottom: '0.25rem',
             }}>
               Generated Briefs ({brief.briefs.length})
@@ -423,7 +423,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
                 onClick={() => brief.setSelectedBriefId(b.id)}
                 className="content-cal-entry"
                 style={{
-                  background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+                  background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
                   borderRadius: '0.625rem', padding: '0.75rem 1rem',
                   cursor: 'pointer', transition: 'border-color 150ms',
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -443,7 +443,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
                   }}>
                     <span>"{b.targetQuery}"</span>
                     {b.pageUrl && <span> &middot; {b.pageUrl}</span>}
-                    <span> &middot; <Clock size={10} style={{ display: 'inline', verticalAlign: '-1px' }} /> {new Date(b.createdAt).toLocaleDateString()}</span>
+                    <span> &middot; <Clock size={10} style={{ display: 'inline', verticalAlign: '-0.0625rem' }} /> {new Date(b.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '0.375rem', alignItems: 'center' }}>

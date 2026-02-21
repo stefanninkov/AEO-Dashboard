@@ -17,7 +17,7 @@ function ChartTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--bg-card)', border: '1px solid var(--border-default)',
+      background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
       borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.75rem',
       boxShadow: 'var(--shadow-md)',
     }}>
@@ -37,7 +37,7 @@ function MiniStat({ label, value, icon: Icon, color, sub }) {
     <div style={{
       display: 'flex', alignItems: 'center', gap: '0.75rem',
       padding: '0.75rem 1rem', borderRadius: '0.625rem',
-      background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+      background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
     }}>
       <div style={{
         width: '2rem', height: '2rem', borderRadius: '0.5rem',
@@ -64,7 +64,7 @@ function SectionHeader({ icon: Icon, label, color }) {
       <Icon size={14} style={{ color }} />
       <h3 style={{
         fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
-        textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
+        textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
       }}>
         {label}
       </h3>
@@ -277,14 +277,14 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                 {checklistStats.pct}%
               </div>
             </div>
-            <div style={{ width: '1px', background: 'var(--border-subtle)' }} />
+            <div style={{ width: '0.0625rem', background: 'var(--border-subtle)' }} />
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{t('dashboard.analyticsPanel.features')}</div>
               <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>
                 {featuresUsed}/{totalFeatures}
               </div>
             </div>
-            <div style={{ width: '1px', background: 'var(--border-subtle)' }} />
+            <div style={{ width: '0.0625rem', background: 'var(--border-subtle)' }} />
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{t('dashboard.analyticsPanel.days')}</div>
               <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>
@@ -399,7 +399,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                     display: 'flex', alignItems: 'center', gap: '0.75rem',
                     padding: '0.5rem 0.625rem', borderRadius: '0.5rem',
                     background: feat.used ? `${feat.color}08` : 'transparent',
-                    border: `1px solid ${feat.used ? feat.color + '20' : 'var(--border-subtle)'}`,
+                    border: `0.0625rem solid ${feat.used ? feat.color + '20' : 'var(--border-subtle)'}`,
                   }}
                 >
                   <div style={{
@@ -674,7 +674,7 @@ function InsightCard({ type, text, detail }) {
   return (
     <div style={{
       display: 'flex', gap: '0.625rem', padding: '0.75rem',
-      borderRadius: '0.625rem', background: c.bg, border: `1px solid ${c.color}20`,
+      borderRadius: '0.625rem', background: c.bg, border: `0.0625rem solid ${c.color}20`,
     }}>
       <Icon size={15} style={{ color: c.color, flexShrink: 0, marginTop: '0.0625rem' }} />
       <div>

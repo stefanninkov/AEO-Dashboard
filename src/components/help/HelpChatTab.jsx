@@ -123,7 +123,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
     return (
       <div style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center',
-        justifyContent: 'center', gap: 12, padding: '40px 20px', textAlign: 'center',
+        justifyContent: 'center', gap: 12, padding: '2.5rem 1.25rem', textAlign: 'center',
       }}>
         <div style={{
           width: 48, height: 48, borderRadius: 12,
@@ -143,7 +143,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
             onClick={() => onNavigate('settings')}
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
-              padding: '8px 16px', borderRadius: 8, cursor: 'pointer',
+              padding: '0.5rem 1rem', borderRadius: 8, cursor: 'pointer',
               fontSize: 12, fontWeight: 600, fontFamily: 'var(--font-body)',
               background: 'var(--color-phase-1)', color: '#fff',
               border: 'none', transition: 'all 150ms',
@@ -163,19 +163,19 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
       <div
         ref={scrollRef}
         style={{
-          flex: 1, overflowY: 'auto', padding: '4px 0',
+          flex: 1, overflowY: 'auto', padding: '0.25rem 0',
           display: 'flex', flexDirection: 'column', gap: 12,
           minHeight: 0,
         }}
       >
         {/* Welcome message when empty */}
         {messages.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '16px 8px' }}>
+          <div style={{ textAlign: 'center', padding: '1rem 0.5rem' }}>
             <div style={{
               width: 40, height: 40, borderRadius: 10,
               background: 'rgba(255,107,53,0.1)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              margin: '0 auto 10px',
+              margin: '0 auto 0.625rem',
             }}>
               <Bot size={20} style={{ color: 'var(--color-phase-1)' }} />
             </div>
@@ -193,10 +193,10 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
                   key={q}
                   onClick={() => sendMessage(q)}
                   style={{
-                    padding: '6px 12px', borderRadius: 99, cursor: 'pointer',
+                    padding: '0.375rem 0.75rem', borderRadius: 99, cursor: 'pointer',
                     fontSize: 11, fontWeight: 500, fontFamily: 'var(--font-body)',
                     background: 'var(--hover-bg)', color: 'var(--text-secondary)',
-                    border: '1px solid var(--border-subtle)',
+                    border: '0.0625rem solid var(--border-subtle)',
                     transition: 'all 150ms',
                   }}
                 >
@@ -231,7 +231,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
 
             {/* Bubble */}
             <div style={{
-              maxWidth: '80%', padding: '8px 12px', borderRadius: 12,
+              maxWidth: '80%', padding: '0.5rem 0.75rem', borderRadius: 12,
               background: msg.role === 'user' ? 'var(--color-phase-4)' : 'var(--hover-bg)',
               color: msg.role === 'user' ? '#fff' : msg.isError ? 'var(--color-error)' : 'var(--text-primary)',
               fontSize: 12, lineHeight: 1.6,
@@ -255,7 +255,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
               <Bot size={13} style={{ color: 'var(--color-phase-1)' }} />
             </div>
             <div style={{
-              padding: '10px 14px', borderRadius: 12, borderTopLeftRadius: 4,
+              padding: '0.625rem 0.875rem', borderRadius: 12, borderTopLeftRadius: 4,
               background: 'var(--hover-bg)',
               display: 'flex', alignItems: 'center', gap: 6,
             }}>
@@ -271,7 +271,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
         onSubmit={handleSubmit}
         style={{
           display: 'flex', gap: 8, alignItems: 'flex-end',
-          paddingTop: 12, borderTop: '1px solid var(--border-subtle)',
+          paddingTop: 12, borderTop: '0.0625rem solid var(--border-subtle)',
           marginTop: 8, flexShrink: 0,
         }}
       >
@@ -282,7 +282,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
           onChange={e => setInput(e.target.value)}
           placeholder="Ask about the app..."
           className="input-field"
-          style={{ flex: 1, fontSize: 12, padding: '8px 12px' }}
+          style={{ flex: 1, fontSize: 12, padding: '0.5rem 0.75rem' }}
           disabled={loading}
         />
         <button

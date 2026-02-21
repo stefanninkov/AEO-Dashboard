@@ -100,7 +100,7 @@ function MiniSparkline({ data, dataKey = 'clicks', color = 'var(--color-phase-1)
   const max = Math.max(...data.map(d => d[dataKey] || 0), 1)
   const barWidth = Math.max(2, Math.min(6, 200 / data.length))
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1px', height }}>
+    <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.0625rem', height }}>
       {data.map((d, i) => (
         <div
           key={i}
@@ -108,7 +108,7 @@ function MiniSparkline({ data, dataKey = 'clicks', color = 'var(--color-phase-1)
             width: barWidth,
             height: `${Math.max(1, (d[dataKey] / max) * 100)}%`,
             background: color,
-            borderRadius: '1px',
+            borderRadius: '0.0625rem',
             opacity: 0.7 + (i / data.length) * 0.3,
           }}
           title={`${d.date}: ${d[dataKey]} ${dataKey}`}
@@ -448,7 +448,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
             gridTemplateColumns: activeTab === 'aeo' ? '1fr 5.5rem auto 4.5rem 4.5rem 4.5rem 4.5rem' : '1fr 4.5rem 4.5rem 4.5rem 4.5rem',
             gap: '0.5rem',
             padding: '0.625rem 1rem',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             background: 'var(--hover-bg)',
             alignItems: 'center',
           }}>
@@ -479,7 +479,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
                   gridTemplateColumns: activeTab === 'aeo' ? '1fr 5.5rem auto 4.5rem 4.5rem 4.5rem 4.5rem' : '1fr 4.5rem 4.5rem 4.5rem 4.5rem',
                   gap: '0.5rem',
                   padding: '0.5rem 1rem',
-                  borderBottom: '1px solid var(--border-subtle)',
+                  borderBottom: '0.0625rem solid var(--border-subtle)',
                   alignItems: 'center',
                   fontSize: '0.8125rem',
                   transition: 'background 100ms',
@@ -526,7 +526,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem',
                 width: '100%', padding: '0.75rem',
-                background: 'none', border: 'none', borderTop: '1px solid var(--border-subtle)',
+                background: 'none', border: 'none', borderTop: '0.0625rem solid var(--border-subtle)',
                 color: 'var(--color-phase-1)', fontSize: '0.75rem', fontWeight: 600,
                 fontFamily: 'var(--font-body)', cursor: 'pointer',
               }}
@@ -547,7 +547,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
             gridTemplateColumns: '1fr 4.5rem 4.5rem 4.5rem 4.5rem 2rem',
             gap: '0.5rem',
             padding: '0.625rem 1rem',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             background: 'var(--hover-bg)',
             alignItems: 'center',
           }}>
@@ -581,7 +581,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
                     gridTemplateColumns: '1fr 4.5rem 4.5rem 4.5rem 4.5rem 2rem',
                     gap: '0.5rem',
                     padding: '0.5rem 1rem',
-                    borderBottom: '1px solid var(--border-subtle)',
+                    borderBottom: '0.0625rem solid var(--border-subtle)',
                     alignItems: 'center',
                     fontSize: '0.8125rem',
                     transition: 'background 100ms',
@@ -627,7 +627,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem',
                 width: '100%', padding: '0.75rem',
-                background: 'none', border: 'none', borderTop: '1px solid var(--border-subtle)',
+                background: 'none', border: 'none', borderTop: '0.0625rem solid var(--border-subtle)',
                 color: 'var(--color-phase-1)', fontSize: '0.75rem', fontWeight: 600,
                 fontFamily: 'var(--font-body)', cursor: 'pointer',
               }}

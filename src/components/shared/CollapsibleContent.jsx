@@ -33,7 +33,7 @@ export default function CollapsibleContent({ expanded, children }) {
       setOverflow('hidden')
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          setHeight('0px')
+          setHeight('0')
         })
       })
     }

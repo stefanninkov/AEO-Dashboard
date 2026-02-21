@@ -515,7 +515,7 @@ Return ONLY valid JSON:
                           ? 'border-phase-2/40 bg-phase-2/5'
                           : ''
                       }`}
-                      style={selectedSite?.id !== site.id ? { background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)' } : {}}
+                      style={selectedSite?.id !== site.id ? { background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' } : {}}
                     >
                       <p className="text-[0.8125rem] font-medium text-text-primary">{site.name}</p>
                       {site.domain && <p className="text-[0.6875rem] text-text-tertiary">{site.domain}</p>}

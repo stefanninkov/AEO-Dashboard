@@ -50,7 +50,7 @@ export default memo(function AdminTopBar({ user, activeView }) {
           padding: '0.375rem 0.75rem',
           borderRadius: '0.5rem',
           background: 'var(--hover-bg)',
-          border: '1px solid var(--border-subtle)',
+          border: '0.0625rem solid var(--border-subtle)',
         }}>
           <span style={{
             fontSize: '0.75rem',
@@ -69,7 +69,7 @@ export default memo(function AdminTopBar({ user, activeView }) {
             borderRadius: '0.25rem',
             background: 'rgba(255,107,53,0.1)',
             color: 'var(--color-phase-1)',
-            border: '1px solid rgba(255,107,53,0.15)',
+            border: '0.0625rem solid rgba(255,107,53,0.15)',
           }}>
             SUPER ADMIN
           </span>

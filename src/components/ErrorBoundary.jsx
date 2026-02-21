@@ -116,7 +116,7 @@ export default class ErrorBoundary extends Component {
                   maxHeight: '12rem',
                   whiteSpace: 'pre-wrap',
                   wordBreak: 'break-word',
-                  border: '1px solid var(--border-subtle)',
+                  border: '0.0625rem solid var(--border-subtle)',
                 }}
               >
                 {this.state.error.toString()}

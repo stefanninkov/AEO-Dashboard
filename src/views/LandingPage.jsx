@@ -225,9 +225,9 @@ export default function LandingPage() {
     if (type === 'checklist') {
       return (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--lp-border)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '0.0625rem solid var(--lp-border)' }}>
             <span style={{ fontFamily: 'var(--lp-font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--lp-text-primary)' }}>{t('mockup.checklist.phaseTitle')}</span>
-            <span style={{ fontSize: '0.625rem', padding: '0.2rem 0.625rem', backgroundColor: 'rgba(16,185,129,0.15)', color: '#10B981', borderRadius: '100px', fontWeight: 600 }}>{t('mockup.checklist.completeBadge')}</span>
+            <span style={{ fontSize: '0.625rem', padding: '0.2rem 0.625rem', backgroundColor: 'rgba(16,185,129,0.15)', color: '#10B981', borderRadius: '6.25rem', fontWeight: 600 }}>{t('mockup.checklist.completeBadge')}</span>
           </div>
           {CHECKLIST_ITEMS.map((item, i) => (
             <div key={i} className="lp-feature-visual-row">
@@ -236,7 +236,7 @@ export default function LandingPage() {
                   width: 16,
                   height: 16,
                   borderRadius: 4,
-                  border: item.checked ? 'none' : '1.5px solid var(--lp-text-tertiary)',
+                  border: item.checked ? 'none' : '0.0938rem solid var(--lp-text-tertiary)',
                   backgroundColor: item.checked ? 'var(--lp-accent)' : 'transparent',
                   display: 'flex',
                   alignItems: 'center',
@@ -271,7 +271,7 @@ export default function LandingPage() {
               width: 120,
               height: 120,
               borderRadius: '50%',
-              border: '6px solid var(--lp-border)',
+              border: '0.375rem solid var(--lp-border)',
               borderTopColor: 'var(--lp-accent)',
               borderRightColor: 'var(--lp-accent)',
               borderBottomColor: '#F59E0B',
@@ -306,7 +306,7 @@ export default function LandingPage() {
           {TESTING_ENGINES.map((engine, i) => (
             <div key={i} style={{
               backgroundColor: 'rgba(255,255,255,0.02)',
-              border: '1px solid var(--lp-border)',
+              border: '0.0625rem solid var(--lp-border)',
               borderRadius: 'var(--lp-radius)',
               padding: '1rem',
             }}>
@@ -316,7 +316,7 @@ export default function LandingPage() {
                 fontSize: '0.625rem',
                 fontWeight: 600,
                 padding: '0.125rem 0.5rem',
-                borderRadius: '100px',
+                borderRadius: '6.25rem',
                 color: engine.statusColor,
                 backgroundColor: engine.statusBg,
               }}>{engine.status}</div>
@@ -720,7 +720,7 @@ export default function LandingPage() {
               </li>
             ))}
           </ol>
-          <p className="lp-answer-paragraph" style={{ maxWidth: '768px', margin: '2rem auto 0' }}>
+          <p className="lp-answer-paragraph" style={{ maxWidth: '48rem', margin: '2rem auto 0' }}>
             <strong>Getting cited by ChatGPT requires a combination of structured data, authoritative content, and technical accessibility.</strong> Implement comprehensive schema markup, format content as direct answers to common questions, build entity authority through consistent and accurate information, and ensure AI crawlers can freely access your pages. The AEO Dashboard automates this process with its 99-point checklist and AI-powered analysis tools.
           </p>
         </section>

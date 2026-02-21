@@ -31,22 +31,22 @@ export function generateReport(metrics, projectName, dateRange) {
   <title>AEO Report - ${projectName}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a2e; padding: 40px; max-width: 800px; margin: auto; }
-    h1 { font-size: 24px; margin-bottom: 4px; }
-    h2 { font-size: 16px; margin: 24px 0 12px; color: #FF6B35; border-bottom: 2px solid #FF6B35; padding-bottom: 4px; }
-    .subtitle { color: #5a5a6e; font-size: 14px; margin-bottom: 24px; }
-    .meta { color: #8c8c9a; font-size: 12px; margin-bottom: 32px; }
-    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-    .card { border: 1px solid #e0d8cf; border-radius: 8px; padding: 12px; }
-    .card-label { font-size: 11px; color: #8c8c9a; text-transform: uppercase; }
-    .card-value { font-size: 22px; font-weight: 700; margin-top: 4px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
-    th { text-align: left; padding: 8px; border-bottom: 2px solid #e0d8cf; font-size: 11px; text-transform: uppercase; color: #8c8c9a; }
-    td { padding: 8px; border-bottom: 1px solid #ede8e3; }
-    .score { display: inline-block; font-size: 48px; font-weight: 800; }
-    .score-label { color: #8c8c9a; font-size: 14px; }
-    .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e0d8cf; color: #8c8c9a; font-size: 11px; text-align: center; }
-    @media print { body { padding: 20px; } }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a2e; padding: 2.5rem; max-width: 50rem; margin: auto; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1rem; margin: 1.5rem 0 0.75rem; color: #FF6B35; border-bottom: 0.125rem solid #FF6B35; padding-bottom: 0.25rem; }
+    .subtitle { color: #5a5a6e; font-size: 0.875rem; margin-bottom: 1.5rem; }
+    .meta { color: #8c8c9a; font-size: 0.75rem; margin-bottom: 2rem; }
+    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .card { border: 0.0625rem solid #e0d8cf; border-radius: 0.5rem; padding: 0.75rem; }
+    .card-label { font-size: 0.6875rem; color: #8c8c9a; text-transform: uppercase; }
+    .card-value { font-size: 1.375rem; font-weight: 700; margin-top: 0.25rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.8125rem; }
+    th { text-align: left; padding: 0.5rem; border-bottom: 0.125rem solid #e0d8cf; font-size: 0.6875rem; text-transform: uppercase; color: #8c8c9a; }
+    td { padding: 0.5rem; border-bottom: 0.0625rem solid #ede8e3; }
+    .score { display: inline-block; font-size: 3rem; font-weight: 800; }
+    .score-label { color: #8c8c9a; font-size: 0.875rem; }
+    .footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 0.0625rem solid #e0d8cf; color: #8c8c9a; font-size: 0.6875rem; text-align: center; }
+    @media print { body { padding: 1.25rem; } }
   </style>
 </head>
 <body>
@@ -87,7 +87,7 @@ export function generateReport(metrics, projectName, dateRange) {
   </table>
   ` : ''}
 
-  <div style="text-align:center; margin: 32px 0;">
+  <div style="text-align:center; margin: 2rem 0;">
     <div class="score" style="color: ${metrics.overallScore >= 70 ? '#10B981' : metrics.overallScore >= 40 ? '#F59E0B' : '#EF4444'}">${metrics.overallScore || 0}</div>
     <div class="score-label">Overall AEO Score</div>
   </div>
@@ -100,7 +100,7 @@ export function generateReport(metrics, projectName, dateRange) {
 
   // Create hidden iframe for print
   const iframe = document.createElement('iframe')
-  iframe.style.cssText = 'position:fixed;top:-10000px;left:-10000px;width:800px;height:600px;'
+  iframe.style.cssText = 'position:fixed;top:-625rem;left:-625rem;width:50rem;height:37.5rem;'
   document.body.appendChild(iframe)
 
   const iframeDoc = iframe.contentDocument || iframe.contentWindow.document

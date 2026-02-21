@@ -36,7 +36,7 @@ export default function ConnectionBanner({ error }) {
         gap: '0.5rem',
         padding: '0.5rem 1rem',
         background: bgColor,
-        borderBottom: `1px solid ${borderColor}`,
+        borderBottom: `0.0625rem solid ${borderColor}`,
         fontSize: '0.75rem',
         color: textColor,
         fontWeight: 500,

@@ -42,7 +42,7 @@ const fieldLabelStyle = {
   color: 'var(--text-tertiary)',
   marginBottom: '0.375rem',
   textTransform: 'uppercase',
-  letterSpacing: '0.5px',
+  letterSpacing: '0.0313rem',
 }
 
 function InviteModal({ onClose, onInvite, loading }) {
@@ -75,7 +75,7 @@ function InviteModal({ onClose, onInvite, loading }) {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '1.125rem 1.25rem',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: '0.0625rem solid var(--border-subtle)',
         }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)',
@@ -127,7 +127,7 @@ function InviteModal({ onClose, onInvite, loading }) {
                     gap: '0.625rem',
                     padding: '0.75rem',
                     borderRadius: '0.625rem',
-                    border: `1px solid ${role === r ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
+                    border: `0.0625rem solid ${role === r ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
                     background: role === r ? 'rgba(255,107,53,0.04)' : 'transparent',
                     cursor: 'pointer',
                     transition: 'all 150ms',
@@ -214,9 +214,9 @@ const thStyle = {
   fontWeight: 600,
   color: 'var(--text-tertiary)',
   textTransform: 'uppercase',
-  letterSpacing: '0.5px',
+  letterSpacing: '0.0313rem',
   textAlign: 'left',
-  borderBottom: '1px solid var(--border-subtle)',
+  borderBottom: '0.0625rem solid var(--border-subtle)',
 }
 
 /* ── Main Section ── */
@@ -361,7 +361,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
             display: 'flex', alignItems: 'center', gap: '0.5rem',
             padding: '0.625rem 1.25rem',
             background: 'rgba(16,185,129,0.06)',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             fontSize: '0.75rem', color: 'var(--color-success)',
           }}>
             <Check size={13} />
@@ -374,7 +374,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
             display: 'flex', alignItems: 'center', gap: '0.5rem',
             padding: '0.625rem 1.25rem',
             background: 'rgba(239,68,68,0.06)',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             fontSize: '0.75rem', color: 'var(--color-error)',
           }}>
             <AlertCircle size={13} />
@@ -402,7 +402,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                   <tr
                     key={member.uid}
                     style={{
-                      borderBottom: '1px solid var(--border-subtle)',
+                      borderBottom: '0.0625rem solid var(--border-subtle)',
                       transition: 'background 100ms',
                     }}
                     onMouseEnter={(e) => e.currentTarget.style.background = 'var(--hover-bg)'}
@@ -465,7 +465,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                           onChange={(e) => handleRoleChange(member.uid, e.target.value)}
                           style={{
                             background: 'var(--bg-input)',
-                            border: '1px solid var(--border-subtle)',
+                            border: '0.0625rem solid var(--border-subtle)',
                             borderRadius: '0.375rem',
                             padding: '0.25rem 0.5rem',
                             fontSize: '0.75rem',
@@ -538,8 +538,8 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
               alignItems: 'center',
               gap: '0.5rem',
               padding: '0.75rem 1.25rem',
-              borderTop: '1px solid var(--border-subtle)',
-              borderBottom: '1px solid var(--border-subtle)',
+              borderTop: '0.0625rem solid var(--border-subtle)',
+              borderBottom: '0.0625rem solid var(--border-subtle)',
               fontSize: '0.75rem',
               fontWeight: 700,
               color: 'var(--text-tertiary)',
@@ -574,7 +574,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                     <tr
                       key={inv.email}
                       style={{
-                        borderBottom: '1px solid var(--border-subtle)',
+                        borderBottom: '0.0625rem solid var(--border-subtle)',
                         transition: 'background 100ms',
                       }}
                       onMouseEnter={(e) => e.currentTarget.style.background = 'var(--hover-bg)'}
@@ -634,13 +634,13 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
         )}
 
         {/* Roles Reference */}
-        <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div style={{ borderTop: '0.0625rem solid var(--border-subtle)' }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
             padding: '0.75rem 1.25rem',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             fontSize: '0.75rem',
             fontWeight: 700,
             color: 'var(--text-tertiary)',

@@ -21,7 +21,7 @@ export default function SettingsTabs({ activeTab, onTabChange }) {
       background: 'var(--bg-input)',
       borderRadius: '0.75rem',
       marginBottom: '1.25rem',
-      border: '1px solid var(--border-subtle)',
+      border: '0.0625rem solid var(--border-subtle)',
     }}>
       {TABS.map(tab => {
         const Icon = tab.icon
@@ -46,7 +46,7 @@ export default function SettingsTabs({ activeTab, onTabChange }) {
               fontWeight: isActive ? 700 : 500,
               cursor: 'pointer',
               transition: 'all 0.15s ease',
-              boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+              boxShadow: isActive ? '0 0.0625rem 0.1875rem rgba(0,0,0,0.08)' : 'none',
             }}
           >
             <Icon size={14} strokeWidth={isActive ? 2 : 1.5} />

@@ -237,7 +237,7 @@ export default memo(function TopBar({
             style={{
               display: 'flex', alignItems: 'center', gap: '0.5rem',
               padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
-              background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+              background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
               cursor: 'pointer', fontSize: '0.8125rem', fontWeight: 600,
               color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
               minWidth: 0, maxWidth: '13.75rem',
@@ -253,13 +253,13 @@ export default memo(function TopBar({
             <div
               style={{
                 position: 'absolute', left: 0, top: '100%', marginTop: '0.375rem',
-                width: '18.75rem', background: 'var(--bg-card)', border: '1px solid var(--border-default)',
+                width: '18.75rem', background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
                 borderRadius: '0.75rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)',
                 zIndex: 'var(--z-dropdown)',
               }}
             >
-              <div style={{ padding: '0.625rem 0.875rem', borderBottom: '1px solid var(--border-subtle)' }}>
-                <p style={{ fontSize: '0.625rem', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--text-disabled)' }}>{t('topbar.projects')}</p>
+              <div style={{ padding: '0.625rem 0.875rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
+                <p style={{ fontSize: '0.625rem', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.075rem', color: 'var(--text-disabled)' }}>{t('topbar.projects')}</p>
               </div>
               <div style={{ maxHeight: '15rem', overflowY: 'auto' }}>
                 {projects.map(project => (
@@ -339,7 +339,7 @@ export default memo(function TopBar({
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem',
             padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
-            background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+            background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
           }}>
             <Search size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
             <input

@@ -194,7 +194,7 @@ export const phases = [
               sections: [
                 { heading: 'Why This Matters', body: 'Google uses mobile-first indexing — your mobile version is primary for ranking and AI Overview selection. Accessibility practices make content more parseable by AI crawlers too.' },
                 { heading: 'Running Lighthouse', body: 'Open Chrome DevTools > Lighthouse tab > select Mobile. Check Performance, Accessibility, Best Practices, SEO. Aim for 90+ on all categories. Run on your top 10 page templates.' },
-                { heading: 'Key Checks', body: 'Text readable without zooming (16px+ body font). Tap targets 48x48px minimum. No horizontal scrolling. Images scale properly. All images have alt text. Proper heading hierarchy. Sufficient color contrast (4.5:1).' },
+                { heading: 'Key Checks', body: 'Text readable without zooming (1rem+ body font). Tap targets 48x3rem minimum. No horizontal scrolling. Images scale properly. All images have alt text. Proper heading hierarchy. Sufficient color contrast (4.5:1).' },
                 { heading: 'Action Items', body: '1. Run Lighthouse mobile audits on top 10 templates\n2. Fix accessibility issues below 90 score\n3. Test on 3+ real mobile devices\n4. Add missing alt text\n5. Fix heading hierarchy\n6. Schedule quarterly audits' }
               ]
             }
@@ -930,7 +930,7 @@ export const phases = [
               title: 'Open Graph and Twitter Card Tags',
               sections: [
                 { heading: 'Why This Matters', body: 'Open Graph and Twitter Card tags provide structured metadata that AI platforms use when referencing and previewing your content. These tags define your content\'s title, description, image, and type in a standardized way that many AI systems read.' },
-                { heading: 'Key Tags', body: 'og:title, og:description, og:image (1200x630px), og:url, og:type, og:site_name. Twitter: twitter:card (summary_large_image), twitter:title, twitter:description, twitter:image. Include on every page.' },
+                { heading: 'Key Tags', body: 'og:title, og:description, og:image (1200x39.375rem), og:url, og:type, og:site_name. Twitter: twitter:card (summary_large_image), twitter:title, twitter:description, twitter:image. Include on every page.' },
                 { heading: 'Optimization', body: 'Write og:description as a concise answer (matches your 40-60 word answer paragraph). Use high-quality og:image. Ensure og:url matches the canonical URL. Test with Facebook Sharing Debugger and Twitter Card Validator.' },
                 { heading: 'Action Items', body: '1. Implement OG tags on all pages\n2. Add Twitter Card tags\n3. Write answer-optimized descriptions\n4. Create proper og:image for each page type\n5. Test with platform validation tools' }
               ]

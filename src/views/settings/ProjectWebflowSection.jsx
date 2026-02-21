@@ -334,7 +334,7 @@ Return ONLY valid JSON:
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: '0.25rem', padding: '0 1.25rem', borderBottom: '1px solid var(--border-subtle)' }}>
+      <div style={{ display: 'flex', gap: '0.25rem', padding: '0 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
         {TABS.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
@@ -346,10 +346,10 @@ Return ONLY valid JSON:
                 display: 'flex', alignItems: 'center', gap: '0.375rem',
                 padding: '0.5rem 0.75rem', fontSize: '0.75rem', fontWeight: 600,
                 fontFamily: 'var(--font-body)', cursor: 'pointer',
-                background: 'none', border: 'none', borderBottom: `2px solid ${isActive ? 'var(--color-phase-1)' : 'transparent'}`,
+                background: 'none', border: 'none', borderBottom: `0.125rem solid ${isActive ? 'var(--color-phase-1)' : 'transparent'}`,
                 color: isActive ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
                 transition: 'all 150ms',
-                marginBottom: '-1px',
+                marginBottom: '-0.0625rem',
               }}
             >
               <Icon size={12} />
@@ -361,7 +361,7 @@ Return ONLY valid JSON:
 
       {/* Error */}
       {error && (
-        <div style={{ padding: '0.75rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(239,68,68,0.06)', borderBottom: '1px solid var(--border-subtle)' }}>
+        <div style={{ padding: '0.75rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(239,68,68,0.06)', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
           <AlertCircle size={14} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
           <p style={{ fontSize: '0.75rem', color: 'var(--color-error)' }}>{error}</p>
         </div>
@@ -411,7 +411,7 @@ Return ONLY valid JSON:
                   style={{
                     display: 'flex', alignItems: 'center', gap: '0.625rem',
                     padding: '0.75rem 0.875rem', borderRadius: '0.5rem',
-                    border: `1px solid ${selectedSite?.id === site.id ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
+                    border: `0.0625rem solid ${selectedSite?.id === site.id ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
                     background: selectedSite?.id === site.id ? 'rgba(255,107,53,0.06)' : 'var(--hover-bg)',
                     cursor: 'pointer', width: '100%', textAlign: 'left',
                     transition: 'all 150ms',
@@ -431,7 +431,7 @@ Return ONLY valid JSON:
           )}
 
           {selectedSite && (
-            <div style={{ marginTop: '0.75rem', padding: '0.625rem 0.875rem', background: 'var(--bg-hover)', borderRadius: '0.5rem', border: '1px solid var(--border-subtle)' }}>
+            <div style={{ marginTop: '0.75rem', padding: '0.625rem 0.875rem', background: 'var(--bg-hover)', borderRadius: '0.5rem', border: '0.0625rem solid var(--border-subtle)' }}>
               <p style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '0.25rem' }}>
                 Active Site
               </p>
@@ -591,14 +591,14 @@ Return ONLY valid JSON:
               </div>
               <pre style={{
                 fontSize: '0.6875rem', fontFamily: '"JetBrains Mono", monospace',
-                background: 'var(--bg-hover)', border: '1px solid var(--border-subtle)',
+                background: 'var(--bg-hover)', border: '0.0625rem solid var(--border-subtle)',
                 borderRadius: '0.5rem', padding: '0.875rem', overflow: 'auto',
                 maxHeight: '20rem', color: 'var(--text-secondary)', lineHeight: 1.5,
                 whiteSpace: 'pre-wrap', wordBreak: 'break-word',
               }}>
                 {schemaCode}
               </pre>
-              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.375rem', border: '1px solid rgba(255,107,53,0.15)' }}>
+              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.375rem', border: '0.0625rem solid rgba(255,107,53,0.15)' }}>
                 <p style={{ fontSize: '0.6875rem', color: 'var(--color-phase-1)', fontWeight: 500 }}>
                   <ArrowRight size={10} style={{ verticalAlign: 'middle', marginRight: '0.25rem' }} />
                   Paste in Webflow: Project Settings &gt; Custom Code &gt; Head Code
@@ -682,14 +682,14 @@ Return ONLY valid JSON:
               </div>
               <pre style={{
                 fontSize: '0.6875rem', fontFamily: '"JetBrains Mono", monospace',
-                background: 'var(--bg-hover)', border: '1px solid var(--border-subtle)',
+                background: 'var(--bg-hover)', border: '0.0625rem solid var(--border-subtle)',
                 borderRadius: '0.5rem', padding: '0.875rem', overflow: 'auto',
                 maxHeight: '20rem', color: 'var(--text-secondary)', lineHeight: 1.5,
                 whiteSpace: 'pre-wrap', wordBreak: 'break-word',
               }}>
                 {contentResult}
               </pre>
-              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.375rem', border: '1px solid rgba(255,107,53,0.15)' }}>
+              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.375rem', border: '0.0625rem solid rgba(255,107,53,0.15)' }}>
                 <p style={{ fontSize: '0.6875rem', color: 'var(--color-phase-1)', fontWeight: 500 }}>
                   <ArrowRight size={10} style={{ verticalAlign: 'middle', marginRight: '0.25rem' }} />
                   Paste in Webflow: Add an Embed or Rich Text element
@@ -703,7 +703,7 @@ Return ONLY valid JSON:
       {/* ═══ TAB: Pages ═══ */}
       {activeTab === 'pages' && (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
             <div>
               <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>Page-Level AEO Analysis</h4>
               <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
@@ -726,7 +726,7 @@ Return ONLY valid JSON:
               {/* Table Header */}
               <div style={{
                 display: 'grid', gridTemplateColumns: '1fr 4rem 4rem 3.5rem auto',
-                padding: '0.5rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+                padding: '0.5rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                 fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
                 letterSpacing: '0.05em', color: 'var(--text-disabled)',
                 fontFamily: 'var(--font-heading)',
@@ -744,7 +744,7 @@ Return ONLY valid JSON:
                   style={{
                     display: 'grid', gridTemplateColumns: '1fr 4rem 4rem 3.5rem auto',
                     padding: '0.5rem 1.25rem', alignItems: 'center',
-                    borderBottom: i < pages.length - 1 ? '1px solid var(--border-subtle)' : 'none',
+                    borderBottom: i < pages.length - 1 ? '0.0625rem solid var(--border-subtle)' : 'none',
                   }}
                 >
                   <div style={{ minWidth: 0 }}>

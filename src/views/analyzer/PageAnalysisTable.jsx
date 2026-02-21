@@ -124,12 +124,12 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
       {/* Toolbar */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1rem',
-        borderBottom: '1px solid var(--border-subtle)',
+        borderBottom: '0.0625rem solid var(--border-subtle)',
       }}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: '0.375rem', flex: 1,
           padding: '0.375rem 0.625rem', borderRadius: '0.5rem',
-          background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+          background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
         }}>
           <Search size={13} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
           <input
@@ -153,7 +153,7 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
       <div style={{
         display: 'grid', gridTemplateColumns: gridTemplate,
         gap: '0.375rem', padding: '0.5rem 1rem', alignItems: 'center',
-        background: 'var(--hover-bg)', borderBottom: '1px solid var(--border-subtle)',
+        background: 'var(--hover-bg)', borderBottom: '0.0625rem solid var(--border-subtle)',
       }}>
         <SortHeader label="Page" sortKey="url" currentSort={sort} onSort={handleSort} />
         <SortHeader label="Score" sortKey="overallScore" currentSort={sort} onSort={handleSort} />
@@ -175,7 +175,7 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
           style={{
             display: 'grid', gridTemplateColumns: gridTemplate,
             gap: '0.375rem', padding: '0.5rem 1rem', alignItems: 'center',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             cursor: 'pointer', transition: 'background 100ms',
             fontSize: '0.8125rem',
           }}

@@ -135,7 +135,7 @@ export default function UserSettingsSection({ user }) {
         </div>
 
         <div style={settingsRowStyle}>
-          <span style={labelStyle}><Globe size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.375rem' }} />{t('userSettings.language')}</span>
+          <span style={labelStyle}><Globe size={13} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.375rem' }} />{t('userSettings.language')}</span>
           <select style={smallSelectStyle} value={currentLang} onChange={(e) => handleLanguageChange(e.target.value)} aria-label="Language">
             {SUPPORTED_LANGUAGES.map(lang => (
               <option key={lang.code} value={lang.code}>{lang.nativeLabel}</option>
@@ -176,7 +176,7 @@ export default function UserSettingsSection({ user }) {
           ['Escape', t('userSettings.shortcutCloseModal')],
         ].map(([key, desc], i, arr) => (
           <div key={key} style={i === arr.length - 1 ? lastRowStyle : settingsRowStyle}>
-            <kbd style={{ fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 600, padding: '0.1875rem 0.5rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)', color: 'var(--text-tertiary)', minWidth: '6rem', textAlign: 'center' }}>{key}</kbd>
+            <kbd style={{ fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 600, padding: '0.1875rem 0.5rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)', color: 'var(--text-tertiary)', minWidth: '6rem', textAlign: 'center' }}>{key}</kbd>
             <span style={{ ...labelStyle, flex: 1 }}>{desc}</span>
           </div>
         ))}

@@ -16,7 +16,7 @@ function MiniTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--bg-card)', border: '1px solid var(--border-default)',
+      background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
       borderRadius: '0.375rem', padding: '0.375rem 0.5rem', fontSize: '0.6875rem',
       boxShadow: 'var(--shadow-md)',
     }}>
@@ -108,7 +108,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
           <Award size={14} style={{ color: phaseColors[1] }} />
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
-            textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
+            textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
           }}>
             {t('dashboard.progressSummary.milestones')}
           </h3>
@@ -140,14 +140,14 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
                   width: '2.5rem', height: '2.5rem', borderRadius: '0.625rem',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   background: unlocked ? `color-mix(in srgb, ${color} 15%, transparent)` : 'var(--hover-bg)',
-                  border: `1.5px solid ${unlocked ? color : 'var(--border-subtle)'}`,
+                  border: `0.0938rem solid ${unlocked ? color : 'var(--border-subtle)'}`,
                   transition: 'all 300ms',
                 }}>
                   <Icon size={16} style={{ color: unlocked ? color : 'var(--text-disabled)' }} />
                 </div>
                 <span style={{
                   fontSize: '0.5625rem', fontWeight: 600, color: unlocked ? 'var(--text-secondary)' : 'var(--text-disabled)',
-                  textAlign: 'center', fontFamily: 'var(--font-heading)', letterSpacing: '0.25px',
+                  textAlign: 'center', fontFamily: 'var(--font-heading)', letterSpacing: '0.0156rem',
                 }}>
                   {m.pct}%
                 </span>
@@ -158,7 +158,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
       </div>
 
       {/* ── Divider ── */}
-      <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
+      <div style={{ height: '0.0625rem', background: 'var(--border-subtle)' }} />
 
       {/* ── Section 2: Quick Wins ── */}
       <div style={{ padding: '1rem 1.25rem' }}>
@@ -166,7 +166,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
           <Star size={14} style={{ color: phaseColors[5] }} />
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
-            textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
+            textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
           }}>
             {t('dashboard.progressSummary.quickWins')}
           </h3>
@@ -214,7 +214,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
       </div>
 
       {/* ── Divider ── */}
-      <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
+      <div style={{ height: '0.0625rem', background: 'var(--border-subtle)' }} />
 
       {/* ── Section 3: Completion Timeline ── */}
       <div style={{ padding: '1rem 1.25rem 0.75rem' }}>
@@ -222,7 +222,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
           <BarChart3 size={14} style={{ color: phaseColors[4] }} />
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
-            textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
+            textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
           }}>
             {t('dashboard.progressSummary.activityLast14')}
           </h3>
@@ -252,8 +252,8 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
         onClick={goToChecklist}
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem',
-          width: '100%', padding: '0.625rem', borderTop: '1px solid var(--border-subtle)',
-          background: 'none', border: 'none', borderTopStyle: 'solid', borderTopWidth: '1px', borderTopColor: 'var(--border-subtle)',
+          width: '100%', padding: '0.625rem', borderTop: '0.0625rem solid var(--border-subtle)',
+          background: 'none', border: 'none', borderTopStyle: 'solid', borderTopWidth: '0.0625rem', borderTopColor: 'var(--border-subtle)',
           cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600,
           color: phaseColors[1], fontFamily: 'var(--font-body)',
           transition: 'background 150ms',

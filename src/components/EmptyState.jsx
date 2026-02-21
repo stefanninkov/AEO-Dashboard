@@ -22,7 +22,7 @@ export default function EmptyState({ icon: Icon, title, description, action, col
         padding: compact ? '1.5rem 1rem' : '3rem 1.5rem',
         ...(compact ? {} : {
           background: 'var(--bg-card)',
-          border: '1px solid var(--border-subtle)',
+          border: '0.0625rem solid var(--border-subtle)',
           borderRadius: '0.75rem',
         }),
       }}

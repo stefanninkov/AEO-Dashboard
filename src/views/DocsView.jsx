@@ -474,7 +474,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.3px] text-text-primary mb-1">
+        <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.0187rem] text-text-primary mb-1">
           {t('title')}
         </h2>
         <p className="text-[0.8125rem] text-text-secondary">
@@ -543,7 +543,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                 style={{
                   background: 'var(--bg-card)',
                   borderRadius: '0.75rem',
-                  border: '1px solid var(--border-subtle)',
+                  border: '0.0625rem solid var(--border-subtle)',
                   overflow: 'hidden',
                   transition: 'box-shadow 150ms',
                 }}
@@ -568,7 +568,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{
                       fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)',
-                      fontFamily: 'var(--font-heading)', letterSpacing: '-0.2px',
+                      fontFamily: 'var(--font-heading)', letterSpacing: '-0.0125rem',
                     }}>
                       {section.title}
                     </div>
@@ -589,7 +589,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                           fontFamily: 'var(--font-body)',
                           padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
                           background: section.color + '10',
-                          border: `1px solid ${section.color}25`,
+                          border: `0.0625rem solid ${section.color}25`,
                           display: 'flex', alignItems: 'center', gap: '0.25rem',
                           whiteSpace: 'nowrap',
                         }}
@@ -611,7 +611,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                 {/* Expanded content */}
                 {isExpanded && (
                   <div style={{
-                    borderTop: '1px solid var(--border-subtle)',
+                    borderTop: '0.0625rem solid var(--border-subtle)',
                     padding: '0.75rem 1rem',
                     display: 'flex', flexDirection: 'column', gap: '0.625rem',
                   }}>
@@ -625,7 +625,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                           fontSize: '0.75rem', fontWeight: 600,
                           color: 'var(--text-primary)',
                           fontFamily: 'var(--font-heading)',
-                          letterSpacing: '-0.2px',
+                          letterSpacing: '-0.0125rem',
                           marginBottom: '0.375rem',
                           display: 'flex', alignItems: 'center', gap: '0.375rem',
                         }}>
@@ -747,7 +747,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                 style={{
                   background: 'var(--bg-card)',
                   borderRadius: '0.625rem',
-                  border: '1px solid var(--border-subtle)',
+                  border: '0.0625rem solid var(--border-subtle)',
                   overflow: 'hidden',
                 }}
               >
@@ -764,7 +764,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                     flex: 1, fontSize: '0.75rem', fontWeight: 600,
                     color: 'var(--text-primary)',
                     fontFamily: 'var(--font-heading)',
-                    letterSpacing: '-0.2px',
+                    letterSpacing: '-0.0125rem',
                   }}>
                     {item.q}
                   </span>
@@ -779,7 +779,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                 </button>
                 {isOpen && (
                   <div style={{
-                    borderTop: '1px solid var(--border-subtle)',
+                    borderTop: '0.0625rem solid var(--border-subtle)',
                     padding: '0.6875rem 1rem 0.6875rem 2.625rem',
                   }}>
                     <p style={{

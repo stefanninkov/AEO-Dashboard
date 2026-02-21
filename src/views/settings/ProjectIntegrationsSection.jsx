@@ -176,7 +176,7 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
           </button>
 
           {shareLink && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 0.75rem', background: 'var(--bg-hover)', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 0.75rem', background: 'var(--bg-hover)', borderRadius: '0.5rem', border: '0.0625rem solid var(--border-subtle)' }}>
               <input type="text" value={shareLink} readOnly style={{ flex: 1, background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '0.75rem', fontFamily: '"JetBrains Mono", monospace', outline: 'none' }} onClick={e => e.target.select()} />
               <button className="btn-secondary" style={{ padding: '0.375rem 0.625rem', fontSize: '0.6875rem', flexShrink: 0 }} onClick={handleCopyLink}>
                 {linkCopied ? <Check size={13} /> : <Copy size={13} />}

@@ -318,7 +318,7 @@ export default function AdminAnalytics({ user }) {
   if (loading && !stats) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '2px solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading analytics...</p>
       </div>
     )
@@ -370,7 +370,7 @@ export default function AdminAnalytics({ user }) {
           color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
           marginBottom: '1rem',
         }}>
-          <Target size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          <Target size={14} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.5rem' }} />
           Feature Adoption (% of projects)
         </div>
         {analytics?.featureAdoption?.length > 0 ? (
@@ -413,7 +413,7 @@ export default function AdminAnalytics({ user }) {
           color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
           marginBottom: '1rem',
         }}>
-          <Layers size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          <Layers size={14} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.5rem' }} />
           Engagement Depth
         </div>
         <EngagementDepthChart data={stats?.engagementDepth} />
@@ -426,7 +426,7 @@ export default function AdminAnalytics({ user }) {
           color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
           marginBottom: '1rem',
         }}>
-          <Clock size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          <Clock size={14} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.5rem' }} />
           Time to Value
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, 1fr))', gap: '0.75rem' }}>
@@ -521,7 +521,7 @@ export default function AdminAnalytics({ user }) {
           color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
           marginBottom: '1rem',
         }}>
-          <TrendingUp size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          <TrendingUp size={14} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.5rem' }} />
           Week-over-Week Growth
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(15rem, 1fr))', gap: '0.75rem' }}>
@@ -689,7 +689,7 @@ export default function AdminAnalytics({ user }) {
           fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
           color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
         }}>
-          <UserPlus size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.5rem' }} />
+          <UserPlus size={14} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.5rem' }} />
           Waitlist Funnel
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -704,7 +704,7 @@ export default function AdminAnalytics({ user }) {
                 padding: '1rem',
                 borderRadius: '0.75rem',
                 background: `${item.color}08`,
-                border: `1px solid ${item.color}20`,
+                border: `0.0625rem solid ${item.color}20`,
               }}>
                 <div style={{
                   fontFamily: 'var(--font-heading)',

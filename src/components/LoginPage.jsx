@@ -129,14 +129,14 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
       <div className="hidden lg:flex lg:w-[30rem] xl:w-[35rem] relative overflow-hidden" style={{ background: 'linear-gradient(145deg, var(--bg-card) 0%, var(--bg-page) 100%)' }}>
         {/* Subtle dot pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: 'radial-gradient(var(--text-tertiary) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          backgroundImage: 'radial-gradient(var(--text-tertiary) 0.0625rem, transparent 0.0625rem)',
+          backgroundSize: '1.5rem 1.5rem',
         }} />
 
         {/* Gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-[100px]" style={{ background: 'var(--color-phase-1)', opacity: 0.08 }} />
-        <div className="absolute bottom-1/3 right-1/4 w-56 h-56 rounded-full blur-[80px]" style={{ background: 'var(--color-phase-2)', opacity: 0.06 }} />
-        <div className="absolute top-2/3 left-1/2 w-40 h-40 rounded-full blur-[60px]" style={{ background: 'var(--color-phase-3)', opacity: 0.05 }} />
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-[6.25rem]" style={{ background: 'var(--color-phase-1)', opacity: 0.08 }} />
+        <div className="absolute bottom-1/3 right-1/4 w-56 h-56 rounded-full blur-[5rem]" style={{ background: 'var(--color-phase-2)', opacity: 0.06 }} />
+        <div className="absolute top-2/3 left-1/2 w-40 h-40 rounded-full blur-[3.75rem]" style={{ background: 'var(--color-phase-3)', opacity: 0.05 }} />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
@@ -186,7 +186,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           className="w-full max-w-[25rem]"
           style={{
             opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(12px)',
+            transform: mounted ? 'translateY(0)' : 'translateY(0.75rem)',
             transition: 'all 500ms cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
@@ -255,7 +255,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                         value={resetEmail}
                         onChange={(e) => setResetEmail(e.target.value)}
                         className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
-                        style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                        style={{ background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'none' }}
                         autoFocus
                       />
                     </div>
@@ -304,7 +304,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
             onClick={handleGoogleSignIn}
             disabled={loading}
             className="w-full py-2.5 rounded-lg text-[0.8125rem] font-medium text-text-primary active:scale-[0.995] transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-3"
-            style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-button)' }}
+            style={{ background: 'var(--bg-card)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'var(--shadow-button)' }}
           >
             <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
               <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
@@ -346,7 +346,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
-                    style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                    style={{ background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'none' }}
                     autoFocus={mode === 'signup'}
                   />
                 </div>
@@ -363,7 +363,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
-                  style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                  style={{ background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'none' }}
                   autoFocus={mode === 'signin'}
                 />
               </div>
@@ -390,7 +390,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-11 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
-                  style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                  style={{ background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'none' }}
                 />
                 <button
                   type="button"
@@ -414,7 +414,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
-                    style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                    style={{ background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'none' }}
                   />
                 </div>
               </div>
@@ -431,7 +431,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                     value={agency}
                     onChange={(e) => setAgency(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg text-[0.8125rem] text-text-primary placeholder:text-text-disabled outline-none transition-all duration-200"
-                    style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', boxShadow: 'none' }}
+                    style={{ background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'none' }}
                   />
                 </div>
               </div>

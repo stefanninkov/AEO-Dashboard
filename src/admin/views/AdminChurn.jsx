@@ -69,7 +69,7 @@ function FunnelStep({ label, count, total, prevCount, isFirst, color }) {
           }}>
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
-              color: 'white', textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+              color: 'white', textShadow: '0 0.0625rem 0.125rem rgba(0,0,0,0.3)',
             }}>
               {count}
             </span>
@@ -214,7 +214,7 @@ export default function AdminChurn({ user }) {
   if (loading && !stats) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '2px solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading churn data...</p>
       </div>
     )
@@ -261,7 +261,7 @@ export default function AdminChurn({ user }) {
         ].map(item => (
           <div key={item.label} style={{
             padding: '1rem', borderRadius: '0.75rem',
-            background: `${item.color}08`, border: `1px solid ${item.color}15`,
+            background: `${item.color}08`, border: `0.0625rem solid ${item.color}15`,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <item.icon size={14} style={{ color: item.color }} />
@@ -390,14 +390,14 @@ export default function AdminChurn({ user }) {
                   <th style={{
                     fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700,
                     textTransform: 'uppercase', letterSpacing: '0.04rem', color: 'var(--text-disabled)',
-                    textAlign: 'left', padding: '0.5rem 0.75rem', borderBottom: '1px solid var(--border-subtle)',
+                    textAlign: 'left', padding: '0.5rem 0.75rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                   }}>
                     Cohort
                   </th>
                   <th style={{
                     fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700,
                     textTransform: 'uppercase', letterSpacing: '0.04rem', color: 'var(--text-disabled)',
-                    textAlign: 'center', padding: '0.5rem 0.75rem', borderBottom: '1px solid var(--border-subtle)',
+                    textAlign: 'center', padding: '0.5rem 0.75rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                   }}>
                     Size
                   </th>
@@ -405,7 +405,7 @@ export default function AdminChurn({ user }) {
                     <th key={w} style={{
                       fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700,
                       textTransform: 'uppercase', letterSpacing: '0.04rem', color: 'var(--text-disabled)',
-                      textAlign: 'center', padding: '0.5rem 0.5rem', borderBottom: '1px solid var(--border-subtle)',
+                      textAlign: 'center', padding: '0.5rem 0.5rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                     }}>
                       W{w}
                     </th>
@@ -414,7 +414,7 @@ export default function AdminChurn({ user }) {
               </thead>
               <tbody>
                 {stats.retentionCohorts.map((cohort, ci) => (
-                  <tr key={ci} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                  <tr key={ci} style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
                     <td style={{ padding: '0.5rem 0.75rem', fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600, whiteSpace: 'nowrap' }}>
                       {cohort.weekLabel}
                     </td>
@@ -456,7 +456,7 @@ export default function AdminChurn({ user }) {
 
       {/* Churn Risk List */}
       <div className="card" style={{ overflow: 'hidden' }}>
-        <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--border-subtle)' }}>
+        <div style={{ padding: '1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
             color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
@@ -519,24 +519,24 @@ export default function AdminChurn({ user }) {
                       textTransform: 'uppercase', letterSpacing: '0.06rem',
                       color: sortKey === col.key ? 'var(--text-primary)' : 'var(--text-disabled)',
                       textAlign: 'left', padding: '0.5rem 1rem',
-                      borderBottom: '1px solid var(--border-subtle)', cursor: 'pointer', userSelect: 'none',
+                      borderBottom: '0.0625rem solid var(--border-subtle)', cursor: 'pointer', userSelect: 'none',
                     }}
                   >
                     {col.label}
-                    {sortKey === col.key && (sortDir === 'asc' ? <ChevronUp size={10} style={{ display: 'inline', verticalAlign: '-1px', marginLeft: '0.25rem' }} /> : <ChevronDown size={10} style={{ display: 'inline', verticalAlign: '-1px', marginLeft: '0.25rem' }} />)}
+                    {sortKey === col.key && (sortDir === 'asc' ? <ChevronUp size={10} style={{ display: 'inline', verticalAlign: '-0.0625rem', marginLeft: '0.25rem' }} /> : <ChevronDown size={10} style={{ display: 'inline', verticalAlign: '-0.0625rem', marginLeft: '0.25rem' }} />)}
                   </th>
                 ))}
                 <th style={{
                   fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700,
                   textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)',
-                  textAlign: 'left', padding: '0.5rem 1rem', borderBottom: '1px solid var(--border-subtle)',
+                  textAlign: 'left', padding: '0.5rem 1rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                 }}>
                   Projects
                 </th>
                 <th style={{
                   fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700,
                   textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)',
-                  textAlign: 'left', padding: '0.5rem 0.5rem', borderBottom: '1px solid var(--border-subtle)',
+                  textAlign: 'left', padding: '0.5rem 0.5rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                 }}>
                   Action
                 </th>
@@ -544,7 +544,7 @@ export default function AdminChurn({ user }) {
             </thead>
             <tbody>
               {riskList.map(u => (
-                <tr key={u.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}
+                <tr key={u.id} style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}
                   onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
@@ -598,7 +598,7 @@ export default function AdminChurn({ user }) {
                       style={{
                         display: 'flex', alignItems: 'center', gap: '0.25rem',
                         padding: '0.25rem 0.5rem', borderRadius: '0.375rem',
-                        border: '1px solid var(--border-subtle)', background: 'none',
+                        border: '0.0625rem solid var(--border-subtle)', background: 'none',
                         cursor: 'pointer', color: 'var(--text-tertiary)',
                         fontSize: '0.625rem', fontWeight: 500, transition: 'all 100ms',
                       }}

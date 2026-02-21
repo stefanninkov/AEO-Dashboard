@@ -92,7 +92,7 @@ export default function EntryForm({
     width: '100%',
     padding: '0.5rem 0.75rem',
     borderRadius: '0.5rem',
-    border: '1px solid var(--border-subtle)',
+    border: '0.0625rem solid var(--border-subtle)',
     background: 'var(--hover-bg)',
     color: 'var(--text-primary)',
     fontFamily: 'var(--font-body)',
@@ -106,7 +106,7 @@ export default function EntryForm({
     fontSize: '0.6875rem',
     fontWeight: 700,
     textTransform: 'uppercase',
-    letterSpacing: '0.5px',
+    letterSpacing: '0.0313rem',
     color: 'var(--text-tertiary)',
     marginBottom: '0.375rem',
   }
@@ -135,7 +135,7 @@ export default function EntryForm({
         width: '100%',
         maxWidth: '28rem',
         background: 'var(--card-bg)',
-        borderLeft: '1px solid var(--border-subtle)',
+        borderLeft: '0.0625rem solid var(--border-subtle)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -146,7 +146,7 @@ export default function EntryForm({
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '1rem 1.25rem',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: '0.0625rem solid var(--border-subtle)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <CalendarIcon size={16} style={{ color: 'var(--color-phase-1)' }} />
@@ -272,7 +272,7 @@ export default function EntryForm({
                   style={{
                     padding: '0.3125rem 0.625rem',
                     borderRadius: '0.375rem',
-                    border: status === opt.value ? `2px solid ${opt.color}` : '2px solid var(--border-subtle)',
+                    border: status === opt.value ? `0.125rem solid ${opt.color}` : '0.125rem solid var(--border-subtle)',
                     background: status === opt.value ? `${opt.color}18` : 'transparent',
                     color: status === opt.value ? opt.color : 'var(--text-secondary)',
                     fontSize: '0.75rem',
@@ -326,7 +326,7 @@ export default function EntryForm({
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.875rem 1.25rem',
-          borderTop: '1px solid var(--border-subtle)',
+          borderTop: '0.0625rem solid var(--border-subtle)',
           gap: '0.5rem',
         }}>
           {isEditing && onDelete ? (
@@ -335,7 +335,7 @@ export default function EntryForm({
               style={{
                 display: 'flex', alignItems: 'center', gap: '0.375rem',
                 padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
-                border: '1px solid var(--border-subtle)', background: 'transparent',
+                border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
                 color: '#EF4444', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer',
                 fontFamily: 'var(--font-body)',
               }}
@@ -347,7 +347,7 @@ export default function EntryForm({
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button onClick={onClose} style={{
               padding: '0.4375rem 0.875rem', borderRadius: '0.5rem',
-              border: '1px solid var(--border-subtle)', background: 'transparent',
+              border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
               color: 'var(--text-secondary)', fontSize: '0.8125rem', fontWeight: 600,
               cursor: 'pointer', fontFamily: 'var(--font-body)',
             }}>

@@ -29,7 +29,7 @@ const CustomTooltip = memo(function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--bg-card)', border: '1px solid var(--border-default)',
+      background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
       borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.75rem', boxShadow: 'var(--shadow-md)',
     }}>
       <p style={{ color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600 }}>{label}</p>
@@ -296,7 +296,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           <div className="dashboard-card" style={{ padding: '1rem 1.25rem' }}>
             <div style={{
               fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
-              textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
+              textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
               marginBottom: '0.75rem',
             }}>
               {t('dashboard.recentActivity')}
@@ -352,15 +352,15 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 <div style={{ overflowX: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                     <thead>
-                      <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                        <th scope="col" style={{ textAlign: 'left', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('dashboard.engine')}</th>
-                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('dashboard.totalCitations')}</th>
-                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.5px', width: '40%' }}>{t('dashboard.share')}</th>
+                      <tr style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
+                        <th scope="col" style={{ textAlign: 'left', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>{t('dashboard.engine')}</th>
+                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>{t('dashboard.totalCitations')}</th>
+                        <th scope="col" style={{ textAlign: 'right', padding: '0.5rem 0.75rem', fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.0313rem', width: '40%' }}>{t('dashboard.share')}</th>
                       </tr>
                     </thead>
                     <tbody>
                       {allEngineData.map((engine, i) => (
-                        <tr key={i} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                        <tr key={i} style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
                           <td style={{ padding: '0.625rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '0.125rem', background: engine.color, flexShrink: 0 }} />
                             <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{engine.name}</span>
@@ -430,7 +430,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                       const label = typeof prompt === 'string' ? prompt : (prompt.category || prompt.text || prompt.name || 'Unknown')
                       const count = typeof prompt === 'object' ? (prompt.count || prompt.total || 0) : 0
                       return (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 0', borderBottom: i < topPrompts.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 0', borderBottom: i < topPrompts.length - 1 ? '0.0625rem solid var(--border-subtle)' : 'none' }}>
                           <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-disabled)', minWidth: '1.5rem', fontFamily: 'var(--font-mono)' }}>#{i + 1}</span>
                           <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', flex: 1 }}>{label}</span>
                           {count > 0 && (
@@ -496,7 +496,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(12.5rem, 1fr))', gap: '0.75rem' }}>
                   {allEngineData.map((engine, i) => (
-                    <div key={i} className="card" style={{ padding: '0.875rem', border: engine.citations > 0 ? `1px solid ${engine.color}30` : undefined }}>
+                    <div key={i} className="card" style={{ padding: '0.875rem', border: engine.citations > 0 ? `0.0625rem solid ${engine.color}30` : undefined }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                         <div style={{ width: '0.625rem', height: '0.625rem', borderRadius: '0.1875rem', background: engine.color }} />
                         <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{engine.name}</span>

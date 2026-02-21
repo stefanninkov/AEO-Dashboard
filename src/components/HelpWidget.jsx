@@ -62,7 +62,7 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer',
           zIndex: 150,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+          boxShadow: '0 0.25rem 1rem rgba(0,0,0,0.2)',
           transition: 'all 200ms ease',
         }}
         aria-label={open ? t('help.closeWidget') : t('help.openWidget')}
@@ -79,10 +79,10 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
             position: 'fixed',
             bottom: 84, right: 24,
             width: 380,
-            maxWidth: 'calc(100vw - 48px)',
-            maxHeight: 'calc(100vh - 120px)',
+            maxWidth: 'calc(100vw - 3rem)',
+            maxHeight: 'calc(100vh - 7.5rem)',
             background: 'var(--bg-card)',
-            border: '1px solid var(--border-subtle)',
+            border: '0.0625rem solid var(--border-subtle)',
             borderRadius: 16,
             boxShadow: 'var(--shadow-lg)',
             zIndex: 150,
@@ -93,8 +93,8 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
         >
           {/* Header with Tabs */}
           <div style={{
-            padding: '14px 16px 0',
-            borderBottom: '1px solid var(--border-subtle)',
+            padding: '0.875rem 1rem 0',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             flexShrink: 0,
           }}>
             <div style={{ display: 'flex', gap: 0 }}>
@@ -107,12 +107,12 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
                     onClick={() => setActiveTab(tab.id)}
                     style={{
                       flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                      padding: '10px 12px',
+                      padding: '0.625rem 0.75rem',
                       background: 'none', border: 'none', cursor: 'pointer',
                       fontFamily: 'var(--font-body)',
                       fontSize: 12, fontWeight: isActive ? 600 : 500,
                       color: isActive ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
-                      borderBottom: isActive ? '2px solid var(--color-phase-1)' : '2px solid transparent',
+                      borderBottom: isActive ? '0.125rem solid var(--color-phase-1)' : '0.125rem solid transparent',
                       transition: 'all 150ms',
                     }}
                   >

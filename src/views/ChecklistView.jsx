@@ -419,7 +419,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           <ChevronDown size={12} style={{ marginLeft: 'auto', color: 'var(--text-tertiary)', transform: principlesOpen ? 'none' : 'rotate(-90deg)', transition: 'transform 200ms' }} />
         </button>
         {principlesOpen && (
-          <div style={{ padding: '0 1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', borderTop: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: '0 1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', borderTop: '0.0625rem solid var(--border-subtle)' }}>
             {keyPrinciples.map((principle, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', paddingTop: idx === 0 ? '0.75rem' : 0 }}>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', fontWeight: 700, color: 'var(--color-phase-5)', minWidth: '1.25rem', textAlign: 'right', flexShrink: 0, marginTop: '0.0625rem' }}>{idx + 1}.</span>
@@ -503,7 +503,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
       {/* No search results */}
       {debouncedSearch.trim() && filteredPhases.length === 0 && (
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem', border: '2px dashed var(--border-default)' }}>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem', border: '0.125rem dashed var(--border-default)' }}>
           <div style={{ width: '3rem', height: '3rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem' }}>
             <Search size={20} style={{ color: 'var(--text-tertiary)' }} />
           </div>
@@ -514,7 +514,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
       {/* All complete state */}
       {totalProgress.done === totalProgress.total && totalProgress.total > 0 && !searchQuery.trim() && (
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2.5rem 1.5rem', border: '1px solid rgba(46,204,113,0.2)', background: 'rgba(46,204,113,0.03)' }}>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2.5rem 1.5rem', border: '0.0625rem solid rgba(46,204,113,0.2)', background: 'rgba(46,204,113,0.03)' }}>
           <div style={{ width: '3rem', height: '3rem', borderRadius: '50%', background: 'rgba(46,204,113,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem' }}>
             <CheckCircle2 size={24} style={{ color: 'var(--color-success)' }} />
           </div>

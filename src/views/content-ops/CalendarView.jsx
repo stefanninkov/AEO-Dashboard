@@ -15,13 +15,13 @@ function StatCard({ label, value, sub, color }) {
   return (
     <div style={{
       background: 'var(--card-bg)',
-      border: '1px solid var(--border-subtle)',
+      border: '0.0625rem solid var(--border-subtle)',
       borderRadius: '0.75rem',
       padding: '0.875rem 1rem',
       flex: '1 1 0',
       minWidth: '7rem',
     }}>
-      <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+      <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
         {label}
       </div>
       <div style={{ fontSize: '1.375rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: color || 'var(--text-primary)', marginTop: '0.25rem' }}>
@@ -45,8 +45,8 @@ function EntryCard({ entry, compact, onClick, members, t }) {
       style={{
         padding: compact ? '0.25rem 0.375rem' : '0.375rem 0.5rem',
         borderRadius: '0.375rem',
-        border: `1px solid ${overdue ? '#EF4444' : 'var(--border-subtle)'}`,
-        borderLeft: `3px solid ${statusColor}`,
+        border: `0.0625rem solid ${overdue ? '#EF4444' : 'var(--border-subtle)'}`,
+        borderLeft: `0.1875rem solid ${statusColor}`,
         background: overdue ? 'rgba(239,68,68,0.06)' : 'var(--hover-bg)',
         cursor: 'pointer',
         transition: 'transform 100ms, box-shadow 100ms',
@@ -70,7 +70,7 @@ function EntryCard({ entry, compact, onClick, members, t }) {
             fontSize: '0.5625rem',
             fontWeight: 700,
             textTransform: 'uppercase',
-            letterSpacing: '0.5px',
+            letterSpacing: '0.0313rem',
             color: statusColor,
             fontFamily: 'var(--font-heading)',
           }}>
@@ -173,7 +173,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
   ], [t])
 
   const navBtnStyle = {
-    background: 'none', border: '1px solid var(--border-subtle)',
+    background: 'none', border: '0.0625rem solid var(--border-subtle)',
     borderRadius: '0.375rem', cursor: 'pointer', padding: '0.3125rem',
     color: 'var(--text-secondary)', display: 'flex', alignItems: 'center',
   }
@@ -220,7 +220,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {/* Week / Month toggle */}
           <div style={{
-            display: 'flex', borderRadius: '0.5rem', border: '1px solid var(--border-subtle)',
+            display: 'flex', borderRadius: '0.5rem', border: '0.0625rem solid var(--border-subtle)',
             overflow: 'hidden',
           }}>
             {viewModes.map(v => (
@@ -261,8 +261,8 @@ export default function CalendarView({ activeProject, updateProject, user, phase
       {cal.calendarMode === 'week' && (
         <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)',
-          gap: '1px', background: 'var(--border-subtle)', borderRadius: '0.75rem',
-          overflow: 'hidden', border: '1px solid var(--border-subtle)',
+          gap: '0.0625rem', background: 'var(--border-subtle)', borderRadius: '0.75rem',
+          overflow: 'hidden', border: '0.0625rem solid var(--border-subtle)',
         }}>
           {weekDays.map((day, i) => {
             const dateKey = formatDateKey(day)
@@ -284,12 +284,12 @@ export default function CalendarView({ activeProject, updateProject, user, phase
                 {/* Day header */}
                 <div style={{
                   padding: '0.5rem 0.5rem 0.375rem',
-                  borderBottom: '1px solid var(--border-subtle)',
+                  borderBottom: '0.0625rem solid var(--border-subtle)',
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 }}>
                   <span style={{
                     fontSize: '0.625rem', fontFamily: 'var(--font-heading)', fontWeight: 700,
-                    textTransform: 'uppercase', letterSpacing: '0.5px',
+                    textTransform: 'uppercase', letterSpacing: '0.0313rem',
                     color: today ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
                   }}>
                     {dayNames[i]}
@@ -332,13 +332,13 @@ export default function CalendarView({ activeProject, updateProject, user, phase
           {/* Header */}
           <div style={{
             display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 0,
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
           }}>
             {dayNames.map(d => (
               <div key={d} style={{
                 padding: '0.375rem', textAlign: 'center',
                 fontSize: '0.625rem', fontFamily: 'var(--font-heading)', fontWeight: 700,
-                textTransform: 'uppercase', letterSpacing: '0.5px',
+                textTransform: 'uppercase', letterSpacing: '0.0313rem',
                 color: 'var(--text-tertiary)',
               }}>
                 {d}
@@ -349,11 +349,11 @@ export default function CalendarView({ activeProject, updateProject, user, phase
           {/* Weeks grid */}
           <div style={{
             display: 'grid', gridTemplateRows: `repeat(${monthWeeks.length}, 1fr)`,
-            gap: '1px', background: 'var(--border-subtle)', borderRadius: '0 0 0.75rem 0.75rem',
-            overflow: 'hidden', border: '1px solid var(--border-subtle)', borderTop: 'none',
+            gap: '0.0625rem', background: 'var(--border-subtle)', borderRadius: '0 0 0.75rem 0.75rem',
+            overflow: 'hidden', border: '0.0625rem solid var(--border-subtle)', borderTop: 'none',
           }}>
             {monthWeeks.map((week, wi) => (
-              <div key={wi} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '1px' }}>
+              <div key={wi} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.0625rem' }}>
                 {week.map((day, di) => {
                   const dateKey = formatDateKey(day)
                   const dayEntries = cal.entriesByDate[dateKey] || []

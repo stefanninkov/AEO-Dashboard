@@ -109,7 +109,7 @@ export default function AdminWaitlist({ user }) {
   if (loading) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '2px solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading waitlist...</p>
       </div>
     )
@@ -204,7 +204,7 @@ export default function AdminWaitlist({ user }) {
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.875rem',
             padding: '0.75rem 1.25rem',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             background: 'var(--hover-bg)',
             fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)',
             textTransform: 'uppercase', letterSpacing: '0.04rem',
@@ -231,7 +231,7 @@ export default function AdminWaitlist({ user }) {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.875rem',
                   padding: '0.75rem 1.25rem',
-                  borderBottom: '1px solid var(--border-subtle)',
+                  borderBottom: '0.0625rem solid var(--border-subtle)',
                   transition: 'background 150ms',
                 }}
               >
@@ -279,7 +279,7 @@ export default function AdminWaitlist({ user }) {
                       <button
                         onClick={() => handleStatusChange(entry.id, 'converted')}
                         style={{
-                          background: 'none', border: '1px solid var(--border-subtle)', borderRadius: '0.375rem',
+                          background: 'none', border: '0.0625rem solid var(--border-subtle)', borderRadius: '0.375rem',
                           padding: '0.125rem 0.375rem', fontSize: '0.5625rem', fontWeight: 600,
                           color: '#3B82F6', cursor: 'pointer', fontFamily: 'var(--font-body)',
                         }}

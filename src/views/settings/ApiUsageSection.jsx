@@ -82,7 +82,7 @@ export default function ApiUsageSection() {
                   flex: 1,
                   padding: '0.75rem 1rem',
                   borderRadius: '0.625rem',
-                  border: `1.5px solid ${isActive ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
+                  border: `0.0938rem solid ${isActive ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
                   background: isActive ? 'rgba(99,102,241,0.06)' : 'var(--bg-input)',
                   cursor: 'pointer',
                   textAlign: 'left',
@@ -118,7 +118,7 @@ export default function ApiUsageSection() {
             padding: '0.625rem 0.875rem',
             borderRadius: '0.5rem',
             background: 'rgba(245,158,11,0.08)',
-            border: '1px solid rgba(245,158,11,0.15)',
+            border: '0.0625rem solid rgba(245,158,11,0.15)',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '0.5rem',
@@ -227,12 +227,12 @@ export default function ApiUsageSection() {
               padding: '0.875rem',
               borderRadius: '0.625rem',
               background: 'var(--bg-input)',
-              border: '1px solid var(--border-subtle)',
+              border: '0.0625rem solid var(--border-subtle)',
             }}>
               <div style={{
                 fontSize: '0.6875rem', color: 'var(--text-tertiary)',
                 fontWeight: 500, marginBottom: '0.5rem', textTransform: 'uppercase',
-                letterSpacing: '0.5px',
+                letterSpacing: '0.0313rem',
               }}>
                 {label}
               </div>
@@ -261,12 +261,12 @@ export default function ApiUsageSection() {
         <div style={{ padding: '0 1.25rem 1rem' }}>
           <div style={{
             fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 500,
-            marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.5px',
+            marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.0313rem',
           }}>
             Last 30 Days
           </div>
           <div style={{
-            display: 'flex', alignItems: 'flex-end', gap: '2px',
+            display: 'flex', alignItems: 'flex-end', gap: '0.125rem',
             height: '4rem', padding: '0',
           }}>
             {history.map((day, i) => {
@@ -280,7 +280,7 @@ export default function ApiUsageSection() {
                     flex: 1,
                     height: `${height}%`,
                     background: day.calls > 0 ? 'var(--color-phase-1)' : 'var(--border-subtle)',
-                    borderRadius: '2px 2px 0 0',
+                    borderRadius: '0.125rem 0.125rem 0 0',
                     transition: 'height 0.2s ease',
                     opacity: day.calls > 0 ? 1 : 0.3,
                     cursor: 'default',
@@ -296,7 +296,7 @@ export default function ApiUsageSection() {
           <div style={{ padding: '0 1.25rem 1rem' }}>
             <div style={{
               fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 500,
-              marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.5px',
+              marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.0313rem',
             }}>
               By Model (This Month)
             </div>

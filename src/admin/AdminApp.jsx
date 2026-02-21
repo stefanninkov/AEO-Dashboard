@@ -31,7 +31,7 @@ function LoadingScreen() {
         <div style={{
           width: '2rem',
           height: '2rem',
-          border: '2px solid var(--color-phase-1)',
+          border: '0.125rem solid var(--color-phase-1)',
           borderTopColor: 'transparent',
           borderRadius: '50%',
           animation: 'spin 1s linear infinite',
@@ -123,7 +123,7 @@ function NotConfigured({ user }) {
           padding: '1rem',
           borderRadius: '0.75rem',
           background: 'rgba(245,158,11,0.08)',
-          border: '1px solid rgba(245,158,11,0.15)',
+          border: '0.0625rem solid rgba(245,158,11,0.15)',
         }}>
           <AlertCircle size={20} style={{ color: 'var(--color-warning)', marginTop: '0.125rem', flexShrink: 0 }} />
           <div>
@@ -153,7 +153,7 @@ function NotConfigured({ user }) {
               padding: '0.5rem 0.75rem',
               borderRadius: '0.5rem',
               background: 'var(--bg-input)',
-              border: '1px solid var(--border-subtle)',
+              border: '0.0625rem solid var(--border-subtle)',
               marginBottom: '1rem',
             }}>
               <code style={{
@@ -168,7 +168,7 @@ function NotConfigured({ user }) {
                 onClick={handleCopy}
                 style={{
                   background: 'none',
-                  border: '1px solid var(--border-subtle)',
+                  border: '0.0625rem solid var(--border-subtle)',
                   borderRadius: '0.375rem',
                   padding: '0.25rem 0.5rem',
                   fontSize: '0.6875rem',

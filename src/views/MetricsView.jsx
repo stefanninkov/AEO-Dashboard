@@ -19,10 +19,10 @@ function MetricCard({ title, value, change, changeLabel, icon, iconBg, iconColor
   return (
     <div
       className="rounded-xl p-[1.125rem] transition-all duration-200 fade-in-up"
-      style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)', animationDelay: `${delay}ms` }}
+      style={{ backgroundColor: 'var(--bg-card)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)', animationDelay: `${delay}ms` }}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[0.6875rem] text-text-tertiary uppercase tracking-[0.5px]">{title}</span>
+        <span className="text-[0.6875rem] text-text-tertiary uppercase tracking-[0.0313rem]">{title}</span>
         {icon && (
           <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${iconBg}`}>
             {icon}
@@ -52,7 +52,7 @@ function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--bg-card)', border: '1px solid var(--border-default)',
+      background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
       borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.75rem', boxShadow: 'var(--shadow-md)',
     }}>
       <p style={{ color: 'var(--text-tertiary)', marginBottom: '0.25rem', fontWeight: 600 }}>{label}</p>
@@ -149,7 +149,7 @@ function DataTable({ columns, rows }) {
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+          <tr style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
             {columns.map((col, i) => (
               <th scope="col" key={i} className={`py-3 px-3 text-xs font-heading font-semibold text-text-tertiary uppercase tracking-wider ${col.align === 'right' ? 'text-right' : 'text-left'}`}>
                 {col.label}
@@ -159,7 +159,7 @@ function DataTable({ columns, rows }) {
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i} className="transition-colors" style={{ borderBottom: '1px solid color-mix(in srgb, var(--border-subtle) 50%, transparent)' }}>
+            <tr key={i} className="transition-colors" style={{ borderBottom: '0.0625rem solid color-mix(in srgb, var(--border-subtle) 50%, transparent)' }}>
               {columns.map((col, j) => (
                 <td key={j} className={`py-3 px-3 ${col.align === 'right' ? 'text-right tabular-nums' : ''}`}>
                   {col.render ? col.render(row) : row[col.key]}

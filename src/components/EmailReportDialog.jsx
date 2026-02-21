@@ -117,7 +117,7 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
             <div style={{
               padding: '0.5rem 0.75rem',
               background: 'rgba(255,107,53,0.08)',
-              border: '1px solid rgba(255,107,53,0.2)',
+              border: '0.0625rem solid rgba(255,107,53,0.2)',
               borderRadius: '0.5rem',
               fontSize: '0.75rem',
               color: 'var(--color-phase-1)',

@@ -100,7 +100,7 @@ function SplashScreen({ onComplete }) {
           Answer Engine Optimization
         </p>
       </div>
-      <div className="w-40 h-[3px] rounded-full mt-6 overflow-hidden" style={{ background: 'var(--border-subtle)' }}>
+      <div className="w-40 h-[0.1875rem] rounded-full mt-6 overflow-hidden" style={{ background: 'var(--border-subtle)' }}>
         <div
           className="h-full rounded-full"
           style={{

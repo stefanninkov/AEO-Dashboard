@@ -130,7 +130,7 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
           <span style={labelStyle}>{t('projectData.resetChecklist')}</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {!resetChecklistConfirm ? (
-              <button onClick={handleResetChecklist} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.4375rem 0.875rem', background: 'none', border: '1px solid var(--color-error)', borderRadius: '0.625rem', color: 'var(--color-error)', fontSize: '0.75rem', fontWeight: 500, fontFamily: 'var(--font-body)', cursor: 'pointer', transition: 'all 150ms ease' }}>
+              <button onClick={handleResetChecklist} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.4375rem 0.875rem', background: 'none', border: '0.0625rem solid var(--color-error)', borderRadius: '0.625rem', color: 'var(--color-error)', fontSize: '0.75rem', fontWeight: 500, fontFamily: 'var(--font-body)', cursor: 'pointer', transition: 'all 150ms ease' }}>
                 <RotateCcw size={13} /> {t('projectData.resetAllChecklistProgress')}
               </button>
             ) : (

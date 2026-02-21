@@ -602,7 +602,7 @@ function ComparisonContent({ content }) {
             <div className="cw-option-header">
               <h4 className="cw-option-name">{opt.name}</h4>
               {opt.rating && (
-                <span className="cw-option-rating" style={{ display: 'inline-flex', gap: '1px' }}>
+                <span className="cw-option-rating" style={{ display: 'inline-flex', gap: '0.0625rem' }}>
                   {Array.from({ length: 5 }, (_, i) => (
                     <Star
                       key={i}

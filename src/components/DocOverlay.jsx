@@ -52,7 +52,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
         aria-labelledby="doc-overlay-title"
         style={{
           background: 'var(--bg-card)',
-          border: '1px solid var(--border-subtle)',
+          border: '0.0625rem solid var(--border-subtle)',
           zIndex: 'var(--z-modal)',
           boxShadow: 'var(--shadow-lg)',
           animation: isClosing
@@ -63,7 +63,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
         onAnimationEnd={() => isClosing && onExited?.()}
       >
         {/* Header */}
-        <div className="px-6 py-4 flex items-start gap-3 flex-shrink-0" style={{ background: 'var(--bg-card)', borderBottom: '1px solid var(--border-subtle)' }}>
+        <div className="px-6 py-4 flex items-start gap-3 flex-shrink-0" style={{ background: 'var(--bg-card)', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg text-text-tertiary hover:text-text-primary transition-all duration-150 flex-shrink-0 mt-0.5 active:scale-95"
@@ -101,7 +101,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
         </div>
 
         {/* Footer — task reference + action button */}
-        <div className="px-6 py-4 flex-shrink-0" style={{ borderTop: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+        <div className="px-6 py-4 flex-shrink-0" style={{ borderTop: '0.0625rem solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
           <p className="text-xs text-text-tertiary" style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {t('docOverlay.task')} {item?.text}
           </p>
@@ -133,7 +133,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
                 padding: '0.4375rem 0.875rem', borderRadius: '0.5rem',
-                border: `1px solid ${phaseColor}40`,
+                border: `0.0625rem solid ${phaseColor}40`,
                 background: phaseColor + '10', color: phaseColor,
                 fontSize: '0.75rem', fontWeight: 600,
                 fontFamily: 'var(--font-body)',

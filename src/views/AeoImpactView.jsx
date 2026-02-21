@@ -383,7 +383,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
                   gridTemplateColumns: '1fr 4rem 3.5rem 3.5rem 4rem 3.5rem',
                   gap: '0.5rem',
                   padding: '0.5rem 1.25rem',
-                  borderBottom: '1px solid var(--border-subtle)',
+                  borderBottom: '0.0625rem solid var(--border-subtle)',
                   background: 'var(--hover-bg)',
                 }}>
                   {[t('impact.colPage'), t('impact.colGscClicks'), t('impact.colPosition'), t('impact.colCtr'), t('impact.colAiSessions'), t('impact.colAiUsers')].map(h => (
@@ -401,7 +401,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
                       gridTemplateColumns: '1fr 4rem 3.5rem 3.5rem 4rem 3.5rem',
                       gap: '0.5rem',
                       padding: '0.5rem 1.25rem',
-                      borderBottom: '1px solid var(--border-subtle)',
+                      borderBottom: '0.0625rem solid var(--border-subtle)',
                       alignItems: 'center',
                       fontSize: '0.8125rem',
                       transition: 'background 100ms',

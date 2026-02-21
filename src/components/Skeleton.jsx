@@ -56,7 +56,7 @@ export function DashboardSkeleton() {
       <div className="card fade-in-up" style={{ padding: '1rem', animationDelay: '300ms' }}>
         <Skeleton width="10rem" height="0.625rem" style={{ marginBottom: '1rem' }} />
         {[0, 1, 2, 3].map(i => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.625rem 0', borderBottom: i < 3 ? '1px solid var(--border-subtle)' : 'none' }}>
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.625rem 0', borderBottom: i < 3 ? '0.0625rem solid var(--border-subtle)' : 'none' }}>
             <Skeleton width="1.5rem" height="1.5rem" borderRadius="0.375rem" />
             <div style={{ flex: 1 }}>
               <Skeleton width={`${60 + i * 8}%`} height="0.75rem" style={{ marginBottom: '0.25rem' }} />
@@ -204,7 +204,7 @@ export function TestingSkeleton() {
             <Skeleton width="3rem" height="0.75rem" />
           </div>
           {[0, 1, 2].map(j => (
-            <div key={j} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', padding: '0.5rem 0', borderTop: '1px solid var(--border-subtle)' }}>
+            <div key={j} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', padding: '0.5rem 0', borderTop: '0.0625rem solid var(--border-subtle)' }}>
               <Skeleton width="1rem" height="1rem" borderRadius="50%" />
               <Skeleton width={`${60 + j * 10}%`} height="0.625rem" />
               <Skeleton width="2.5rem" height="1.25rem" borderRadius="99rem" style={{ marginLeft: 'auto' }} />

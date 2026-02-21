@@ -80,7 +80,7 @@ function FeatureBadge({ label, used }) {
       padding: '0.125rem 0.5rem', borderRadius: 6,
       background: used ? 'rgba(16,185,129,0.1)' : 'var(--hover-bg)',
       color: used ? '#10B981' : 'var(--text-disabled)',
-      border: `1px solid ${used ? 'rgba(16,185,129,0.2)' : 'var(--border-subtle)'}`,
+      border: `0.0625rem solid ${used ? 'rgba(16,185,129,0.2)' : 'var(--border-subtle)'}`,
     }}>
       {used ? '\u2713' : '\u2717'} {label}
     </span>
@@ -172,7 +172,7 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
             style={{
               display: 'flex', alignItems: 'center', gap: '0.375rem',
               padding: '0.375rem 0.625rem', borderRadius: '0.375rem',
-              border: '1px solid var(--border-subtle)', background: 'none',
+              border: '0.0625rem solid var(--border-subtle)', background: 'none',
               cursor: 'pointer', color: 'var(--text-secondary)',
               fontSize: '0.6875rem', fontWeight: 500, transition: 'all 100ms',
             }}
@@ -248,7 +248,7 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
               <div key={p.id} style={{
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
                 padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-                background: 'var(--bg-input)', border: '1px solid var(--border-subtle)',
+                background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)',
               }}>
                 <FolderKanban size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -283,7 +283,7 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
           <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.05rem', marginBottom: '0.5rem' }}>
             Activity Timeline
           </div>
-          <div style={{ maxHeight: '14rem', overflowY: 'auto', borderLeft: '2px solid var(--border-subtle)', marginLeft: '0.5rem', paddingLeft: '1rem' }}>
+          <div style={{ maxHeight: '14rem', overflowY: 'auto', borderLeft: '0.125rem solid var(--border-subtle)', marginLeft: '0.5rem', paddingLeft: '1rem' }}>
             {timeline.map((event, i) => (
               <div key={i} style={{ padding: '0.375rem 0', position: 'relative' }}>
                 {/* Timeline dot */}
@@ -291,7 +291,7 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
                   position: 'absolute', left: '-1.325rem', top: '0.6rem',
                   width: 8, height: 8, borderRadius: '50%',
                   background: event.type === 'signup' ? '#10B981' : event.type === 'project' ? '#3B82F6' : 'var(--text-disabled)',
-                  border: '2px solid var(--bg-card)',
+                  border: '0.125rem solid var(--bg-card)',
                 }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
                   <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
@@ -408,7 +408,7 @@ export default function AdminUsers({ user }) {
   if (loading && !stats) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '2px solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading users...</p>
       </div>
     )
@@ -457,7 +457,7 @@ export default function AdminUsers({ user }) {
               fontFamily: 'var(--font-body)',
               background: statusFilter === pill.key ? (pill.color ? `${pill.color}15` : 'var(--hover-bg)') : 'transparent',
               color: statusFilter === pill.key ? (pill.color || 'var(--text-primary)') : 'var(--text-tertiary)',
-              border: statusFilter === pill.key ? `1.5px solid ${pill.color || 'var(--border-subtle)'}` : '1.5px solid transparent',
+              border: statusFilter === pill.key ? `0.0938rem solid ${pill.color || 'var(--border-subtle)'}` : '0.0938rem solid transparent',
               transition: 'all 150ms',
             }}
           >
@@ -516,14 +516,14 @@ export default function AdminUsers({ user }) {
                       textTransform: 'uppercase', letterSpacing: '0.06rem',
                       color: sortKey === col.key ? 'var(--text-primary)' : 'var(--text-disabled)',
                       textAlign: 'left', padding: '0.625rem 1.25rem',
-                      borderBottom: '1px solid var(--border-subtle)', cursor: 'pointer', userSelect: 'none', whiteSpace: 'nowrap',
+                      borderBottom: '0.0625rem solid var(--border-subtle)', cursor: 'pointer', userSelect: 'none', whiteSpace: 'nowrap',
                     }}
                   >
                     {col.label}
                     {sortKey === col.key && (
                       sortDir === 'asc'
-                        ? <ChevronUp size={12} style={{ display: 'inline', verticalAlign: '-2px', marginLeft: '0.25rem' }} />
-                        : <ChevronDown size={12} style={{ display: 'inline', verticalAlign: '-2px', marginLeft: '0.25rem' }} />
+                        ? <ChevronUp size={12} style={{ display: 'inline', verticalAlign: '-0.125rem', marginLeft: '0.25rem' }} />
+                        : <ChevronDown size={12} style={{ display: 'inline', verticalAlign: '-0.125rem', marginLeft: '0.25rem' }} />
                     )}
                   </th>
                 ))}
@@ -539,7 +539,7 @@ export default function AdminUsers({ user }) {
                     key={u.id}
                     onClick={() => setSelectedUserId(isSelected ? null : u.id)}
                     style={{
-                      borderBottom: '1px solid var(--border-subtle)', cursor: 'pointer',
+                      borderBottom: '0.0625rem solid var(--border-subtle)', cursor: 'pointer',
                       background: isSelected ? 'var(--hover-bg)' : 'transparent',
                     }}
                     onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'var(--hover-bg)' }}

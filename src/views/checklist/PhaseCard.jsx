@@ -56,7 +56,7 @@ export default memo(function PhaseCard({
         <span style={{ fontSize: '1.125rem' }}>{phase.icon}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: phase.color }}>
+            <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.0625rem', color: phase.color }}>
               Phase {phase.number}
             </span>
             <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{phase.timeline}</span>
@@ -96,10 +96,10 @@ export default memo(function PhaseCard({
 
       {/* Phase Content — Animated */}
       <CollapsibleContent expanded={isExpanded}>
-        <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div style={{ borderTop: '0.0625rem solid var(--border-subtle)' }}>
           {/* Phase-level actions */}
           {phase.categories.length > 0 && (
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', padding: '0.375rem 1rem', borderBottom: '1px solid var(--border-subtle)' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', padding: '0.375rem 1rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
               {onBulkCheckPhase && progress.percent < 100 && (
                 <button className="checklist-bulk-link" onClick={() => onBulkCheckPhase(phase)}>
                   Mark all phase tasks
@@ -163,7 +163,7 @@ export default memo(function PhaseCard({
               display: 'flex', alignItems: 'flex-start', gap: '0.5rem',
               padding: '0.625rem 1rem', margin: '0',
               background: phase.color + '08',
-              borderTop: '1px solid var(--border-subtle)',
+              borderTop: '0.0625rem solid var(--border-subtle)',
             }}>
               <Target size={12} style={{ color: phase.color, flexShrink: 0, marginTop: '0.125rem' }} />
               <p style={{ fontSize: '0.75rem', lineHeight: 1.5 }}>

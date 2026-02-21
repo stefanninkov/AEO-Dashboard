@@ -60,9 +60,9 @@ function ChartTooltip({ active, payload }) {
   const d = payload[0]
   return (
     <div style={{
-      background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+      background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
       borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.75rem',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+      boxShadow: '0 0.25rem 0.75rem rgba(0,0,0,0.12)',
     }}>
       <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
         {d.name}: {d.value}%
@@ -75,9 +75,9 @@ function LineTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+      background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
       borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.75rem',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+      boxShadow: '0 0.25rem 0.75rem rgba(0,0,0,0.12)',
     }}>
       <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>{label}</div>
       {payload.map((p, i) => (
@@ -226,7 +226,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
             onClick={() => setShowSettings(!showSettings)}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
-              padding: '0.375rem 0.625rem', border: '1px solid var(--border-subtle)',
+              padding: '0.375rem 0.625rem', border: '0.0625rem solid var(--border-subtle)',
               borderRadius: '0.5rem', cursor: 'pointer', background: 'transparent',
               fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--text-secondary)',
             }}
@@ -246,7 +246,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
         <div style={{
           display: 'flex', alignItems: 'center', gap: '0.5rem',
           padding: '0.625rem 0.875rem', borderRadius: '0.5rem',
-          background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.2)',
+          background: 'rgba(239, 68, 68, 0.08)', border: '0.0625rem solid rgba(239, 68, 68, 0.2)',
           fontSize: '0.8125rem', color: 'var(--color-error)',
         }}>
           <AlertTriangle size={14} /> {error}
@@ -256,7 +256,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
       {/* ── Settings Panel ── */}
       {showSettings && (
         <div style={{
-          background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
           borderRadius: '0.75rem', padding: '1rem 1.25rem',
         }}>
           <h3 style={{
@@ -289,7 +289,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                   position: 'absolute', top: 2, width: 18, height: 18, borderRadius: '50%',
                   background: '#fff', transition: 'left 200ms',
                   left: settings.brandMonitorEnabled ? 20 : 2,
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
+                  boxShadow: '0 0.0625rem 0.1875rem rgba(0,0,0,0.15)',
                 }} />
               </button>
             </div>
@@ -304,7 +304,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                   value={settings.brandMonitorInterval || '7d'}
                   onChange={e => updateSettings('brandMonitorInterval', e.target.value)}
                   style={{
-                    padding: '0.25rem 0.5rem', border: '1px solid var(--border-subtle)',
+                    padding: '0.25rem 0.5rem', border: '0.0625rem solid var(--border-subtle)',
                     borderRadius: '0.375rem', fontSize: '0.75rem', fontFamily: 'var(--font-body)',
                     background: 'var(--card-bg)', color: 'var(--text-primary)',
                   }}
@@ -325,7 +325,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
           {/* Pie Chart */}
           {pieData.length > 0 && (
             <div style={{
-              background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+              background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
               borderRadius: '0.75rem', padding: '1rem 1.25rem',
             }}>
               <h3 style={{
@@ -384,7 +384,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
 
           {/* Summary Stats */}
           <div style={{
-            background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+            background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
             borderRadius: '0.75rem', padding: '1rem 1.25rem',
           }}>
             <h3 style={{
@@ -436,7 +436,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
       {/* ── Share Trend Chart ── */}
       {trendData.length > 1 && (
         <div style={{
-          background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
           borderRadius: '0.75rem', padding: '1rem 1.25rem',
         }}>
           <h3 style={{
@@ -485,7 +485,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
       {/* ── Engine Breakdown Grid ── */}
       {engineBreakdown.length > 0 && (
         <div style={{
-          background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
           borderRadius: '0.75rem', padding: '1rem 1.25rem',
         }}>
           <h3 style={{
@@ -502,7 +502,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                   <th scope="col" style={{
                     textAlign: 'left', padding: '0.5rem 0.625rem',
                     fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.625rem',
-                    color: 'var(--text-tertiary)', borderBottom: '1px solid var(--border-subtle)',
+                    color: 'var(--text-tertiary)', borderBottom: '0.0625rem solid var(--border-subtle)',
                   }}>
                     Brand
                   </th>
@@ -511,7 +511,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                       textAlign: 'center', padding: '0.5rem 0.5rem',
                       fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.625rem',
                       color: ENGINE_COLORS[engine] || 'var(--text-tertiary)',
-                      borderBottom: '1px solid var(--border-subtle)',
+                      borderBottom: '0.0625rem solid var(--border-subtle)',
                       whiteSpace: 'nowrap',
                     }}>
                       {engine}
@@ -520,7 +520,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                   <th scope="col" style={{
                     textAlign: 'center', padding: '0.5rem 0.625rem',
                     fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.625rem',
-                    color: 'var(--text-tertiary)', borderBottom: '1px solid var(--border-subtle)',
+                    color: 'var(--text-tertiary)', borderBottom: '0.0625rem solid var(--border-subtle)',
                   }}>
                     Total
                   </th>
@@ -573,7 +573,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
       {/* ── Query Results ── */}
       {latestSnapshot?.queryResults?.length > 0 && (
         <div style={{
-          background: 'var(--card-bg)', border: '1px solid var(--border-subtle)',
+          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
           borderRadius: '0.75rem', padding: '1rem 1.25rem',
         }}>
           <h3 style={{
@@ -595,7 +595,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                     onClick={() => setExpandedQuery(isExpanded ? null : idx)}
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      width: '100%', padding: '0.5rem 0.625rem', border: '1px solid var(--border-subtle)',
+                      width: '100%', padding: '0.5rem 0.625rem', border: '0.0625rem solid var(--border-subtle)',
                       borderRadius: isExpanded ? '0.5rem 0.5rem 0 0' : '0.5rem',
                       cursor: 'pointer', background: 'var(--hover-bg)',
                       fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--text-primary)',
@@ -619,7 +619,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                   {isExpanded && (
                     <div style={{
                       padding: '0.625rem 0.75rem',
-                      border: '1px solid var(--border-subtle)', borderTop: 'none',
+                      border: '0.0625rem solid var(--border-subtle)', borderTop: 'none',
                       borderRadius: '0 0 0.5rem 0.5rem', background: 'var(--card-bg)',
                     }}>
                       {Object.entries(qr.brands || {}).map(([id, data]) => {

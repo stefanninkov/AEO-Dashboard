@@ -10,7 +10,7 @@ const kbdStyle = {
   padding: '0.1875rem 0.4375rem',
   borderRadius: '0.25rem',
   background: 'var(--hover-bg)',
-  border: '1px solid var(--border-subtle)',
+  border: '0.0625rem solid var(--border-subtle)',
   color: 'var(--text-secondary)',
   minWidth: '1.5rem',
   textAlign: 'center',
@@ -65,8 +65,8 @@ export default function KeyboardShortcutsModal({ isOpen, isClosing, onClose, onE
         className="absolute inset-0"
         style={{
           backgroundColor: 'var(--bg-overlay)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(0.5rem)',
+          WebkitBackdropFilter: 'blur(0.5rem)',
           animation: isClosing
             ? 'backdrop-fade-out 150ms ease-out forwards'
             : 'backdrop-fade-in 200ms ease-out both',
@@ -87,9 +87,9 @@ export default function KeyboardShortcutsModal({ isOpen, isClosing, onClose, onE
           maxHeight: '85vh',
           overflowY: 'auto',
           background: 'var(--bg-card)',
-          border: '1px solid var(--border-subtle)',
+          border: '0.0625rem solid var(--border-subtle)',
           borderRadius: '0.75rem',
-          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+          boxShadow: '0 1.5625rem 3.125rem -0.75rem rgba(0,0,0,0.25)',
           zIndex: 'var(--z-modal)',
           animation: isClosing
             ? 'dialog-scale-out 150ms ease-out forwards'
@@ -100,7 +100,7 @@ export default function KeyboardShortcutsModal({ isOpen, isClosing, onClose, onE
         {/* Header */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '1rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+          padding: '1rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Keyboard size={16} style={{ color: 'var(--color-phase-1)' }} />
@@ -142,7 +142,7 @@ export default function KeyboardShortcutsModal({ isOpen, isClosing, onClose, onE
                 <div key={si} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   padding: '0.375rem 0',
-                  borderBottom: si < group.shortcuts.length - 1 ? '1px solid var(--border-subtle)' : 'none',
+                  borderBottom: si < group.shortcuts.length - 1 ? '0.0625rem solid var(--border-subtle)' : 'none',
                 }}>
                   <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>{s.desc}</span>
                   <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
@@ -163,7 +163,7 @@ export default function KeyboardShortcutsModal({ isOpen, isClosing, onClose, onE
 
         {/* Footer */}
         <div style={{
-          padding: '0.75rem 1.25rem', borderTop: '1px solid var(--border-subtle)',
+          padding: '0.75rem 1.25rem', borderTop: '0.0625rem solid var(--border-subtle)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>

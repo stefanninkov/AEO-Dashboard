@@ -29,11 +29,11 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
       <div style={sectionTitleStyle}><Zap size={15} /> {t('webhooks.title')}</div>
 
       {/* Info banner */}
-      <div style={{ padding: '0.875rem 1.25rem', borderBottom: '1px solid var(--border-subtle)' }}>
+      <div style={{ padding: '0.875rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: '0 0 0.625rem', lineHeight: 1.5 }}>
           {t('webhooks.description')}
         </p>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', padding: '0.5rem 0.75rem', background: 'rgba(14, 165, 233, 0.06)', borderRadius: '0.5rem', border: '1px solid rgba(14, 165, 233, 0.12)', fontSize: '0.6875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', padding: '0.5rem 0.75rem', background: 'rgba(14, 165, 233, 0.06)', borderRadius: '0.5rem', border: '0.0625rem solid rgba(14, 165, 233, 0.12)', fontSize: '0.6875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
           <Plug size={13} style={{ flexShrink: 0, marginTop: '0.125rem', color: 'var(--color-phase-3)' }} />
           <span>
             {t('webhooks.compatibilityInfo')}
@@ -52,7 +52,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
 
       {/* Webhook Form (Add or Edit) */}
       {(webhookFormOpen || editingWebhookId) && (
-        <div style={{ padding: '0.875rem 1.25rem', borderBottom: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+        <div style={{ padding: '0.875rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
           <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: '10rem' }}>
               <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>{t('webhooks.name')}</label>
@@ -76,12 +76,12 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
           <div>
             <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.375rem' }}>{t('webhooks.events')}</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', background: webhookEvents.includes('*') ? 'rgba(255, 107, 53, 0.1)' : 'var(--hover-bg)', border: `1px solid ${webhookEvents.includes('*') ? 'var(--color-phase-1)' : 'var(--border-subtle)'}` }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', background: webhookEvents.includes('*') ? 'rgba(255, 107, 53, 0.1)' : 'var(--hover-bg)', border: `0.0625rem solid ${webhookEvents.includes('*') ? 'var(--color-phase-1)' : 'var(--border-subtle)'}` }}>
                 <input type="checkbox" checked={webhookEvents.includes('*')} onChange={(e) => setWebhookEvents(e.target.checked ? ['*'] : [])} style={{ accentColor: 'var(--color-phase-1)' }} />
                 {t('webhooks.allEvents')}
               </label>
               {!webhookEvents.includes('*') && Object.entries(WEBHOOK_EVENT_GROUPS).map(([key, group]) => (
-                <label key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', background: webhookEvents.includes(key) ? 'rgba(14, 165, 233, 0.08)' : 'var(--hover-bg)', border: `1px solid ${webhookEvents.includes(key) ? 'var(--color-phase-3)' : 'var(--border-subtle)'}` }}>
+                <label key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', background: webhookEvents.includes(key) ? 'rgba(14, 165, 233, 0.08)' : 'var(--hover-bg)', border: `0.0625rem solid ${webhookEvents.includes(key) ? 'var(--color-phase-3)' : 'var(--border-subtle)'}` }}>
                   <input type="checkbox" checked={webhookEvents.includes(key)} onChange={(e) => { if (e.target.checked) { setWebhookEvents([...webhookEvents, key]) } else { setWebhookEvents(webhookEvents.filter(ev => ev !== key)) } }} style={{ accentColor: 'var(--color-phase-3)' }} />
                   {group.label}
                 </label>
@@ -113,7 +113,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
 
       {/* Webhook List */}
       {webhooks.map((webhook, idx) => (
-        <div key={webhook.id} style={{ padding: '0.75rem 1.25rem', borderBottom: idx < webhooks.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
+        <div key={webhook.id} style={{ padding: '0.75rem 1.25rem', borderBottom: idx < webhooks.length - 1 ? '0.0625rem solid var(--border-subtle)' : 'none' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', flexWrap: 'wrap' }}>
             {/* Status dot */}
             <span style={{ width: 8, height: 8, borderRadius: '50%', flexShrink: 0, background: !webhook.enabled ? 'var(--text-disabled)' : webhook.lastStatus === 'success' ? 'var(--color-success)' : webhook.lastStatus === 'error' ? 'var(--color-error)' : 'var(--color-phase-5)' }} />
@@ -125,7 +125,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
             </div>
 
             {/* Format badge */}
-            <span style={{ fontSize: '0.625rem', fontWeight: 700, fontFamily: 'var(--font-heading)', padding: '0.125rem 0.375rem', borderRadius: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.5px', background: webhook.format === 'slack' ? 'rgba(74, 21, 75, 0.1)' : webhook.format === 'discord' ? 'rgba(88, 101, 242, 0.1)' : 'var(--hover-bg)', color: webhook.format === 'slack' ? '#4A154B' : webhook.format === 'discord' ? '#5865F2' : 'var(--text-tertiary)' }}>{webhook.format}</span>
+            <span style={{ fontSize: '0.625rem', fontWeight: 700, fontFamily: 'var(--font-heading)', padding: '0.125rem 0.375rem', borderRadius: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.0313rem', background: webhook.format === 'slack' ? 'rgba(74, 21, 75, 0.1)' : webhook.format === 'discord' ? 'rgba(88, 101, 242, 0.1)' : 'var(--hover-bg)', color: webhook.format === 'slack' ? '#4A154B' : webhook.format === 'discord' ? '#5865F2' : 'var(--text-tertiary)' }}>{webhook.format}</span>
 
             {/* Event count badge */}
             <span style={{ fontSize: '0.625rem', fontWeight: 600, fontFamily: 'var(--font-heading)', padding: '0.125rem 0.375rem', borderRadius: '0.625rem', background: 'rgba(14, 165, 233, 0.08)', color: 'var(--color-phase-3)' }}>

@@ -260,7 +260,7 @@ export default function TestingView({ activeProject, updateProject }) {
                 {monitorHistory.slice(-30).map((entry, idx, arr) => (
                   <div
                     key={idx}
-                    className="flex-1 min-w-[4px] max-w-[20px] rounded-t cursor-default group relative"
+                    className="flex-1 min-w-[0.25rem] max-w-[1.25rem] rounded-t cursor-default group relative"
                     style={{
                       height: `${Math.max(entry.overallScore, 4)}%`,
                       backgroundColor: entry.overallScore >= 70 ? 'var(--color-success)' : entry.overallScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)',
@@ -292,7 +292,7 @@ export default function TestingView({ activeProject, updateProject }) {
                   <div
                     key={idx}
                     className="flex items-start gap-3 p-3 rounded-lg"
-                    style={{ background: 'var(--bg-page)', border: '1px solid color-mix(in srgb, var(--border-subtle) 50%, transparent)' }}
+                    style={{ background: 'var(--bg-page)', border: '0.0625rem solid color-mix(in srgb, var(--border-subtle) 50%, transparent)' }}
                   >
                     {result.cited ? (
                       <CheckCircle2 size={14} className="text-success flex-shrink-0 mt-0.5" />
@@ -316,7 +316,7 @@ export default function TestingView({ activeProject, updateProject }) {
 
           {/* Empty state */}
           {monitorHistory.length === 0 && !autoMonitoring && (
-            <div className="flex flex-col items-center justify-center py-8 rounded-xl fade-in-up" style={{ border: '2px dashed var(--border-subtle)' }}>
+            <div className="flex flex-col items-center justify-center py-8 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <Activity size={20} className="text-text-tertiary" />
               </div>
@@ -412,7 +412,7 @@ export default function TestingView({ activeProject, updateProject }) {
             onKeyDown={e => e.key === 'Enter' && addQuery()}
             aria-label={t('testing.addQuery')}
             className="flex-1 rounded-lg px-3 py-2 text-[0.8125rem] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
-            style={{ background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}
+            style={{ background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)' }}
           />
           <button
             onClick={addQuery}
@@ -428,7 +428,7 @@ export default function TestingView({ activeProject, updateProject }) {
           <div className="overflow-x-auto -mx-5 px-5">
             <table className="w-full text-sm">
               <thead className="sticky top-0 z-10" style={{ background: 'var(--bg-card)' }}>
-                <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                <tr style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
                   <th scope="col" className="text-left py-2 px-2 text-xs text-text-tertiary font-heading min-w-[11.25rem]">{t('testing.queryColumn')}</th>
                   {PLATFORMS.map(p => (
                     <th scope="col" key={p} className="text-center py-2 px-2 text-xs text-text-tertiary font-heading whitespace-nowrap min-w-[5.625rem]">{p}</th>
@@ -439,7 +439,7 @@ export default function TestingView({ activeProject, updateProject }) {
               </thead>
               <tbody>
                 {queryTracker.map((query, idx) => (
-                  <tr key={query.id} className="transition-colors" style={{ borderBottom: '1px solid color-mix(in srgb, var(--border-subtle) 50%, transparent)', background: idx % 2 === 0 ? 'color-mix(in srgb, var(--bg-page) 20%, transparent)' : undefined }}>
+                  <tr key={query.id} className="transition-colors" style={{ borderBottom: '0.0625rem solid color-mix(in srgb, var(--border-subtle) 50%, transparent)', background: idx % 2 === 0 ? 'color-mix(in srgb, var(--bg-page) 20%, transparent)' : undefined }}>
                     <td className="py-2.5 px-2">
                       <p className="text-text-primary text-sm">{query.query}</p>
                       <input
@@ -460,7 +460,7 @@ export default function TestingView({ activeProject, updateProject }) {
                           className={`rounded px-1.5 py-1 text-xs outline-none cursor-pointer focus:border-phase-3 transition-colors ${
                             STATUS_META.find(s => s.value === (query.platforms?.[platform] || 'not_checked'))?.color || 'text-text-tertiary'
                           }`}
-                          style={{ background: 'var(--bg-page)', border: '1px solid var(--border-subtle)' }}
+                          style={{ background: 'var(--bg-page)', border: '0.0625rem solid var(--border-subtle)' }}
                         >
                           {STATUS_OPTIONS.map(opt => (
                             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -487,7 +487,7 @@ export default function TestingView({ activeProject, updateProject }) {
           </div>
         ) : (
           /* Empty state */
-          <div className="flex flex-col items-center justify-center py-10 rounded-xl fade-in-up" style={{ border: '2px dashed var(--border-subtle)' }}>
+          <div className="flex flex-col items-center justify-center py-10 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
               <Search size={20} className="text-text-tertiary" />
             </div>
@@ -513,7 +513,7 @@ export default function TestingView({ activeProject, updateProject }) {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 group"
-              style={{ background: 'var(--bg-page)', border: '1px solid var(--border-subtle)' }}
+              style={{ background: 'var(--bg-page)', border: '0.0625rem solid var(--border-subtle)' }}
             >
               <ExternalLink size={14} className="text-text-tertiary group-hover:text-phase-3 transition-colors flex-shrink-0" />
               <span className="text-sm text-text-secondary group-hover:text-text-primary transition-colors">{link.name}</span>

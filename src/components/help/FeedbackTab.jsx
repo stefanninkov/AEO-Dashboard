@@ -186,7 +186,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
     return (
       <div style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center',
-        justifyContent: 'center', gap: 12, padding: '40px 20px', textAlign: 'center',
+        justifyContent: 'center', gap: 12, padding: '2.5rem 1.25rem', textAlign: 'center',
       }}>
         <div style={{
           width: 48, height: 48, borderRadius: 12,
@@ -210,7 +210,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
     return (
       <div style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center',
-        justifyContent: 'center', gap: 12, padding: '40px 20px', textAlign: 'center',
+        justifyContent: 'center', gap: 12, padding: '2.5rem 1.25rem', textAlign: 'center',
       }}>
         <div style={{
           width: 48, height: 48, borderRadius: 12,
@@ -232,10 +232,10 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
   // Step 1: Category Selection
   if (!selectedCategory) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '4px 0' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '0.25rem 0' }}>
         <p style={{
           fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)',
-          textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4,
+          textTransform: 'uppercase', letterSpacing: '0.0313rem', marginBottom: 4,
         }}>
           What would you like to share?
         </p>
@@ -247,8 +247,8 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
               onClick={() => setSelectedCategory(cat.value)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 12,
-                padding: '14px 16px', borderRadius: 12,
-                background: 'var(--hover-bg)', border: '2px solid transparent',
+                padding: '0.875rem 1rem', borderRadius: 12,
+                background: 'var(--hover-bg)', border: '0.125rem solid transparent',
                 cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)',
                 transition: 'all 150ms', width: '100%',
               }}
@@ -285,7 +285,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
 
   // Step 2: Category-Specific Form
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '4px 0' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '0.25rem 0' }}>
       {/* Back + Category header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <button
@@ -302,7 +302,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
         </button>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
-          padding: '4px 10px', borderRadius: 99,
+          padding: '0.25rem 0.625rem', borderRadius: 99,
           background: categoryConfig.bg,
         }}>
           <categoryConfig.icon size={12} style={{ color: categoryConfig.color }} />
@@ -317,7 +317,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
         <div key={field.key}>
           <p style={{
             fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)',
-            marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px',
+            marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.0313rem',
           }}>
             {field.label}
             {!field.required && (
@@ -343,7 +343,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
               onChange={e => handleFieldChange(field.key, e.target.value)}
               placeholder={field.placeholder}
               className="input-field"
-              style={{ width: '100%', fontSize: 12, padding: '8px 12px' }}
+              style={{ width: '100%', fontSize: 12, padding: '0.5rem 0.75rem' }}
             />
           )}
 
@@ -356,11 +356,11 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
                     key={opt.value}
                     onClick={() => handleFieldChange(field.key, isSelected ? '' : opt.value)}
                     style={{
-                      padding: '8px 12px', borderRadius: 8, cursor: 'pointer',
+                      padding: '0.5rem 0.75rem', borderRadius: 8, cursor: 'pointer',
                       fontSize: 11, fontWeight: 500, fontFamily: 'var(--font-body)',
                       background: isSelected ? categoryConfig.bg : 'var(--hover-bg)',
                       color: isSelected ? categoryConfig.color : 'var(--text-secondary)',
-                      border: isSelected ? `1.5px solid ${categoryConfig.color}` : '1.5px solid transparent',
+                      border: isSelected ? `0.0938rem solid ${categoryConfig.color}` : '0.0938rem solid transparent',
                       transition: 'all 150ms', textAlign: 'left', width: '100%',
                     }}
                   >
@@ -381,9 +381,9 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
                     onClick={() => handleFieldChange(field.key, r.value)}
                     style={{
                       flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-                      padding: '10px 6px', borderRadius: 10, cursor: 'pointer',
+                      padding: '0.625rem 0.375rem', borderRadius: 10, cursor: 'pointer',
                       background: isSelected ? 'rgba(255,107,53,0.1)' : 'var(--hover-bg)',
-                      border: isSelected ? '2px solid var(--color-phase-1)' : '2px solid transparent',
+                      border: isSelected ? '0.125rem solid var(--color-phase-1)' : '0.125rem solid transparent',
                       transition: 'all 150ms', fontFamily: 'var(--font-body)',
                     }}
                   >
@@ -413,7 +413,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
         disabled={!canSubmit}
         className="btn-primary"
         style={{
-          width: '100%', padding: '10px', fontSize: 12,
+          width: '100%', padding: '0.625rem', fontSize: 12,
           opacity: canSubmit ? 1 : 0.4,
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
         }}

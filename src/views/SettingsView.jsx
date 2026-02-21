@@ -39,7 +39,7 @@ function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
     <div style={{
       display: 'flex',
       gap: '0.125rem',
-      borderBottom: '1px solid var(--border-subtle)',
+      borderBottom: '0.0625rem solid var(--border-subtle)',
       marginBottom: '1rem',
       overflowX: 'auto',
     }}>
@@ -61,10 +61,10 @@ function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
               cursor: 'pointer',
               background: 'none',
               border: 'none',
-              borderBottom: `2px solid ${isActive ? 'var(--color-phase-1)' : 'transparent'}`,
+              borderBottom: `0.125rem solid ${isActive ? 'var(--color-phase-1)' : 'transparent'}`,
               color: isActive ? 'var(--text-primary)' : 'var(--text-tertiary)',
               transition: 'all 150ms',
-              marginBottom: '-1px',
+              marginBottom: '-0.0625rem',
               whiteSpace: 'nowrap',
               flexShrink: 0,
             }}
@@ -149,7 +149,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
                 marginBottom: '0.75rem',
                 background: 'var(--bg-input)',
                 borderRadius: '0.625rem',
-                border: '1px solid var(--border-subtle)',
+                border: '0.0625rem solid var(--border-subtle)',
                 cursor: 'pointer',
                 fontSize: '0.75rem',
                 color: 'var(--text-secondary)',

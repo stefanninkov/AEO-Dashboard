@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 const actionBtnStyle = {
   display: 'flex', alignItems: 'center', gap: '0.375rem',
   padding: '0.375rem 0.75rem', borderRadius: '0.375rem',
-  background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+  background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
   cursor: 'pointer', fontSize: '0.75rem', fontWeight: 500,
   color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
   transition: 'background 150ms, border-color 150ms',
@@ -44,14 +44,14 @@ function AssignDropdown({ members, onAssign }) {
         <div style={{
           position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)',
           marginBottom: '0.375rem', minWidth: '10rem',
-          background: 'var(--bg-card)', border: '1px solid var(--border-default)',
-          borderRadius: '0.5rem', boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+          background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
+          borderRadius: '0.5rem', boxShadow: '0 0.25rem 1rem rgba(0,0,0,0.2)',
           overflow: 'hidden', zIndex: 196,
         }}>
           <div style={{
             padding: '0.375rem 0.625rem', fontSize: '0.625rem', fontWeight: 700,
-            textTransform: 'uppercase', letterSpacing: '0.5px',
-            color: 'var(--text-tertiary)', borderBottom: '1px solid var(--border-subtle)',
+            textTransform: 'uppercase', letterSpacing: '0.0313rem',
+            color: 'var(--text-tertiary)', borderBottom: '0.0625rem solid var(--border-subtle)',
           }}>
             {t('bulk.assignTo')}
           </div>
@@ -101,9 +101,9 @@ export default function BulkActionBar({
         gap: '0.75rem',
         padding: '0.625rem 1.25rem',
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-default)',
+        border: '0.0625rem solid var(--border-default)',
         borderRadius: '0.75rem',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+        boxShadow: '0 0.5rem 2rem rgba(0,0,0,0.25)',
       }}
     >
       {/* Selection count */}
@@ -115,7 +115,7 @@ export default function BulkActionBar({
       </span>
 
       {/* Divider */}
-      <div style={{ width: '1px', height: '1.25rem', background: 'var(--border-subtle)' }} />
+      <div style={{ width: '0.0625rem', height: '1.25rem', background: 'var(--border-subtle)' }} />
 
       {/* Complete */}
       <button onClick={onCheckAll} style={actionBtnStyle} title={t('bulk.markComplete')}>
@@ -138,7 +138,7 @@ export default function BulkActionBar({
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           width: '1.5rem', height: '1.5rem', borderRadius: '0.375rem',
-          background: 'none', border: '1px solid var(--border-subtle)',
+          background: 'none', border: '0.0625rem solid var(--border-subtle)',
           cursor: 'pointer', color: 'var(--text-tertiary)',
           transition: 'background 150ms',
         }}

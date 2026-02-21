@@ -46,10 +46,10 @@ export default memo(function PhaseDonut({ phases, getPhaseProgress, onNavigate }
             />
           ))}
           {/* Center text */}
-          <text x="80" y="74" textAnchor="middle" style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', fontWeight: 700, fill: 'var(--text-primary)' }}>
+          <text x="80" y="74" textAnchor="middle" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, fill: 'var(--text-primary)' }}>
             {overallPercent}%
           </text>
-          <text x="80" y="94" textAnchor="middle" style={{ fontFamily: 'var(--font-body)', fontSize: '11px', fill: 'var(--text-tertiary)' }}>
+          <text x="80" y="94" textAnchor="middle" style={{ fontFamily: 'var(--font-body)', fontSize: '0.6875rem', fill: 'var(--text-tertiary)' }}>
             {t('dashboard.phaseDonut.complete')}
           </text>
         </svg>
@@ -59,7 +59,7 @@ export default memo(function PhaseDonut({ phases, getPhaseProgress, onNavigate }
       <div style={{ flex: 1, minWidth: '10rem', display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
         <div style={{
           fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
-          textTransform: 'uppercase', letterSpacing: '0.75px', color: 'var(--text-tertiary)',
+          textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
           marginBottom: '0.25rem',
         }}>
           {t('dashboard.phaseDonut.phaseProgress')}

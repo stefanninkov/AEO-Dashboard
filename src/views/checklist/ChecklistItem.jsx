@@ -59,9 +59,9 @@ function AssignDropdown({ members, assignedUid, onAssign, onUnassign, onClose })
         marginTop: '0.25rem',
         width: '12.5rem',
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-default)',
+        border: '0.0625rem solid var(--border-default)',
         borderRadius: '0.625rem',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+        boxShadow: '0 0.5rem 1.5rem rgba(0,0,0,0.2)',
         zIndex: 'var(--z-dropdown)',
         overflow: 'hidden',
         animation: 'scale-in 120ms ease-out both',
@@ -73,8 +73,8 @@ function AssignDropdown({ members, assignedUid, onAssign, onUnassign, onClose })
         fontWeight: 700,
         color: 'var(--text-disabled)',
         textTransform: 'uppercase',
-        letterSpacing: '0.5px',
-        borderBottom: '1px solid var(--border-subtle)',
+        letterSpacing: '0.0313rem',
+        borderBottom: '0.0625rem solid var(--border-subtle)',
       }}>
         Assign to
       </div>
@@ -94,7 +94,7 @@ function AssignDropdown({ members, assignedUid, onAssign, onUnassign, onClose })
             fontSize: '0.75rem',
             color: 'var(--color-error)',
             fontFamily: 'var(--font-body)',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             transition: 'background 100ms',
           }}
           onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
@@ -203,7 +203,7 @@ export default memo(function ChecklistItem({
   const [showAssignDropdown, setShowAssignDropdown] = useState(false)
 
   return (
-    <div className="group" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+    <div className="group" style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.75rem 1rem', background: isSelected ? 'var(--color-phase-1)08' : undefined }}>
         {/* Selection checkbox (multi-select mode) */}
         {selectionMode && (
@@ -212,7 +212,7 @@ export default memo(function ChecklistItem({
             aria-label={isSelected ? 'Deselect item' : 'Select item'}
             style={{
               width: '1rem', height: '1rem', borderRadius: '0.1875rem',
-              border: `2px solid ${isSelected ? 'var(--color-phase-1)' : 'var(--border-default)'}`,
+              border: `0.125rem solid ${isSelected ? 'var(--color-phase-1)' : 'var(--border-default)'}`,
               background: isSelected ? 'var(--color-phase-1)' : 'transparent',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer', flexShrink: 0, marginTop: '0.1875rem',
@@ -234,7 +234,7 @@ export default memo(function ChecklistItem({
             aria-label={`${isChecked ? 'Uncheck' : 'Check'}: ${item.text}`}
             style={{
               width: '1.125rem', height: '1.125rem', borderRadius: '0.25rem',
-              border: `2px solid ${isChecked ? phase.color : 'var(--border-default)'}`,
+              border: `0.125rem solid ${isChecked ? phase.color : 'var(--border-default)'}`,
               background: isChecked ? phase.color : 'transparent',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer', transition: 'all 150ms', padding: 0,
@@ -279,7 +279,7 @@ export default memo(function ChecklistItem({
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
                   padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
-                  border: '1px solid var(--border-subtle)',
+                  border: '0.0625rem solid var(--border-subtle)',
                   background: 'none', cursor: 'pointer',
                   color: 'var(--text-tertiary)', fontSize: '0.6875rem',
                   fontFamily: 'var(--font-body)',
@@ -300,7 +300,7 @@ export default memo(function ChecklistItem({
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
                   padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
-                  border: `1px solid ${phase.color}30`,
+                  border: `0.0625rem solid ${phase.color}30`,
                   background: phase.color + '08', cursor: 'pointer',
                   color: phase.color, fontSize: '0.6875rem',
                   fontWeight: 500, fontFamily: 'var(--font-body)',
@@ -322,7 +322,7 @@ export default memo(function ChecklistItem({
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
                   padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
-                  border: `1px solid ${phase.color}30`,
+                  border: `0.0625rem solid ${phase.color}30`,
                   background: phase.color + '08', cursor: 'pointer',
                   color: phase.color, fontSize: '0.6875rem',
                   fontWeight: 500, fontFamily: 'var(--font-body)',

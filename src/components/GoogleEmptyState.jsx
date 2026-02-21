@@ -128,7 +128,7 @@ export function TokenExpiredBanner({ onReconnect, reconnecting, setActiveView })
       padding: '0.75rem 1rem',
       display: 'flex', alignItems: 'center', gap: '0.75rem',
       background: 'rgba(245,158,11,0.06)',
-      border: '1px solid rgba(245,158,11,0.2)',
+      border: '0.0625rem solid rgba(245,158,11,0.2)',
       flexWrap: 'wrap',
     }}>
       <AlertCircle size={14} style={{ color: 'var(--color-warning)', flexShrink: 0 }} />
@@ -170,7 +170,7 @@ export function DataErrorBanner({ error, onRetry, retrying }) {
       padding: '0.75rem 1rem',
       display: 'flex', alignItems: 'center', gap: '0.5rem',
       background: isTokenError ? 'rgba(245,158,11,0.06)' : 'rgba(239,68,68,0.06)',
-      border: `1px solid ${isTokenError ? 'rgba(245,158,11,0.15)' : 'rgba(239,68,68,0.15)'}`,
+      border: `0.0625rem solid ${isTokenError ? 'rgba(245,158,11,0.15)' : 'rgba(239,68,68,0.15)'}`,
       flexWrap: 'wrap',
     }}>
       <AlertCircle size={14} style={{ color: isTokenError ? 'var(--color-warning)' : 'var(--color-error)', flexShrink: 0 }} />
@@ -199,7 +199,7 @@ export function LoadingState({ message = 'Loading data...' }) {
   return (
     <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
       <div style={{
-        width: '1.5rem', height: '1.5rem', border: '2px solid var(--hover-bg)',
+        width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--hover-bg)',
         borderTopColor: 'var(--color-phase-1)', borderRadius: '50%',
         animation: 'spin 1s linear infinite', margin: '0 auto 0.75rem',
       }} />

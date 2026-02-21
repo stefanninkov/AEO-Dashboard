@@ -266,7 +266,7 @@ function SectionHeader({ icon: Icon, title, count, color, extra }) {
   return (
     <div style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      padding: '1rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+      padding: '1rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
     }}>
       <span style={{
         fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
@@ -426,7 +426,7 @@ export default function AdminDashboard({ user, onNavigate }) {
         <div style={{
           display: 'flex', alignItems: 'flex-start', gap: '0.75rem',
           padding: '0.875rem 1rem', borderRadius: '0.75rem',
-          background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)',
+          background: 'rgba(245,158,11,0.08)', border: '0.0625rem solid rgba(245,158,11,0.2)',
         }}>
           <AlertTriangle size={16} style={{ color: '#F59E0B', flexShrink: 0, marginTop: '0.125rem' }} />
           <div>
@@ -448,7 +448,7 @@ export default function AdminDashboard({ user, onNavigate }) {
           <div style={{
             padding: '0.75rem 1.25rem',
             background: 'rgba(239,68,68,0.04)',
-            borderBottom: '1px solid var(--border-subtle)',
+            borderBottom: '0.0625rem solid var(--border-subtle)',
             display: 'flex', alignItems: 'center', gap: '0.5rem',
           }}>
             <AlertCircle size={14} style={{ color: '#EF4444' }} />
@@ -469,7 +469,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '0.75rem',
                     padding: '0.625rem 1.25rem',
-                    borderBottom: i < stats.alerts.length - 1 ? '1px solid var(--border-subtle)' : 'none',
+                    borderBottom: i < stats.alerts.length - 1 ? '0.0625rem solid var(--border-subtle)' : 'none',
                     cursor: alert.link ? 'pointer' : 'default',
                     transition: 'background 150ms',
                   }}
@@ -637,7 +637,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                 {stats.coldUsers.slice(0, 10).map(u => (
                   <div key={u.id} style={{
                     display: 'flex', alignItems: 'center', gap: '0.75rem',
-                    padding: '0.625rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+                    padding: '0.625rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                   }}>
                     {/* Avatar */}
                     <div style={{
@@ -670,7 +670,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         width: '1.5rem', height: '1.5rem', borderRadius: '0.375rem',
-                        border: '1px solid var(--border-subtle)', background: 'none',
+                        border: '0.0625rem solid var(--border-subtle)', background: 'none',
                         cursor: 'pointer', color: 'var(--text-tertiary)', flexShrink: 0,
                         transition: 'all 100ms',
                       }}
@@ -707,7 +707,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                 {stats.coldProjects.slice(0, 10).map(p => (
                   <div key={p.id} style={{
                     display: 'flex', alignItems: 'center', gap: '0.75rem',
-                    padding: '0.625rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+                    padding: '0.625rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                   }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{
@@ -772,7 +772,7 @@ export default function AdminDashboard({ user, onNavigate }) {
               .map(u => (
                 <div key={u.id} style={{
                   display: 'flex', alignItems: 'center', gap: '0.75rem',
-                  padding: '0.75rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+                  padding: '0.75rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                 }}>
                   {/* Status dot */}
                   <div style={{
@@ -835,7 +835,7 @@ export default function AdminDashboard({ user, onNavigate }) {
             {stats.recentActivity.slice(0, 20).map((act, i) => (
               <div key={act.id || i} style={{
                 display: 'flex', alignItems: 'flex-start', gap: '0.75rem',
-                padding: '0.625rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+                padding: '0.625rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
               }}>
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: '0.625rem',
@@ -1040,7 +1040,7 @@ export default function AdminDashboard({ user, onNavigate }) {
             {(stats.waitlistEntries || []).slice(0, 8).map(entry => (
               <div key={entry.id} style={{
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
-                padding: '0.625rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+                padding: '0.625rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
               }}>
                 <div style={{
                   width: '1.5rem', height: '1.5rem', borderRadius: 6,
@@ -1095,7 +1095,7 @@ export default function AdminDashboard({ user, onNavigate }) {
               return (
                 <div key={fb.id} style={{
                   display: 'flex', alignItems: 'center', gap: '0.75rem',
-                  padding: '0.625rem 1.25rem', borderBottom: '1px solid var(--border-subtle)',
+                  padding: '0.625rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                 }}>
                   <span style={{ fontSize: '1rem', flexShrink: 0 }}>
                     {RATING_EMOJI[fb.rating] || '\u2753'}
@@ -1159,7 +1159,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                     fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
                     textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)',
                     textAlign: 'left', padding: '0.625rem 1.25rem',
-                    borderBottom: '1px solid var(--border-subtle)',
+                    borderBottom: '0.0625rem solid var(--border-subtle)',
                   }}>
                     {h}
                   </th>
@@ -1186,7 +1186,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                   const members = project.memberCount || project.members?.length || project.memberIds?.length || 1
 
                   return (
-                    <tr key={project.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                    <tr key={project.id} style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
                       <td style={{ padding: '0.75rem 1.25rem' }}>
                         <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.125rem' }}>
                           {project.name || 'Untitled'}
@@ -1246,7 +1246,7 @@ export default function AdminDashboard({ user, onNavigate }) {
           <div style={{
             padding: '0.75rem 1.25rem', textAlign: 'center',
             fontSize: '0.75rem', color: 'var(--text-disabled)',
-            borderTop: '1px solid var(--border-subtle)',
+            borderTop: '0.0625rem solid var(--border-subtle)',
           }}>
             Showing 20 of {(stats.projectHealth || stats.projects || []).length} projects
           </div>

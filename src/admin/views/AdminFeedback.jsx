@@ -160,7 +160,7 @@ export default function AdminFeedback({ user }) {
   if (loading) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '2px solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading feedback...</p>
       </div>
     )
@@ -191,7 +191,7 @@ export default function AdminFeedback({ user }) {
           onClick={() => setCategoryFilter(categoryFilter === 'bug' ? 'all' : 'bug')}
           style={{
             padding: '1rem', textAlign: 'center', cursor: 'pointer',
-            border: categoryFilter === 'bug' ? '2px solid #EF4444' : '2px solid transparent',
+            border: categoryFilter === 'bug' ? '0.125rem solid #EF4444' : '0.125rem solid transparent',
             transition: 'border-color 150ms',
           }}
         >
@@ -215,7 +215,7 @@ export default function AdminFeedback({ user }) {
           onClick={() => setCategoryFilter(categoryFilter === 'feature' ? 'all' : 'feature')}
           style={{
             padding: '1rem', textAlign: 'center', cursor: 'pointer',
-            border: categoryFilter === 'feature' ? '2px solid #8B5CF6' : '2px solid transparent',
+            border: categoryFilter === 'feature' ? '0.125rem solid #8B5CF6' : '0.125rem solid transparent',
             transition: 'border-color 150ms',
           }}
         >
@@ -234,7 +234,7 @@ export default function AdminFeedback({ user }) {
           onClick={() => setCategoryFilter(categoryFilter === 'general' ? 'all' : 'general')}
           style={{
             padding: '1rem', textAlign: 'center', cursor: 'pointer',
-            border: categoryFilter === 'general' ? '2px solid #3B82F6' : '2px solid transparent',
+            border: categoryFilter === 'general' ? '0.125rem solid #3B82F6' : '0.125rem solid transparent',
             transition: 'border-color 150ms',
           }}
         >
@@ -307,7 +307,7 @@ export default function AdminFeedback({ user }) {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '0.75rem',
                     padding: '0.875rem 1.25rem',
-                    borderBottom: '1px solid var(--border-subtle)',
+                    borderBottom: '0.0625rem solid var(--border-subtle)',
                     cursor: 'pointer',
                     background: isExpanded ? 'var(--hover-bg)' : 'transparent',
                     transition: 'background 150ms',
@@ -364,7 +364,7 @@ export default function AdminFeedback({ user }) {
                   <div style={{
                     padding: '1rem 1.25rem 1rem 4rem',
                     background: 'var(--hover-bg)',
-                    borderBottom: '1px solid var(--border-subtle)',
+                    borderBottom: '0.0625rem solid var(--border-subtle)',
                     display: 'flex', flexDirection: 'column', gap: '0.75rem',
                   }}>
                     {/* Category-specific fields */}
@@ -435,27 +435,27 @@ export default function AdminFeedback({ user }) {
                         <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)', marginBottom: '0.375rem', textTransform: 'uppercase' }}>Context</p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                           {item.context.view && (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '0.0625rem solid var(--border-subtle)' }}>
                               <Eye size={10} /> {item.context.view}
                             </span>
                           )}
                           {item.context.theme && (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '0.0625rem solid var(--border-subtle)' }}>
                               {item.context.theme}
                             </span>
                           )}
                           {item.context.screenSize && (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '0.0625rem solid var(--border-subtle)' }}>
                               <Monitor size={10} /> {item.context.screenSize}
                             </span>
                           )}
                           {item.context.projectName && (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '0.0625rem solid var(--border-subtle)' }}>
                               {item.context.projectName}
                             </span>
                           )}
                           {item.userEmail && (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.6875rem', color: 'var(--text-tertiary)', padding: '0.125rem 0.5rem', borderRadius: 6, background: 'var(--bg-card)', border: '0.0625rem solid var(--border-subtle)' }}>
                               {item.userEmail}
                             </span>
                           )}
@@ -478,7 +478,7 @@ export default function AdminFeedback({ user }) {
                         <button
                           onClick={() => handleSaveNote(item.id)}
                           style={{
-                            padding: '0.5rem 0.75rem', borderRadius: 8, border: '1px solid var(--border-subtle)',
+                            padding: '0.5rem 0.75rem', borderRadius: 8, border: '0.0625rem solid var(--border-subtle)',
                             background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer',
                             fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)',
                           }}
@@ -501,7 +501,7 @@ export default function AdminFeedback({ user }) {
                               style={{
                                 display: 'flex', alignItems: 'center', gap: 4,
                                 padding: '0.375rem 0.625rem', borderRadius: 6,
-                                border: isCurrent ? `1.5px solid ${conf.color}` : '1.5px solid transparent',
+                                border: isCurrent ? `0.0938rem solid ${conf.color}` : '0.0938rem solid transparent',
                                 background: isCurrent ? conf.bg : 'var(--hover-bg)',
                                 color: isCurrent ? conf.color : 'var(--text-tertiary)',
                                 cursor: isCurrent ? 'default' : 'pointer',

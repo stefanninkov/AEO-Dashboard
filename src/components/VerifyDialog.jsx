@@ -103,7 +103,7 @@ Search for and visit this website, then evaluate whether this specific item has 
         onClick={e => e.stopPropagation()}
         style={{
           background: 'var(--bg-card)',
-          border: '1px solid var(--border-subtle)',
+          border: '0.0625rem solid var(--border-subtle)',
           zIndex: 'var(--z-modal)',
           boxShadow: 'var(--shadow-lg)',
           animation: isClosing
@@ -113,7 +113,7 @@ Search for and visit this website, then evaluate whether this specific item has 
         onAnimationEnd={() => isClosing && onExited?.()}
       >
         {/* Header */}
-        <div className="px-5 py-4 flex items-start gap-3" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+        <div className="px-5 py-4 flex items-start gap-3" style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
           <div className="w-8 h-8 rounded-lg bg-phase-3/15 flex items-center justify-center flex-shrink-0 mt-0.5">
             <ShieldCheck size={16} className="text-phase-3" />
           </div>
@@ -143,7 +143,7 @@ Search for and visit this website, then evaluate whether this specific item has 
                 onClick={startAiVerification}
                 disabled={!projectUrl}
                 className="w-full flex items-center gap-3 p-4 rounded-xl hover:border-phase-3 hover:bg-phase-3/5 transition-all duration-150 text-left group disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed"
-                style={{ border: '1px solid var(--border-subtle)' }}
+                style={{ border: '0.0625rem solid var(--border-subtle)' }}
               >
                 <div className="w-10 h-10 rounded-xl bg-phase-3/15 flex items-center justify-center flex-shrink-0 group-hover:bg-phase-3/25 transition-colors">
                   <Zap size={18} className="text-phase-3" />
@@ -163,7 +163,7 @@ Search for and visit this website, then evaluate whether this specific item has 
               <button
                 onClick={() => setMode('manual')}
                 className="w-full flex items-center gap-3 p-4 rounded-xl transition-all duration-150 text-left group"
-                style={{ border: '1px solid var(--border-subtle)' }}
+                style={{ border: '0.0625rem solid var(--border-subtle)' }}
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors" style={{ background: 'var(--hover-bg)' }}>
                   <UserCheck size={18} className="text-text-secondary" />
@@ -214,7 +214,7 @@ Search for and visit this website, then evaluate whether this specific item has 
                   <button
                     onClick={() => handleConfirm('ai')}
                     className="flex-1 px-4 py-2.5 text-text-secondary rounded-xl text-sm font-medium active:scale-[0.98] transition-all duration-150"
-                    style={{ background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)' }}
+                    style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
                   >
                     Mark Done Anyway
                   </button>
@@ -222,7 +222,7 @@ Search for and visit this website, then evaluate whether this specific item has 
                 <button
                   onClick={onCancel}
                   className="px-4 py-2.5 text-text-secondary rounded-xl text-sm font-medium active:scale-[0.98] transition-all duration-150"
-                  style={{ border: '1px solid var(--border-subtle)' }}
+                  style={{ border: '0.0625rem solid var(--border-subtle)' }}
                 >
                   Cancel
                 </button>
@@ -233,7 +233,7 @@ Search for and visit this website, then evaluate whether this specific item has 
           {/* Manual Confirmation */}
           {mode === 'manual' && (
             <div className="space-y-4 fade-in-up">
-              <div className="p-4 rounded-xl" style={{ background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)' }}>
+              <div className="p-4 rounded-xl" style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}>
                 <p className="text-sm text-text-secondary">
                   By confirming, you acknowledge that you have manually verified this item is implemented on your website.
                 </p>
@@ -248,7 +248,7 @@ Search for and visit this website, then evaluate whether this specific item has 
                 <button
                   onClick={() => setMode(null)}
                   className="px-4 py-2.5 text-text-secondary rounded-xl text-sm font-medium active:scale-[0.98] transition-all duration-150"
-                  style={{ border: '1px solid var(--border-subtle)' }}
+                  style={{ border: '0.0625rem solid var(--border-subtle)' }}
                 >
                   Back
                 </button>
@@ -270,14 +270,14 @@ Search for and visit this website, then evaluate whether this specific item has 
                 <button
                   onClick={() => { setError(null); setMode(null); setAiResult(null) }}
                   className="flex-1 px-4 py-2.5 text-text-primary rounded-xl text-sm font-medium active:scale-[0.98] transition-all duration-150"
-                  style={{ background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)' }}
+                  style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
                 >
                   Try Again
                 </button>
                 <button
                   onClick={onCancel}
                   className="px-4 py-2.5 text-text-secondary rounded-xl text-sm font-medium active:scale-[0.98] transition-all duration-150"
-                  style={{ border: '1px solid var(--border-subtle)' }}
+                  style={{ border: '0.0625rem solid var(--border-subtle)' }}
                 >
                   Cancel
                 </button>

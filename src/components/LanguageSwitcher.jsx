@@ -49,7 +49,7 @@ export default function LanguageSwitcher({ variant = 'app' }) {
     ? {
         display: 'flex', alignItems: 'center', gap: '0.375rem',
         padding: '0.375rem 0.625rem', borderRadius: '0.5rem',
-        background: 'var(--hover-bg)', border: '1px solid var(--border-subtle)',
+        background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
         cursor: 'pointer', fontSize: '0.75rem', fontWeight: 500,
         color: 'var(--text-secondary)', fontFamily: 'var(--font-body)',
         transition: 'color 150ms, border-color 150ms',
@@ -57,7 +57,7 @@ export default function LanguageSwitcher({ variant = 'app' }) {
     : {
         display: 'flex', alignItems: 'center', gap: '0.375rem',
         padding: '0.25rem 0.5rem', borderRadius: '0.375rem',
-        background: 'transparent', border: '1px solid transparent',
+        background: 'transparent', border: '0.0625rem solid transparent',
         cursor: 'pointer', fontSize: '0.875rem', fontWeight: 500,
         color: 'rgba(160,160,176,1)', fontFamily: 'inherit',
         transition: 'color 200ms, background 200ms',
@@ -69,10 +69,10 @@ export default function LanguageSwitcher({ variant = 'app' }) {
     right: 0,
     minWidth: '10rem',
     background: isApp ? 'var(--bg-card)' : '#16161e',
-    border: isApp ? '1px solid var(--border-default)' : '1px solid rgba(255,255,255,0.1)',
+    border: isApp ? '0.0625rem solid var(--border-default)' : '0.0625rem solid rgba(255,255,255,0.1)',
     borderRadius: '0.75rem',
     overflow: 'hidden',
-    boxShadow: isApp ? 'var(--shadow-md)' : '0 8px 24px rgba(0,0,0,0.4)',
+    boxShadow: isApp ? 'var(--shadow-md)' : '0 0.5rem 1.5rem rgba(0,0,0,0.4)',
     zIndex: 50,
   }
 
