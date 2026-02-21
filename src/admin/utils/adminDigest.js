@@ -48,7 +48,7 @@ export function composeDigest(stats, period = 'daily') {
   const atRisk = stats?.atRiskUsers?.length || 0
   const churned = stats?.churnedUsers?.length || 0
 
-  lines.push('👥 USERS')
+  lines.push('● USERS')
   lines.push(`  Total: ${totalUsers}`)
   lines.push(`  New this week: ${newUsers}`)
   lines.push(`  At-risk (7-14d inactive): ${atRisk}`)
@@ -61,7 +61,7 @@ export function composeDigest(stats, period = 'daily') {
   const stale = stats?.staleProjects?.length || 0
   const abandoned = stats?.abandonedProjects?.length || 0
 
-  lines.push('📁 PROJECTS')
+  lines.push('▸ PROJECTS')
   lines.push(`  Total: ${totalProjects}`)
   lines.push(`  Thriving: ${thriving}`)
   lines.push(`  Stale (14+ days): ${stale}`)
@@ -72,7 +72,7 @@ export function composeDigest(stats, period = 'daily') {
   const avgProgress = stats?.avgProjectProgress || 0
   const activeToday = stats?.activeToday || 0
 
-  lines.push('📊 ENGAGEMENT')
+  lines.push('◆ ENGAGEMENT')
   lines.push(`  Active today: ${activeToday}`)
   lines.push(`  Avg project progress: ${avgProgress}%`)
   lines.push('')
@@ -80,7 +80,7 @@ export function composeDigest(stats, period = 'daily') {
   // Cold users
   const coldUsers = stats?.coldUsers || []
   if (coldUsers.length > 0) {
-    lines.push('⚠️ NEEDS ATTENTION')
+    lines.push('⚠ NEEDS ATTENTION')
     coldUsers.slice(0, 5).forEach(u => {
       lines.push(`  - ${u.displayName || u.email} (${u.daysSinceLogin || '?'}d inactive)`)
     })
@@ -93,14 +93,14 @@ export function composeDigest(stats, period = 'daily') {
   // Feedback
   const feedbackCount = stats?.unreadFeedback || 0
   if (feedbackCount > 0) {
-    lines.push(`💬 ${feedbackCount} new feedback items to review`)
+    lines.push(`▸ ${feedbackCount} new feedback items to review`)
     lines.push('')
   }
 
   // Waitlist
   const waitlistCount = stats?.waitlistThisWeek || 0
   if (waitlistCount > 0) {
-    lines.push(`📋 ${waitlistCount} new waitlist signups this week`)
+    lines.push(`● ${waitlistCount} new waitlist signups this week`)
     lines.push('')
   }
 

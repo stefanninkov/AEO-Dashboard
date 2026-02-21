@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import {
   Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
-  RefreshCw, Download, Mail, Menu, Table2
+  RotateCw, FileDown, Mail, Menu, Sheet
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -414,13 +414,13 @@ export default memo(function TopBar({
             <span className="hidden sm:inline">{t('actions.newProject')}</span>
           </button>
           <button onClick={onRefresh} className="icon-btn" title={t('actions.refresh')} aria-label={t('topbar.refreshData')} disabled={refreshing}>
-            <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+            <RotateCw size={14} className={refreshing ? 'animate-spin' : ''} />
           </button>
           <button onClick={onExport} className="icon-btn hidden sm:flex" title={t('actions.exportPdf')} aria-label={t('actions.exportPdf')}>
-            <Download size={14} />
+            <FileDown size={14} />
           </button>
           <button onClick={onCsvExport} className="icon-btn hidden sm:flex" title={t('actions.exportCsv')} aria-label={t('actions.exportCsv')}>
-            <Table2 size={14} />
+            <Sheet size={14} />
           </button>
           <button onClick={onEmail} className="icon-btn" title={t('actions.emailReport')} aria-label={t('actions.emailReport')}>
             <Mail size={14} />

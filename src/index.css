@@ -16,11 +16,48 @@ html, body, #root {
 }
 
 /* ══════════════════════════════════════════════════
-   FLUID REM ROOT — scales 14px (320vw) → 16px (1440vw)
+   SCALING SYSTEM — fluid rem based on viewport
    ══════════════════════════════════════════════════ */
 
+/* Desktop */
+:root {
+  --size-unit: 16;
+  --size-container-ideal: 1440;
+  --size-container-min: 992px;
+  --size-container-max: 1920px;
+  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+}
+
 html {
-  font-size: clamp(0.875rem, 0.8393rem + 0.1786vw, 1rem);
+  font-size: var(--size-font);
+}
+
+/* Tablet */
+@media screen and (max-width: 991px) {
+  :root {
+    --size-container-ideal: 834;
+    --size-container-min: 768px;
+    --size-container-max: 991px;
+  }
+}
+
+/* Mobile Landscape */
+@media screen and (max-width: 767px) {
+  :root {
+    --size-container-ideal: 550;
+    --size-container-min: 480px;
+    --size-container-max: 767px;
+  }
+}
+
+/* Mobile Portrait */
+@media screen and (max-width: 479px) {
+  :root {
+    --size-container-ideal: 375;
+    --size-container-min: 320px;
+    --size-container-max: 479px;
+  }
 }
 
 /* ══════════════════════════════════════════════════
@@ -171,7 +208,7 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.5;
 }
 

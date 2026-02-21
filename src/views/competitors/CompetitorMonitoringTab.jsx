@@ -3,7 +3,7 @@ import { hasApiKey } from '../../utils/aiProvider'
 import {
   Activity, Play, Loader2, AlertTriangle, TrendingUp, TrendingDown,
   ChevronDown, ChevronUp, Search, XCircle, CheckCircle2, Clock,
-  Settings, Zap, Minus, ExternalLink, Bell
+  Settings, Zap, Minus, ExternalLink, Bell, Star
 } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -675,7 +675,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                                   padding: '0.375rem 0.5rem', fontWeight: 600,
                                   color: s.isOwn ? 'var(--color-phase-1)' : 'var(--text-primary)',
                                 }}>
-                                  {s.name} {s.isOwn && '★'}
+                                  {s.name} {s.isOwn && <Star size={10} fill="currentColor" strokeWidth={0} />}
                                 </td>
                                 <td style={{
                                   padding: '0.375rem 0.5rem', fontFamily: 'var(--font-heading)',

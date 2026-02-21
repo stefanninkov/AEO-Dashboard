@@ -3,7 +3,7 @@ import { hasApiKey } from '../../utils/aiProvider'
 import {
   PieChart as PieChartIcon, Play, Loader2, AlertTriangle, Clock,
   Settings, ChevronDown, ChevronUp, ExternalLink, Check, X,
-  TrendingUp, Share2
+  TrendingUp, Share2, Star
 } from 'lucide-react'
 import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
@@ -367,7 +367,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                         color: d.isOwn ? 'var(--color-phase-1)' : 'var(--text-primary)',
                         fontWeight: d.isOwn ? 700 : 500,
                       }}>
-                        {d.name} {d.isOwn && '★'}
+                        {d.name} {d.isOwn && <Star size={10} fill="currentColor" strokeWidth={0} />}
                       </span>
                       <span style={{
                         marginLeft: 'auto', fontFamily: 'var(--font-heading)',
@@ -408,7 +408,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                         fontSize: '0.8125rem', fontWeight: brand.isOwn ? 700 : 500,
                         color: brand.isOwn ? 'var(--color-phase-1)' : 'var(--text-primary)',
                       }}>
-                        {brand.name} {brand.isOwn && '★'}
+                        {brand.name} {brand.isOwn && <Star size={10} fill="currentColor" strokeWidth={0} />}
                       </span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -536,7 +536,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                       color: brand.isOwn ? 'var(--color-phase-1)' : 'var(--text-primary)',
                       whiteSpace: 'nowrap',
                     }}>
-                      {brand.name} {brand.isOwn && '★'}
+                      {brand.name} {brand.isOwn && <Star size={10} fill="currentColor" strokeWidth={0} />}
                     </td>
                     {AI_ENGINES.map(engine => {
                       const engineData = brand.byEngine?.[engine]

@@ -9,7 +9,7 @@
  */
 import { useState, useMemo, useEffect } from 'react'
 import {
-  ArrowLeft, ArrowRight, FolderCog, Plug, Users2, Globe, Zap, Database,
+  ArrowLeft, ArrowRight, FolderCog, Unplug, UsersRound, Globe2, Webhook, HardDrive,
 } from 'lucide-react'
 import SettingsTabs from './settings/SettingsTabs'
 import UserSettingsSection from './settings/UserSettingsSection'
@@ -27,11 +27,11 @@ import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 /* ── Project settings sub-tab definitions ── */
 const PROJECT_SUB_TABS = [
   { id: 'general', label: 'General', icon: FolderCog },
-  { id: 'integrations', label: 'Integrations', icon: Plug },
-  { id: 'team', label: 'Team', icon: Users2 },
-  { id: 'webflow', label: 'Webflow', icon: Globe },
-  { id: 'webhooks', label: 'Webhooks', icon: Zap },
-  { id: 'data', label: 'Data', icon: Database },
+  { id: 'integrations', label: 'Integrations', icon: Unplug },
+  { id: 'team', label: 'Team', icon: UsersRound },
+  { id: 'webflow', label: 'Webflow', icon: Globe2 },
+  { id: 'webhooks', label: 'Webhooks', icon: Webhook },
+  { id: 'data', label: 'Data', icon: HardDrive },
 ]
 
 function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {

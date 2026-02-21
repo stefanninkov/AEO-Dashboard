@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson } from 'lucide-react'
+import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson, HelpCircle, ClipboardList, Newspaper, ShoppingBag, MapPin, Building2, Link2, Clapperboard, FileText } from 'lucide-react'
 import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
 import { getAnalyzerIndustryContext, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, ENGINE_LABELS } from '../utils/getRecommendations'
@@ -133,14 +133,14 @@ Return JSON in this exact format:
 
 // ─── Schema type metadata (static, not translated) ──
 const SCHEMA_TYPE_META = [
-  { id: 'faqPage',       icon: '❓', schemaType: 'FAQPage' },
-  { id: 'howTo',         icon: '📋', schemaType: 'HowTo' },
-  { id: 'article',       icon: '📰', schemaType: 'Article' },
-  { id: 'product',       icon: '🛍️', schemaType: 'Product' },
-  { id: 'localBusiness', icon: '📍', schemaType: 'LocalBusiness' },
-  { id: 'organization',  icon: '🏢', schemaType: 'Organization' },
-  { id: 'breadcrumb',    icon: '🔗', schemaType: 'BreadcrumbList' },
-  { id: 'video',         icon: '🎬', schemaType: 'VideoObject' },
+  { id: 'faqPage',       Icon: HelpCircle,    schemaType: 'FAQPage' },
+  { id: 'howTo',         Icon: ClipboardList,  schemaType: 'HowTo' },
+  { id: 'article',       Icon: Newspaper,      schemaType: 'Article' },
+  { id: 'product',       Icon: ShoppingBag,    schemaType: 'Product' },
+  { id: 'localBusiness', Icon: MapPin,         schemaType: 'LocalBusiness' },
+  { id: 'organization',  Icon: Building2,      schemaType: 'Organization' },
+  { id: 'breadcrumb',    Icon: Link2,          schemaType: 'BreadcrumbList' },
+  { id: 'video',         Icon: Clapperboard,   schemaType: 'VideoObject' },
 ]
 
 // Map type ids to i18n keys
@@ -319,7 +319,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             return (
               <div key={entry.id} className="schema-history-item">
                 <button className="schema-history-load" onClick={() => loadFromHistory(entry)}>
-                  <span className="schema-history-icon">{type?.icon || '📄'}</span>
+                  <span className="schema-history-icon">{type?.Icon ? <type.Icon size={16} /> : <FileText size={16} />}</span>
                   <div className="schema-history-info">
                     <span className="schema-history-label">{entry.content?.name || entry.topic}</span>
                     <span className="schema-history-meta">
@@ -348,7 +348,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             className={`schema-type-card ${selectedType === type.id ? 'schema-type-active' : ''}`}
             onClick={() => setSelectedType(type.id)}
           >
-            <span className="schema-type-icon">{type.icon}</span>
+            <span className="schema-type-icon"><type.Icon size={16} /></span>
             <span className="schema-type-label">{type.label}</span>
             <span className="schema-type-desc">{type.description}</span>
           </button>
@@ -507,7 +507,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           <p>{t('schema.emptyDesc')}</p>
           <div className="schema-empty-types">
             {SCHEMA_TYPES.slice(0, 4).map(st => (
-              <span key={st.id} className="schema-empty-tag">{st.icon} {st.label}</span>
+              <span key={st.id} className="schema-empty-tag"><st.Icon size={16} /> {st.label}</span>
             ))}
             <span className="schema-empty-tag">{t('schema.emptyMore', { count: SCHEMA_TYPES.length - 4 })}</span>
           </div>

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useWaitlist } from '../hooks/useWaitlist'
-import { Check, Share2, Copy, Loader, Zap } from 'lucide-react'
+import { Check, Share2, Copy, Loader, Zap, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar } from 'lucide-react'
 import './WaitlistPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -17,16 +17,16 @@ const NAV_HREFS = [
 ]
 
 const PHASE_META = [
-  { number: 1, color: '#FF6B35', icon: '🏗️' },
-  { number: 2, color: '#7B2FBE', icon: '📊' },
-  { number: 3, color: '#0EA5E9', icon: '✏️' },
-  { number: 4, color: '#10B981', icon: '⚙️' },
-  { number: 5, color: '#F59E0B', icon: '🏆' },
-  { number: 6, color: '#EC4899', icon: '🧪' },
-  { number: 7, color: '#EF4444', icon: '📈' },
+  { number: 1, color: '#FF6B35', Icon: Blocks },
+  { number: 2, color: '#7B2FBE', Icon: BarChart4 },
+  { number: 3, color: '#0EA5E9', Icon: FileEdit },
+  { number: 4, color: '#10B981', Icon: Cog },
+  { number: 5, color: '#F59E0B', Icon: Trophy },
+  { number: 6, color: '#EC4899', Icon: FlaskConical },
+  { number: 7, color: '#EF4444', Icon: TrendingUp },
 ]
 
-const FEATURE_ICONS = ['✅', '🔍', '🧪', '✍️', '🏗️', '📡']
+const FEATURE_ICONS = [CheckCircle2, SearchCheck, FlaskConical, NotebookPen, Blocks, Radar]
 
 const FOOTER_HREFS = [
   [
@@ -92,8 +92,8 @@ export default function WaitlistPage() {
   [t])
 
   const FEATURES_OVERVIEW = useMemo(() =>
-    FEATURE_ICONS.map((icon, i) => ({
-      icon,
+    FEATURE_ICONS.map((Icon, i) => ({
+      Icon,
       title: t(`features.${i}.title`),
       description: t(`features.${i}.description`),
     })),
@@ -435,7 +435,7 @@ export default function WaitlistPage() {
                     className="wl-phase-visibility"
                     style={{ borderLeftColor: phase.color }}
                   >
-                    <span className="wl-phase-visibility-icon">{phase.icon}</span>
+                    <span className="wl-phase-visibility-icon"><phase.Icon size={18} /></span>
                     <span>{phase.visibility}</span>
                   </div>
                 </div>
@@ -458,7 +458,7 @@ export default function WaitlistPage() {
             <div className="wl-features-grid">
               {FEATURES_OVERVIEW.map((f, i) => (
                 <div key={i} className="wl-feature-card" data-animate>
-                  <div className="wl-feature-icon">{f.icon}</div>
+                  <div className="wl-feature-icon"><f.Icon size={18} /></div>
                   <h3>{f.title}</h3>
                   <p>{f.description}</p>
                 </div>

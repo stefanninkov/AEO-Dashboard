@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
+import { SearchCheck, BotMessageSquare, TrendingDown, BarChart4, FileEdit, Blocks, Radar, Link2, Smartphone, Mail, Globe2 } from 'lucide-react'
 import './LandingPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -10,9 +11,9 @@ import './LandingPage.css'
 const NAV_LINK_HREFS = ['#features', '#how-it-works', '#pricing', '#faq']
 
 const PROBLEM_META = [
-  { icon: '🔍', color: '#FF6B35' },
-  { icon: '🤖', color: '#7B2FBE' },
-  { icon: '📉', color: '#0EA5E9' },
+  { Icon: SearchCheck, color: '#FF6B35' },
+  { Icon: BotMessageSquare, color: '#7B2FBE' },
+  { Icon: TrendingDown, color: '#0EA5E9' },
 ]
 
 const FEATURE_BIG_META = [
@@ -21,7 +22,7 @@ const FEATURE_BIG_META = [
   { mockupType: 'testing' },
 ]
 
-const FEATURE_GRID_ICONS = ['📊', '✍️', '🏗️', '📡', '🔗', '📱', '📧', '🌐']
+const FEATURE_GRID_ICONS = [BarChart4, FileEdit, Blocks, Radar, Link2, Smartphone, Mail, Globe2]
 
 const PRICING_META = [
   { monthlyPrice: 29, quarterlyPrice: 25, yearlyPrice: 23, featured: false },
@@ -137,8 +138,8 @@ export default function LandingPage() {
   [t])
 
   const FEATURES_GRID = useMemo(() =>
-    FEATURE_GRID_ICONS.map((icon, i) => ({
-      icon,
+    FEATURE_GRID_ICONS.map((Icon, i) => ({
+      Icon,
       title: t(`features.grid.${i}.title`),
       description: t(`features.grid.${i}.description`),
     })),
@@ -607,7 +608,7 @@ export default function LandingPage() {
             {PROBLEMS.map((p, i) => (
               <div key={i} className="lp-problem-card" data-animate>
                 <div className="lp-problem-icon" style={{ background: p.color + '18', color: p.color }}>
-                  <span>{p.icon}</span>
+                  <p.Icon size={20} />
                 </div>
                 <h3>{p.title}</h3>
                 <p>{p.description}</p>
@@ -691,7 +692,7 @@ export default function LandingPage() {
           <div className="lp-features-grid">
             {FEATURES_GRID.map((f, i) => (
               <article key={i} className="lp-feature-grid-card" data-animate>
-                <div className="lp-feature-grid-icon">{f.icon}</div>
+                <div className="lp-feature-grid-icon"><f.Icon size={18} /></div>
                 <h3>{f.title}</h3>
                 <p>{f.description}</p>
               </article>

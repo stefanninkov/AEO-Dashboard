@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { PenTool, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle } from 'lucide-react'
+import { PenTool, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, HelpCircle, ClipboardList, Scale, ShoppingBag, BookText, Lightbulb, Star } from 'lucide-react'
 import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
 import { getAnalyzerIndustryContext, AUDIENCE_LABELS, INDUSTRY_LABELS, LANGUAGE_LABELS } from '../utils/getRecommendations'
@@ -12,7 +12,7 @@ function buildContentTypes(t) {
     {
       id: 'faq',
       label: t('writer.types.faq'),
-      icon: '❓',
+      Icon: HelpCircle,
       description: t('writer.typeDescriptions.faq'),
       prompt: (topic, context, tone) => `Generate an AEO-optimized FAQ section about "${topic}".
 ${context}
@@ -42,7 +42,7 @@ Return as JSON:
     {
       id: 'howto',
       label: t('writer.types.howTo'),
-      icon: '📋',
+      Icon: ClipboardList,
       description: t('writer.typeDescriptions.howTo'),
       prompt: (topic, context, tone) => `Create an AEO-optimized how-to guide about "${topic}".
 ${context}
@@ -77,7 +77,7 @@ Return as JSON:
     {
       id: 'comparison',
       label: t('writer.types.comparison'),
-      icon: '⚖️',
+      Icon: Scale,
       description: t('writer.typeDescriptions.comparison'),
       prompt: (topic, context, tone) => `Write an AEO-optimized comparison article about "${topic}".
 ${context}
@@ -115,7 +115,7 @@ Return as JSON:
     {
       id: 'product',
       label: t('writer.types.product'),
-      icon: '🛍️',
+      Icon: ShoppingBag,
       description: t('writer.typeDescriptions.product'),
       prompt: (topic, context, tone) => `Write an AEO-optimized product/service description for "${topic}".
 ${context}
@@ -158,7 +158,7 @@ Return as JSON:
     {
       id: 'definition',
       label: t('writer.types.definition'),
-      icon: '📖',
+      Icon: BookText,
       description: t('writer.typeDescriptions.definition'),
       prompt: (topic, context, tone) => `Write an AEO-optimized definition article about "${topic}".
 ${context}
@@ -361,7 +361,7 @@ Return ONLY valid JSON matching the requested format.`,
             onClick={() => setSelectedType(type.id)}
             className={`cw-type-card ${selectedType === type.id ? 'active' : ''}`}
           >
-            <span className="cw-type-icon">{type.icon}</span>
+            <span className="cw-type-icon"><type.Icon size={16} /></span>
             <span className="cw-type-label">{type.label}</span>
             <span className="cw-type-desc">{type.description}</span>
           </button>
@@ -451,7 +451,7 @@ Return ONLY valid JSON matching the requested format.`,
             return (
               <div key={entry.id} className="cw-history-item">
                 <button onClick={() => loadFromHistory(entry)} className="cw-history-item-main">
-                  <span className="cw-history-icon">{typeInfo?.icon || '📝'}</span>
+                  <span className="cw-history-icon">{typeInfo ? <typeInfo.Icon size={14} /> : <PenTool size={14} />}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p className="cw-history-topic">{entry.topic}</p>
                     <p className="cw-history-meta">
@@ -578,7 +578,7 @@ function HowToContent({ content }) {
             <div className="cw-step-content">
               <h4 className="cw-step-title">{step.title}</h4>
               <p className="cw-step-detail">{step.detail}</p>
-              {step.tip && <p className="cw-step-tip">💡 {step.tip}</p>}
+              {step.tip && <p className="cw-step-tip"><Lightbulb size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '0.25rem' }} /> {step.tip}</p>}
             </div>
           </div>
         ))}
@@ -602,7 +602,16 @@ function ComparisonContent({ content }) {
             <div className="cw-option-header">
               <h4 className="cw-option-name">{opt.name}</h4>
               {opt.rating && (
-                <span className="cw-option-rating">{'★'.repeat(opt.rating)}{'☆'.repeat(5 - opt.rating)}</span>
+                <span className="cw-option-rating" style={{ display: 'inline-flex', gap: '1px' }}>
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <Star
+                      key={i}
+                      size={14}
+                      fill={i < opt.rating ? 'currentColor' : 'none'}
+                      strokeWidth={i < opt.rating ? 0 : 1.5}
+                    />
+                  ))}
+                </span>
               )}
             </div>
             <p className="cw-option-desc">{opt.description}</p>
@@ -735,7 +744,7 @@ function contentToMarkdown(entry) {
       if (c.timeEstimate) md += `**Time:** ${c.timeEstimate}\n\n`
       c.steps?.forEach(step => {
         md += `### Step ${step.number || ''}: ${step.title}\n\n${step.detail}\n\n`
-        if (step.tip) md += `> 💡 ${step.tip}\n\n`
+        if (step.tip) md += `> **Tip:** ${step.tip}\n\n`
       })
       if (c.conclusion) md += `---\n\n${c.conclusion}\n\n`
       break

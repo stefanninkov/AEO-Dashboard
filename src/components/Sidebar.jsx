@@ -1,10 +1,10 @@
 import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Zap, LayoutDashboard, Zap as ZapIcon,
-  BarChart3, BookOpen, FlaskConical, Sun, Moon, LogOut, Plus,
-  Users, Settings, PenTool, Code2, Activity, Search, Layers,
-  CalendarDays,
+  LayoutGrid, ListChecks, Swords, ScanSearch, NotebookPen,
+  CalendarCog, Braces, Radar, ChartSpline, SearchCode,
+  ChartColumnIncreasing, Sparkles, FileText, FlaskConical,
+  SlidersHorizontal, Sun, Moon, LogOut, Plus,
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import PresenceAvatars from './PresenceAvatars'
@@ -32,21 +32,21 @@ function getAvatarColor(name) {
 }
 
 const NAV_ICONS = {
-  dashboard: LayoutDashboard,
-  checklist: BookOpen,
-  competitors: Users,
-  analyzer: ZapIcon,
-  writer: PenTool,
-  'content-ops': CalendarDays,
-  schema: Code2,
-  monitoring: Activity,
-  metrics: BarChart3,
-  gsc: Search,
-  ga4: Zap,
-  'aeo-impact': Layers,
-  docs: BookOpen,
+  dashboard: LayoutGrid,
+  checklist: ListChecks,
+  competitors: Swords,
+  analyzer: ScanSearch,
+  writer: NotebookPen,
+  'content-ops': CalendarCog,
+  schema: Braces,
+  monitoring: Radar,
+  metrics: ChartSpline,
+  gsc: SearchCode,
+  ga4: ChartColumnIncreasing,
+  'aeo-impact': Sparkles,
+  docs: FileText,
   testing: FlaskConical,
-  settings: Settings,
+  settings: SlidersHorizontal,
 }
 
 const NAV_KEYS = [

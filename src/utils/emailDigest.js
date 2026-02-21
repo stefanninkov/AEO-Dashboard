@@ -37,7 +37,7 @@ function generateDigestBody(project, settings) {
   const checkedCount = Object.values(project.checked || {}).filter(Boolean).length
   const progress = totalItems > 0 ? Math.round((checkedCount / totalItems) * 100) : 0
 
-  lines.push(`✅ CHECKLIST PROGRESS: ${checkedCount}/${totalItems} (${progress}%)`)
+  lines.push(`● CHECKLIST PROGRESS: ${checkedCount}/${totalItems} (${progress}%)`)
   lines.push('')
 
   // Per-phase breakdown
@@ -60,7 +60,7 @@ function generateDigestBody(project, settings) {
       ? project.metricsHistory[project.metricsHistory.length - 1]
       : null
 
-    lines.push('📊 AEO METRICS')
+    lines.push('▸ AEO METRICS')
     lines.push('')
 
     if (latestMetrics) {
@@ -99,7 +99,7 @@ function generateDigestBody(project, settings) {
       const threshold = settings.notifyThreshold || 10
 
       if (Math.abs(delta) >= threshold) {
-        lines.push('🚨 SCORE CHANGE ALERT')
+        lines.push('⚠ SCORE CHANGE ALERT')
         lines.push('')
         lines.push(`  Citation score ${delta > 0 ? 'increased' : 'decreased'} by ${Math.abs(delta)} points`)
         lines.push(`  Previous: ${previous.overallScore}%  →  Current: ${latest.overallScore}%`)
@@ -110,7 +110,7 @@ function generateDigestBody(project, settings) {
     // Monitoring summary
     if (monitorHistory.length > 0) {
       const latest = monitorHistory[monitorHistory.length - 1]
-      lines.push('📡 MONITORING SUMMARY')
+      lines.push('▸ MONITORING SUMMARY')
       lines.push('')
       lines.push(`  Citation Score: ${latest.overallScore}%`)
       lines.push(`  Queries Cited: ${latest.queriesCited}/${latest.queriesChecked}`)
@@ -122,7 +122,7 @@ function generateDigestBody(project, settings) {
 
   // ── Analyzer Summary ──
   if (project.analyzerResults) {
-    lines.push('🔍 SITE ANALYSIS')
+    lines.push('◆ SITE ANALYSIS')
     lines.push('')
     lines.push(`  Overall Score: ${project.analyzerResults.overallScore}%`)
     if (project.analyzerResults.topPriorities?.length > 0) {

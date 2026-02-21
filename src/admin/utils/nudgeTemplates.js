@@ -68,7 +68,7 @@ export const NUDGE_TEMPLATES = [
     subject: ({ name }) => `Welcome back, ${name || 'there'}!`,
     body: ({ name, project, appUrl }) =>
       `Hi ${name || 'there'},\n\n` +
-      `Great to see you back! 🎉\n\n` +
+      `Great to see you back! ★\n\n` +
       `${project ? `Your project "${project}" is ready for you. ` : ''}` +
       `Here's what's new since you've been away:\n` +
       `- The AI analyzer has been improved with better recommendations\n` +

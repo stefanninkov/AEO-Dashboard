@@ -3,12 +3,12 @@
  *
  * Tabs: Profile | API & Usage | Integrations | Projects
  */
-import { User, Key, Plug, FolderKanban } from 'lucide-react'
+import { UserRound, KeyRound, Unplug, FolderKanban } from 'lucide-react'
 
 const TABS = [
-  { id: 'profile', label: 'Profile', icon: User },
-  { id: 'api-usage', label: 'API & Usage', icon: Key },
-  { id: 'integrations', label: 'Integrations', icon: Plug },
+  { id: 'profile', label: 'Profile', icon: UserRound },
+  { id: 'api-usage', label: 'API & Usage', icon: KeyRound },
+  { id: 'integrations', label: 'Integrations', icon: Unplug },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
 ]
 
