@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import {
-  Search, ChevronDown, Plus, Trash2, Pencil, Check, X,
+  SearchCheck, ChevronDown, Plus, Trash2, Pencil, Check, X,
   RotateCw, FileDown, Mail, Menu, Sheet
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
@@ -341,7 +341,7 @@ export default memo(function TopBar({
             padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
             background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
           }}>
-            <Search size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+            <SearchCheck size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
             <input
               ref={searchInputRef}
               type="text"

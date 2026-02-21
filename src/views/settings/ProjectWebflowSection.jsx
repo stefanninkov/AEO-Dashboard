@@ -5,7 +5,7 @@
 import { useState, useCallback } from 'react'
 import {
   Globe, Loader2, AlertCircle, CheckCircle2, Copy, Check, RefreshCw,
-  Code2, FileText, Search, Layers, ArrowRight, ExternalLink, Zap
+  Code2, FileText, SearchCheck, Layers, ArrowRight, ExternalLink, Sparkles
 } from 'lucide-react'
 import { callAI } from '../../utils/apiClient'
 import { hasApiKey } from '../../utils/aiProvider'
@@ -460,7 +460,7 @@ Return ONLY valid JSON:
               className="btn-primary"
               style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
             >
-              {auditLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <Search size={12} />}
+              {auditLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <SearchCheck size={12} />}
               {auditLoading ? 'Auditing...' : 'Run Audit'}
             </button>
           </div>
@@ -490,7 +490,7 @@ Return ONLY valid JSON:
               {auditResults.topPriorities?.length > 0 && (
                 <div style={{ padding: '0.875rem', background: 'var(--hover-bg)', borderRadius: '0.5rem' }}>
                   <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                    <Zap size={12} style={{ color: 'var(--color-phase-1)' }} />
+                    <Sparkles size={12} style={{ color: 'var(--color-phase-1)' }} />
                     Top Priorities
                   </h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>

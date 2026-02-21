@@ -183,7 +183,7 @@ function PortalPhaseProgress({ project }) {
       <div className="portal-phases">
         {phaseData.map(phase => (
           <div key={phase.id} className="portal-phase-row">
-            <span className="portal-phase-icon">{phase.icon}</span>
+            <span className="portal-phase-icon" style={{ color: phase.color }}>{phase.Icon ? <phase.Icon size={16} /> : null}</span>
             <div className="portal-phase-info">
               <div className="portal-phase-top">
                 <span className="portal-phase-name">{phase.title}</span>

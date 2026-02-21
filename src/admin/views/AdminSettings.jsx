@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Settings, Shield, Bell, Globe, Database, Copy, Check, Save, Loader, ScrollText, Mail, Trash2 } from 'lucide-react'
+import { SlidersHorizontal, Shield, Bell, Globe, Database, Copy, Check, Save, Loader, ScrollText, Mail, Trash2 } from 'lucide-react'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import logger from '../../utils/logger'

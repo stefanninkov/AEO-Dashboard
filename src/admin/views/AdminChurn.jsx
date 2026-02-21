@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import {
-  UserX, TrendingDown, AlertTriangle, Search, RefreshCw,
+  UserX, TrendingDown, AlertTriangle, SearchCheck, RefreshCw,
   ArrowRight, Users, FolderKanban, ChevronDown, ChevronUp,
   Eye, Mail,
 } from 'lucide-react'
@@ -490,7 +490,7 @@ export default function AdminChurn({ user }) {
 
           {/* Search */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0.75rem', borderRadius: '0.5rem', background: 'var(--hover-bg)' }}>
-            <Search size={14} style={{ color: 'var(--text-disabled)' }} />
+            <SearchCheck size={14} style={{ color: 'var(--text-disabled)' }} />
             <input
               type="text"
               placeholder="Search users..."

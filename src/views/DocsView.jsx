@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  SearchCheck, BookOpen, ChevronRight, ChevronDown, LayoutDashboard,
+  SearchCheck, BookOpen, ChevronRight, ChevronDown, Gauge,
   Users, Sparkles, PenTool, CalendarDays, Code2, Activity,
   ChartColumnIncreasing, Layers, FlaskConical,
   SlidersHorizontal, ArrowRight, ExternalLink, Info, Lightbulb,
@@ -413,7 +413,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
         phaseNumber: phase.number,
         phaseTitle: phase.title,
         phaseColor: phase.color,
-        phaseIcon: phase.icon,
+        phaseIcon: phase.Icon,
         categoryName: cat.name,
       }))
     )
@@ -679,7 +679,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                 className={`docs-filter-pill${selectedPhase === phase.id ? ' active' : ''}`}
                 style={selectedPhase === phase.id ? { backgroundColor: phase.color } : undefined}
               >
-                {phase.icon} {t('phase')} {phase.number}
+                {phase.Icon && <phase.Icon size={13} style={{ marginRight: '0.25rem' }} />} {t('phase')} {phase.number}
               </button>
             ))}
           </div>
@@ -693,7 +693,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
           {groupedByPhase.map(phase => (
             <div key={phase.id} className="docs-phase-group">
               <div className="docs-phase-header">
-                <span className="docs-phase-icon">{phase.icon}</span>
+                <span className="docs-phase-icon" style={{ color: phase.color, display: 'inline-flex' }}>{phase.Icon ? <phase.Icon size={16} /> : null}</span>
                 <span className="docs-phase-label">{t('phase')} {phase.number}: {phase.title}</span>
                 <span className="docs-phase-count">{phase.docs.length} {phase.docs.length === 1 ? t('doc') : t('docs')}</span>
               </div>

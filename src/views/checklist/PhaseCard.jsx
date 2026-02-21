@@ -53,7 +53,7 @@ export default memo(function PhaseCard({
           background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)',
         }}
       >
-        <span style={{ fontSize: '1.125rem' }}>{phase.icon}</span>
+        <span style={{ fontSize: '1.125rem', display: 'inline-flex', color: phase.color }}>{phase.Icon ? <phase.Icon size={18} /> : null}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.0625rem', color: phase.color }}>

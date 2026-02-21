@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import {
-  SearchCheck, LayoutDashboard, Users, Sparkles,
+  SearchCheck, Gauge, Users, Sparkles,
   ChartColumnIncreasing, BookOpen, FlaskConical, SlidersHorizontal, Sun, Moon,
   Plus, Download, FileText, CornerDownLeft, PenTool,
   CalendarDays, Code2, Activity, Layers,
@@ -11,7 +11,7 @@ import { useTheme } from '../contexts/ThemeContext'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const NAV_ICONS = {
-  dashboard: LayoutDashboard,
+  dashboard: Gauge,
   checklist: BookOpen,
   competitors: Users,
   analyzer: Sparkles,

@@ -3,7 +3,7 @@ import {
   ArrowRight, ArrowLeft, Check, Rocket, Bot, X,
   Layers, ShoppingCart, Heart, Landmark, Scale, Home,
   GraduationCap, Megaphone, Store, Newspaper, Briefcase,
-  Lightbulb, Search, Globe, Monitor,
+  Lightbulb, SearchCheck, Globe, Monitor,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -399,7 +399,7 @@ export default function ProjectQuestionnaire({ onComplete, onCancel, initialData
 
                   {/* Search input */}
                   <div style={{ position: 'relative' }}>
-                    <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }} />
+                    <SearchCheck size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }} />
                     <input
                       type="text"
                       placeholder={t('questionnaire.step0.searchCountries')}

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import {
-  Users, Search, Mail, Calendar, Clock, FolderKanban,
+  Users, SearchCheck, Mail, Calendar, Clock, FolderKanban,
   ChevronDown, ChevronUp, Shield, RefreshCw, CheckSquare,
   Activity, Sparkles, ChartColumnIncreasing,
 } from 'lucide-react'
@@ -469,7 +469,7 @@ export default function AdminUsers({ user }) {
 
       {/* Search */}
       <div className="card" style={{ padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <Search size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+        <SearchCheck size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
         <input
           type="text"
           placeholder="Search by name, email, UID, or agency..."

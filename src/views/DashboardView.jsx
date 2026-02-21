@@ -279,7 +279,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 const pp = getPhaseProgress(phase)
                 return (
                   <div key={phase.id} className="phase-progress-row" onClick={() => setActiveView('checklist')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveView('checklist') } }} role="button" tabIndex={0} aria-label={`${phase.title} — click to view checklist`}>
-                    <div className="phase-row-icon" style={{ background: phase.color + '15' }}>{phase.icon}</div>
+                    <div className="phase-row-icon" style={{ background: phase.color + '15', color: phase.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{phase.Icon ? <phase.Icon size={16} /> : null}</div>
                     <div className="phase-row-name">{phase.title}</div>
                     <div className="phase-row-count">{pp.checked}/{pp.total}</div>
                     <div className="phase-row-percent" style={{ color: phase.color }}>{pp.percent}%</div>

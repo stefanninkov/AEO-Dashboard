@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import {
-  Sparkles, ArrowRight, ArrowLeft, Compass, CheckSquare, LayoutDashboard, Rocket,
+  Sparkles, ArrowRight, ArrowLeft, Compass, CheckSquare, Gauge, Rocket,
   ChartColumnIncreasing, BookOpen, FlaskConical, SlidersHorizontal, PenTool, Code2, Activity,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -10,9 +10,9 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 const STEP_META = [
   { id: 'welcome',           icon: Sparkles,        sectionKey: 'gettingStarted', target: null,                                view: null },
   { id: 'sidebar',           icon: Compass,         sectionKey: 'gettingStarted', target: '.sidebar',                          view: 'dashboard' },
-  { id: 'project-switcher',  icon: LayoutDashboard, sectionKey: 'gettingStarted', target: '.top-bar-row-1 .relative',          view: 'dashboard' },
+  { id: 'project-switcher',  icon: Gauge, sectionKey: 'gettingStarted', target: '.top-bar-row-1 .relative',          view: 'dashboard' },
   { id: 'progress',          icon: ChartColumnIncreasing, sectionKey: 'gettingStarted', target: '.top-bar-progress',                 view: 'dashboard' },
-  { id: 'dashboard',         icon: LayoutDashboard, sectionKey: 'coreTools',      target: '.stat-card',                        view: 'dashboard' },
+  { id: 'dashboard',         icon: Gauge, sectionKey: 'coreTools',      target: '.stat-card',                        view: 'dashboard' },
   { id: 'checklist',         icon: CheckSquare,     sectionKey: 'coreTools',      target: '.checklist-stats-grid',             view: 'checklist' },
   { id: 'analyzer',          icon: Sparkles,        sectionKey: 'coreTools',      target: 'input[placeholder="https://example.com"]', view: 'analyzer' },
   { id: 'writer',            icon: PenTool,         sectionKey: 'creationTools',  target: null,                                view: 'writer' },

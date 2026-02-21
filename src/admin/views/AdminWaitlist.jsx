@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { UserPlus, Search, RefreshCw, Download, Mail, TrendingUp, Users } from 'lucide-react'
+import { UserPlus, SearchCheck, RefreshCw, Download, Mail, TrendingUp, Users } from 'lucide-react'
 import { collection, getDocs, orderBy, query, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 
@@ -167,7 +167,7 @@ export default function AdminWaitlist({ user }) {
       <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
         {/* Search */}
         <div className="card" style={{ padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, minWidth: '12rem' }}>
-          <Search size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+          <SearchCheck size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Search emails..."

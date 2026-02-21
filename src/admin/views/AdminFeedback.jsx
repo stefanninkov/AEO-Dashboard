@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import {
-  MessageSquare, Search, RefreshCw, Filter, ChevronDown, ChevronUp,
+  MessageSquare, SearchCheck, RefreshCw, Filter, ChevronDown, ChevronUp,
   Monitor, Eye, CheckCircle, Bug, Lightbulb, MessageCircle,
   AlertTriangle, ArrowUp, Minus as MinusIcon, Clock,
   Heart, ThumbsUp, ThumbsDown,
@@ -268,7 +268,7 @@ export default function AdminFeedback({ user }) {
       {/* Filters */}
       <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
         <div className="card" style={{ padding: '0.625rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1, minWidth: '12rem' }}>
-          <Search size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+          <SearchCheck size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Search feedback..."

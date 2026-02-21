@@ -50,7 +50,7 @@ function generateDigestBody(project, settings) {
       })
     })
     const pct = phaseTotal > 0 ? Math.round((phaseChecked / phaseTotal) * 100) : 0
-    lines.push(`  ${phase.icon} ${phase.title}: ${phaseChecked}/${phaseTotal} (${pct}%)`)
+    lines.push(`  ▸ ${phase.title}: ${phaseChecked}/${phaseTotal} (${pct}%)`)
   })
   lines.push('')
 

@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Clock, Calendar, Plus, Trash2, ExternalLink,
-  CheckCircle2, XCircle, MinusCircle, ChevronDown, Search,
+  CheckCircle2, XCircle, MinusCircle, ChevronDown, SearchCheck,
   Activity, Zap, Loader2, AlertCircle
 } from 'lucide-react'
 import { useAutoMonitor } from '../hooks/useAutoMonitor'
@@ -489,7 +489,7 @@ export default function TestingView({ activeProject, updateProject }) {
           /* Empty state */
           <div className="flex flex-col items-center justify-center py-10 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
-              <Search size={20} className="text-text-tertiary" />
+              <SearchCheck size={20} className="text-text-tertiary" />
             </div>
             <h3 className="font-heading text-sm font-bold mb-1">{t('testing.noQueriesYet')}</h3>
             <p className="text-xs text-text-tertiary text-center max-w-xs">{t('testing.noQueriesDesc')}</p>

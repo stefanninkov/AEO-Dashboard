@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import {
-  FolderKanban, Search, RefreshCw, ChevronDown, ChevronUp,
+  FolderKanban, SearchCheck, RefreshCw, ChevronDown, ChevronUp,
   Users, ExternalLink, Activity, FileText, ChartColumnIncreasing,
   Calendar, Target, Clock, AlertTriangle, CheckCircle2,
   XCircle, PauseCircle, Sparkles, Eye,
@@ -458,7 +458,7 @@ export default function AdminProjects({ user }) {
 
         {/* Search */}
         <div className="card" style={{ padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <Search size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+          <SearchCheck size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Search by project name, URL, or owner..."

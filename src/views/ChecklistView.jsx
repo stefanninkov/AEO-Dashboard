@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import { Search, CheckCircle2, Lightbulb, ChevronDown } from 'lucide-react'
+import { SearchCheck, CheckCircle2, Lightbulb, ChevronDown } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
@@ -356,7 +356,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       const prevPercent = prev[phase.id]
       if (prevPercent !== undefined && prevPercent < 100 && progress.percent === 100) {
         setCelebratingPhase(phase.id)
-        addToast('success', `${phase.icon} Phase ${phase.number} complete: ${phase.title}`)
+        addToast('success', `Phase ${phase.number} complete: ${phase.title}`)
         setTimeout(() => setCelebratingPhase(null), 650)
       }
     })
@@ -432,7 +432,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
 
       {/* Search */}
       <div style={{ position: 'relative' }}>
-        <Search size={14} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: searchFocused ? 'var(--color-phase-3)' : 'var(--text-disabled)', transition: 'color 200ms' }} />
+        <SearchCheck size={14} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: searchFocused ? 'var(--color-phase-3)' : 'var(--text-disabled)', transition: 'color 200ms' }} />
         <input
           type="text"
           placeholder="Search tasks... (Ctrl+K)"
@@ -505,7 +505,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       {debouncedSearch.trim() && filteredPhases.length === 0 && (
         <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem', border: '0.125rem dashed var(--border-default)' }}>
           <div style={{ width: '3rem', height: '3rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem' }}>
-            <Search size={20} style={{ color: 'var(--text-tertiary)' }} />
+            <SearchCheck size={20} style={{ color: 'var(--text-tertiary)' }} />
           </div>
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '0.25rem', color: 'var(--text-primary)' }}>No matching tasks</h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Try a different search term</p>

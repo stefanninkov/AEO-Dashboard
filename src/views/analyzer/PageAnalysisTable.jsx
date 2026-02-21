@@ -7,7 +7,7 @@
 
 import { useState, useMemo } from 'react'
 import {
-  ArrowUp, ArrowDown, Search, Download, RefreshCw, Trash2, ExternalLink,
+  ArrowUp, ArrowDown, SearchCheck, Download, RefreshCw, Trash2, ExternalLink,
 } from 'lucide-react'
 import { shortPageUrl } from './usePageAnalyzer'
 
@@ -131,7 +131,7 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
           padding: '0.375rem 0.625rem', borderRadius: '0.5rem',
           background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
         }}>
-          <Search size={13} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+          <SearchCheck size={13} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Filter pages..."

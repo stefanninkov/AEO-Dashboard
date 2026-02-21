@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Send, Bot, User, AlertCircle, Settings, Loader } from 'lucide-react'
+import { Send, Bot, User, AlertCircle, SlidersHorizontal, Loader } from 'lucide-react'
 import { collection, addDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { callAI } from '../../utils/apiClient'
@@ -149,7 +149,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
               border: 'none', transition: 'all 150ms',
             }}
           >
-            <Settings size={13} />
+            <SlidersHorizontal size={13} />
             Go to Settings
           </button>
         )}

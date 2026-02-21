@@ -361,7 +361,7 @@ export default function WaitlistPage() {
 
             {count > 0 && (
               <p className="wl-counter">
-                {t('hero.joinedCount', { count: count.toLocaleString() })}
+                {t('hero.joinedCount', { count })}
               </p>
             )}
           </div>

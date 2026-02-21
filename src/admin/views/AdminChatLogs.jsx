@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { BotMessageSquare, Search, RefreshCw, ChevronDown, ChevronUp, User, Bot, MessageCircle } from 'lucide-react'
+import { BotMessageSquare, SearchCheck, RefreshCw, ChevronDown, ChevronUp, User, Bot, MessageCircle } from 'lucide-react'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../../firebase'
 
@@ -111,7 +111,7 @@ export default function AdminChatLogs({ user }) {
 
       {/* Search */}
       <div className="card" style={{ padding: '0.625rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <Search size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+        <SearchCheck size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
         <input
           type="text"
           placeholder="Search conversations..."

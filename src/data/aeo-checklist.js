@@ -1,10 +1,13 @@
+import { Blocks, ChartColumnIncreasing, NotebookPen, Cog, Trophy, FlaskConical, Radar } from 'lucide-react'
+
 export const phases = [
   {
     id: 'phase-1',
     number: 1,
     title: 'Foundation & Audit',
     color: '#FF6B35',
-    icon: '\u{1F3D7}\uFE0F',
+    icon: 'phase-1',
+    Icon: Blocks,
     timeline: 'Week 1-2',
     description: 'Establish your AEO baseline by auditing existing content and technical infrastructure.',
     categories: [
@@ -223,7 +226,8 @@ export const phases = [
     number: 2,
     title: 'Structured Data & Schema',
     color: '#7B2FBE',
-    icon: '\u{1F4CA}',
+    icon: 'phase-2',
+    Icon: ChartColumnIncreasing,
     timeline: 'Week 2-4',
     description: 'Implement comprehensive schema markup to make your content machine-readable for AI engines.',
     categories: [
@@ -427,7 +431,8 @@ export const phases = [
     number: 3,
     title: 'Content Optimization',
     color: '#0EA5E9',
-    icon: '\u270D\uFE0F',
+    icon: 'phase-3',
+    Icon: NotebookPen,
     timeline: 'Week 3-8',
     description: 'Restructure and optimize content to be the best possible answer for AI engines.',
     categories: [
@@ -772,7 +777,8 @@ export const phases = [
     number: 4,
     title: 'Technical AEO',
     color: '#10B981',
-    icon: '\u2699\uFE0F',
+    icon: 'phase-4',
+    Icon: Cog,
     timeline: 'Week 4-6',
     description: 'Ensure your site is technically optimized for AI crawling, parsing, and content extraction.',
     categories: [
@@ -989,7 +995,8 @@ export const phases = [
     number: 5,
     title: 'Authority & Trust Signals',
     color: '#F59E0B',
-    icon: '\u{1F3C6}',
+    icon: 'phase-5',
+    Icon: Trophy,
     timeline: 'Week 6-12+',
     description: 'Build brand authority and trust signals that AI engines use to evaluate source credibility.',
     categories: [
@@ -1186,7 +1193,8 @@ export const phases = [
     number: 6,
     title: 'Testing & Validation',
     color: '#EC4899',
-    icon: '\u{1F9EA}',
+    icon: 'phase-6',
+    Icon: FlaskConical,
     timeline: 'Week 6-8',
     description: 'Systematically test your AEO implementation across all AI platforms and validate technical setup.',
     categories: [
@@ -1410,7 +1418,8 @@ export const phases = [
     number: 7,
     title: 'Monitor & Iterate',
     color: '#EF4444',
-    icon: '\u{1F4C8}',
+    icon: 'phase-7',
+    Icon: Radar,
     timeline: 'Week 8+ ongoing',
     description: 'Establish ongoing monitoring, track results, and continuously improve AEO performance.',
     categories: [

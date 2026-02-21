@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import {
   ChartColumnIncreasing, Users, FolderKanban, CheckSquare, Activity,
   TrendingUp, Mail, MessageSquare, UserPlus, Sparkles,
-  Target, Clock, Layers,
+  Target, Clock, Layers, Heart, ThumbsUp, Minus, ThumbsDown,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 
@@ -334,7 +334,7 @@ export default function AdminAnalytics({ user }) {
 
   const BAR_COLORS = ['#FF6B35', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#F59E0B', '#06B6D4', '#EF4444']
   const BUCKET_COLORS = { '0%': '#6B7280', '1-25%': '#EF4444', '26-50%': '#F59E0B', '51-75%': '#3B82F6', '76-99%': '#10B981', '100%': '#8B5CF6' }
-  const SENTIMENT_EMOJI = { love: '\uD83D\uDE0D', good: '\uD83D\uDE0A', okay: '\uD83D\uDE10', frustrated: '\uD83D\uDE1F' }
+  const SENTIMENT_ICONS = { love: Heart, good: ThumbsUp, okay: Minus, frustrated: ThumbsDown }
   const SENTIMENT_COLORS = { love: '#10B981', good: '#3B82F6', okay: '#F59E0B', frustrated: '#EF4444' }
   const FEATURE_COLORS = {
     analyzer: '#FF6B35', contentWriter: '#3B82F6', competitors: '#8B5CF6',
@@ -636,7 +636,7 @@ export default function AdminAnalytics({ user }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {Object.entries(analytics?.sentimentCounts || {}).map(([key, count]) => (
                 <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <span style={{ fontSize: '1.125rem', width: '1.5rem', textAlign: 'center' }}>{SENTIMENT_EMOJI[key]}</span>
+                  <span style={{ width: '1.5rem', textAlign: 'center', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: SENTIMENT_COLORS[key] }}>{(() => { const SIcon = SENTIMENT_ICONS[key]; return SIcon ? <SIcon size={18} /> : null })()}</span>
                   <div style={{ flex: 1, height: '1.25rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', overflow: 'hidden' }}>
                     <div style={{
                       width: `${stats.feedbackTotal > 0 ? (count / stats.feedbackTotal) * 100 : 0}%`,

@@ -14,7 +14,7 @@
  * @param {string} [options.accentColor] - hex accent color (default: #FF6B35)
  */
 export async function generatePdf({ project, phases, sections, agencyName, reportDate, logoDataUrl, accentColor }) {
-  const [{ default: jsPDF }, { applyPlugin }] = await Promise.all([
+  const [{ jsPDF }, { applyPlugin }] = await Promise.all([
     import('jspdf'),
     import('jspdf-autotable'),
   ])
