@@ -23,7 +23,7 @@ const MCP_CONFIG = {
 
 const TABS = [
   { id: 'sites', label: 'My Sites', icon: Globe },
-  { id: 'audit', label: 'AEO Audit', icon: Search },
+  { id: 'audit', label: 'AEO Audit', icon: SearchCheck },
   { id: 'schema', label: 'Schema Inject', icon: Code2 },
   { id: 'content', label: 'Content', icon: FileText },
   { id: 'pages', label: 'Pages', icon: Layers },
