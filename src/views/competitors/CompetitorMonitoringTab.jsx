@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { hasApiKey } from '../../utils/aiProvider'
 import {
   Activity, Play, Loader2, AlertTriangle, TrendingUp, TrendingDown,
-  ChevronDown, ChevronUp, Search, XCircle, CheckCircle2, Clock,
-  Settings, Zap, Minus, ExternalLink, Bell, Star
+  ChevronDown, ChevronUp, SearchCheck, XCircle, CheckCircle2, Clock,
+  SlidersHorizontal, Sparkles, Minus, ExternalLink, Bell, Star
 } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -209,7 +209,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
               fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--text-secondary)',
             }}
           >
-            <Settings size={13} /> Settings
+            <SlidersHorizontal size={13} /> Settings
           </button>
         </div>
       </div>
@@ -401,7 +401,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                       fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.6,
                     }}>
                       <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                        <Zap size={12} style={{ color: 'var(--color-phase-5)' }} /> Analysis
+                        <Sparkles size={12} style={{ color: 'var(--color-phase-5)' }} /> Analysis
                       </div>
                       <p style={{ margin: '0 0 0.375rem' }}>{alert.aiAnalysis}</p>
                       {alert.suggestions?.length > 0 && (
@@ -436,7 +436,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                     >
                       {reversingId === alert.id
                         ? <><Loader2 size={11} className="spin" /> Analyzing...</>
-                        : <><Search size={11} /> Analyze</>}
+                        : <><SearchCheck size={11} /> Analyze</>}
                     </button>
                   )}
                   <button

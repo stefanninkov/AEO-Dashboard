@@ -14,7 +14,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Zap, BarChart3, Users, Clock, ArrowUpDown, Globe,
+  Sparkles, ChartColumnIncreasing, Users, Clock, ArrowUpDown, Globe,
   RefreshCw, Loader2, TrendingUp, ExternalLink,
   ArrowDown, ArrowUp, ChevronRight,
 } from 'lucide-react'
@@ -346,7 +346,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
           {/* Stat cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: '0.75rem' }}>
             <StatCard
-              icon={Zap}
+              icon={Sparkles}
               label={t('ga4.aiSessions')}
               value={fmt(trafficData.totalAiSessions)}
               subValue={t('ga4.ofTotalTraffic', { value: fmtPct(trafficData.aiSessionShare) })}

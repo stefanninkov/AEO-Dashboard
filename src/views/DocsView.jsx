@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Search, BookOpen, ChevronRight, ChevronDown, LayoutDashboard,
-  Users, Zap as ZapIcon, PenTool, CalendarDays, Code2, Activity,
-  BarChart3, Search as SearchIcon, Zap, Layers, FlaskConical,
-  Settings, ArrowRight, ExternalLink, Info, Lightbulb,
-  Rocket, HelpCircle, Sparkles,
+  SearchCheck, BookOpen, ChevronRight, ChevronDown, LayoutDashboard,
+  Users, Sparkles, PenTool, CalendarDays, Code2, Activity,
+  ChartColumnIncreasing, Layers, FlaskConical,
+  SlidersHorizontal, ArrowRight, ExternalLink, Info, Lightbulb,
+  Rocket, HelpCircle,
 } from 'lucide-react'
 import { useDebounce } from '../hooks/useDebounce'
 
@@ -111,7 +111,7 @@ export const APP_SECTIONS = [
   },
   {
     id: 'analyzer',
-    icon: ZapIcon,
+    icon: Sparkles,
     title: 'Analyzer',
     viewId: 'analyzer',
     color: '#f59e0b',
@@ -213,7 +213,7 @@ export const APP_SECTIONS = [
   },
   {
     id: 'metrics',
-    icon: BarChart3,
+    icon: ChartColumnIncreasing,
     title: 'Metrics',
     viewId: 'metrics',
     color: '#8b5cf6',
@@ -231,7 +231,7 @@ export const APP_SECTIONS = [
   },
   {
     id: 'gsc',
-    icon: SearchIcon,
+    icon: SearchCheck,
     title: 'Search Console',
     viewId: 'gsc',
     color: '#4285f4',
@@ -249,7 +249,7 @@ export const APP_SECTIONS = [
   },
   {
     id: 'ga4',
-    icon: Zap,
+    icon: Sparkles,
     title: 'AI Traffic',
     viewId: 'ga4',
     color: '#22c55e',
@@ -303,7 +303,7 @@ export const APP_SECTIONS = [
   },
   {
     id: 'settings',
-    icon: Settings,
+    icon: SlidersHorizontal,
     title: 'Settings',
     viewId: 'settings',
     color: '#64748b',
@@ -516,7 +516,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
 
       {/* Search */}
       <div className="docs-search-wrap">
-        <Search size={14} className="docs-search-icon" />
+        <SearchCheck size={14} className="docs-search-icon" />
         <input
           type="text"
           placeholder={
@@ -651,7 +651,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
           {filteredGuide.length === 0 && (
             <div className="docs-empty">
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
-                <Search size={20} className="text-text-tertiary" />
+                <SearchCheck size={20} className="text-text-tertiary" />
               </div>
               <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('noMatchingFeatures')}</h3>
               <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{t('tryDifferentSearch')}</p>

@@ -1,26 +1,26 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import {
-  Zap, ArrowRight, ArrowLeft, Compass, CheckSquare, LayoutDashboard, Rocket,
-  BarChart3, BookOpen, FlaskConical, Settings, PenTool, Code2, Activity,
+  Sparkles, ArrowRight, ArrowLeft, Compass, CheckSquare, LayoutDashboard, Rocket,
+  ChartColumnIncreasing, BookOpen, FlaskConical, SlidersHorizontal, PenTool, Code2, Activity,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
 /* Non-translatable step metadata — icons, targets, views stay module-scope */
 const STEP_META = [
-  { id: 'welcome',           icon: Zap,             sectionKey: 'gettingStarted', target: null,                                view: null },
+  { id: 'welcome',           icon: Sparkles,        sectionKey: 'gettingStarted', target: null,                                view: null },
   { id: 'sidebar',           icon: Compass,         sectionKey: 'gettingStarted', target: '.sidebar',                          view: 'dashboard' },
   { id: 'project-switcher',  icon: LayoutDashboard, sectionKey: 'gettingStarted', target: '.top-bar-row-1 .relative',          view: 'dashboard' },
-  { id: 'progress',          icon: BarChart3,       sectionKey: 'gettingStarted', target: '.top-bar-progress',                 view: 'dashboard' },
+  { id: 'progress',          icon: ChartColumnIncreasing, sectionKey: 'gettingStarted', target: '.top-bar-progress',                 view: 'dashboard' },
   { id: 'dashboard',         icon: LayoutDashboard, sectionKey: 'coreTools',      target: '.stat-card',                        view: 'dashboard' },
   { id: 'checklist',         icon: CheckSquare,     sectionKey: 'coreTools',      target: '.checklist-stats-grid',             view: 'checklist' },
-  { id: 'analyzer',          icon: Zap,             sectionKey: 'coreTools',      target: 'input[placeholder="https://example.com"]', view: 'analyzer' },
+  { id: 'analyzer',          icon: Sparkles,        sectionKey: 'coreTools',      target: 'input[placeholder="https://example.com"]', view: 'analyzer' },
   { id: 'writer',            icon: PenTool,         sectionKey: 'creationTools',  target: null,                                view: 'writer' },
   { id: 'schema',            icon: Code2,           sectionKey: 'creationTools',  target: null,                                view: 'schema' },
   { id: 'testing',           icon: FlaskConical,    sectionKey: 'measurement',    target: null,                                view: 'testing' },
   { id: 'metrics-monitoring', icon: Activity,       sectionKey: 'measurement',    target: null,                                view: 'metrics' },
   { id: 'docs',              icon: BookOpen,        sectionKey: 'resources',      target: null,                                view: 'docs' },
-  { id: 'settings',          icon: Settings,        sectionKey: 'resources',      target: null,                                view: 'settings' },
+  { id: 'settings',          icon: SlidersHorizontal, sectionKey: 'resources',      target: null,                                view: 'settings' },
   { id: 'get-started',       icon: Rocket,          sectionKey: 'letsGo',        target: null,                                view: null, hasCta: true },
 ]
 

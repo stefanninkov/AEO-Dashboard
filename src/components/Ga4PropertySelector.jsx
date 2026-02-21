@@ -6,7 +6,7 @@
  */
 
 import { useState } from 'react'
-import { BarChart3, ChevronDown, Check, RefreshCw, Loader2, ExternalLink, AlertCircle } from 'lucide-react'
+import { ChartColumnIncreasing, ChevronDown, Check, RefreshCw, Loader2, ExternalLink, AlertCircle } from 'lucide-react'
 import { useGa4Properties } from '../hooks/useGa4Properties'
 import { getPropertyId } from '../utils/ga4Api'
 
@@ -64,7 +64,7 @@ export default function Ga4PropertySelector({
           transition: 'border-color 150ms ease',
         }}
       >
-        <BarChart3 size={compact ? 13 : 14} style={{ color: '#10B981', flexShrink: 0 }} />
+        <ChartColumnIncreasing size={compact ? 13 : 14} style={{ color: '#10B981', flexShrink: 0 }} />
         <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {loading ? 'Loading properties...' : selectedDisplay || 'Select a GA4 property'}
         </span>
@@ -197,7 +197,7 @@ export default function Ga4PropertySelector({
                       {isSelected ? (
                         <Check size={13} style={{ color: '#10B981', flexShrink: 0 }} />
                       ) : (
-                        <BarChart3 size={13} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
+                        <ChartColumnIncreasing size={13} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
                       )}
 
                       <div style={{ flex: 1, overflow: 'hidden' }}>

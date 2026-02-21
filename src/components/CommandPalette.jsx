@@ -2,8 +2,8 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import {
-  Search, LayoutDashboard, Users, Zap,
-  BarChart3, BookOpen, FlaskConical, Settings, Sun, Moon,
+  SearchCheck, LayoutDashboard, Users, Sparkles,
+  ChartColumnIncreasing, BookOpen, FlaskConical, SlidersHorizontal, Sun, Moon,
   Plus, Download, FileText, CornerDownLeft, PenTool,
   CalendarDays, Code2, Activity, Layers,
 } from 'lucide-react'
@@ -14,18 +14,18 @@ const NAV_ICONS = {
   dashboard: LayoutDashboard,
   checklist: BookOpen,
   competitors: Users,
-  analyzer: Zap,
+  analyzer: Sparkles,
   writer: PenTool,
   'content-ops': CalendarDays,
   schema: Code2,
   monitoring: Activity,
-  metrics: BarChart3,
-  gsc: Search,
-  ga4: Zap,
+  metrics: ChartColumnIncreasing,
+  gsc: SearchCheck,
+  ga4: Sparkles,
   'aeo-impact': Layers,
   docs: BookOpen,
   testing: FlaskConical,
-  settings: Settings,
+  settings: SlidersHorizontal,
 }
 
 const NAV_KEYS = [
@@ -106,7 +106,7 @@ export default function CommandPalette({
         id: 'action-analyzer',
         type: 'Action',
         label: t('actions.runAnalyzer'),
-        icon: Zap,
+        icon: Sparkles,
         action: () => setActiveView('analyzer'),
       },
       {
@@ -298,7 +298,7 @@ export default function CommandPalette({
       >
         {/* Search Input Row */}
         <div className="cmd-palette-input-row">
-          <Search size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+          <SearchCheck size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
           <input
             ref={inputRef}
             type="text"

@@ -3,11 +3,17 @@ import {
   MessageSquare, Search, RefreshCw, Filter, ChevronDown, ChevronUp,
   Monitor, Eye, CheckCircle, Bug, Lightbulb, MessageCircle,
   AlertTriangle, ArrowUp, Minus as MinusIcon, Clock,
+  Heart, ThumbsUp, ThumbsDown,
 } from 'lucide-react'
 import { collection, getDocs, doc, updateDoc, orderBy, query } from 'firebase/firestore'
 import { db } from '../../firebase'
 
-const RATING_EMOJI = { love: '\uD83D\uDE0D', good: '\uD83D\uDE0A', okay: '\uD83D\uDE10', frustrated: '\uD83D\uDE1F' }
+const RATING_ICONS = {
+  love: { Icon: Heart, color: '#EF4444' },
+  good: { Icon: ThumbsUp, color: '#10B981' },
+  okay: { Icon: MinusIcon, color: '#F59E0B' },
+  frustrated: { Icon: ThumbsDown, color: '#EF4444' },
+}
 const RATING_LABELS = { love: 'Love it', good: 'Good', okay: 'Okay', frustrated: 'Frustrating' }
 
 const CATEGORY_CONFIG = {
@@ -248,9 +254,9 @@ export default function AdminFeedback({ user }) {
         </div>
 
         {/* Rating Distribution */}
-        {Object.entries(RATING_EMOJI).map(([key, emoji]) => (
+        {Object.entries(RATING_ICONS).map(([key, { Icon, color }]) => (
           <div key={key} className="card" style={{ padding: '1rem', textAlign: 'center' }}>
-            <div style={{ fontSize: 20, marginBottom: 2 }}>{emoji}</div>
+            <div style={{ marginBottom: 2, display: 'flex', justifyContent: 'center' }}><Icon size={20} style={{ color }} /></div>
             <div style={{ fontSize: '1.125rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
               {stats.ratings[key]}
             </div>
@@ -323,11 +329,10 @@ export default function AdminFeedback({ user }) {
                   </div>
 
                   {/* Rating (for general) */}
-                  {item.rating && (
-                    <span style={{ fontSize: '1rem', flexShrink: 0 }}>
-                      {RATING_EMOJI[item.rating] || ''}
-                    </span>
-                  )}
+                  {item.rating && RATING_ICONS[item.rating] && (() => {
+                    const { Icon, color } = RATING_ICONS[item.rating]
+                    return <span style={{ flexShrink: 0, display: 'flex' }}><Icon size={16} style={{ color }} /></span>
+                  })()}
 
                   {/* Main content */}
                   <div style={{ flex: 1, minWidth: 0 }}>

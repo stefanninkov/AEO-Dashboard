@@ -14,16 +14,12 @@
  * @param {string} [options.accentColor] - hex accent color (default: #FF6B35)
  */
 export async function generatePdf({ project, phases, sections, agencyName, reportDate, logoDataUrl, accentColor }) {
-  const [{ default: jsPDF }, autoTableModule] = await Promise.all([
+  const [{ default: jsPDF }, { applyPlugin }] = await Promise.all([
     import('jspdf'),
     import('jspdf-autotable'),
   ])
-  // Ensure the autotable plugin is applied (some bundlers don't execute side effects reliably)
-  if (typeof autoTableModule.default === 'function') {
-    autoTableModule.default(jsPDF)
-  } else if (typeof autoTableModule.applyPlugin === 'function') {
-    autoTableModule.applyPlugin(jsPDF)
-  }
+  // jspdf-autotable v5 requires explicit plugin application
+  applyPlugin(jsPDF)
   const doc = new jsPDF('p', 'mm', 'a4')
   if (typeof doc.autoTable !== 'function') {
     throw new Error('PDF table plugin failed to load. Please refresh the page and try again.')

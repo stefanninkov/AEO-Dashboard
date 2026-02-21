@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import {
   Users, Search, Mail, Calendar, Clock, FolderKanban,
   ChevronDown, ChevronUp, Shield, RefreshCw, CheckSquare,
-  Activity, Zap, BarChart3,
+  Activity, Sparkles, ChartColumnIncreasing,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 import NudgeEmailDialog from '../components/NudgeEmailDialog'

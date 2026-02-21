@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import {
   Users, FolderKanban, Activity, CheckSquare,
-  RefreshCw, Clock, UserPlus, TrendingUp, Zap, AlertTriangle,
+  RefreshCw, Clock, UserPlus, TrendingUp, Sparkles, AlertTriangle,
   Mail, MessageSquare, ArrowUpRight, ArrowDownRight, Minus,
   Shield, ShieldAlert, ShieldOff, UserX, AlertCircle,
-  ChevronDown, ChevronUp, Cpu, BarChart3, Target,
+  ChevronDown, ChevronUp, Cpu, ChartColumnIncreasing, Target,
+  Heart, ThumbsUp, ThumbsDown,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 import NudgeEmailDialog from '../components/NudgeEmailDialog'
@@ -515,7 +516,7 @@ export default function AdminDashboard({ user, onNavigate }) {
           color="#0EA5E9"
         />
         <StatCard
-          icon={Zap}
+          icon={Sparkles}
           label="Engagement"
           value={`${stats.activeToday} / ${stats.activeThisWeek}`}
           sublabel={`DAU/WAU: ${dauWauRatio}%`}
@@ -582,7 +583,7 @@ export default function AdminDashboard({ user, onNavigate }) {
 
         {/* Feature Adoption */}
         <div className="card" style={{ overflow: 'hidden' }}>
-          <SectionHeader icon={BarChart3} title="Feature Adoption" color="#3B82F6" />
+          <SectionHeader icon={ChartColumnIncreasing} title="Feature Adoption" color="#3B82F6" />
           <div style={{ padding: '1rem 1.25rem' }}>
             {stats.featureUsage && Object.entries(stats.featureUsage).map(([key, val]) => {
               const featureLabels = {
@@ -1087,7 +1088,7 @@ export default function AdminDashboard({ user, onNavigate }) {
           />
           <div style={{ maxHeight: '14rem', overflowY: 'auto' }}>
             {(stats.feedbackEntries || []).slice(0, 8).map(fb => {
-              const RATING_EMOJI = { love: '\uD83D\uDE0D', good: '\uD83D\uDE0A', okay: '\uD83D\uDE10', frustrated: '\uD83D\uDE1F' }
+              const RATING_ICONS = { love: { Icon: Heart, color: '#EF4444' }, good: { Icon: ThumbsUp, color: '#10B981' }, okay: { Icon: Minus, color: '#F59E0B' }, frustrated: { Icon: ThumbsDown, color: '#EF4444' } }
               const CATEGORY_COLORS = { bug: '#EF4444', feature: '#8B5CF6', general: '#3B82F6' }
               const CATEGORY_LABELS = { bug: 'Bug', feature: 'Feature', general: 'General' }
               const STATUS_COLORS = { new: '#F59E0B', reviewed: '#3B82F6', resolved: '#10B981' }
@@ -1097,8 +1098,8 @@ export default function AdminDashboard({ user, onNavigate }) {
                   display: 'flex', alignItems: 'center', gap: '0.75rem',
                   padding: '0.625rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
                 }}>
-                  <span style={{ fontSize: '1rem', flexShrink: 0 }}>
-                    {RATING_EMOJI[fb.rating] || '\u2753'}
+                  <span style={{ flexShrink: 0, display: 'flex' }}>
+                    {(() => { const r = RATING_ICONS[fb.rating]; return r ? <r.Icon size={16} style={{ color: r.color }} /> : <Minus size={16} style={{ color: 'var(--text-tertiary)' }} /> })()}
                   </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', marginBottom: '0.125rem' }}>

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import {
-  BarChart3, Users, FolderKanban, CheckSquare, Activity,
-  TrendingUp, Mail, MessageSquare, UserPlus, Zap,
+  ChartColumnIncreasing, Users, FolderKanban, CheckSquare, Activity,
+  TrendingUp, Mail, MessageSquare, UserPlus, Sparkles,
   Target, Clock, Layers,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'

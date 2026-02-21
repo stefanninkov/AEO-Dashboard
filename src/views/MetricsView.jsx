@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FileText, MessageSquare, Globe, Target, TrendingUp, TrendingDown, Minus,
-  Loader2, AlertCircle, RefreshCw, ArrowUp, ArrowDown, BarChart3
+  Loader2, AlertCircle, RefreshCw, ChartSpline
 } from 'lucide-react'
 import {
   BarChart as RechartsBarChart, Bar, PieChart as RechartsPieChart, Pie, Cell,
@@ -33,9 +33,9 @@ function MetricCard({ title, value, change, changeLabel, icon, iconBg, iconColor
       {change !== undefined && change !== null && (
         <div className="flex items-center gap-1 mt-2">
           {change > 0 ? (
-            <ArrowUp size={12} className="text-success" />
+            <TrendingUp size={12} className="text-success" />
           ) : change < 0 ? (
-            <ArrowDown size={12} className="text-error" />
+            <TrendingDown size={12} className="text-error" />
           ) : (
             <Minus size={12} className="text-text-tertiary" />
           )}
@@ -194,7 +194,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
   if (!activeProject) {
     return (
       <div className="flex flex-col items-center justify-center py-24 fade-in-up">
-        <BarChart3 size={48} className="text-text-tertiary mb-4" />
+        <ChartSpline size={48} className="text-text-tertiary mb-4" />
         <h3 className="font-heading text-lg font-bold mb-2">{t('metrics.noProjectSelected')}</h3>
         <p className="text-sm text-text-tertiary">{t('metrics.noProjectSelectedDesc')}</p>
       </div>
@@ -251,7 +251,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
       {!metrics && !refreshing ? (
         <div className="metrics-empty-card fade-in-up">
           <div className="metrics-empty-icon">
-            <BarChart3 size={24} className="text-text-tertiary" />
+            <ChartSpline size={24} className="text-text-tertiary" />
           </div>
           <h3 className="font-heading text-base font-bold mb-2">{t('metrics.noData')}</h3>
           <p className="text-sm text-text-tertiary mb-4 text-center max-w-sm">

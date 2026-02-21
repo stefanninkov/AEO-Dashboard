@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Loader2, AlertCircle, ExternalLink, Shield, Zap, TrendingUp,
-  TrendingDown, Minus, CheckCircle2, XCircle, BarChart3, Clock
+  Loader2, AlertCircle, ExternalLink, Shield, Sparkles, TrendingUp,
+  TrendingDown, Minus, CheckCircle2, XCircle, ChartColumnIncreasing, Clock
 } from 'lucide-react'
 import { fetchSharedProject } from '../hooks/useShareLink'
 import { phases as rawPhases } from '../data/aeo-checklist'
@@ -63,7 +63,7 @@ export default function PortalView({ shareToken }) {
             <span>{t('portal.readOnly')}</span>
           </div>
           <div className="portal-banner-right">
-            <Zap size={14} />
+            <Sparkles size={14} />
             <span>{t('common:sidebar.appName')}</span>
           </div>
         </div>
@@ -177,7 +177,7 @@ function PortalPhaseProgress({ project }) {
   return (
     <div className="portal-section">
       <h2 className="portal-section-title">
-        <BarChart3 size={18} />
+        <ChartColumnIncreasing size={18} />
         {t('portal.implementation')}
       </h2>
       <div className="portal-phases">
@@ -212,7 +212,7 @@ function PortalAnalyzerResults({ results }) {
   return (
     <div className="portal-section">
       <h2 className="portal-section-title">
-        <Zap size={18} />
+        <Sparkles size={18} />
         {t('portal.siteAnalysis')}
       </h2>
       <div className="portal-analyzer-header">

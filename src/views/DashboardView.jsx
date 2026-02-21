@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Plus, Zap, FileText, MessageSquare, Globe, Target, BarChart3 } from 'lucide-react'
+import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing } from 'lucide-react'
 import { getSmartRecommendations, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
 import {
@@ -45,7 +45,7 @@ const CustomTooltip = memo(function CustomTooltip({ active, payload, label }) {
 function DashboardEmptyState({ message, onAction, t }) {
   return (
     <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>
-      <BarChart3 size={28} style={{ color: 'var(--text-disabled)' }} />
+      <ChartColumnIncreasing size={28} style={{ color: 'var(--text-disabled)' }} />
       <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
       <button onClick={onAction} className="btn-primary" style={{ padding: '0.4375rem 1rem', fontSize: '0.75rem', marginTop: '0.25rem' }}>
         {t('dashboard.runMetricsAnalysis')}
@@ -521,7 +521,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       {/* No project empty state */}
       {!activeProject && projects.length === 0 && (
         <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
-          <Zap size={32} className="text-phase-1" style={{ marginBottom: '1rem' }} />
+          <Sparkles size={32} className="text-phase-1" style={{ marginBottom: '1rem' }} />
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{t('dashboard.noProjectsYet')}</h3>
           <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginBottom: '1.25rem', textAlign: 'center', maxWidth: '18.75rem' }}>
             {t('dashboard.createFirstProject')}

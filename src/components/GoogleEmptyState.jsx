@@ -10,14 +10,14 @@
  *  - SetupRequiredState — Multi-service check (e.g. AEO Impact needs both GSC + GA4)
  */
 
-import { Globe, Search, Zap, BarChart3, Layers, Settings, AlertCircle, RefreshCw } from 'lucide-react'
+import { Globe, SearchCheck, Sparkles, ChartColumnIncreasing, Layers, SlidersHorizontal, AlertCircle, RefreshCw } from 'lucide-react'
 
 /* ── Icon presets by view ── */
 const ICON_PRESETS = {
   gsc: { Icon: Globe, color: '#3B82F6' },
-  ga4: { Icon: BarChart3, color: '#10B981' },
+  ga4: { Icon: ChartColumnIncreasing, color: '#10B981' },
   'aeo-impact': { Icon: Layers, color: '#8B5CF6' },
-  search: { Icon: Search, color: '#FF6B35' },
+  search: { Icon: SearchCheck, color: '#FF6B35' },
   default: { Icon: Globe, color: '#3B82F6' },
 }
 
@@ -43,7 +43,7 @@ export function NotConnectedState({ setActiveView, preset = 'default', title, de
         </p>
       </div>
       <button className="btn-primary" style={{ fontSize: '0.8125rem' }} onClick={() => setActiveView('settings')}>
-        <Settings size={14} />
+        <SlidersHorizontal size={14} />
         Go to Settings
       </button>
     </div>
@@ -72,7 +72,7 @@ export function NoPropertyState({ setActiveView, preset = 'search', title, descr
         </p>
       </div>
       <button className="btn-primary" style={{ fontSize: '0.8125rem' }} onClick={() => setActiveView('settings')}>
-        <Settings size={14} />
+        <SlidersHorizontal size={14} />
         Select Property
       </button>
     </div>
@@ -112,7 +112,7 @@ export function SetupRequiredState({ setActiveView, checks = [] }) {
         )}
       </div>
       <button className="btn-primary" style={{ fontSize: '0.8125rem' }} onClick={() => setActiveView('settings')}>
-        <Settings size={14} />
+        <SlidersHorizontal size={14} />
         Go to Settings
       </button>
     </div>
@@ -152,7 +152,7 @@ export function TokenExpiredBanner({ onReconnect, reconnecting, setActiveView })
           style={{ fontSize: '0.6875rem', padding: '0.3125rem 0.625rem' }}
           onClick={() => setActiveView('settings')}
         >
-          <Settings size={12} />
+          <SlidersHorizontal size={12} />
           Settings
         </button>
       </div>
@@ -211,7 +211,7 @@ export function LoadingState({ message = 'Loading data...' }) {
 /**
  * NoDataState — When data loads successfully but is empty
  */
-export function NoDataState({ icon: Icon = Search, title, description, color = 'var(--text-tertiary)' }) {
+export function NoDataState({ icon: Icon = SearchCheck, title, description, color = 'var(--text-tertiary)' }) {
   return (
     <div className="card" style={{ padding: '2.5rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
       <Icon size={24} style={{ color, opacity: 0.5 }} />

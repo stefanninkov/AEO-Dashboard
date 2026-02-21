@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import {
-  Shield, LayoutDashboard, Users, FolderKanban, Activity,
-  DollarSign, BarChart3, Settings, LogOut, Sun, Moon, ArrowLeft,
+  Shield, Gauge, Users, FolderKanban, Activity,
+  DollarSign, ChartColumnIncreasing, SlidersHorizontal, LogOut, Sun, Moon, ArrowLeft,
   MessageSquare, BotMessageSquare, UserPlus, UserX,
 } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
@@ -28,7 +28,7 @@ function getAvatarColor(name) {
 }
 
 const ADMIN_NAV_ITEMS = [
-  { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
+  { id: 'dashboard', label: 'Overview', icon: Gauge },
   { id: 'waitlist', label: 'Waitlist', icon: UserPlus },
   { id: 'users', label: 'Users', icon: Users },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
@@ -36,9 +36,9 @@ const ADMIN_NAV_ITEMS = [
   { id: 'feedback', label: 'Feedback', icon: MessageSquare },
   { id: 'chatlogs', label: 'Chat Logs', icon: BotMessageSquare },
   { id: 'revenue', label: 'Revenue', icon: DollarSign },
-  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+  { id: 'analytics', label: 'Analytics', icon: ChartColumnIncreasing },
   { id: 'churn', label: 'Churn & Retention', icon: UserX },
-  { id: 'settings', label: 'Settings', icon: Settings },
+  { id: 'settings', label: 'Settings', icon: SlidersHorizontal },
 ]
 
 export default memo(function AdminSidebar({ activeView, setActiveView, user, onSignOut }) {

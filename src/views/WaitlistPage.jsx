@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useWaitlist } from '../hooks/useWaitlist'
-import { Check, Share2, Copy, Loader, Zap, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar } from 'lucide-react'
+import { Check, Share2, Copy, Loader, Sparkles, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar } from 'lucide-react'
 import './WaitlistPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -326,7 +326,7 @@ export default function WaitlistPage() {
         <section id="hero" className="wl-hero">
           <div className="wl-hero-inner">
             <div className="wl-badge">
-              <Zap size={14} />
+              <Sparkles size={14} />
               {t('hero.badge')}
             </div>
 
@@ -361,7 +361,7 @@ export default function WaitlistPage() {
 
             {count > 0 && (
               <p className="wl-counter">
-                <strong>{count.toLocaleString()}</strong> {t('hero.joinedCount', { count })}
+                {t('hero.joinedCount', { count: count.toLocaleString() })}
               </p>
             )}
           </div>

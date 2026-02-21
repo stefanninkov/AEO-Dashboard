@@ -9,8 +9,8 @@
 import { useState, useMemo } from 'react'
 import { hasApiKey } from '../../utils/aiProvider'
 import {
-  FileText, TrendingDown, AlertTriangle, BarChart3,
-  Zap, Loader2, Plus, Download as ImportIcon, Search,
+  FileText, TrendingDown, AlertTriangle, ChartColumnIncreasing,
+  Sparkles, Loader2, Plus, Download as ImportIcon, SearchCheck,
 } from 'lucide-react'
 import { usePageAnalyzer, shortPageUrl } from './usePageAnalyzer'
 import PageAnalysisTable from './PageAnalysisTable'
@@ -98,7 +98,7 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
             color="#3B82F6"
           />
           <StatCard
-            icon={BarChart3}
+            icon={ChartColumnIncreasing}
             label="Average Score"
             value={pa.stats.avgScore}
             color={pa.stats.avgScore >= 70 ? '#10B981' : pa.stats.avgScore >= 40 ? '#F59E0B' : '#EF4444'}
@@ -149,7 +149,7 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
             {pa.analyzing && pa.progress.total <= 1 ? (
               <Loader2 size={14} className="animate-spin" />
             ) : (
-              <Zap size={14} />
+              <Sparkles size={14} />
             )}
             Analyze
           </button>
@@ -253,7 +253,7 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
           padding: '3rem 2rem', textAlign: 'center',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem',
         }}>
-          <Search size={28} style={{ color: 'var(--text-tertiary)', opacity: 0.5 }} />
+          <SearchCheck size={28} style={{ color: 'var(--text-tertiary)', opacity: 0.5 }} />
           <div>
             <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
               No pages analyzed yet

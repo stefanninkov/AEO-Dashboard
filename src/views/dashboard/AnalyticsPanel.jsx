@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  TrendingUp, TrendingDown, Activity, Zap, PenTool, Code2, Eye,
-  BarChart3, Users, CheckCircle2, Clock, ArrowUpRight, Shield, Minus,
+  TrendingUp, TrendingDown, Activity, Sparkles, PenTool, Code2, Eye,
+  ChartColumnIncreasing, Users, CheckCircle2, Clock, ArrowUpRight, Shield, Minus,
 } from 'lucide-react'
 import {
   AreaChart, Area, BarChart, Bar, RadarChart, Radar, PolarGrid,
@@ -167,11 +167,11 @@ export default function AnalyticsPanel({ activeProject, phases }) {
   /* ── Feature usage stats ── */
   const featureUsage = useMemo(() => {
     const features = [
-      { name: t('dashboard.analyticsPanel.featureAnalyzer'), used: !!analyzerResults, count: analyzerResults ? 1 : 0, icon: Zap, color: phaseColors[1] },
+      { name: t('dashboard.analyticsPanel.featureAnalyzer'), used: !!analyzerResults, count: analyzerResults ? 1 : 0, icon: Sparkles, color: phaseColors[1] },
       { name: t('dashboard.analyticsPanel.featureWriter'), used: contentHistory.length > 0, count: contentHistory.length, icon: PenTool, color: phaseColors[3] },
       { name: t('dashboard.analyticsPanel.featureSchema'), used: schemaHistory.length > 0, count: schemaHistory.length, icon: Code2, color: phaseColors[4] },
       { name: t('dashboard.analyticsPanel.featureMonitoring'), used: monitorHistory.length > 0, count: monitorHistory.length, icon: Eye, color: phaseColors[6] },
-      { name: t('dashboard.analyticsPanel.featureMetrics'), used: metricsHistory.length > 0, count: metricsHistory.length, icon: BarChart3, color: phaseColors[2] },
+      { name: t('dashboard.analyticsPanel.featureMetrics'), used: metricsHistory.length > 0, count: metricsHistory.length, icon: ChartColumnIncreasing, color: phaseColors[2] },
       { name: t('dashboard.analyticsPanel.featureCompetitors'), used: competitors.length > 0, count: competitors.length, icon: Users, color: phaseColors[5] },
     ]
     return features
@@ -341,7 +341,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
             </>
           ) : (
             <EmptyState
-              icon={BarChart3}
+              icon={ChartColumnIncreasing}
               title={t('dashboard.analyticsPanel.noTrendData')}
               description={t('dashboard.analyticsPanel.noTrendDataDesc')}
               color="var(--color-phase-1)"
@@ -388,7 +388,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Feature Usage */}
         <div className="card" style={{ padding: '1.25rem' }}>
-          <SectionHeader icon={Zap} label={t('dashboard.analyticsPanel.featureUsage')} color={phaseColors[1]} />
+          <SectionHeader icon={Sparkles} label={t('dashboard.analyticsPanel.featureUsage')} color={phaseColors[1]} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {featureUsage.map(feat => {
               const Icon = feat.icon
@@ -590,7 +590,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
       {/* ═══ ROW 5: Insights Summary ═══ */}
       <div className="card" style={{ padding: '1.25rem' }}>
-        <SectionHeader icon={BarChart3} label={t('dashboard.analyticsPanel.keyInsights')} color={phaseColors[5]} />
+        <SectionHeader icon={ChartColumnIncreasing} label={t('dashboard.analyticsPanel.keyInsights')} color={phaseColors[5]} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', gap: '0.75rem' }}>
           {/* Dynamic insights based on data */}
           {checklistStats.pct === 100 && (

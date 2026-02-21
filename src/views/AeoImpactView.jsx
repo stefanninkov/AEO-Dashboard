@@ -13,7 +13,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Zap, TrendingUp, Globe, Search, BarChart3,
+  TrendingUp, Globe, SearchCheck, ChartColumnIncreasing,
   RefreshCw, Loader2, ArrowRight, ExternalLink,
   Target, Layers, Sparkles, ChevronRight,
 } from 'lucide-react'
@@ -354,8 +354,8 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
 
           {/* Summary Stats */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: '0.75rem' }}>
-            <StatCard icon={Search} label={t('impact.aeoQueries')} value={fmt(queryData.aeoQueryCount)} subValue={t('impact.ofTotal', { value: fmt(queryData.totalQueryCount) })} color="var(--color-phase-5)" />
-            <StatCard icon={Zap} label={t('impact.aiSessions')} value={fmt(aiTraffic.totalAiSessions)} subValue={fmtPct(aiTraffic.aiSessionShare)} color="var(--color-phase-1)" />
+            <StatCard icon={SearchCheck} label={t('impact.aeoQueries')} value={fmt(queryData.aeoQueryCount)} subValue={t('impact.ofTotal', { value: fmt(queryData.totalQueryCount) })} color="var(--color-phase-5)" />
+            <StatCard icon={Sparkles} label={t('impact.aiSessions')} value={fmt(aiTraffic.totalAiSessions)} subValue={fmtPct(aiTraffic.aiSessionShare)} color="var(--color-phase-1)" />
             <StatCard icon={Target} label={t('impact.crossReferencedPages')} value={crossReferencedPages.length} subValue={t('impact.crossReferencedSub')} color="var(--color-phase-7)" />
             <StatCard icon={TrendingUp} label={t('impact.aiClickShare')} value={fmtPct(queryData.aeoClickShare)} subValue={t('impact.ofTotalGscClicks')} color="var(--color-success)" />
           </div>
@@ -444,10 +444,10 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
           {/* Data Sources Footer */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.6875rem', color: 'var(--text-disabled)', flexWrap: 'wrap' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-              <Search size={10} /> GSC: {formatSiteUrl(gscProperty)}
+              <SearchCheck size={10} /> GSC: {formatSiteUrl(gscProperty)}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-              <BarChart3 size={10} /> GA4: {getPropertyId(ga4Property)}
+              <ChartColumnIncreasing size={10} /> GA4: {getPropertyId(ga4Property)}
             </span>
           </div>
         </>

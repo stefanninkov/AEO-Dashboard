@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Award, Star, Trophy, Crown, ArrowRight, BarChart3, ChevronRight } from 'lucide-react'
+import { Award, Star, Trophy, Crown, ArrowRight, ChartColumnIncreasing, ChevronRight } from 'lucide-react'
 import { BarChart, Bar, ResponsiveContainer, XAxis, Tooltip } from 'recharts'
 import { useChartColors } from '../../utils/chartColors'
 
@@ -219,7 +219,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
       {/* ── Section 3: Completion Timeline ── */}
       <div style={{ padding: '1rem 1.25rem 0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-          <BarChart3 size={14} style={{ color: phaseColors[4] }} />
+          <ChartColumnIncreasing size={14} style={{ color: phaseColors[4] }} />
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
             textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',

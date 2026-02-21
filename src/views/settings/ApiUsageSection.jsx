@@ -2,7 +2,7 @@
  * ApiUsageSection — Provider selector, API key management, model selection, and usage dashboard.
  */
 import { useState, useCallback } from 'react'
-import { Key, Eye, EyeOff, Save, Check, AlertTriangle, BarChart3, Zap, Cpu, Trash2 } from 'lucide-react'
+import { Key, Eye, EyeOff, Save, Check, AlertTriangle, ChartColumnIncreasing, Sparkles, Cpu, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import {
   getActiveProvider, setActiveProvider, getProviderConfig, getAllProviders,
@@ -211,7 +211,7 @@ export default function ApiUsageSection() {
 
       {/* ── Usage Dashboard ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
-        <div style={sectionTitleStyle}><BarChart3 size={15} /> Usage Overview</div>
+        <div style={sectionTitleStyle}><ChartColumnIncreasing size={15} /> Usage Overview</div>
 
         {/* Summary cards */}
         <div style={{

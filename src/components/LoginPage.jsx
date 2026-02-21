@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Mail, Lock, User, Eye, EyeOff, AlertCircle, Loader2, ArrowRight, Zap, Building2, CheckCircle2 } from 'lucide-react'
+import { Mail, Lock, User, Eye, EyeOff, AlertCircle, Loader2, ArrowRight, Sparkles, Building2, CheckCircle2 } from 'lucide-react'
 
 /* Pre-seed a default dev account on first load */
 function seedDevAccount() {
@@ -143,7 +143,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           <div>
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-phase-1/10">
-                <Zap size={20} className="text-phase-1" />
+                <Sparkles size={20} className="text-phase-1" />
               </div>
               <h1 className="text-xl font-semibold text-text-primary font-heading tracking-tight">
                 {t('sidebar.appName')}
@@ -194,7 +194,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center gap-2.5 mb-2">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-phase-1/10">
-                <Zap size={18} className="text-phase-1" />
+                <Sparkles size={18} className="text-phase-1" />
               </div>
               <h1 className="font-heading text-xl font-semibold text-text-primary tracking-tight">
                 {t('sidebar.appName')}

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Globe, Link2, Loader2, AlertCircle, Zap, Search, FileText } from 'lucide-react'
+import { Globe, Link2, Loader2, AlertCircle, Sparkles, SearchCheck, FileText } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { callAI } from '../utils/apiClient'
@@ -481,7 +481,7 @@ Return ONLY valid JSON:
                 disabled={loading || !url.trim()}
                 className="metrics-run-btn"
               >
-                {loading ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
+                {loading ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
                 {loading ? t('analyzer.analyzing') : t('analyzer.analyze')}
               </button>
             </div>
@@ -544,7 +544,7 @@ Return ONLY valid JSON:
           {!results && !loading && !error && (
             <div className="analyzer-empty-card fade-in-up">
               <div className="analyzer-empty-icon">
-                <Search size={28} className="text-text-tertiary" />
+                <SearchCheck size={28} className="text-text-tertiary" />
               </div>
               <h3 className="analyzer-empty-title">{t('analyzer.readyToAnalyze')}</h3>
               <p className="analyzer-empty-text">

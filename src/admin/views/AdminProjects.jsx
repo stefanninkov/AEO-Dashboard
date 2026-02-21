@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import {
   FolderKanban, Search, RefreshCw, ChevronDown, ChevronUp,
-  Users, ExternalLink, Activity, Zap, FileText, BarChart3,
+  Users, ExternalLink, Activity, FileText, ChartColumnIncreasing,
   Calendar, Target, Clock, AlertTriangle, CheckCircle2,
   XCircle, PauseCircle, Sparkles, Eye,
 } from 'lucide-react'
@@ -428,7 +428,7 @@ export default function AdminProjects({ user }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(8rem, 1fr))', gap: '0.5rem' }}>
         {[
           { label: 'Thriving', count: healthCounts.thriving, color: '#10B981', icon: Sparkles },
-          { label: 'Active', count: healthCounts.active, color: '#3B82F6', icon: Zap },
+          { label: 'Active', count: healthCounts.active, color: '#3B82F6', icon: Sparkles },
           { label: 'Stale', count: healthCounts.stale, color: '#F59E0B', icon: PauseCircle },
           { label: 'Stuck', count: healthCounts.stuck, color: '#EF4444', icon: AlertTriangle },
           { label: 'Abandoned', count: healthCounts.abandoned, color: '#6B7280', icon: XCircle },

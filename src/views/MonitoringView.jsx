@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import {
   Activity, Clock, Play, CheckCircle2, XCircle, AlertCircle,
   Loader2, TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp,
-  Bell, BellOff, Calendar, BarChart3, RefreshCw, Settings, Zap
+  Bell, BellOff, Calendar, ChartColumnIncreasing, RefreshCw, SlidersHorizontal, Sparkles
 } from 'lucide-react'
 import { useAutoMonitor } from '../hooks/useAutoMonitor'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
@@ -344,7 +344,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
         <div className="mon-trend-card">
           <div className="mon-trend-header">
             <h3 className="mon-section-title">
-              <BarChart3 size={16} />
+              <ChartColumnIncreasing size={16} />
               {t('monitoring.scoreTrend')}
             </h3>
             <span className="mon-trend-range">{t('monitoring.checksCount', { count: monitorHistory.length })}</span>
@@ -381,7 +381,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       {/* Schedule Settings */}
       <div className="mon-settings-card">
         <h3 className="mon-section-title">
-          <Settings size={16} />
+          <SlidersHorizontal size={16} />
           {t('monitoring.scheduleSettings')}
         </h3>
         <div className="mon-settings-grid">
@@ -437,7 +437,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       {latestRun && (
         <div className="mon-results-card">
           <h3 className="mon-section-title">
-            <Zap size={16} />
+            <Sparkles size={16} />
             {t('monitoring.latestResults')}
           </h3>
           <div className="mon-results-list">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Send, CheckCircle, Clock, Bug, Lightbulb, MessageCircle, ArrowLeft, Monitor, Star } from 'lucide-react'
+import { Send, CheckCircle, Clock, Bug, Lightbulb, MessageCircle, ArrowLeft, Monitor, Star, Heart, ThumbsUp, Minus, ThumbsDown } from 'lucide-react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useTheme } from '../../contexts/ThemeContext'
@@ -66,10 +66,10 @@ const CATEGORIES = [
 ]
 
 const RATINGS = [
-  { value: 'love', emoji: '\uD83D\uDE0D', label: 'Love it' },
-  { value: 'good', emoji: '\uD83D\uDE0A', label: 'Good' },
-  { value: 'okay', emoji: '\uD83D\uDE10', label: 'Okay' },
-  { value: 'frustrated', emoji: '\uD83D\uDE1F', label: 'Frustrating' },
+  { value: 'love', Icon: Heart, label: 'Love it', color: '#EF4444' },
+  { value: 'good', Icon: ThumbsUp, label: 'Good', color: '#10B981' },
+  { value: 'okay', Icon: Minus, label: 'Okay', color: '#F59E0B' },
+  { value: 'frustrated', Icon: ThumbsDown, label: 'Frustrating', color: '#EF4444' },
 ]
 
 const RATE_LIMIT_KEY = 'aeo-feedback-last-submitted'
@@ -387,7 +387,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
                       transition: 'all 150ms', fontFamily: 'var(--font-body)',
                     }}
                   >
-                    <span style={{ fontSize: 22 }}>{r.emoji}</span>
+                    <r.Icon size={20} style={{ color: isSelected ? 'var(--color-phase-1)' : r.color }} />
                     <span style={{
                       fontSize: 10, fontWeight: 500,
                       color: isSelected ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
