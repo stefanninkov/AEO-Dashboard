@@ -20,7 +20,7 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
   ])
   // jspdf-autotable v5 requires explicit plugin application
   applyPlugin(jsPDF)
-  const doc = new jsPDF('p', 'mm', 'a4')
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
   if (typeof doc.autoTable !== 'function') {
     throw new Error('PDF table plugin failed to load. Please refresh the page and try again.')
   }
