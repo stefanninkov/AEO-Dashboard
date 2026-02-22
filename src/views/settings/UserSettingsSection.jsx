@@ -95,6 +95,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
   // Derived
   const authProvider = user?.providerData?.[0]?.providerId
   const authMethodLabel = authProvider === 'google.com' ? 'Google' : 'Email/Password'
+  const providerPhotoURL = user?.providerData?.[0]?.photoURL || null
 
   // Handlers
   const handleSaveDisplayName = useCallback(async () => {
@@ -128,17 +129,17 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
     e.target.value = ''
   }, [updateUserProfile])
 
-  const handleRemoveAvatar = useCallback(async () => {
+  const handleResetAvatar = useCallback(async () => {
     setAvatarError(null)
     setAvatarSaving(true)
     try {
-      setAvatarPreview(null)
-      if (updateUserProfile) await updateUserProfile({ photoURL: null })
+      setAvatarPreview(providerPhotoURL)
+      if (updateUserProfile) await updateUserProfile({ photoURL: providerPhotoURL })
     } catch (err) {
-      setAvatarError(err.message || 'Failed to remove photo')
+      setAvatarError(err.message || 'Failed to reset photo')
     }
     setAvatarSaving(false)
-  }, [updateUserProfile])
+  }, [updateUserProfile, providerPhotoURL])
 
   const handleThemeChange = useCallback((val) => setTheme(val), [setTheme])
 
@@ -224,11 +225,11 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
               >
                 <Camera size={12} /> Upload Photo
               </button>
-              {avatarPreview && (
+              {avatarPreview && avatarPreview !== providerPhotoURL && (
                 <button
                   className="btn-secondary"
                   style={{ fontSize: '0.75rem', padding: '0.375rem 0.75rem' }}
-                  onClick={handleRemoveAvatar}
+                  onClick={handleResetAvatar}
                   disabled={avatarSaving}
                 >
                   <RotateCcw size={12} /> Reset
