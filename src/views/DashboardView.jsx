@@ -170,13 +170,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       </div>
 
       {/* Sub-tabs */}
-      <div style={{ display: 'flex', gap: '0.25rem', borderRadius: '0.625rem', padding: '0.25rem', background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
+      <div className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', borderRadius: '0.625rem', padding: '0.25rem', background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
         {SUB_TAB_KEYS.map(tab => (
           <button
             key={tab.id}
             onClick={() => setSubTab(tab.id)}
             style={{
-              flex: 1, padding: '0.5rem 0.75rem', fontSize: '0.8125rem', fontWeight: 500,
+              flex: '0 0 auto', whiteSpace: 'nowrap', padding: '0.5rem 0.75rem', fontSize: '0.8125rem', fontWeight: 500,
               borderRadius: '0.5rem', border: 'none', cursor: 'pointer',
               fontFamily: 'var(--font-body)', transition: 'all 150ms',
               background: subTab === tab.id ? 'var(--bg-card)' : 'transparent',

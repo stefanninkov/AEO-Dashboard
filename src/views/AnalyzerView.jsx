@@ -369,11 +369,11 @@ Return ONLY valid JSON:
       </div>
 
       {/* ── Top-Level Tabs ── */}
-      <div style={{ display: 'flex', gap: '0.25rem', background: 'var(--hover-bg)', borderRadius: '0.625rem', padding: '0.1875rem' }}>
+      <div className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', background: 'var(--hover-bg)', borderRadius: '0.625rem', padding: '0.1875rem' }}>
         <button
           onClick={() => setActiveTab('site')}
           style={{
-            display: 'flex', alignItems: 'center', gap: '0.375rem',
+            display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
             padding: '0.4375rem 0.875rem', fontSize: '0.8125rem', fontWeight: 600,
             fontFamily: 'var(--font-body)', border: 'none', borderRadius: '0.5rem',
             cursor: 'pointer', transition: 'all 100ms',
@@ -387,7 +387,7 @@ Return ONLY valid JSON:
         <button
           onClick={() => setActiveTab('pages')}
           style={{
-            display: 'flex', alignItems: 'center', gap: '0.375rem',
+            display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
             padding: '0.4375rem 0.875rem', fontSize: '0.8125rem', fontWeight: 600,
             fontFamily: 'var(--font-body)', border: 'none', borderRadius: '0.5rem',
             cursor: 'pointer', transition: 'all 100ms',

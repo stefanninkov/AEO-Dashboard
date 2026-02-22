@@ -872,9 +872,16 @@ body {
   border-radius: 0.625rem;
   padding: 0.25rem;
   background: color-mix(in srgb, var(--hover-bg) 50%, transparent);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.sub-tab-bar::-webkit-scrollbar {
+  display: none;
 }
 .sub-tab {
-  flex: 1;
+  flex: 0 0 auto;
+  white-space: nowrap;
   padding: 0.5rem 0.75rem;
   font-size: 0.8125rem;
   font-weight: 500;

@@ -36,12 +36,11 @@ const PROJECT_SUB_TABS = [
 
 function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
   return (
-    <div style={{
+    <div className="scrollable-tabs" style={{
       display: 'flex',
       gap: '0.125rem',
       borderBottom: '0.0625rem solid var(--border-subtle)',
       marginBottom: '1rem',
-      overflowX: 'auto',
     }}>
       {PROJECT_SUB_TABS.map(tab => {
         const Icon = tab.icon
