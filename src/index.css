@@ -469,6 +469,14 @@ body {
   margin-bottom: 0.875rem;
 }
 
+.project-dropdown {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 0.375rem;
+  width: 18.75rem;
+}
+
 .top-bar-actions {
   display: flex;
   align-items: center;
@@ -1173,6 +1181,16 @@ body {
 @media (min-width: 48rem) {
   .search-desktop { display: block; }
   .search-mobile { display: none !important; }
+}
+
+/* ── Scrollable tabs utility ── */
+.scrollable-tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.scrollable-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .search-dropdown-footer {
@@ -4376,7 +4394,8 @@ body {
 }
 
 .metrics-tab {
-  flex: 1;
+  flex: 0 0 auto;
+  white-space: nowrap;
   padding: 0.5rem 0.75rem;
   font-size: 0.8125rem;
   font-weight: 500;
@@ -5476,6 +5495,13 @@ body {
 
 /* Mobile landscape */
 @media (max-width: 47.9375rem) {
+  .project-dropdown {
+    position: fixed !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    width: auto !important;
+    top: 3.5rem !important;
+  }
   .content-scroll {
     padding: 1rem;
   }
@@ -5581,9 +5607,6 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
-  }
-  .metrics-tabs {
-    flex-wrap: wrap;
   }
   .docs-filter-bar {
     gap: 0.375rem;

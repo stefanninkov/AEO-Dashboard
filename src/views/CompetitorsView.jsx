@@ -42,12 +42,11 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
       </div>
 
       {/* Tab row */}
-      <div style={{
+      <div className="scrollable-tabs" style={{
         display: 'flex', gap: '0.375rem', marginBottom: '1.25rem',
         padding: '0.25rem',
         background: 'var(--hover-bg)',
         borderRadius: '0.625rem',
-        width: 'fit-content',
       }}>
         <TabButton
           active={activeTab === 'overview'}
@@ -103,7 +102,7 @@ function TabButton({ active, onClick, icon, label, badge }) {
     <button
       onClick={onClick}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
+        display: 'inline-flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
         padding: '0.4375rem 0.875rem', border: 'none', borderRadius: '0.5rem',
         cursor: 'pointer', fontFamily: 'var(--font-body)', fontSize: '0.8125rem',
         fontWeight: 600, transition: 'background 150ms, color 150ms',

@@ -483,10 +483,9 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
       </div>
 
       {/* Tabs */}
-      <div style={{
+      <div className="scrollable-tabs" style={{
         display: 'flex', gap: '0.25rem', padding: '0.1875rem',
         background: 'var(--hover-bg)', borderRadius: '0.625rem',
-        width: 'fit-content',
       }}>
         {TABS.map(tab => {
           const Icon = tab.icon
@@ -496,7 +495,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               key={tab.id}
               onClick={() => { setActiveTab(tab.id); setSearchQuery('') }}
               style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem',
+                display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
                 padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
                 border: 'none', cursor: 'pointer',
                 background: isActive ? 'var(--bg-card)' : 'transparent',

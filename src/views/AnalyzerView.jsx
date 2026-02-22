@@ -438,7 +438,7 @@ Return ONLY valid JSON:
           )}
 
           {/* Mode Toggle */}
-          <div className="analyzer-mode-tabs">
+          <div className="analyzer-mode-tabs scrollable-tabs">
             <button
               onClick={() => setMode('url')}
               className={`analyzer-mode-tab ${mode === 'url' ? 'active' : ''}`}

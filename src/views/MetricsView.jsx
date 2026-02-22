@@ -235,7 +235,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
       )}
 
       {/* Tabs - Segmented Control */}
-      <div className="metrics-tabs">
+      <div className="metrics-tabs scrollable-tabs">
         {TAB_IDS.map(id => (
           <button
             key={id}

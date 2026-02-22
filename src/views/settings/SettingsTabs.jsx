@@ -14,7 +14,7 @@ const TABS = [
 
 export default function SettingsTabs({ activeTab, onTabChange }) {
   return (
-    <div style={{
+    <div className="scrollable-tabs" style={{
       display: 'flex',
       gap: '0.25rem',
       padding: '0.25rem',
@@ -31,7 +31,8 @@ export default function SettingsTabs({ activeTab, onTabChange }) {
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             style={{
-              flex: 1,
+              flex: '0 0 auto',
+              whiteSpace: 'nowrap',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

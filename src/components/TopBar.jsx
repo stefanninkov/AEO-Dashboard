@@ -322,9 +322,9 @@ export default memo(function TopBar({
 
           {dropdownOpen && (
             <div
+              className="project-dropdown"
               style={{
-                position: 'absolute', left: 0, top: '100%', marginTop: '0.375rem',
-                width: 'min(18.75rem, calc(100vw - 2rem))', background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
+                background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
                 borderRadius: '0.75rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)',
                 zIndex: 'var(--z-dropdown)',
               }}

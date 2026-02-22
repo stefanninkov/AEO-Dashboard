@@ -334,7 +334,7 @@ Return ONLY valid JSON:
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: '0.25rem', padding: '0 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
+      <div className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', padding: '0 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
         {TABS.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
@@ -343,7 +343,7 @@ Return ONLY valid JSON:
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem',
+                display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
                 padding: '0.5rem 0.75rem', fontSize: '0.75rem', fontWeight: 600,
                 fontFamily: 'var(--font-body)', cursor: 'pointer',
                 background: 'none', border: 'none', borderBottom: `0.125rem solid ${isActive ? 'var(--color-phase-1)' : 'transparent'}`,
