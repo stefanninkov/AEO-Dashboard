@@ -239,13 +239,18 @@ body {
   width: 15rem;
   flex-shrink: 0;
   height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   background: var(--bg-card);
   border-right: 0.0625rem solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
 }
 
 .main-area {
@@ -372,8 +377,6 @@ body {
   font-weight: 600;
 }
 
-.sidebar-spacer { flex: 1; }
-
 .sidebar-divider {
   height: 0.0625rem;
   background: var(--border-subtle);
@@ -434,6 +437,22 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.avatar-upload-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: white;
+  opacity: 0;
+  transition: opacity 150ms;
+  border-radius: inherit;
+}
+*:hover > .avatar-upload-overlay { opacity: 1; }
 
 /* ══════════════════════════════════════════════════
    TOP BAR COMPONENTS

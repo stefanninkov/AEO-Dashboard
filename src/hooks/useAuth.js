@@ -166,6 +166,13 @@ function useLocalAuth() {
     persist(null)
   }, [])
 
+  const updateUserProfile = useCallback((updates) => {
+    if (!user) return
+    const updated = { ...user, ...updates }
+    setUser(updated)
+    persist(updated)
+  }, [user])
+
   const resetPassword = useCallback(async (email) => {
     setError(null)
     const accounts = JSON.parse(localStorage.getItem('aeo-dev-accounts') || '{}')
@@ -177,7 +184,7 @@ function useLocalAuth() {
     return true
   }, [])
 
-  return { user, loading, error, clearError, signIn, signUp, signInWithGoogle, signOut, resetPassword }
+  return { user, loading, error, clearError, signIn, signUp, signInWithGoogle, signOut, resetPassword, updateUserProfile }
 }
 
 /* ── Firebase Auth ── */
@@ -322,6 +329,18 @@ function useFirebaseAuth() {
     }
   }, [])
 
+  const updateUserProfile = useCallback(async (updates) => {
+    if (!user) return
+    try {
+      await updateProfile(user, updates)
+      await setDoc(doc(db, 'users', user.uid), updates, { merge: true })
+      // Force re-render — onAuthStateChanged doesn't fire for profile updates
+      setUser(Object.assign(Object.create(Object.getPrototypeOf(user)), user, updates))
+    } catch (err) {
+      throw err
+    }
+  }, [user])
+
   const resetPassword = useCallback(async (email) => {
     setError(null)
     try {
@@ -334,7 +353,7 @@ function useFirebaseAuth() {
     }
   }, [])
 
-  return { user, loading, error, clearError, signIn, signUp, signInWithGoogle, signOut, resetPassword }
+  return { user, loading, error, clearError, signIn, signUp, signInWithGoogle, signOut, resetPassword, updateUserProfile }
 }
 
 /* ── Export: auto-select based on config ── */

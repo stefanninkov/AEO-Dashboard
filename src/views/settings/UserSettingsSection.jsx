@@ -3,14 +3,15 @@
  *
  * API Key and Google Integration have moved to ApiUsageSection and IntegrationsSection respectively.
  */
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import {
   User, Palette, Globe, Save, Check,
-  RotateCcw, ClipboardList, BellRing,
+  RotateCcw, ClipboardList, BellRing, Camera, Trash2,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../../contexts/ThemeContext'
 import { SUPPORTED_LANGUAGES, loadLanguage } from '../../i18n'
+import { getInitials, getAvatarColor } from '../../utils/avatar'
 import logger from '../../utils/logger'
 import {
   isSupported as browserNotifsSupported,
@@ -24,7 +25,37 @@ import {
   lastRowStyle, labelStyle, inlineSaveBtnStyle, smallSelectStyle, flash,
 } from './SettingsShared'
 
-export default function UserSettingsSection({ user }) {
+/* Resize image to square JPEG data URL for avatar storage */
+function resizeImageToDataURL(file, maxSize = 128, quality = 0.8, maxBytes = 50000) {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    const reader = new FileReader()
+    reader.onload = () => {
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        canvas.width = maxSize
+        canvas.height = maxSize
+        const ctx = canvas.getContext('2d')
+        const min = Math.min(img.width, img.height)
+        const sx = (img.width - min) / 2
+        const sy = (img.height - min) / 2
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, maxSize, maxSize)
+        const dataURL = canvas.toDataURL('image/jpeg', quality)
+        if (dataURL.length > maxBytes) {
+          reject(new Error('Image too large after compression. Try a smaller image.'))
+        } else {
+          resolve(dataURL)
+        }
+      }
+      img.onerror = () => reject(new Error('Failed to load image'))
+      img.src = reader.result
+    }
+    reader.onerror = () => reject(new Error('Failed to read file'))
+    reader.readAsDataURL(file)
+  })
+}
+
+export default function UserSettingsSection({ user, updateUserProfile }) {
   const { theme, setTheme } = useTheme()
   const { t, i18n } = useTranslation('app')
 
@@ -35,6 +66,12 @@ export default function UserSettingsSection({ user }) {
   const [displayName, setDisplayName] = useState(user?.displayName || '')
   const [nameSaving, setNameSaving] = useState(false)
   const [nameSaveSuccess, setNameSaveSuccess] = useState(false)
+
+  // Avatar
+  const fileInputRef = useRef(null)
+  const [avatarPreview, setAvatarPreview] = useState(user?.photoURL || null)
+  const [avatarError, setAvatarError] = useState(null)
+  const [avatarSaving, setAvatarSaving] = useState(false)
 
   // Preferences
   const [animationsEnabled, setAnimationsEnabled] = useState(() => {
@@ -74,6 +111,34 @@ export default function UserSettingsSection({ user }) {
     }
     setNameSaving(false)
   }, [displayName, user])
+
+  const handleFileSelect = useCallback(async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setAvatarError(null)
+    setAvatarSaving(true)
+    try {
+      const dataURL = await resizeImageToDataURL(file)
+      setAvatarPreview(dataURL)
+      if (updateUserProfile) await updateUserProfile({ photoURL: dataURL })
+    } catch (err) {
+      setAvatarError(err.message || 'Failed to process image')
+    }
+    setAvatarSaving(false)
+    e.target.value = ''
+  }, [updateUserProfile])
+
+  const handleRemoveAvatar = useCallback(async () => {
+    setAvatarError(null)
+    setAvatarSaving(true)
+    try {
+      setAvatarPreview(null)
+      if (updateUserProfile) await updateUserProfile({ photoURL: null })
+    } catch (err) {
+      setAvatarError(err.message || 'Failed to remove photo')
+    }
+    setAvatarSaving(false)
+  }, [updateUserProfile])
 
   const handleThemeChange = useCallback((val) => setTheme(val), [setTheme])
 
@@ -124,6 +189,60 @@ export default function UserSettingsSection({ user }) {
       {/* ── Profile ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><User size={15} /> {t('userSettings.profile')}</div>
+
+        {/* Avatar upload */}
+        <div style={{
+          padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '1rem',
+          borderBottom: '0.0625rem solid var(--border-subtle)',
+        }}>
+          <div
+            onClick={() => !avatarSaving && fileInputRef.current?.click()}
+            style={{
+              width: '4rem', height: '4rem', borderRadius: '0.75rem',
+              overflow: 'hidden', cursor: avatarSaving ? 'wait' : 'pointer', position: 'relative',
+              background: avatarPreview ? 'transparent' : getAvatarColor(user?.displayName),
+              display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white',
+              flexShrink: 0,
+            }}
+            role="button" tabIndex={0} aria-label="Change profile image"
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') fileInputRef.current?.click() }}
+          >
+            {avatarPreview
+              ? <img src={avatarPreview} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              : <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '1.125rem', fontWeight: 700 }}>{getInitials(user?.displayName)}</span>
+            }
+            <div className="avatar-upload-overlay"><Camera size={16} /></div>
+          </div>
+          <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} style={{ display: 'none' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button
+                className="btn-secondary"
+                style={{ fontSize: '0.75rem', padding: '0.375rem 0.75rem' }}
+                onClick={() => fileInputRef.current?.click()}
+                disabled={avatarSaving}
+              >
+                <Camera size={12} /> Upload Photo
+              </button>
+              {avatarPreview && (
+                <button
+                  className="btn-secondary"
+                  style={{ fontSize: '0.75rem', padding: '0.375rem 0.75rem' }}
+                  onClick={handleRemoveAvatar}
+                  disabled={avatarSaving}
+                >
+                  <Trash2 size={12} /> Remove
+                </button>
+              )}
+            </div>
+            {avatarError && (
+              <span style={{ fontSize: '0.6875rem', color: 'var(--color-error)' }}>{avatarError}</span>
+            )}
+            <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
+              JPG, PNG, or GIF. Max 128x128px.
+            </span>
+          </div>
+        </div>
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>{t('userSettings.displayName')}</span>

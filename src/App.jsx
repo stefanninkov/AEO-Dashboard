@@ -259,7 +259,7 @@ function AdminRouter() {
 
 /** Extracted so useAuth() only runs when dashboard is active (hooks rules compliance) */
 function DashboardApp() {
-  const { user, loading: authLoading, signIn, signUp, signInWithGoogle, signOut, resetPassword, error: authError, clearError } = useAuth()
+  const { user, loading: authLoading, signIn, signUp, signInWithGoogle, signOut, resetPassword, updateUserProfile, error: authError, clearError } = useAuth()
 
   if (authLoading) return <LoadingScreen />
 
@@ -278,10 +278,10 @@ function DashboardApp() {
     )
   }
 
-  return <AuthenticatedApp user={user} onSignOut={signOut} />
+  return <AuthenticatedApp user={user} onSignOut={signOut} updateUserProfile={updateUserProfile} />
 }
 
-function AuthenticatedApp({ user, onSignOut }) {
+function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const [activeView, setActiveView] = useState('dashboard')
   const [docItem, setDocItem] = useState(null)
   const [overlayClosing, setOverlayClosing] = useState(false)
@@ -636,6 +636,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             setActiveView={setActiveView}
             permission={permission}
             projects={projects}
+            updateUserProfile={updateUserProfile}
           />
         )
       default:

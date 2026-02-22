@@ -78,7 +78,7 @@ function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
   )
 }
 
-export default function SettingsView({ activeProject, updateProject, deleteProject, user, setActiveView, permission, projects = [] }) {
+export default function SettingsView({ activeProject, updateProject, deleteProject, user, setActiveView, permission, projects = [], updateUserProfile }) {
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem('aeo-settings-tab') || 'profile'
   })
@@ -127,7 +127,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
       <SettingsTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
       {/* Tab content */}
-      {activeTab === 'profile' && <UserSettingsSection user={user} />}
+      {activeTab === 'profile' && <UserSettingsSection user={user} updateUserProfile={updateUserProfile} />}
       {activeTab === 'api-usage' && <ApiUsageSection />}
       {activeTab === 'integrations' && <IntegrationsSection user={user} />}
 
