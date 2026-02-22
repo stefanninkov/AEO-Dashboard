@@ -10,6 +10,7 @@ import {
   ArrowUp, ArrowDown, SearchCheck, Download, RefreshCw, Trash2, ExternalLink,
 } from 'lucide-react'
 import { shortPageUrl } from './usePageAnalyzer'
+import { safeHref } from '../../utils/sanitizeUrl'
 
 /* ── Sort Header ── */
 function SortHeader({ label, sortKey, currentSort, onSort }) {
@@ -190,7 +191,7 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
               {shortPageUrl(page.url)}
             </span>
             <a
-              href={page.url}
+              href={safeHref(page.url)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={e => e.stopPropagation()}

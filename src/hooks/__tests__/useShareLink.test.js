@@ -53,9 +53,10 @@ describe('useShareLink (localStorage mode)', () => {
     const url = await createShareLink(project, 'user-123')
 
     expect(url).toContain('?share=')
-    // Token should be alphanumeric, ~12 chars
+    // Token should be 48-char hex (192 bits)
     const token = url.split('?share=')[1]
-    expect(token.length).toBeGreaterThanOrEqual(8)
+    expect(token.length).toBe(48)
+    expect(/^[0-9a-f]+$/.test(token)).toBe(true)
   })
 
   it('fetchSharedProject retrieves data saved by createShareLink', async () => {

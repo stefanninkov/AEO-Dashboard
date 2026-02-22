@@ -20,6 +20,7 @@ import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import { useGscData } from '../hooks/useGscData'
 import { formatSiteUrl } from '../utils/gscApi'
 import { NotConnectedState, NoPropertyState, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
+import { safeHref } from '../utils/sanitizeUrl'
 
 /* ── Stat Card ── */
 function StatCard({ icon: Icon, label, value, subValue, color }) {
@@ -608,7 +609,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
                     {fmtPos(row.position)}
                   </div>
                   <a
-                    href={row.page}
+                    href={safeHref(row.page)}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}

@@ -222,7 +222,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
           {/* Project section content */}
           {activeProjectSubTab === 'general' && (
-            <ProjectGeneralSection activeProject={resolvedProject} updateProject={updateProject} google={google} />
+            <ProjectGeneralSection activeProject={resolvedProject} updateProject={updateProject} google={google} permission={permission} />
           )}
           {activeProjectSubTab === 'integrations' && (
             <ProjectIntegrationsSection activeProject={resolvedProject} updateProject={updateProject} user={user} />
@@ -237,7 +237,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <ProjectWebhooksSection activeProject={resolvedProject} updateProject={updateProject} />
           )}
           {activeProjectSubTab === 'data' && (
-            <ProjectDataSection activeProject={resolvedProject} updateProject={updateProject} deleteProject={deleteProject} setActiveView={setActiveView} />
+            <ProjectDataSection activeProject={resolvedProject} updateProject={updateProject} deleteProject={deleteProject} setActiveView={setActiveView} permission={permission} />
           )}
         </>
       )}

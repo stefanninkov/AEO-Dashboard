@@ -18,7 +18,8 @@ import {
   labelStyle, inlineSaveBtnStyle, flash,
 } from './SettingsShared'
 
-export default function ProjectGeneralSection({ activeProject, updateProject, google }) {
+export default function ProjectGeneralSection({ activeProject, updateProject, google, permission }) {
+  const canEdit = permission?.hasPermission?.('project:edit') !== false
   const { t } = useTranslation('app')
   const { addToast } = useToast()
 
@@ -37,25 +38,25 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
   const [clearCacheConfirm, setClearCacheConfirm] = useState(false)
 
   const handleSaveProjectName = useCallback(() => {
-    if (!activeProject || !projectName.trim()) return
+    if (!activeProject || !projectName.trim() || !canEdit) return
     updateProject(activeProject.id, { name: projectName.trim() })
     flash(setProjectNameSaved)
   }, [activeProject, projectName, updateProject])
 
   const handleSaveProjectUrl = useCallback(() => {
-    if (!activeProject) return
+    if (!activeProject || !canEdit) return
     updateProject(activeProject.id, { url: projectUrl.trim() })
     flash(setProjectUrlSaved)
   }, [activeProject, projectUrl, updateProject])
 
   const handleSaveWebflowId = useCallback(() => {
-    if (!activeProject) return
+    if (!activeProject || !canEdit) return
     updateProject(activeProject.id, { webflowSiteId: webflowSiteId.trim() })
     flash(setWebflowSaved)
   }, [activeProject, webflowSiteId, updateProject])
 
   const handleSaveNotes = useCallback(() => {
-    if (!activeProject) return
+    if (!activeProject || !canEdit) return
     updateProject(activeProject.id, { notes: projectNotes })
     flash(setNotesSaved)
   }, [activeProject, projectNotes, updateProject])

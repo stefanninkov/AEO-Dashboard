@@ -1,4 +1,5 @@
 import logger from './logger'
+import { isValidWebhookUrl } from './sanitizeUrl'
 
 // ─── Event Group Constants ───────────────────────────────────
 export const WEBHOOK_EVENT_GROUPS = {
@@ -138,6 +139,9 @@ export function eventMatchesWebhook(webhook, eventType) {
 
 // ─── Send a single webhook ──────────────────────────────────
 async function sendWebhook(url, payload) {
+  const check = isValidWebhookUrl(url)
+  if (!check.valid) return { success: false, status: 0, error: check.reason }
+
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), 5000)
 
@@ -204,6 +208,9 @@ export function fireWebhooks(project, eventType, eventData, updateProject) {
 
 // ─── Test a webhook ─────────────────────────────────────────
 export async function testWebhook(url, format = 'json') {
+  const check = isValidWebhookUrl(url)
+  if (!check.valid) return { success: false, status: 0, error: check.reason }
+
   const testProject = { name: 'Test Project', url: 'https://example.com' }
   const testData = { taskText: 'This is a test webhook from AEO Dashboard', score: 85 }
   const payload = formatPayload(format, 'check', testData, testProject)

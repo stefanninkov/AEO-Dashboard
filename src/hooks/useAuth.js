@@ -25,6 +25,43 @@ const isFirebaseConfigured = (() => {
   }
 })()
 
+/* ── Rate limiter (client-side brute-force protection) ── */
+const AUTH_MAX_ATTEMPTS = 5
+const AUTH_LOCKOUT_MS = 60_000
+const authAttempts = { count: 0, lockedUntil: 0 }
+
+function checkRateLimit() {
+  if (Date.now() < authAttempts.lockedUntil) {
+    const remaining = Math.ceil((authAttempts.lockedUntil - Date.now()) / 1000)
+    return `Too many failed attempts. Please wait ${remaining}s.`
+  }
+  return null
+}
+
+function recordFailedAttempt() {
+  authAttempts.count++
+  if (authAttempts.count >= AUTH_MAX_ATTEMPTS) {
+    authAttempts.lockedUntil = Date.now() + AUTH_LOCKOUT_MS
+    authAttempts.count = 0
+  }
+}
+
+function resetAttempts() {
+  authAttempts.count = 0
+  authAttempts.lockedUntil = 0
+}
+
+/* ── SHA-256 password hashing (dev mode only) ── */
+async function hashPassword(password) {
+  const data = new TextEncoder().encode(password + 'aeo-dashboard-salt')
+  const hash = await crypto.subtle.digest('SHA-256', data)
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('')
+}
+
+function isHashed(value) {
+  return typeof value === 'string' && /^[0-9a-f]{64}$/.test(value)
+}
+
 /* ── Local Auth (Dev Mode) ── */
 function useLocalAuth() {
   const [user, setUser] = useState(null)
@@ -51,17 +88,36 @@ function useLocalAuth() {
 
   const signIn = useCallback(async (email, password) => {
     setError(null)
-    // Check stored accounts
+    const lockMsg = checkRateLimit()
+    if (lockMsg) { setError(lockMsg); throw new Error('Rate limited') }
+
     const accounts = JSON.parse(localStorage.getItem('aeo-dev-accounts') || '{}')
     const account = accounts[email]
     if (!account) {
+      recordFailedAttempt()
       setError('No account found with this email. Try signing up first.')
       throw new Error('No account')
     }
-    if (account.password !== password) {
+
+    // Compare: support both legacy plaintext and hashed passwords
+    const hashed = await hashPassword(password)
+    const matches = isHashed(account.password)
+      ? account.password === hashed
+      : account.password === password
+
+    if (!matches) {
+      recordFailedAttempt()
       setError('Incorrect password. Please try again.')
       throw new Error('Wrong password')
     }
+
+    // Migrate legacy plaintext to hash
+    if (!isHashed(account.password)) {
+      accounts[email] = { ...account, password: hashed }
+      localStorage.setItem('aeo-dev-accounts', JSON.stringify(accounts))
+    }
+
+    resetAttempts()
     const u = { uid: account.uid, email, displayName: account.displayName, photoURL: null }
     persist(u)
     return u
@@ -80,7 +136,8 @@ function useLocalAuth() {
     }
     const uid = 'dev-' + crypto.randomUUID().slice(0, 8)
     const name = displayName || email.split('@')[0]
-    accounts[email] = { uid, password, displayName: name, agency: agency || '' }
+    const hashed = await hashPassword(password)
+    accounts[email] = { uid, password: hashed, displayName: name, agency: agency || '' }
     localStorage.setItem('aeo-dev-accounts', JSON.stringify(accounts))
     const u = { uid, email, displayName: name, photoURL: null }
     persist(u)
@@ -132,8 +189,12 @@ function useFirebaseAuth() {
 
   const signIn = useCallback(async (email, password) => {
     setError(null)
+    const lockMsg = checkRateLimit()
+    if (lockMsg) { setError(lockMsg); throw new Error('Rate limited') }
+
     try {
       const result = await signInWithEmailAndPassword(auth, email, password)
+      resetAttempts()
       // Ensure user profile doc exists (may have been missed on initial sign-up)
       try {
         const userDoc = await getDoc(doc(db, 'users', result.user.uid))
@@ -157,6 +218,7 @@ function useFirebaseAuth() {
       } catch { /* non-critical — don't block sign-in */ }
       return result.user
     } catch (err) {
+      recordFailedAttempt()
       const message = getErrorMessage(err.code)
       setError(message)
       throw err

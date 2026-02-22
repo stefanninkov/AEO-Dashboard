@@ -6,6 +6,7 @@ import {
   BookOpen, Code2, Link2, Sparkles, ArrowLeft, Lightbulb,
 } from 'lucide-react'
 import useContentBrief from './useContentBrief'
+import { safeHref } from '../../utils/sanitizeUrl'
 
 /* ── Skeleton loader ── */
 function BriefSkeleton() {
@@ -194,7 +195,7 @@ function BriefDisplay({ briefEntry, onCopy, onRemove }) {
         <BriefSection icon={Globe} title="Competitors to Outrank" color="#EF4444">
           {b.competitorsToOutrank.map((c, i) => (
             <div key={i} style={{ ...itemStyle, display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
-              <a href={c.url} target="_blank" rel="noopener noreferrer" style={{
+              <a href={safeHref(c.url)} target="_blank" rel="noopener noreferrer" style={{
                 fontSize: '0.8125rem', color: 'var(--color-phase-1)',
                 textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.25rem',
               }}>

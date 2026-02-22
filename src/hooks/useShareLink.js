@@ -16,11 +16,10 @@ const isFirebaseConfigured = (() => {
 })()
 
 function generateToken() {
-  // 12 char random alphanumeric token
-  return Array.from(crypto.getRandomValues(new Uint8Array(9)))
-    .map(b => b.toString(36).padStart(2, '0'))
+  // 48-char hex token = 192 bits of entropy (OWASP recommends 128+)
+  return Array.from(crypto.getRandomValues(new Uint8Array(24)))
+    .map(b => b.toString(16).padStart(2, '0'))
     .join('')
-    .slice(0, 12)
 }
 
 /**

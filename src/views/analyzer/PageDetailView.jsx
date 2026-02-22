@@ -7,6 +7,7 @@
 
 import { useMemo } from 'react'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { safeHref } from '../../utils/sanitizeUrl'
 import { AnalysisResults } from './AnalysisResultsShared'
 import { shortPageUrl } from './usePageAnalyzer'
 export default function PageDetailView({
@@ -73,7 +74,7 @@ export default function PageDetailView({
             {pageData.label || displayUrl}
           </h3>
           <a
-            href={pageUrl}
+            href={safeHref(pageUrl)}
             target="_blank"
             rel="noopener noreferrer"
             style={{

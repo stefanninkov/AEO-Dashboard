@@ -9,6 +9,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
+    sourcemap: false,
     chunkSizeWarningLimit: 550,
     rollupOptions: {
       // Exclude jsPDF optional deps we never use (saves ~382 kB / ~109 kB gzip)

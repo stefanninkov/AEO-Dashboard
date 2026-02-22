@@ -5,6 +5,7 @@ import {
   TrendingDown, Minus, CheckCircle2, XCircle, ChartColumnIncreasing, Clock
 } from 'lucide-react'
 import { fetchSharedProject } from '../hooks/useShareLink'
+import { safeHref } from '../utils/sanitizeUrl'
 import { phases as rawPhases } from '../data/aeo-checklist'
 import { useChecklistTranslation } from '../hooks/useChecklistTranslation'
 
@@ -75,7 +76,7 @@ export default function PortalView({ shareToken }) {
         <div className="portal-header">
           <h1 className="portal-project-name">{project.name}</h1>
           {project.url && (
-            <a href={project.url} target="_blank" rel="noopener noreferrer" className="portal-project-url">
+            <a href={safeHref(project.url)} target="_blank" rel="noopener noreferrer" className="portal-project-url">
               {project.url}
               <ExternalLink size={13} />
             </a>
