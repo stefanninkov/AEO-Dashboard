@@ -1,4 +1,5 @@
 import { X, ArrowRight, ExternalLink } from 'lucide-react'
+import { safeHref } from '../utils/sanitizeUrl'
 import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
@@ -127,7 +128,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
           )}
           {item?.action?.external && (
             <a
-              href={item.action.external}
+              href={safeHref(item.action.external)}
               target="_blank"
               rel="noopener noreferrer"
               style={{

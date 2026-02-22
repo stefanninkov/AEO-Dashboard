@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, memo } from 'react'
 import { CheckCircle2, BookOpen, UserPlus, MessageSquare, Send, Trash2, ExternalLink, ArrowRight } from 'lucide-react'
+import { safeHref } from '../../utils/sanitizeUrl'
 
 /* ── Avatar helpers ── */
 const AVATAR_COLORS = [
@@ -316,7 +317,7 @@ export default memo(function ChecklistItem({
             )}
             {item.action?.external && (
               <a
-                href={item.action.external}
+                href={safeHref(item.action.external)}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
