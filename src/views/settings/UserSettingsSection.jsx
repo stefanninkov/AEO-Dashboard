@@ -6,7 +6,7 @@
 import { useState, useCallback, useRef } from 'react'
 import {
   User, Palette, Globe, Save, Check,
-  RotateCcw, ClipboardList, BellRing, Camera, Trash2,
+  RotateCcw, ClipboardList, BellRing, Camera,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../../contexts/ThemeContext'
@@ -231,7 +231,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
                   onClick={handleRemoveAvatar}
                   disabled={avatarSaving}
                 >
-                  <Trash2 size={12} /> Remove
+                  <RotateCcw size={12} /> Reset
                 </button>
               )}
             </div>
