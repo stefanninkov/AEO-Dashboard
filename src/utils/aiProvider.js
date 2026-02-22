@@ -5,6 +5,8 @@
  * configuration for API keys, active provider, and model selection.
  */
 
+import { secureGet, secureSet, secureRemove } from './secureStorage'
+
 /* ── Provider Registry ── */
 const PROVIDERS = {
   anthropic: {
@@ -77,16 +79,16 @@ export function getAllProviders() {
 /** Get the API key for a provider. Defaults to active provider. */
 export function getApiKey(providerId) {
   const config = getProviderConfig(providerId)
-  return localStorage.getItem(config.storageKey) || ''
+  return secureGet(config.storageKey)
 }
 
 /** Set the API key for a provider. */
 export function setApiKey(providerId, key) {
   const config = getProviderConfig(providerId)
   if (key && key.trim()) {
-    localStorage.setItem(config.storageKey, key.trim())
+    secureSet(config.storageKey, key.trim())
   } else {
-    localStorage.removeItem(config.storageKey)
+    secureRemove(config.storageKey)
   }
 }
 

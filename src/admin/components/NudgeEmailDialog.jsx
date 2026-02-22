@@ -12,6 +12,7 @@ import { X, Send, Loader2, Check, Mail, ChevronDown } from 'lucide-react'
 import { doc, updateDoc, arrayUnion, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
 import logger from '../../utils/logger'
+import { getEmailConfig } from '../../utils/emailService'
 import { NUDGE_TEMPLATES, suggestTemplate, getTemplateById } from '../utils/nudgeTemplates'
 
 export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUser, context = {} }) {
@@ -71,9 +72,10 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
 
     try {
       // Try EmailJS if configured
-      const serviceId = localStorage.getItem('emailjs-service-id')
-      const templateIdEmailJs = localStorage.getItem('emailjs-template-id')
-      const publicKey = localStorage.getItem('emailjs-public-key')
+      const emailConfig = getEmailConfig()
+      const serviceId = emailConfig.serviceId
+      const templateIdEmailJs = emailConfig.templateId
+      const publicKey = emailConfig.publicKey
 
       if (serviceId && templateIdEmailJs && publicKey) {
         const emailjsModule = '@emailjs/browser'

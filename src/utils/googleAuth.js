@@ -16,6 +16,7 @@
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import logger from './logger'
+import { encryptValue, decryptValue, isSecureStorageInitialized } from './secureStorage'
 
 // ── Scopes ──
 const SCOPES = [
@@ -155,9 +156,18 @@ export function launchGoogleOAuth() {
 export async function saveGoogleTokens(uid, tokenData) {
   if (!uid) throw new Error('No user ID')
 
+  let accessTokenToStore = tokenData.accessToken
+  if (isSecureStorageInitialized()) {
+    try {
+      accessTokenToStore = await encryptValue(tokenData.accessToken)
+    } catch (err) {
+      logger.warn('Failed to encrypt Google token, storing as-is:', err)
+    }
+  }
+
   const payload = {
     googleIntegration: {
-      accessToken: tokenData.accessToken,
+      accessToken: accessTokenToStore,
       expiresAt: tokenData.expiresAt,
       scopes: tokenData.scopes,
       connectedAt: new Date().toISOString(),
@@ -185,7 +195,19 @@ export async function loadGoogleTokens(uid) {
     if (!userDoc.exists()) return null
 
     const data = userDoc.data()
-    return data.googleIntegration || null
+    const integration = data.googleIntegration || null
+    if (!integration) return integration
+
+    // Attempt to decrypt the access token (handles both encrypted and plaintext)
+    if (integration.accessToken && isSecureStorageInitialized()) {
+      try {
+        integration.accessToken = await decryptValue(integration.accessToken)
+      } catch {
+        logger.warn('Could not decrypt Google access token, using as-is')
+      }
+    }
+
+    return integration
   } catch (err) {
     logger.error('Failed to load Google tokens:', err)
     return null

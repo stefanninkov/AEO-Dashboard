@@ -1,4 +1,5 @@
 import logger from './logger'
+import { secureGet, secureSet } from './secureStorage'
 
 /**
  * Send email via EmailJS REST API (no SDK needed).
@@ -46,7 +47,8 @@ export async function sendEmail(to, subject, body) {
  */
 export function getEmailConfig() {
   try {
-    return JSON.parse(localStorage.getItem('emailjs-config') || '{}')
+    const raw = secureGet('emailjs-config')
+    return raw ? JSON.parse(raw) : {}
   } catch {
     return {}
   }
@@ -56,7 +58,7 @@ export function getEmailConfig() {
  * Save EmailJS configuration.
  */
 export function saveEmailConfig(config) {
-  localStorage.setItem('emailjs-config', JSON.stringify(config))
+  secureSet('emailjs-config', JSON.stringify(config))
 }
 
 /**

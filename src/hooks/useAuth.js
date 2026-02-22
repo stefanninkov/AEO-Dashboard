@@ -10,6 +10,7 @@ import {
 } from 'firebase/auth'
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore'
 import { auth, googleProvider, db } from '../firebase'
+import { initSecureStorage, clearSecureStorage } from '../utils/secureStorage'
 
 /*
  * Dev mode detection
@@ -69,13 +70,17 @@ function useLocalAuth() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem('aeo-dev-user')
-    if (stored) {
-      try {
-        setUser(JSON.parse(stored))
-      } catch { /* ignore */ }
-    }
-    setLoading(false)
+    ;(async () => {
+      const stored = localStorage.getItem('aeo-dev-user')
+      if (stored) {
+        try {
+          const u = JSON.parse(stored)
+          await initSecureStorage(u.uid)
+          setUser(u)
+        } catch { /* ignore */ }
+      }
+      setLoading(false)
+    })()
   }, [])
 
   const persist = (u) => {
@@ -120,6 +125,7 @@ function useLocalAuth() {
     resetAttempts()
     const u = { uid: account.uid, email, displayName: account.displayName, photoURL: null }
     persist(u)
+    await initSecureStorage(u.uid)
     return u
   }, [])
 
@@ -141,6 +147,7 @@ function useLocalAuth() {
     localStorage.setItem('aeo-dev-accounts', JSON.stringify(accounts))
     const u = { uid, email, displayName: name, photoURL: null }
     persist(u)
+    await initSecureStorage(u.uid)
     return u
   }, [])
 
@@ -150,10 +157,12 @@ function useLocalAuth() {
     const uid = 'dev-google-' + crypto.randomUUID().slice(0, 8)
     const u = { uid, email: 'google-user@gmail.com', displayName: 'Google User', photoURL: null }
     persist(u)
+    await initSecureStorage(u.uid)
     return u
   }, [])
 
   const signOut = useCallback(async () => {
+    clearSecureStorage()
     persist(null)
   }, [])
 
@@ -178,7 +187,12 @@ function useFirebaseAuth() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        await initSecureStorage(firebaseUser.uid)
+      } else {
+        clearSecureStorage()
+      }
       setUser(firebaseUser)
       setLoading(false)
     })
@@ -300,6 +314,7 @@ function useFirebaseAuth() {
   const signOut = useCallback(async () => {
     setError(null)
     try {
+      clearSecureStorage()
       await firebaseSignOut(auth)
     } catch (err) {
       setError('Failed to sign out. Please try again.')

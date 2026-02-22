@@ -4,6 +4,7 @@
  * Reads from useAdminStats output and formats a summary email.
  * Sends via EmailJS if configured, otherwise opens mailto.
  */
+import { getEmailConfig } from '../../utils/emailService'
 
 const DIGEST_PREFS_KEY = 'aeo-admin-digest-prefs'
 
@@ -126,9 +127,10 @@ export async function sendDigest(stats, period = 'daily') {
     throw new Error('No digest email configured. Set it in Admin Settings.')
   }
 
-  const serviceId = localStorage.getItem('emailjs-service-id')
-  const templateId = localStorage.getItem('emailjs-template-id')
-  const publicKey = localStorage.getItem('emailjs-public-key')
+  const emailConfig = getEmailConfig()
+  const serviceId = emailConfig.serviceId
+  const templateId = emailConfig.templateId
+  const publicKey = emailConfig.publicKey
 
   if (serviceId && templateId && publicKey) {
     const emailjsModule = '@emailjs/browser'
