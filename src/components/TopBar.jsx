@@ -324,7 +324,7 @@ export default memo(function TopBar({
             <div
               style={{
                 position: 'absolute', left: 0, top: '100%', marginTop: '0.375rem',
-                width: '18.75rem', background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
+                width: 'min(18.75rem, calc(100vw - 2rem))', background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
                 borderRadius: '0.75rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)',
                 zIndex: 'var(--z-dropdown)',
               }}
@@ -404,7 +404,7 @@ export default memo(function TopBar({
         {/* Search */}
         <div
           ref={searchContainerRef}
-          className="search-container hidden md:block"
+          className="search-container search-desktop"
           style={{ flex: 1, maxWidth: '20rem', minWidth: 0, position: 'relative' }}
         >
           <div style={{
@@ -525,7 +525,7 @@ export default memo(function TopBar({
         {/* Mobile search trigger — opens command palette */}
         {onOpenCommandPalette && (
           <button
-            className="icon-btn md:hidden"
+            className="icon-btn search-mobile"
             onClick={onOpenCommandPalette}
             aria-label={t('actions.search')}
             title={t('actions.search')}
