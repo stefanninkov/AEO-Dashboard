@@ -313,7 +313,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
               </button>
             ))}
           </div>
-          <button className="icon-btn" onClick={handleRefresh} title={t('common:actions.refresh')} disabled={loading}>
+          <button className="icon-btn" onClick={handleRefresh} title={t('common:actions.refresh')} aria-label={t('common:actions.refresh')} disabled={loading}>
             {loading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={14} />}
           </button>
         </div>

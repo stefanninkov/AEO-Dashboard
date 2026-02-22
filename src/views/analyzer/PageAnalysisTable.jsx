@@ -144,7 +144,7 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
             }}
           />
         </div>
-        <button className="icon-btn" onClick={handleExportCsv} title="Export CSV">
+        <button className="icon-btn" onClick={handleExportCsv} title="Export CSV" aria-label="Export CSV">
           <Download size={14} />
         </button>
       </div>
@@ -222,6 +222,7 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
               onClick={() => onReanalyze(page.url)}
               disabled={analyzing}
               title="Re-analyze"
+              aria-label="Re-analyze"
             >
               <RefreshCw size={11} />
             </button>
@@ -230,6 +231,7 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
               style={{ width: '1.5rem', height: '1.5rem', color: 'var(--color-error)' }}
               onClick={() => onRemove(page.url)}
               title="Remove"
+              aria-label="Remove"
             >
               <Trash2 size={11} />
             </button>

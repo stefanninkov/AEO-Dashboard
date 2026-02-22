@@ -3,6 +3,7 @@ import { Send, CheckCircle, Clock, Bug, Lightbulb, MessageCircle, ArrowLeft, Mon
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useTheme } from '../../contexts/ThemeContext'
+import logger from '../../utils/logger'
 
 /* ── Category Definitions ── */
 const CATEGORIES = [
@@ -160,7 +161,7 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
       localStorage.setItem(RATE_LIMIT_KEY, String(Date.now()))
       setSubmitted(true)
     } catch (err) {
-      console.error('Failed to submit feedback:', err)
+      logger.error('Failed to submit feedback:', err)
       if (err.code === 'permission-denied') {
         setError('Permission denied. Firestore security rules need to allow writes to the "feedback" collection.')
       } else {

@@ -4,6 +4,7 @@ import {
   query, where, serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
+import logger from '../utils/logger'
 
 /*
  * Dev mode detection — matches useAuth.js / useFirestoreProjects.js
@@ -38,7 +39,7 @@ export function useWaitlist() {
     const unsubscribe = onSnapshot(
       collection(db, 'waitlist'),
       (snapshot) => setCount(snapshot.size),
-      (err) => console.error('Waitlist count error:', err),
+      (err) => logger.error('Waitlist count error:', err),
     )
     return () => unsubscribe()
   }, [])
@@ -101,7 +102,7 @@ export function useWaitlist() {
       localStorage.setItem(RATE_LIMIT_KEY, String(Date.now()))
       setSubmitted(true)
     } catch (err) {
-      console.error('Waitlist submit error:', err)
+      logger.error('Waitlist submit error:', err)
       if (err.code === 'permission-denied') {
         setError('Unable to join waitlist. Please try again later.')
       } else {

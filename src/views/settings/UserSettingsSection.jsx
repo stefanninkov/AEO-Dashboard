@@ -6,12 +6,19 @@
 import { useState, useCallback } from 'react'
 import {
   User, Palette, Globe, Save, Check,
-  RotateCcw, ClipboardList,
+  RotateCcw, ClipboardList, BellRing,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../../contexts/ThemeContext'
 import { SUPPORTED_LANGUAGES, loadLanguage } from '../../i18n'
 import logger from '../../utils/logger'
+import {
+  isSupported as browserNotifsSupported,
+  isEnabled as browserNotifsEnabled,
+  setEnabled as setBrowserNotifsEnabled,
+  getPermission as getBrowserNotifsPermission,
+  requestPermission as requestBrowserNotifsPermission,
+} from '../../utils/browserNotifications'
 import {
   ToggleSwitch, sectionTitleStyle, settingsRowStyle,
   lastRowStyle, labelStyle, inlineSaveBtnStyle, smallSelectStyle, flash,
@@ -42,6 +49,11 @@ export default function UserSettingsSection({ user }) {
     const prefs = JSON.parse(localStorage.getItem('aeo-user-preferences') || '{}')
     return prefs.notificationSound !== false
   })
+
+  // Browser push notifications
+  const browserNotifsAvailable = browserNotifsSupported()
+  const [browserNotifs, setBrowserNotifs] = useState(() => browserNotifsEnabled())
+  const [browserNotifsPermission, setBrowserNotifsPermission] = useState(() => getBrowserNotifsPermission())
 
   // Derived
   const authProvider = user?.providerData?.[0]?.providerId
@@ -76,6 +88,20 @@ export default function UserSettingsSection({ user }) {
     const prefs = JSON.parse(localStorage.getItem('aeo-user-preferences') || '{}')
     localStorage.setItem('aeo-user-preferences', JSON.stringify({ ...prefs, defaultDateRange: val }))
   }, [])
+
+  const handleBrowserNotifsToggle = useCallback(async (val) => {
+    if (val && browserNotifsPermission !== 'granted') {
+      const result = await requestBrowserNotifsPermission()
+      setBrowserNotifsPermission(result)
+      if (result !== 'granted') {
+        setBrowserNotifs(false)
+        setBrowserNotifsEnabled(false)
+        return
+      }
+    }
+    setBrowserNotifs(val)
+    setBrowserNotifsEnabled(val)
+  }, [browserNotifsPermission])
 
   const handleNotificationSoundToggle = useCallback((val) => {
     setNotificationSound(val)
@@ -154,6 +180,28 @@ export default function UserSettingsSection({ user }) {
           <ToggleSwitch checked={notificationSound} onChange={handleNotificationSoundToggle} label="Toggle notification sound" />
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{notificationSound ? t('userSettings.on') : t('userSettings.off')}</span>
         </div>
+
+        {browserNotifsAvailable && (
+          <div style={settingsRowStyle}>
+            <span style={labelStyle}>
+              <BellRing size={13} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.375rem' }} />
+              {t('userSettings.browserNotifications')}
+            </span>
+            <ToggleSwitch
+              checked={browserNotifs}
+              onChange={handleBrowserNotifsToggle}
+              label="Toggle browser notifications"
+              disabled={browserNotifsPermission === 'denied'}
+            />
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+              {browserNotifsPermission === 'denied'
+                ? t('userSettings.browserNotifsDenied')
+                : browserNotifs
+                  ? t('userSettings.on')
+                  : t('userSettings.off')}
+            </span>
+          </div>
+        )}
 
         <div style={lastRowStyle}>
           <span style={labelStyle}>{t('userSettings.defaultDateRange')}</span>

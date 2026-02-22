@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { collection, getDocs, doc, updateDoc, orderBy, query } from 'firebase/firestore'
 import { db } from '../../firebase'
+import logger from '../../utils/logger'
 
 const RATING_ICONS = {
   love: { Icon: Heart, color: '#EF4444' },
@@ -86,7 +87,7 @@ export default function AdminFeedback({ user }) {
       const items = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       setFeedback(items)
     } catch (err) {
-      console.error('Failed to fetch feedback:', err)
+      logger.error('Failed to fetch feedback:', err)
     } finally {
       setLoading(false)
     }
@@ -105,7 +106,7 @@ export default function AdminFeedback({ user }) {
       await updateDoc(doc(db, 'feedback', id), { status: newStatus })
       setFeedback(prev => prev.map(f => f.id === id ? { ...f, status: newStatus } : f))
     } catch (err) {
-      console.error('Failed to update status:', err)
+      logger.error('Failed to update status:', err)
     }
   }
 
@@ -115,7 +116,7 @@ export default function AdminFeedback({ user }) {
       await updateDoc(doc(db, 'feedback', id), { adminNote: note })
       setFeedback(prev => prev.map(f => f.id === id ? { ...f, adminNote: note } : f))
     } catch (err) {
-      console.error('Failed to save note:', err)
+      logger.error('Failed to save note:', err)
     }
   }
 

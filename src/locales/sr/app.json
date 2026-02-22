@@ -825,6 +825,8 @@
     "enabled": "Укључено",
     "disabled": "Искључено",
     "notificationSound": "Звук обавештења",
+    "browserNotifications": "Обавештења прегледача",
+    "browserNotifsDenied": "Блокирано од стране прегледача",
     "on": "Укључено",
     "off": "Искључено",
     "defaultDateRange": "Подразумевани опсег датума",

@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { UserPlus, SearchCheck, RefreshCw, Download, Mail, TrendingUp, Users } from 'lucide-react'
 import { collection, getDocs, orderBy, query, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
+import logger from '../../utils/logger'
 
 function timeAgo(dateInput) {
   if (!dateInput) return 'Unknown'
@@ -35,7 +36,7 @@ export default function AdminWaitlist({ user }) {
       const items = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       setEntries(items)
     } catch (err) {
-      console.error('Failed to fetch waitlist:', err)
+      logger.error('Failed to fetch waitlist:', err)
     } finally {
       setLoading(false)
     }
@@ -54,7 +55,7 @@ export default function AdminWaitlist({ user }) {
       await updateDoc(doc(db, 'waitlist', entryId), { status: newStatus })
       setEntries(prev => prev.map(e => e.id === entryId ? { ...e, status: newStatus } : e))
     } catch (err) {
-      console.error('Failed to update status:', err)
+      logger.error('Failed to update status:', err)
     }
   }
 

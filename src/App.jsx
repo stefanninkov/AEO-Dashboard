@@ -686,6 +686,7 @@ function AuthenticatedApp({ user, onSignOut }) {
             setActiveView={setActiveView}
             setDocItem={handleSetDocItem}
             onToggleSidebar={toggleSidebar}
+            onOpenCommandPalette={() => setCmdPaletteOpen(true)}
             notifications={notifications}
             unreadCount={unreadCount}
             onMarkRead={markRead}

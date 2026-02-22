@@ -11,6 +11,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { X, Send, Loader2, Check, Mail, ChevronDown } from 'lucide-react'
 import { doc, updateDoc, arrayUnion, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
+import logger from '../../utils/logger'
 import { NUDGE_TEMPLATES, suggestTemplate, getTemplateById } from '../utils/nudgeTemplates'
 
 export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUser, context = {} }) {
@@ -106,7 +107,7 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
           })
         } catch (firestoreErr) {
           // Don't fail the nudge if Firestore write fails
-          console.warn('Failed to record nudge in Firestore:', firestoreErr)
+          logger.warn('Failed to record nudge in Firestore:', firestoreErr)
         }
       }
 
@@ -115,7 +116,7 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
         onClose?.()
       }, 2000)
     } catch (err) {
-      console.error('Failed to send nudge:', err)
+      logger.error('Failed to send nudge:', err)
       setError(`Failed to send: ${err.message}`)
     } finally {
       setSending(false)

@@ -1,4 +1,5 @@
-import { useMemo, useCallback } from 'react'
+import { useMemo, useCallback, useRef, useEffect } from 'react'
+import { showNotification } from '../utils/browserNotifications'
 
 const MAX_NOTIFICATIONS = 50
 
@@ -30,6 +31,18 @@ export function useNotifications({ user, activeProject, updateProject }) {
   const unreadCount = useMemo(() => {
     return notifications.filter(n => !n.read).length
   }, [notifications])
+
+  // Trigger browser push notification when new unread items appear
+  const prevUnreadRef = useRef(unreadCount)
+  useEffect(() => {
+    if (unreadCount > prevUnreadRef.current) {
+      const newest = notifications.find(n => !n.read)
+      if (newest) {
+        showNotification('AEO Dashboard', newest.message)
+      }
+    }
+    prevUnreadRef.current = unreadCount
+  }, [unreadCount, notifications])
 
   const addNotification = useCallback((targetUid, type, message, data = {}) => {
     if (!projectId || !updateProject || !targetUid) return

@@ -39,6 +39,7 @@ export default memo(function TopBar({
   onMarkRead,
   onMarkAllRead,
   onClearNotifications,
+  onOpenCommandPalette,
 }) {
   const { t } = useTranslation()
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -406,6 +407,18 @@ export default memo(function TopBar({
             {searchOpen && debouncedSearch.trim() ? t('topbar.resultsFound', { count: searchResults.length }) : ''}
           </div>
         </div>
+
+        {/* Mobile search trigger — opens command palette */}
+        {onOpenCommandPalette && (
+          <button
+            className="icon-btn md:hidden"
+            onClick={onOpenCommandPalette}
+            aria-label={t('actions.search')}
+            title={t('actions.search')}
+          >
+            <SearchCheck size={14} />
+          </button>
+        )}
 
         {/* Actions */}
         <div className="top-bar-actions">

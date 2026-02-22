@@ -497,6 +497,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                                 className="icon-btn"
                                 onClick={() => handleRemoveMember(member.uid)}
                                 title={t('team.confirmRemove')}
+                                aria-label={t('team.confirmRemove')}
                                 style={{ color: 'var(--color-error)' }}
                               >
                                 <Check size={14} />
@@ -505,6 +506,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                                 className="icon-btn"
                                 onClick={() => setConfirmRemove(null)}
                                 title={t('team.cancelAction')}
+                                aria-label={t('team.cancelAction')}
                               >
                                 <X size={14} />
                               </button>
@@ -514,6 +516,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                               className="icon-btn"
                               onClick={() => setConfirmRemove(member.uid)}
                               title={t('team.removeMember')}
+                              aria-label={t('team.removeMember')}
                             >
                               <Trash2 size={14} />
                             </button>
@@ -620,6 +623,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                             className="icon-btn"
                             onClick={() => handleCancelInvitation(inv.email)}
                             title={t('team.cancelInvitation')}
+                            aria-label={t('team.cancelInvitation')}
                           >
                             <X size={14} />
                           </button>

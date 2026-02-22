@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { BotMessageSquare, SearchCheck, RefreshCw, ChevronDown, ChevronUp, User, Bot, MessageCircle } from 'lucide-react'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../../firebase'
+import logger from '../../utils/logger'
 
 function timeAgo(dateInput) {
   if (!dateInput) return 'Unknown'
@@ -28,7 +29,7 @@ export default function AdminChatLogs({ user }) {
       const items = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       setChatLogs(items)
     } catch (err) {
-      console.error('Failed to fetch chat logs:', err)
+      logger.error('Failed to fetch chat logs:', err)
     } finally {
       setLoading(false)
     }

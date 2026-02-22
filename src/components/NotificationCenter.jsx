@@ -23,7 +23,7 @@ const VIEW_MAP = {
   score_change: 'metrics',
 }
 
-function getRelativeTime(dateStr, t) {
+function getRelativeTime(dateStr, t, locale) {
   const date = new Date(dateStr)
   const now = new Date()
   const diffMs = now - date
@@ -34,7 +34,7 @@ function getRelativeTime(dateStr, t) {
   if (diffMins < 60) return t('time.minutesAgo', { count: diffMins })
   if (diffHours < 24) return t('time.hoursAgo', { count: diffHours })
   if (diffDays < 7) return t('time.daysAgo', { count: diffDays })
-  return date.toLocaleDateString('en', { month: 'short', day: 'numeric' })
+  return date.toLocaleDateString(locale || 'en', { month: 'short', day: 'numeric' })
 }
 
 export default function NotificationCenter({
@@ -45,7 +45,7 @@ export default function NotificationCenter({
   onClearAll,
   setActiveView,
 }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const prevUnreadRef = useRef(unreadCount)
@@ -211,7 +211,7 @@ export default function NotificationCenter({
                           </span>
                         )}
                       </p>
-                      <span className="notif-time">{getRelativeTime(notif.timestamp, t)}</span>
+                      <span className="notif-time">{getRelativeTime(notif.timestamp, t, i18n.language)}</span>
                     </div>
                     {!notif.read && <div className="notif-unread-dot" />}
                   </div>

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { Send, Bot, User, AlertCircle, SlidersHorizontal, Loader } from 'lucide-react'
 import { collection, addDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
+import logger from '../../utils/logger'
 import { callAI } from '../../utils/apiClient'
 import { hasApiKey, getFastModel } from '../../utils/aiProvider'
 import { buildHelpSystemPrompt } from '../../utils/helpAssistantPrompt'
@@ -63,7 +64,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
         setSessionDocId(docRef.id)
       }
     } catch (err) {
-      console.error('Failed to save chat session:', err)
+      logger.error('Failed to save chat session:', err)
     }
   }, [user, activeView, activeProject, sessionDocId])
 

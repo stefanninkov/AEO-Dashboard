@@ -825,6 +825,8 @@
     "enabled": "Aktiviert",
     "disabled": "Deaktiviert",
     "notificationSound": "Benachrichtigungston",
+    "browserNotifications": "Browser-Benachrichtigungen",
+    "browserNotifsDenied": "Vom Browser blockiert",
     "on": "An",
     "off": "Aus",
     "defaultDateRange": "Standard-Zeitraum",
