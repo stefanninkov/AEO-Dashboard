@@ -11,6 +11,7 @@ import {
 import NotificationCenter from './NotificationCenter'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useTheme } from '../contexts/ThemeContext'
+import Sparkline from './Sparkline'
 
 const NAV_ICONS = {
   dashboard: Gauge,
@@ -379,6 +380,18 @@ export default memo(function TopBar({
                           <p style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{project.name}</p>
                           {project.url && <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '0.125rem' }}>{project.url}</p>}
                         </button>
+                        {project.metricsHistory?.length >= 2 && (
+                          <Sparkline
+                            data={project.metricsHistory.slice(-8).map(m => m.overallScore || 0)}
+                            width={36}
+                            height={16}
+                            stroke={
+                              (project.metricsHistory[project.metricsHistory.length - 1]?.overallScore || 0) >=
+                              (project.metricsHistory[project.metricsHistory.length - 2]?.overallScore || 0)
+                                ? 'var(--color-success)' : 'var(--color-error)'
+                            }
+                          />
+                        )}
                         <div style={{ display: 'flex', gap: '0.125rem', flexShrink: 0 }}>
                           <button
                             onClick={() => { setEditingId(project.id); setEditName(project.name) }}
