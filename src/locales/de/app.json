@@ -77,6 +77,17 @@
       "analysis": "Analyse",
       "schema": "Schema"
     },
+    "quickWin": {
+      "label": "Quick Win",
+      "impact": {
+        "high": "Hoher Einfluss",
+        "medium": "Mittlerer Einfluss"
+      },
+      "effort": {
+        "quick": "< 5 Min.",
+        "moderate": "~15 Min."
+      }
+    },
     "progressSummary": {
       "milestones": "Meilensteine",
       "tasksProgress": "{{done}}/{{total}} Aufgaben",

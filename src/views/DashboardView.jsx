@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo, useCallback, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing, Activity, TrendingUp, TrendingDown } from 'lucide-react'
-import { getSmartRecommendations, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
+import { getSmartRecommendations, getQuickWin, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
 import {
   LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer,
@@ -15,6 +15,7 @@ import RecommendationsPanel from './dashboard/RecommendationsPanel'
 import QuickActions from './dashboard/QuickActions'
 import AnalyticsPanel from './dashboard/AnalyticsPanel'
 import ProgressSummaryCard from './dashboard/ProgressSummaryCard'
+import QuickWinCard from './dashboard/QuickWinCard'
 
 const SUB_TAB_KEYS = [
   { id: 'overview', i18nKey: 'dashboard.overview' },
@@ -212,6 +213,9 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
   // Smart Recommendations — uses full project state, not just questionnaire
   const recommendations = useMemo(() => getSmartRecommendations(activeProject, phases, setActiveView), [activeProject, phases, setActiveView])
 
+  // Quick Win — single highest-impact next action
+  const quickWin = useMemo(() => getQuickWin(activeProject, phases, setActiveView), [activeProject, phases, setActiveView])
+
   const emptyStateAction = useCallback(() => setActiveView('metrics'), [setActiveView])
 
   return (
@@ -270,6 +274,9 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
             <StatCard label={t('dashboard.aeoScore')} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
           </div>
+
+          {/* Quick Win — #1 highest-impact action */}
+          <QuickWinCard quickWin={quickWin} />
 
           {/* Donut Chart — Phase Progress */}
           {activeProject && phases && (

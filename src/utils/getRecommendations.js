@@ -1007,6 +1007,262 @@ export function getSmartRecommendations(project, phases, setActiveView) {
   return unique.sort((a, b) => a.priority - b.priority).slice(0, 6)
 }
 
+/* ── Quick Win — synthesize the single highest-impact next action ── */
+export function getQuickWin(project, phases, setActiveView) {
+  if (!project) return null
+
+  const checked = project.checked || {}
+  const q = project.questionnaire || {}
+  const metricsHistory = project.metricsHistory || []
+  const analyzerResults = project.analyzerResults
+  const pageAnalyses = project.pageAnalyses || {}
+  const competitors = project.competitors || []
+  const monitorHistory = project.monitorHistory || []
+  const hasKey = checkApiKey()
+
+  // Helper: checklist stats
+  const totalItems = phases?.reduce((s, p) => s + p.categories.reduce((s2, c) => s2 + c.items.length, 0), 0) || 0
+  const totalChecked = Object.values(checked).filter(Boolean).length
+  const overallPct = totalItems > 0 ? Math.round((totalChecked / totalItems) * 100) : 0
+
+  // Candidates: { id, text, detail, action, actionLabel, impact, effort, impactScore }
+  // impactScore: higher = more impactful (used for internal ranking)
+  const candidates = []
+
+  // ── 1. Blocking setup items (highest urgency) ──
+  if (!q.completedAt) {
+    candidates.push({
+      id: 'qw-questionnaire',
+      text: 'Complete your project profile',
+      detail: 'Unlocks personalized recommendations, schema suggestions, and content strategies tailored to your industry.',
+      action: () => setActiveView('dashboard'),
+      actionLabel: 'Set Up',
+      impact: 'high',
+      effort: 'quick',
+      impactScore: 95,
+    })
+  }
+
+  if (!project.url) {
+    candidates.push({
+      id: 'qw-url',
+      text: 'Add your website URL',
+      detail: 'Required to unlock the Analyzer, Monitoring, and Metrics — the three most powerful features.',
+      action: () => setActiveView('settings'),
+      actionLabel: 'Add URL',
+      impact: 'high',
+      effort: 'quick',
+      impactScore: 94,
+    })
+  }
+
+  if (!hasKey && project.url) {
+    candidates.push({
+      id: 'qw-apikey',
+      text: 'Add your API key to unlock AI analysis',
+      detail: 'One setting change unlocks site analysis, content writing, schema generation, and monitoring.',
+      action: () => setActiveView('settings'),
+      actionLabel: 'Add Key',
+      impact: 'high',
+      effort: 'quick',
+      impactScore: 93,
+    })
+  }
+
+  // ── 2. Critical page/site score issues (highest impact on AEO) ──
+  const pageEntries = Object.entries(pageAnalyses)
+  if (pageEntries.length > 0) {
+    let worstUrl = '', worstScore = 101
+    pageEntries.forEach(([url, data]) => {
+      const sc = data.overallScore ?? 100
+      if (sc < worstScore) { worstScore = sc; worstUrl = url }
+    })
+    if (worstScore < 40) {
+      const shortUrl = (() => {
+        try { const p = new URL(worstUrl); return p.pathname === '/' ? p.hostname : p.pathname } catch { return worstUrl }
+      })()
+      candidates.push({
+        id: 'qw-critical-page',
+        text: `Fix critical issues on ${shortUrl}`,
+        detail: `Scoring ${worstScore}/100 — fixing this page could improve your average by ${Math.round((60 - worstScore) / pageEntries.length)} points.`,
+        action: () => setActiveView('analyzer'),
+        actionLabel: 'Fix Now',
+        impact: 'high',
+        effort: 'moderate',
+        impactScore: 90,
+      })
+    } else if (worstScore < 70) {
+      const shortUrl = (() => {
+        try { const p = new URL(worstUrl); return p.pathname === '/' ? p.hostname : p.pathname } catch { return worstUrl }
+      })()
+      candidates.push({
+        id: 'qw-improve-page',
+        text: `Improve ${shortUrl} from ${worstScore} to 70+`,
+        detail: 'Your lowest-scoring page. Bringing it above 70 strengthens your overall AEO posture.',
+        action: () => setActiveView('analyzer'),
+        actionLabel: 'Improve',
+        impact: 'high',
+        effort: 'moderate',
+        impactScore: 75,
+      })
+    }
+  }
+
+  if (analyzerResults && (analyzerResults.overallScore || 0) < 50 && pageEntries.length === 0) {
+    candidates.push({
+      id: 'qw-site-score',
+      text: `Your site scores ${analyzerResults.overallScore}% — fix top priority`,
+      detail: analyzerResults.topPriorities?.[0] || 'Address the highest-impact issue to lift your score significantly.',
+      action: () => setActiveView('analyzer'),
+      actionLabel: 'Fix Now',
+      impact: 'high',
+      effort: 'moderate',
+      impactScore: 85,
+    })
+  }
+
+  // ── 3. Metrics score drops (recent regressions) ──
+  if (metricsHistory.length >= 2) {
+    const latest = metricsHistory[metricsHistory.length - 1]
+    const prev = metricsHistory[metricsHistory.length - 2]
+    const drop = (prev.overallScore || 0) - (latest.overallScore || 0)
+    if (drop >= 5) {
+      candidates.push({
+        id: 'qw-score-drop',
+        text: `AEO score dropped ${drop} points — investigate now`,
+        detail: `From ${prev.overallScore} to ${latest.overallScore}. Check recent content or technical changes that may have caused this.`,
+        action: () => setActiveView('metrics'),
+        actionLabel: 'Investigate',
+        impact: 'high',
+        effort: 'moderate',
+        impactScore: 88,
+      })
+    }
+  }
+
+  // ── 4. First-time actions (biggest leverage for new users) ──
+  if (!analyzerResults && project.url && hasKey) {
+    candidates.push({
+      id: 'qw-first-analysis',
+      text: 'Run your first site analysis',
+      detail: 'Get a baseline AEO score and discover exactly what to fix. Takes about 30 seconds.',
+      action: () => setActiveView('analyzer'),
+      actionLabel: 'Analyze',
+      impact: 'high',
+      effort: 'quick',
+      impactScore: 82,
+    })
+  }
+
+  if (metricsHistory.length === 0 && project.url && hasKey) {
+    candidates.push({
+      id: 'qw-first-metrics',
+      text: 'Run your first metrics analysis',
+      detail: 'Establish a baseline for citations, prompts, and AI engine coverage to track improvement.',
+      action: () => setActiveView('metrics'),
+      actionLabel: 'Run Metrics',
+      impact: 'medium',
+      effort: 'quick',
+      impactScore: 70,
+    })
+  }
+
+  if (competitors.length === 0 && q.completedAt) {
+    candidates.push({
+      id: 'qw-add-competitors',
+      text: 'Add your first competitor',
+      detail: 'See how your AEO compares. Competitor tracking reveals gaps and opportunities you might miss.',
+      action: () => setActiveView('competitors'),
+      actionLabel: 'Add Competitor',
+      impact: 'medium',
+      effort: 'quick',
+      impactScore: 60,
+    })
+  }
+
+  // ── 5. Monitoring gaps ──
+  if (monitorHistory.length === 0 && project.url && hasKey) {
+    candidates.push({
+      id: 'qw-first-monitor',
+      text: 'Start citation monitoring',
+      detail: 'Track whether AI engines cite your content. You can\'t improve what you don\'t measure.',
+      action: () => setActiveView('monitoring'),
+      actionLabel: 'Start Monitoring',
+      impact: 'medium',
+      effort: 'quick',
+      impactScore: 65,
+    })
+  }
+
+  // ── 6. Stale data ──
+  if (metricsHistory.length > 0) {
+    const lastRun = new Date(metricsHistory[metricsHistory.length - 1].date || metricsHistory[metricsHistory.length - 1].analyzedAt)
+    const daysSince = Math.floor((Date.now() - lastRun.getTime()) / 86400000)
+    if (daysSince > 14) {
+      candidates.push({
+        id: 'qw-stale-metrics',
+        text: `Metrics are ${daysSince} days old — refresh now`,
+        detail: 'Regular analysis keeps your AEO data current and reveals trends. Aim for weekly or bi-weekly runs.',
+        action: () => setActiveView('metrics'),
+        actionLabel: 'Refresh',
+        impact: 'medium',
+        effort: 'quick',
+        impactScore: 68,
+      })
+    }
+  }
+
+  // ── 7. Checklist-based: find the easiest high-impact unchecked task ──
+  if (phases && overallPct > 0 && overallPct < 100) {
+    const unchecked = []
+    phases.forEach(phase => {
+      phase.categories.forEach(cat => {
+        cat.items.forEach(item => {
+          if (!checked[item.id]) {
+            unchecked.push({
+              id: item.id,
+              text: item.text,
+              phase: phase.number,
+              phaseTitle: phase.title,
+              color: phase.color,
+              detailLen: (item.detail || '').length,
+            })
+          }
+        })
+      })
+    })
+    // Lower phase + shorter detail = quicker to do
+    unchecked.sort((a, b) => (a.detailLen + a.phase * 20) - (b.detailLen + b.phase * 20))
+    const easiest = unchecked[0]
+    if (easiest) {
+      candidates.push({
+        id: 'qw-checklist-task',
+        text: easiest.text,
+        detail: `Phase ${easiest.phase}: ${easiest.phaseTitle} — the quickest unchecked task to boost your progress.`,
+        action: () => setActiveView('checklist'),
+        actionLabel: 'Do It',
+        impact: 'medium',
+        effort: 'quick',
+        impactScore: 55,
+      })
+    }
+  }
+
+  // Return the highest-impact candidate
+  if (candidates.length === 0) return null
+  candidates.sort((a, b) => b.impactScore - a.impactScore)
+  const win = candidates[0]
+  return {
+    id: win.id,
+    text: win.text,
+    detail: win.detail,
+    action: win.action,
+    actionLabel: win.actionLabel,
+    impact: win.impact,
+    effort: win.effort,
+  }
+}
+
 /* ── Get Industry Context for Analyzer ── */
 export function getAnalyzerIndustryContext(questionnaire) {
   if (!questionnaire?.completedAt || !questionnaire.industry) return ''

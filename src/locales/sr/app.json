@@ -77,6 +77,17 @@
       "analysis": "Анализа",
       "schema": "Схема"
     },
+    "quickWin": {
+      "label": "Брза победа",
+      "impact": {
+        "high": "Велики утицај",
+        "medium": "Средњи утицај"
+      },
+      "effort": {
+        "quick": "< 5 мин",
+        "moderate": "~15 мин"
+      }
+    },
     "progressSummary": {
       "milestones": "Прекретнице",
       "tasksProgress": "{{done}}/{{total}} задатака",
