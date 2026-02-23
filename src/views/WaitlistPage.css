@@ -8,11 +8,11 @@
 /* ========== ROOT / VARIABLES ========== */
 
 .wl-root {
-  --wl-font-heading: 'Inter', system-ui, -apple-system, sans-serif;
-  --wl-font-body: 'Inter', system-ui, -apple-system, sans-serif;
-  --wl-accent: #FF6B35;
-  --wl-accent-hover: #E85D2C;
-  --wl-accent-subtle: rgba(255, 107, 53, 0.1);
+  --wl-font-heading: 'JetBrains Mono', monospace;
+  --wl-font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --wl-accent: #2563EB;
+  --wl-accent-hover: #1D4ED8;
+  --wl-accent-subtle: rgba(37, 99, 235, 0.1);
   --wl-bg-page: #08080D;
   --wl-bg-card: rgba(255, 255, 255, 0.03);
   --wl-bg-card-hover: rgba(255, 255, 255, 0.06);
@@ -248,8 +248,8 @@
   height: 43.75rem;
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 107, 53, 0.12) 0%,
-    rgba(255, 107, 53, 0.04) 40%,
+    rgba(37, 99, 235, 0.12) 0%,
+    rgba(37, 99, 235, 0.04) 40%,
     transparent 70%
   );
   pointer-events: none;
@@ -274,7 +274,7 @@
   font-size: 0.8125rem;
   font-weight: 600;
   border-radius: 6.25rem;
-  border: 0.0625rem solid rgba(255, 107, 53, 0.2);
+  border: 0.0625rem solid rgba(37, 99, 235, 0.2);
   margin-bottom: 1.5rem;
   letter-spacing: 0.02em;
   animation: wl-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -363,7 +363,7 @@
 .wl-submit-btn:hover:not(:disabled) {
   background-color: var(--wl-accent-hover);
   transform: translateY(-0.0625rem);
-  box-shadow: 0 0.25rem 0.75rem rgba(255, 107, 53, 0.3);
+  box-shadow: 0 0.25rem 0.75rem rgba(37, 99, 235, 0.3);
 }
 
 .wl-submit-btn:disabled {
@@ -810,7 +810,7 @@
   height: 25rem;
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 107, 53, 0.08) 0%,
+    rgba(37, 99, 235, 0.08) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -1168,6 +1168,112 @@
   .wl-early-access h2 {
     font-size: 1.5rem;
   }
+}
+
+
+/* ========== LIGHT THEME ========== */
+
+html[data-theme="light"] .wl-root {
+  --wl-bg-page: #F8F9FB;
+  --wl-bg-card: rgba(0, 0, 0, 0.025);
+  --wl-bg-card-hover: rgba(0, 0, 0, 0.05);
+  --wl-bg-input: #FFFFFF;
+  --wl-text-primary: #18181B;
+  --wl-text-secondary: #52525B;
+  --wl-text-tertiary: #71717A;
+  --wl-border: rgba(0, 0, 0, 0.08);
+  --wl-border-strong: rgba(0, 0, 0, 0.14);
+}
+
+html[data-theme="light"] .wl-nav-solid {
+  background: rgba(248, 249, 251, 0.88);
+}
+
+html[data-theme="light"] .wl-hero h1 {
+  background: linear-gradient(180deg, #18181B 0%, #52525B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+html[data-theme="light"] .wl-hero::before {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent, transparent 3.6875rem,
+      rgba(0, 0, 0, 0.08) 3.6875rem, rgba(0, 0, 0, 0.08) 3.75rem
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent, transparent 3.6875rem,
+      rgba(0, 0, 0, 0.08) 3.6875rem, rgba(0, 0, 0, 0.08) 3.75rem
+    );
+  opacity: 0.5;
+}
+
+html[data-theme="light"] .wl-hero::after {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(37, 99, 235, 0.08) 0%,
+    rgba(37, 99, 235, 0.02) 40%,
+    transparent 70%
+  );
+}
+
+html[data-theme="light"] .wl-phase-number {
+  box-shadow: 0 0 0 0.25rem var(--wl-bg-page);
+}
+
+html[data-theme="light"] .wl-phase-visibility {
+  background: rgba(0, 0, 0, 0.025);
+}
+
+html[data-theme="light"] .wl-phase-timeline-badge {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="light"] .wl-early-access::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(37, 99, 235, 0.06) 0%,
+    transparent 70%
+  );
+}
+
+html[data-theme="light"] .wl-success-overlay {
+  background: rgba(248, 249, 251, 0.9);
+}
+
+html[data-theme="light"] .wl-success-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="light"] .wl-nav-mobile-overlay {
+  background: rgba(248, 249, 251, 0.97);
+}
+
+
+/* ========== THEME TOGGLE ========== */
+
+.wl-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: none;
+  border: 0.0625rem solid var(--wl-border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  color: var(--wl-text-secondary);
+  transition: color var(--wl-transition-fast), border-color var(--wl-transition-fast), background var(--wl-transition-fast);
+  flex-shrink: 0;
+}
+
+.wl-theme-toggle:hover {
+  color: var(--wl-text-primary);
+  border-color: var(--wl-border-strong);
+  background: var(--wl-bg-card);
 }
 
 

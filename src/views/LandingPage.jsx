@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
-import { SearchCheck, BotMessageSquare, TrendingDown, BarChart4, FileEdit, Blocks, Radar, Link2, Smartphone, Mail, Globe2 } from 'lucide-react'
+import { useTheme } from '../contexts/ThemeContext'
+import { SearchCheck, BotMessageSquare, TrendingDown, BarChart4, FileEdit, Blocks, Radar, Link2, Smartphone, Mail, Globe2, Sun, Moon } from 'lucide-react'
 import './LandingPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -94,6 +95,7 @@ export default function LandingPage() {
   const [pricingPeriod, setPricingPeriod] = useState('quarterly')
   const [openFaq, setOpenFaq] = useState(null)
 
+  const { resolvedTheme, toggleTheme } = useTheme()
   const rootRef = useRef(null)
 
   /* --- Translated data arrays via useMemo --- */
@@ -501,6 +503,13 @@ export default function LandingPage() {
               </a>
             ))}
             <LanguageSwitcher variant="landing" />
+            <button
+              className="lp-theme-toggle"
+              onClick={toggleTheme}
+              aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
             <a href="/AEO-Dashboard/app" className="lp-nav-cta">{t('nav.cta')}</a>
           </div>
 
@@ -529,6 +538,13 @@ export default function LandingPage() {
           </a>
         ))}
         <LanguageSwitcher variant="landing" />
+        <button
+          className="lp-theme-toggle"
+          onClick={toggleTheme}
+          aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
         <a href="/AEO-Dashboard/app" className="lp-nav-cta">{t('nav.cta')}</a>
       </div>
 

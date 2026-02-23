@@ -2,7 +2,8 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useWaitlist } from '../hooks/useWaitlist'
-import { Check, Share2, Copy, Loader, Sparkles, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar } from 'lucide-react'
+import { useTheme } from '../contexts/ThemeContext'
+import { Check, Share2, Copy, Loader, Sparkles, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar, Sun, Moon } from 'lucide-react'
 import './WaitlistPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -17,7 +18,7 @@ const NAV_HREFS = [
 ]
 
 const PHASE_META = [
-  { number: 1, color: '#FF6B35', Icon: Blocks },
+  { number: 1, color: 'var(--wl-accent)', Icon: Blocks },
   { number: 2, color: '#7B2FBE', Icon: BarChart4 },
   { number: 3, color: '#0EA5E9', Icon: FileEdit },
   { number: 4, color: '#10B981', Icon: Cog },
@@ -58,6 +59,7 @@ export default function WaitlistPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState(null)
   const rootRef = useRef(null)
+  const { resolvedTheme, toggleTheme } = useTheme()
   const { count, submitting, submitted, error, alreadySignedUp, submitEmail } = useWaitlist()
 
   // ── Translated data arrays (rebuilt when language changes) ──
@@ -280,6 +282,13 @@ export default function WaitlistPage() {
             ))}
             <LanguageSwitcher variant="landing" />
             <button
+              className="wl-theme-toggle"
+              onClick={toggleTheme}
+              aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <button
               className="wl-nav-cta"
               onClick={(e) => scrollToSection(e, '#hero')}
             >
@@ -312,6 +321,13 @@ export default function WaitlistPage() {
           </a>
         ))}
         <LanguageSwitcher variant="landing" />
+        <button
+          className="wl-theme-toggle"
+          onClick={toggleTheme}
+          aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
         <button
           className="wl-nav-cta"
           onClick={(e) => scrollToSection(e, '#hero')}
@@ -507,7 +523,7 @@ export default function WaitlistPage() {
             {EARLY_ACCESS_BENEFITS.map((benefit, i) => (
               <div key={i} className="wl-early-benefit">
                 <div className="wl-early-benefit-icon">
-                  <Check size={12} style={{ color: '#FF6B35' }} />
+                  <Check size={12} style={{ color: 'var(--wl-accent)' }} />
                 </div>
                 {benefit}
               </div>

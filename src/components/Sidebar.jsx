@@ -1,10 +1,10 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutGrid, ListChecks, Swords, ScanSearch, NotebookPen,
   CalendarCog, Braces, Radar, ChartSpline, SearchCode,
   ChartColumnIncreasing, Sparkles, FileText, FlaskConical,
-  SlidersHorizontal, Sun, Moon, LogOut, Plus, Star,
+  SlidersHorizontal, Sun, Moon, LogOut, Plus, Star, ChevronDown,
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import PresenceAvatars from './PresenceAvatars'
@@ -68,9 +68,28 @@ const NAV_GROUPS = [
   },
 ]
 
+/** Read collapsed state from localStorage */
+function getInitialCollapsed() {
+  try {
+    const stored = localStorage.getItem('aeo-sidebar-collapsed')
+    return stored ? JSON.parse(stored) : {}
+  } catch {
+    return {}
+  }
+}
+
 export default memo(function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar, onlineMembers }) {
   const { theme, toggleTheme } = useTheme()
   const { t } = useTranslation()
+  const [collapsed, setCollapsed] = useState(getInitialCollapsed)
+
+  const toggleGroup = useCallback((groupIndex) => {
+    setCollapsed(prev => {
+      const next = { ...prev, [groupIndex]: !prev[groupIndex] }
+      try { localStorage.setItem('aeo-sidebar-collapsed', JSON.stringify(next)) } catch { /* ignore */ }
+      return next
+    })
+  }, [])
 
   const navGroups = useMemo(() =>
     NAV_GROUPS.map(group => ({
@@ -111,27 +130,45 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
 
       {/* Nav Groups */}
       <nav>
-        {navGroups.map((group, gi) => (
-          <div key={gi}>
-            <div className="sidebar-section-label">{group.label}</div>
-            {group.items.map(item => {
-              const Icon = item.icon
-              const isActive = activeView === item.id
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNav(item.id)}
-                  className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-                  style={{ width: '100%' }}
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
-                  {item.label}
-                </button>
-              )
-            })}
-          </div>
-        ))}
+        {navGroups.map((group, gi) => {
+          const isCollapsed = !!collapsed[gi]
+          const hasActiveChild = group.items.some(item => activeView === item.id)
+          return (
+            <div key={gi} className="sidebar-group">
+              <button
+                className="sidebar-section-label sidebar-section-toggle"
+                onClick={() => toggleGroup(gi)}
+                aria-expanded={!isCollapsed}
+              >
+                <span>{group.label}</span>
+                <ChevronDown
+                  size={12}
+                  className={`sidebar-section-chevron ${isCollapsed ? 'collapsed' : ''}`}
+                />
+              </button>
+              <div className={`sidebar-group-items ${isCollapsed && !hasActiveChild ? 'collapsed' : ''}`}>
+                <div className="sidebar-group-items-inner">
+                  {group.items.map(item => {
+                    const Icon = item.icon
+                    const isActive = activeView === item.id
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleNav(item.id)}
+                        className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                        style={{ width: '100%' }}
+                        aria-current={isActive ? 'page' : undefined}
+                      >
+                        <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                        {item.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )
+        })}
       </nav>
 
       {/* Settings — separate from groups */}
