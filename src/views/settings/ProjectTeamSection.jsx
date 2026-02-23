@@ -455,6 +455,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                           value={member.role}
                           onChange={(e) => handleRoleChange(member.uid, e.target.value)}
                           className="input-field input-sm"
+                          aria-label={`Role for ${member.displayName || member.email}`}
                         >
                           <option value="admin">{t('team.admin')}</option>
                           <option value="editor">{t('team.editor')}</option>

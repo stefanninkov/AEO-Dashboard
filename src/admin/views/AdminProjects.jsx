@@ -419,7 +419,7 @@ export default function AdminProjects({ user }) {
             {stats?.totalProjects || 0} total &middot; {healthCounts.thriving || 0} thriving &middot; {(healthCounts.stale || 0) + (healthCounts.stuck || 0) + (healthCounts.abandoned || 0)} need attention
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh projects" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
           <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
         </button>
       </div>
@@ -464,6 +464,7 @@ export default function AdminProjects({ user }) {
             placeholder="Search by project name, URL, or owner..."
             value={search}
             onChange={e => setSearch(e.target.value)}
+            aria-label="Search projects"
             style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--text-primary)', fontSize: '0.875rem', fontFamily: 'var(--font-body)' }}
           />
           {search && (

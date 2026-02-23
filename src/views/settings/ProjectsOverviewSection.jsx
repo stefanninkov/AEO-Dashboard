@@ -172,6 +172,10 @@ export default function ProjectsOverviewSection({ projects = [], onNavigateToPro
                 transition: 'border-color 0.15s ease',
               }}
               onClick={() => onNavigateToProject?.(project)}
+              role={onNavigateToProject ? 'button' : undefined}
+              tabIndex={onNavigateToProject ? 0 : undefined}
+              aria-label={onNavigateToProject ? `Open ${project.name || 'Untitled'} settings` : undefined}
+              onKeyDown={onNavigateToProject ? (e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onNavigateToProject(project) } }) : undefined}
             >
               {/* Header */}
               <div style={{

@@ -88,7 +88,7 @@ export default function AdminChatLogs({ user }) {
             {stats.total} sessions &middot; {stats.uniqueUsers} unique users &middot; {stats.thisWeek} this week
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh chat logs" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
           <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
         </button>
       </div>
@@ -118,6 +118,7 @@ export default function AdminChatLogs({ user }) {
           placeholder="Search conversations..."
           value={search}
           onChange={e => setSearch(e.target.value)}
+          aria-label="Search conversations"
           style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--text-primary)', fontSize: '0.875rem', fontFamily: 'var(--font-body)' }}
         />
       </div>

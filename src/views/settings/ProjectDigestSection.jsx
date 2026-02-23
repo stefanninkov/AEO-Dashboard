@@ -235,6 +235,8 @@ export default function ProjectDigestSection({ activeProject, updateProject, use
           onClick={() => setShowPreview(p => !p)}
           role="button"
           tabIndex={0}
+          aria-expanded={showPreview}
+          aria-label="Toggle digest preview"
           onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setShowPreview(p => !p) } }}
         >
           {showPreview ? <EyeOff size={15} /> : <Eye size={15} />}

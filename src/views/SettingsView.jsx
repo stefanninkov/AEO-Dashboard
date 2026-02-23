@@ -125,6 +125,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
               onClick={() => handleNavigateToProject(activeProject)}
               role="button"
               tabIndex={0}
+              aria-label={`Quick access to ${activeProject.name || 'Untitled'} settings`}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleNavigateToProject(activeProject) } }}
               style={{
                 display: 'flex',
@@ -164,6 +165,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             onClick={() => setSelectedProjectForSettings(null)}
             role="button"
             tabIndex={0}
+            aria-label="Back to all projects"
             onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedProjectForSettings(null) } }}
             style={{
               display: 'flex',

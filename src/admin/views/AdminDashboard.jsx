@@ -415,6 +415,7 @@ export default function AdminDashboard({ user, onNavigate }) {
           onClick={handleRefresh}
           className="icon-btn"
           title="Refresh stats"
+          aria-label="Refresh dashboard"
           disabled={refreshing}
           style={{ opacity: refreshing ? 0.5 : 1 }}
         >

@@ -68,13 +68,15 @@ const NAV_GROUPS = [
   },
 ]
 
-/** Read collapsed state from localStorage */
+/** Read collapsed state from localStorage — groups 1,2,3 collapsed by default */
+const DEFAULT_COLLAPSED = { 1: true, 2: true, 3: true }
+
 function getInitialCollapsed() {
   try {
     const stored = localStorage.getItem('aeo-sidebar-collapsed')
-    return stored ? JSON.parse(stored) : {}
+    return stored ? JSON.parse(stored) : DEFAULT_COLLAPSED
   } catch {
-    return {}
+    return DEFAULT_COLLAPSED
   }
 }
 
@@ -133,39 +135,63 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
         {navGroups.map((group, gi) => {
           const isCollapsed = !!collapsed[gi]
           const hasActiveChild = group.items.some(item => activeView === item.id)
+          const isOverview = gi === 0
           return (
             <div key={gi} className="sidebar-group">
-              <button
-                className="sidebar-section-label sidebar-section-toggle"
-                onClick={() => toggleGroup(gi)}
-                aria-expanded={!isCollapsed}
-              >
-                <span>{group.label}</span>
-                <ChevronDown
-                  size={12}
-                  className={`sidebar-section-chevron ${isCollapsed ? 'collapsed' : ''}`}
-                />
-              </button>
-              <div className={`sidebar-group-items ${isCollapsed && !hasActiveChild ? 'collapsed' : ''}`}>
-                <div className="sidebar-group-items-inner">
-                  {group.items.map(item => {
-                    const Icon = item.icon
-                    const isActive = activeView === item.id
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => handleNav(item.id)}
-                        className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-                        style={{ width: '100%' }}
-                        aria-current={isActive ? 'page' : undefined}
-                      >
-                        <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
-                        {item.label}
-                      </button>
-                    )
-                  })}
+              {isOverview ? (
+                <div className="sidebar-section-label">{group.label}</div>
+              ) : (
+                <button
+                  className="sidebar-section-label sidebar-section-toggle"
+                  onClick={() => toggleGroup(gi)}
+                  aria-expanded={!isCollapsed}
+                >
+                  <span>{group.label}</span>
+                  <ChevronDown
+                    size={12}
+                    className={`sidebar-section-chevron ${isCollapsed ? 'collapsed' : ''}`}
+                  />
+                </button>
+              )}
+              {isOverview ? (
+                group.items.map(item => {
+                  const Icon = item.icon
+                  const isActive = activeView === item.id
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => handleNav(item.id)}
+                      className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                      style={{ width: '100%' }}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                      {item.label}
+                    </button>
+                  )
+                })
+              ) : (
+                <div className={`sidebar-group-items ${isCollapsed && !hasActiveChild ? 'collapsed' : ''}`}>
+                  <div className="sidebar-group-items-inner">
+                    {group.items.map(item => {
+                      const Icon = item.icon
+                      const isActive = activeView === item.id
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => handleNav(item.id)}
+                          className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                          style={{ width: '100%' }}
+                          aria-current={isActive ? 'page' : undefined}
+                        >
+                          <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                          {item.label}
+                        </button>
+                      )
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )
         })}

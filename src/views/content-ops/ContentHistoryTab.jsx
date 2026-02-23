@@ -215,6 +215,8 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
                 onClick={() => setExpandedId(isExpanded ? null : entry.id)}
                 role="button"
                 tabIndex={0}
+                aria-expanded={isExpanded}
+                aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${entry.topic || 'content'} details`}
                 onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedId(isExpanded ? null : entry.id) } }}
               >
                 {/* Icon */}

@@ -372,7 +372,7 @@ export default function AdminSettings({ user }) {
                 <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)', wordBreak: 'break-all' }}>
                   {user?.uid || '\u2014'}
                 </code>
-                <button onClick={handleCopyUid} className="icon-btn" title="Copy UID" style={{ flexShrink: 0 }}>
+                <button onClick={handleCopyUid} className="icon-btn" title="Copy UID" aria-label="Copy UID" style={{ flexShrink: 0 }}>
                   {copied ? <Check size={12} style={{ color: 'var(--color-success)' }} /> : <Copy size={12} />}
                 </button>
               </div>

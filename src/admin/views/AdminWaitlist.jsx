@@ -129,10 +129,10 @@ export default function AdminWaitlist({ user }) {
           </p>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button onClick={handleExportCsv} className="icon-btn" title="Export CSV" disabled={filtered.length === 0}>
+          <button onClick={handleExportCsv} className="icon-btn" title="Export CSV" aria-label="Export as CSV" disabled={filtered.length === 0}>
             <Download size={16} />
           </button>
-          <button onClick={handleRefresh} className="icon-btn" title="Refresh" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+          <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh waitlist" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
             <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
           </button>
         </div>
@@ -174,6 +174,7 @@ export default function AdminWaitlist({ user }) {
             placeholder="Search emails..."
             value={search}
             onChange={e => setSearch(e.target.value)}
+            aria-label="Search waitlist"
             style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--text-primary)', fontSize: '0.8125rem', fontFamily: 'var(--font-body)' }}
           />
         </div>

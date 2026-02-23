@@ -15,6 +15,7 @@ import PresenceHint from './components/PresenceHint'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
 import useHashRouter from './hooks/useHashRouter'
+import useModalManager from './hooks/useModalManager'
 
 // Lazy-loaded: LoginPage (only needed before auth) + aeo-checklist data (large string payload)
 const LoginPage = lazy(() => import('./components/LoginPage'))
@@ -290,16 +291,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const [overlayClosing, setOverlayClosing] = useState(false)
   const [splashVisible, setSplashVisible] = useState(true)
   const [dateRange, setDateRange] = useState('7d')
-  const [emailDialogOpen, setEmailDialogOpen] = useState(false)
-  const [emailDialogClosing, setEmailDialogClosing] = useState(false)
-  const [pdfDialogOpen, setPdfDialogOpen] = useState(false)
-  const [pdfDialogClosing, setPdfDialogClosing] = useState(false)
-  const [csvDialogOpen, setCsvDialogOpen] = useState(false)
-  const [csvDialogClosing, setCsvDialogClosing] = useState(false)
-  const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
-  const [cmdPaletteClosing, setCmdPaletteClosing] = useState(false)
-  const [shortcutsOpen, setShortcutsOpen] = useState(false)
-  const [shortcutsClosing, setShortcutsClosing] = useState(false)
+  const modals = useModalManager(['email', 'pdf', 'csv', 'cmdPalette', 'shortcuts'])
   const [newProjectModalOpen, setNewProjectModalOpen] = useState(false)
   const [questionnaireProjectId, setQuestionnaireProjectId] = useState(null)
   const [pendingProject, setPendingProject] = useState(null) // { name, url } — deferred creation
@@ -361,18 +353,15 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
     function handleKeyDown(e) {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault()
-        if (!cmdPaletteOpen) {
-          setCmdPaletteClosing(false)
-          setCmdPaletteOpen(true)
-        }
+        if (!modals.isOpen('cmdPalette')) modals.open('cmdPalette')
       }
       if (e.key === 'Escape') {
-        if (cmdPaletteOpen && !cmdPaletteClosing) { setCmdPaletteClosing(true); return }
-        if (shortcutsOpen && !shortcutsClosing) { setShortcutsClosing(true); return }
+        if (modals.isOpen('cmdPalette')) { modals.close('cmdPalette'); return }
+        if (modals.isOpen('shortcuts')) { modals.close('shortcuts'); return }
         if (newProjectModalOpen && projects.length > 0) { setNewProjectModalOpen(false); return }
-        if (csvDialogOpen && !csvDialogClosing) { setCsvDialogClosing(true); return }
-        if (pdfDialogOpen && !pdfDialogClosing) { setPdfDialogClosing(true); return }
-        if (emailDialogOpen && !emailDialogClosing) { setEmailDialogClosing(true); return }
+        if (modals.isOpen('csv')) { modals.close('csv'); return }
+        if (modals.isOpen('pdf')) { modals.close('pdf'); return }
+        if (modals.isOpen('email')) { modals.close('email'); return }
         if (docItem && !overlayClosing) handleCloseOverlay()
       }
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
@@ -383,15 +372,14 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         if (num >= 1 && num <= 9) {
           setActiveView(views[num - 1])
         }
-        if (e.key === '?' && !cmdPaletteOpen && !shortcutsOpen && !docItem && !newProjectModalOpen) {
-          setShortcutsClosing(false)
-          setShortcutsOpen(true)
+        if (e.key === '?' && !modals.isOpen('cmdPalette') && !modals.isOpen('shortcuts') && !docItem && !newProjectModalOpen) {
+          modals.open('shortcuts')
         }
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [docItem, overlayClosing, newProjectModalOpen, noProjects, emailDialogOpen, emailDialogClosing, pdfDialogOpen, pdfDialogClosing, csvDialogOpen, csvDialogClosing, cmdPaletteOpen, cmdPaletteClosing, shortcutsOpen, shortcutsClosing])
+  }, [modals.state, docItem, overlayClosing, newProjectModalOpen])
 
   const handleSetDocItem = useCallback((item) => {
     setOverlayClosing(false)
@@ -432,19 +420,16 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   }, [dateRange, refreshing])
 
   const handleExport = useCallback(() => {
-    setPdfDialogClosing(false)
-    setPdfDialogOpen(true)
-  }, [])
+    modals.open('pdf')
+  }, [modals])
 
   const handleCsvExport = useCallback(() => {
-    setCsvDialogClosing(false)
-    setCsvDialogOpen(true)
-  }, [])
+    modals.open('csv')
+  }, [modals])
 
   const handleEmail = useCallback(() => {
-    setEmailDialogClosing(false)
-    setEmailDialogOpen(true)
-  }, [])
+    modals.open('email')
+  }, [modals])
 
   const handleCreateProject = useCallback((name, url) => {
     setNewProjectModalOpen(false)
@@ -696,7 +681,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             setActiveView={setActiveView}
             setDocItem={handleSetDocItem}
             onToggleSidebar={toggleSidebar}
-            onOpenCommandPalette={() => setCmdPaletteOpen(true)}
+            onOpenCommandPalette={() => modals.open('cmdPalette')}
             notifications={notifications}
             unreadCount={unreadCount}
             onMarkRead={markRead}
@@ -764,47 +749,47 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         />
       )}
 
-      {(emailDialogOpen || emailDialogClosing) && (
+      {modals.state.email !== 'closed' && (
         <EmailReportDialog
           metrics={activeProject?.metricsHistory?.length ? activeProject.metricsHistory[activeProject.metricsHistory.length - 1] : null}
           projectName={activeProject?.name || 'No Project'}
           dateRange={dateRange}
-          onClose={() => setEmailDialogClosing(true)}
-          isClosing={emailDialogClosing}
-          onExited={() => { setEmailDialogOpen(false); setEmailDialogClosing(false) }}
+          onClose={() => modals.close('email')}
+          isClosing={modals.state.email === 'closing'}
+          onExited={() => modals.onExited('email')}
         />
       )}
 
-      {(pdfDialogOpen || pdfDialogClosing) && (
+      {modals.state.pdf !== 'closed' && (
         <PdfExportDialog
           activeProject={activeProject}
           phases={phases}
           updateProject={updateProject}
           user={user}
-          onClose={() => setPdfDialogClosing(true)}
-          isClosing={pdfDialogClosing}
-          onExited={() => { setPdfDialogOpen(false); setPdfDialogClosing(false) }}
+          onClose={() => modals.close('pdf')}
+          isClosing={modals.state.pdf === 'closing'}
+          onExited={() => modals.onExited('pdf')}
         />
       )}
 
-      {(csvDialogOpen || csvDialogClosing) && (
+      {modals.state.csv !== 'closed' && (
         <CsvExportDialog
           activeProject={activeProject}
           phases={phases}
           updateProject={updateProject}
           user={user}
-          onClose={() => setCsvDialogClosing(true)}
-          isClosing={csvDialogClosing}
-          onExited={() => { setCsvDialogOpen(false); setCsvDialogClosing(false) }}
+          onClose={() => modals.close('csv')}
+          isClosing={modals.state.csv === 'closing'}
+          onExited={() => modals.onExited('csv')}
         />
       )}
 
-      {(cmdPaletteOpen || cmdPaletteClosing) && (
+      {modals.state.cmdPalette !== 'closed' && (
         <CommandPalette
-          isOpen={cmdPaletteOpen}
-          isClosing={cmdPaletteClosing}
-          onClose={() => setCmdPaletteClosing(true)}
-          onExited={() => { setCmdPaletteOpen(false); setCmdPaletteClosing(false) }}
+          isOpen={modals.state.cmdPalette === 'open'}
+          isClosing={modals.state.cmdPalette === 'closing'}
+          onClose={() => modals.close('cmdPalette')}
+          onExited={() => modals.onExited('cmdPalette')}
           phases={phases}
           activeProject={activeProject}
           projects={projects}
@@ -816,12 +801,12 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         />
       )}
 
-      {(shortcutsOpen || shortcutsClosing) && (
+      {modals.state.shortcuts !== 'closed' && (
         <KeyboardShortcutsModal
-          isOpen={shortcutsOpen}
-          isClosing={shortcutsClosing}
-          onClose={() => setShortcutsClosing(true)}
-          onExited={() => { setShortcutsOpen(false); setShortcutsClosing(false) }}
+          isOpen={modals.state.shortcuts === 'open'}
+          isClosing={modals.state.shortcuts === 'closing'}
+          onClose={() => modals.close('shortcuts')}
+          onExited={() => modals.onExited('shortcuts')}
         />
       )}
 

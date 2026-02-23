@@ -244,7 +244,7 @@ export default function AdminChurn({ user }) {
             Track user retention, identify churn risks, and analyze drop-off points
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh churn data" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
           <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
         </button>
       </div>
@@ -496,6 +496,7 @@ export default function AdminChurn({ user }) {
               placeholder="Search users..."
               value={search}
               onChange={e => setSearch(e.target.value)}
+              aria-label="Search churn users"
               style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--text-primary)', fontSize: '0.8125rem' }}
             />
           </div>
