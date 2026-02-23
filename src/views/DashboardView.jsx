@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo, useCallback, memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing } from 'lucide-react'
+import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing, Activity, TrendingUp, TrendingDown } from 'lucide-react'
 import { getSmartRecommendations, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
 import {
@@ -42,6 +42,80 @@ const CustomTooltip = memo(function CustomTooltip({ active, payload, label }) {
     </div>
   )
 })
+
+/* ── Competitor Alert Digest Widget ── */
+function CompetitorAlertDigest({ alerts = [], setActiveView, t }) {
+  const undismissed = useMemo(() => alerts.filter(a => !a.dismissed).slice(0, 5), [alerts])
+  if (!undismissed.length) return null
+
+  return (
+    <div className="card card-lg">
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: 'var(--space-3)',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
+          textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
+          display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
+        }}>
+          <Activity size={13} style={{ color: 'var(--color-phase-2)' }} />
+          {t('dashboard.competitorAlerts')}
+          <span style={{
+            background: 'var(--color-error)', color: '#fff', fontSize: '0.625rem',
+            fontWeight: 700, padding: '0.0625rem 0.375rem', borderRadius: '0.5rem',
+            fontFamily: 'var(--font-heading)',
+          }}>
+            {undismissed.length}
+          </span>
+        </div>
+        <button
+          onClick={() => setActiveView('competitors')}
+          className="btn-ghost btn-sm"
+          style={{ fontSize: 'var(--text-2xs)' }}
+        >
+          {t('dashboard.viewAll')}
+        </button>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+        {undismissed.map(alert => (
+          <div
+            key={alert.id}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+              padding: 'var(--space-2) var(--space-3)',
+              background: 'var(--hover-bg)', borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--text-xs)',
+            }}
+          >
+            <div style={{
+              width: '1.5rem', height: '1.5rem', borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+              background: alert.type === 'score_jump' ? 'rgba(239,68,68,0.12)' : 'rgba(16,185,129,0.12)',
+            }}>
+              {alert.type === 'score_jump'
+                ? <TrendingUp size={11} style={{ color: 'var(--color-error)' }} />
+                : <TrendingDown size={11} style={{ color: 'var(--color-success)' }} />
+              }
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{alert.competitorName}</span>
+              <span style={{ color: 'var(--text-tertiary)', marginLeft: 'var(--space-1)' }}>
+                {alert.delta > 0 ? '+' : ''}{alert.delta} pts
+              </span>
+            </div>
+            <span style={{
+              fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 'var(--text-xs)',
+              color: alert.type === 'score_jump' ? 'var(--color-error)' : 'var(--color-success)',
+            }}>
+              {alert.currentScore}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function DashboardEmptyState({ message, onAction, t }) {
   return (
@@ -301,6 +375,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             </div>
             <ActivityTimeline activities={activeProject?.activityLog || []} currentUserUid={currentUserUid} />
           </div>
+
+          {/* Competitor Alert Digest */}
+          <CompetitorAlertDigest
+            alerts={activeProject?.competitorAlerts}
+            setActiveView={setActiveView}
+            t={t}
+          />
 
           <QuickActions setActiveView={setActiveView} />
         </>

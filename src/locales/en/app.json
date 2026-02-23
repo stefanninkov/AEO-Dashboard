@@ -19,6 +19,8 @@
     "aeoScore": "AEO Score",
     "phaseProgress": "Phase Progress",
     "recentActivity": "Recent Activity",
+    "competitorAlerts": "Competitor Alerts",
+    "viewAll": "View All",
     "aiCitationsOverTime": "AI Citations Over Time",
     "botTypeDistribution": "Bot Type Distribution",
     "runMultipleForTrends": "Run multiple analyses to see trends",
