@@ -133,8 +133,7 @@ export default function IntegrationsSection({ user }) {
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 {google.isConnected ? (
                   <button
-                    className="btn-secondary"
-                    style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }}
+                    className="btn-secondary btn-sm"
                     onClick={async () => {
                       await google.disconnect()
                       addToast('success', 'Google account disconnected')
@@ -144,8 +143,7 @@ export default function IntegrationsSection({ user }) {
                   </button>
                 ) : google.isExpired ? (
                   <button
-                    className="btn-primary"
-                    style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }}
+                    className="btn-primary btn-sm"
                     onClick={async () => {
                       await google.reconnect()
                       if (google.status === 'connected') addToast('success', 'Google account reconnected')
@@ -157,8 +155,7 @@ export default function IntegrationsSection({ user }) {
                   </button>
                 ) : (
                   <button
-                    className="btn-primary"
-                    style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }}
+                    className="btn-primary btn-sm"
                     onClick={async () => { await google.connect() }}
                     disabled={google.connecting}
                   >

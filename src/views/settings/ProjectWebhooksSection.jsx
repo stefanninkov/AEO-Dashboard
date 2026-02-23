@@ -8,7 +8,7 @@ import { useWebhooks } from '../../hooks/useWebhooks'
 import { WEBHOOK_EVENT_GROUPS } from '../../utils/webhookDispatcher'
 import { useToast } from '../../components/Toast'
 import {
-  ToggleSwitch, sectionTitleStyle, settingsRowStyle, smallSelectStyle,
+  ToggleSwitch, sectionTitleStyle, settingsRowStyle,
 } from './SettingsShared'
 
 export default function ProjectWebhooksSection({ activeProject, updateProject }) {
@@ -44,7 +44,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
       {/* Add Webhook Button */}
       {!webhookFormOpen && !editingWebhookId && (
         <div style={settingsRowStyle}>
-          <button className="btn-primary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={() => { setWebhookFormOpen(true); setWebhookName(''); setWebhookUrl(''); setWebhookFormat('json'); setWebhookEvents([]) }}>
+          <button className="btn-primary btn-sm" onClick={() => { setWebhookFormOpen(true); setWebhookName(''); setWebhookUrl(''); setWebhookFormat('json'); setWebhookEvents([]) }}>
             <Plus size={13} /> {t('webhooks.addWebhook')}
           </button>
         </div>
@@ -64,7 +64,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
             </div>
             <div style={{ minWidth: '7rem' }}>
               <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>{t('webhooks.format')}</label>
-              <select style={smallSelectStyle} value={webhookFormat} onChange={(e) => setWebhookFormat(e.target.value)} aria-label="Webhook format">
+              <select className="input-field input-sm" value={webhookFormat} onChange={(e) => setWebhookFormat(e.target.value)} aria-label="Webhook format">
                 <option value="json">{t('webhooks.formatJson')}</option>
                 <option value="slack">{t('webhooks.formatSlack')}</option>
                 <option value="discord">{t('webhooks.formatDiscord')}</option>
@@ -91,7 +91,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
 
           {/* Save / Cancel */}
           <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button className="btn-primary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} disabled={!webhookUrl.trim() || webhookEvents.length === 0}
+            <button className="btn-primary btn-sm" disabled={!webhookUrl.trim() || webhookEvents.length === 0}
               onClick={() => {
                 if (editingWebhookId) {
                   updateWebhook(editingWebhookId, { name: webhookName.trim() || 'Untitled Webhook', url: webhookUrl.trim(), format: webhookFormat, events: webhookEvents })
@@ -104,7 +104,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
               }}>
               <Save size={13} /> {editingWebhookId ? t('webhooks.update') : t('webhooks.save')}
             </button>
-            <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={() => { setWebhookFormOpen(false); setEditingWebhookId(null) }}>
+            <button className="btn-secondary btn-sm" onClick={() => { setWebhookFormOpen(false); setEditingWebhookId(null) }}>
               {t('webhooks.cancel')}
             </button>
           </div>

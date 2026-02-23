@@ -322,31 +322,22 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Users2 size={15} />
             {t('team.title')}
-            <span style={{
-              fontSize: '0.6875rem',
-              fontWeight: 500,
-              padding: '0.125rem 0.4375rem',
-              borderRadius: '0.375rem',
-              background: 'var(--hover-bg)',
-              color: 'var(--text-tertiary)',
-            }}>
+            <span className="tab-badge">
               {members.length}
             </span>
           </div>
           {canManage && (
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <button
-                className="btn-secondary"
+                className="btn-secondary btn-sm"
                 onClick={handleCopyInviteLink}
-                style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem' }}
               >
                 {copied ? <Check size={12} style={{ color: 'var(--color-success)' }} /> : <Copy size={12} />}
                 {copied ? t('team.copied') : t('team.inviteLink')}
               </button>
               <button
-                className="btn-primary"
+                className="btn-primary btn-sm"
                 onClick={() => { setInviteOpen(true); setInviteError(null) }}
-                style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem' }}
               >
                 <UserPlus size={12} />
                 {t('team.invite')}
@@ -463,15 +454,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
                         <select
                           value={member.role}
                           onChange={(e) => handleRoleChange(member.uid, e.target.value)}
-                          style={{
-                            background: 'var(--bg-input)',
-                            border: '0.0625rem solid var(--border-subtle)',
-                            borderRadius: '0.375rem',
-                            padding: '0.25rem 0.5rem',
-                            fontSize: '0.75rem',
-                            color: 'var(--text-primary)',
-                            cursor: 'pointer',
-                          }}
+                          className="input-field input-sm"
                         >
                           <option value="admin">{t('team.admin')}</option>
                           <option value="editor">{t('team.editor')}</option>
@@ -549,14 +532,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
             }}>
               <Mail size={13} />
               {t('team.pendingInvitations')}
-              <span style={{
-                fontSize: '0.625rem',
-                fontWeight: 500,
-                padding: '0.0625rem 0.375rem',
-                borderRadius: '0.375rem',
-                background: 'rgba(245,158,11,0.1)',
-                color: '#F59E0B',
-              }}>
+              <span className="tab-badge" style={{ background: 'rgba(245,158,11,0.1)', color: '#F59E0B' }}>
                 {invitations.length}
               </span>
             </div>

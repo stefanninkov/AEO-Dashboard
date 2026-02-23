@@ -12,7 +12,7 @@ import { useUsageStats } from '../../hooks/useUsageStats'
 import { resetUsage, formatTokens, formatCost } from '../../utils/usageTracker'
 import {
   sectionTitleStyle, settingsRowStyle, lastRowStyle, labelStyle,
-  inlineSaveBtnStyle, smallSelectStyle, flash,
+  flash,
 } from './SettingsShared'
 
 export default function ApiUsageSection() {
@@ -161,7 +161,7 @@ export default function ApiUsageSection() {
                 {showKey ? <EyeOff size={14} /> : <Eye size={14} />}
               </button>
             </div>
-            <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveKey}>
+            <button className="btn-primary btn-sm" style={{ flexShrink: 0 }} onClick={handleSaveKey}>
               {keySaved ? <Check size={13} /> : <Save size={13} />}
               {keySaved ? 'Saved' : 'Save'}
             </button>
@@ -188,7 +188,7 @@ export default function ApiUsageSection() {
         <div style={settingsRowStyle}>
           <span style={labelStyle}>Model</span>
           <select
-            style={smallSelectStyle}
+            className="input-field input-sm"
             value={selectedModel}
             onChange={(e) => handleModelChange(e.target.value)}
             aria-label="AI Model"
@@ -214,7 +214,7 @@ export default function ApiUsageSection() {
         <div style={sectionTitleStyle}><ChartColumnIncreasing size={15} /> Usage Overview</div>
 
         {/* Summary cards */}
-        <div style={{
+        <div className="stagger-grid" style={{
           display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem',
           padding: '1rem 1.25rem',
         }}>
@@ -324,8 +324,7 @@ export default function ApiUsageSection() {
         <div style={lastRowStyle}>
           <span style={labelStyle} />
           <button
-            className="btn-secondary"
-            style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }}
+            className="btn-secondary btn-sm"
             onClick={handleResetUsage}
           >
             <Trash2 size={12} /> Reset Usage Data

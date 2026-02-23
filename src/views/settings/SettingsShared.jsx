@@ -46,16 +46,6 @@ export const labelStyle = {
   width: '8.125rem', flexShrink: 0,
 }
 
-export const inlineSaveBtnStyle = {
-  padding: '0.4375rem 0.875rem', fontSize: '0.75rem', flexShrink: 0,
-}
-
-export const smallSelectStyle = {
-  padding: '0.5rem 0.75rem', background: 'var(--bg-input)', border: '0.0625rem solid var(--border-default)',
-  borderRadius: '0.625rem', color: 'var(--text-primary)', fontSize: '0.8125rem', fontFamily: 'var(--font-body)',
-  outline: 'none', cursor: 'pointer',
-}
-
 /** Flash a boolean setter true for 1.5s (for "Saved" confirmation) */
 export function flash(setter) {
   setter(true)

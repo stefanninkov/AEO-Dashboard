@@ -39,38 +39,16 @@ function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeSubTab)
   return (
-    <div ref={tabsRef} className="scrollable-tabs" style={{
-      display: 'flex',
-      gap: '0.125rem',
-      borderBottom: '0.0625rem solid var(--border-subtle)',
-      marginBottom: '1rem',
-    }}>
+    <div ref={tabsRef} className="scrollable-tabs tab-bar-underline" style={{ marginBottom: '1rem' }}>
       {PROJECT_SUB_TABS.map(tab => {
         const Icon = tab.icon
         const isActive = activeSubTab === tab.id
         return (
           <button
             key={tab.id}
+            className="tab-underline"
             data-active={isActive || undefined}
             onClick={() => onSubTabChange(tab.id)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.375rem',
-              padding: '0.5rem 0.75rem',
-              fontSize: '0.75rem',
-              fontWeight: isActive ? 700 : 500,
-              fontFamily: 'var(--font-body)',
-              cursor: 'pointer',
-              background: 'none',
-              border: 'none',
-              borderBottom: `0.125rem solid ${isActive ? 'var(--color-phase-1)' : 'transparent'}`,
-              color: isActive ? 'var(--text-primary)' : 'var(--text-tertiary)',
-              transition: 'all 150ms',
-              marginBottom: '-0.0625rem',
-              whiteSpace: 'nowrap',
-              flexShrink: 0,
-            }}
           >
             <Icon size={13} strokeWidth={isActive ? 2 : 1.5} />
             <span className="hide-mobile-text">{tab.label}</span>

@@ -337,24 +337,16 @@ Return ONLY valid JSON:
       </div>
 
       {/* Tabs */}
-      <div ref={tabsRef} className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', padding: '0 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-underline" style={{ padding: '0 1.25rem' }}>
         {TABS.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
           return (
             <button
               key={tab.id}
+              className="tab-underline"
               data-active={isActive || undefined}
               onClick={() => setActiveTab(tab.id)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
-                padding: '0.5rem 0.75rem', fontSize: '0.75rem', fontWeight: 600,
-                fontFamily: 'var(--font-body)', cursor: 'pointer',
-                background: 'none', border: 'none', borderBottom: `0.125rem solid ${isActive ? 'var(--color-phase-1)' : 'transparent'}`,
-                color: isActive ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
-                transition: 'all 150ms',
-                marginBottom: '-0.0625rem',
-              }}
             >
               <Icon size={12} />
               {tab.label}
@@ -386,8 +378,7 @@ Return ONLY valid JSON:
             <button
               onClick={handleFetchSites}
               disabled={loading}
-              className="btn-primary"
-              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
+              className="btn-primary btn-sm"
             >
               {loading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={12} />}
               {sites.length > 0 ? 'Refresh' : 'Load Sites'}
@@ -440,7 +431,7 @@ Return ONLY valid JSON:
                 Active Site
               </p>
               <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{selectedSite.name}</p>
-              <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: '"JetBrains Mono", monospace' }}>{selectedSite.id}</p>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>{selectedSite.id}</p>
             </div>
           )}
         </div>
@@ -461,8 +452,7 @@ Return ONLY valid JSON:
             <button
               onClick={handleAudit}
               disabled={!selectedSite || auditLoading}
-              className="btn-primary"
-              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
+              className="btn-primary btn-sm"
             >
               {auditLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <SearchCheck size={12} />}
               {auditLoading ? 'Auditing...' : 'Run Audit'}
@@ -560,8 +550,7 @@ Return ONLY valid JSON:
             <button
               onClick={handleGenerateSchema}
               disabled={!selectedSite || schemaLoading}
-              className="btn-primary"
-              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
+              className="btn-primary btn-sm"
             >
               {schemaLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <Code2 size={12} />}
               {schemaLoading ? 'Generating...' : 'Generate'}
@@ -586,7 +575,7 @@ Return ONLY valid JSON:
                 <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>Generated Schema</h4>
                 <button
                   onClick={() => handleCopy(schemaCode, setSchemaCopied)}
-                  className="btn-secondary"
+                  className="btn-secondary btn-sm"
                   style={{ padding: '0.25rem 0.625rem', fontSize: '0.625rem' }}
                 >
                   {schemaCopied ? <Check size={10} /> : <Copy size={10} />}
@@ -594,7 +583,7 @@ Return ONLY valid JSON:
                 </button>
               </div>
               <pre style={{
-                fontSize: '0.6875rem', fontFamily: '"JetBrains Mono", monospace',
+                fontSize: '0.6875rem', fontFamily: 'var(--font-mono)',
                 background: 'var(--bg-hover)', border: '0.0625rem solid var(--border-subtle)',
                 borderRadius: '0.5rem', padding: '0.875rem', overflow: 'auto',
                 maxHeight: '20rem', color: 'var(--text-secondary)', lineHeight: 1.5,
@@ -677,7 +666,7 @@ Return ONLY valid JSON:
                 </h4>
                 <button
                   onClick={() => handleCopy(contentResult, setContentCopied)}
-                  className="btn-secondary"
+                  className="btn-secondary btn-sm"
                   style={{ padding: '0.25rem 0.625rem', fontSize: '0.625rem' }}
                 >
                   {contentCopied ? <Check size={10} /> : <Copy size={10} />}
@@ -685,7 +674,7 @@ Return ONLY valid JSON:
                 </button>
               </div>
               <pre style={{
-                fontSize: '0.6875rem', fontFamily: '"JetBrains Mono", monospace',
+                fontSize: '0.6875rem', fontFamily: 'var(--font-mono)',
                 background: 'var(--bg-hover)', border: '0.0625rem solid var(--border-subtle)',
                 borderRadius: '0.5rem', padding: '0.875rem', overflow: 'auto',
                 maxHeight: '20rem', color: 'var(--text-secondary)', lineHeight: 1.5,
@@ -717,8 +706,7 @@ Return ONLY valid JSON:
             <button
               onClick={handleFetchPages}
               disabled={!selectedSite || pagesLoading}
-              className="btn-primary"
-              style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}
+              className="btn-primary btn-sm"
             >
               {pagesLoading ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <Layers size={12} />}
               {pagesLoading ? 'Scanning...' : 'Scan Pages'}
@@ -755,7 +743,7 @@ Return ONLY valid JSON:
                     <p style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {page.title || page.slug}
                     </p>
-                    <p style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', fontFamily: '"JetBrains Mono", monospace' }}>{page.slug}</p>
+                    <p style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>{page.slug}</p>
                   </div>
                   <span style={{ textAlign: 'center' }}>
                     {page.hasMeta ? <CheckCircle2 size={12} style={{ color: 'var(--color-success)' }} /> : <AlertCircle size={12} style={{ color: 'var(--color-error)' }} />}

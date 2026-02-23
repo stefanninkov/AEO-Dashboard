@@ -2,16 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 import { CheckCircle2, XCircle, UserPlus, X, ChevronUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
-const actionBtnStyle = {
-  display: 'flex', alignItems: 'center', gap: '0.375rem',
-  padding: '0.375rem 0.75rem', borderRadius: '0.375rem',
-  background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
-  cursor: 'pointer', fontSize: '0.75rem', fontWeight: 500,
-  color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
-  transition: 'background 150ms, border-color 150ms',
-  whiteSpace: 'nowrap',
-}
-
 /* ── Assign Dropdown (opens upward) ── */
 function AssignDropdown({ members, onAssign }) {
   const { t } = useTranslation('app')
@@ -33,7 +23,8 @@ function AssignDropdown({ members, onAssign }) {
     <div ref={ref} style={{ position: 'relative' }}>
       <button
         onClick={() => setOpen(!open)}
-        style={actionBtnStyle}
+        className="btn-ghost btn-sm"
+        style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
         title={t('bulk.assignSelected')}
       >
         <UserPlus size={13} />
@@ -118,13 +109,23 @@ export default function BulkActionBar({
       <div style={{ width: '0.0625rem', height: '1.25rem', background: 'var(--border-subtle)' }} />
 
       {/* Complete */}
-      <button onClick={onCheckAll} style={actionBtnStyle} title={t('bulk.markComplete')}>
+      <button
+        onClick={onCheckAll}
+        className="btn-ghost btn-sm"
+        style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
+        title={t('bulk.markComplete')}
+      >
         <CheckCircle2 size={13} style={{ color: 'var(--color-success)' }} />
         <span>{t('bulk.complete')}</span>
       </button>
 
       {/* Clear */}
-      <button onClick={onUncheckAll} style={actionBtnStyle} title={t('bulk.clearSelected')}>
+      <button
+        onClick={onUncheckAll}
+        className="btn-ghost btn-sm"
+        style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
+        title={t('bulk.clearSelected')}
+      >
         <XCircle size={13} style={{ color: 'var(--color-error)' }} />
         <span>{t('bulk.clear')}</span>
       </button>
@@ -135,17 +136,10 @@ export default function BulkActionBar({
       {/* Close */}
       <button
         onClick={onClearSelection}
-        style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          width: '1.5rem', height: '1.5rem', borderRadius: '0.375rem',
-          background: 'none', border: '0.0625rem solid var(--border-subtle)',
-          cursor: 'pointer', color: 'var(--text-tertiary)',
-          transition: 'background 150ms',
-        }}
+        className="btn-icon"
+        style={{ width: '1.5rem', height: '1.5rem', border: '0.0625rem solid var(--border-subtle)' }}
         title={t('bulk.exitSelection')}
         aria-label={t('bulk.exitSelection')}
-        onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
-        onMouseLeave={e => e.currentTarget.style.background = 'none'}
       >
         <X size={12} />
       </button>

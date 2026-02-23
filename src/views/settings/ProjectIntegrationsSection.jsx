@@ -12,7 +12,7 @@ import { useToast } from '../../components/Toast'
 import logger from '../../utils/logger'
 import {
   ToggleSwitch, sectionTitleStyle, settingsRowStyle, lastRowStyle,
-  labelStyle, inlineSaveBtnStyle, smallSelectStyle, flash,
+  labelStyle, flash,
 } from './SettingsShared'
 
 export default function ProjectIntegrationsSection({ activeProject, updateProject, user }) {
@@ -141,7 +141,7 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.checkInterval')}</span>
-          <select style={smallSelectStyle} value={monitoringInterval} onChange={(e) => handleMonitoringInterval(e.target.value)} aria-label="Check interval">
+          <select className="input-field input-sm" value={monitoringInterval} onChange={(e) => handleMonitoringInterval(e.target.value)} aria-label="Check interval">
             <option value="1d">{t('integrations.everyDay')}</option>
             <option value="3d">{t('integrations.every3Days')}</option>
             <option value="7d">{t('integrations.every7Days')}</option>
@@ -177,7 +177,7 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
 
           {shareLink && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 0.75rem', background: 'var(--bg-hover)', borderRadius: '0.5rem', border: '0.0625rem solid var(--border-subtle)' }}>
-              <input type="text" value={shareLink} readOnly style={{ flex: 1, background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '0.75rem', fontFamily: '"JetBrains Mono", monospace', outline: 'none' }} onClick={e => e.target.select()} />
+              <input type="text" value={shareLink} readOnly style={{ flex: 1, background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', outline: 'none' }} onClick={e => e.target.select()} />
               <button className="btn-secondary" style={{ padding: '0.375rem 0.625rem', fontSize: '0.6875rem', flexShrink: 0 }} onClick={handleCopyLink}>
                 {linkCopied ? <Check size={13} /> : <Copy size={13} />}
                 {linkCopied ? t('integrations.copied') : t('common:actions.copy')}
@@ -193,7 +193,7 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
               {existingShares.map(share => (
                 <div key={share.token} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0', fontSize: '0.75rem' }}>
                   <Link2 size={12} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
-                  <span style={{ color: 'var(--text-secondary)', flex: 1, fontFamily: '"JetBrains Mono", monospace', fontSize: '0.6875rem' }}>{'\u2026'}{share.token.slice(-8)}</span>
+                  <span style={{ color: 'var(--text-secondary)', flex: 1, fontFamily: 'var(--font-mono)', fontSize: '0.6875rem' }}>{'\u2026'}{share.token.slice(-8)}</span>
                   <span style={{ color: 'var(--text-tertiary)', fontSize: '0.6875rem' }}>{new Date(share.createdAt).toLocaleDateString()}</span>
                   <button onClick={() => handleRevokeShare(share.token)} style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '0.25rem' }} title={t('integrations.revokeLink')} aria-label={t('integrations.revokeLink')}><X size={13} /></button>
                 </div>
@@ -234,11 +234,11 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
         <div style={lastRowStyle}>
           <span style={labelStyle} />
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveEmailConfig}>
+            <button className="btn-primary btn-sm" style={{ flexShrink: 0 }} onClick={handleSaveEmailConfig}>
               {emailConfigSaved ? <Check size={13} /> : <Save size={13} />}
               {emailConfigSaved ? t('integrations.saved') : t('common:actions.save')}
             </button>
-            <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={handleTestEmail} disabled={testingSend || !emailConfigExists}>
+            <button className="btn-secondary btn-sm" onClick={handleTestEmail} disabled={testingSend || !emailConfigExists}>
               {testingSend ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> : <Send size={13} />}
               {testingSend ? t('integrations.sending') : t('integrations.sendTest')}
             </button>
@@ -258,7 +258,7 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.frequency')}</span>
-          <select style={smallSelectStyle} value={digestInterval} onChange={(e) => handleDigestInterval(e.target.value)} aria-label="Digest frequency">
+          <select className="input-field input-sm" value={digestInterval} onChange={(e) => handleDigestInterval(e.target.value)} aria-label="Digest frequency">
             <option value="daily">{t('integrations.daily')}</option>
             <option value="weekly">{t('integrations.weekly')}</option>
             <option value="monthly">{t('integrations.monthly')}</option>

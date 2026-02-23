@@ -99,7 +99,7 @@ export default function ProjectsOverviewSection({ projects = [], onNavigateToPro
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><FolderKanban size={15} /> Projects Overview</div>
 
-        <div style={{
+        <div className="stagger-grid" style={{
           display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem',
           padding: '1rem 1.25rem',
         }}>

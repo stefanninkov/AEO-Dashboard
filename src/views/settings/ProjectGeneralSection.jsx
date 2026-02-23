@@ -15,7 +15,7 @@ import {
 } from '../../utils/getRecommendations'
 import {
   sectionTitleStyle, settingsRowStyle, lastRowStyle,
-  labelStyle, inlineSaveBtnStyle, flash,
+  labelStyle, flash,
 } from './SettingsShared'
 
 export default function ProjectGeneralSection({ activeProject, updateProject, google, permission }) {
@@ -85,7 +85,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           <span style={labelStyle}>{t('projectGeneral.projectName')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input className="input-field" value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder={t('projectGeneral.projectNamePlaceholder')} aria-label={t('projectGeneral.projectNamePlaceholder')} style={{ flex: 1 }} />
-            <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveProjectName} disabled={!projectName.trim()}>
+            <button className="btn-primary btn-sm" style={{ flexShrink: 0 }} onClick={handleSaveProjectName} disabled={!projectName.trim()}>
               {projectNameSaved ? <Check size={13} /> : <Save size={13} />}
               {projectNameSaved ? t('projectGeneral.saved') : t('projectGeneral.save')}
             </button>
@@ -96,7 +96,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           <span style={labelStyle}>{t('projectGeneral.websiteUrl')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input className="input-field" value={projectUrl} onChange={(e) => setProjectUrl(e.target.value)} placeholder="https://example.com" aria-label={t('projectGeneral.websiteUrl')} style={{ flex: 1 }} />
-            <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveProjectUrl}>
+            <button className="btn-primary btn-sm" style={{ flexShrink: 0 }} onClick={handleSaveProjectUrl}>
               {projectUrlSaved ? <Check size={13} /> : <Save size={13} />}
               {projectUrlSaved ? t('projectGeneral.saved') : t('projectGeneral.save')}
             </button>
@@ -107,7 +107,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           <span style={labelStyle}>{t('projectGeneral.webflowSiteId')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input className="input-field" value={webflowSiteId} onChange={(e) => setWebflowSiteId(e.target.value)} placeholder={t('projectGeneral.optional')} aria-label={t('projectGeneral.webflowSiteId')} style={{ flex: 1 }} />
-            <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveWebflowId}>
+            <button className="btn-primary btn-sm" style={{ flexShrink: 0 }} onClick={handleSaveWebflowId}>
               {webflowSaved ? <Check size={13} /> : <Save size={13} />}
               {webflowSaved ? t('projectGeneral.saved') : t('projectGeneral.save')}
             </button>
@@ -118,7 +118,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           <span style={{ ...labelStyle, alignSelf: 'flex-start', paddingTop: '0.625rem' }}>{t('projectGeneral.notes')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
             <textarea className="input-field" value={projectNotes} onChange={(e) => setProjectNotes(e.target.value)} placeholder={t('projectGeneral.notesPlaceholder')} aria-label={t('projectGeneral.notes')} rows={3} style={{ flex: 1, resize: 'vertical', minHeight: '3.75rem' }} />
-            <button className="btn-primary" style={{ ...inlineSaveBtnStyle, alignSelf: 'flex-start', marginTop: '0.125rem' }} onClick={handleSaveNotes}>
+            <button className="btn-primary btn-sm" style={{ flexShrink: 0, alignSelf: 'flex-start', marginTop: '0.125rem' }} onClick={handleSaveNotes}>
               {notesSaved ? <Check size={13} /> : <Save size={13} />}
               {notesSaved ? t('projectGeneral.saved') : t('projectGeneral.save')}
             </button>
@@ -193,8 +193,8 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           <div style={lastRowStyle}>
             <span style={labelStyle} />
             <button
-              className="btn-secondary"
-              style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem', color: clearCacheConfirm ? 'var(--color-error)' : undefined, borderColor: clearCacheConfirm ? 'var(--color-error)' : undefined }}
+              className="btn-secondary btn-sm"
+              style={clearCacheConfirm ? { color: 'var(--color-error)', borderColor: 'var(--color-error)' } : undefined}
               onClick={handleClearGoogleCache}
             >
               <Trash2 size={13} />

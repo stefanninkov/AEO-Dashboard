@@ -22,7 +22,7 @@ import {
 } from '../../utils/browserNotifications'
 import {
   ToggleSwitch, sectionTitleStyle, settingsRowStyle,
-  lastRowStyle, labelStyle, inlineSaveBtnStyle, smallSelectStyle, flash,
+  lastRowStyle, labelStyle, flash,
 } from './SettingsShared'
 
 /* Resize image to square JPEG data URL for avatar storage */
@@ -210,7 +210,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           >
             {avatarPreview
               ? <img src={avatarPreview} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              : <span style={{ fontFamily: "'Space Mono', monospace", fontSize: '1.125rem', fontWeight: 700 }}>{getInitials(user?.displayName)}</span>
+              : <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.125rem', fontWeight: 700 }}>{getInitials(user?.displayName)}</span>
             }
             <div className="avatar-upload-overlay"><Camera size={16} /></div>
           </div>
@@ -218,8 +218,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <button
-                className="btn-secondary"
-                style={{ fontSize: '0.75rem', padding: '0.375rem 0.75rem' }}
+                className="btn-secondary btn-sm"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={avatarSaving}
               >
@@ -227,8 +226,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
               </button>
               {avatarPreview && avatarPreview !== providerPhotoURL && (
                 <button
-                  className="btn-secondary"
-                  style={{ fontSize: '0.75rem', padding: '0.375rem 0.75rem' }}
+                  className="btn-secondary btn-sm"
                   onClick={handleResetAvatar}
                   disabled={avatarSaving}
                 >
@@ -249,7 +247,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           <span style={labelStyle}>{t('userSettings.displayName')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input className="input-field" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder={t('userSettings.namePlaceholder')} aria-label="Display name" style={{ flex: 1 }} />
-            <button className="btn-primary" style={inlineSaveBtnStyle} onClick={handleSaveDisplayName} disabled={nameSaving || !displayName.trim()}>
+            <button className="btn-primary btn-sm" style={{ flexShrink: 0 }} onClick={handleSaveDisplayName} disabled={nameSaving || !displayName.trim()}>
               {nameSaveSuccess ? <Check size={13} /> : <Save size={13} />}
               {nameSaveSuccess ? t('userSettings.saved') : t('userSettings.save')}
             </button>
@@ -273,7 +271,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}>{t('userSettings.theme')}</span>
-          <select style={smallSelectStyle} value={theme} onChange={(e) => handleThemeChange(e.target.value)} aria-label={t('userSettings.theme')}>
+          <select className="input-field input-sm" value={theme} onChange={(e) => handleThemeChange(e.target.value)} aria-label={t('userSettings.theme')}>
             <option value="dark">{t('userSettings.dark')}</option>
             <option value="light">{t('userSettings.light')}</option>
             <option value="auto">{t('userSettings.autoSystem')}</option>
@@ -282,7 +280,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
 
         <div style={settingsRowStyle}>
           <span style={labelStyle}><Globe size={13} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.375rem' }} />{t('userSettings.language')}</span>
-          <select style={smallSelectStyle} value={currentLang} onChange={(e) => handleLanguageChange(e.target.value)} aria-label="Language">
+          <select className="input-field input-sm" value={currentLang} onChange={(e) => handleLanguageChange(e.target.value)} aria-label="Language">
             {SUPPORTED_LANGUAGES.map(lang => (
               <option key={lang.code} value={lang.code}>{lang.nativeLabel}</option>
             ))}
@@ -325,7 +323,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
 
         <div style={lastRowStyle}>
           <span style={labelStyle}>{t('userSettings.defaultDateRange')}</span>
-          <select style={smallSelectStyle} value={defaultDateRange} onChange={(e) => handleDefaultDateRange(e.target.value)} aria-label={t('userSettings.defaultDateRange')}>
+          <select className="input-field input-sm" value={defaultDateRange} onChange={(e) => handleDefaultDateRange(e.target.value)} aria-label={t('userSettings.defaultDateRange')}>
             <option value="today">{t('userSettings.today')}</option>
             <option value="7d">{t('userSettings.days7')}</option>
             <option value="30d">{t('userSettings.days30')}</option>
@@ -355,7 +353,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
         <div style={sectionTitleStyle}><RotateCcw size={15} /> {t('userSettings.onboarding')}</div>
         <div style={lastRowStyle}>
           <span style={labelStyle}>{t('userSettings.restartTourDesc')}</span>
-          <button className="btn-secondary" style={{ fontSize: '0.75rem', padding: '0.4375rem 0.875rem' }} onClick={() => { localStorage.removeItem('aeo-onboarding-completed'); window.location.reload() }}>
+          <button className="btn-secondary btn-sm" onClick={() => { localStorage.removeItem('aeo-onboarding-completed'); window.location.reload() }}>
             <RotateCcw size={12} /> {t('userSettings.restartTour')}
           </button>
         </div>
