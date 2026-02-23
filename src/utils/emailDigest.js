@@ -19,7 +19,7 @@ export async function sendDigestEmail(project) {
 /**
  * Build the digest email body as plain text.
  */
-function generateDigestBody(project, settings) {
+export function generateDigestBody(project, settings) {
   const lines = []
 
   lines.push(`AEO Dashboard — Weekly Digest`)

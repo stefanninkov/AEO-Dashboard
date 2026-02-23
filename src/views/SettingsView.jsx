@@ -9,7 +9,7 @@
  */
 import { useState, useRef, useMemo, useEffect } from 'react'
 import {
-  ArrowLeft, ArrowRight, FolderCog, Unplug, UsersRound, Globe2, Webhook, HardDrive,
+  ArrowLeft, ArrowRight, FolderCog, Unplug, UsersRound, Globe2, Webhook, HardDrive, Mail,
 } from 'lucide-react'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import SettingsTabs from './settings/SettingsTabs'
@@ -23,6 +23,7 @@ import ProjectWebhooksSection from './settings/ProjectWebhooksSection'
 import ProjectTeamSection from './settings/ProjectTeamSection'
 import ProjectWebflowSection from './settings/ProjectWebflowSection'
 import ProjectDataSection from './settings/ProjectDataSection'
+import ProjectDigestSection from './settings/ProjectDigestSection'
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 
 /* ── Project settings sub-tab definitions ── */
@@ -32,6 +33,7 @@ const PROJECT_SUB_TABS = [
   { id: 'team', label: 'Team', icon: UsersRound },
   { id: 'webflow', label: 'Webflow', icon: Globe2 },
   { id: 'webhooks', label: 'Webhooks', icon: Webhook },
+  { id: 'digest', label: 'Digest', icon: Mail },
   { id: 'data', label: 'Data', icon: HardDrive },
 ]
 
@@ -218,6 +220,9 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           )}
           {activeProjectSubTab === 'webhooks' && (
             <ProjectWebhooksSection activeProject={resolvedProject} updateProject={updateProject} />
+          )}
+          {activeProjectSubTab === 'digest' && (
+            <ProjectDigestSection activeProject={resolvedProject} updateProject={updateProject} user={user} />
           )}
           {activeProjectSubTab === 'data' && (
             <ProjectDataSection activeProject={resolvedProject} updateProject={updateProject} deleteProject={deleteProject} setActiveView={setActiveView} permission={permission} />
