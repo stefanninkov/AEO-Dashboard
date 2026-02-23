@@ -118,7 +118,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
 
       {/* Industry Suggestions */}
       {activeProject?.questionnaire?.industry && INDUSTRY_COMPETITORS[activeProject.questionnaire.industry] && competitors.length === 0 && (
-        <div className="card fade-in-up" style={{ padding: '1rem 1.25rem', background: 'linear-gradient(135deg, rgba(255,107,53,0.04), rgba(123,47,190,0.03))' }}>
+        <div className="card fade-in-up" style={{ padding: '1rem 1.25rem', background: 'linear-gradient(135deg, rgba(37,99,235,0.04), rgba(123,47,190,0.03))' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.625rem' }}>
             <Sparkles size={14} style={{ color: 'var(--color-phase-5)' }} />
             <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>

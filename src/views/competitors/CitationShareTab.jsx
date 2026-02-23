@@ -140,7 +140,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
       .map((b, i) => ({
         name: b.name,
         value: b.sharePercent,
-        color: b.isOwn ? '#FF6B35' : PHASE_COLOR_ARRAY[(i + 1) % PHASE_COLOR_ARRAY.length],
+        color: b.isOwn ? '#2563EB' : PHASE_COLOR_ARRAY[(i + 1) % PHASE_COLOR_ARRAY.length],
         isOwn: b.isOwn,
       }))
   }, [latestSnapshot])
@@ -367,12 +367,12 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                   <div key={i} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     padding: '0.375rem 0.5rem', borderRadius: '0.375rem',
-                    background: brand.isOwn ? 'rgba(255, 107, 53, 0.06)' : 'transparent',
+                    background: brand.isOwn ? 'rgba(37, 99, 235, 0.06)' : 'transparent',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
                       <span style={{
                         fontSize: '0.8125rem', fontWeight: brand.isOwn ? 700 : 500,
-                        color: brand.isOwn ? 'var(--color-phase-1)' : 'var(--text-primary)',
+                        color: brand.isOwn ? 'var(--accent)' : 'var(--text-primary)',
                       }}>
                         {brand.name} {brand.isOwn && <Star size={10} fill="currentColor" strokeWidth={0} />}
                       </span>
@@ -489,11 +489,11 @@ export default function CitationShareTab({ activeProject, updateProject, user })
               <tbody>
                 {engineBreakdown.map((brand, idx) => (
                   <tr key={idx} style={{
-                    background: brand.isOwn ? 'rgba(255, 107, 53, 0.04)' : 'transparent',
+                    background: brand.isOwn ? 'rgba(37, 99, 235, 0.04)' : 'transparent',
                   }}>
                     <td style={{
                       padding: '0.5rem 0.625rem', fontWeight: 600,
-                      color: brand.isOwn ? 'var(--color-phase-1)' : 'var(--text-primary)',
+                      color: brand.isOwn ? 'var(--accent)' : 'var(--text-primary)',
                       whiteSpace: 'nowrap',
                     }}>
                       {brand.name} {brand.isOwn && <Star size={10} fill="currentColor" strokeWidth={0} />}

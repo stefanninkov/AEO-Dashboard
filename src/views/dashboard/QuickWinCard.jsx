@@ -33,7 +33,7 @@ export default function QuickWinCard({ quickWin }) {
       <div style={{
         width: '2.75rem', height: '2.75rem', borderRadius: '50%',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(255,107,53,0.12)', color: 'var(--color-phase-1)',
+        background: 'rgba(37,99,235,0.12)', color: 'var(--accent)',
         flexShrink: 0,
       }}>
         <Zap size={18} />

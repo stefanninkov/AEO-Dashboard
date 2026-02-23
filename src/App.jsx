@@ -90,9 +90,9 @@ function SplashScreen({ onComplete }) {
       >
         <div
           className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
-          style={{ backgroundColor: 'rgba(255,107,53,0.12)' }}
+          style={{ backgroundColor: 'rgba(37,99,235,0.12)' }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-phase-1)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
           </svg>
         </div>

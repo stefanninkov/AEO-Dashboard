@@ -381,8 +381,8 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
               <span style={{
                 fontSize: '0.5625rem', fontWeight: 700,
                 padding: '0.0625rem 0.3125rem', borderRadius: '0.25rem',
-                background: activeTab === tab.id ? 'rgba(255,255,255,0.2)' : 'rgba(255,107,53,0.1)',
-                color: activeTab === tab.id ? '#fff' : 'var(--color-phase-1)',
+                background: activeTab === tab.id ? 'rgba(255,255,255,0.2)' : 'rgba(37,99,235,0.1)',
+                color: activeTab === tab.id ? '#fff' : 'var(--accent)',
               }}>
                 {queryData.aeoQueryCount}
               </span>

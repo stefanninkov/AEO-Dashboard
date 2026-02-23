@@ -127,8 +127,8 @@ function InviteModal({ onClose, onInvite, loading }) {
                     gap: '0.625rem',
                     padding: '0.75rem',
                     borderRadius: '0.625rem',
-                    border: `0.0625rem solid ${role === r ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
-                    background: role === r ? 'rgba(255,107,53,0.04)' : 'transparent',
+                    border: `0.0625rem solid ${role === r ? 'var(--accent)' : 'var(--border-subtle)'}`,
+                    background: role === r ? 'rgba(37,99,235,0.04)' : 'transparent',
                     cursor: 'pointer',
                     transition: 'all 150ms',
                   }}
@@ -181,7 +181,7 @@ function InviteModal({ onClose, onInvite, loading }) {
 /* ── Role Badge ── */
 function RoleBadge({ role, isOwner, t }) {
   const config = {
-    admin: { bg: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)', icon: ShieldCheck },
+    admin: { bg: 'rgba(37,99,235,0.1)', color: 'var(--accent)', icon: ShieldCheck },
     editor: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6', icon: Shield },
     viewer: { bg: 'rgba(148,163,184,0.1)', color: 'var(--text-tertiary)', icon: Eye },
   }

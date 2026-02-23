@@ -113,9 +113,9 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
           <div style={{
             display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
             padding: 'var(--space-3) var(--space-4)', marginTop: 'var(--space-3)',
-            background: 'rgba(255, 107, 53, 0.08)', borderRadius: 'var(--radius-md)',
-            border: '0.0625rem solid rgba(255, 107, 53, 0.2)',
-            fontSize: 'var(--text-xs)', color: 'var(--color-phase-1)',
+            background: 'rgba(37, 99, 235, 0.08)', borderRadius: 'var(--radius-md)',
+            border: '0.0625rem solid rgba(37, 99, 235, 0.2)',
+            fontSize: 'var(--text-xs)', color: 'var(--accent)',
           }}>
             <AlertTriangle size={13} />
             {t('competitors.contentGaps.noData')}
@@ -174,14 +174,14 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
                 padding: 'var(--space-3) var(--space-5)',
                 borderBottom: '0.0625rem solid var(--border-subtle)',
                 cursor: 'pointer',
-                background: selected.has(gap.query) ? 'rgba(255, 107, 53, 0.04)' : 'transparent',
+                background: selected.has(gap.query) ? 'rgba(37, 99, 235, 0.04)' : 'transparent',
                 transition: 'background 150ms',
               }}
             >
               <div style={{
                 width: '1rem', height: '1rem', borderRadius: '0.1875rem',
                 border: selected.has(gap.query) ? 'none' : '0.0625rem solid var(--border-default)',
-                background: selected.has(gap.query) ? 'var(--color-phase-1)' : 'transparent',
+                background: selected.has(gap.query) ? 'var(--accent)' : 'transparent',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 {selected.has(gap.query) && <Check size={9} style={{ color: '#fff' }} />}

@@ -408,13 +408,13 @@ Return ONLY valid JSON:
                   style={{
                     display: 'flex', alignItems: 'center', gap: '0.625rem',
                     padding: '0.75rem 0.875rem', borderRadius: '0.5rem',
-                    border: `0.0625rem solid ${selectedSite?.id === site.id ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
-                    background: selectedSite?.id === site.id ? 'rgba(255,107,53,0.06)' : 'var(--hover-bg)',
+                    border: `0.0625rem solid ${selectedSite?.id === site.id ? 'var(--accent)' : 'var(--border-subtle)'}`,
+                    background: selectedSite?.id === site.id ? 'rgba(37,99,235,0.06)' : 'var(--hover-bg)',
                     cursor: 'pointer', width: '100%', textAlign: 'left',
                     transition: 'all 150ms',
                   }}
                 >
-                  <Globe size={14} style={{ color: selectedSite?.id === site.id ? 'var(--color-phase-1)' : 'var(--text-tertiary)', flexShrink: 0 }} />
+                  <Globe size={14} style={{ color: selectedSite?.id === site.id ? 'var(--accent)' : 'var(--text-tertiary)', flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>{site.name}</p>
                     <p style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>{site.domain || site.id}</p>
@@ -593,8 +593,8 @@ Return ONLY valid JSON:
               }}>
                 {schemaCode}
               </pre>
-              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.375rem', border: '0.0625rem solid rgba(255,107,53,0.15)' }}>
-                <p style={{ fontSize: '0.6875rem', color: 'var(--color-phase-1)', fontWeight: 500 }}>
+              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(37,99,235,0.06)', borderRadius: '0.375rem', border: '0.0625rem solid rgba(37,99,235,0.15)' }}>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--accent)', fontWeight: 500 }}>
                   <ArrowRight size={10} style={{ verticalAlign: 'middle', marginRight: '0.25rem' }} />
                   Paste in Webflow: Project Settings &gt; Custom Code &gt; Head Code
                 </p>
@@ -684,8 +684,8 @@ Return ONLY valid JSON:
               }}>
                 {contentResult}
               </pre>
-              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(255,107,53,0.06)', borderRadius: '0.375rem', border: '0.0625rem solid rgba(255,107,53,0.15)' }}>
-                <p style={{ fontSize: '0.6875rem', color: 'var(--color-phase-1)', fontWeight: 500 }}>
+              <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(37,99,235,0.06)', borderRadius: '0.375rem', border: '0.0625rem solid rgba(37,99,235,0.15)' }}>
+                <p style={{ fontSize: '0.6875rem', color: 'var(--accent)', fontWeight: 500 }}>
                   <ArrowRight size={10} style={{ verticalAlign: 'middle', marginRight: '0.25rem' }} />
                   Paste in Webflow: Add an Embed or Rich Text element
                 </p>

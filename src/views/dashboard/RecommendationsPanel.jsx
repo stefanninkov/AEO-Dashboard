@@ -99,7 +99,7 @@ export default function RecommendationsPanel({ recommendations, contextLine }) {
                 onClick={rec.action}
                 style={{
                   padding: '0.375rem 0.75rem', borderRadius: '0.5rem', border: 'none',
-                  background: 'rgba(255,107,53,0.1)', color: 'var(--color-phase-1)',
+                  background: 'rgba(37,99,235,0.1)', color: 'var(--accent)',
                   fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer',
                   fontFamily: 'var(--font-body)', whiteSpace: 'nowrap',
                   transition: 'all 150ms',

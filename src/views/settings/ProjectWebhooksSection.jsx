@@ -76,8 +76,8 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
           <div>
             <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.375rem' }}>{t('webhooks.events')}</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', background: webhookEvents.includes('*') ? 'rgba(255, 107, 53, 0.1)' : 'var(--hover-bg)', border: `0.0625rem solid ${webhookEvents.includes('*') ? 'var(--color-phase-1)' : 'var(--border-subtle)'}` }}>
-                <input type="checkbox" checked={webhookEvents.includes('*')} onChange={(e) => setWebhookEvents(e.target.checked ? ['*'] : [])} style={{ accentColor: 'var(--color-phase-1)' }} />
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', background: webhookEvents.includes('*') ? 'rgba(37, 99, 235, 0.1)' : 'var(--hover-bg)', border: `0.0625rem solid ${webhookEvents.includes('*') ? 'var(--accent)' : 'var(--border-subtle)'}` }}>
+                <input type="checkbox" checked={webhookEvents.includes('*')} onChange={(e) => setWebhookEvents(e.target.checked ? ['*'] : [])} style={{ accentColor: 'var(--accent)' }} />
                 {t('webhooks.allEvents')}
               </label>
               {!webhookEvents.includes('*') && Object.entries(WEBHOOK_EVENT_GROUPS).map(([key, group]) => (

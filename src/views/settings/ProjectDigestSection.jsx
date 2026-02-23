@@ -266,9 +266,9 @@ export default function ProjectDigestSection({ activeProject, updateProject, use
             <div style={{
               display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
               padding: 'var(--space-3) var(--space-4)', marginBottom: 'var(--space-3)',
-              background: 'rgba(255, 107, 53, 0.08)', borderRadius: 'var(--radius-md)',
-              border: '0.0625rem solid rgba(255, 107, 53, 0.2)',
-              fontSize: 'var(--text-xs)', color: 'var(--color-phase-1)',
+              background: 'rgba(37, 99, 235, 0.08)', borderRadius: 'var(--radius-md)',
+              border: '0.0625rem solid rgba(37, 99, 235, 0.2)',
+              fontSize: 'var(--text-xs)', color: 'var(--accent)',
             }}>
               <Mail size={13} />
               {t('projectDigest.configureEmailHint')}

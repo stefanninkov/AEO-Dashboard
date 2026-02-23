@@ -386,9 +386,9 @@ export default memo(function ChecklistItem({
                 padding: '0.375rem',
                 borderRadius: '0.5rem',
                 border: 'none',
-                background: assignedUid ? 'rgba(255,107,53,0.08)' : 'none',
+                background: assignedUid ? 'rgba(37,99,235,0.08)' : 'none',
                 cursor: 'pointer',
-                color: assignedUid ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
+                color: assignedUid ? 'var(--accent)' : 'var(--text-tertiary)',
               }}
               title={assignedMember ? `Assigned to ${assignedMember.displayName}` : 'Assign to member'}
               aria-label="Assign task"

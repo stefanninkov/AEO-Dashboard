@@ -85,9 +85,9 @@ export default function CitationDNATab({ activeProject }) {
           <div style={{
             display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
             padding: 'var(--space-3) var(--space-4)', marginTop: 'var(--space-3)',
-            background: 'rgba(255, 107, 53, 0.08)', borderRadius: 'var(--radius-md)',
-            border: '0.0625rem solid rgba(255, 107, 53, 0.2)',
-            fontSize: 'var(--text-xs)', color: 'var(--color-phase-1)',
+            background: 'rgba(37, 99, 235, 0.08)', borderRadius: 'var(--radius-md)',
+            border: '0.0625rem solid rgba(37, 99, 235, 0.2)',
+            fontSize: 'var(--text-xs)', color: 'var(--accent)',
           }}>
             <AlertTriangle size={13} />
             {t('competitors.citationDNA.noData')}
@@ -252,11 +252,11 @@ export default function CitationDNATab({ activeProject }) {
                   <div style={{
                     width: '1.5rem', height: '1.5rem', borderRadius: 'var(--radius-md)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                    background: s.impact === 'high' ? 'rgba(255, 107, 53, 0.1)' :
+                    background: s.impact === 'high' ? 'rgba(37, 99, 235, 0.1)' :
                       s.impact === 'medium' ? 'rgba(14, 165, 233, 0.1)' : 'var(--hover-bg)',
                   }}>
                     <Icon size={11} style={{
-                      color: s.impact === 'high' ? 'var(--color-phase-1)' :
+                      color: s.impact === 'high' ? 'var(--accent)' :
                         s.impact === 'medium' ? 'var(--color-phase-3)' : 'var(--text-tertiary)',
                     }} />
                   </div>
