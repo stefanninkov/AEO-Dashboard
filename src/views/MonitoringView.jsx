@@ -10,6 +10,7 @@ import { useAutoMonitor } from '../hooks/useAutoMonitor'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { fireWebhooks } from '../utils/webhookDispatcher'
 import ProgressBar from '../components/ProgressBar'
+import ContentDecayTab from './monitoring/ContentDecayTab'
 import logger from '../utils/logger'
 
 // ─── Interval Config ─────────────────────────────────────────
@@ -61,6 +62,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
   const { t } = useTranslation('app')
   const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({ activeProject, updateProject })
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
+  const [activeTab, setActiveTab] = useState('monitoring') // 'monitoring' | 'decay'
   const [expandedRun, setExpandedRun] = useState(null)
   const [showAllHistory, setShowAllHistory] = useState(false)
   const [notification, setNotification] = useState(null)
@@ -260,6 +262,34 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
           </button>
         </div>
       </div>
+
+      {/* Tabs */}
+      <div className="scrollable-tabs tab-bar-segmented">
+        <button
+          className="tab-segmented"
+          data-active={activeTab === 'monitoring' || undefined}
+          onClick={() => setActiveTab('monitoring')}
+        >
+          <Activity size={14} />
+          <span>{t('monitoring.tabMonitoring')}</span>
+        </button>
+        <button
+          className="tab-segmented"
+          data-active={activeTab === 'decay' || undefined}
+          onClick={() => setActiveTab('decay')}
+        >
+          <TrendingDown size={14} />
+          <span>{t('monitoring.tabDecay')}</span>
+        </button>
+      </div>
+
+      {/* Content Decay Tab */}
+      {activeTab === 'decay' && (
+        <ContentDecayTab activeProject={activeProject} />
+      )}
+
+      {/* Monitoring Tab Content */}
+      {activeTab === 'monitoring' && <>
 
       {/* Error */}
       {error && (
@@ -538,6 +568,8 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
           </button>
         </div>
       )}
+
+      </>}
     </div>
   )
 }
