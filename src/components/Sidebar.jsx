@@ -29,12 +29,6 @@ const NAV_ICONS = {
   settings: SlidersHorizontal,
 }
 
-const NAV_KEYS = [
-  'dashboard', 'checklist', 'competitors', 'analyzer', 'writer', 'scorer',
-  'content-ops', 'schema', 'monitoring', 'metrics', 'gsc',
-  'ga4', 'aeo-impact', 'docs', 'testing', 'settings',
-]
-
 const NAV_I18N_KEYS = {
   dashboard: 'nav.dashboard',
   checklist: 'nav.checklist',
@@ -54,15 +48,38 @@ const NAV_I18N_KEYS = {
   settings: 'nav.settings',
 }
 
+/** Sidebar navigation groups — ordered top-to-bottom */
+const NAV_GROUPS = [
+  {
+    i18nKey: 'sections.overview',
+    items: ['dashboard', 'checklist'],
+  },
+  {
+    i18nKey: 'sections.content',
+    items: ['analyzer', 'writer', 'scorer', 'content-ops', 'schema'],
+  },
+  {
+    i18nKey: 'sections.analytics',
+    items: ['monitoring', 'metrics', 'gsc', 'ga4', 'aeo-impact'],
+  },
+  {
+    i18nKey: 'sections.reference',
+    items: ['competitors', 'docs', 'testing'],
+  },
+]
+
 export default memo(function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar, onlineMembers }) {
   const { theme, toggleTheme } = useTheme()
   const { t } = useTranslation()
 
-  const navItems = useMemo(() =>
-    NAV_KEYS.map(id => ({
-      id,
-      label: t(NAV_I18N_KEYS[id]),
-      icon: NAV_ICONS[id],
+  const navGroups = useMemo(() =>
+    NAV_GROUPS.map(group => ({
+      label: t(group.i18nKey),
+      items: group.items.map(id => ({
+        id,
+        label: t(NAV_I18N_KEYS[id]),
+        icon: NAV_ICONS[id],
+      })),
     })),
   [t])
 
@@ -92,42 +109,42 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
         </button>
       </div>
 
-      {/* Section: Main */}
-      <div className="sidebar-section-label">{t('sections.main')}</div>
-
-      {/* Nav Items */}
+      {/* Nav Groups */}
       <nav>
-        {navItems.map(item => {
-          const Icon = item.icon
-          const isActive = activeView === item.id
-          return (
-            <button
-              key={item.id}
-              onClick={() => handleNav(item.id)}
-              className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-              style={{ width: '100%' }}
-              aria-current={isActive ? 'page' : undefined}
-            >
-              <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
-              {item.label}
-            </button>
-          )
-        })}
+        {navGroups.map((group, gi) => (
+          <div key={gi}>
+            <div className="sidebar-section-label">{group.label}</div>
+            {group.items.map(item => {
+              const Icon = item.icon
+              const isActive = activeView === item.id
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNav(item.id)}
+                  className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                  style={{ width: '100%' }}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                  {item.label}
+                </button>
+              )
+            })}
+          </div>
+        ))}
       </nav>
 
-      {/* Online Members */}
-      {onlineMembers && onlineMembers.length > 1 && (
-        <div style={{ padding: '0.375rem 1rem' }}>
-          <PresenceAvatars
-            members={onlineMembers}
-            currentUserUid={user?.uid}
-            variant="compact"
-          />
-        </div>
-      )}
-
-      {/* Section: Tools */}
+      {/* Settings — separate from groups */}
       <div className="sidebar-section-label">{t('sections.tools')}</div>
+      <button
+        onClick={() => handleNav('settings')}
+        className={`sidebar-nav-item ${activeView === 'settings' ? 'active' : ''}`}
+        style={{ width: '100%' }}
+        aria-current={activeView === 'settings' ? 'page' : undefined}
+      >
+        <SlidersHorizontal size={16} strokeWidth={activeView === 'settings' ? 2 : 1.5} />
+        {t('nav.settings')}
+      </button>
 
       {/* Theme Toggle */}
       <button
@@ -140,6 +157,17 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
         {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         {theme === 'dark' ? t('sidebar.lightMode') : t('sidebar.darkMode')}
       </button>
+
+      {/* Online Members */}
+      {onlineMembers && onlineMembers.length > 1 && (
+        <div style={{ padding: '0.375rem 1rem' }}>
+          <PresenceAvatars
+            members={onlineMembers}
+            currentUserUid={user?.uid}
+            variant="compact"
+          />
+        </div>
+      )}
       </div>
 
       {/* Divider */}

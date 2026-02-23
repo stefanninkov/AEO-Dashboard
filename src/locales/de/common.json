@@ -19,8 +19,11 @@
   },
   "sections": {
     "main": "Hauptbereich",
-    "tools": "Werkzeuge",
-    "analytics": "Analysen"
+    "overview": "Übersicht",
+    "content": "Inhalte",
+    "analytics": "Analysen",
+    "reference": "Referenz",
+    "tools": "Werkzeuge"
   },
   "actions": {
     "save": "Speichern",

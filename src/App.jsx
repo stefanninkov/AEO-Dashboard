@@ -14,6 +14,7 @@ import ConnectionBanner from './components/ConnectionBanner'
 import PresenceHint from './components/PresenceHint'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
+import useHashRouter from './hooks/useHashRouter'
 
 // Lazy-loaded: LoginPage (only needed before auth) + aeo-checklist data (large string payload)
 const LoginPage = lazy(() => import('./components/LoginPage'))
@@ -284,7 +285,7 @@ function DashboardApp() {
 }
 
 function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
-  const [activeView, setActiveView] = useState('dashboard')
+  const { activeView, setActiveView } = useHashRouter()
   const [docItem, setDocItem] = useState(null)
   const [overlayClosing, setOverlayClosing] = useState(false)
   const [splashVisible, setSplashVisible] = useState(true)
@@ -412,7 +413,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
 
   const handleNavigation = useCallback((view) => {
     setActiveView(view)
-  }, [])
+  }, [setActiveView])
 
   // Reset scroll position when switching views
   useEffect(() => {

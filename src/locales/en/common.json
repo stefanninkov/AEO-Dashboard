@@ -19,8 +19,11 @@
   },
   "sections": {
     "main": "Main",
-    "tools": "Tools",
-    "analytics": "Analytics"
+    "overview": "Overview",
+    "content": "Content",
+    "analytics": "Analytics",
+    "reference": "Reference",
+    "tools": "Tools"
   },
   "actions": {
     "save": "Save",

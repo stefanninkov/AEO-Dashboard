@@ -19,8 +19,11 @@
   },
   "sections": {
     "main": "Главно",
-    "tools": "Алатке",
-    "analytics": "Аналитика"
+    "overview": "Преглед",
+    "content": "Садржај",
+    "analytics": "Аналитика",
+    "reference": "Референца",
+    "tools": "Алатке"
   },
   "actions": {
     "save": "Сачувај",
