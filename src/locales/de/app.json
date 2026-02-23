@@ -183,7 +183,25 @@
     "selectSite": "Seite auswählen",
     "analysisError": "Analysefehler",
     "readyToAnalyze": "Bereit zur Analyse",
-    "readyToAnalyzeDesc": "Geben Sie eine URL ein oder verbinden Sie sich mit Webflow, um die AEO-Bereitschaft Ihrer Seite zu analysieren."
+    "readyToAnalyzeDesc": "Geben Sie eine URL ein oder verbinden Sie sich mit Webflow, um die AEO-Bereitschaft Ihrer Seite zu analysieren.",
+    "health": {
+      "tab": "Gesundheit",
+      "pagesAnalyzed": "Seiten analysiert",
+      "avgScore": "Durchschn. Score",
+      "needsWork": "Verbesserungsbedarf",
+      "pagesBelow50": "Seiten < 50",
+      "topScore": "Bester Score",
+      "categoryHealth": "Kategorien-Gesundheit über alle Seiten",
+      "page": "Seite",
+      "score": "Score",
+      "status": "Status",
+      "analyzed": "Analysiert",
+      "strong": "Stark",
+      "moderate": "Mittel",
+      "weak": "Schwach",
+      "noPages": "Noch keine Seiten analysiert",
+      "noPagesDesc": "Analysieren Sie einzelne Seiten im Tab Seitenanalyse, um hier die Gesundheitsübersicht zu sehen."
+    }
   },
   "writer": {
     "title": "Content-Autor",

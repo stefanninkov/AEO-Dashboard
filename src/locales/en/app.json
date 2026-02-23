@@ -183,7 +183,25 @@
     "selectSite": "Select a site",
     "analysisError": "Analysis Error",
     "readyToAnalyze": "Ready to analyze",
-    "readyToAnalyzeDesc": "Enter a URL or connect to Webflow to analyze your site's AEO readiness."
+    "readyToAnalyzeDesc": "Enter a URL or connect to Webflow to analyze your site's AEO readiness.",
+    "health": {
+      "tab": "Health",
+      "pagesAnalyzed": "Pages Analyzed",
+      "avgScore": "Avg Score",
+      "needsWork": "Needs Work",
+      "pagesBelow50": "pages < 50",
+      "topScore": "Top Score",
+      "categoryHealth": "Category Health Across All Pages",
+      "page": "Page",
+      "score": "Score",
+      "status": "Status",
+      "analyzed": "Analyzed",
+      "strong": "Strong",
+      "moderate": "Moderate",
+      "weak": "Weak",
+      "noPages": "No Pages Analyzed Yet",
+      "noPagesDesc": "Analyze individual pages in the Page Analysis tab to see their health overview here."
+    }
   },
   "writer": {
     "title": "Content Writer",

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Globe, Link2, Loader2, AlertCircle, Sparkles, SearchCheck, FileText } from 'lucide-react'
+import { Globe, Link2, Loader2, AlertCircle, Sparkles, SearchCheck, FileText, BarChart3 } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { callAI } from '../utils/apiClient'
@@ -14,10 +14,11 @@ import {
   SkeletonLoader, parseAnalysisJSON, parseFixJSON,
 } from './analyzer/AnalysisResultsShared'
 import PageAnalyzerTab from './analyzer/PageAnalyzerTab'
+import PageHealthTab from './analyzer/PageHealthTab'
 
 export default function AnalyzerView({ activeProject, updateProject, user }) {
   const { t } = useTranslation('app')
-  const [activeTab, setActiveTab] = useState('site') // 'site' | 'pages'
+  const [activeTab, setActiveTab] = useState('site') // 'site' | 'pages' | 'health'
   const topTabsRef = useRef(null)
   useScrollActiveTab(topTabsRef, activeTab)
   const [mode, setMode] = useState('url') // 'webflow' | 'url'
@@ -398,6 +399,18 @@ Return ONLY valid JSON:
             <span className="tab-badge">{pageCount}</span>
           )}
         </button>
+        {pageCount > 0 && (
+          <button
+            className="tab-segmented"
+            role="tab"
+            aria-selected={activeTab === 'health'}
+            data-active={activeTab === 'health' || undefined}
+            onClick={() => setActiveTab('health')}
+          >
+            <BarChart3 size={14} />
+            {t('analyzer.health.tab')}
+          </button>
+        )}
       </div>
 
       {/* ── Site Analysis Tab ── */}
@@ -567,6 +580,11 @@ Return ONLY valid JSON:
           user={user}
           gscPageData={null}
         />
+      )}
+
+      {/* ── Page Health Tab ── */}
+      {activeTab === 'health' && (
+        <PageHealthTab activeProject={activeProject} />
       )}
     </div>
   )
