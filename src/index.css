@@ -352,7 +352,7 @@ body {
 }
 
 .content-wrapper {
-  max-width: 68.75rem;
+  max-width: min(72rem, 100%);
   margin: 0 auto;
   width: 100%;
 }
@@ -6417,6 +6417,37 @@ select:focus-visible {
   .btn-ghost {
     min-height: 2.75rem;
   }
+
+  .toggle-switch {
+    min-width: 2.75rem;
+    min-height: 1.75rem;
+  }
+
+  .btn-danger {
+    min-height: 2.75rem;
+  }
+}
+
+/* ── Skip-to-content link ── */
+
+.skip-to-content {
+  position: absolute;
+  top: -10rem;
+  left: 0.5rem;
+  z-index: 10000;
+  padding: 0.5rem 1rem;
+  background: var(--color-phase-1);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top 150ms ease;
+}
+
+.skip-to-content:focus {
+  top: 0.5rem;
 }
 
 /* ── Reduced motion: disable all animations ── */

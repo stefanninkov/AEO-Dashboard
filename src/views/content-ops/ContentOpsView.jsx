@@ -23,9 +23,11 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
       </div>
 
       {/* Tab row */}
-      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" style={{ marginBottom: 'var(--space-5)', width: 'fit-content' }}>
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist" style={{ marginBottom: 'var(--space-5)', width: 'fit-content' }}>
         <button
           className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'calendar'}
           data-active={activeTab === 'calendar' || undefined}
           onClick={() => setActiveTab('calendar')}
         >
@@ -37,6 +39,8 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
         </button>
         <button
           className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'briefs'}
           data-active={activeTab === 'briefs' || undefined}
           onClick={() => setActiveTab('briefs')}
         >

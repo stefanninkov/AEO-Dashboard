@@ -35,9 +35,11 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
       </div>
 
       {/* Tab row */}
-      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" style={{ marginBottom: 'var(--space-5)' }}>
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist" style={{ marginBottom: 'var(--space-5)' }}>
         <button
           className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'overview'}
           data-active={activeTab === 'overview' || undefined}
           onClick={() => setActiveTab('overview')}
         >
@@ -46,6 +48,8 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
         </button>
         <button
           className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'monitoring'}
           data-active={activeTab === 'monitoring' || undefined}
           onClick={() => setActiveTab('monitoring')}
         >
@@ -57,6 +61,8 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
         </button>
         <button
           className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'citation'}
           data-active={activeTab === 'citation' || undefined}
           onClick={() => setActiveTab('citation')}
         >

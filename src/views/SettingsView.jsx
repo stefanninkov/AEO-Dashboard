@@ -39,7 +39,7 @@ function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeSubTab)
   return (
-    <div ref={tabsRef} className="scrollable-tabs tab-bar-underline" style={{ marginBottom: '1rem' }}>
+    <div ref={tabsRef} className="scrollable-tabs tab-bar-underline" role="tablist" style={{ marginBottom: '1rem' }}>
       {PROJECT_SUB_TABS.map(tab => {
         const Icon = tab.icon
         const isActive = activeSubTab === tab.id
@@ -47,6 +47,8 @@ function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
           <button
             key={tab.id}
             className="tab-underline"
+            role="tab"
+            aria-selected={isActive}
             data-active={isActive || undefined}
             onClick={() => onSubTabChange(tab.id)}
           >

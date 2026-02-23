@@ -337,7 +337,7 @@ Return ONLY valid JSON:
       </div>
 
       {/* Tabs */}
-      <div ref={tabsRef} className="scrollable-tabs tab-bar-underline" style={{ padding: '0 1.25rem' }}>
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-underline" role="tablist" style={{ padding: '0 1.25rem' }}>
         {TABS.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
@@ -345,6 +345,8 @@ Return ONLY valid JSON:
             <button
               key={tab.id}
               className="tab-underline"
+              role="tab"
+              aria-selected={isActive}
               data-active={isActive || undefined}
               onClick={() => setActiveTab(tab.id)}
             >

@@ -171,11 +171,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       </div>
 
       {/* Sub-tabs — segmented pattern */}
-      <div ref={subTabsRef} className="tab-bar-segmented scrollable-tabs">
+      <div ref={subTabsRef} className="tab-bar-segmented scrollable-tabs" role="tablist">
         {SUB_TAB_KEYS.map(tab => (
           <button
             key={tab.id}
             className="tab-segmented"
+            role="tab"
+            aria-selected={subTab === tab.id}
             data-active={subTab === tab.id || undefined}
             onClick={() => setSubTab(tab.id)}
           >

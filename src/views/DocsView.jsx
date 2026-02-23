@@ -482,7 +482,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
       </div>
 
       {/* Tabs */}
-      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented">
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist">
         {TABS.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
@@ -490,6 +490,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
             <button
               key={tab.id}
               className="tab-segmented"
+              role="tab"
+              aria-selected={isActive}
               data-active={isActive || undefined}
               onClick={() => { setActiveTab(tab.id); setSearchQuery('') }}
             >

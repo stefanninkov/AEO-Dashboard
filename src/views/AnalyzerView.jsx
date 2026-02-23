@@ -374,9 +374,11 @@ Return ONLY valid JSON:
       </div>
 
       {/* ── Top-Level Tabs ── */}
-      <div ref={topTabsRef} className="scrollable-tabs tab-bar-segmented">
+      <div ref={topTabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist">
         <button
           className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'site'}
           data-active={activeTab === 'site' || undefined}
           onClick={() => setActiveTab('site')}
         >
@@ -385,6 +387,8 @@ Return ONLY valid JSON:
         </button>
         <button
           className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'pages'}
           data-active={activeTab === 'pages' || undefined}
           onClick={() => setActiveTab('pages')}
         >

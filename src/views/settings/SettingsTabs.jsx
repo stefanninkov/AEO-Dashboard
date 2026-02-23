@@ -18,7 +18,7 @@ export default function SettingsTabs({ activeTab, onTabChange }) {
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
   return (
-    <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" style={{ marginBottom: '1.25rem' }}>
+    <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist" style={{ marginBottom: '1.25rem' }}>
       {TABS.map(tab => {
         const Icon = tab.icon
         const isActive = activeTab === tab.id
@@ -26,6 +26,8 @@ export default function SettingsTabs({ activeTab, onTabChange }) {
           <button
             key={tab.id}
             className="tab-segmented"
+            role="tab"
+            aria-selected={isActive}
             data-active={isActive || undefined}
             onClick={() => onTabChange(tab.id)}
           >
