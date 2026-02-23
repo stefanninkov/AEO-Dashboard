@@ -1214,6 +1214,12 @@
       "adjustFilters": "Versuchen Sie, Ihre Filter anzupassen, um mehr Ergebnisse zu sehen."
     }
   },
+  "presence": {
+    "viewingSingle": "{{name}} sieht sich diese Seite auch an",
+    "viewingMultiple": "{{count}} weitere sehen sich diese Seite an",
+    "editedJustNow": "{{name}} hat dies gerade bearbeitet",
+    "editedAgo": "{{name}} hat dies vor {{mins}}m bearbeitet"
+  },
   "emailReport": {
     "title": "Bericht per E-Mail",
     "subtitle": "Senden Sie eine Metrik-Zusammenfassung an Ihren Kunden oder Ihr Team",

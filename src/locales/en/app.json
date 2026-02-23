@@ -1214,6 +1214,12 @@
       "adjustFilters": "Try adjusting your filters to see more results."
     }
   },
+  "presence": {
+    "viewingSingle": "{{name}} is also viewing this page",
+    "viewingMultiple": "{{count}} others are also viewing this page",
+    "editedJustNow": "{{name}} edited this just now",
+    "editedAgo": "{{name}} edited this {{mins}}m ago"
+  },
   "emailReport": {
     "title": "Email Report",
     "subtitle": "Send a metrics summary to your client or team",

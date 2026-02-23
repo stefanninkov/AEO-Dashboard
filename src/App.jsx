@@ -11,6 +11,7 @@ import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import ErrorBoundary from './components/ErrorBoundary'
 import ConnectionBanner from './components/ConnectionBanner'
+import PresenceHint from './components/PresenceHint'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
 
@@ -703,6 +704,12 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
           />
 
           <ConnectionBanner error={firestoreError} />
+          <PresenceHint
+            onlineMembers={onlineMembers}
+            activeView={activeView}
+            currentUid={user?.uid}
+            activityLog={activeProject?.activityLog}
+          />
 
           <div className="content-scroll" id="main-content" tabIndex="-1">
             <div className="content-wrapper">
