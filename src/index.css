@@ -6450,6 +6450,19 @@ select:focus-visible {
   top: 0.5rem;
 }
 
+/* ── Confetti celebration ── */
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(var(--confetti-scale, 1));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) translateX(var(--confetti-drift, 0rem)) rotate(var(--confetti-spin, 360deg)) scale(0.3);
+  }
+}
+
 /* ── Theme transition: circular reveal ── */
 
 ::view-transition-old(root),

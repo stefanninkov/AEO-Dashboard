@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FileText, MessageSquare, Globe, Target, TrendingUp, TrendingDown, Minus,
@@ -14,6 +14,8 @@ import ProgressBar from '../components/ProgressBar'
 import { getFilteredEngines } from '../utils/getRecommendations'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import StatCard from './dashboard/StatCard'
+import Celebration from '../components/Celebration'
+import { useToast } from '../components/Toast'
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
@@ -158,6 +160,25 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
 
   const metrics = getLatestMetrics()
   const rangeMetrics = getMetricsForRange(dateRange)
+  const { addToast } = useToast()
+
+  // Score milestone detection
+  const [celebrating, setCelebrating] = useState(false)
+  const prevScoreRef = useRef(null)
+  const SCORE_MILESTONES = [50, 75, 90, 100]
+
+  useEffect(() => {
+    const score = metrics?.overallScore || 0
+    const prev = prevScoreRef.current
+    prevScoreRef.current = score
+    if (prev === null || prev === score) return
+    const crossedMilestone = SCORE_MILESTONES.find(m => prev < m && score >= m)
+    if (crossedMilestone) {
+      setCelebrating(true)
+      addToast('success', `AEO Score reached ${crossedMilestone}!`)
+      setTimeout(() => setCelebrating(false), 1500)
+    }
+  }, [metrics?.overallScore])
 
   // Empty state
   if (!activeProject) {
@@ -542,6 +563,9 @@ function EnginesTab({ metrics, questionnaire }) {
           )
         })}
       </div>
+
+      {/* Score milestone confetti */}
+      <Celebration active={celebrating} />
     </div>
   )
 }

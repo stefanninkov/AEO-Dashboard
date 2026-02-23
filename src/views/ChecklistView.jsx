@@ -11,6 +11,7 @@ import ChecklistStats from './checklist/ChecklistStats'
 import PhaseCard from './checklist/PhaseCard'
 import PresenceAvatars from '../components/PresenceAvatars'
 import BulkActionBar from '../components/BulkActionBar'
+import Celebration from '../components/Celebration'
 
 const PRINCIPLE_COUNT = 7
 const PHASE_COUNT = 7
@@ -576,6 +577,9 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           onSelectItem={toggleSelectItem}
         />
       ))}
+
+      {/* Confetti celebration on phase completion */}
+      <Celebration active={!!celebratingPhase} />
 
       {/* Bulk Action Bar */}
       {selectionMode && selectedItems.size > 0 && (
