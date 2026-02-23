@@ -36,12 +36,7 @@ function BriefSkeleton() {
 /* ── Section component ── */
 function BriefSection({ icon: Icon, title, children, color }) {
   return (
-    <div style={{
-      background: 'var(--card-bg)',
-      border: '0.0625rem solid var(--border-subtle)',
-      borderRadius: '0.75rem',
-      overflow: 'hidden',
-    }}>
+    <div className="card" style={{ overflow: 'hidden' }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.5rem',
         padding: '0.75rem 1rem',
@@ -83,10 +78,7 @@ function BriefDisplay({ briefEntry, onCopy, onRemove }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
       {/* Header */}
-      <div style={{
-        background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-        borderRadius: '0.75rem', padding: '1rem 1.25rem',
-      }}>
+      <div className="card" style={{ padding: '1rem 1.25rem' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem' }}>
           <div>
             <h3 style={{
@@ -113,22 +105,10 @@ function BriefDisplay({ briefEntry, onCopy, onRemove }) {
             </div>
           </div>
           <div style={{ display: 'flex', gap: '0.375rem', flexShrink: 0 }}>
-            <button onClick={handleCopy} style={{
-              display: 'flex', alignItems: 'center', gap: '0.25rem',
-              padding: '0.3125rem 0.625rem', borderRadius: '0.375rem',
-              border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
-              color: copied ? '#10B981' : 'var(--text-secondary)',
-              fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-            }}>
+            <button onClick={handleCopy} className="btn-secondary btn-sm" style={{ color: copied ? '#10B981' : undefined }}>
               {copied ? <><Check size={12} /> Copied</> : <><Copy size={12} /> Markdown</>}
             </button>
-            <button onClick={() => onRemove(briefEntry.id)} style={{
-              display: 'flex', alignItems: 'center', padding: '0.3125rem',
-              borderRadius: '0.375rem', border: '0.0625rem solid var(--border-subtle)',
-              background: 'transparent', color: 'var(--text-tertiary)',
-              cursor: 'pointer',
-            }}>
+            <button onClick={() => onRemove(briefEntry.id)} className="btn-icon" style={{ border: '0.0625rem solid var(--border-subtle)' }}>
               <Trash2 size={12} />
             </button>
           </div>
@@ -293,10 +273,7 @@ export default function BriefView({ activeProject, updateProject, user }) {
         )}
 
         {/* Input row */}
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem', marginBottom: '1rem',
-        }}>
+        <div className="card" style={{ padding: '1rem', marginBottom: '1rem' }}>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <div style={{ flex: '2 1 14rem' }}>
               <label style={{
@@ -312,12 +289,8 @@ export default function BriefView({ activeProject, updateProject, user }) {
                 onKeyDown={handleKeyDown}
                 placeholder='e.g. "how to choose a CRM for small business"'
                 disabled={brief.generating}
-                style={{
-                  width: '100%', padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-                  border: '0.0625rem solid var(--border-subtle)', background: 'var(--hover-bg)',
-                  color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
-                  fontSize: '0.8125rem', outline: 'none',
-                }}
+                className="input-field"
+                style={{ width: '100%' }}
               />
             </div>
             <div style={{ flex: '1 1 10rem' }}>
@@ -334,27 +307,16 @@ export default function BriefView({ activeProject, updateProject, user }) {
                 onKeyDown={handleKeyDown}
                 placeholder="https://example.com/page"
                 disabled={brief.generating}
-                style={{
-                  width: '100%', padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-                  border: '0.0625rem solid var(--border-subtle)', background: 'var(--hover-bg)',
-                  color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
-                  fontSize: '0.8125rem', outline: 'none',
-                }}
+                className="input-field"
+                style={{ width: '100%' }}
               />
             </div>
             <div style={{ alignSelf: 'flex-end' }}>
               <button
                 onClick={handleGenerate}
                 disabled={!query.trim() || brief.generating || !apiKeyAvailable}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '0.375rem',
-                  padding: '0.5rem 1rem', borderRadius: '0.5rem',
-                  border: 'none', background: 'var(--color-phase-1)',
-                  color: '#fff', fontSize: '0.8125rem', fontWeight: 600,
-                  cursor: (!query.trim() || brief.generating || !apiKeyAvailable) ? 'not-allowed' : 'pointer',
-                  opacity: (!query.trim() || brief.generating || !apiKeyAvailable) ? 0.5 : 1,
-                  fontFamily: 'var(--font-body)', whiteSpace: 'nowrap',
-                }}
+                className="btn-primary btn-sm"
+                style={{ whiteSpace: 'nowrap' }}
               >
                 {brief.generating ? <><Loader2 size={14} className="spin" /> Generating...</> : <><Sparkles size={14} /> Generate Brief</>}
               </button>
@@ -390,13 +352,8 @@ export default function BriefView({ activeProject, updateProject, user }) {
           <div>
             <button
               onClick={() => brief.setSelectedBriefId(null)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.25rem',
-                background: 'none', border: 'none', cursor: 'pointer',
-                color: 'var(--text-tertiary)', fontSize: '0.8125rem',
-                fontFamily: 'var(--font-body)', marginBottom: '0.75rem',
-                padding: 0,
-              }}
+              className="btn-ghost btn-sm"
+              style={{ padding: 0, marginBottom: '0.75rem' }}
             >
               <ArrowLeft size={14} /> All Briefs
             </button>

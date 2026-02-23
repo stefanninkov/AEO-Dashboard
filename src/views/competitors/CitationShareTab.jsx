@@ -14,6 +14,7 @@ import ProgressBar from '../../components/ProgressBar'
 import EmptyState from '../../components/EmptyState'
 import { PHASE_COLOR_ARRAY } from '../../utils/chartColors'
 import { ENGINE_COLORS } from '../../utils/chartColors'
+import { ToggleSwitch } from '../../views/settings/SettingsShared'
 import logger from '../../utils/logger'
 
 // ─── Interval Config ─────────────────────────────────────────
@@ -186,15 +187,8 @@ export default function CitationShareTab({ activeProject, updateProject, user })
         <button
           onClick={runCitationCheck}
           disabled={checking || competitors.length === 0}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-            padding: '0.5rem 1rem', border: 'none', borderRadius: '0.5rem',
-            cursor: checking || competitors.length === 0 ? 'not-allowed' : 'pointer',
-            fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 600,
-            background: 'var(--color-phase-3)', color: '#fff',
-            opacity: checking || competitors.length === 0 ? 0.6 : 1,
-            transition: 'opacity 150ms',
-          }}
+          className="btn-primary btn-sm"
+          style={{ background: 'var(--color-phase-3)' }}
         >
           {checking ? <Loader2 size={14} className="spin" /> : <Play size={14} />}
           {checking ? 'Checking...' : 'Run Citation Check'}
@@ -224,12 +218,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
         <div style={{ marginLeft: 'auto' }}>
           <button
             onClick={() => setShowSettings(!showSettings)}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
-              padding: '0.375rem 0.625rem', border: '0.0625rem solid var(--border-subtle)',
-              borderRadius: '0.5rem', cursor: 'pointer', background: 'transparent',
-              fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--text-secondary)',
-            }}
+            className="btn-secondary btn-sm"
           >
             <Settings size={13} /> Settings
           </button>
@@ -255,10 +244,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
 
       {/* ── Settings Panel ── */}
       {showSettings && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem 1.25rem',
-        }}>
+        <div className="card" style={{ padding: '1rem 1.25rem' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -277,21 +263,11 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                   Periodically check which brands AI engines cite
                 </div>
               </div>
-              <button
-                onClick={() => updateSettings('brandMonitorEnabled', !settings.brandMonitorEnabled)}
-                style={{
-                  width: 40, height: 22, borderRadius: 11, border: 'none', cursor: 'pointer',
-                  background: settings.brandMonitorEnabled ? 'var(--color-success)' : 'var(--border-subtle)',
-                  position: 'relative', transition: 'background 200ms',
-                }}
-              >
-                <span style={{
-                  position: 'absolute', top: 2, width: 18, height: 18, borderRadius: '50%',
-                  background: '#fff', transition: 'left 200ms',
-                  left: settings.brandMonitorEnabled ? 20 : 2,
-                  boxShadow: '0 0.0625rem 0.1875rem rgba(0,0,0,0.15)',
-                }} />
-              </button>
+              <ToggleSwitch
+                checked={!!settings.brandMonitorEnabled}
+                onChange={(val) => updateSettings('brandMonitorEnabled', val)}
+                label="Auto brand monitoring"
+              />
             </div>
 
             {/* Interval select */}
@@ -303,11 +279,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                 <select
                   value={settings.brandMonitorInterval || '7d'}
                   onChange={e => updateSettings('brandMonitorInterval', e.target.value)}
-                  style={{
-                    padding: '0.25rem 0.5rem', border: '0.0625rem solid var(--border-subtle)',
-                    borderRadius: '0.375rem', fontSize: '0.75rem', fontFamily: 'var(--font-body)',
-                    background: 'var(--card-bg)', color: 'var(--text-primary)',
-                  }}
+                  className="input-field input-sm"
                 >
                   {INTERVAL_OPTIONS.map(opt => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -324,10 +296,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
         <div className={pieData.length > 0 ? 'resp-grid-2' : ''} style={{ display: 'grid', gridTemplateColumns: pieData.length > 0 ? '1fr 1fr' : '1fr', gap: '1rem' }}>
           {/* Pie Chart */}
           {pieData.length > 0 && (
-            <div style={{
-              background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-              borderRadius: '0.75rem', padding: '1rem 1.25rem',
-            }}>
+            <div className="card" style={{ padding: '1rem 1.25rem' }}>
               <h3 style={{
                 fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
                 color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -383,10 +352,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
           )}
 
           {/* Summary Stats */}
-          <div style={{
-            background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-            borderRadius: '0.75rem', padding: '1rem 1.25rem',
-          }}>
+          <div className="card" style={{ padding: '1rem 1.25rem' }}>
             <h3 style={{
               fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
               color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -435,10 +401,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
 
       {/* ── Share Trend Chart ── */}
       {trendData.length > 1 && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem 1.25rem',
-        }}>
+        <div className="card" style={{ padding: '1rem 1.25rem' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -484,10 +447,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
 
       {/* ── Engine Breakdown Grid ── */}
       {engineBreakdown.length > 0 && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem 1.25rem',
-        }}>
+        <div className="card" style={{ padding: '1rem 1.25rem' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -572,10 +532,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
 
       {/* ── Query Results ── */}
       {latestSnapshot?.queryResults?.length > 0 && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem 1.25rem',
-        }}>
+        <div className="card" style={{ padding: '1rem 1.25rem' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', margin: '0 0 0.75rem',

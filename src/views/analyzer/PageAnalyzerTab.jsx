@@ -15,33 +15,7 @@ import {
 import { usePageAnalyzer, shortPageUrl } from './usePageAnalyzer'
 import PageAnalysisTable from './PageAnalysisTable'
 import PageDetailView from './PageDetailView'
-
-/* ── Stat Card ── */
-function StatCard({ icon: Icon, label, value, subValue, color }) {
-  return (
-    <div className="card" style={{ padding: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-      <div style={{
-        width: '2rem', height: '2rem', borderRadius: '0.5rem',
-        background: `${color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-      }}>
-        <Icon size={14} style={{ color }} />
-      </div>
-      <div style={{ minWidth: 0 }}>
-        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1 }}>
-          {value}
-        </div>
-        <div style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginTop: '0.0625rem' }}>
-          {label}
-        </div>
-        {subValue && (
-          <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', marginTop: '0.0625rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {subValue}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
+import StatCard from '../dashboard/StatCard'
 
 /* ══════════════════════════════════════════════════════════════════ */
 
@@ -90,32 +64,36 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
     <div className="space-y-5">
       {/* Stat Cards */}
       {pa.pages.length > 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))', gap: '0.625rem' }}>
+        <div className="stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))', gap: '0.625rem' }}>
           <StatCard
-            icon={FileText}
+            layout="horizontal"
+            icon={<FileText size={14} />}
+            iconColor="#3B82F6"
             label="Pages Analyzed"
             value={pa.stats.count}
-            color="#3B82F6"
           />
           <StatCard
-            icon={ChartColumnIncreasing}
+            layout="horizontal"
+            icon={<ChartColumnIncreasing size={14} />}
+            iconColor={pa.stats.avgScore >= 70 ? '#10B981' : pa.stats.avgScore >= 40 ? '#F59E0B' : '#EF4444'}
             label="Average Score"
             value={pa.stats.avgScore}
-            color={pa.stats.avgScore >= 70 ? '#10B981' : pa.stats.avgScore >= 40 ? '#F59E0B' : '#EF4444'}
           />
           <StatCard
-            icon={TrendingDown}
+            layout="horizontal"
+            icon={<TrendingDown size={14} />}
+            iconColor="#EF4444"
             label="Lowest Score"
             value={pa.stats.lowestScore}
             subValue={pa.stats.lowestUrl ? shortPageUrl(pa.stats.lowestUrl) : ''}
-            color="#EF4444"
           />
           <StatCard
-            icon={AlertTriangle}
+            layout="horizontal"
+            icon={<AlertTriangle size={14} />}
+            iconColor={pa.stats.needsWork > 0 ? '#F59E0B' : '#10B981'}
             label="Needs Work"
             value={pa.stats.needsWork}
             subValue={pa.stats.needsWork > 0 ? 'score < 50' : 'all pages healthy'}
-            color={pa.stats.needsWork > 0 ? '#F59E0B' : '#10B981'}
           />
         </div>
       )}
@@ -157,8 +135,8 @@ export default function PageAnalyzerTab({ activeProject, updateProject, user, gs
             <button
               onClick={handleImportGsc}
               disabled={pa.analyzing}
-              className="btn-secondary"
-              style={{ fontSize: '0.75rem', padding: '0.4375rem 0.75rem', whiteSpace: 'nowrap' }}
+              className="btn-secondary btn-sm"
+              style={{ whiteSpace: 'nowrap' }}
               title="Import top pages from Search Console data"
             >
               <ImportIcon size={13} />

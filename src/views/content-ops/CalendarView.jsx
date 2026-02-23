@@ -9,28 +9,7 @@ import useContentCalendar, {
   formatDateKey, isToday, isOverdue,
 } from './useContentCalendar'
 import EntryForm from './EntryForm'
-
-/* ── Stat Card ── */
-function StatCard({ label, value, sub, color }) {
-  return (
-    <div style={{
-      background: 'var(--card-bg)',
-      border: '0.0625rem solid var(--border-subtle)',
-      borderRadius: '0.75rem',
-      padding: '0.875rem 1rem',
-      flex: '1 1 0',
-      minWidth: '7rem',
-    }}>
-      <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-heading)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.0313rem' }}>
-        {label}
-      </div>
-      <div style={{ fontSize: '1.375rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: color || 'var(--text-primary)', marginTop: '0.25rem' }}>
-        {value}
-      </div>
-      {sub && <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{sub}</div>}
-    </div>
-  )
-}
+import StatCard from '../dashboard/StatCard'
 
 /* ── Entry Card (rendered inside day cells) ── */
 function EntryCard({ entry, compact, onClick, members, t }) {
@@ -172,22 +151,18 @@ export default function CalendarView({ activeProject, updateProject, user, phase
     { id: 'month', icon: LayoutGrid, label: t('contentOps.month') },
   ], [t])
 
-  const navBtnStyle = {
-    background: 'none', border: '0.0625rem solid var(--border-subtle)',
-    borderRadius: '0.375rem', cursor: 'pointer', padding: '0.3125rem',
-    color: 'var(--text-secondary)', display: 'flex', alignItems: 'center',
-  }
+  /* nav buttons use .btn-icon class */
 
   return (
     <div>
       {/* Stats row */}
-      <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+      <div className="stagger-grid" style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
         <StatCard label={t('contentOps.statTotal')} value={cal.stats.total} />
-        <StatCard label={t('contentOps.status.scheduled')} value={cal.stats.scheduled} color="var(--color-phase-1)" />
-        <StatCard label={t('contentOps.status.in-progress')} value={cal.stats.inProgress} color="var(--color-phase-2)" />
-        <StatCard label={t('contentOps.status.published')} value={cal.stats.published} color="var(--color-phase-3)" />
+        <StatCard label={t('contentOps.status.scheduled')} value={cal.stats.scheduled} iconColor="var(--color-phase-1)" />
+        <StatCard label={t('contentOps.status.in-progress')} value={cal.stats.inProgress} iconColor="var(--color-phase-2)" />
+        <StatCard label={t('contentOps.status.published')} value={cal.stats.published} iconColor="var(--color-phase-3)" />
         {cal.stats.overdue > 0 && (
-          <StatCard label={t('contentOps.overdue')} value={cal.stats.overdue} color="#EF4444" />
+          <StatCard label={t('contentOps.overdue')} value={cal.stats.overdue} iconColor="#EF4444" />
         )}
       </div>
 
@@ -197,16 +172,13 @@ export default function CalendarView({ activeProject, updateProject, user, phase
         marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <button onClick={cal.calendarMode === 'week' ? cal.goToPreviousWeek : cal.goToPreviousMonth} style={navBtnStyle}>
+          <button onClick={cal.calendarMode === 'week' ? cal.goToPreviousWeek : cal.goToPreviousMonth} className="btn-icon" style={{ border: '0.0625rem solid var(--border-subtle)' }}>
             <ChevronLeft size={14} />
           </button>
-          <button onClick={cal.goToToday} style={{
-            ...navBtnStyle, fontSize: '0.75rem', padding: '0.3125rem 0.625rem',
-            fontFamily: 'var(--font-body)', fontWeight: 600,
-          }}>
+          <button onClick={cal.goToToday} className="btn-ghost btn-sm">
             {t('contentOps.today')}
           </button>
-          <button onClick={cal.calendarMode === 'week' ? cal.goToNextWeek : cal.goToNextMonth} style={navBtnStyle}>
+          <button onClick={cal.calendarMode === 'week' ? cal.goToNextWeek : cal.goToNextMonth} className="btn-icon" style={{ border: '0.0625rem solid var(--border-subtle)' }}>
             <ChevronRight size={14} />
           </button>
           <span style={{
@@ -244,13 +216,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
           {/* Add button */}
           <button
             onClick={() => handleDayClick(new Date())}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '0.375rem',
-              padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
-              border: 'none', background: 'var(--color-phase-1)', color: '#fff',
-              fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-            }}
+            className="btn-primary btn-sm"
           >
             <Plus size={14} /> {t('contentOps.addEntry')}
           </button>

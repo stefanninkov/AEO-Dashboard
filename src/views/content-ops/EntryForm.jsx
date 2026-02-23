@@ -88,17 +88,7 @@ export default function EntryForm({
     onClose()
   }
 
-  const inputStyle = {
-    width: '100%',
-    padding: '0.5rem 0.75rem',
-    borderRadius: '0.5rem',
-    border: '0.0625rem solid var(--border-subtle)',
-    background: 'var(--hover-bg)',
-    color: 'var(--text-primary)',
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.8125rem',
-    outline: 'none',
-  }
+  /* inputs use className="input-field" */
 
   const labelStyle = {
     display: 'block',
@@ -159,10 +149,7 @@ export default function EntryForm({
               {isEditing ? t('contentOps.form.editEntry') : t('contentOps.form.newEntry')}
             </span>
           </div>
-          <button onClick={onClose} style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            color: 'var(--text-tertiary)', padding: '0.25rem',
-          }}>
+          <button onClick={onClose} className="btn-icon">
             <X size={16} />
           </button>
         </div>
@@ -183,7 +170,8 @@ export default function EntryForm({
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder={t('contentOps.form.titlePlaceholder')}
-              style={inputStyle}
+              className="input-field"
+              style={{ width: '100%' }}
               autoFocus
             />
           </div>
@@ -195,7 +183,8 @@ export default function EntryForm({
               type="date"
               value={scheduledDate}
               onChange={e => setScheduledDate(e.target.value)}
-              style={inputStyle}
+              className="input-field"
+              style={{ width: '100%' }}
             />
           </div>
 
@@ -209,7 +198,8 @@ export default function EntryForm({
             <select
               value={checklistItemId}
               onChange={e => handleChecklistSelect(e.target.value)}
-              style={{ ...inputStyle, cursor: 'pointer' }}
+              className="input-field"
+              style={{ width: '100%', cursor: 'pointer' }}
             >
               <option value="">{t('contentOps.form.none')}</option>
               {/* Group by phase */}
@@ -238,7 +228,8 @@ export default function EntryForm({
               value={pageUrl}
               onChange={e => setPageUrl(e.target.value)}
               placeholder="https://example.com/services"
-              style={inputStyle}
+              className="input-field"
+              style={{ width: '100%' }}
             />
           </div>
 
@@ -249,7 +240,8 @@ export default function EntryForm({
               <select
                 value={assignedTo}
                 onChange={e => setAssignedTo(e.target.value)}
-                style={{ ...inputStyle, cursor: 'pointer' }}
+                className="input-field"
+                style={{ width: '100%', cursor: 'pointer' }}
               >
                 <option value="">{t('contentOps.form.unassigned')}</option>
                 {members.map(m => (
@@ -295,7 +287,8 @@ export default function EntryForm({
               <select
                 value={briefId}
                 onChange={e => setBriefId(e.target.value)}
-                style={{ ...inputStyle, cursor: 'pointer' }}
+                className="input-field"
+                style={{ width: '100%', cursor: 'pointer' }}
               >
                 <option value="">{t('contentOps.form.none')}</option>
                 {briefs.map(b => (
@@ -315,7 +308,8 @@ export default function EntryForm({
               onChange={e => setNotes(e.target.value)}
               placeholder={t('contentOps.form.notesPlaceholder')}
               rows={3}
-              style={{ ...inputStyle, resize: 'vertical', minHeight: '4rem' }}
+              className="input-field"
+              style={{ width: '100%', resize: 'vertical', minHeight: '4rem' }}
             />
           </div>
         </div>
@@ -332,38 +326,20 @@ export default function EntryForm({
           {isEditing && onDelete ? (
             <button
               onClick={() => { onDelete(entry.id); onClose() }}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
-                border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
-                color: '#EF4444', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer',
-                fontFamily: 'var(--font-body)',
-              }}
+              className="btn-danger btn-sm"
             >
               <Trash2 size={13} /> {t('contentOps.form.delete')}
             </button>
           ) : <div />}
 
           <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button onClick={onClose} style={{
-              padding: '0.4375rem 0.875rem', borderRadius: '0.5rem',
-              border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
-              color: 'var(--text-secondary)', fontSize: '0.8125rem', fontWeight: 600,
-              cursor: 'pointer', fontFamily: 'var(--font-body)',
-            }}>
+            <button onClick={onClose} className="btn-secondary btn-sm">
               {t('contentOps.form.cancel')}
             </button>
             <button
               onClick={handleSave}
               disabled={!title.trim()}
-              style={{
-                padding: '0.4375rem 0.875rem', borderRadius: '0.5rem',
-                border: 'none', background: 'var(--color-phase-1)',
-                color: '#fff', fontSize: '0.8125rem', fontWeight: 600,
-                cursor: title.trim() ? 'pointer' : 'not-allowed',
-                opacity: title.trim() ? 1 : 0.5,
-                fontFamily: 'var(--font-body)',
-              }}
+              className="btn-primary btn-sm"
             >
               {isEditing ? t('contentOps.form.saveChanges') : t('contentOps.form.addEntry')}
             </button>

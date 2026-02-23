@@ -52,15 +52,8 @@ export default function PageDetailView({
       <div>
         <button
           onClick={onBack}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-            background: 'none', border: 'none', cursor: 'pointer',
-            fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-body)', padding: '0.25rem 0',
-            transition: 'color 100ms',
-          }}
-          onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
-          onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+          className="btn-ghost btn-sm"
+          style={{ padding: '0.25rem 0' }}
         >
           <ArrowLeft size={14} />
           All pages

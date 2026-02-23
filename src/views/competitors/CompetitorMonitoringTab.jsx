@@ -12,6 +12,7 @@ import {
 import { useCompetitorMonitor } from '../../hooks/useCompetitorMonitor'
 import { CATEGORY_LABELS, getHeatColor } from './CompetitorsOverviewTab'
 import { PHASE_COLOR_ARRAY } from '../../utils/chartColors'
+import { ToggleSwitch } from '../../views/settings/SettingsShared'
 import logger from '../../utils/logger'
 
 // ─── Interval Config ─────────────────────────────────────────
@@ -162,15 +163,8 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
         <button
           onClick={runMonitor}
           disabled={monitoring || competitors.length === 0}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-            padding: '0.5rem 1rem', border: 'none', borderRadius: '0.5rem',
-            cursor: monitoring || competitors.length === 0 ? 'not-allowed' : 'pointer',
-            fontFamily: 'var(--font-body)', fontSize: '0.8125rem', fontWeight: 600,
-            background: 'var(--color-phase-2)', color: '#fff',
-            opacity: monitoring || competitors.length === 0 ? 0.6 : 1,
-            transition: 'opacity 150ms',
-          }}
+          className="btn-primary btn-sm"
+          style={{ background: 'var(--color-phase-2)' }}
         >
           {monitoring ? <Loader2 size={14} className="spin" /> : <Play size={14} />}
           {monitoring ? 'Monitoring...' : 'Run Monitor'}
@@ -202,12 +196,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
         <div style={{ marginLeft: 'auto' }}>
           <button
             onClick={() => setShowSettings(!showSettings)}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
-              padding: '0.375rem 0.625rem', border: '0.0625rem solid var(--border-subtle)',
-              borderRadius: '0.5rem', cursor: 'pointer', background: 'transparent',
-              fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: 'var(--text-secondary)',
-            }}
+            className="btn-secondary btn-sm"
           >
             <SlidersHorizontal size={13} /> Settings
           </button>
@@ -216,10 +205,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
 
       {/* ── Progress Bar ── */}
       {monitoring && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '0.75rem 1rem',
-        }}>
+        <div className="card" style={{ padding: '0.75rem 1rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.375rem' }}>
             <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
               {progress.stage}
@@ -252,10 +238,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
 
       {/* ── Settings Panel ── */}
       {showSettings && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem 1.25rem',
-        }}>
+        <div className="card" style={{ padding: '1rem 1.25rem' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -274,21 +257,11 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                   Automatically track competitor scores on a schedule
                 </div>
               </div>
-              <button
-                onClick={() => updateSettings('competitorMonitorEnabled', !settings.competitorMonitorEnabled)}
-                style={{
-                  width: 40, height: 22, borderRadius: 11, border: 'none', cursor: 'pointer',
-                  background: settings.competitorMonitorEnabled ? 'var(--color-success)' : 'var(--border-subtle)',
-                  position: 'relative', transition: 'background 200ms',
-                }}
-              >
-                <span style={{
-                  position: 'absolute', top: 2, width: 18, height: 18, borderRadius: '50%',
-                  background: '#fff', transition: 'left 200ms',
-                  left: settings.competitorMonitorEnabled ? 20 : 2,
-                  boxShadow: '0 0.0625rem 0.1875rem rgba(0,0,0,0.15)',
-                }} />
-              </button>
+              <ToggleSwitch
+                checked={!!settings.competitorMonitorEnabled}
+                onChange={(val) => updateSettings('competitorMonitorEnabled', val)}
+                label="Auto-monitoring"
+              />
             </div>
 
             {/* Interval select */}
@@ -300,11 +273,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                 <select
                   value={settings.competitorMonitorInterval || '7d'}
                   onChange={e => updateSettings('competitorMonitorInterval', e.target.value)}
-                  style={{
-                    padding: '0.25rem 0.5rem', border: '0.0625rem solid var(--border-subtle)',
-                    borderRadius: '0.375rem', fontSize: '0.75rem', fontFamily: 'var(--font-body)',
-                    background: 'var(--card-bg)', color: 'var(--text-primary)',
-                  }}
+                  className="input-field input-sm"
                 >
                   {INTERVAL_OPTIONS.map(opt => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -328,11 +297,8 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                   type="number"
                   value={settings.competitorAlertThreshold || 15}
                   onChange={e => updateSettings('competitorAlertThreshold', Math.max(1, Math.min(50, Number(e.target.value))))}
-                  style={{
-                    width: 52, padding: '0.25rem 0.375rem', border: '0.0625rem solid var(--border-subtle)',
-                    borderRadius: '0.375rem', fontSize: '0.75rem', fontFamily: 'var(--font-heading)',
-                    background: 'var(--card-bg)', color: 'var(--text-primary)', textAlign: 'center',
-                  }}
+                  className="input-field input-sm"
+                  style={{ width: '3.25rem', textAlign: 'center', fontFamily: 'var(--font-heading)' }}
                   min={1}
                   max={50}
                 />
@@ -425,14 +391,8 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                     <button
                       onClick={() => reverseEngineer(alert.id)}
                       disabled={reversingId === alert.id}
-                      style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
-                        padding: '0.3125rem 0.625rem', border: '0.0625rem solid var(--border-subtle)',
-                        borderRadius: '0.375rem', cursor: reversingId === alert.id ? 'not-allowed' : 'pointer',
-                        background: 'var(--card-bg)', fontFamily: 'var(--font-body)',
-                        fontSize: '0.6875rem', fontWeight: 600, color: 'var(--color-phase-2)',
-                        opacity: reversingId === alert.id ? 0.6 : 1,
-                      }}
+                      className="btn-secondary btn-sm"
+                      style={{ color: 'var(--color-phase-2)' }}
                     >
                       {reversingId === alert.id
                         ? <><Loader2 size={11} className="spin" /> Analyzing...</>
@@ -441,12 +401,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
                   )}
                   <button
                     onClick={() => dismissAlert(alert.id)}
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
-                      padding: '0.3125rem 0.625rem', border: '0.0625rem solid var(--border-subtle)',
-                      borderRadius: '0.375rem', cursor: 'pointer', background: 'transparent',
-                      fontFamily: 'var(--font-body)', fontSize: '0.6875rem', color: 'var(--text-tertiary)',
-                    }}
+                    className="btn-ghost btn-sm"
                   >
                     <XCircle size={11} /> Dismiss
                   </button>
@@ -462,13 +417,8 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
           {dismissedCount > 0 && (
             <button
               onClick={clearDismissedAlerts}
-              style={{
-                alignSelf: 'flex-start', padding: '0.25rem 0.5rem',
-                border: 'none', borderRadius: '0.375rem', cursor: 'pointer',
-                background: 'transparent', fontFamily: 'var(--font-body)',
-                fontSize: '0.6875rem', color: 'var(--text-tertiary)',
-                textDecoration: 'underline',
-              }}
+              className="btn-ghost btn-sm"
+              style={{ alignSelf: 'flex-start', textDecoration: 'underline' }}
             >
               Clear {dismissedCount} dismissed alert{dismissedCount !== 1 ? 's' : ''}
             </button>
@@ -478,10 +428,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
 
       {/* ── Score History Chart ── */}
       {chartData.length > 1 && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem 1.25rem',
-        }}>
+        <div className="card" style={{ padding: '1rem 1.25rem' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -535,10 +482,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
 
       {/* ── Latest Score Delta Table ── */}
       {latestSnapshot && latestSnapshot.changes?.length > 0 && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem 1.25rem',
-        }}>
+        <div className="card" style={{ padding: '1rem 1.25rem' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -597,10 +541,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
 
       {/* ── Snapshot History ── */}
       {history.length > 0 && (
-        <div style={{
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem', padding: '1rem 1.25rem',
-        }}>
+        <div className="card" style={{ padding: '1rem 1.25rem' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', margin: '0 0 0.75rem',
@@ -711,11 +652,7 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
 
       {/* ── Empty State ── */}
       {history.length === 0 && !monitoring && (
-        <div style={{
-          textAlign: 'center', padding: '2.5rem 1.5rem',
-          background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
-          borderRadius: '0.75rem',
-        }}>
+        <div className="card" style={{ textAlign: 'center', padding: '2.5rem 1.5rem' }}>
           <Activity size={36} style={{ color: 'var(--text-disabled)', marginBottom: '0.75rem' }} />
           <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 0.25rem' }}>
             No monitoring data yet

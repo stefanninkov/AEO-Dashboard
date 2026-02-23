@@ -93,10 +93,10 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
             />
           </div>
           <button
-            className="btn-primary"
+            className="btn-primary btn-sm"
             onClick={handleAdd}
             disabled={!newName.trim() || !newUrl.trim()}
-            style={{ padding: '0.625rem 1.125rem', fontSize: '0.8125rem', flexShrink: 0 }}
+            style={{ flexShrink: 0 }}
           >
             <Plus size={14} />
             {t('competitors.add')}
@@ -107,10 +107,9 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
       {/* Run Analysis button */}
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button
-          className="btn-primary"
+          className="btn-primary btn-sm"
           onClick={analyzeCompetitors}
           disabled={analyzing || competitors.length === 0}
-          style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem' }}
         >
           {analyzing ? <Loader2 size={14} className="spin" /> : <RefreshCw size={14} />}
           {analyzing ? t('competitors.analyzing') : t('competitors.runAnalysis')}
@@ -131,14 +130,8 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
               <button
                 key={sugg.name}
                 onClick={() => addCompetitor(sugg.name, sugg.url)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '0.375rem',
-                  padding: '0.375rem 0.75rem', borderRadius: '0.5rem',
-                  background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)',
-                  cursor: 'pointer', fontFamily: 'var(--font-body)',
-                  fontSize: '0.75rem', color: 'var(--text-secondary)',
-                  transition: 'all 150ms',
-                }}
+                className="btn-ghost btn-sm"
+                style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
               >
                 <Plus size={12} />
                 {sugg.name}
@@ -191,13 +184,11 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
                 {sorted.map((comp, idx) => (
                   <tr
                     key={comp.id}
+                    className="page-table-row"
                     style={{
                       borderBottom: '0.0625rem solid var(--border-subtle)',
                       background: comp.isOwn ? 'rgba(14, 165, 233, 0.06)' : 'transparent',
-                      transition: 'background 100ms',
                     }}
-                    onMouseEnter={(e) => { if (!comp.isOwn) e.currentTarget.style.background = 'var(--hover-bg)' }}
-                    onMouseLeave={(e) => { if (!comp.isOwn) e.currentTarget.style.background = 'transparent' }}
                   >
                     <td style={{ padding: '0.75rem 0.875rem', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
                       #{idx + 1}
@@ -235,13 +226,8 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
                       {!comp.isOwn && (
                         <button
                           onClick={() => removeCompetitor(comp.id)}
-                          style={{
-                            padding: '0.25rem', borderRadius: '0.375rem', border: 'none', background: 'none',
-                            cursor: 'pointer', color: 'var(--text-tertiary)', display: 'flex',
-                            alignItems: 'center', transition: 'color 100ms',
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-error)'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-tertiary)'}
+                          className="btn-icon"
+                          style={{ color: 'var(--text-tertiary)' }}
                           title="Remove competitor"
                           aria-label="Remove competitor"
                         >
