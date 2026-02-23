@@ -3,9 +3,10 @@
  */
 import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Database, AlertTriangle, Download, Upload, Trash2, RotateCcw } from 'lucide-react'
+import { Database, AlertTriangle, Download, Upload, Trash2, RotateCcw, FileSpreadsheet } from 'lucide-react'
 import logger from '../../utils/logger'
 import { sanitizeImport } from '../../utils/importWhitelist'
+import ImportWizard from '../../components/ImportWizard'
 import {
   sectionTitleStyle, settingsRowStyle, lastRowStyle, labelStyle,
 } from './SettingsShared'
@@ -19,6 +20,7 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
   const [resetChecklistConfirm, setResetChecklistConfirm] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [deleteTypedName, setDeleteTypedName] = useState('')
+  const [showImportWizard, setShowImportWizard] = useState(false)
 
   const metricsCount = activeProject?.metricsHistory?.length || 0
   const monitorCount = activeProject?.monitorHistory?.length || 0
@@ -89,6 +91,19 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
     setActiveView('dashboard')
   }, [activeProject, deleteTypedName, deleteProject, setActiveView])
 
+  const handleBulkImport = useCallback(async (importType, data) => {
+    if (!activeProject || !canEdit) return
+    const updates = {}
+    if (importType === 'queries') {
+      updates.queryTracker = [...(activeProject.queryTracker || []), ...data]
+    } else if (importType === 'competitors') {
+      updates.competitors = [...(activeProject.competitors || []), ...data]
+    } else if (importType === 'calendar') {
+      updates.contentCalendar = [...(activeProject.contentCalendar || []), ...data]
+    }
+    updateProject(activeProject.id, updates)
+  }, [activeProject, updateProject, canEdit])
+
   return (
     <>
       {/* ── Data ── */}
@@ -104,6 +119,11 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
             <button className="btn-secondary btn-sm" onClick={handleImportProject}>
               <Upload size={13} /> {t('projectData.importProjectData')}
             </button>
+            {canEdit && (
+              <button className="btn-secondary btn-sm" onClick={() => setShowImportWizard(true)}>
+                <FileSpreadsheet size={13} /> {t('projectData.importCsv')}
+              </button>
+            )}
           </div>
         </div>
 
@@ -173,6 +193,14 @@ export default function ProjectDataSection({ activeProject, updateProject, delet
           </div>
         )}
       </div>}
+
+      {/* Import Wizard */}
+      {showImportWizard && (
+        <ImportWizard
+          onComplete={handleBulkImport}
+          onClose={() => setShowImportWizard(false)}
+        />
+      )}
     </>
   )
 }
