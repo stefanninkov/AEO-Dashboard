@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FileText, MessageSquare, Globe, Target, TrendingUp, TrendingDown, Minus,
@@ -13,6 +13,7 @@ import { useChartColors } from '../utils/chartColors'
 import ProgressBar from '../components/ProgressBar'
 import { getFilteredEngines } from '../utils/getRecommendations'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
+import useGridNav from '../hooks/useGridNav'
 import StatCard from './dashboard/StatCard'
 import Celebration from '../components/Celebration'
 import { useToast } from '../components/Toast'
@@ -151,7 +152,9 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
   const { engineColors: themeEngineColors } = useChartColors()
   const [activeTab, setActiveTab] = useState('overview')
   const tabsRef = useRef(null)
+  const metricsGridRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
+  useGridNav(metricsGridRef)
   const { refreshing, progress, error, fetchMetrics, getLatestMetrics, getMetricsForRange } = useAeoMetrics({
     activeProject,
     updateProject,
@@ -280,7 +283,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
   return (
     <div className="space-y-6">
       {/* Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-grid">
+      <div ref={metricsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-grid" role="grid" aria-label={t('metrics.title')}>
         <StatCard
           label={t('metrics.totalAiCitations')}
           value={metrics.citations?.total?.toLocaleString() || '0'}

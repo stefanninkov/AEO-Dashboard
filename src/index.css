@@ -5981,6 +5981,11 @@ body {
   border-color: var(--border-default);
   transform: var(--hover-lift-sm);
 }
+.stat-card:focus-visible {
+  outline: 0.125rem solid var(--color-phase-1);
+  outline-offset: 0.125rem;
+  border-color: var(--border-default);
+}
 
 .stat-card-icon {
   width: 2.25rem;

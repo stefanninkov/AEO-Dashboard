@@ -6,13 +6,14 @@
  * - Sortable table of all pages with score, categories, last analyzed
  * - Category health overview (pass/fail rates across all pages)
  */
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FileText, AlertTriangle, CheckCircle2, TrendingUp, ArrowUpDown,
   ExternalLink, BarChart3, Shield, BookOpen, Code2,
 } from 'lucide-react'
 import StatCard from '../dashboard/StatCard'
+import useGridNav from '../../hooks/useGridNav'
 import Sparkline from '../../components/Sparkline'
 
 const CATEGORY_META = {
@@ -44,6 +45,8 @@ export default function PageHealthTab({ activeProject }) {
   const { t } = useTranslation('app')
   const [sortBy, setSortBy] = useState('score') // 'score' | 'date' | 'name'
   const [sortDir, setSortDir] = useState('asc') // 'asc' | 'desc'
+  const healthGridRef = useRef(null)
+  useGridNav(healthGridRef)
 
   const pages = useMemo(() => {
     const pa = activeProject?.pageAnalyses || {}
@@ -125,7 +128,7 @@ export default function PageHealthTab({ activeProject }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
       {/* Summary Cards */}
-      <div className="stats-grid-4 stagger-grid">
+      <div ref={healthGridRef} className="stats-grid-4 stagger-grid" role="grid" aria-label={t('analyzer.health.categoryHealth')}>
         <StatCard
           layout="horizontal"
           icon={<FileText size={14} />}

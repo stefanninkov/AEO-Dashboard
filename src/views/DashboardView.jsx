@@ -16,6 +16,7 @@ import QuickActions from './dashboard/QuickActions'
 import AnalyticsPanel from './dashboard/AnalyticsPanel'
 import ProgressSummaryCard from './dashboard/ProgressSummaryCard'
 import QuickWinCard from './dashboard/QuickWinCard'
+import useGridNav from '../hooks/useGridNav'
 
 const SUB_TAB_KEYS = [
   { id: 'overview', i18nKey: 'dashboard.overview' },
@@ -134,7 +135,9 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
   const { t } = useTranslation('app')
   const [subTab, setSubTab] = useState('overview')
   const subTabsRef = useRef(null)
+  const statsGridRef = useRef(null)
   useScrollActiveTab(subTabsRef, subTab)
+  useGridNav(statsGridRef)
 
   const getPhaseProgress = useCallback((phase) => {
     if (!activeProject) return { total: 0, checked: 0, percent: 0 }
@@ -268,7 +271,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       {subTab === 'overview' && (
         <>
           {/* 4 Stat Cards */}
-          <div className="stats-grid-4 stagger-grid">
+          <div ref={statsGridRef} className="stats-grid-4 stagger-grid" role="grid" aria-label={t('dashboard.overview')}>
             <StatCard label={t('dashboard.totalCitations')} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
             <StatCard label={t('dashboard.totalPrompts')} value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
             <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
