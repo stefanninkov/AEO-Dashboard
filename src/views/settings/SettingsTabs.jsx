@@ -3,7 +3,9 @@
  *
  * Tabs: Profile | API & Usage | Integrations | Projects
  */
+import { useRef } from 'react'
 import { UserRound, KeyRound, Unplug, FolderKanban } from 'lucide-react'
+import { useScrollActiveTab } from '../../hooks/useScrollActiveTab'
 
 const TABS = [
   { id: 'profile', label: 'Profile', icon: UserRound },
@@ -13,8 +15,10 @@ const TABS = [
 ]
 
 export default function SettingsTabs({ activeTab, onTabChange }) {
+  const tabsRef = useRef(null)
+  useScrollActiveTab(tabsRef, activeTab)
   return (
-    <div className="scrollable-tabs" style={{
+    <div ref={tabsRef} className="scrollable-tabs" style={{
       display: 'flex',
       gap: '0.25rem',
       padding: '0.25rem',
@@ -29,6 +33,7 @@ export default function SettingsTabs({ activeTab, onTabChange }) {
         return (
           <button
             key={tab.id}
+            data-active={isActive || undefined}
             onClick={() => onTabChange(tab.id)}
             style={{
               flex: '0 0 auto',

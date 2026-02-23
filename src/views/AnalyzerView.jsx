@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Globe, Link2, Loader2, AlertCircle, Sparkles, SearchCheck, FileText } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
@@ -7,6 +7,7 @@ import { callAI } from '../utils/apiClient'
 import { getApiKey, setApiKey as setProviderApiKey, hasApiKey } from '../utils/aiProvider'
 import logger from '../utils/logger'
 import { useFixGenerator, FixButton, FixPanel } from './analyzer/FixGenerator'
+import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import BulkFixGenerator from './analyzer/BulkFixGenerator'
 import {
   STATUS_CONFIG, AnalysisResults, AnalyzerItemRow, AnalyzerItemWithFix,
@@ -17,7 +18,11 @@ import PageAnalyzerTab from './analyzer/PageAnalyzerTab'
 export default function AnalyzerView({ activeProject, updateProject, user }) {
   const { t } = useTranslation('app')
   const [activeTab, setActiveTab] = useState('site') // 'site' | 'pages'
+  const topTabsRef = useRef(null)
+  useScrollActiveTab(topTabsRef, activeTab)
   const [mode, setMode] = useState('url') // 'webflow' | 'url'
+  const modeTabsRef = useRef(null)
+  useScrollActiveTab(modeTabsRef, mode)
   const [url, setUrl] = useState(activeProject?.url || '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -369,8 +374,9 @@ Return ONLY valid JSON:
       </div>
 
       {/* ── Top-Level Tabs ── */}
-      <div className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', background: 'var(--hover-bg)', borderRadius: '0.625rem', padding: '0.1875rem' }}>
+      <div ref={topTabsRef} className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', background: 'var(--hover-bg)', borderRadius: '0.625rem', padding: '0.1875rem' }}>
         <button
+          data-active={activeTab === 'site' || undefined}
           onClick={() => setActiveTab('site')}
           style={{
             display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
@@ -385,6 +391,7 @@ Return ONLY valid JSON:
           {t('analyzer.siteAnalysis')}
         </button>
         <button
+          data-active={activeTab === 'pages' || undefined}
           onClick={() => setActiveTab('pages')}
           style={{
             display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
@@ -438,8 +445,9 @@ Return ONLY valid JSON:
           )}
 
           {/* Mode Toggle */}
-          <div className="analyzer-mode-tabs scrollable-tabs">
+          <div ref={modeTabsRef} className="analyzer-mode-tabs scrollable-tabs">
             <button
+              data-active={mode === 'url' || undefined}
               onClick={() => setMode('url')}
               className={`analyzer-mode-tab ${mode === 'url' ? 'active' : ''}`}
               style={mode === 'url' ? { backgroundColor: 'var(--color-phase-1)' } : {}}
@@ -448,6 +456,7 @@ Return ONLY valid JSON:
               {t('analyzer.urlScan')}
             </button>
             <button
+              data-active={mode === 'webflow' || undefined}
               onClick={() => setMode('webflow')}
               className={`analyzer-mode-tab ${mode === 'webflow' ? 'active' : ''}`}
               style={mode === 'webflow' ? { backgroundColor: 'var(--color-phase-2)' } : {}}

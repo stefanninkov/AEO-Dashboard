@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   SearchCheck, BookOpen, ChevronRight, ChevronDown, Gauge,
@@ -8,6 +8,7 @@ import {
   Rocket, HelpCircle,
 } from 'lucide-react'
 import { useDebounce } from '../hooks/useDebounce'
+import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 
 /* ─── App Guide Data ──────────────────────────────────────────── */
 export const APP_SECTIONS = [
@@ -373,6 +374,8 @@ export const FAQ_ITEMS = [
 export default function DocsView({ phases, setDocItem, setActiveView }) {
   const { t } = useTranslation('docs')
   const [activeTab, setActiveTab] = useState('guide')
+  const tabsRef = useRef(null)
+  useScrollActiveTab(tabsRef, activeTab)
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 200)
   const [selectedPhase, setSelectedPhase] = useState(null)
@@ -483,7 +486,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
       </div>
 
       {/* Tabs */}
-      <div className="scrollable-tabs" style={{
+      <div ref={tabsRef} className="scrollable-tabs" style={{
         display: 'flex', gap: '0.25rem', padding: '0.1875rem',
         background: 'var(--hover-bg)', borderRadius: '0.625rem',
       }}>
@@ -493,6 +496,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
           return (
             <button
               key={tab.id}
+              data-active={isActive || undefined}
               onClick={() => { setActiveTab(tab.id); setSearchQuery('') }}
               style={{
                 display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',

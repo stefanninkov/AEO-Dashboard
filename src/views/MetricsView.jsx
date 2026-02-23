@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FileText, MessageSquare, Globe, Target, TrendingUp, TrendingDown, Minus,
@@ -12,6 +12,7 @@ import { useAeoMetrics, AI_ENGINES } from '../hooks/useAeoMetrics'
 import { useChartColors } from '../utils/chartColors'
 import ProgressBar from '../components/ProgressBar'
 import { getFilteredEngines } from '../utils/getRecommendations'
+import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 
 /* ── Reusable Components ── */
 
@@ -181,6 +182,8 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
   const { t } = useTranslation('app')
   const { engineColors: themeEngineColors } = useChartColors()
   const [activeTab, setActiveTab] = useState('overview')
+  const tabsRef = useRef(null)
+  useScrollActiveTab(tabsRef, activeTab)
   const { refreshing, progress, error, fetchMetrics, getLatestMetrics, getMetricsForRange } = useAeoMetrics({
     activeProject,
     updateProject,
@@ -235,10 +238,11 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
       )}
 
       {/* Tabs - Segmented Control */}
-      <div className="metrics-tabs scrollable-tabs">
+      <div ref={tabsRef} className="metrics-tabs scrollable-tabs">
         {TAB_IDS.map(id => (
           <button
             key={id}
+            data-active={activeTab === id || undefined}
             onClick={() => setActiveTab(id)}
             className={`metrics-tab ${activeTab === id ? 'active' : ''}`}
           >

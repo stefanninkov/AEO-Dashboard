@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, memo } from 'react'
+import { useState, useRef, useMemo, useCallback, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing } from 'lucide-react'
 import { getSmartRecommendations, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
@@ -8,6 +8,7 @@ import {
   XAxis, YAxis, Tooltip, CartesianGrid, Legend,
 } from 'recharts'
 import { PHASE_COLOR_ARRAY, PHASE_COLORS } from '../utils/chartColors'
+import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import StatCard from './dashboard/StatCard'
 import PhaseDonut from './dashboard/PhaseDonut'
 import RecommendationsPanel from './dashboard/RecommendationsPanel'
@@ -57,6 +58,8 @@ function DashboardEmptyState({ message, onAction, t }) {
 export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid }) {
   const { t } = useTranslation('app')
   const [subTab, setSubTab] = useState('overview')
+  const subTabsRef = useRef(null)
+  useScrollActiveTab(subTabsRef, subTab)
 
   const getPhaseProgress = useCallback((phase) => {
     if (!activeProject) return { total: 0, checked: 0, percent: 0 }
@@ -170,10 +173,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       </div>
 
       {/* Sub-tabs */}
-      <div className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', borderRadius: '0.625rem', padding: '0.25rem', background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
+      <div ref={subTabsRef} className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', borderRadius: '0.625rem', padding: '0.25rem', background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
         {SUB_TAB_KEYS.map(tab => (
           <button
             key={tab.id}
+            data-active={subTab === tab.id || undefined}
             onClick={() => setSubTab(tab.id)}
             style={{
               flex: '0 0 auto', whiteSpace: 'nowrap', padding: '0.5rem 0.75rem', fontSize: '0.8125rem', fontWeight: 500,

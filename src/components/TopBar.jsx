@@ -296,10 +296,15 @@ export default memo(function TopBar({
     <div className="top-bar">
       {/* ── Row 1: Project switcher + Search + Actions ── */}
       <div className="top-bar-row-1">
-        {/* Hamburger menu (visible on tablet/mobile) */}
-        <button className="hamburger-btn" onClick={onToggleSidebar} aria-label={t('topbar.toggleSidebar')}>
-          <Menu size={18} />
-        </button>
+        {/* Hamburger + logo (visible on tablet/mobile) */}
+        <div className="mobile-nav-group">
+          <button className="hamburger-btn" onClick={onToggleSidebar} aria-label={t('topbar.toggleSidebar')}>
+            <Menu size={18} />
+          </button>
+          <button className="mobile-home-btn" onClick={() => setActiveView('dashboard')} aria-label={t('nav.dashboard')}>
+            <Sparkles size={16} />
+          </button>
+        </div>
 
         {/* Project switcher */}
         <div className="relative" ref={dropdownRef} style={{ minWidth: 0 }}>

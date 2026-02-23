@@ -1,13 +1,16 @@
-import { useState, useMemo } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Users, Activity, PieChart } from 'lucide-react'
 import CompetitorsOverviewTab from './competitors/CompetitorsOverviewTab'
 import CompetitorMonitoringTab from './competitors/CompetitorMonitoringTab'
 import CitationShareTab from './competitors/CitationShareTab'
+import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 
 export default function CompetitorsView({ activeProject, updateProject, user }) {
   const { t } = useTranslation('app')
   const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'monitoring' | 'citation'
+  const tabsRef = useRef(null)
+  useScrollActiveTab(tabsRef, activeTab)
 
   const undismissedAlertCount = useMemo(() => {
     return (activeProject?.competitorAlerts || []).filter(a => !a.dismissed).length
@@ -42,7 +45,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
       </div>
 
       {/* Tab row */}
-      <div className="scrollable-tabs" style={{
+      <div ref={tabsRef} className="scrollable-tabs" style={{
         display: 'flex', gap: '0.375rem', marginBottom: '1.25rem',
         padding: '0.25rem',
         background: 'var(--hover-bg)',
@@ -100,6 +103,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
 function TabButton({ active, onClick, icon, label, badge }) {
   return (
     <button
+      data-active={active || undefined}
       onClick={onClick}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',

@@ -2,12 +2,13 @@
  * ProjectWebflowSection — Webflow integration as a Settings sub-section.
  * Moved from standalone WebflowView into Settings.
  */
-import { useState, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import {
   Globe, Loader2, AlertCircle, CheckCircle2, Copy, Check, RefreshCw,
   Code2, FileText, SearchCheck, Layers, ArrowRight, ExternalLink, Sparkles
 } from 'lucide-react'
 import { callAI } from '../../utils/apiClient'
+import { useScrollActiveTab } from '../../hooks/useScrollActiveTab'
 import { hasApiKey } from '../../utils/aiProvider'
 import { useToast } from '../../components/Toast'
 import logger from '../../utils/logger'
@@ -32,6 +33,8 @@ const TABS = [
 export default function ProjectWebflowSection({ activeProject, updateProject }) {
   const apiKeyAvailable = hasApiKey()
   const [activeTab, setActiveTab] = useState('sites')
+  const tabsRef = useRef(null)
+  useScrollActiveTab(tabsRef, activeTab)
   const [sites, setSites] = useState([])
   const [selectedSite, setSelectedSite] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -334,13 +337,14 @@ Return ONLY valid JSON:
       </div>
 
       {/* Tabs */}
-      <div className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', padding: '0 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
+      <div ref={tabsRef} className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', padding: '0 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
         {TABS.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
           return (
             <button
               key={tab.id}
+              data-active={isActive || undefined}
               onClick={() => setActiveTab(tab.id)}
               style={{
                 display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',

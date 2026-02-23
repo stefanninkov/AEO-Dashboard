@@ -7,10 +7,11 @@
  *   - Integrations (Google, EmailJS, future)
  *   - Projects     (overview grid → drill into project settings via sub-tabs)
  */
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useRef, useMemo, useEffect } from 'react'
 import {
   ArrowLeft, ArrowRight, FolderCog, Unplug, UsersRound, Globe2, Webhook, HardDrive,
 } from 'lucide-react'
+import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import SettingsTabs from './settings/SettingsTabs'
 import UserSettingsSection from './settings/UserSettingsSection'
 import ApiUsageSection from './settings/ApiUsageSection'
@@ -35,8 +36,10 @@ const PROJECT_SUB_TABS = [
 ]
 
 function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
+  const tabsRef = useRef(null)
+  useScrollActiveTab(tabsRef, activeSubTab)
   return (
-    <div className="scrollable-tabs" style={{
+    <div ref={tabsRef} className="scrollable-tabs" style={{
       display: 'flex',
       gap: '0.125rem',
       borderBottom: '0.0625rem solid var(--border-subtle)',
@@ -48,6 +51,7 @@ function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
         return (
           <button
             key={tab.id}
+            data-active={isActive || undefined}
             onClick={() => onSubTabChange(tab.id)}
             style={{
               display: 'flex',
