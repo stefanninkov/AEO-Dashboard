@@ -155,6 +155,25 @@
       "insightLowMetricsDesc": "Project is {{age}} days old with only {{count}} metrics runs. Run analyses regularly.",
       "insightFullAdoption": "Full feature adoption!",
       "insightFullAdoptionDesc": "You're using all available features. Keep monitoring for continued improvement."
+    },
+    "activityInsights": {
+      "title": "Team Activity",
+      "thisWeek": "this week",
+      "last12Weeks": "Last 12 weeks",
+      "less": "Less",
+      "more": "More",
+      "byType": "Activity by type",
+      "topContributors": "Top contributors",
+      "velocity": "30-day velocity",
+      "noData": "No activity data yet",
+      "noMembers": "Invite team members to see contributions",
+      "types": {
+        "tasks": "Tasks",
+        "analysis": "Analysis",
+        "content": "Content",
+        "social": "Team",
+        "competitors": "Competitors"
+      }
     }
   },
   "analyzer": {

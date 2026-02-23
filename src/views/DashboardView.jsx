@@ -16,6 +16,7 @@ import QuickActions from './dashboard/QuickActions'
 import AnalyticsPanel from './dashboard/AnalyticsPanel'
 import ProgressSummaryCard from './dashboard/ProgressSummaryCard'
 import QuickWinCard from './dashboard/QuickWinCard'
+import ActivityInsightsPanel from './dashboard/ActivityInsightsPanel'
 import useGridNav from '../hooks/useGridNav'
 
 const SUB_TAB_KEYS = [
@@ -385,6 +386,9 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             </div>
             <ActivityTimeline activities={activeProject?.activityLog || []} currentUserUid={currentUserUid} />
           </div>
+
+          {/* Team Activity Insights */}
+          <ActivityInsightsPanel activities={activeProject?.activityLog || []} />
 
           {/* Competitor Alert Digest */}
           <CompetitorAlertDigest

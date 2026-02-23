@@ -155,6 +155,25 @@
       "insightLowMetricsDesc": "Projekt ist {{age}} Tage alt mit nur {{count}} Metrik-Durchläufen. Führen Sie Analysen regelmäßig durch.",
       "insightFullAdoption": "Volle Funktionsnutzung!",
       "insightFullAdoptionDesc": "Sie nutzen alle verfügbaren Funktionen. Überwachen Sie weiter für kontinuierliche Verbesserung."
+    },
+    "activityInsights": {
+      "title": "Teamaktivität",
+      "thisWeek": "diese Woche",
+      "last12Weeks": "Letzte 12 Wochen",
+      "less": "Weniger",
+      "more": "Mehr",
+      "byType": "Aktivität nach Typ",
+      "topContributors": "Top-Beitragende",
+      "velocity": "30-Tage-Geschwindigkeit",
+      "noData": "Noch keine Aktivitätsdaten",
+      "noMembers": "Teammitglieder einladen, um Beiträge zu sehen",
+      "types": {
+        "tasks": "Aufgaben",
+        "analysis": "Analyse",
+        "content": "Inhalte",
+        "social": "Team",
+        "competitors": "Wettbewerber"
+      }
     }
   },
   "analyzer": {
