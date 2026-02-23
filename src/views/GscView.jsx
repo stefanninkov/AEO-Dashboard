@@ -21,33 +21,7 @@ import { useGscData } from '../hooks/useGscData'
 import { formatSiteUrl } from '../utils/gscApi'
 import { NotConnectedState, NoPropertyState, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
 import { safeHref } from '../utils/sanitizeUrl'
-
-/* ── Stat Card ── */
-function StatCard({ icon: Icon, label, value, subValue, color }) {
-  return (
-    <div className="card" style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-      <div style={{
-        width: '2.25rem', height: '2.25rem', borderRadius: '0.625rem',
-        background: `${color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-      }}>
-        <Icon size={16} style={{ color }} />
-      </div>
-      <div>
-        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1 }}>
-          {value}
-        </div>
-        <div style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginTop: '0.125rem' }}>
-          {label}
-        </div>
-        {subValue && (
-          <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
-            {subValue}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
+import StatCard from './dashboard/StatCard'
 
 /* ── Sortable Table Header ── */
 function SortHeader({ label, sortKey, currentSort, onSort }) {
@@ -215,10 +189,8 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            {t('gsc.title')}
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+          <h2 className="view-title">{t('gsc.title')}</h2>
+          <p className="view-subtitle">
             {t('gsc.subtitle')}
           </p>
         </div>
@@ -240,10 +212,8 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            {t('gsc.title')}
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+          <h2 className="view-title">{t('gsc.title')}</h2>
+          <p className="view-subtitle">
             {t('gsc.subtitle')}
           </p>
         </div>
@@ -281,10 +251,8 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            {t('gsc.title')}
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+          <h2 className="view-title">{t('gsc.title')}</h2>
+          <p className="view-subtitle">
             {t('gsc.subtitleProperty', { property: formatSiteUrl(gscProperty) })}
           </p>
         </div>
@@ -333,44 +301,49 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
 
       {/* Stat cards */}
       {queryData && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: '0.75rem' }}>
+        <div className="stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: 'var(--space-3)' }}>
           <StatCard
-            icon={MousePointerClick}
+            layout="horizontal"
+            icon={<MousePointerClick size={16} />}
             label={t('gsc.totalClicks')}
             value={fmt(queryData.totalClicks)}
-            color="#FF6B35"
+            iconColor="#FF6B35"
           />
           <StatCard
-            icon={Eye}
+            layout="horizontal"
+            icon={<Eye size={16} />}
             label={t('gsc.totalImpressions')}
             value={fmt(queryData.totalImpressions)}
-            color="#3B82F6"
+            iconColor="#3B82F6"
           />
           <StatCard
-            icon={TrendingUp}
+            layout="horizontal"
+            icon={<TrendingUp size={16} />}
             label={t('gsc.avgCtr')}
             value={fmtPct(queryData.avgCtr)}
-            color="#10B981"
+            iconColor="#10B981"
           />
           <StatCard
-            icon={ArrowUpDown}
+            layout="horizontal"
+            icon={<ArrowUpDown size={16} />}
             label={t('gsc.avgPosition')}
             value={fmtPos(queryData.avgPosition)}
-            color="#8B5CF6"
+            iconColor="#8B5CF6"
           />
           <StatCard
-            icon={Zap}
+            layout="horizontal"
+            icon={<Zap size={16} />}
             label={t('gsc.aeoQueries')}
             value={fmt(queryData.aeoQueryCount)}
             subValue={t('gsc.ofClicks', { value: fmtPct(queryData.aeoClickShare) })}
-            color="#F59E0B"
+            iconColor="#F59E0B"
           />
         </div>
       )}
 
       {/* Sparkline */}
       {dateData && dateData.rows.length > 0 && (
-        <div className="card" style={{ padding: '1rem 1.25rem' }}>
+        <div className="card card-lg">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,

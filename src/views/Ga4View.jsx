@@ -22,44 +22,8 @@ import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import { getAiTrafficReport, getAiLandingPages, getAiTrafficTrend, getPropertyId, AI_REFERRAL_SOURCES } from '../utils/ga4Api'
 import { cacheKey, getCache, setCache } from '../utils/dataCache'
 import { NotConnectedState, NoPropertyState, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
+import StatCard from './dashboard/StatCard'
 import logger from '../utils/logger'
-
-/* ── Stat Card ── */
-function StatCard({ icon: Icon, label, value, subValue, color, trend }) {
-  return (
-    <div className="card" style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-      <div style={{
-        width: '2.25rem', height: '2.25rem', borderRadius: '0.625rem',
-        background: `${color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-      }}>
-        <Icon size={16} style={{ color }} />
-      </div>
-      <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1 }}>
-            {value}
-          </span>
-          {trend && (
-            <span style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.125rem',
-              fontSize: '0.625rem', fontWeight: 600,
-              color: trend > 0 ? '#10B981' : trend < 0 ? '#EF4444' : 'var(--text-tertiary)',
-            }}>
-              {trend > 0 ? <ArrowUp size={9} /> : trend < 0 ? <ArrowDown size={9} /> : null}
-              {trend > 0 ? '+' : ''}{typeof trend === 'number' ? `${trend.toFixed(1)}%` : ''}
-            </span>
-          )}
-        </div>
-        <div style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginTop: '0.125rem' }}>
-          {label}
-        </div>
-        {subValue && (
-          <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{subValue}</div>
-        )}
-      </div>
-    </div>
-  )
-}
 
 /* ── AI Source Bar ── */
 function AiSourceBar({ source, sessions, maxSessions, totalAiSessions }) {
@@ -235,12 +199,8 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            {t('ga4.title')}
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            {t('ga4.subtitle')}
-          </p>
+          <h2 className="view-title">{t('ga4.title')}</h2>
+          <p className="view-subtitle">{t('ga4.subtitle')}</p>
         </div>
         {google.isExpired ? (
           <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
@@ -260,12 +220,8 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            {t('ga4.title')}
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            {t('ga4.subtitle')}
-          </p>
+          <h2 className="view-title">{t('ga4.title')}</h2>
+          <p className="view-subtitle">{t('ga4.subtitle')}</p>
         </div>
         <NoPropertyState
           setActiveView={setActiveView}
@@ -293,12 +249,8 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            {t('ga4.title')}
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-            {t('ga4.subtitleShort')}
-          </p>
+          <h2 className="view-title">{t('ga4.title')}</h2>
+          <p className="view-subtitle">{t('ga4.subtitleShort')}</p>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
           <div style={{ display: 'flex', gap: '0.125rem', background: 'var(--hover-bg)', borderRadius: '0.5rem', padding: '0.125rem' }}>
@@ -335,7 +287,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
 
       {/* Loading */}
       {loading && !trafficData && (
-        <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
+        <div className="card card-xl" style={{ textAlign: 'center' }}>
           <Loader2 size={24} style={{ color: 'var(--color-phase-1)', animation: 'spin 1s linear infinite', margin: '0 auto 0.75rem' }} />
           <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>{t('ga4.loading')}</p>
         </div>
@@ -344,40 +296,44 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
       {trafficData && (
         <>
           {/* Stat cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: '0.75rem' }}>
+          <div className="stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))', gap: 'var(--space-3)' }}>
             <StatCard
-              icon={Sparkles}
+              layout="horizontal"
+              icon={<Sparkles size={16} />}
               label={t('ga4.aiSessions')}
               value={fmt(trafficData.totalAiSessions)}
               subValue={t('ga4.ofTotalTraffic', { value: fmtPct(trafficData.aiSessionShare) })}
-              color="#FF6B35"
+              iconColor="#FF6B35"
             />
             <StatCard
-              icon={Globe}
+              layout="horizontal"
+              icon={<Globe size={16} />}
               label={t('ga4.totalSessions')}
               value={fmt(trafficData.totalSessions)}
-              color="#3B82F6"
+              iconColor="#3B82F6"
             />
             <StatCard
-              icon={Users}
+              layout="horizontal"
+              icon={<Users size={16} />}
               label={t('ga4.aiSources')}
               value={aiSourceBreakdown.length}
               subValue={t('ga4.outOfTracked', { count: AI_REFERRAL_SOURCES.length })}
-              color="#8B5CF6"
+              iconColor="#8B5CF6"
             />
             <StatCard
-              icon={TrendingUp}
+              layout="horizontal"
+              icon={<TrendingUp size={16} />}
               label={t('ga4.topAiSource')}
               value={aiSourceBreakdown[0]?.source.label || '—'}
               subValue={aiSourceBreakdown[0] ? `${fmt(aiSourceBreakdown[0].sessions)} ${t('ga4.sessions').toLowerCase()}` : ''}
-              color={aiSourceBreakdown[0]?.source.color || '#6B7280'}
+              iconColor={aiSourceBreakdown[0]?.source.color || '#6B7280'}
             />
           </div>
 
           {/* Two columns: AI Sources + Trend */}
-          <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
             {/* AI Source Breakdown */}
-            <div className="card" style={{ padding: '1.25rem' }}>
+            <div className="card card-lg">
               <div style={{
                 fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)', marginBottom: '0.75rem',
@@ -408,7 +364,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
             </div>
 
             {/* Daily Trend */}
-            <div className="card" style={{ padding: '1.25rem' }}>
+            <div className="card card-lg">
               <div style={{
                 fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)', marginBottom: '0.75rem',
@@ -516,7 +472,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
 
           {/* No AI Traffic Message */}
           {trafficData.totalAiSessions === 0 && (
-            <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+            <div className="card card-xl" style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', fontWeight: 600 }}>
                 {t('ga4.noAiTrafficYetTitle')}
               </div>

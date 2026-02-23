@@ -13,41 +13,7 @@ import { useChartColors } from '../utils/chartColors'
 import ProgressBar from '../components/ProgressBar'
 import { getFilteredEngines } from '../utils/getRecommendations'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
-
-/* ── Reusable Components ── */
-
-function MetricCard({ title, value, change, changeLabel, icon, iconBg, iconColor, delay = 0 }) {
-  return (
-    <div
-      className="rounded-xl p-[1.125rem] transition-all duration-200 fade-in-up"
-      style={{ backgroundColor: 'var(--bg-card)', border: '0.0625rem solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)', animationDelay: `${delay}ms` }}
-    >
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-[0.6875rem] text-text-tertiary uppercase tracking-[0.0313rem]">{title}</span>
-        {icon && (
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${iconBg}`}>
-            {icon}
-          </div>
-        )}
-      </div>
-      <p className="font-mono text-[1.75rem] font-bold leading-none text-text-primary">{value}</p>
-      {change !== undefined && change !== null && (
-        <div className="flex items-center gap-1 mt-2">
-          {change > 0 ? (
-            <TrendingUp size={12} className="text-success" />
-          ) : change < 0 ? (
-            <TrendingDown size={12} className="text-error" />
-          ) : (
-            <Minus size={12} className="text-text-tertiary" />
-          )}
-          <span className={`text-[0.6875rem] ${change > 0 ? 'text-success' : change < 0 ? 'text-error' : 'text-text-tertiary'}`}>
-            {Math.abs(change)}% {changeLabel || 'vs last period'}
-          </span>
-        </div>
-      )}
-    </div>
-  )
-}
+import StatCard from './dashboard/StatCard'
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
@@ -293,36 +259,31 @@ function OverviewTab({ metrics, rangeMetrics }) {
   return (
     <div className="space-y-6">
       {/* Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard
-          title={t('metrics.totalAiCitations')}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-grid">
+        <StatCard
+          label={t('metrics.totalAiCitations')}
           value={metrics.citations?.total?.toLocaleString() || '0'}
-          change={citationChange}
-          changeLabel={t('metrics.vsLastPeriod')}
-          icon={<FileText size={18} className="text-phase-2" />}
-          iconBg="bg-phase-2/15"
-          delay={0}
+          trend={citationChange || undefined}
+          icon={<FileText size={18} />}
+          iconColor="var(--color-phase-2)"
         />
-        <MetricCard
-          title={t('metrics.queriesTracked')}
+        <StatCard
+          label={t('metrics.queriesTracked')}
           value={metrics.prompts?.total?.toLocaleString() || '0'}
-          icon={<MessageSquare size={18} className="text-phase-1" />}
-          iconBg="bg-phase-1/15"
-          delay={80}
+          icon={<MessageSquare size={18} />}
+          iconColor="var(--color-phase-1)"
         />
-        <MetricCard
-          title={t('metrics.aiEnginesLabel')}
+        <StatCard
+          label={t('metrics.aiEnginesLabel')}
           value={metrics.citations?.byEngine?.filter(e => e.citations > 0).length || '0'}
-          icon={<Globe size={18} className="text-phase-3" />}
-          iconBg="bg-phase-3/15"
-          delay={160}
+          icon={<Globe size={18} />}
+          iconColor="var(--color-phase-3)"
         />
-        <MetricCard
-          title={t('metrics.aeoScoreLabel')}
+        <StatCard
+          label={t('metrics.aeoScoreLabel')}
           value={`${metrics.overallScore || 0}/100`}
-          icon={<Target size={18} className="text-phase-5" />}
-          iconBg="bg-phase-5/15"
-          delay={240}
+          icon={<Target size={18} />}
+          iconColor="var(--color-phase-5)"
         />
       </div>
 
@@ -421,27 +382,25 @@ function CitationsTab({ metrics }) {
   const { t } = useTranslation('app')
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <MetricCard
-          title={t('metrics.totalCitationsLabel')}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-grid">
+        <StatCard
+          label={t('metrics.totalCitationsLabel')}
           value={metrics.citations?.total?.toLocaleString() || '0'}
-          change={metrics.citations?.change}
-          icon={<FileText size={18} className="text-phase-2" />}
-          iconBg="bg-phase-2/15"
+          trend={metrics.citations?.change || undefined}
+          icon={<FileText size={18} />}
+          iconColor="var(--color-phase-2)"
         />
-        <MetricCard
-          title={t('metrics.citationRateLabel')}
+        <StatCard
+          label={t('metrics.citationRateLabel')}
           value={`${metrics.citations?.rate || 0}%`}
-          icon={<TrendingUp size={18} className="text-phase-4" />}
-          iconBg="bg-phase-4/15"
-          delay={80}
+          icon={<TrendingUp size={18} />}
+          iconColor="var(--color-phase-4)"
         />
-        <MetricCard
-          title={t('metrics.uniqueSources')}
+        <StatCard
+          label={t('metrics.uniqueSources')}
           value={metrics.citations?.uniqueSources || '0'}
-          icon={<Globe size={18} className="text-phase-3" />}
-          iconBg="bg-phase-3/15"
-          delay={160}
+          icon={<Globe size={18} />}
+          iconColor="var(--color-phase-3)"
         />
       </div>
 
@@ -486,26 +445,24 @@ function PromptsTab({ metrics }) {
   const { t } = useTranslation('app')
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <MetricCard
-          title={t('metrics.totalPrompts')}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-grid">
+        <StatCard
+          label={t('metrics.totalPrompts')}
           value={metrics.prompts?.total || '0'}
-          icon={<MessageSquare size={18} className="text-phase-1" />}
-          iconBg="bg-phase-1/15"
+          icon={<MessageSquare size={18} />}
+          iconColor="var(--color-phase-1)"
         />
-        <MetricCard
-          title={t('metrics.avgPromptLength')}
+        <StatCard
+          label={t('metrics.avgPromptLength')}
           value={t('metrics.wordsCount', { count: metrics.prompts?.avgLength || 0 })}
-          icon={<FileText size={18} className="text-phase-5" />}
-          iconBg="bg-phase-5/15"
-          delay={80}
+          icon={<FileText size={18} />}
+          iconColor="var(--color-phase-5)"
         />
-        <MetricCard
-          title={t('metrics.categories')}
+        <StatCard
+          label={t('metrics.categories')}
           value={metrics.prompts?.byCategory?.length || '0'}
-          icon={<Target size={18} className="text-phase-4" />}
-          iconBg="bg-phase-4/15"
-          delay={160}
+          icon={<Target size={18} />}
+          iconColor="var(--color-phase-4)"
         />
       </div>
 
