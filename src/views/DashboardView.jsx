@@ -45,10 +45,10 @@ const CustomTooltip = memo(function CustomTooltip({ active, payload, label }) {
 
 function DashboardEmptyState({ message, onAction, t }) {
   return (
-    <div className="card" style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.75rem' }}>
+    <div className="card card-xl" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 'var(--space-3)' }}>
       <ChartColumnIncreasing size={28} style={{ color: 'var(--text-disabled)' }} />
-      <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
-      <button onClick={onAction} className="btn-primary" style={{ padding: '0.4375rem 1rem', fontSize: '0.75rem', marginTop: '0.25rem' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
+      <button onClick={onAction} className="btn-primary btn-sm" style={{ marginTop: 'var(--space-1)' }}>
         {t('dashboard.runMetricsAnalysis')}
       </button>
     </div>
@@ -141,10 +141,10 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
   const emptyStateAction = useCallback(() => setActiveView('metrics'), [setActiveView])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+    <div className="section-gap-md" style={{ gap: 'var(--space-7)' }}>
       {/* Welcome */}
-      <div>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+      <div className="view-header" style={{ marginBottom: 0 }}>
+        <h2 className="view-title" style={{ fontSize: 'var(--text-2xl)' }}>
           {userName ? t('dashboard.welcomeBackName', { name: userName }) : t('dashboard.welcomeBack')}
         </h2>
         {activeProject?.questionnaire?.completedAt ? (() => {
@@ -157,7 +157,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             : REGION_LABELS[q.region] || null
           const goal = GOAL_LABELS[q.primaryGoal] || null
           return (
-            <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
+            <p className="view-subtitle">
               Optimizing <strong style={{ color: 'var(--text-secondary)' }}>{industry}</strong>
               {audience && <> for <strong style={{ color: 'var(--text-secondary)' }}>{audience}</strong> audiences</>}
               {location && <> in <strong style={{ color: 'var(--text-secondary)' }}>{location}</strong></>}
@@ -166,26 +166,18 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             </p>
           )
         })() : (
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
-            {t('dashboard.overviewSubtitle')}
-          </p>
+          <p className="view-subtitle">{t('dashboard.overviewSubtitle')}</p>
         )}
       </div>
 
-      {/* Sub-tabs */}
-      <div ref={subTabsRef} className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', borderRadius: '0.625rem', padding: '0.25rem', background: 'color-mix(in srgb, var(--hover-bg) 50%, transparent)' }}>
+      {/* Sub-tabs — segmented pattern */}
+      <div ref={subTabsRef} className="tab-bar-segmented scrollable-tabs">
         {SUB_TAB_KEYS.map(tab => (
           <button
             key={tab.id}
+            className="tab-segmented"
             data-active={subTab === tab.id || undefined}
             onClick={() => setSubTab(tab.id)}
-            style={{
-              flex: '0 0 auto', whiteSpace: 'nowrap', padding: '0.5rem 0.75rem', fontSize: '0.8125rem', fontWeight: 500,
-              borderRadius: '0.5rem', border: 'none', cursor: 'pointer',
-              fontFamily: 'var(--font-body)', transition: 'all 150ms',
-              background: subTab === tab.id ? 'var(--bg-card)' : 'transparent',
-              color: subTab === tab.id ? 'var(--text-primary)' : 'var(--text-tertiary)',
-            }}
           >
             {t(tab.i18nKey)}
           </button>
@@ -196,7 +188,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
       {subTab === 'overview' && (
         <>
           {/* 4 Stat Cards */}
-          <div className="stats-grid-4">
+          <div className="stats-grid-4 stagger-grid">
             <StatCard label={t('dashboard.totalCitations')} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
             <StatCard label={t('dashboard.totalPrompts')} value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
             <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
@@ -218,9 +210,9 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 
           {/* Charts Row */}
           {latestMetrics && (
-            <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
+            <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+              <div className="card card-lg">
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
                   {t('dashboard.aiCitationsOverTime')}
                 </h3>
                 {chartData.length > 1 ? (
@@ -242,8 +234,8 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 )}
               </div>
 
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
+              <div className="card card-lg">
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
                   {t('dashboard.botTypeDistribution')}
                 </h3>
                 {engineData.length > 0 ? (
@@ -297,11 +289,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           )}
 
           {/* Recent Activity */}
-          <div className="dashboard-card" style={{ padding: '1rem 1.25rem' }}>
+          <div className="card card-lg">
             <div style={{
-              fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 700,
+              fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
               textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
-              marginBottom: '0.75rem',
+              marginBottom: 'var(--space-3)',
             }}>
               {t('dashboard.recentActivity')}
             </div>
@@ -322,14 +314,14 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         <>
           {latestMetrics ? (
             <>
-              <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+              <div className="stats-grid-4 stagger-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
                 <StatCard label={t('dashboard.totalCitations')} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
                 <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
                 <StatCard label={t('dashboard.aeoScore')} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
               </div>
 
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
+              <div className="card card-lg">
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
                   {t('dashboard.citationsOverTime')}
                 </h3>
                 {citationsChartData.length > 1 ? (
@@ -349,8 +341,8 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 )}
               </div>
 
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
+              <div className="card card-lg">
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
                   {t('dashboard.citationsByAiEngine')}
                 </h3>
                 <div style={{ overflowX: 'auto' }}>
@@ -398,13 +390,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         <>
           {latestMetrics ? (
             <>
-              <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+              <div className="stats-grid-4 stagger-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
                 <StatCard label={t('dashboard.totalPrompts')} value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
                 <StatCard label={t('dashboard.aeoScore')} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
               </div>
 
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
+              <div className="card card-lg">
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
                   {t('dashboard.promptsOverTime')}
                 </h3>
                 {promptsChartData.length > 1 ? (
@@ -425,8 +417,8 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               </div>
 
               {topPrompts.length > 0 && (
-                <div className="card" style={{ padding: '1.25rem' }}>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
+                <div className="card card-lg">
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
                     {t('dashboard.topPromptCategories')}
                   </h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
@@ -458,13 +450,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         <>
           {latestMetrics ? (
             <>
-              <div className="stats-grid-4" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+              <div className="stats-grid-4 stagger-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
                 <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
                 <StatCard label={t('dashboard.totalCitations')} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
               </div>
 
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
+              <div className="card card-lg">
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
                   {t('dashboard.aiEngineDistribution')}
                 </h3>
                 {engineData.length > 0 ? (
@@ -494,13 +486,13 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
                 )}
               </div>
 
-              <div className="card" style={{ padding: '1.25rem' }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-primary)' }}>
+              <div className="card card-lg">
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
                   {t('dashboard.engineDetails')}
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(12.5rem, 1fr))', gap: '0.75rem' }}>
+                <div className="stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(12.5rem, 1fr))', gap: 'var(--space-3)' }}>
                   {allEngineData.map((engine, i) => (
-                    <div key={i} className="card" style={{ padding: '0.875rem', border: engine.citations > 0 ? `0.0625rem solid ${engine.color}30` : undefined }}>
+                    <div key={i} className="card card-md" style={{ border: engine.citations > 0 ? `0.0625rem solid ${engine.color}30` : undefined }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                         <div style={{ width: '0.625rem', height: '0.625rem', borderRadius: '0.1875rem', background: engine.color }} />
                         <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{engine.name}</span>
@@ -524,10 +516,10 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 
       {/* No project empty state */}
       {!activeProject && projects.length === 0 && (
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
-          <Sparkles size={32} className="text-phase-1" style={{ marginBottom: '1rem' }} />
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{t('dashboard.noProjectsYet')}</h3>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginBottom: '1.25rem', textAlign: 'center', maxWidth: '18.75rem' }}>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-12) var(--space-6)' }}>
+          <Sparkles size={32} className="text-phase-1" style={{ marginBottom: 'var(--space-4)' }} />
+          <h3 className="view-title" style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>{t('dashboard.noProjectsYet')}</h3>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', marginBottom: 'var(--space-5)', textAlign: 'center', maxWidth: '18.75rem' }}>
             {t('dashboard.createFirstProject')}
           </p>
           <button onClick={onNewProject} className="btn-primary">

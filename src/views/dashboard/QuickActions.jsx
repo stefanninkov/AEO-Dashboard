@@ -5,21 +5,21 @@ import { BookOpen, Sparkles, FlaskConical } from 'lucide-react'
 export default memo(function QuickActions({ setActiveView }) {
   const { t } = useTranslation('app')
   return (
-    <div className="quick-actions-grid">
+    <div className="quick-actions-grid stagger-grid">
       <button className="quick-action-card" onClick={() => setActiveView('checklist')}>
-        <BookOpen size={24} className="text-phase-3" style={{ margin: '0 auto 0.625rem' }} />
-        <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>{t('dashboard.quickActions.aeoGuide')}</p>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('dashboard.quickActions.aeoGuideDesc')}</p>
+        <BookOpen size={24} className="text-phase-3" style={{ margin: '0 auto var(--space-2)' }} />
+        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 'var(--space-1)' }}>{t('dashboard.quickActions.aeoGuide')}</p>
+        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>{t('dashboard.quickActions.aeoGuideDesc')}</p>
       </button>
       <button className="quick-action-card" onClick={() => setActiveView('analyzer')}>
-        <Sparkles size={24} className="text-phase-1" style={{ margin: '0 auto 0.625rem' }} />
-        <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>{t('dashboard.quickActions.runAnalyzer')}</p>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('dashboard.quickActions.runAnalyzerDesc')}</p>
+        <Sparkles size={24} className="text-phase-1" style={{ margin: '0 auto var(--space-2)' }} />
+        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 'var(--space-1)' }}>{t('dashboard.quickActions.runAnalyzer')}</p>
+        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>{t('dashboard.quickActions.runAnalyzerDesc')}</p>
       </button>
       <button className="quick-action-card" onClick={() => setActiveView('testing')}>
-        <FlaskConical size={24} className="text-phase-5" style={{ margin: '0 auto 0.625rem' }} />
-        <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>{t('dashboard.quickActions.startTesting')}</p>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('dashboard.quickActions.startTestingDesc')}</p>
+        <FlaskConical size={24} className="text-phase-5" style={{ margin: '0 auto var(--space-2)' }} />
+        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 'var(--space-1)' }}>{t('dashboard.quickActions.startTesting')}</p>
+        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>{t('dashboard.quickActions.startTestingDesc')}</p>
       </button>
     </div>
   )

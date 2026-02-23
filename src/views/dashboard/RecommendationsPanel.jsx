@@ -36,7 +36,7 @@ export default function RecommendationsPanel({ recommendations, contextLine }) {
   if (!recommendations || recommendations.length === 0) return null
 
   return (
-    <div className="card" style={{ padding: '1.25rem' }}>
+    <div className="card card-lg">
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: contextLine ? '0.25rem' : '0.875rem' }}>
         <Lightbulb size={16} style={{ color: 'var(--color-phase-5)' }} />
         <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', flex: 1 }}>

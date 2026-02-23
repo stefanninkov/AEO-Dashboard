@@ -24,7 +24,7 @@ export default memo(function PhaseDonut({ phases, getPhaseProgress, onNavigate }
   })
 
   return (
-    <div className="card" style={{ padding: '1.25rem', display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+    <div className="card card-lg" style={{ display: 'flex', gap: 'var(--space-6)', alignItems: 'center', flexWrap: 'wrap' }}>
       {/* SVG Donut */}
       <div style={{ flexShrink: 0 }}>
         <svg width="160" height="160" viewBox="0 0 160 160">

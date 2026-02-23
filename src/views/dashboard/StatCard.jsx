@@ -2,40 +2,80 @@ import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
-export default memo(function StatCard({ label, value, trend, icon, iconColor }) {
+/**
+ * Unified stat card — used across Dashboard, Metrics, GSC, GA4, AeoImpact.
+ * Supports vertical (default) and horizontal layout.
+ *
+ * @param {string} label - Metric label
+ * @param {string|number} value - Large display value
+ * @param {number|null} [trend] - Percentage change (optional)
+ * @param {ReactNode} [icon] - Icon element
+ * @param {string} [iconColor] - CSS color for icon + tinted bg
+ * @param {string} [subValue] - Secondary info below value (horizontal mode)
+ * @param {'vertical'|'horizontal'} [layout='vertical'] - Card layout direction
+ * @param {string} [className] - Extra class names
+ */
+export default memo(function StatCard({ label, value, trend, icon, iconColor, subValue, layout = 'vertical', className = '' }) {
   const { t } = useTranslation('app')
+  const isHorizontal = layout === 'horizontal'
+
   return (
-    <div className="stat-card">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.625rem' }}>
-        <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>{label}</span>
-        <div style={{
-          width: '2.125rem', height: '2.125rem', borderRadius: '0.5625rem', display: 'flex',
-          alignItems: 'center', justifyContent: 'center',
-          background: iconColor + '18', color: iconColor,
-        }}>
-          {icon}
-        </div>
-      </div>
-      <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.75rem', fontWeight: 700, lineHeight: 1, color: 'var(--text-primary)' }}>
-        {value}
-      </div>
-      {trend !== null && trend !== undefined && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.5rem' }}>
-          {trend > 0 ? (
-            <TrendingUp size={12} style={{ color: 'var(--color-success)' }} />
-          ) : trend < 0 ? (
-            <TrendingDown size={12} style={{ color: 'var(--color-error)' }} />
-          ) : (
-            <Minus size={12} style={{ color: 'var(--text-tertiary)' }} />
+    <div className={`stat-card ${className}`}>
+      {isHorizontal ? (
+        /* ── Horizontal: icon left, content right ── */
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+          {icon && (
+            <div className="stat-card-icon" style={{ background: iconColor + '15', color: iconColor }}>
+              {icon}
+            </div>
           )}
-          <span style={{
-            fontSize: '0.6875rem', fontWeight: 500,
-            color: trend > 0 ? 'var(--color-success)' : trend < 0 ? 'var(--color-error)' : 'var(--text-tertiary)',
-          }}>
-            {trend > 0 ? '+' : ''}{trend}% {t('dashboard.statCard.vsLastPeriod')}
-          </span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="stat-card-label">{label}</div>
+            <div className="stat-card-value" style={{ fontSize: 'var(--text-xl)' }}>{value}</div>
+            {subValue && (
+              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', marginTop: 'var(--space-1)' }}>{subValue}</div>
+            )}
+          </div>
+          {trend !== null && trend !== undefined && (
+            <TrendBadge trend={trend} t={t} />
+          )}
         </div>
+      ) : (
+        /* ── Vertical: label + icon header, big value, trend ── */
+        <>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span className="stat-card-label">{label}</span>
+            {icon && (
+              <div className="stat-card-icon" style={{ background: iconColor + '18', color: iconColor }}>
+                {icon}
+              </div>
+            )}
+          </div>
+          <div className="stat-card-value">{value}</div>
+          {trend !== null && trend !== undefined && (
+            <TrendBadge trend={trend} t={t} />
+          )}
+        </>
       )}
     </div>
   )
 })
+
+function TrendBadge({ trend, t }) {
+  return (
+    <div className={`stat-card-trend ${trend > 0 ? 'up' : trend < 0 ? 'down' : ''}`}>
+      {trend > 0 ? (
+        <TrendingUp size={12} />
+      ) : trend < 0 ? (
+        <TrendingDown size={12} />
+      ) : (
+        <Minus size={12} style={{ color: 'var(--text-tertiary)' }} />
+      )}
+      <span style={{
+        color: trend > 0 ? undefined : trend < 0 ? undefined : 'var(--text-tertiary)',
+      }}>
+        {trend > 0 ? '+' : ''}{trend}% {t('dashboard.statCard.vsLastPeriod')}
+      </span>
+    </div>
+  )
+}

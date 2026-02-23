@@ -233,13 +233,13 @@ export default function AnalyticsPanel({ activeProject, phases }) {
   }, [phases, checked])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <div className="section-gap-md" style={{ gap: 'var(--space-5)' }}>
 
       {/* ═══ ROW 1: Health Score + Score Trend ═══ */}
-      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
 
         {/* AEO Health Score — Radial Gauge */}
-        <div className="card" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="card card-lg" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <SectionHeader icon={Shield} label={t('dashboard.analyticsPanel.healthScore')} color={healthColor} />
           <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <ResponsiveContainer width={180} height={180}>
@@ -295,7 +295,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
         </div>
 
         {/* Score Trend Sparkline */}
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div className="card card-lg">
           <SectionHeader icon={TrendingUp} label={t('dashboard.analyticsPanel.scoreTrend')} color={phaseColors[2]} />
           {scoreTrend.length > 1 ? (
             <>
@@ -352,7 +352,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
       </div>
 
       {/* ═══ ROW 2: Mini Stats Strip ═══ */}
-      <div className="resp-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }}>
+      <div className="resp-grid-4 stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-3)' }}>
         <MiniStat
           label={t('dashboard.analyticsPanel.checklist')}
           value={`${checklistStats.done}/${checklistStats.total}`}
@@ -384,10 +384,10 @@ export default function AnalyticsPanel({ activeProject, phases }) {
       </div>
 
       {/* ═══ ROW 3: Feature Usage + Phase Radar ═══ */}
-      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
 
         {/* Feature Usage */}
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div className="card card-lg">
           <SectionHeader icon={Sparkles} label={t('dashboard.analyticsPanel.featureUsage')} color={phaseColors[1]} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {featureUsage.map(feat => {
@@ -454,7 +454,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
         </div>
 
         {/* Phase Radar Chart */}
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div className="card card-lg">
           <SectionHeader icon={Activity} label={t('dashboard.analyticsPanel.phaseRadar')} color={phaseColors[3]} />
           {radarData.length > 0 ? (
             <ResponsiveContainer width="100%" height={260}>
@@ -488,10 +488,10 @@ export default function AnalyticsPanel({ activeProject, phases }) {
       </div>
 
       {/* ═══ ROW 4: Velocity + Engine Coverage ═══ */}
-      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+      <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
 
         {/* Project Velocity */}
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div className="card card-lg">
           <SectionHeader icon={ArrowUpRight} label={t('dashboard.analyticsPanel.projectVelocity')} color={phaseColors[4]} />
           {velocity.length > 0 ? (
             <>
@@ -526,7 +526,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
         </div>
 
         {/* Engine Coverage */}
-        <div className="card" style={{ padding: '1.25rem' }}>
+        <div className="card card-lg">
           <SectionHeader icon={Activity} label={t('dashboard.analyticsPanel.engineCoverage')} color={phaseColors[6]} />
           {engineCoverage.total > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -589,7 +589,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
       </div>
 
       {/* ═══ ROW 5: Insights Summary ═══ */}
-      <div className="card" style={{ padding: '1.25rem' }}>
+      <div className="card card-lg">
         <SectionHeader icon={ChartColumnIncreasing} label={t('dashboard.analyticsPanel.keyInsights')} color={phaseColors[5]} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', gap: '0.75rem' }}>
           {/* Dynamic insights based on data */}
