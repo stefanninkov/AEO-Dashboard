@@ -1178,6 +1178,21 @@
       "cancel": "Cancel",
       "saveChanges": "Save Changes",
       "addEntry": "Add Entry"
+    },
+    "tabHistory": "History",
+    "history": {
+      "all": "All",
+      "contentOnly": "Content",
+      "schemaOnly": "Schema",
+      "allTypes": "All types",
+      "copied": "Content copied to clipboard",
+      "delete": "Delete",
+      "copy": "Copy",
+      "untitled": "Untitled",
+      "emptyTitle": "No content history yet",
+      "emptyDesc": "Content you generate with the Writer or Schema Generator will appear here.",
+      "noMatch": "No matching entries",
+      "adjustFilters": "Try adjusting your filters to see more results."
     }
   },
   "emailReport": {

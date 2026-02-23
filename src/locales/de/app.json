@@ -1178,6 +1178,21 @@
       "cancel": "Abbrechen",
       "saveChanges": "Änderungen speichern",
       "addEntry": "Eintrag hinzufügen"
+    },
+    "tabHistory": "Verlauf",
+    "history": {
+      "all": "Alle",
+      "contentOnly": "Inhalte",
+      "schemaOnly": "Schema",
+      "allTypes": "Alle Typen",
+      "copied": "Inhalt in Zwischenablage kopiert",
+      "delete": "Löschen",
+      "copy": "Kopieren",
+      "untitled": "Ohne Titel",
+      "emptyTitle": "Noch kein Content-Verlauf",
+      "emptyDesc": "Inhalte, die Sie mit dem Writer oder Schema-Generator erstellen, erscheinen hier.",
+      "noMatch": "Keine passenden Einträge",
+      "adjustFilters": "Versuchen Sie, Ihre Filter anzupassen, um mehr Ergebnisse zu sehen."
     }
   },
   "emailReport": {
