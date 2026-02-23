@@ -24,12 +24,12 @@ export default memo(function AdminTopBar({ user, activeView }) {
             width: '2rem',
             height: '2rem',
             borderRadius: '0.5rem',
-            background: 'rgba(255,107,53,0.1)',
+            background: 'rgba(37,99,235,0.1)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <Shield size={16} style={{ color: 'var(--color-phase-1)' }} />
+            <Shield size={16} style={{ color: 'var(--accent)' }} />
           </div>
           <h1 style={{
             fontFamily: 'var(--font-heading)',
@@ -67,9 +67,9 @@ export default memo(function AdminTopBar({ user, activeView }) {
             letterSpacing: '0.04rem',
             padding: '0.125rem 0.4375rem',
             borderRadius: '0.25rem',
-            background: 'rgba(255,107,53,0.1)',
-            color: 'var(--color-phase-1)',
-            border: '0.0625rem solid rgba(255,107,53,0.15)',
+            background: 'rgba(37,99,235,0.1)',
+            color: 'var(--accent)',
+            border: '0.0625rem solid rgba(37,99,235,0.15)',
           }}>
             SUPER ADMIN
           </span>

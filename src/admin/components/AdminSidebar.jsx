@@ -48,7 +48,7 @@ export default memo(function AdminSidebar({ activeView, setActiveView, user, onS
     <aside className="sidebar">
       {/* Logo */}
       <div className="sidebar-logo">
-        <Shield size={20} style={{ color: 'var(--color-phase-1)', flexShrink: 0 }} />
+        <Shield size={20} style={{ color: 'var(--accent)', flexShrink: 0 }} />
         <span className="sidebar-logo-text">Admin Panel</span>
       </div>
 
@@ -117,7 +117,7 @@ export default memo(function AdminSidebar({ activeView, setActiveView, user, onS
           <p className="sidebar-user-name">
             {user?.displayName || 'Admin'}
           </p>
-          <p className="sidebar-user-email" style={{ color: 'var(--color-phase-1)' }}>
+          <p className="sidebar-user-email" style={{ color: 'var(--accent)' }}>
             Super Admin
           </p>
         </div>

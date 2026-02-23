@@ -151,7 +151,7 @@ export default function NudgeEmailDialog({ isOpen, onClose, targetUser, adminUse
           padding: '1.25rem 1.5rem',
           borderBottom: '0.0625rem solid var(--border-subtle)',
         }}>
-          <Mail size={18} style={{ color: 'var(--color-phase-1)' }} />
+          <Mail size={18} style={{ color: 'var(--accent)' }} />
           <div style={{ flex: 1 }}>
             <h3 style={{
               fontFamily: 'var(--font-heading)', fontSize: '0.9375rem',

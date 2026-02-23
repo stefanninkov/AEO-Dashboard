@@ -33,7 +33,7 @@ export function generateReport(metrics, projectName, dateRange) {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a2e; padding: 2.5rem; max-width: 50rem; margin: auto; }
     h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
-    h2 { font-size: 1rem; margin: 1.5rem 0 0.75rem; color: #FF6B35; border-bottom: 0.125rem solid #FF6B35; padding-bottom: 0.25rem; }
+    h2 { font-size: 1rem; margin: 1.5rem 0 0.75rem; color: #2563EB; border-bottom: 0.125rem solid #2563EB; padding-bottom: 0.25rem; }
     .subtitle { color: #5a5a6e; font-size: 0.875rem; margin-bottom: 1.5rem; }
     .meta { color: #8c8c9a; font-size: 0.75rem; margin-bottom: 2rem; }
     .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }

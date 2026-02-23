@@ -17,7 +17,7 @@ const ICON_PRESETS = {
   gsc: { Icon: Globe, color: '#3B82F6' },
   ga4: { Icon: ChartColumnIncreasing, color: '#10B981' },
   'aeo-impact': { Icon: Layers, color: '#8B5CF6' },
-  search: { Icon: SearchCheck, color: '#FF6B35' },
+  search: { Icon: SearchCheck, color: '#2563EB' },
   default: { Icon: Globe, color: '#3B82F6' },
 }
 

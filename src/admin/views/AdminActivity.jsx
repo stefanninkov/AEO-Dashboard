@@ -44,7 +44,7 @@ const ACTIVITY_COLORS = {
   schemaGenerate: '#06B6D4',
   generateFix: '#F59E0B',
   monitor: '#0EA5E9',
-  task_assign: '#FF6B35',
+  task_assign: '#2563EB',
   comment_add: '#6366F1',
   member_add: '#10B981',
   member_remove: '#EF4444',
@@ -91,7 +91,7 @@ export default function AdminActivity({ user }) {
   if (loading && !stats) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading activity...</p>
       </div>
     )

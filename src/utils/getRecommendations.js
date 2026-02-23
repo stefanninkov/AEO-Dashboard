@@ -348,7 +348,7 @@ export function getRecommendations(questionnaire, setActiveView) {
 
 /* ── Recommendation Categories ── */
 const CATEGORIES = {
-  getting_started: { label: 'Getting Started', color: '#FF6B35' },
+  getting_started: { label: 'Getting Started', color: '#2563EB' },
   checklist: { label: 'Checklist', color: '#10B981' },
   metrics: { label: 'Metrics', color: '#6366F1' },
   content: { label: 'Content', color: '#F59E0B' },

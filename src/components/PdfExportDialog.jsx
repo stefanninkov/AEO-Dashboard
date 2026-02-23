@@ -37,7 +37,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
   })
   const [generating, setGenerating] = useState(false)
   const [logoDataUrl, setLogoDataUrl] = useState(null)
-  const [accentColor, setAccentColor] = useState('#FF6B35')
+  const [accentColor, setAccentColor] = useState('#2563EB')
 
   const toggleSection = (key) => {
     setSelectedSections(prev => ({ ...prev, [key]: !prev[key] }))

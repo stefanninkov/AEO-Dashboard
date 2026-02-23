@@ -31,7 +31,7 @@ function LoadingScreen() {
         <div style={{
           width: '2rem',
           height: '2rem',
-          border: '0.125rem solid var(--color-phase-1)',
+          border: '0.125rem solid var(--accent)',
           borderTopColor: 'transparent',
           borderRadius: '50%',
           animation: 'spin 1s linear infinite',

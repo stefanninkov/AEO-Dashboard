@@ -318,7 +318,7 @@ export default function AdminAnalytics({ user }) {
   if (loading && !stats) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading analytics...</p>
       </div>
     )
@@ -332,12 +332,12 @@ export default function AdminAnalytics({ user }) {
     competitor_add: 'Add competitor', competitor_analyze: 'Analyze competitors',
   }
 
-  const BAR_COLORS = ['#FF6B35', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#F59E0B', '#06B6D4', '#EF4444']
+  const BAR_COLORS = ['#2563EB', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#F59E0B', '#06B6D4', '#EF4444']
   const BUCKET_COLORS = { '0%': '#6B7280', '1-25%': '#EF4444', '26-50%': '#F59E0B', '51-75%': '#3B82F6', '76-99%': '#10B981', '100%': '#8B5CF6' }
   const SENTIMENT_ICONS = { love: Heart, good: ThumbsUp, okay: Minus, frustrated: ThumbsDown }
   const SENTIMENT_COLORS = { love: '#10B981', good: '#3B82F6', okay: '#F59E0B', frustrated: '#EF4444' }
   const FEATURE_COLORS = {
-    analyzer: '#FF6B35', contentWriter: '#3B82F6', competitors: '#8B5CF6',
+    analyzer: '#2563EB', contentWriter: '#3B82F6', competitors: '#8B5CF6',
     metrics: '#10B981', schema: '#EC4899', calendar: '#F59E0B',
     export: '#06B6D4', team: '#EF4444',
   }
@@ -358,7 +358,7 @@ export default function AdminAnalytics({ user }) {
         <StatBox icon={Users} label="Active Rate (7d)" value={`${analytics?.activeRatio || 0}%`} color="#3B82F6" />
         <StatBox icon={CheckSquare} label="Task Completion" value={`${analytics?.taskRate || 0}%`} color="#10B981" />
         <StatBox icon={FolderKanban} label="Avg Tasks/Project" value={analytics?.avgTasks || 0} color="#8B5CF6" />
-        <StatBox icon={Activity} label="Recent Events" value={stats?.recentActivity?.length || 0} color="#FF6B35" />
+        <StatBox icon={Activity} label="Recent Events" value={stats?.recentActivity?.length || 0} color="#2563EB" />
         <StatBox icon={Mail} label="Waitlist Convert" value={`${analytics?.conversionRate || 0}%`} color="#0EA5E9" />
         <StatBox icon={MessageSquare} label="Satisfaction" value={`${analytics?.satisfactionRate || 0}%`} color="#EC4899" />
       </div>
@@ -442,7 +442,7 @@ export default function AdminAnalytics({ user }) {
             </div>
           </div>
           <div style={{ padding: '1rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: '#FF6B35' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: '#2563EB' }}>
               {stats?.onboardingTimes?.avgToAnalyzer != null ? `${stats.onboardingTimes.avgToAnalyzer}d` : '--'}
             </div>
             <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.04rem', marginTop: '0.25rem' }}>
@@ -535,7 +535,7 @@ export default function AdminAnalytics({ user }) {
             label="Waitlist Signups"
             thisWeek={analytics?.waitlistGrowth?.thisWeek || 0}
             lastWeek={analytics?.waitlistGrowth?.lastWeek || 0}
-            color="#FF6B35"
+            color="#2563EB"
           />
           <GrowthMetric
             label="User Activity"
@@ -556,7 +556,7 @@ export default function AdminAnalytics({ user }) {
         />
         <TrendChart
           data={stats?.waitlistTrend}
-          color="#FF6B35"
+          color="#2563EB"
           title="Waitlist Signups (14d)"
           height={90}
         />
@@ -694,7 +694,7 @@ export default function AdminAnalytics({ user }) {
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           {[
-            { label: 'Total Signups', value: stats?.waitlistTotal || 0, color: '#FF6B35' },
+            { label: 'Total Signups', value: stats?.waitlistTotal || 0, color: '#2563EB' },
             { label: 'Active', value: analytics?.waitlistActive || 0, color: '#3B82F6' },
             { label: 'Converted', value: analytics?.waitlistConverted || 0, color: '#10B981' },
             { label: 'Conversion Rate', value: `${analytics?.conversionRate || 0}%`, color: '#8B5CF6' },

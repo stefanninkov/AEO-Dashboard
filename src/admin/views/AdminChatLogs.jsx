@@ -70,7 +70,7 @@ export default function AdminChatLogs({ user }) {
   if (loading) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading chat logs...</p>
       </div>
     )
@@ -96,7 +96,7 @@ export default function AdminChatLogs({ user }) {
       {/* Stats Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(7rem, 1fr))', gap: '0.75rem' }}>
         {[
-          { label: 'Total Sessions', value: stats.total, color: '#FF6B35' },
+          { label: 'Total Sessions', value: stats.total, color: '#2563EB' },
           { label: 'This Week', value: stats.thisWeek, color: '#3B82F6' },
           { label: 'Avg Messages', value: stats.avgMessages, color: '#8B5CF6' },
           { label: 'Unique Users', value: stats.uniqueUsers, color: '#10B981' },
@@ -149,11 +149,11 @@ export default function AdminChatLogs({ user }) {
                   {/* Icon */}
                   <div style={{
                     width: '1.5rem', height: '1.5rem', borderRadius: 6,
-                    background: 'rgba(255,107,53,0.1)',
+                    background: 'rgba(37,99,235,0.1)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}>
-                    <MessageCircle size={12} style={{ color: 'var(--color-phase-1)' }} />
+                    <MessageCircle size={12} style={{ color: 'var(--accent)' }} />
                   </div>
 
                   {/* Time */}
@@ -212,12 +212,12 @@ export default function AdminChatLogs({ user }) {
                       >
                         <div style={{
                           width: 22, height: 22, borderRadius: 6, flexShrink: 0,
-                          background: msg.role === 'user' ? 'var(--color-phase-4)' : 'rgba(255,107,53,0.1)',
+                          background: msg.role === 'user' ? 'var(--color-phase-4)' : 'rgba(37,99,235,0.1)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           {msg.role === 'user'
                             ? <User size={11} style={{ color: '#fff' }} />
-                            : <Bot size={11} style={{ color: 'var(--color-phase-1)' }} />
+                            : <Bot size={11} style={{ color: 'var(--accent)' }} />
                           }
                         </div>
                         <div style={{

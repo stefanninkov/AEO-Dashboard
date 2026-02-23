@@ -14,7 +14,7 @@ function Toggle({ checked, onChange, label, disabled }) {
         onClick={() => !disabled && onChange(!checked)}
         style={{
           width: '2.5rem', height: '1.375rem', borderRadius: '0.6875rem',
-          background: checked ? 'var(--color-phase-1)' : 'var(--hover-bg)',
+          background: checked ? 'var(--accent)' : 'var(--hover-bg)',
           border: '0.0625rem solid var(--border-subtle)',
           position: 'relative', cursor: disabled ? 'not-allowed' : 'pointer', transition: 'background 0.2s',
         }}
@@ -38,7 +38,7 @@ function SettingSection({ icon: Icon, title, children }) {
         display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '1rem',
         paddingBottom: '0.75rem', borderBottom: '0.0625rem solid var(--border-subtle)',
       }}>
-        <Icon size={16} style={{ color: 'var(--color-phase-1)' }} />
+        <Icon size={16} style={{ color: 'var(--accent)' }} />
         <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>
           {title}
         </span>

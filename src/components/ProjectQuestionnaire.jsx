@@ -40,7 +40,7 @@ const ENGINE_META = [
   { value: 'google-aio', color: '#4285F4' },
   { value: 'bing-copilot', color: '#00A4EF' },
   { value: 'claude', color: '#D97706' },
-  { value: 'all', color: '#FF6B35' },
+  { value: 'all', color: '#2563EB' },
 ]
 
 const CONTENT_IDS = ['blog', 'product', 'docs', 'landing', 'mixed']

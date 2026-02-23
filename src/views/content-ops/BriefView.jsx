@@ -215,10 +215,10 @@ function BriefDisplay({ briefEntry, onCopy, onRemove }) {
 
       {/* AEO Tips */}
       {b.aeoTips?.length > 0 && (
-        <BriefSection icon={Sparkles} title="AEO Optimization Tips" color="#FF6B35">
+        <BriefSection icon={Sparkles} title="AEO Optimization Tips" color="#2563EB">
           {b.aeoTips.map((t, i) => (
             <div key={i} style={{ ...itemStyle, display: 'flex', gap: '0.5rem' }}>
-              <Sparkles size={12} style={{ color: '#FF6B35', flexShrink: 0, marginTop: '0.25rem' }} />
+              <Sparkles size={12} style={{ color: '#2563EB', flexShrink: 0, marginTop: '0.25rem' }} />
               <span>{t}</span>
             </div>
           ))}

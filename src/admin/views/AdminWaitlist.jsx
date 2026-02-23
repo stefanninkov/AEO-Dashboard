@@ -110,7 +110,7 @@ export default function AdminWaitlist({ user }) {
   if (loading) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading waitlist...</p>
       </div>
     )
@@ -141,7 +141,7 @@ export default function AdminWaitlist({ user }) {
       {/* Stats Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
         {[
-          { label: 'Total Signups', value: stats.total, icon: Users, color: '#FF6B35' },
+          { label: 'Total Signups', value: stats.total, icon: Users, color: '#2563EB' },
           { label: 'This Week', value: stats.thisWeek, icon: TrendingUp, color: '#3B82F6' },
           { label: 'Today', value: stats.today, icon: UserPlus, color: '#10B981' },
         ].map(s => {
@@ -189,7 +189,7 @@ export default function AdminWaitlist({ user }) {
                 padding: '0.375rem 0.75rem', borderRadius: 99, fontSize: '0.6875rem',
                 fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer',
                 border: 'none', transition: 'all 150ms',
-                background: statusFilter === status ? 'var(--color-phase-1)' : 'var(--hover-bg)',
+                background: statusFilter === status ? 'var(--accent)' : 'var(--hover-bg)',
                 color: statusFilter === status ? '#fff' : 'var(--text-tertiary)',
               }}
             >
@@ -241,10 +241,10 @@ export default function AdminWaitlist({ user }) {
                 <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <div style={{
                     width: '1.5rem', height: '1.5rem', borderRadius: 6,
-                    background: 'rgba(255,107,53,0.1)',
+                    background: 'rgba(37,99,235,0.1)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   }}>
-                    <Mail size={11} style={{ color: 'var(--color-phase-1)' }} />
+                    <Mail size={11} style={{ color: 'var(--accent)' }} />
                   </div>
                   <span style={{
                     fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)',

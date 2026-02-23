@@ -33,9 +33,9 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
   const notes = project?.notes || {}
   const verifications = project?.verifications || {}
 
-  // Parse accent color (default: #FF6B35)
+  // Parse accent color (default: #2563EB)
   function hexToRgb(hex) {
-    const h = (hex || '#FF6B35').replace('#', '')
+    const h = (hex || '#2563EB').replace('#', '')
     return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]
   }
   const accent = hexToRgb(accentColor)

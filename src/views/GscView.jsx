@@ -307,7 +307,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
             icon={<MousePointerClick size={16} />}
             label={t('gsc.totalClicks')}
             value={fmt(queryData.totalClicks)}
-            iconColor="#FF6B35"
+            iconColor="#2563EB"
           />
           <StatCard
             layout="horizontal"

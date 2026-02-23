@@ -42,7 +42,7 @@ export default function AdminRevenue() {
         <PlaceholderCard icon={DollarSign} label="MRR" value="$0" color="#10B981" />
         <PlaceholderCard icon={TrendingUp} label="Growth" value="—" color="#3B82F6" />
         <PlaceholderCard icon={Users} label="Paid Users" value="0" color="#8B5CF6" />
-        <PlaceholderCard icon={CreditCard} label="Subscriptions" value="0" color="#FF6B35" />
+        <PlaceholderCard icon={CreditCard} label="Subscriptions" value="0" color="#2563EB" />
       </div>
 
       {/* Coming soon */}

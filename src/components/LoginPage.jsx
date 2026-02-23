@@ -134,7 +134,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
         }} />
 
         {/* Gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-[6.25rem]" style={{ background: 'var(--color-phase-1)', opacity: 0.08 }} />
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-[6.25rem]" style={{ background: 'var(--accent)', opacity: 0.08 }} />
         <div className="absolute bottom-1/3 right-1/4 w-56 h-56 rounded-full blur-[5rem]" style={{ background: 'var(--color-phase-2)', opacity: 0.06 }} />
         <div className="absolute top-2/3 left-1/2 w-40 h-40 rounded-full blur-[3.75rem]" style={{ background: 'var(--color-phase-3)', opacity: 0.05 }} />
 

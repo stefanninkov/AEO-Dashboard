@@ -303,7 +303,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
               label={t('ga4.aiSessions')}
               value={fmt(trafficData.totalAiSessions)}
               subValue={t('ga4.ofTotalTraffic', { value: fmtPct(trafficData.aiSessionShare) })}
-              iconColor="#FF6B35"
+              iconColor="#2563EB"
             />
             <StatCard
               layout="horizontal"

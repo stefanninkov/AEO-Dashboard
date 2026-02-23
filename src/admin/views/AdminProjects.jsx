@@ -392,7 +392,7 @@ export default function AdminProjects({ user }) {
   if (loading && !stats) {
     return (
       <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--color-phase-1)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading projects...</p>
       </div>
     )

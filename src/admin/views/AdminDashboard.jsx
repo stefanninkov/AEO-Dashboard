@@ -744,7 +744,7 @@ export default function AdminDashboard({ user, onNavigate }) {
         display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(18rem, 1fr))', gap: '1rem',
       }}>
         <div className="card" style={{ padding: '1.25rem' }}>
-          <TrendChart data={stats.waitlistTrend} color="#FF6B35" title="Waitlist Signups (14d)" height={70} />
+          <TrendChart data={stats.waitlistTrend} color="#2563EB" title="Waitlist Signups (14d)" height={70} />
         </div>
         <div className="card" style={{ padding: '1.25rem' }}>
           <TrendChart data={stats.activityTrend} color="#3B82F6" title="User Activity (14d)" height={70} />
@@ -1030,7 +1030,7 @@ export default function AdminDashboard({ user, onNavigate }) {
           <SectionHeader
             icon={Mail}
             title="Latest Waitlist"
-            color="#FF6B35"
+            color="#2563EB"
             count={`${stats.waitlistTotal} total`}
             extra={waitlistWeeklyTrend > 0 ? (
               <span style={{ fontSize: '0.625rem', fontWeight: 700, color: '#10B981' }}>
@@ -1046,10 +1046,10 @@ export default function AdminDashboard({ user, onNavigate }) {
               }}>
                 <div style={{
                   width: '1.5rem', height: '1.5rem', borderRadius: 6,
-                  background: 'rgba(255,107,53,0.1)',
+                  background: 'rgba(37,99,235,0.1)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                 }}>
-                  <Mail size={10} style={{ color: '#FF6B35' }} />
+                  <Mail size={10} style={{ color: '#2563EB' }} />
                 </div>
                 <span style={{
                   flex: 1, fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)',
