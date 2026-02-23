@@ -129,7 +129,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
 
       {/* Theme Toggle */}
       <button
-        onClick={toggleTheme}
+        onClick={(e) => toggleTheme(e)}
         className="sidebar-nav-item"
         role="switch"
         aria-checked={theme === 'dark'}

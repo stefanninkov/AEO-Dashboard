@@ -53,12 +53,38 @@ export function ThemeProvider({ children }) {
     setThemeState(val)
   }, [])
 
-  const toggleTheme = useCallback(() => {
-    setThemeState(prev => {
-      // Simple two-state toggle (dark ↔ light)
-      // "auto" is still available via setTheme() in Settings
-      const resolved = prev === 'auto' ? systemPref : prev
-      return resolved === 'dark' ? 'light' : 'dark'
+  const toggleTheme = useCallback((event) => {
+    const update = () => {
+      setThemeState(prev => {
+        const resolved = prev === 'auto' ? systemPref : prev
+        return resolved === 'dark' ? 'light' : 'dark'
+      })
+    }
+
+    // Use View Transition API for circular reveal if supported
+    if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      update()
+      return
+    }
+
+    // Capture click position for the circular reveal origin
+    const x = event?.clientX ?? window.innerWidth / 2
+    const y = event?.clientY ?? 0
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    )
+
+    // Store coordinates as CSS custom properties for the animation
+    document.documentElement.style.setProperty('--_tx', `${x}px`)
+    document.documentElement.style.setProperty('--_ty', `${y}px`)
+    document.documentElement.style.setProperty('--_tr', `${endRadius}px`)
+
+    const transition = document.startViewTransition(update)
+    transition.finished.then(() => {
+      document.documentElement.style.removeProperty('--_tx')
+      document.documentElement.style.removeProperty('--_ty')
+      document.documentElement.style.removeProperty('--_tr')
     })
   }, [systemPref])
 

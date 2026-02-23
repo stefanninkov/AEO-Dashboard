@@ -78,7 +78,7 @@ export default memo(function AdminSidebar({ activeView, setActiveView, user, onS
       <div className="sidebar-section-label">Tools</div>
 
       {/* Theme Toggle */}
-      <button onClick={toggleTheme} className="sidebar-nav-item">
+      <button onClick={(e) => toggleTheme(e)} className="sidebar-nav-item">
         {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
       </button>
