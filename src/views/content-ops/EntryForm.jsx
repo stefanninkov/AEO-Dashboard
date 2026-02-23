@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
-import { X, Trash2, Link2, CheckSquare, Calendar as CalendarIcon } from 'lucide-react'
+import { X, Trash2, Link2, CheckSquare, Calendar as CalendarIcon, Lightbulb, Check } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { STATUS_OPTIONS, formatDateKey } from './useContentCalendar'
+import { generateLinkedTasks } from '../../utils/calendarBridge'
 
 /* ── Flatten all checklist items from phases for the task dropdown ── */
 function getAllChecklistItems(phases) {
@@ -27,6 +28,7 @@ export default function EntryForm({
   entry,          // null = new entry, object = editing
   initialDate,    // pre-filled date for new entries (from clicking a day)
   phases,
+  checked,        // project.checked state for checklist items
   members,        // activeProject.members array
   briefs,         // contentBriefs array for linking
   onSave,
@@ -62,6 +64,7 @@ export default function EntryForm({
   }, [entry])
 
   const allItems = useMemo(() => getAllChecklistItems(phases), [phases])
+  const suggestedTasks = useMemo(() => generateLinkedTasks(title, phases, checked), [title, phases, checked])
 
   // When a checklist item is selected, auto-fill title if empty
   const handleChecklistSelect = (itemId) => {
@@ -216,6 +219,67 @@ export default function EntryForm({
               ))}
             </select>
           </div>
+
+          {/* Suggested AEO tasks */}
+          {suggestedTasks.length > 0 && !checklistItemId && (
+            <div>
+              <label style={labelStyle}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <Lightbulb size={11} /> {t('contentOps.linkedTasks.suggested')}
+                </span>
+              </label>
+              <div style={{
+                display: 'flex', flexDirection: 'column', gap: 'var(--space-1)',
+                padding: 'var(--space-2)',
+                background: 'var(--bg-input)',
+                borderRadius: 'var(--radius-md)',
+                border: '0.0625rem solid var(--border-subtle)',
+              }}>
+                {suggestedTasks.map(task => (
+                  <button
+                    key={task.id}
+                    type="button"
+                    onClick={() => handleChecklistSelect(task.id)}
+                    style={{
+                      display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)',
+                      padding: 'var(--space-2) var(--space-3)',
+                      borderRadius: 'var(--radius-sm)',
+                      border: 'none',
+                      background: task.isChecked ? 'transparent' : 'var(--hover-bg)',
+                      cursor: task.isChecked ? 'default' : 'pointer',
+                      opacity: task.isChecked ? 0.5 : 1,
+                      textAlign: 'left',
+                      width: '100%',
+                      transition: 'background 150ms',
+                    }}
+                    disabled={task.isChecked}
+                  >
+                    <div style={{
+                      width: '0.875rem', height: '0.875rem', borderRadius: '0.1875rem',
+                      border: task.isChecked ? 'none' : `0.0625rem solid ${task.phaseColor || 'var(--border-default)'}`,
+                      background: task.isChecked ? 'var(--color-success)' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0, marginTop: '0.0625rem',
+                    }}>
+                      {task.isChecked && <Check size={9} style={{ color: '#fff' }} />}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{
+                        fontSize: 'var(--text-2xs)', color: 'var(--text-primary)',
+                        lineHeight: 1.4,
+                        textDecoration: task.isChecked ? 'line-through' : 'none',
+                      }}>
+                        {task.text.length > 60 ? task.text.slice(0, 57) + '...' : task.text}
+                      </div>
+                      <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)', marginTop: '0.0625rem' }}>
+                        Phase {task.phase} · {task.reason}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Page URL */}
           <div>

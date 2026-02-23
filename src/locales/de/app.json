@@ -1216,6 +1216,9 @@
       "saveChanges": "Änderungen speichern",
       "addEntry": "Eintrag hinzufügen"
     },
+    "linkedTasks": {
+      "suggested": "Vorgeschlagene AEO-Aufgaben"
+    },
     "tabHistory": "Verlauf",
     "history": {
       "all": "Alle",

@@ -1216,6 +1216,9 @@
       "saveChanges": "Сачувај измене",
       "addEntry": "Додај унос"
     },
+    "linkedTasks": {
+      "suggested": "Предложени AEO задаци"
+    },
     "tabHistory": "Историја",
     "history": {
       "all": "Све",

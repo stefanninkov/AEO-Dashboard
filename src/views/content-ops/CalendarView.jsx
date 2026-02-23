@@ -399,6 +399,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
           entry={cal.editingEntry}
           initialDate={cal.selectedDate}
           phases={phases}
+          checked={activeProject?.checked}
           members={members}
           briefs={briefs}
           onSave={handleSave}

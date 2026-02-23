@@ -1216,6 +1216,9 @@
       "saveChanges": "Save Changes",
       "addEntry": "Add Entry"
     },
+    "linkedTasks": {
+      "suggested": "Suggested AEO Tasks"
+    },
     "tabHistory": "History",
     "history": {
       "all": "All",
