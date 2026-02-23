@@ -620,7 +620,25 @@
     "opportunity": "Прилика",
     "lastAnalysis": "Последња анализа",
     "noCompetitorsAdded": "Нема додатих конкурената",
-    "noCompetitorsAddedDesc": "Додајте URL-ове конкурената изнад да бисте упоредили ваше AEO перформансе. Ваш сајт ће бити аутоматски укључен у анализу."
+    "noCompetitorsAddedDesc": "Додајте URL-ове конкурената изнад да бисте упоредили ваше AEO перформансе. Ваш сајт ће бити аутоматски укључен у анализу.",
+    "tabCitationDNA": "ДНК цитата",
+    "citationDNA": {
+      "title": "ДНК цитата",
+      "subtitle": "Откријте зашто АИ мотори цитирају ваш садржај. Анализира изводе цитата и податке страница за јединствен отисак.",
+      "excerptCount": "{{count}} извода цитата пронађено",
+      "runAnalysis": "Покрени ДНК анализу",
+      "analyzing": "Анализирам...",
+      "noData": "Прво покрените Citation Share или Monitoring проверу да бисте генерисали податке о цитатима за анализу.",
+      "fingerprint": "ДНК отисак",
+      "factualDensity": "Чињенична густина",
+      "structureClarity": "Јасноћа структуре",
+      "authoritySignals": "Сигнали ауторитета",
+      "freshness": "Свежина",
+      "schemaPresence": "Присуство шеме",
+      "conversationalFit": "Конверзацијска подесност",
+      "winningPatterns": "Победнички обрасци",
+      "suggestions": "Предлози за побољшање"
+    }
   },
   "gsc": {
     "title": "Search Console",

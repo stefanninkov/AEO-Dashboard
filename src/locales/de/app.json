@@ -620,7 +620,25 @@
     "opportunity": "Chance",
     "lastAnalysis": "Letzte Analyse",
     "noCompetitorsAdded": "Keine Wettbewerber hinzugefügt",
-    "noCompetitorsAddedDesc": "Fügen Sie Wettbewerber-URLs oben hinzu, um Ihre AEO-Leistung zu vergleichen. Ihre eigene Website wird automatisch in die Analyse einbezogen."
+    "noCompetitorsAddedDesc": "Fügen Sie Wettbewerber-URLs oben hinzu, um Ihre AEO-Leistung zu vergleichen. Ihre eigene Website wird automatisch in die Analyse einbezogen.",
+    "tabCitationDNA": "Zitat-DNA",
+    "citationDNA": {
+      "title": "Zitat-DNA",
+      "subtitle": "Analysieren Sie, warum Ihre Inhalte von KI-Engines zitiert werden. Untersucht Zitat-Auszüge und Seitendaten für einen einzigartigen Fingerabdruck.",
+      "excerptCount": "{{count}} Zitat-Auszüge gefunden",
+      "runAnalysis": "DNA-Analyse starten",
+      "analyzing": "Analysiere...",
+      "noData": "Führen Sie zuerst Citation Share oder Monitoring-Checks durch, um Zitatdaten für die Analyse zu generieren.",
+      "fingerprint": "DNA-Fingerabdruck",
+      "factualDensity": "Faktendichte",
+      "structureClarity": "Strukturklarheit",
+      "authoritySignals": "Autoritätssignale",
+      "freshness": "Aktualität",
+      "schemaPresence": "Schema-Präsenz",
+      "conversationalFit": "Konversationstauglichkeit",
+      "winningPatterns": "Erfolgreiche Muster",
+      "suggestions": "Verbesserungsvorschläge"
+    }
   },
   "gsc": {
     "title": "Search Console",

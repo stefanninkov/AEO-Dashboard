@@ -620,7 +620,25 @@
     "opportunity": "Opportunity",
     "lastAnalysis": "Last analysis",
     "noCompetitorsAdded": "No Competitors Added",
-    "noCompetitorsAddedDesc": "Add competitor URLs above to compare your AEO performance. Your own site will be automatically included in the analysis."
+    "noCompetitorsAddedDesc": "Add competitor URLs above to compare your AEO performance. Your own site will be automatically included in the analysis.",
+    "tabCitationDNA": "Citation DNA",
+    "citationDNA": {
+      "title": "Citation DNA",
+      "subtitle": "Reverse-engineer why your content gets cited by AI engines. Analyzes citation excerpts and page data to produce a unique fingerprint.",
+      "excerptCount": "{{count}} citation excerpts found",
+      "runAnalysis": "Run DNA Analysis",
+      "analyzing": "Analyzing...",
+      "noData": "Run Citation Share or Monitoring checks first to generate citation data for analysis.",
+      "fingerprint": "DNA Fingerprint",
+      "factualDensity": "Factual Density",
+      "structureClarity": "Structure Clarity",
+      "authoritySignals": "Authority Signals",
+      "freshness": "Freshness",
+      "schemaPresence": "Schema Presence",
+      "conversationalFit": "Conversational Fit",
+      "winningPatterns": "Winning Patterns",
+      "suggestions": "Improvement Suggestions"
+    }
   },
   "gsc": {
     "title": "Search Console",
