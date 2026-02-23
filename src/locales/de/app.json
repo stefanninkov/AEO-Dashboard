@@ -638,6 +638,19 @@
       "conversationalFit": "Konversationstauglichkeit",
       "winningPatterns": "Erfolgreiche Muster",
       "suggestions": "Verbesserungsvorschläge"
+    },
+    "tabContentGaps": "Inhaltslücken",
+    "contentGaps": {
+      "title": "Inhaltslücken",
+      "subtitle": "Suchanfragen, bei denen Wettbewerber von KI-Engines zitiert werden, Sie aber nicht. Wählen Sie Lücken und erstellen Sie eine Content-Roadmap.",
+      "query": "Suchanfrage",
+      "competitorsCited": "Zitiert von",
+      "noData": "Führen Sie zuerst einen Citation Share Check durch, um Inhaltslücken gegenüber Wettbewerbern zu identifizieren.",
+      "generateRoadmap": "Roadmap erstellen ({{count}})",
+      "generating": "Wird erstellt...",
+      "roadmap": "Content-Roadmap",
+      "addToCalendar": "Hinzufügen",
+      "addedToCalendar": "Zum Content-Kalender hinzugefügt"
     }
   },
   "gsc": {

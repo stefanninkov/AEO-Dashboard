@@ -1,10 +1,11 @@
 import { useState, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Users, Activity, PieChart, Dna } from 'lucide-react'
+import { Users, Activity, PieChart, Dna, Target } from 'lucide-react'
 import CompetitorsOverviewTab from './competitors/CompetitorsOverviewTab'
 import CompetitorMonitoringTab from './competitors/CompetitorMonitoringTab'
 import CitationShareTab from './competitors/CitationShareTab'
 import CitationDNATab from './competitors/CitationDNATab'
+import ContentGapsTab from './competitors/ContentGapsTab'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 
 export default function CompetitorsView({ activeProject, updateProject, user }) {
@@ -80,6 +81,16 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           <Dna size={14} />
           {t('competitors.tabCitationDNA')}
         </button>
+        <button
+          className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'gaps'}
+          data-active={activeTab === 'gaps' || undefined}
+          onClick={() => setActiveTab('gaps')}
+        >
+          <Target size={14} />
+          {t('competitors.tabContentGaps')}
+        </button>
       </div>
 
       {/* Tab content */}
@@ -109,6 +120,10 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
 
       {activeTab === 'dna' && (
         <CitationDNATab activeProject={activeProject} />
+      )}
+
+      {activeTab === 'gaps' && (
+        <ContentGapsTab activeProject={activeProject} updateProject={updateProject} />
       )}
     </div>
   )

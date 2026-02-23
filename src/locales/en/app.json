@@ -638,6 +638,19 @@
       "conversationalFit": "Conversational Fit",
       "winningPatterns": "Winning Patterns",
       "suggestions": "Improvement Suggestions"
+    },
+    "tabContentGaps": "Content Gaps",
+    "contentGaps": {
+      "title": "Content Gaps",
+      "subtitle": "Queries where competitors are cited by AI engines but you aren't. Select gaps and generate a content roadmap.",
+      "query": "Query",
+      "competitorsCited": "Cited By",
+      "noData": "Run a Citation Share check first to identify content gaps against competitors.",
+      "generateRoadmap": "Generate Roadmap ({{count}})",
+      "generating": "Generating...",
+      "roadmap": "Content Roadmap",
+      "addToCalendar": "Add",
+      "addedToCalendar": "Added to content calendar"
     }
   },
   "gsc": {
