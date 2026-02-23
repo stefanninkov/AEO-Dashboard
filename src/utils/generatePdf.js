@@ -51,6 +51,57 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
     7: [99, 102, 241],   // #6366F1
   }
 
+  // ═══ Branded report helpers ═══
+
+  /** Branded footer — accent line, agency name, page numbers */
+  function drawFooter(pageNum, totalPages) {
+    doc.setDrawColor(...accent)
+    doc.setLineWidth(0.35)
+    doc.line(margin, pageH - 14, pageW - margin, pageH - 14)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(6.5)
+    doc.setTextColor(160, 160, 160)
+    doc.text(agencyName || 'AEO Dashboard', margin, pageH - 9)
+    doc.text('Generated with AEO Dashboard', pageW / 2, pageH - 9, { align: 'center' })
+    doc.text(`${pageNum} / ${totalPages}`, pageW - margin, pageH - 9, { align: 'right' })
+  }
+
+  /** Section header — accent bar above title */
+  function drawSectionHeader(text, y, color) {
+    const c = color || accent
+    doc.setFillColor(...c)
+    doc.roundedRect(margin, y - 1, 28, 1.5, 0.75, 0.75, 'F')
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(16)
+    doc.setTextColor(30, 30, 30)
+    doc.text(text, margin, y + 8)
+    return y + 14
+  }
+
+  /** Stat summary box — colored card with value + label */
+  function drawStatBox(x, y, w, h, value, label, color) {
+    // Light background (8% saturation of the color)
+    doc.setFillColor(
+      Math.min(255, color[0] + Math.round((255 - color[0]) * 0.92)),
+      Math.min(255, color[1] + Math.round((255 - color[1]) * 0.92)),
+      Math.min(255, color[2] + Math.round((255 - color[2]) * 0.92))
+    )
+    doc.roundedRect(x, y, w, h, 2, 2, 'F')
+    // Accent top strip
+    doc.setFillColor(...color)
+    doc.roundedRect(x, y, w, 1.5, 0.75, 0.75, 'F')
+    // Value
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(16)
+    doc.setTextColor(...color)
+    doc.text(String(value), x + w / 2, y + h / 2 + 1, { align: 'center' })
+    // Label
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(7)
+    doc.setTextColor(100, 100, 100)
+    doc.text(label, x + w / 2, y + h - 3, { align: 'center' })
+  }
+
   // Compute progress
   let totalItems = 0, totalDone = 0
   const phaseProgress = (phases || []).map(phase => {
@@ -126,10 +177,23 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
     doc.setTextColor(120, 120, 120)
     doc.text(`${totalDone} of ${totalItems} tasks complete`, margin, 192)
 
-    // Footer
-    doc.setFontSize(8)
-    doc.setTextColor(180, 180, 180)
-    doc.text('Generated with AEO Dashboard', margin, pageH - 15)
+    // Cover stat boxes — 3 key metrics at a glance
+    const phasesComplete = phaseProgress.filter(pp => pp.percent === 100).length
+    const activePh = phaseProgress.filter(pp => pp.percent > 0 && pp.percent < 100).length
+    const coverBoxW = (contentW - 6) / 3
+    const coverBoxY = 204
+    drawStatBox(margin, coverBoxY, coverBoxW, 22, phasesComplete + '/' + phaseProgress.length, 'Phases Complete', accent)
+    drawStatBox(margin + coverBoxW + 3, coverBoxY, coverBoxW, 22, totalDone, 'Tasks Done', [14, 165, 233])
+    drawStatBox(margin + (coverBoxW + 3) * 2, coverBoxY, coverBoxW, 22, activePh || (totalItems - totalDone), activePh ? 'In Progress' : 'Remaining', [245, 158, 11])
+
+    // Cover footer
+    doc.setDrawColor(...accent)
+    doc.setLineWidth(0.35)
+    doc.line(margin, pageH - 18, pageW - margin, pageH - 18)
+    doc.setFontSize(7)
+    doc.setTextColor(160, 160, 160)
+    doc.text(agencyName || 'AEO Dashboard', margin, pageH - 12)
+    doc.text(reportDate || '', pageW - margin, pageH - 12, { align: 'right' })
   } catch { /* cover page error — continue anyway */ }
 
   // ════════════════════════════════════════
@@ -139,36 +203,40 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
   if (sections.summary) {
     try {
       doc.addPage()
-      let y = 30
+      let y = 28
 
-      // Section header
-      doc.setFont('helvetica', 'bold')
-      doc.setFontSize(18)
-      doc.setTextColor(30, 30, 30)
-      doc.text('Executive Summary', margin, y)
-      y += 12
+      // Branded section header
+      y = drawSectionHeader('Executive Summary', y)
 
-      // Overall progress text
+      // Stat boxes — 4 key metrics
+      const sumPhasesComplete = phaseProgress.filter(pp => pp.percent === 100).length
+      const sumActivePh = phaseProgress.filter(pp => pp.percent > 0 && pp.percent < 100).length
+      const sumScoreColor = overallPercent >= 75 ? [16, 185, 129] : overallPercent >= 50 ? [245, 158, 11] : accent
+      const sumBoxW = (contentW - 9) / 4
+      drawStatBox(margin, y, sumBoxW, 20, overallPercent + '%', 'Overall Score', sumScoreColor)
+      drawStatBox(margin + sumBoxW + 3, y, sumBoxW, 20, totalDone + '/' + totalItems, 'Tasks Complete', [14, 165, 233])
+      drawStatBox(margin + (sumBoxW + 3) * 2, y, sumBoxW, 20, sumPhasesComplete, 'Phases Done', [16, 185, 129])
+      drawStatBox(margin + (sumBoxW + 3) * 3, y, sumBoxW, 20, sumActivePh, 'In Progress', [245, 158, 11])
+      y += 28
+
+      // Progress bar
       doc.setFont('helvetica', 'normal')
-      doc.setFontSize(11)
-      doc.setTextColor(80, 80, 80)
-      doc.text(`Overall Progress: ${totalDone}/${totalItems} tasks complete (${overallPercent}%)`, margin, y)
-      y += 4
-
-      // Progress bar (background)
+      doc.setFontSize(9)
+      doc.setTextColor(100, 100, 100)
+      doc.text(`${totalDone} of ${totalItems} tasks complete`, margin, y)
+      y += 3
       doc.setFillColor(230, 230, 230)
-      doc.roundedRect(margin, y, contentW, 4, 2, 2, 'F')
+      doc.roundedRect(margin, y, contentW, 3.5, 1.75, 1.75, 'F')
       if (overallPercent > 0) {
-        const scoreColor = overallPercent >= 75 ? [16, 185, 129] : overallPercent >= 50 ? [245, 158, 11] : accent
-        doc.setFillColor(...scoreColor)
-        doc.roundedRect(margin, y, contentW * (overallPercent / 100), 4, 2, 2, 'F')
+        doc.setFillColor(...sumScoreColor)
+        doc.roundedRect(margin, y, contentW * (overallPercent / 100), 3.5, 1.75, 1.75, 'F')
       }
-      y += 14
+      y += 12
 
       // Phase breakdown table
       if (phaseProgress.length > 0) {
         doc.setFont('helvetica', 'bold')
-        doc.setFontSize(12)
+        doc.setFontSize(11)
         doc.setTextColor(30, 30, 30)
         doc.text('Phase Breakdown', margin, y)
         y += 6
@@ -187,10 +255,19 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
             ]
           }),
           margin: { left: margin, right: margin },
-          styles: { fontSize: 9, cellPadding: 3, textColor: [60, 60, 60] },
-          headStyles: { fillColor: [50, 50, 50], textColor: [255, 255, 255], fontStyle: 'bold' },
+          styles: { fontSize: 8.5, cellPadding: 3, textColor: [60, 60, 60] },
+          headStyles: { fillColor: [...accent], textColor: [255, 255, 255], fontStyle: 'bold' },
           alternateRowStyles: { fillColor: [248, 248, 248] },
           didParseCell: (data) => {
+            // Color-code phase rows by their phase color
+            if (data.section === 'body' && data.column.index === 0) {
+              const phaseNum = data.row.index + 1
+              const pColor = phaseColors[phaseNum]
+              if (pColor) {
+                data.cell.styles.textColor = pColor
+                data.cell.styles.fontStyle = 'bold'
+              }
+            }
             if (data.section === 'body' && data.column.index === 4) {
               const status = data.cell.text[0]
               if (status === 'Complete') data.cell.styles.textColor = [16, 185, 129]
@@ -253,32 +330,42 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
         doc.addPage()
         let y = 30
 
-        // Phase header with color bar
+        // Phase header — colored card banner
         const color = phaseColors[pp.phase.number] || [100, 100, 100]
+        // Light colored background banner
+        doc.setFillColor(
+          Math.min(255, color[0] + Math.round((255 - color[0]) * 0.92)),
+          Math.min(255, color[1] + Math.round((255 - color[1]) * 0.92)),
+          Math.min(255, color[2] + Math.round((255 - color[2]) * 0.92))
+        )
+        doc.roundedRect(margin, y - 6, contentW, 20, 2, 2, 'F')
+        // Accent left bar
         doc.setFillColor(...color)
-        doc.rect(margin, y - 5, 3, 12, 'F')
+        doc.roundedRect(margin, y - 6, 2.5, 20, 1.25, 1.25, 'F')
 
         doc.setFont('helvetica', 'bold')
-        doc.setFontSize(14)
-        doc.setTextColor(30, 30, 30)
-        doc.text(`Phase ${pp.phase.number}: ${pp.phase.title}`, margin + 8, y + 3)
-        y += 12
+        doc.setFontSize(13)
+        doc.setTextColor(...color)
+        doc.text(`Phase ${pp.phase.number}: ${pp.phase.title}`, margin + 8, y + 2)
 
-        // Phase progress
+        // Progress text right-aligned inside banner
+        doc.setFont('helvetica', 'bold')
+        doc.setFontSize(11)
+        doc.text(`${pp.percent}%`, pageW - margin - 4, y + 2, { align: 'right' })
         doc.setFont('helvetica', 'normal')
-        doc.setFontSize(10)
-        doc.setTextColor(80, 80, 80)
-        doc.text(`${pp.done}/${pp.total} tasks complete (${pp.percent}%)`, margin + 8, y)
-        y += 4
+        doc.setFontSize(8)
+        doc.setTextColor(100, 100, 100)
+        doc.text(`${pp.done}/${pp.total} tasks`, pageW - margin - 4, y + 8, { align: 'right' })
+        y += 18
 
         // Progress bar
         doc.setFillColor(230, 230, 230)
-        doc.roundedRect(margin + 8, y, contentW - 8, 3, 1.5, 1.5, 'F')
+        doc.roundedRect(margin, y, contentW, 3, 1.5, 1.5, 'F')
         if (pp.percent > 0) {
           doc.setFillColor(...color)
-          doc.roundedRect(margin + 8, y, (contentW - 8) * (pp.percent / 100), 3, 1.5, 1.5, 'F')
+          doc.roundedRect(margin, y, contentW * (pp.percent / 100), 3, 1.5, 1.5, 'F')
         }
-        y += 12
+        y += 10
 
         // Task lists per category
         pp.phase.categories.forEach(cat => {
@@ -363,28 +450,21 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
       let y = 30
       const results = project.analyzerResults
 
-      doc.setFont('helvetica', 'bold')
-      doc.setFontSize(18)
-      doc.setTextColor(30, 30, 30)
-      doc.text('Analyzer Results', margin, y)
-      y += 10
+      y = drawSectionHeader('Analyzer Results', y, [14, 165, 233])
 
       if (results.score !== undefined) {
-        doc.setFont('helvetica', 'bold')
-        doc.setFontSize(28)
+        // Score badge + big number
         const aScoreColor = results.score >= 75 ? [16, 185, 129] : results.score >= 50 ? [245, 158, 11] : accent
-        doc.setTextColor(...aScoreColor)
-        doc.text(`${results.score}/100`, margin, y + 8)
-        y += 18
+        drawStatBox(margin, y, 36, 22, results.score, 'AEO Score', aScoreColor)
 
-        doc.setFont('helvetica', 'normal')
-        doc.setFontSize(10)
-        doc.setTextColor(80, 80, 80)
         if (results.summary) {
-          const summaryLines = doc.splitTextToSize(results.summary, contentW)
-          doc.text(summaryLines, margin, y)
-          y += summaryLines.length * 4 + 8
+          doc.setFont('helvetica', 'normal')
+          doc.setFontSize(9.5)
+          doc.setTextColor(80, 80, 80)
+          const summaryLines = doc.splitTextToSize(results.summary, contentW - 42)
+          doc.text(summaryLines, margin + 42, y + 6)
         }
+        y += 28
       }
 
       // Category results
@@ -435,11 +515,14 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
       let y = 30
       const competitors = [...project.competitors].sort((a, b) => (b.aeoScore || 0) - (a.aeoScore || 0))
 
-      doc.setFont('helvetica', 'bold')
-      doc.setFontSize(18)
-      doc.setTextColor(30, 30, 30)
-      doc.text('Competitor Analysis', margin, y)
-      y += 10
+      y = drawSectionHeader('Competitor Analysis', y, [123, 47, 190])
+
+      // Competitor count summary
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(9)
+      doc.setTextColor(100, 100, 100)
+      doc.text(`${competitors.length} competitors tracked`, margin, y)
+      y += 6
 
       // Rankings table
       doc.autoTable({
@@ -453,8 +536,8 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
           comp.citationShare != null ? `${comp.citationShare}%` : '—',
         ]),
         margin: { left: margin, right: margin },
-        styles: { fontSize: 9, cellPadding: 3, textColor: [60, 60, 60] },
-        headStyles: { fillColor: [...accent], textColor: [255, 255, 255], fontStyle: 'bold' },
+        styles: { fontSize: 8.5, cellPadding: 3, textColor: [60, 60, 60] },
+        headStyles: { fillColor: [123, 47, 190], textColor: [255, 255, 255], fontStyle: 'bold' },
         alternateRowStyles: { fillColor: [248, 248, 248] },
         columnStyles: { 0: { cellWidth: 12 }, 2: { cellWidth: 22 }, 3: { cellWidth: 22 }, 4: { cellWidth: 28 } },
         didParseCell: (data) => {
@@ -497,36 +580,34 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
       let y = 30
       const history = project.metricsHistory
 
-      doc.setFont('helvetica', 'bold')
-      doc.setFontSize(18)
-      doc.setTextColor(30, 30, 30)
-      doc.text('Performance Metrics', margin, y)
-      y += 10
+      y = drawSectionHeader('Performance Metrics', y)
 
-      // Latest score as big number
+      // Latest metrics as stat boxes
       const latest = history[history.length - 1]
       if (latest?.overallScore != null) {
-        doc.setFont('helvetica', 'bold')
-        doc.setFontSize(36)
         const mScoreColor = latest.overallScore >= 75 ? [16, 185, 129] : latest.overallScore >= 50 ? [245, 158, 11] : accent
-        doc.setTextColor(...mScoreColor)
-        doc.text(`${latest.overallScore}`, margin, y + 10)
+        const metBoxW = (contentW - 6) / 3
 
-        doc.setFont('helvetica', 'normal')
-        doc.setFontSize(10)
-        doc.setTextColor(120, 120, 120)
-        doc.text('Latest Score', margin + 30, y + 4)
+        // Score box
+        drawStatBox(margin, y, metBoxW, 22, latest.overallScore, 'Latest Score', mScoreColor)
 
-        // Trend indicator
+        // Citations box
+        const totalCitations = latest.citations?.total
+        drawStatBox(margin + metBoxW + 3, y, metBoxW, 22,
+          totalCitations != null ? totalCitations : '—', 'Total Citations', [14, 165, 233])
+
+        // Trend box
         if (history.length >= 2) {
           const prev = history[history.length - 2]
           const diff = (latest.overallScore || 0) - (prev.overallScore || 0)
-          const arrow = diff > 0 ? '\u2191' : diff < 0 ? '\u2193' : '\u2192'
           const trendColor = diff > 0 ? [16, 185, 129] : diff < 0 ? [239, 68, 68] : [120, 120, 120]
-          doc.setTextColor(...trendColor)
-          doc.text(`${arrow} ${diff > 0 ? '+' : ''}${diff} since last`, margin + 30, y + 10)
+          drawStatBox(margin + (metBoxW + 3) * 2, y, metBoxW, 22,
+            (diff > 0 ? '+' : '') + diff, 'Score Trend', trendColor)
+        } else {
+          drawStatBox(margin + (metBoxW + 3) * 2, y, metBoxW, 22,
+            history.length, 'Data Points', [120, 120, 120])
         }
-        y += 22
+        y += 30
       }
 
       // Collect engine names dynamically
@@ -559,8 +640,8 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
           ]
         }),
         margin: { left: margin, right: margin },
-        styles: { fontSize: 8, cellPadding: 2.5, textColor: [60, 60, 60] },
-        headStyles: { fillColor: [50, 50, 50], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7 },
+        styles: { fontSize: 7.5, cellPadding: 2.5, textColor: [60, 60, 60] },
+        headStyles: { fillColor: [...accent], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7 },
         alternateRowStyles: { fillColor: [248, 248, 248] },
       })
     } catch { /* skip metrics section on error */ }
@@ -580,11 +661,7 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
         return da - db
       })
 
-      doc.setFont('helvetica', 'bold')
-      doc.setFontSize(18)
-      doc.setTextColor(30, 30, 30)
-      doc.text('Content Calendar', margin, y)
-      y += 10
+      y = drawSectionHeader('Content Calendar', y, [16, 185, 129])
 
       // Status breakdown
       const statusCounts = { scheduled: 0, 'in-progress': 0, review: 0, published: 0 }
@@ -594,19 +671,19 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
         else statusCounts.scheduled++
       })
 
-      doc.setFont('helvetica', 'normal')
-      doc.setFontSize(10)
-      doc.setTextColor(80, 80, 80)
-      doc.text(`${calendar.length} items total  \u2022  ${statusCounts.published} published  \u2022  ${statusCounts['in-progress']} in progress  \u2022  ${statusCounts.review} in review  \u2022  ${statusCounts.scheduled} scheduled`, margin, y)
-      y += 8
-
-      // Status colors for table
+      // Status stat boxes
       const statusColors = {
         published: [16, 185, 129],
         'in-progress': [14, 165, 233],
         review: [245, 158, 11],
         scheduled: [120, 120, 120],
       }
+      const calBoxW = (contentW - 9) / 4
+      drawStatBox(margin, y, calBoxW, 18, calendar.length, 'Total Items', accent)
+      drawStatBox(margin + calBoxW + 3, y, calBoxW, 18, statusCounts.published, 'Published', statusColors.published)
+      drawStatBox(margin + (calBoxW + 3) * 2, y, calBoxW, 18, statusCounts['in-progress'], 'In Progress', statusColors['in-progress'])
+      drawStatBox(margin + (calBoxW + 3) * 3, y, calBoxW, 18, statusCounts.review + statusCounts.scheduled, 'Upcoming', statusColors.review)
+      y += 26
 
       doc.autoTable({
         startY: y,
@@ -620,7 +697,7 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
         }),
         margin: { left: margin, right: margin },
         styles: { fontSize: 8, cellPadding: 3, textColor: [60, 60, 60] },
-        headStyles: { fillColor: [50, 50, 50], textColor: [255, 255, 255], fontStyle: 'bold' },
+        headStyles: { fillColor: [16, 185, 129], textColor: [255, 255, 255], fontStyle: 'bold' },
         alternateRowStyles: { fillColor: [248, 248, 248] },
         columnStyles: { 0: { cellWidth: 60 }, 3: { cellWidth: 50 } },
         didParseCell: (data) => {
@@ -632,6 +709,16 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
         },
       })
     } catch { /* skip calendar section on error */ }
+  }
+
+  // ════════════════════════════════════════
+  // BRANDED FOOTERS — on every page except cover
+  // ════════════════════════════════════════
+
+  const totalPages = doc.internal.getNumberOfPages()
+  for (let i = 2; i <= totalPages; i++) {
+    doc.setPage(i)
+    drawFooter(i, totalPages)
   }
 
   // ════════════════════════════════════════
