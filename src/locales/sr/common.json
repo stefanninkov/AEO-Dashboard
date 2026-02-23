@@ -5,6 +5,7 @@
     "competitors": "Конкуренти",
     "analyzer": "Анализатор",
     "writer": "Писац садржаја",
+    "scorer": "Оцена садржаја",
     "contentOps": "Садржај Ops",
     "schema": "Schema генератор",
     "monitoring": "Мониторинг",

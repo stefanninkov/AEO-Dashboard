@@ -5,6 +5,7 @@
     "competitors": "Competitors",
     "analyzer": "Analyzer",
     "writer": "Content Writer",
+    "scorer": "Content Scorer",
     "contentOps": "Content Ops",
     "schema": "Schema Generator",
     "monitoring": "Monitoring",

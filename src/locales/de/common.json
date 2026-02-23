@@ -5,6 +5,7 @@
     "competitors": "Wettbewerber",
     "analyzer": "Analysator",
     "writer": "Content-Autor",
+    "scorer": "Content-Bewertung",
     "contentOps": "Content Ops",
     "schema": "Schema-Generator",
     "monitoring": "Monitoring",

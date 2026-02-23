@@ -4,7 +4,7 @@ import {
   LayoutGrid, ListChecks, Swords, ScanSearch, NotebookPen,
   CalendarCog, Braces, Radar, ChartSpline, SearchCode,
   ChartColumnIncreasing, Sparkles, FileText, FlaskConical,
-  SlidersHorizontal, Sun, Moon, LogOut, Plus,
+  SlidersHorizontal, Sun, Moon, LogOut, Plus, Star,
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import PresenceAvatars from './PresenceAvatars'
@@ -16,6 +16,7 @@ const NAV_ICONS = {
   competitors: Swords,
   analyzer: ScanSearch,
   writer: NotebookPen,
+  scorer: Star,
   'content-ops': CalendarCog,
   schema: Braces,
   monitoring: Radar,
@@ -29,7 +30,7 @@ const NAV_ICONS = {
 }
 
 const NAV_KEYS = [
-  'dashboard', 'checklist', 'competitors', 'analyzer', 'writer',
+  'dashboard', 'checklist', 'competitors', 'analyzer', 'writer', 'scorer',
   'content-ops', 'schema', 'monitoring', 'metrics', 'gsc',
   'ga4', 'aeo-impact', 'docs', 'testing', 'settings',
 ]
@@ -40,6 +41,7 @@ const NAV_I18N_KEYS = {
   competitors: 'nav.competitors',
   analyzer: 'nav.analyzer',
   writer: 'nav.writer',
+  scorer: 'nav.scorer',
   'content-ops': 'nav.contentOps',
   schema: 'nav.schema',
   monitoring: 'nav.monitoring',

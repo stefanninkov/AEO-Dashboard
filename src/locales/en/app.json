@@ -1361,5 +1361,30 @@
       "intermediate": { "label": "Intermediate", "desc": "Some AEO implemented already" },
       "advanced": { "label": "Advanced", "desc": "Active AEO, looking to optimize" }
     }
+  },
+  "scorer": {
+    "title": "Content Scorer",
+    "subtitle": "Paste text content and get an AI Answerability Score across 5 dimensions.",
+    "pasteContent": "Paste Your Content",
+    "placeholder": "Paste your article, page copy, or any text content here to score its AI answerability...",
+    "chars": "characters",
+    "scoreBtn": "Score Content",
+    "scoring": "Scoring…",
+    "answerabilityScore": "Answerability Score",
+    "breakdown": "Dimension Breakdown",
+    "improvements": "Suggested Improvements",
+    "citationExample": "AI Citation Example",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "noApiKey": "Please set your API key in Settings first.",
+    "parseError": "Could not parse the scoring results. Please try again.",
+    "genericError": "Something went wrong. Please try again.",
+    "dim": {
+      "clarity": "Clarity",
+      "structure": "Structure",
+      "comprehensiveness": "Comprehensiveness",
+      "authority": "Authority",
+      "naturalLanguage": "Natural Language"
+    }
   }
 }

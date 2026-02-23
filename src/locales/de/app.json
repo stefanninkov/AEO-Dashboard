@@ -1361,5 +1361,30 @@
       "intermediate": { "label": "Fortgeschritten", "desc": "Bereits einiges an AEO umgesetzt" },
       "advanced": { "label": "Experte", "desc": "Aktives AEO, möchte optimieren" }
     }
+  },
+  "scorer": {
+    "title": "Content-Bewertung",
+    "subtitle": "Fügen Sie Textinhalte ein und erhalten Sie einen AI-Antwortbarkeits-Score über 5 Dimensionen.",
+    "pasteContent": "Inhalt einfügen",
+    "placeholder": "Fügen Sie Ihren Artikel, Seitentext oder beliebigen Textinhalt hier ein, um die AI-Antwortbarkeit zu bewerten...",
+    "chars": "Zeichen",
+    "scoreBtn": "Inhalt bewerten",
+    "scoring": "Bewertung…",
+    "answerabilityScore": "Antwortbarkeits-Score",
+    "breakdown": "Dimensionsaufschlüsselung",
+    "improvements": "Verbesserungsvorschläge",
+    "citationExample": "AI-Zitierungsbeispiel",
+    "copy": "Kopieren",
+    "copied": "Kopiert!",
+    "noApiKey": "Bitte legen Sie zuerst Ihren API-Schlüssel in den Einstellungen fest.",
+    "parseError": "Die Bewertungsergebnisse konnten nicht verarbeitet werden. Bitte versuchen Sie es erneut.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "dim": {
+      "clarity": "Klarheit",
+      "structure": "Struktur",
+      "comprehensiveness": "Vollständigkeit",
+      "authority": "Autorität",
+      "naturalLanguage": "Natürliche Sprache"
+    }
   }
 }

@@ -22,6 +22,7 @@ const DashboardView = lazy(() => import('./views/DashboardView'))
 const ChecklistView = lazy(() => import('./views/ChecklistView'))
 const AnalyzerView = lazy(() => import('./views/AnalyzerView'))
 const ContentWriterView = lazy(() => import('./views/ContentWriterView'))
+const ContentScorerView = lazy(() => import('./views/ContentScorerView'))
 const SchemaGeneratorView = lazy(() => import('./views/SchemaGeneratorView'))
 const MonitoringView = lazy(() => import('./views/MonitoringView'))
 const DocsView = lazy(() => import('./views/DocsView'))
@@ -542,6 +543,12 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             activeProject={activeProject}
             updateProject={updateProject}
             user={user}
+          />
+        )
+      case 'scorer':
+        return (
+          <ContentScorerView
+            activeProject={activeProject}
           />
         )
       case 'content-ops':
