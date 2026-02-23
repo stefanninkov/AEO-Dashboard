@@ -1520,5 +1520,14 @@
       "authority": "Autorität",
       "naturalLanguage": "Natürliche Sprache"
     }
+  },
+  "checklist": {
+    "playbook": {
+      "title": "{{industry}} Playbook",
+      "focusCount": "{{count}} Fokusphasen",
+      "phaseOrder": "Empfohlene Reihenfolge",
+      "focusPhases": "Fokusphasen-Fortschritt",
+      "tips": "Branchentipps"
+    }
   }
 }

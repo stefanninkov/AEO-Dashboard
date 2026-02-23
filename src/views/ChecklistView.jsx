@@ -8,6 +8,7 @@ import { getPhasePriority, getFirstPriorityPhase, INDUSTRY_LABELS, REGION_LABELS
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { fireWebhooks } from '../utils/webhookDispatcher'
 import ChecklistStats from './checklist/ChecklistStats'
+import PlaybookBanner from './checklist/PlaybookBanner'
 import PhaseCard from './checklist/PhaseCard'
 import PresenceAvatars from '../components/PresenceAvatars'
 import BulkActionBar from '../components/BulkActionBar'
@@ -401,6 +402,12 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
           Follow this step-by-step process to optimize your site for AI search engines.
         </p>
       </div>
+
+      <PlaybookBanner
+        industry={activeProject?.questionnaire?.industry}
+        phases={phases}
+        checked={checked}
+      />
 
       <ChecklistStats totalProgress={totalProgress} phaseCount={phases.length} />
 

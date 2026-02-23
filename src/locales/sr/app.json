@@ -1520,5 +1520,14 @@
       "authority": "Ауторитет",
       "naturalLanguage": "Природни језик"
     }
+  },
+  "checklist": {
+    "playbook": {
+      "title": "{{industry}} приручник",
+      "focusCount": "{{count}} фокус фаза",
+      "phaseOrder": "Препоручени редослед",
+      "focusPhases": "Напредак фокус фаза",
+      "tips": "Савети за индустрију"
+    }
   }
 }
