@@ -279,8 +279,8 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
         <div className="schema-header-left">
           <Code2 size={24} className="schema-header-icon" />
           <div>
-            <h1 className="schema-title">{t('schema.markupGenerator')}</h1>
-            <p className="schema-subtitle">
+            <h1 className="view-title">{t('schema.markupGenerator')}</h1>
+            <p className="view-subtitle">
               {activeProject?.questionnaire?.completedAt ? (() => {
                 const q = activeProject.questionnaire
                 const industry = INDUSTRY_LABELS[q.industry] || q.industry
@@ -341,7 +341,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       )}
 
       {/* Type Selector */}
-      <div className="schema-type-grid">
+      <div className="schema-type-grid stagger-grid">
         {SCHEMA_TYPES.map(type => (
           <button
             key={type.id}

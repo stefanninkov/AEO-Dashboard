@@ -477,38 +477,21 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.0187rem] text-text-primary mb-1">
-          {t('title')}
-        </h2>
-        <p className="text-[0.8125rem] text-text-secondary">
-          {t('subtitle')}
-        </p>
+        <h2 className="view-title">{t('title')}</h2>
+        <p className="view-subtitle">{t('subtitle')}</p>
       </div>
 
       {/* Tabs */}
-      <div ref={tabsRef} className="scrollable-tabs" style={{
-        display: 'flex', gap: '0.25rem', padding: '0.1875rem',
-        background: 'var(--hover-bg)', borderRadius: '0.625rem',
-      }}>
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented">
         {TABS.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
           return (
             <button
               key={tab.id}
+              className="tab-segmented"
               data-active={isActive || undefined}
               onClick={() => { setActiveTab(tab.id); setSearchQuery('') }}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
-                padding: '0.4375rem 0.75rem', borderRadius: '0.5rem',
-                border: 'none', cursor: 'pointer',
-                background: isActive ? 'var(--bg-card)' : 'transparent',
-                color: isActive ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                fontSize: '0.75rem', fontWeight: isActive ? 600 : 500,
-                fontFamily: 'var(--font-body)',
-                boxShadow: isActive ? 'var(--shadow-sm)' : 'none',
-                transition: 'all 150ms',
-              }}
             >
               <Icon size={13} />
               {tab.label}

@@ -227,8 +227,8 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
         <div className="mon-header-left">
           <Activity size={24} className="mon-header-icon" />
           <div>
-            <h1 className="mon-title">{t('monitoring.title')}</h1>
-            <p className="mon-subtitle">{t('monitoring.subtitle')}</p>
+            <h1 className="view-title">{t('monitoring.title')}</h1>
+            <p className="view-subtitle">{t('monitoring.subtitle')}</p>
           </div>
         </div>
         <div className="mon-header-actions">
@@ -286,7 +286,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       )}
 
       {/* Stats Cards */}
-      <div className="mon-stats-grid">
+      <div className="mon-stats-grid stagger-grid">
         {/* Current Score */}
         <div className="mon-stat-card mon-stat-score">
           <div className="mon-stat-label">{t('monitoring.citationScore')}</div>

@@ -20,8 +20,8 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
     return (
       <div className="flex flex-col items-center justify-center py-24 fade-in-up">
         <Users size={48} style={{ color: 'var(--text-tertiary)', marginBottom: '1rem' }} />
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.5rem' }}>{t('competitors.noProjectSelected')}</h3>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>{t('competitors.noProjectSelectedDesc')}</p>
+        <h3 className="view-title" style={{ marginBottom: 'var(--space-2)' }}>{t('competitors.noProjectSelected')}</h3>
+        <p className="view-subtitle">{t('competitors.noProjectSelectedDesc')}</p>
       </div>
     )
   }
@@ -29,47 +29,40 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
   return (
     <div style={{ padding: '1.5rem', maxWidth: '72rem', margin: '0 auto' }}>
       {/* Header */}
-      <div style={{ marginBottom: '1.25rem' }}>
-        <h1 style={{
-          fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700,
-          color: 'var(--text-primary)', margin: 0,
-        }}>
-          {t('competitors.title')}
-        </h1>
-        <p style={{
-          fontSize: '0.8125rem', color: 'var(--text-secondary)',
-          margin: '0.25rem 0 0', lineHeight: 1.5,
-        }}>
-          {t('competitors.subtitle')}
-        </p>
+      <div style={{ marginBottom: 'var(--space-5)' }}>
+        <h2 className="view-title">{t('competitors.title')}</h2>
+        <p className="view-subtitle">{t('competitors.subtitle')}</p>
       </div>
 
       {/* Tab row */}
-      <div ref={tabsRef} className="scrollable-tabs" style={{
-        display: 'flex', gap: '0.375rem', marginBottom: '1.25rem',
-        padding: '0.25rem',
-        background: 'var(--hover-bg)',
-        borderRadius: '0.625rem',
-      }}>
-        <TabButton
-          active={activeTab === 'overview'}
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" style={{ marginBottom: 'var(--space-5)' }}>
+        <button
+          className="tab-segmented"
+          data-active={activeTab === 'overview' || undefined}
           onClick={() => setActiveTab('overview')}
-          icon={<Users size={14} />}
-          label={t('competitors.tabOverview')}
-        />
-        <TabButton
-          active={activeTab === 'monitoring'}
+        >
+          <Users size={14} />
+          {t('competitors.tabOverview')}
+        </button>
+        <button
+          className="tab-segmented"
+          data-active={activeTab === 'monitoring' || undefined}
           onClick={() => setActiveTab('monitoring')}
-          icon={<Activity size={14} />}
-          label={t('competitors.tabMonitoring')}
-          badge={undismissedAlertCount > 0 ? undismissedAlertCount : null}
-        />
-        <TabButton
-          active={activeTab === 'citation'}
+        >
+          <Activity size={14} />
+          {t('competitors.tabMonitoring')}
+          {undismissedAlertCount > 0 && (
+            <span className="tab-badge tab-badge-alert">{undismissedAlertCount}</span>
+          )}
+        </button>
+        <button
+          className="tab-segmented"
+          data-active={activeTab === 'citation' || undefined}
           onClick={() => setActiveTab('citation')}
-          icon={<PieChart size={14} />}
-          label={t('competitors.tabCitationShare')}
-        />
+        >
+          <PieChart size={14} />
+          {t('competitors.tabCitationShare')}
+        </button>
       </div>
 
       {/* Tab content */}
@@ -97,35 +90,5 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
         />
       )}
     </div>
-  )
-}
-
-function TabButton({ active, onClick, icon, label, badge }) {
-  return (
-    <button
-      data-active={active || undefined}
-      onClick={onClick}
-      style={{
-        display: 'inline-flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
-        padding: '0.4375rem 0.875rem', border: 'none', borderRadius: '0.5rem',
-        cursor: 'pointer', fontFamily: 'var(--font-body)', fontSize: '0.8125rem',
-        fontWeight: 600, transition: 'background 150ms, color 150ms',
-        background: active ? 'var(--color-phase-1)' : 'transparent',
-        color: active ? '#fff' : 'var(--text-secondary)',
-      }}
-    >
-      {icon}
-      {label}
-      {badge !== null && badge !== undefined && (
-        <span style={{
-          fontSize: '0.625rem', fontWeight: 700, fontFamily: 'var(--font-heading)',
-          padding: '0.0625rem 0.375rem', borderRadius: '0.625rem', marginLeft: '0.125rem',
-          background: active ? 'rgba(255,255,255,0.2)' : 'rgba(239, 68, 68, 0.15)',
-          color: active ? '#fff' : 'var(--color-error)',
-        }}>
-          {badge}
-        </span>
-      )}
-    </button>
   )
 }

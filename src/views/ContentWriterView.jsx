@@ -327,10 +327,10 @@ Return ONLY valid JSON matching the requested format.`,
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">{t('writer.title')}</h2>
+          <h2 className="view-title">{t('writer.title')}</h2>
           <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-2/10 text-phase-2 font-medium">{activeProject?.name}</span>
         </div>
-        <p className="text-[0.8125rem] text-text-secondary">
+        <p className="view-subtitle">
           {activeProject?.questionnaire?.completedAt ? (() => {
             const q = activeProject.questionnaire
             const audience = AUDIENCE_LABELS[q.audience] || null
@@ -354,7 +354,7 @@ Return ONLY valid JSON matching the requested format.`,
       </div>
 
       {/* Content Type Selector */}
-      <div className="cw-type-grid">
+      <div className="cw-type-grid stagger-grid">
         {CONTENT_TYPES.map(type => (
           <button
             key={type.id}

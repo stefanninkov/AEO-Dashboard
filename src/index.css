@@ -6108,6 +6108,30 @@ body {
   font-weight: 600;
 }
 
+/* Tab badge — count indicator inside a tab button */
+.tab-badge {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  font-family: var(--font-heading);
+  padding: 0.0625rem var(--space-2);
+  border-radius: var(--radius-full);
+  margin-left: var(--space-1);
+  background: var(--border-subtle);
+  color: var(--text-tertiary);
+}
+[data-active="true"] > .tab-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+.tab-badge-alert {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-error);
+}
+[data-active="true"] > .tab-badge-alert {
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+
 /* Pattern 3: Underline (bottom border indicator) */
 .tab-bar-underline {
   display: flex;

@@ -367,52 +367,31 @@ Return ONLY valid JSON:
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">{t('analyzer.title')}</h2>
+          <h2 className="view-title">{t('analyzer.title')}</h2>
           <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
         </div>
-        <p className="text-[0.8125rem] text-text-secondary">{t('analyzer.subtitle')}</p>
+        <p className="view-subtitle">{t('analyzer.subtitle')}</p>
       </div>
 
       {/* ── Top-Level Tabs ── */}
-      <div ref={topTabsRef} className="scrollable-tabs" style={{ display: 'flex', gap: '0.25rem', background: 'var(--hover-bg)', borderRadius: '0.625rem', padding: '0.1875rem' }}>
+      <div ref={topTabsRef} className="scrollable-tabs tab-bar-segmented">
         <button
+          className="tab-segmented"
           data-active={activeTab === 'site' || undefined}
           onClick={() => setActiveTab('site')}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
-            padding: '0.4375rem 0.875rem', fontSize: '0.8125rem', fontWeight: 600,
-            fontFamily: 'var(--font-body)', border: 'none', borderRadius: '0.5rem',
-            cursor: 'pointer', transition: 'all 100ms',
-            background: activeTab === 'site' ? 'var(--color-phase-1)' : 'transparent',
-            color: activeTab === 'site' ? '#fff' : 'var(--text-secondary)',
-          }}
         >
           <Globe size={14} />
           {t('analyzer.siteAnalysis')}
         </button>
         <button
+          className="tab-segmented"
           data-active={activeTab === 'pages' || undefined}
           onClick={() => setActiveTab('pages')}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap',
-            padding: '0.4375rem 0.875rem', fontSize: '0.8125rem', fontWeight: 600,
-            fontFamily: 'var(--font-body)', border: 'none', borderRadius: '0.5rem',
-            cursor: 'pointer', transition: 'all 100ms',
-            background: activeTab === 'pages' ? 'var(--color-phase-1)' : 'transparent',
-            color: activeTab === 'pages' ? '#fff' : 'var(--text-secondary)',
-          }}
         >
           <FileText size={14} />
           {t('analyzer.pageAnalysis')}
           {pageCount > 0 && (
-            <span style={{
-              fontSize: '0.625rem', fontWeight: 700, fontFamily: 'var(--font-mono)',
-              padding: '0.0625rem 0.3125rem', borderRadius: '0.375rem',
-              background: activeTab === 'pages' ? 'rgba(255,255,255,0.2)' : 'var(--border-subtle)',
-              color: activeTab === 'pages' ? '#fff' : 'var(--text-tertiary)',
-            }}>
-              {pageCount}
-            </span>
+            <span className="tab-badge">{pageCount}</span>
           )}
         </button>
       </div>
