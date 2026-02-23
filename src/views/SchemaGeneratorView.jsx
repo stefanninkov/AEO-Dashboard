@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson, HelpCircle, ClipboardList, Newspaper, ShoppingBag, MapPin, Building2, Link2, Clapperboard, FileText } from 'lucide-react'
+import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson, HelpCircle, ClipboardList, Newspaper, ShoppingBag, MapPin, Building2, Link2, Clapperboard, FileText, ShieldCheck, CheckCircle2, AlertTriangle, XCircle, ClipboardPaste } from 'lucide-react'
 import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
+import { validateSchema } from '../utils/validateSchema'
 import { getAnalyzerIndustryContext, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, ENGINE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import logger from '../utils/logger'
@@ -168,6 +169,9 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
   const [copied, setCopied] = useState(false)
   const [copiedJsonLd, setCopiedJsonLd] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
+  const [showValidator, setShowValidator] = useState(false)
+  const [validatorInput, setValidatorInput] = useState('')
+  const [validationResult, setValidationResult] = useState(null)
   const apiKeySet = hasApiKey()
 
   // ── Translated SCHEMA_TYPES ──
@@ -269,6 +273,25 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
     setPageUrl(entry.pageUrl || '')
     setSelectedType(entry.type)
     setShowHistory(false)
+  }
+
+  // ── Validate Schema ──
+  const validateCurrentResult = () => {
+    if (!result?.content?.jsonLd) return
+    const res = validateSchema(result.content.jsonLd)
+    setValidationResult(res)
+  }
+
+  const validatePastedInput = () => {
+    if (!validatorInput.trim()) return
+    const res = validateSchema(validatorInput)
+    setValidationResult(res)
+  }
+
+  const clearValidation = () => {
+    setValidationResult(null)
+    setValidatorInput('')
+    setShowValidator(false)
   }
 
   // ── Render ──
@@ -481,23 +504,91 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             </div>
           )}
 
-          {/* Validation Reminder */}
+          {/* Inline Validator */}
+          <div className="schema-validator-section">
+            <button
+              className="schema-validate-btn"
+              onClick={() => { validateCurrentResult(); setShowValidator(true) }}
+            >
+              <ShieldCheck size={16} />
+              {t('schema.validator.validate')}
+            </button>
+
+            {validationResult && showValidator && (
+              <SchemaValidationResults
+                result={validationResult}
+                onClose={clearValidation}
+                t={t}
+              />
+            )}
+          </div>
+
+          {/* External validation links */}
           <div className="schema-validation-note">
             <AlertCircle size={16} />
             <span>
-              Always validate your schema at{' '}
+              {t('schema.validator.externalHint')}{' '}
               <a href="https://validator.schema.org/" target="_blank" rel="noopener noreferrer">
                 validator.schema.org
               </a>
-              {' '}and test with{' '}
+              {' '}&{' '}
               <a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener noreferrer">
                 Google Rich Results Test
               </a>
-              {' '}before deploying to production.
             </span>
           </div>
         </div>
       )}
+
+      {/* Standalone Validator — paste & validate any JSON-LD */}
+      <div className="schema-standalone-validator">
+        <button
+          className="schema-validator-toggle"
+          onClick={() => { setShowValidator(!showValidator); setValidationResult(null) }}
+        >
+          <ShieldCheck size={16} />
+          {t('schema.validator.pasteValidate')}
+          {showValidator ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+        </button>
+
+        {showValidator && !result && (
+          <div className="schema-validator-paste-panel">
+            <textarea
+              className="schema-validator-textarea"
+              value={validatorInput}
+              onChange={e => setValidatorInput(e.target.value)}
+              placeholder={t('schema.validator.pastePlaceholder')}
+              rows={8}
+            />
+            <div className="schema-validator-paste-actions">
+              <button
+                className="btn-primary btn-sm"
+                onClick={validatePastedInput}
+                disabled={!validatorInput.trim()}
+              >
+                <ShieldCheck size={14} />
+                {t('schema.validator.runValidation')}
+              </button>
+              {validatorInput && (
+                <button
+                  className="btn-secondary btn-sm"
+                  onClick={() => { setValidatorInput(''); setValidationResult(null) }}
+                >
+                  {t('schema.validator.clear')}
+                </button>
+              )}
+            </div>
+
+            {validationResult && (
+              <SchemaValidationResults
+                result={validationResult}
+                onClose={() => setValidationResult(null)}
+                t={t}
+              />
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Empty State */}
       {!result && !loading && !error && (
@@ -513,6 +604,59 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+// ─── Validation Results Panel ────────────────────────────────────
+function SchemaValidationResults({ result, onClose, t }) {
+  const passes = result.results.filter(r => r.level === 'pass')
+  const warnings = result.results.filter(r => r.level === 'warning')
+  const errors = result.results.filter(r => r.level === 'error')
+
+  const levelIcon = (level) => {
+    if (level === 'pass') return <CheckCircle2 size={14} />
+    if (level === 'warning') return <AlertTriangle size={14} />
+    return <XCircle size={14} />
+  }
+
+  return (
+    <div className="schema-validation-results">
+      <div className="schema-validation-header">
+        <div className="schema-validation-title">
+          <ShieldCheck size={18} />
+          <span>{t('schema.validator.results')}</span>
+        </div>
+        <button className="btn-icon" onClick={onClose} style={{ width: '1.5rem', height: '1.5rem' }}>
+          <XCircle size={14} />
+        </button>
+      </div>
+
+      {/* Summary badges */}
+      <div className="schema-validation-summary">
+        <span className="schema-vbadge schema-vbadge-pass">
+          <CheckCircle2 size={12} /> {passes.length} {t('schema.validator.passed')}
+        </span>
+        <span className="schema-vbadge schema-vbadge-warning">
+          <AlertTriangle size={12} /> {warnings.length} {t('schema.validator.warnings')}
+        </span>
+        <span className="schema-vbadge schema-vbadge-error">
+          <XCircle size={12} /> {errors.length} {t('schema.validator.errors')}
+        </span>
+        <span className={`schema-vbadge ${result.valid ? 'schema-vbadge-valid' : 'schema-vbadge-invalid'}`}>
+          {result.valid ? t('schema.validator.validSchema') : t('schema.validator.invalidSchema')}
+        </span>
+      </div>
+
+      {/* Results list — errors first, then warnings, then passes */}
+      <div className="schema-validation-list">
+        {[...errors, ...warnings, ...passes].map((item, i) => (
+          <div key={i} className={`schema-validation-item schema-vi-${item.level}`}>
+            <span className="schema-vi-icon">{levelIcon(item.level)}</span>
+            <span className="schema-vi-message">{item.message}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

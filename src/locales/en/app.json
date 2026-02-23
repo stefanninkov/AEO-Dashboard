@@ -315,6 +315,20 @@
     "optimizedFor": " — optimized for {{engines}}",
     "defaultSubtitle": "Generate JSON-LD structured data optimized for AI answer engines",
     "deleteHistoryItem": "Delete history item",
+    "validator": {
+      "validate": "Validate Schema",
+      "pasteValidate": "Paste & Validate JSON-LD",
+      "pastePlaceholder": "Paste your JSON-LD structured data here…\n\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"FAQPage\",\n  ...\n}",
+      "runValidation": "Run Validation",
+      "clear": "Clear",
+      "results": "Validation Results",
+      "passed": "passed",
+      "warnings": "warnings",
+      "errors": "errors",
+      "validSchema": "Valid Schema",
+      "invalidSchema": "Has Errors",
+      "externalHint": "For production, also test with"
+    },
     "descriptions": {
       "faq": "FAQPage schema for question & answer sections",
       "howTo": "HowTo schema for step-by-step instructions",

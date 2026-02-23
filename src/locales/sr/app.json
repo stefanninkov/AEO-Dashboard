@@ -315,6 +315,20 @@
     "optimizedFor": " — оптимизовано за {{engines}}",
     "defaultSubtitle": "Генеришите JSON-LD структуриране податке оптимизоване за AI претраживаче",
     "deleteHistoryItem": "Обриши ставку из историје",
+    "validator": {
+      "validate": "Валидирај schema",
+      "pasteValidate": "Налепи и валидирај JSON-LD",
+      "pastePlaceholder": "Налепите JSON-LD структуриране податке овде…\n\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"FAQPage\",\n  ...\n}",
+      "runValidation": "Покрени валидацију",
+      "clear": "Обриши",
+      "results": "Резултати валидације",
+      "passed": "прошло",
+      "warnings": "упозорења",
+      "errors": "грешке",
+      "validSchema": "Валидна schema",
+      "invalidSchema": "Има грешке",
+      "externalHint": "За продукцију такође тестирајте са"
+    },
     "descriptions": {
       "faq": "FAQPage schema за секције питања и одговора",
       "howTo": "HowTo schema за упутства корак по корак",

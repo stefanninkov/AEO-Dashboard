@@ -315,6 +315,20 @@
     "optimizedFor": " — optimiert für {{engines}}",
     "defaultSubtitle": "Generieren Sie JSON-LD-strukturierte Daten, optimiert für AI-Suchmaschinen",
     "deleteHistoryItem": "Verlaufseintrag löschen",
+    "validator": {
+      "validate": "Schema validieren",
+      "pasteValidate": "JSON-LD einfügen & validieren",
+      "pastePlaceholder": "JSON-LD-strukturierte Daten hier einfügen…\n\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"FAQPage\",\n  ...\n}",
+      "runValidation": "Validierung starten",
+      "clear": "Löschen",
+      "results": "Validierungsergebnisse",
+      "passed": "bestanden",
+      "warnings": "Warnungen",
+      "errors": "Fehler",
+      "validSchema": "Gültiges Schema",
+      "invalidSchema": "Hat Fehler",
+      "externalHint": "Für Produktion auch testen mit"
+    },
     "descriptions": {
       "faq": "FAQPage-Schema für Frage-Antwort-Bereiche",
       "howTo": "HowTo-Schema für Schritt-für-Schritt-Anleitungen",
