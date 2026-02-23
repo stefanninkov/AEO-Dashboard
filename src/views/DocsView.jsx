@@ -33,7 +33,7 @@ export const APP_SECTIONS = [
       },
       {
         title: 'Navigating the App',
-        body: 'Use the sidebar to switch between tools. Each tool serves a specific purpose in your AEO workflow. You can also use keyboard shortcuts (⌘+1 through ⌘+9) to quickly jump between views, or press ⌘+K to open the Command Palette for fast navigation and actions. The sidebar can be collapsed on mobile by tapping outside it.',
+        body: 'Use the sidebar to switch between tools, organized into collapsible groups: Overview (always visible), Content, Analytics, and Reference. Click a group header to expand or collapse it — your preference is remembered across sessions. Use keyboard shortcuts (1–9) to quickly jump between views, or press ⌘+K (Ctrl+K on Windows) to open the Command Palette for fast navigation. Press ? to view all keyboard shortcuts. On mobile, the sidebar can be toggled with the hamburger menu.',
       },
       {
         title: 'Projects & Workspaces',
@@ -324,7 +324,7 @@ export const APP_SECTIONS = [
       },
       {
         title: 'Theme & Preferences',
-        body: 'Toggle between light and dark mode using the theme switcher in the sidebar. The app respects your system preference by default. Keyboard shortcuts and other UI preferences can be customized.',
+        body: 'Toggle between light and dark mode using the theme switcher in the sidebar, or via the sun/moon icon on the Waitlist and Features pages. The app supports three modes: Light, Dark, and Auto (follows your system preference). Theme transitions use a smooth circular reveal animation. The design system uses JetBrains Mono for headings and Plus Jakarta Sans for body text, with a blue accent color throughout.',
       },
     ],
   },
@@ -350,7 +350,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'What keyboard shortcuts are available?',
-    a: 'Press ⌘+K (or Ctrl+K on Windows) to open the Command Palette, which shows all available actions. Use ⌘+1 through ⌘+9 to quickly switch between views. ⌘+N creates a new project, and Escape closes modals and overlays.',
+    a: 'Press ⌘+K (or Ctrl+K on Windows) to open the Command Palette for fast navigation and actions. Use 1–9 to quickly switch between views. Press ? to open the keyboard shortcuts reference panel. Escape closes any open modal, dialog, or overlay. All shortcuts are designed to work without modifier keys when no input field is focused.',
   },
   {
     q: 'How does team collaboration work?',
