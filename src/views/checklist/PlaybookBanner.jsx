@@ -49,27 +49,39 @@ export default function PlaybookBanner({ industry, phases, checked }) {
       <button
         onClick={() => setExpanded(prev => !prev)}
         style={{
-          width: '100%', display: 'flex', alignItems: 'center', gap: '0.5rem',
+          width: '100%', display: 'flex', alignItems: 'flex-start', gap: '0.5rem',
           padding: '0.75rem 1rem', background: 'none', border: 'none', cursor: 'pointer',
-          fontFamily: 'var(--font-body)',
+          fontFamily: 'var(--font-body)', textAlign: 'left',
         }}
       >
-        <BookOpen size={14} style={{ color: 'var(--color-phase-1)', flexShrink: 0 }} />
-        <span style={{
-          fontFamily: 'var(--font-heading)', fontSize: '0.8125rem',
-          fontWeight: 700, color: 'var(--text-primary)',
-        }}>
-          {t('checklist.playbook.title', { industry: industryName })}
-        </span>
-        <span style={{
-          fontSize: '0.625rem', padding: '0.125rem 0.375rem',
-          borderRadius: '6.1875rem', background: 'var(--color-phase-1)' + '15',
-          color: 'var(--color-phase-1)', fontWeight: 600,
-        }}>
-          {t('checklist.playbook.focusCount', { count: playbook.focusPhases.length })}
-        </span>
+        <BookOpen size={14} style={{ color: 'var(--color-phase-1)', flexShrink: 0, marginTop: '0.125rem' }} />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{
+              fontFamily: 'var(--font-heading)', fontSize: '0.8125rem',
+              fontWeight: 700, color: 'var(--text-primary)',
+            }}>
+              {t('checklist.playbook.title', { industry: industryName })}
+            </span>
+            <span style={{
+              fontSize: '0.625rem', padding: '0.125rem 0.375rem',
+              borderRadius: '6.1875rem', background: 'var(--color-phase-1)' + '15',
+              color: 'var(--color-phase-1)', fontWeight: 600,
+            }}>
+              {t('checklist.playbook.focusCount', { count: playbook.focusPhases.length })}
+            </span>
+          </div>
+          {playbook.description && (
+            <p style={{
+              fontSize: '0.75rem', color: 'var(--text-secondary)',
+              lineHeight: 1.5, marginTop: '0.25rem', margin: '0.25rem 0 0 0',
+            }}>
+              {playbook.description}
+            </p>
+          )}
+        </div>
         <ChevronDown size={12} style={{
-          marginLeft: 'auto', color: 'var(--text-tertiary)',
+          flexShrink: 0, marginTop: '0.1875rem', color: 'var(--text-tertiary)',
           transform: expanded ? 'none' : 'rotate(-90deg)',
           transition: 'transform 200ms',
         }} />
@@ -81,15 +93,6 @@ export default function PlaybookBanner({ industry, phases, checked }) {
           borderTop: '0.0625rem solid var(--border-subtle)',
           display: 'flex', flexDirection: 'column', gap: '0.75rem',
         }}>
-          {/* Industry description */}
-          {playbook.description && (
-            <p style={{
-              fontSize: '0.75rem', color: 'var(--text-secondary)',
-              lineHeight: 1.5, paddingTop: '0.75rem', margin: 0,
-            }}>
-              {playbook.description}
-            </p>
-          )}
 
           {/* Focus phases progress */}
           <div>
@@ -97,7 +100,7 @@ export default function PlaybookBanner({ industry, phases, checked }) {
               fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase',
               letterSpacing: '0.0625rem', color: 'var(--text-tertiary)',
               marginBottom: '0.375rem',
-              ...(!playbook.description ? { paddingTop: '0.75rem' } : {}),
+              paddingTop: '0.75rem',
             }}>
               {t('checklist.playbook.focusPhases')}
             </div>
