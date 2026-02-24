@@ -17,15 +17,17 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
   const historyCount = (activeProject?.contentHistory || []).length + (activeProject?.schemaHistory || []).length
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ marginBottom: 'var(--space-5)' }}>
-        <h2 className="view-title">{t('contentOps.title')}</h2>
-        <p className="view-subtitle">{t('contentOps.subtitle')}</p>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">{t('contentOps.title')}</h2>
+          <p className="view-subtitle">{t('contentOps.subtitle')}</p>
+        </div>
       </div>
 
       {/* Tab row */}
-      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist" style={{ marginBottom: 'var(--space-5)', width: 'fit-content' }}>
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist" style={{ width: 'fit-content' }}>
         <button
           className="tab-segmented"
           role="tab"

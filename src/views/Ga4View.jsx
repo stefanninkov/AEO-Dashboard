@@ -197,10 +197,12 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
   // ── Empty states ──
   if (!google.isConnected && !google.isLoading) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <div>
-          <h2 className="view-title">{t('ga4.title')}</h2>
-          <p className="view-subtitle">{t('ga4.subtitle')}</p>
+      <div className="view-wrapper">
+        <div className="view-header">
+          <div className="view-header-text">
+            <h2 className="view-title">{t('ga4.title')}</h2>
+            <p className="view-subtitle">{t('ga4.subtitle')}</p>
+          </div>
         </div>
         {google.isExpired ? (
           <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
@@ -218,10 +220,12 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
 
   if (google.isConnected && !ga4Property) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <div>
-          <h2 className="view-title">{t('ga4.title')}</h2>
-          <p className="view-subtitle">{t('ga4.subtitle')}</p>
+      <div className="view-wrapper">
+        <div className="view-header">
+          <div className="view-header-text">
+            <h2 className="view-title">{t('ga4.title')}</h2>
+            <p className="view-subtitle">{t('ga4.subtitle')}</p>
+          </div>
         </div>
         <NoPropertyState
           setActiveView={setActiveView}
@@ -245,14 +249,14 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
   const fmtPct = (n) => typeof n === 'number' ? `${(n * 100).toFixed(1)}%` : '—'
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <div className="view-header" style={{ marginBottom: 0 }}>
+      <div className="view-header">
+        <div className="view-header-text">
           <h2 className="view-title">{t('ga4.title')}</h2>
           <p className="view-subtitle">{t('ga4.subtitleShort')}</p>
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <div className="view-header-actions">
           <div style={{ display: 'flex', gap: '0.125rem', background: 'var(--hover-bg)', borderRadius: '0.5rem', padding: '0.125rem' }}>
             {DATE_PRESETS.map(p => (
               <button

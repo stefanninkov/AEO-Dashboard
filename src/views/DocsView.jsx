@@ -474,11 +474,13 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
   ], [t])
 
   return (
-    <div className="space-y-6">
+    <div className="view-wrapper">
       {/* Header */}
-      <div>
-        <h2 className="view-title">{t('title')}</h2>
-        <p className="view-subtitle">{t('subtitle')}</p>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">{t('title')}</h2>
+          <p className="view-subtitle">{t('subtitle')}</p>
+        </div>
       </div>
 
       {/* Tabs */}

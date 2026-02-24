@@ -15,6 +15,7 @@ import { getFilteredEngines } from '../utils/getRecommendations'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import useGridNav from '../hooks/useGridNav'
 import StatCard from './dashboard/StatCard'
+import EmptyState from '../components/EmptyState'
 import Celebration from '../components/Celebration'
 import { useToast } from '../components/Toast'
 
@@ -186,32 +187,34 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
   // Empty state
   if (!activeProject) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 fade-in-up">
-        <ChartSpline size={48} className="text-text-tertiary mb-4" />
-        <h3 className="font-heading text-lg font-bold mb-2">{t('metrics.noProjectSelected')}</h3>
-        <p className="text-sm text-text-tertiary">{t('metrics.noProjectSelectedDesc')}</p>
-      </div>
+      <EmptyState
+        icon={ChartSpline}
+        title={t('metrics.noProjectSelected')}
+        description={t('metrics.noProjectSelectedDesc')}
+      />
     )
   }
 
   return (
-    <div className="space-y-6">
+    <div className="view-wrapper">
       {/* Header */}
-      <div className="metrics-header">
-        <div className="view-header" style={{ marginBottom: 0 }}>
+      <div className="view-header">
+        <div className="view-header-text">
           <h2 className="view-title">{t('metrics.title')}</h2>
           <p className="view-subtitle">
             {activeProject.name} — {activeProject.url || t('metrics.noUrlSet')}
           </p>
         </div>
-        <button
-          onClick={fetchMetrics}
-          disabled={refreshing || !activeProject.url}
-          className="metrics-run-btn"
-        >
-          {refreshing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-          {refreshing ? t('metrics.analyzing') : t('metrics.runAnalysis')}
-        </button>
+        <div className="view-header-actions">
+          <button
+            onClick={fetchMetrics}
+            disabled={refreshing || !activeProject.url}
+            className="metrics-run-btn"
+          >
+            {refreshing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+            {refreshing ? t('metrics.analyzing') : t('metrics.runAnalysis')}
+          </button>
+        </div>
       </div>
 
       {/* Progress */}
@@ -228,13 +231,13 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
       )}
 
       {/* Tabs - Segmented Control */}
-      <div ref={tabsRef} className="metrics-tabs scrollable-tabs">
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented">
         {TAB_IDS.map(id => (
           <button
             key={id}
             data-active={activeTab === id || undefined}
             onClick={() => setActiveTab(id)}
-            className={`metrics-tab ${activeTab === id ? 'active' : ''}`}
+            className="tab-segmented"
           >
             {t(`metrics.tabs.${id}`)}
           </button>
@@ -243,26 +246,17 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
 
       {/* Tab Content */}
       {!metrics && !refreshing ? (
-        <div className="metrics-empty-card fade-in-up">
-          <div className="metrics-empty-icon">
-            <ChartSpline size={24} className="text-text-tertiary" />
-          </div>
-          <h3 className="font-heading text-base font-bold mb-2">{t('metrics.noData')}</h3>
-          <p className="text-sm text-text-tertiary mb-4 text-center max-w-sm">
-            {t('metrics.clickRunAnalysis')}
-          </p>
+        <>
+          <EmptyState
+            icon={ChartSpline}
+            title={t('metrics.noData')}
+            description={t('metrics.clickRunAnalysis')}
+            action={{ label: t('metrics.runAnalysis'), onClick: fetchMetrics }}
+          />
           {!activeProject.url && (
-            <p className="text-xs text-warning">{t('metrics.setUrlFirst')}</p>
+            <p className="text-xs text-warning" style={{ textAlign: 'center', marginTop: 'var(--space-2)' }}>{t('metrics.setUrlFirst')}</p>
           )}
-          <button
-            onClick={fetchMetrics}
-            disabled={refreshing || !activeProject.url}
-            className="metrics-run-btn mt-2"
-          >
-            <RefreshCw size={14} />
-            {t('metrics.runAnalysis')}
-          </button>
-        </div>
+        </>
       ) : metrics && (
         <div className="space-y-6">
           {activeTab === 'overview' && <OverviewTab metrics={metrics} rangeMetrics={rangeMetrics} />}

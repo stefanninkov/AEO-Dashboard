@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson, HelpCircle, ClipboardList, Newspaper, ShoppingBag, MapPin, Building2, Link2, Clapperboard, FileText, ShieldCheck, CheckCircle2, AlertTriangle, XCircle, ClipboardPaste } from 'lucide-react'
+import EmptyState from '../components/EmptyState'
 import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
 import { validateSchema } from '../utils/validateSchema'
@@ -296,41 +297,40 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
 
   // ── Render ──
   return (
-    <div className="schema-container">
+    <div className="view-wrapper">
       {/* Header */}
-      <div className="schema-header">
-        <div className="schema-header-left">
-          <Code2 size={24} className="schema-header-icon" />
-          <div>
-            <h1 className="view-title">{t('schema.markupGenerator')}</h1>
-            <p className="view-subtitle">
-              {activeProject?.questionnaire?.completedAt ? (() => {
-                const q = activeProject.questionnaire
-                const industry = INDUSTRY_LABELS[q.industry] || q.industry
-                const ctrs = q.countries?.length > 0 ? q.countries : q.country ? [q.country] : []
-                const location = ctrs.length > 0
-                  ? ctrs.map(c => COUNTRY_LABELS[c] || c).join(', ')
-                  : REGION_LABELS[q.region] || null
-                const engines = q.targetEngines?.includes('all') ? 'all AI engines' : q.targetEngines?.length > 0
-                  ? q.targetEngines.map(e => ENGINE_LABELS[e] || e).join(', ')
-                  : null
-                let subtitle = t('schema.generateForIndustry', { industry })
-                if (location) subtitle += t('schema.inLocation', { location })
-                if (engines) subtitle += t('schema.optimizedFor', { engines })
-                return subtitle
-              })() : t('schema.defaultSubtitle')}
-            </p>
-          </div>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">{t('schema.markupGenerator')}</h2>
+          <p className="view-subtitle">
+            {activeProject?.questionnaire?.completedAt ? (() => {
+              const q = activeProject.questionnaire
+              const industry = INDUSTRY_LABELS[q.industry] || q.industry
+              const ctrs = q.countries?.length > 0 ? q.countries : q.country ? [q.country] : []
+              const location = ctrs.length > 0
+                ? ctrs.map(c => COUNTRY_LABELS[c] || c).join(', ')
+                : REGION_LABELS[q.region] || null
+              const engines = q.targetEngines?.includes('all') ? 'all AI engines' : q.targetEngines?.length > 0
+                ? q.targetEngines.map(e => ENGINE_LABELS[e] || e).join(', ')
+                : null
+              let subtitle = t('schema.generateForIndustry', { industry })
+              if (location) subtitle += t('schema.inLocation', { location })
+              if (engines) subtitle += t('schema.optimizedFor', { engines })
+              return subtitle
+            })() : t('schema.defaultSubtitle')}
+          </p>
         </div>
         {history.length > 0 && (
-          <button
-            className="schema-history-toggle"
-            onClick={() => setShowHistory(!showHistory)}
-          >
-            <Clock size={16} />
-            {t('schema.historyCount', { count: history.length })}
-            {showHistory ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-          </button>
+          <div className="view-header-actions">
+            <button
+              className="schema-history-toggle"
+              onClick={() => setShowHistory(!showHistory)}
+            >
+              <Clock size={16} />
+              {t('schema.historyCount', { count: history.length })}
+              {showHistory ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+          </div>
         )}
       </div>
 
@@ -592,17 +592,11 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
 
       {/* Empty State */}
       {!result && !loading && !error && (
-        <div className="schema-empty">
-          <Code2 size={48} strokeWidth={1} />
-          <h3>{t('schema.emptyTitle')}</h3>
-          <p>{t('schema.emptyDesc')}</p>
-          <div className="schema-empty-types">
-            {SCHEMA_TYPES.slice(0, 4).map(st => (
-              <span key={st.id} className="schema-empty-tag"><st.Icon size={16} /> {st.label}</span>
-            ))}
-            <span className="schema-empty-tag">{t('schema.emptyMore', { count: SCHEMA_TYPES.length - 4 })}</span>
-          </div>
-        </div>
+        <EmptyState
+          icon={Code2}
+          title={t('schema.emptyTitle')}
+          description={t('schema.emptyDesc')}
+        />
       )}
     </div>
   )

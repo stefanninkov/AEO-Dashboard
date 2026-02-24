@@ -149,11 +149,13 @@ Return JSON:
   }
 
   return (
-    <div className="space-y-6">
+    <div className="view-wrapper">
       {/* Header */}
-      <div>
-        <h2 className="view-title">{t('scorer.title')}</h2>
-        <p className="view-subtitle">{t('scorer.subtitle')}</p>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">{t('scorer.title')}</h2>
+          <p className="view-subtitle">{t('scorer.subtitle')}</p>
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: result ? '1fr 1fr' : '1fr', gap: 'var(--space-5)', alignItems: 'start' }}>

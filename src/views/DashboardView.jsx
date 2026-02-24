@@ -223,33 +223,35 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
   const emptyStateAction = useCallback(() => setActiveView('metrics'), [setActiveView])
 
   return (
-    <div className="section-gap-md" style={{ gap: 'var(--space-7)' }}>
+    <div className="view-wrapper">
       {/* Welcome */}
-      <div className="view-header" style={{ marginBottom: 0 }}>
-        <h2 className="view-title" style={{ fontSize: 'var(--text-2xl)' }}>
-          {userName ? t('dashboard.welcomeBackName', { name: userName }) : t('dashboard.welcomeBack')}
-        </h2>
-        {activeProject?.questionnaire?.completedAt ? (() => {
-          const q = activeProject.questionnaire
-          const industry = INDUSTRY_LABELS[q.industry] || q.industry
-          const audience = AUDIENCE_LABELS[q.audience] || q.audience
-          const ctrs = q.countries?.length > 0 ? q.countries : q.country ? [q.country] : []
-          const location = ctrs.length > 0
-            ? `${ctrs.map(c => COUNTRY_LABELS[c] || c).join(', ')}${q.region ? `, ${REGION_LABELS[q.region]}` : ''}`
-            : REGION_LABELS[q.region] || null
-          const goal = GOAL_LABELS[q.primaryGoal] || null
-          return (
-            <p className="view-subtitle">
-              Optimizing <strong style={{ color: 'var(--text-secondary)' }}>{industry}</strong>
-              {audience && <> for <strong style={{ color: 'var(--text-secondary)' }}>{audience}</strong> audiences</>}
-              {location && <> in <strong style={{ color: 'var(--text-secondary)' }}>{location}</strong></>}
-              {goal && <> — focused on <strong style={{ color: 'var(--text-secondary)' }}>{goal.toLowerCase()}</strong></>}
-              .
-            </p>
-          )
-        })() : (
-          <p className="view-subtitle">{t('dashboard.overviewSubtitle')}</p>
-        )}
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title" style={{ fontSize: 'var(--text-2xl)' }}>
+            {userName ? t('dashboard.welcomeBackName', { name: userName }) : t('dashboard.welcomeBack')}
+          </h2>
+          {activeProject?.questionnaire?.completedAt ? (() => {
+            const q = activeProject.questionnaire
+            const industry = INDUSTRY_LABELS[q.industry] || q.industry
+            const audience = AUDIENCE_LABELS[q.audience] || q.audience
+            const ctrs = q.countries?.length > 0 ? q.countries : q.country ? [q.country] : []
+            const location = ctrs.length > 0
+              ? `${ctrs.map(c => COUNTRY_LABELS[c] || c).join(', ')}${q.region ? `, ${REGION_LABELS[q.region]}` : ''}`
+              : REGION_LABELS[q.region] || null
+            const goal = GOAL_LABELS[q.primaryGoal] || null
+            return (
+              <p className="view-subtitle">
+                Optimizing <strong style={{ color: 'var(--text-secondary)' }}>{industry}</strong>
+                {audience && <> for <strong style={{ color: 'var(--text-secondary)' }}>{audience}</strong> audiences</>}
+                {location && <> in <strong style={{ color: 'var(--text-secondary)' }}>{location}</strong></>}
+                {goal && <> — focused on <strong style={{ color: 'var(--text-secondary)' }}>{goal.toLowerCase()}</strong></>}
+                .
+              </p>
+            )
+          })() : (
+            <p className="view-subtitle">{t('dashboard.overviewSubtitle')}</p>
+          )}
+        </div>
       </div>
 
       {/* Sub-tabs — segmented pattern */}

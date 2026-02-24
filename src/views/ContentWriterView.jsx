@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PenTool, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, HelpCircle, ClipboardList, Scale, ShoppingBag, BookText, Lightbulb, Star } from 'lucide-react'
+import EmptyState from '../components/EmptyState'
 import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
 import { getAnalyzerIndustryContext, AUDIENCE_LABELS, INDUSTRY_LABELS, LANGUAGE_LABELS } from '../utils/getRecommendations'
@@ -323,34 +324,33 @@ Return ONLY valid JSON matching the requested format.`,
   }
 
   return (
-    <div className="space-y-6">
+    <div className="view-wrapper">
       {/* Header */}
-      <div>
-        <div className="flex items-center gap-2 mb-1">
+      <div className="view-header">
+        <div className="view-header-text">
           <h2 className="view-title">{t('writer.title')}</h2>
-          <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-2/10 text-phase-2 font-medium">{activeProject?.name}</span>
+          <p className="view-subtitle">
+            {activeProject?.questionnaire?.completedAt ? (() => {
+              const q = activeProject.questionnaire
+              const audience = AUDIENCE_LABELS[q.audience] || null
+              const industry = INDUSTRY_LABELS[q.industry] || q.industry
+              const langNames = q.languages?.length > 0 ? q.languages.map(l => LANGUAGE_LABELS[l] || l).join(', ') : null
+              let subtitle = t('writer.generate')
+              if (audience) {
+                subtitle = t('writer.generateForAudience', { audience })
+              } else {
+                subtitle = t('writer.subtitle')
+              }
+              if (langNames && langNames !== 'English') {
+                subtitle += t('writer.inLanguage', { languages: langNames })
+              }
+              if (industry) {
+                subtitle += t('writer.industryFocus', { industry })
+              }
+              return subtitle
+            })() : t('writer.defaultCiteContent')}
+          </p>
         </div>
-        <p className="view-subtitle">
-          {activeProject?.questionnaire?.completedAt ? (() => {
-            const q = activeProject.questionnaire
-            const audience = AUDIENCE_LABELS[q.audience] || null
-            const industry = INDUSTRY_LABELS[q.industry] || q.industry
-            const langNames = q.languages?.length > 0 ? q.languages.map(l => LANGUAGE_LABELS[l] || l).join(', ') : null
-            let subtitle = t('writer.generate')
-            if (audience) {
-              subtitle = t('writer.generateForAudience', { audience })
-            } else {
-              subtitle = t('writer.subtitle')
-            }
-            if (langNames && langNames !== 'English') {
-              subtitle += t('writer.inLanguage', { languages: langNames })
-            }
-            if (industry) {
-              subtitle += t('writer.industryFocus', { industry })
-            }
-            return subtitle
-          })() : t('writer.defaultCiteContent')}
-        </p>
       </div>
 
       {/* Content Type Selector */}
@@ -514,15 +514,11 @@ Return ONLY valid JSON matching the requested format.`,
 
       {/* Empty state */}
       {!result && !loading && !error && (
-        <div className="analyzer-empty-card fade-in-up">
-          <div className="analyzer-empty-icon">
-            <PenTool size={28} className="text-text-tertiary" />
-          </div>
-          <h3 className="analyzer-empty-title">{t('writer.readyToWrite')}</h3>
-          <p className="analyzer-empty-text">
-            {t('writer.readyToWriteDesc')}
-          </p>
-        </div>
+        <EmptyState
+          icon={PenTool}
+          title={t('writer.readyToWrite')}
+          description={t('writer.readyToWriteDesc')}
+        />
       )}
     </div>
   )

@@ -108,7 +108,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+    <div className="view-wrapper">
       <SettingsTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
       {/* Tab content */}

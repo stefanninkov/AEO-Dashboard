@@ -10,6 +10,8 @@ import { useAutoMonitor } from '../hooks/useAutoMonitor'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { fireWebhooks } from '../utils/webhookDispatcher'
 import ProgressBar from '../components/ProgressBar'
+import StatCard from './dashboard/StatCard'
+import EmptyState from '../components/EmptyState'
 import ContentDecayTab from './monitoring/ContentDecayTab'
 import logger from '../utils/logger'
 
@@ -215,7 +217,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
   // ── Render ──
   return (
-    <div className="mon-container">
+    <div className="view-wrapper">
       {/* Notification Banner */}
       {notification && (
         <div className={`mon-notification ${notification.type === 'positive' ? 'mon-notification-positive' : 'mon-notification-negative'}`}>
@@ -225,15 +227,12 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       )}
 
       {/* Header */}
-      <div className="mon-header">
-        <div className="mon-header-left">
-          <Activity size={24} className="mon-header-icon" />
-          <div className="view-header" style={{ marginBottom: 0 }}>
-            <h1 className="view-title">{t('monitoring.title')}</h1>
-            <p className="view-subtitle">{t('monitoring.subtitle')}</p>
-          </div>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">{t('monitoring.title')}</h2>
+          <p className="view-subtitle">{t('monitoring.subtitle')}</p>
         </div>
-        <div className="mon-header-actions">
+        <div className="view-header-actions">
           <button
             className={`mon-schedule-badge ${settings.monitoringEnabled ? 'mon-schedule-active' : ''}`}
             onClick={toggleMonitoring}
@@ -316,57 +315,49 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       )}
 
       {/* Stats Cards */}
-      <div className="mon-stats-grid stagger-grid">
+      <div className="stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(14rem, 1fr))', gap: 'var(--space-4)' }}>
         {/* Current Score */}
-        <div className="mon-stat-card mon-stat-score">
-          <div className="mon-stat-label">{t('monitoring.citationScore')}</div>
-          <div className="mon-stat-value">
-            {latestRun ? `${latestRun.overallScore}%` : '—'}
-          </div>
-          {scoreDelta !== null && (
-            <div className={`mon-stat-delta ${scoreDelta > 0 ? 'mon-delta-up' : scoreDelta < 0 ? 'mon-delta-down' : 'mon-delta-flat'}`}>
-              {scoreDelta > 0 ? <TrendingUp size={14} /> : scoreDelta < 0 ? <TrendingDown size={14} /> : <Minus size={14} />}
-              {scoreDelta > 0 ? '+' : ''}{scoreDelta}%
-            </div>
-          )}
-        </div>
+        <StatCard
+          label={t('monitoring.citationScore')}
+          value={latestRun ? `${latestRun.overallScore}%` : '—'}
+          trend={scoreDelta}
+          icon={<Activity size={18} />}
+          iconColor="var(--color-phase-3)"
+        />
 
         {/* Queries Cited */}
-        <div className="mon-stat-card">
-          <div className="mon-stat-label">{t('monitoring.queriesCited')}</div>
-          <div className="mon-stat-value">
-            {latestRun ? `${latestRun.queriesCited}/${latestRun.queriesChecked}` : '—'}
-          </div>
-          <div className="mon-stat-sub">
-            {latestRun ? t('monitoring.hitRate', { value: latestRun.queriesChecked > 0 ? Math.round((latestRun.queriesCited / latestRun.queriesChecked) * 100) : 0 }) : t('monitoring.noDataYet')}
-          </div>
-        </div>
+        <StatCard
+          label={t('monitoring.queriesCited')}
+          value={latestRun ? `${latestRun.queriesCited}/${latestRun.queriesChecked}` : '—'}
+          subValue={latestRun ? t('monitoring.hitRate', { value: latestRun.queriesChecked > 0 ? Math.round((latestRun.queriesCited / latestRun.queriesChecked) * 100) : 0 }) : t('monitoring.noDataYet')}
+          icon={<CheckCircle2 size={18} />}
+          iconColor="var(--color-phase-4)"
+          layout="horizontal"
+        />
 
         {/* Last Run */}
-        <div className="mon-stat-card">
-          <div className="mon-stat-label">{t('monitoring.lastCheck')}</div>
-          <div className="mon-stat-value mon-stat-value-sm">
-            {timeAgo(activeProject?.lastMonitorRun, t)}
-          </div>
-          <div className="mon-stat-sub">
-            {activeProject?.lastMonitorRun
-              ? new Date(activeProject.lastMonitorRun).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-              : t('monitoring.neverRun')}
-          </div>
-        </div>
+        <StatCard
+          label={t('monitoring.lastCheck')}
+          value={timeAgo(activeProject?.lastMonitorRun, t)}
+          subValue={activeProject?.lastMonitorRun
+            ? new Date(activeProject.lastMonitorRun).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+            : t('monitoring.neverRun')}
+          icon={<Clock size={18} />}
+          iconColor="var(--color-phase-5)"
+          layout="horizontal"
+        />
 
         {/* Next Run */}
-        <div className="mon-stat-card">
-          <div className="mon-stat-label">{t('monitoring.nextScheduled')}</div>
-          <div className="mon-stat-value mon-stat-value-sm">
-            {settings.monitoringEnabled
-              ? getNextRunDate(activeProject?.lastMonitorRun, settings.monitoringInterval, t)
-              : t('monitoring.disabled')}
-          </div>
-          <div className="mon-stat-sub">
-            {settings.monitoringEnabled ? t('monitoring.intervalLabel', { interval: getIntervalLabel(settings.monitoringInterval, t) }) : t('monitoring.enableInSettings')}
-          </div>
-        </div>
+        <StatCard
+          label={t('monitoring.nextScheduled')}
+          value={settings.monitoringEnabled
+            ? getNextRunDate(activeProject?.lastMonitorRun, settings.monitoringInterval, t)
+            : t('monitoring.disabled')}
+          subValue={settings.monitoringEnabled ? t('monitoring.intervalLabel', { interval: getIntervalLabel(settings.monitoringInterval, t) }) : t('monitoring.enableInSettings')}
+          icon={<Calendar size={18} />}
+          iconColor="var(--color-phase-6)"
+          layout="horizontal"
+        />
       </div>
 
       {/* Score Trend */}
@@ -558,15 +549,12 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
       {/* Empty State */}
       {!latestRun && !monitoring && !error && hasUrl && queryCount > 0 && (
-        <div className="mon-empty">
-          <Activity size={48} strokeWidth={1} />
-          <h3>{t('monitoring.noQueries')}</h3>
-          <p>{t('monitoring.noQueriesDesc')}</p>
-          <button className="mon-run-btn" onClick={handleRunMonitor}>
-            <Play size={16} />
-            {t('monitoring.runAll')}
-          </button>
-        </div>
+        <EmptyState
+          icon={Activity}
+          title={t('monitoring.noQueries')}
+          description={t('monitoring.noQueriesDesc')}
+          action={{ label: t('monitoring.runAll'), onClick: handleRunMonitor }}
+        />
       )}
 
       </>}

@@ -192,22 +192,13 @@ export default function CalendarView({ activeProject, updateProject, user, phase
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {/* Week / Month toggle */}
-          <div style={{
-            display: 'flex', borderRadius: '0.5rem', border: '0.0625rem solid var(--border-subtle)',
-            overflow: 'hidden',
-          }}>
+          <div className="tab-bar-segmented" style={{ width: 'fit-content' }}>
             {viewModes.map(v => (
               <button
                 key={v.id}
+                data-active={cal.calendarMode === v.id || undefined}
                 onClick={() => cal.setCalendarMode(v.id)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '0.25rem',
-                  padding: '0.3125rem 0.625rem', border: 'none', cursor: 'pointer',
-                  fontSize: '0.75rem', fontWeight: 600, fontFamily: 'var(--font-body)',
-                  background: cal.calendarMode === v.id ? 'var(--color-phase-1)' : 'transparent',
-                  color: cal.calendarMode === v.id ? '#fff' : 'var(--text-secondary)',
-                  transition: 'background 150ms, color 150ms',
-                }}
+                className="tab-segmented"
               >
                 <v.icon size={12} /> {v.label}
               </button>

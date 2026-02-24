@@ -91,7 +91,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
         <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
           {item?.doc?.sections?.map((section, idx) => (
             <div key={idx} className="fade-in-up" style={{ animationDelay: `${idx * 60}ms` }}>
-              <h3 className="font-heading text-sm font-bold mb-3" style={{ color: phaseColor }}>
+              <h3 className="font-heading text-sm font-bold mb-3" style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
                 {section.heading}
               </h3>
               <div className="text-sm text-text-secondary leading-relaxed whitespace-pre-line">

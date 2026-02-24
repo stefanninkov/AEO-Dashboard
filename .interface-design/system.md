@@ -1,26 +1,33 @@
 # AEO Dashboard — Design System
 
+## Principles
+1. **Data-first** — information density over white space. This is an analytics tool, not a marketing site.
+2. **One accent color** — `--accent: #2563EB` (blue) for all interactive elements (buttons, links, focus rings, active tabs, toggles). Phase colors are ONLY for phase-specific semantic contexts (checklist badges, donut chart slices, phase progress bars).
+3. **Borders over shadows** — depth comes from `var(--border-subtle|default|strong)`. Shadows reserved for modals, toasts, and hover-elevated cards only.
+4. **Consistent patterns** — every stat card, tab bar, empty state, and button uses the same shared component/class. No one-off implementations.
+5. **Light default** — `:root` = light theme. `[data-theme="dark"]` = dark override. Both must look intentional.
+
 ## Direction
-Dark-first dashboard tool for AEO (Answer Engine Optimization). Technical, data-dense, not marketing. Dual theme (dark default + light). Anti-AI-generic: Geist Mono headings, asymmetric spacing, no generic SaaS card layouts.
+Light-default analytics dashboard for AEO (Answer Engine Optimization). Technical, data-dense, not marketing. Dual theme (light default + dark). Professional look (Ahrefs, PostHog, Linear).
 
 ## Typography
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--font-heading` | `'Geist Mono', 'JetBrains Mono', monospace` | Headings, stat values, nav labels |
-| `--font-body` | `'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif` | Body text, form labels, descriptions |
-| `--font-mono` | `'Geist Mono', 'JetBrains Mono', monospace` | Code, data, timestamps |
+| `--font-heading` | `'Plus Jakarta Sans', sans-serif` | Headings, nav labels, stat values |
+| `--font-body` | `'Plus Jakarta Sans', sans-serif` | Body text, form labels, descriptions |
+| `--font-mono` | `'JetBrains Mono', monospace` | Code, data values, timestamps |
 
 ### Font Size Scale (10 tiers)
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--text-2xs` | `0.625rem` (10px) | Badges, timestamps, tiny labels |
-| `--text-xs` | `0.75rem` (12px) | Small labels, hints |
+| `--text-2xs` | `0.6875rem` (11px) | Badges, timestamps, tiny labels |
+| `--text-xs` | `0.75rem` (12px) | Small labels, hints, stat card labels |
 | `--text-sm` | `0.8125rem` (13px) | Form labels, secondary text, buttons |
-| `--text-base` | `0.875rem` (14px) | Body text |
+| `--text-base` | `0.875rem` (14px) | Body text, default |
 | `--text-md` | `0.9375rem` (15px) | Section titles |
-| `--text-lg` | `1rem` (16px) | Normal body |
-| `--text-xl` | `1.125rem` (18px) | View titles (.view-title) |
+| `--text-lg` | `1rem` (16px) | Larger body text |
+| `--text-xl` | `1.125rem` (18px) | View titles (`.view-title`) |
 | `--text-2xl` | `1.25rem` (20px) | Large headings |
 | `--text-3xl` | `1.5rem` (24px) | Hero-size |
 | `--text-4xl` | `2rem` (32px) | Stat card values |
@@ -46,98 +53,216 @@ Dark-first dashboard tool for AEO (Answer Engine Optimization). Technical, data-
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--radius-sm` | `0.375rem` (6px) | Small elements, badges |
-| `--radius-md` | `0.5rem` (8px) | Buttons, inputs, default |
-| `--radius-lg` | `0.75rem` (12px) | Cards, containers |
-| `--radius-xl` | `1rem` (16px) | Modals, large panels |
+| `--radius-sm` | `0.25rem` (4px) | Tiny elements |
+| `--radius-md` | `0.375rem` (6px) | Buttons, inputs, default |
+| `--radius-lg` | `0.5rem` (8px) | Cards, containers |
+| `--radius-xl` | `0.75rem` (12px) | Modals, large panels |
 | `--radius-full` | `624.9375rem` | Pills, circular |
 
-## Depth: Borders-First
+## Depth
 
-- Primary depth: `0.0625rem solid var(--border-subtle|default|strong)`
-- Shadows reserved for: modals, toasts, hover-elevated cards, buttons
+### Borders-First (primary depth)
+```
+0.0625rem solid var(--border-subtle)   → default card/container border
+0.0625rem solid var(--border-default)  → hover state, form inputs
+0.0625rem solid var(--border-strong)   → active/focus emphasis
+```
 
-| Token | Dark | Light |
-|-------|------|-------|
-| `--shadow-sm` | `0 0.0625rem 0.1875rem rgba(0,0,0,0.3)` | `rgba(0,0,0,0.06)` |
-| `--shadow-md` | `0 0.25rem 1rem rgba(0,0,0,0.4)` | `rgba(0,0,0,0.08)` |
-| `--shadow-lg` | `0 1rem 3rem rgba(0,0,0,0.5), ring` | `rgba(0,0,0,0.12), ring` |
-| `--shadow-button` | `0 0.0625rem 0.1875rem rgba(0,0,0,0.2)` | `rgba(0,0,0,0.06)` |
-| `--hover-shadow` | `0 0.5rem 1.5rem rgba(0,0,0,0.35)` | `rgba(0,0,0,0.08)` |
+### Shadows (elevation only)
+| Token | Light | Dark |
+|-------|-------|------|
+| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | `0 1px 2px rgba(0,0,0,0.3)` |
+| `--shadow-md` | `0 2px 8px rgba(0,0,0,0.08)` | `0 2px 8px rgba(0,0,0,0.4)` |
+| `--shadow-lg` | `0 8px 24px rgba(0,0,0,0.12)` | `0 8px 24px rgba(0,0,0,0.5)` |
+| `--shadow-xl` | `0 16px 48px rgba(0,0,0,0.16)` | `0 16px 48px rgba(0,0,0,0.6)` |
+| `--shadow-button` | `0 1px 2px rgba(0,0,0,0.06)` | `0 1px 3px rgba(0,0,0,0.2)` |
+| `--hover-shadow` | `0 0.5rem 1.5rem rgba(0,0,0,0.08)` | `0 0.5rem 1.5rem rgba(0,0,0,0.35)` |
+
+Usage: `.stat-card` gets no shadow. `.card-interactive:hover` gets `--hover-shadow`. Modals get `--shadow-xl`. Toasts get `--shadow-md`.
 
 ## Color Palette
 
-### Phase Colors (7-phase system, 60-30-10 rule)
-| Token | Dark | Light |
-|-------|------|-------|
-| `--color-phase-1` | `#FF6B35` (Orange) | `#E55A1B` |
-| `--color-phase-2` | `#7B2FBE` (Purple) | `#6B21A8` |
-| `--color-phase-3` | `#0EA5E9` (Blue) | `#0284C7` |
-| `--color-phase-4` | `#10B981` (Green) | `#059669` |
-| `--color-phase-5` | `#F59E0B` (Amber) | `#D97706` |
-| `--color-phase-6` | `#EC4899` (Pink) | `#DB2777` |
-| `--color-phase-7` | `#EF4444` (Red) | `#DC2626` |
+### Accent
+| Token | Value |
+|-------|-------|
+| `--accent` | `#2563EB` |
+| `--accent-hover` | `#1D4ED8` |
+| `--accent-subtle` | `rgba(37,99,235,0.08)` (light) / `rgba(37,99,235,0.15)` (dark) |
+
+### Phase Colors (7-phase AEO system)
+| Token | Value | Phase |
+|-------|-------|-------|
+| `--color-phase-1` | `#FF6B35` | Foundation (orange) |
+| `--color-phase-2` | `#7C3AED` | Authority (violet) |
+| `--color-phase-3` | `#0EA5E9` | Content (sky) |
+| `--color-phase-4` | `#10B981` | Technical (emerald) |
+| `--color-phase-5` | `#F59E0B` | Monitoring (amber) |
+| `--color-phase-6` | `#EC4899` | Testing (pink) |
+| `--color-phase-7` | `#EF4444` | Growth (red) |
+
+**Rule:** Phase colors are ONLY for phase-specific contexts (checklist progress, phase badges, donut chart). NEVER for buttons, links, focus rings, or general UI accents.
 
 ### Semantic Colors
-| Token | Dark | Light |
-|-------|------|-------|
-| `--color-success` | `#10B981` | `#059669` |
-| `--color-warning` | `#F59E0B` | `#D97706` |
-| `--color-error` | `#EF4444` | `#DC2626` |
+| Token | Value |
+|-------|-------|
+| `--color-success` | `#10B981` |
+| `--color-warning` | `#F59E0B` |
+| `--color-error` | `#EF4444` |
+| `--color-info` | `#3B82F6` |
+
+### Chart Palette
+```
+--chart-1: #2563EB (blue)
+--chart-2: #7C3AED (violet)
+--chart-3: #0EA5E9 (sky)
+--chart-4: #10B981 (emerald)
+--chart-5: #F59E0B (amber)
+--chart-6: #EC4899 (pink)
+```
 
 ### Neutrals
-| Token | Dark | Light |
-|-------|------|-------|
-| `--bg-page` | `#08080D` | `#F5F5F7` |
-| `--bg-card` | `#111118` | `#FFFFFF` |
-| `--bg-input` | `#0D0D14` | `#FFFFFF` |
-| `--hover-bg` | `#1A1A24` | `#F0F0F4` |
-| `--text-primary` | `#F0F0F2` | `#18181B` |
-| `--text-secondary` | `#A0A0AE` | `#52525B` |
-| `--text-tertiary` | `#858596` | `#71717A` |
-| `--text-disabled` | `#3E3E4A` | `#C4C4CC` |
-| `--border-subtle` | `rgba(255,255,255,0.06)` | `rgba(0,0,0,0.06)` |
-| `--border-default` | `rgba(255,255,255,0.10)` | `rgba(0,0,0,0.10)` |
-| `--border-strong` | `rgba(255,255,255,0.16)` | `rgba(0,0,0,0.16)` |
+| Token | Light | Dark |
+|-------|-------|------|
+| `--bg-page` | `#F8F9FB` | `#0D1117` |
+| `--bg-card` | `#FFFFFF` | `#161B22` |
+| `--bg-card-2` | `#F1F3F6` | `#1C2128` |
+| `--bg-input` | `#FFFFFF` | `#0D1117` |
+| `--bg-elevated` | `#FFFFFF` | `#1C2128` |
+| `--hover-bg` | `#F1F3F6` | `#1C2128` |
+| `--text-primary` | `#0F1419` | `#E6EDF3` |
+| `--text-secondary` | `#536471` | `#8B949E` |
+| `--text-tertiary` | `#8899A6` | `#6E7681` |
+| `--text-disabled` | `#BCC5CF` | `#484F58` |
+| `--border-subtle` | `rgba(0,0,0,0.06)` | `rgba(255,255,255,0.06)` |
+| `--border-default` | `rgba(0,0,0,0.10)` | `rgba(255,255,255,0.10)` |
+| `--border-strong` | `rgba(0,0,0,0.16)` | `rgba(255,255,255,0.16)` |
+
+## Layout
+
+### App Shell
+```
+.app-shell        → flex row, 100vh
+  .sidebar        → 15rem fixed width, border-right
+  .main-area      → flex: 1, flex column
+    .top-bar      → flex-shrink: 0, border-bottom
+    .content-scroll → flex: 1, overflow-y: auto, NO padding
+      .content-wrapper → width: 100%, NO max-width (view-wrapper handles it)
+        <ViewComponent /> → className="view-wrapper"
+```
+
+### View Wrapper
+```css
+.view-wrapper {
+  padding: var(--space-6);
+  max-width: 72rem;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+```
+Every view's outermost `<div>` MUST use `className="view-wrapper"`.
+
+### View Header
+```css
+.view-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.view-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.view-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+```
+Pattern: title+subtitle on left, action buttons on right.
+
+### Grid: Stats
+```css
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+```
+Responsive: 2-col on mobile.
 
 ## Component Patterns
 
-### Button
+### Buttons
 | Variant | Height | Padding | Font Size | Radius |
 |---------|--------|---------|-----------|--------|
-| `.btn-sm` | `1.75rem` | `0.5rem 0.75rem` | `0.75rem` | `0.625rem` |
-| `.btn-md` | `2.25rem` | `0.625rem 1rem` | `0.8125rem` | `0.625rem` |
-| `.btn-lg` | `2.75rem` | `0.75rem 1.25rem` | `0.875rem` | `0.625rem` |
+| `.btn-sm` | `1.75rem` | `0.375rem 0.75rem` | `var(--text-xs)` | `0.625rem` |
+| `.btn-md` | `2.25rem` | `0.5rem 1rem` | `var(--text-sm)` | `0.625rem` |
+| `.btn-lg` | `2.75rem` | `0.75rem 1.25rem` | `var(--text-base)` | `0.625rem` |
 | `.btn-icon` | `2rem` | `0` (centered) | — | `var(--radius-md)` |
 
-Types: `.btn-primary` (gradient accent), `.btn-secondary` (border + hover), `.btn-ghost` (transparent), `.btn-danger` (error color), `.btn-danger-fill` (error bg)
+Types: `.btn-primary` (accent gradient bg), `.btn-secondary` (border + hover), `.btn-ghost` (transparent), `.btn-danger` (error text), `.btn-danger-fill` (error bg)
 
-### Card
+### Cards
 | Class | Properties |
 |-------|-----------|
-| `.card` | `bg-card`, `border: 0.0625rem solid var(--border-subtle)`, `border-radius: 0.75rem`, `overflow: hidden` |
+| `.card` | `bg-card`, `border: 0.0625rem solid var(--border-subtle)`, `border-radius: var(--radius-lg)`, `overflow: hidden` |
 | `.card-padded` | Same + `padding: 1.25rem` |
 | `.card-interactive` | Hover: `translateY(-0.125rem)` + `var(--hover-shadow)` |
 
-### Input
+### Stat Cards
+```css
+.stat-card         → bg-card, border-subtle, radius-lg, padding: space-5
+.stat-card-label   → text-xs, uppercase, letter-spacing: 0.04em, text-tertiary, font-weight: 700
+.stat-card-value   → font-mono, text-4xl (or text-2xl horizontal), font-weight: 700
+.stat-card-trend   → font-mono, text-xs, font-weight: 600
+.stat-card-trend-up   → color: success
+.stat-card-trend-down → color: error
+.stat-card-sub     → text-xs, text-tertiary
+```
+One shared `<StatCard>` component at `src/views/dashboard/StatCard.jsx`. NO local stat card implementations.
+
+### Inputs
 | Class | Properties |
 |-------|-----------|
 | `.input-field` | `padding: 0.625rem 0.875rem`, `bg-input`, `border: 0.0625rem solid var(--border-default)`, `radius: 0.625rem`, `font-size: 0.875rem` |
 | `.input-sm` | `height: 1.75rem`, `padding: 0 0.75rem` |
 | `.input-md` | `height: 2.25rem`, `padding: 0 1rem` |
-| Focus: `border-color: var(--color-phase-1)`, `box-shadow: 0 0 0 0.1875rem rgba(255,107,53,0.15)` |
+| Focus: `border-color: var(--accent)`, `box-shadow: 0 0 0 0.1875rem rgba(37,99,235,0.15)` |
 
-### Tabs (3 variants)
+### Selection Cards
+```css
+.selection-card          → border-default, radius-md, padding: space-4, cursor: pointer, text-align: center
+.selection-card:hover    → border-strong
+.selection-card[data-active] → border: accent, bg: accent-subtle
+.selection-card-label    → text-sm, font-weight: 600, text-primary
+.selection-card-desc     → text-xs, text-tertiary
+```
+
+### Tabs (2 patterns)
 | Variant | Active Style | Usage |
 |---------|-------------|-------|
-| `.tab-bar-segmented` + `.tab-segmented` | `bg-card` + `shadow-sm` + `font-weight: 600` | Dashboard, Settings, Docs |
-| `.tab-bar-pills` + `.tab-pill` | `bg: var(--color-phase-1)` + `color: #fff` | Competitors, ContentOps |
-| `.tab-bar-underline` + `.tab-underline` | `border-bottom: var(--color-phase-1)` | Settings sub-tabs |
+| `.tab-bar-segmented` + `.tab-segmented` | `bg-card` + `shadow-sm` + `font-weight: 600` | All main view tabs |
+| `.tab-bar-underline` + `.tab-underline` | `border-bottom: var(--accent)` | Settings sub-tabs only |
 
-### Settings Row
-- `sectionTitleStyle`: flex, `gap: 0.5rem`, `font-size: 0.8125rem`, `font-weight: 700`, `padding: 1.125rem 1.25rem 0.875rem`
-- `settingsRowStyle`: flex, `gap: 0.875rem`, `padding: 0.875rem 1.25rem`, `border-bottom: 0.0625rem solid var(--border-subtle)`
-- `labelStyle`: `font-size: 0.8125rem`, `color: var(--text-secondary)`, `width: 8.125rem`
+**No pill tabs.** `.tab-bar-pills` / `.tab-pill` are deprecated and removed.
+
+### Empty State
+Shared `<EmptyState>` component at `src/components/EmptyState.jsx`. Props: `icon`, `title`, `description`, `action`, `color`, `compact`. NO inline empty state implementations.
+
+### Badges
+```css
+.badge             → font-mono, text-2xs, font-weight: 600, radius-full, inline-flex
+.badge-success     → green bg 10%, green text
+.badge-warning     → amber bg 10%, amber text
+.badge-error       → red bg 10%, red text
+.badge-info        → blue bg 10%, blue text
+```
 
 ### Toast
 - Position: fixed, bottom-right, `z-index: var(--z-toast)`
@@ -146,17 +271,41 @@ Types: `.btn-primary` (gradient accent), `.btn-secondary` (border + hover), `.bt
 - Icon size: 16
 - Animations: `toastIn` 300ms, `toastOut` 200ms
 
+### Settings Row (from SettingsShared.jsx)
+- `sectionTitleStyle`: flex, `gap: 0.5rem`, `font-size: 0.8125rem`, `font-weight: 700`, `padding: 1.125rem 1.25rem 0.875rem`
+- `settingsRowStyle`: flex, `gap: 0.875rem`, `padding: 0.875rem 1.25rem`, `border-bottom: 0.0625rem solid var(--border-subtle)`
+- `labelStyle`: `font-size: 0.8125rem`, `color: var(--text-secondary)`, `width: 8.125rem`
+
+## Charts (Recharts)
+- Use `--chart-1` through `--chart-6` for generic data series
+- Use `--color-phase-N` ONLY when displaying AEO phase data
+- Grid lines: `var(--border-subtle)`, no axis lines
+- Tooltip: `bg-card`, `border-default`, `shadow-md`, `radius-md`
+- Font: `var(--font-mono)` for values, `var(--font-body)` for labels
+
+## Sidebar Navigation
+- Width: `15rem` fixed
+- Background: `var(--bg-card)`, border-right: `var(--border-subtle)`
+- Active item: `background: var(--accent-subtle)`, `color: var(--accent)`, `font-weight: 600`
+- Hover: `background: var(--hover-bg)`
+- Groups: collapsible with `ChevronDown` rotate animation
+- Sparkline: inline SVG polyline next to project name (if data available)
+
 ## Animation & Transitions
 
 | Token | Value |
 |-------|-------|
-| `--duration-fast` | `150ms` |
-| `--duration-normal` | `250ms` |
-| `--duration-slow` | `400ms` |
+| `--duration-fast` | `120ms` |
+| `--duration-normal` | `200ms` |
+| `--duration-slow` | `350ms` |
 | `--ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)` |
 | `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` |
 
-Patterns: hover lift (`translateY(-0.0625rem)`), press scale (`scale(0.97)`), stagger grid (50ms increments), fade-in-up entry
+Patterns:
+- Hover lift: `translateY(-0.0625rem)` (small), `translateY(-0.125rem)` (interactive cards)
+- Press scale: `scale(0.97)`
+- Stagger grid: `.stagger-grid > *:nth-child(n)` with 50ms increments
+- Fade-in-up: entry animation for views/modals
 
 ## Z-Index Scale
 
@@ -172,24 +321,41 @@ Patterns: hover lift (`translateY(-0.0625rem)`), press scale (`scale(0.97)`), st
 
 ## Icons
 - Library: **lucide-react**
-- Common sizes: `16` (default), `14` (compact), `12` (trend badges), `13` (button icons), `18-24` (emphasis)
+- Default: `size={16}`
+- Compact: `size={14}`
+- Badges/trend: `size={12}`
+- Button icons: `size={13}`
+- Emphasis: `size={18}` to `size={24}`
 
 ## Responsive Breakpoints
 | Name | Query | Behavior |
 |------|-------|----------|
-| Tablet | `max-width: 61.9375rem` | Sidebar overlay |
-| Mobile landscape | `max-width: 47.9375rem` | Single column grids |
+| Tablet | `max-width: 61.9375rem` | Sidebar → overlay |
+| Mobile landscape | `max-width: 47.9375rem` | Single column grids, `.view-wrapper` padding reduces |
 | Mobile portrait | `max-width: 29.9375rem` | Minimal padding, 1-col |
-| Touch targets | `@media (pointer: coarse)` | Min `2.75rem` on interactive |
+| Touch targets | `@media (pointer: coarse)` | Min `2.75rem` on interactive elements |
+
+## Accessibility
+- Focus ring: `0 0 0 0.1875rem rgba(37,99,235,0.15)` + `border-color: var(--accent)` on all interactive elements
+- `:focus:not(:focus-visible)` — remove ring for mouse clicks
+- `aria-selected="true"` on active tab buttons
+- Color contrast: all text-on-bg combinations pass WCAG AA
+- Touch targets: min `2.75rem` via `@media (pointer: coarse)`
 
 ## Rules
 1. **All values in rem** — no px anywhere
-2. **60-30-10 color rule** — 60% neutrals, 30% secondary, 10% accent
-3. **Borders-first depth** — shadows only for elevation (modals, toasts, hover-up)
-4. **Geist Mono for headings** — `var(--font-heading)` on titles, nav, stat values
-5. **Geist Sans for body** — `var(--font-body)` on running text, labels, descriptions
-6. **Phase colors are semantic** — phase-1 through phase-7 map to AEO phases
+2. **One accent color** — `--accent: #2563EB` for ALL interactive elements
+3. **Phase colors are semantic** — ONLY for AEO phase contexts, never for buttons/links/focus
+4. **Borders-first depth** — shadows only for elevation (modals, toasts, hover-up)
+5. **Plus Jakarta Sans for headings + body** — `var(--font-heading)` and `var(--font-body)`
+6. **JetBrains Mono for data** — `var(--font-mono)` on code, values, timestamps
 7. **Card = border + radius-lg** — no shadows by default
 8. **Button sizes match input sizes** — sm/md/lg heights align
-9. **Tab badges use `.tab-badge`** — `font-size: var(--text-2xs)`, `radius-full`
-10. **Spacing grid: 4px base** — only use values from `--space-*` scale
+9. **One shared StatCard** — no local stat card implementations
+10. **One shared EmptyState** — no inline empty state implementations
+11. **Two tab patterns only** — segmented (main) + underline (settings sub-tabs). No pill tabs.
+12. **View wrapper on every view** — `className="view-wrapper"` on outermost div
+13. **View header pattern** — `.view-header > .view-header-text + .view-header-actions`
+14. **No project badges in titles** — removed from ChecklistView, ContentWriterView
+15. **No icons in titles** — removed from SchemaGeneratorView, MonitoringView
+16. **Spacing grid: 4px base** — only use values from `--space-*` scale

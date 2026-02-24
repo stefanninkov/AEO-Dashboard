@@ -387,20 +387,19 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   // ── Render ──
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div className="view-header" style={{ marginBottom: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <div className="view-header">
+        <div className="view-header-text">
           <h2 className="view-title">AEO Guide</h2>
-          <span style={{ fontSize: '0.6875rem', padding: '0.125rem 0.5rem', borderRadius: '6.1875rem', background: 'rgba(46,204,113,0.1)', color: 'var(--color-phase-3)', fontWeight: 500 }}>{activeProject?.name}</span>
-          <div style={{ marginLeft: 'auto' }}>
-            <PresenceAvatars members={onlineMembers} currentUserUid={user?.uid} variant="compact" />
-          </div>
+          {activeProject?.url && <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</p>}
+          <p className="view-subtitle">
+            Follow this step-by-step process to optimize your site for AI search engines.
+          </p>
         </div>
-        {activeProject?.url && <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</p>}
-        <p className="view-subtitle" style={{ marginTop: '0.375rem' }}>
-          Follow this step-by-step process to optimize your site for AI search engines.
-        </p>
+        <div className="view-header-actions">
+          <PresenceAvatars members={onlineMembers} currentUserUid={user?.uid} variant="compact" />
+        </div>
       </div>
 
       <PlaybookBanner

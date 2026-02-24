@@ -187,12 +187,14 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
   // ── Empty states ──
   if (!google.isConnected && !google.isLoading) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <div>
-          <h2 className="view-title">{t('gsc.title')}</h2>
-          <p className="view-subtitle">
-            {t('gsc.subtitle')}
-          </p>
+      <div className="view-wrapper">
+        <div className="view-header">
+          <div className="view-header-text">
+            <h2 className="view-title">{t('gsc.title')}</h2>
+            <p className="view-subtitle">
+              {t('gsc.subtitle')}
+            </p>
+          </div>
         </div>
         {google.isExpired ? (
           <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
@@ -210,12 +212,14 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
 
   if (google.isConnected && !gscProperty) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <div>
-          <h2 className="view-title">{t('gsc.title')}</h2>
-          <p className="view-subtitle">
-            {t('gsc.subtitle')}
-          </p>
+      <div className="view-wrapper">
+        <div className="view-header">
+          <div className="view-header-text">
+            <h2 className="view-title">{t('gsc.title')}</h2>
+            <p className="view-subtitle">
+              {t('gsc.subtitle')}
+            </p>
+          </div>
         </div>
         <NoPropertyState
           setActiveView={setActiveView}
@@ -247,16 +251,16 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
   ]
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <div className="view-header" style={{ marginBottom: 0 }}>
+      <div className="view-header">
+        <div className="view-header-text">
           <h2 className="view-title">{t('gsc.title')}</h2>
           <p className="view-subtitle">
             {t('gsc.subtitleProperty', { property: formatSiteUrl(gscProperty) })}
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <div className="view-header-actions">
           {/* Date range */}
           <div style={{ display: 'flex', gap: '0.125rem', background: 'var(--hover-bg)', borderRadius: '0.5rem', padding: '0.125rem' }}>
             {DATE_PRESETS.map(p => (

@@ -8,6 +8,7 @@ import {
 import { useAutoMonitor } from '../hooks/useAutoMonitor'
 import { getFilteredPlatforms } from '../utils/getRecommendations'
 import CollapsibleContent from '../components/shared/CollapsibleContent'
+import StatCard from './dashboard/StatCard'
 
 const ALL_PLATFORMS = ['ChatGPT', 'Perplexity', 'Google AIO', 'Bing Copilot', 'Claude']
 
@@ -157,36 +158,23 @@ export default function TestingView({ activeProject, updateProject }) {
   const visibilityScore = getVisibilityScore()
 
   return (
-    <div className="space-y-6">
-      <div>
-        <div className="flex items-center gap-2 mb-1">
-          <h2 className="font-heading text-[0.9375rem] font-bold tracking-[-0.01875rem] text-text-primary">{t('testing.title')}</h2>
-          <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
+    <div className="view-wrapper">
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">{t('testing.title')}</h2>
+          <p className="view-subtitle">{t('testing.subtitle')}</p>
         </div>
-        <p className="text-[0.8125rem] text-text-secondary">{t('testing.subtitle')}</p>
       </div>
 
       {/* AEO Visibility Score */}
-      <div className="testing-score-card">
-        <div className="testing-score-header">
-          <h3 className="testing-score-label">{t('testing.visibilityScore')}</h3>
-          <span className={`testing-score-value ${
-            visibilityScore >= 70 ? 'text-success' : visibilityScore >= 40 ? 'text-warning' : 'text-error'
-          }`}>
-            {visibilityScore}%
-          </span>
-        </div>
-        <div className="testing-score-bar">
-          <div
-            className="testing-score-fill"
-            style={{
-              width: `${visibilityScore}%`,
-              backgroundColor: visibilityScore >= 70 ? 'var(--color-success)' : visibilityScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)',
-            }}
-          />
-        </div>
-        <p className="testing-score-note">{t('testing.visibilityNote', { queries: queryTracker.length, platforms: PLATFORMS.length })}</p>
-      </div>
+      <StatCard
+        label={t('testing.visibilityScore')}
+        value={`${visibilityScore}%`}
+        subValue={t('testing.visibilityNote', { queries: queryTracker.length, platforms: PLATFORMS.length })}
+        icon={<Activity size={18} />}
+        iconColor={visibilityScore >= 70 ? 'var(--color-success)' : visibilityScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)'}
+        layout="horizontal"
+      />
 
       {/* Auto Monitor */}
       <CollapsibleSection

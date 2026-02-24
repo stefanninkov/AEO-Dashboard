@@ -29,15 +29,17 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ marginBottom: 'var(--space-5)' }}>
-        <h2 className="view-title">{t('competitors.title')}</h2>
-        <p className="view-subtitle">{t('competitors.subtitle')}</p>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">{t('competitors.title')}</h2>
+          <p className="view-subtitle">{t('competitors.subtitle')}</p>
+        </div>
       </div>
 
       {/* Tab row */}
-      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist" style={{ marginBottom: 'var(--space-5)' }}>
+      <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist">
         <button
           className="tab-segmented"
           role="tab"

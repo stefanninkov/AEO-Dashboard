@@ -151,8 +151,10 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
   // ── Check connection status ──
   if (!google.isConnected && !google.isLoading) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <ViewHeader />
+      <div className="view-wrapper">
+        <div className="view-header">
+          <ViewHeaderText />
+        </div>
         {google.isExpired ? (
           <TokenExpiredBanner onReconnect={google.reconnect} reconnecting={google.connecting} setActiveView={setActiveView} />
         ) : (
@@ -171,8 +173,10 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
 
   if (!gscProperty || !ga4Property) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <ViewHeader />
+      <div className="view-wrapper">
+        <div className="view-header">
+          <ViewHeaderText />
+        </div>
         <SharedSetupRequired
           setActiveView={setActiveView}
           checks={[
@@ -268,11 +272,11 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
   ]
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <ViewHeader />
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+      <div className="view-header">
+        <ViewHeaderText />
+        <div className="view-header-actions">
           <div style={{ display: 'flex', gap: '0.125rem', background: 'var(--hover-bg)', borderRadius: '0.5rem', padding: '0.125rem' }}>
             {DATE_PRESETS.map(p => (
               <button
@@ -432,11 +436,11 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
   )
 }
 
-/* ── View Header (reusable) ── */
-function ViewHeader() {
+/* ── View Header Text (reusable) ── */
+function ViewHeaderText() {
   const { t } = useTranslation('app')
   return (
-    <div className="view-header" style={{ marginBottom: 0 }}>
+    <div className="view-header-text">
       <h2 className="view-title">{t('impact.title')}</h2>
       <p className="view-subtitle">{t('impact.subtitle')}</p>
     </div>

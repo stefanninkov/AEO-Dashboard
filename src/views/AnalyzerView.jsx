@@ -364,14 +364,13 @@ Return ONLY valid JSON:
   }
 
   return (
-    <div className="space-y-6">
+    <div className="view-wrapper">
       {/* Header */}
-      <div>
-        <div className="flex items-center gap-2 mb-1">
+      <div className="view-header">
+        <div className="view-header-text">
           <h2 className="view-title">{t('analyzer.title')}</h2>
-          <span className="text-[0.6875rem] px-2 py-0.5 rounded-full bg-phase-3/10 text-phase-3 font-medium">{activeProject?.name}</span>
+          <p className="view-subtitle">{t('analyzer.subtitle')}</p>
         </div>
-        <p className="view-subtitle">{t('analyzer.subtitle')}</p>
       </div>
 
       {/* ── Top-Level Tabs ── */}
@@ -441,12 +440,11 @@ Return ONLY valid JSON:
           )}
 
           {/* Mode Toggle */}
-          <div ref={modeTabsRef} className="analyzer-mode-tabs scrollable-tabs">
+          <div ref={modeTabsRef} className="scrollable-tabs tab-bar-segmented">
             <button
               data-active={mode === 'url' || undefined}
               onClick={() => setMode('url')}
-              className={`analyzer-mode-tab ${mode === 'url' ? 'active' : ''}`}
-              style={mode === 'url' ? { backgroundColor: 'var(--accent)' } : {}}
+              className="tab-segmented"
             >
               <Globe size={14} />
               {t('analyzer.urlScan')}
@@ -454,8 +452,7 @@ Return ONLY valid JSON:
             <button
               data-active={mode === 'webflow' || undefined}
               onClick={() => setMode('webflow')}
-              className={`analyzer-mode-tab ${mode === 'webflow' ? 'active' : ''}`}
-              style={mode === 'webflow' ? { backgroundColor: 'var(--accent)' } : {}}
+              className="tab-segmented"
             >
               <Link2 size={14} />
               {t('analyzer.webflowConnect')}
