@@ -5,6 +5,7 @@ import {
   Target, Clock, Layers, Heart, ThumbsUp, Minus, ThumbsDown,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
+import StatCard from '../../views/dashboard/StatCard'
 
 /* ── Helpers ── */
 const parseDate = (d) => {
@@ -32,25 +33,7 @@ function BarItem({ label, value, max, color, suffix }) {
   )
 }
 
-/* ── Stat box ── */
-function StatBox({ icon: Icon, label, value, color }) {
-  return (
-    <div style={{
-      padding: '1rem',
-      borderRadius: '0.75rem',
-      background: 'var(--hover-bg)',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.75rem',
-    }}>
-      <Icon size={18} style={{ color, flexShrink: 0 }} />
-      <div>
-        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>{value}</div>
-        <div style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.04rem' }}>{label}</div>
-      </div>
-    </div>
-  )
-}
+/* (StatBox removed — using shared StatCard) */
 
 /* ── Trend Chart ── */
 function TrendChart({ data, color, title, height = 100 }) {
@@ -145,7 +128,7 @@ function GrowthMetric({ label, thisWeek, lastWeek, color }) {
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.375rem',
         fontSize: '0.6875rem', fontWeight: 600, fontFamily: 'var(--font-mono)',
-        color: isNeutral ? 'var(--text-disabled)' : isPositive ? '#10B981' : '#EF4444',
+        color: isNeutral ? 'var(--text-disabled)' : isPositive ? 'var(--color-success)' : 'var(--color-error)',
       }}>
         {isPositive ? '+' : ''}{change} ({isPositive ? '+' : ''}{pctChange}%)
         <span style={{ color: 'var(--text-disabled)', fontWeight: 400, marginLeft: '0.25rem' }}>vs last week ({lastWeek})</span>
@@ -317,9 +300,11 @@ export default function AdminAnalytics({ user }) {
 
   if (loading && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-        <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading analytics...</p>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading analytics...</p>
+        </div>
       </div>
     )
   }
@@ -343,24 +328,24 @@ export default function AdminAnalytics({ user }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <div>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-          Platform Analytics
-        </h2>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
-          Usage patterns, growth metrics, feature adoption, and engagement depth
-        </p>
+    <div className="view-wrapper">
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">Platform Analytics</h2>
+          <p className="view-subtitle">
+            Usage patterns, growth metrics, feature adoption, and engagement depth
+          </p>
+        </div>
       </div>
 
       {/* Key Metrics Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, 1fr))', gap: '0.75rem' }}>
-        <StatBox icon={Users} label="Active Rate (7d)" value={`${analytics?.activeRatio || 0}%`} color="#3B82F6" />
-        <StatBox icon={CheckSquare} label="Task Completion" value={`${analytics?.taskRate || 0}%`} color="#10B981" />
-        <StatBox icon={FolderKanban} label="Avg Tasks/Project" value={analytics?.avgTasks || 0} color="#8B5CF6" />
-        <StatBox icon={Activity} label="Recent Events" value={stats?.recentActivity?.length || 0} color="#2563EB" />
-        <StatBox icon={Mail} label="Waitlist Convert" value={`${analytics?.conversionRate || 0}%`} color="#0EA5E9" />
-        <StatBox icon={MessageSquare} label="Satisfaction" value={`${analytics?.satisfactionRate || 0}%`} color="#EC4899" />
+      <div className="grid-stats" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, 1fr))' }}>
+        <StatCard layout="horizontal" icon={<Users size={18} />} iconColor="#3B82F6" label="Active Rate (7d)" value={`${analytics?.activeRatio || 0}%`} />
+        <StatCard layout="horizontal" icon={<CheckSquare size={18} />} iconColor="#10B981" label="Task Completion" value={`${analytics?.taskRate || 0}%`} />
+        <StatCard layout="horizontal" icon={<FolderKanban size={18} />} iconColor="#8B5CF6" label="Avg Tasks/Project" value={analytics?.avgTasks || 0} />
+        <StatCard layout="horizontal" icon={<Activity size={18} />} iconColor="#2563EB" label="Recent Events" value={stats?.recentActivity?.length || 0} />
+        <StatCard layout="horizontal" icon={<Mail size={18} />} iconColor="#0EA5E9" label="Waitlist Convert" value={`${analytics?.conversionRate || 0}%`} />
+        <StatCard layout="horizontal" icon={<MessageSquare size={18} />} iconColor="#EC4899" label="Satisfaction" value={`${analytics?.satisfactionRate || 0}%`} />
       </div>
 
       {/* NEW: Feature Adoption Chart */}
@@ -431,7 +416,7 @@ export default function AdminAnalytics({ user }) {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, 1fr))', gap: '0.75rem' }}>
           <div style={{ padding: '1rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: '#3B82F6' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--accent)' }}>
               {stats?.onboardingTimes?.avgToFirstCheck != null ? `${stats.onboardingTimes.avgToFirstCheck}d` : '--'}
             </div>
             <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.04rem', marginTop: '0.25rem' }}>
@@ -442,7 +427,7 @@ export default function AdminAnalytics({ user }) {
             </div>
           </div>
           <div style={{ padding: '1rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: '#2563EB' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--accent)' }}>
               {stats?.onboardingTimes?.avgToAnalyzer != null ? `${stats.onboardingTimes.avgToAnalyzer}d` : '--'}
             </div>
             <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.04rem', marginTop: '0.25rem' }}>
@@ -453,7 +438,7 @@ export default function AdminAnalytics({ user }) {
             </div>
           </div>
           <div style={{ padding: '1rem', borderRadius: '0.75rem', background: 'var(--hover-bg)', textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: '#10B981' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-success)' }}>
               {stats?.avgAnalyzerScore != null ? stats.avgAnalyzerScore : '--'}
             </div>
             <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.04rem', marginTop: '0.25rem' }}>

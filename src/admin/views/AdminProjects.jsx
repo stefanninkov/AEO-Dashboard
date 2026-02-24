@@ -56,9 +56,9 @@ function FeaturePill({ used, label }) {
       display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
       padding: '0.1875rem 0.5rem', borderRadius: '1rem',
       fontSize: '0.625rem', fontWeight: 600,
-      color: used ? '#10B981' : 'var(--text-disabled)',
-      background: used ? 'rgba(16,185,129,0.08)' : 'var(--hover-bg)',
-      border: `0.0625rem solid ${used ? 'rgba(16,185,129,0.15)' : 'var(--border-subtle)'}`,
+      color: used ? 'var(--color-success)' : 'var(--text-disabled)',
+      background: used ? 'color-mix(in srgb, var(--color-success) 8%, transparent)' : 'var(--hover-bg)',
+      border: `0.0625rem solid ${used ? 'color-mix(in srgb, var(--color-success) 15%, transparent)' : 'var(--border-subtle)'}`,
     }}>
       {used ? '\u2713' : '\u2717'} {label}
     </span>
@@ -67,7 +67,7 @@ function FeaturePill({ used, label }) {
 
 /* ── Phase Progress Bar ── */
 function PhaseProgressBar({ phase, pct }) {
-  const color = pct >= 75 ? '#10B981' : pct >= 40 ? '#F59E0B' : pct > 0 ? '#3B82F6' : 'var(--hover-bg)'
+  const color = pct >= 75 ? 'var(--color-success)' : pct >= 40 ? 'var(--color-warning)' : pct > 0 ? 'var(--accent)' : 'var(--hover-bg)'
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
       <div style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', width: '4.5rem', flexShrink: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -391,37 +391,41 @@ export default function AdminProjects({ user }) {
 
   if (loading && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-        <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading projects...</p>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading projects...</p>
+        </div>
       </div>
     )
   }
 
   if (error && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
-        <button onClick={handleRefresh} className="btn-primary">Retry</button>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
+          <button onClick={handleRefresh} className="btn-primary">Retry</button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            All Projects
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">All Projects</h2>
+          <p className="view-subtitle">
             {stats?.totalProjects || 0} total &middot; {healthCounts.thriving || 0} thriving &middot; {(healthCounts.stale || 0) + (healthCounts.stuck || 0) + (healthCounts.abandoned || 0)} need attention
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh projects" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
-          <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
-        </button>
+        <div className="view-header-actions">
+          <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh projects" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+            <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
+          </button>
+        </div>
       </div>
 
       {/* Health overview cards */}
@@ -541,7 +545,7 @@ export default function AdminProjects({ user }) {
                     <td style={{ padding: '0.75rem 1.25rem' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <div style={{ flex: 1, height: '0.375rem', borderRadius: '0.1875rem', background: 'var(--hover-bg)', overflow: 'hidden', maxWidth: '6rem' }}>
-                          <div style={{ width: `${pct}%`, height: '100%', borderRadius: '0.1875rem', background: pct >= 75 ? '#10B981' : pct >= 40 ? '#F59E0B' : pct > 0 ? '#3B82F6' : 'transparent' }} />
+                          <div style={{ width: `${pct}%`, height: '100%', borderRadius: '0.1875rem', background: pct >= 75 ? 'var(--color-success)' : pct >= 40 ? 'var(--color-warning)' : pct > 0 ? 'var(--accent)' : 'transparent' }} />
                         </div>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--text-tertiary)', minWidth: '2.5rem' }}>{pct}%</span>
                       </div>
@@ -550,7 +554,7 @@ export default function AdminProjects({ user }) {
                     <td style={{ padding: '0.75rem 1.25rem' }}>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>{timeAgo(p.updatedAt)}</div>
                       {h.daysSinceActivity >= 14 && (
-                        <div style={{ fontSize: '0.5625rem', color: '#EF4444', fontWeight: 600, marginTop: '0.125rem' }}>
+                        <div style={{ fontSize: '0.5625rem', color: 'var(--color-error)', fontWeight: 600, marginTop: '0.125rem' }}>
                           {h.daysSinceActivity}d inactive
                         </div>
                       )}

@@ -166,28 +166,25 @@ export default function AdminFeedback({ user }) {
 
   if (loading) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-        <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading feedback...</p>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading feedback...</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            User Feedback
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">User Feedback</h2>
+          <p className="view-subtitle">
             {stats.total} total &middot; {stats.newCount} unreviewed &middot; {stats.thisWeek} this week
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh feedback" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
-          <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
-        </button>
       </div>
 
       {/* Category Overview Cards */}

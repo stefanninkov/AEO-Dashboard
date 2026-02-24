@@ -115,7 +115,7 @@ function Sparkline({ data, color, height = 32, width = 120 }) {
 /* ── Stat Card ── */
 function StatCard({ icon: Icon, label, value, sublabel, color, trend, sparkData, badge }) {
   return (
-    <div className="card" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+    <div className="stat-card" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
           <div style={{
@@ -231,7 +231,7 @@ function TrendChart({ data, color, title, height = 80 }) {
 function FunnelStep({ label, count, total, prevCount, isLast }) {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0
   const dropPct = prevCount > 0 ? Math.round(((prevCount - count) / prevCount) * 100) : 0
-  const barColor = pct > 60 ? '#10B981' : pct > 30 ? '#F59E0B' : pct > 10 ? '#F97316' : '#EF4444'
+  const barColor = pct > 60 ? 'var(--color-success)' : pct > 30 ? 'var(--color-warning)' : pct > 10 ? 'var(--color-warning)' : 'var(--color-error)'
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.375rem 0' }}>
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -253,7 +253,7 @@ function FunnelStep({ label, count, total, prevCount, isLast }) {
       {!isLast && dropPct > 0 && (
         <span style={{
           fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700,
-          color: '#EF4444', minWidth: '2.5rem', textAlign: 'right',
+          color: 'var(--color-error)', minWidth: '2.5rem', textAlign: 'right',
         }}>
           -{dropPct}%
         </span>
@@ -318,7 +318,7 @@ function ProjectBadge({ badge }) {
 /* ── Loading State ── */
 function DashboardSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="view-wrapper">
       <div className="card" style={{ padding: '1.5rem', height: '5rem' }}>
         <div style={{ width: '12rem', height: '1rem', borderRadius: '0.25rem', background: 'var(--hover-bg)' }} />
         <div style={{ width: '20rem', height: '0.75rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', marginTop: '0.75rem' }} />
@@ -355,9 +355,11 @@ export default function AdminDashboard({ user, onNavigate }) {
 
   if (error && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
-        <button onClick={handleRefresh} className="btn-primary">Retry</button>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
+          <button onClick={handleRefresh} className="btn-primary">Retry</button>
+        </div>
       </div>
     )
   }
@@ -397,30 +399,27 @@ export default function AdminDashboard({ user, onNavigate }) {
     : 0
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{
-            fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700,
-            color: 'var(--text-primary)', marginBottom: '0.25rem',
-          }}>
-            Command Center
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">Command Center</h2>
+          <p className="view-subtitle">
             Last updated: {stats.lastUpdated ? timeAgo(stats.lastUpdated) : '\u2014'}
           </p>
         </div>
-        <button
-          onClick={handleRefresh}
-          className="icon-btn"
-          title="Refresh stats"
-          aria-label="Refresh dashboard"
-          disabled={refreshing}
-          style={{ opacity: refreshing ? 0.5 : 1 }}
-        >
-          <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
-        </button>
+        <div className="view-header-actions">
+          <button
+            onClick={handleRefresh}
+            className="icon-btn"
+            title="Refresh stats"
+            aria-label="Refresh dashboard"
+            disabled={refreshing}
+            style={{ opacity: refreshing ? 0.5 : 1 }}
+          >
+            <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
+          </button>
+        </div>
       </div>
 
       {/* Permission Warning */}
@@ -428,9 +427,9 @@ export default function AdminDashboard({ user, onNavigate }) {
         <div style={{
           display: 'flex', alignItems: 'flex-start', gap: '0.75rem',
           padding: '0.875rem 1rem', borderRadius: '0.75rem',
-          background: 'rgba(245,158,11,0.08)', border: '0.0625rem solid rgba(245,158,11,0.2)',
+          background: 'color-mix(in srgb, var(--color-warning) 8%, transparent)', border: '0.0625rem solid color-mix(in srgb, var(--color-warning) 20%, transparent)',
         }}>
-          <AlertTriangle size={16} style={{ color: '#F59E0B', flexShrink: 0, marginTop: '0.125rem' }} />
+          <AlertTriangle size={16} style={{ color: 'var(--color-warning)', flexShrink: 0, marginTop: '0.125rem' }} />
           <div>
             <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
               Limited Admin Access
@@ -449,11 +448,11 @@ export default function AdminDashboard({ user, onNavigate }) {
         <div className="card" style={{ overflow: 'hidden' }}>
           <div style={{
             padding: '0.75rem 1.25rem',
-            background: 'rgba(239,68,68,0.04)',
+            background: 'color-mix(in srgb, var(--color-error) 4%, transparent)',
             borderBottom: '0.0625rem solid var(--border-subtle)',
             display: 'flex', alignItems: 'center', gap: '0.5rem',
           }}>
-            <AlertCircle size={14} style={{ color: '#EF4444' }} />
+            <AlertCircle size={14} style={{ color: 'var(--color-error)' }} />
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', fontWeight: 700,
               color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem',
@@ -463,7 +462,7 @@ export default function AdminDashboard({ user, onNavigate }) {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {stats.alerts.map((alert, i) => {
-              const alertColors = { error: '#EF4444', warning: '#F59E0B', info: '#3B82F6' }
+              const alertColors = { error: 'var(--color-error)', warning: 'var(--color-warning)', info: 'var(--accent)' }
               return (
                 <div
                   key={i}
@@ -553,7 +552,7 @@ export default function AdminDashboard({ user, onNavigate }) {
       }}>
         {/* Funnel */}
         <div className="card" style={{ overflow: 'hidden' }}>
-          <SectionHeader icon={Target} title="User Journey Funnel" color="#8B5CF6" />
+          <SectionHeader icon={Target} title="User Journey Funnel" color="var(--color-phase-2)" />
           <div style={{ padding: '1rem 1.25rem' }}>
             {stats.churnFunnel && (() => {
               const f = stats.churnFunnel
@@ -584,7 +583,7 @@ export default function AdminDashboard({ user, onNavigate }) {
 
         {/* Feature Adoption */}
         <div className="card" style={{ overflow: 'hidden' }}>
-          <SectionHeader icon={ChartColumnIncreasing} title="Feature Adoption" color="#3B82F6" />
+          <SectionHeader icon={ChartColumnIncreasing} title="Feature Adoption" color="var(--accent)" />
           <div style={{ padding: '1rem 1.25rem' }}>
             {stats.featureUsage && Object.entries(stats.featureUsage).map(([key, val]) => {
               const featureLabels = {
@@ -597,7 +596,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                 export: 'PDF Export',
                 team: 'Team Collaboration',
               }
-              const barColor = val.pct > 50 ? '#10B981' : val.pct > 25 ? '#F59E0B' : val.pct > 0 ? '#F97316' : '#6B7280'
+              const barColor = val.pct > 50 ? 'var(--color-success)' : val.pct > 25 ? 'var(--color-warning)' : val.pct > 0 ? 'var(--color-warning)' : 'var(--text-disabled)'
               return (
                 <div key={key} style={{ padding: '0.375rem 0' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
@@ -632,7 +631,7 @@ export default function AdminDashboard({ user, onNavigate }) {
               <SectionHeader
                 icon={ShieldAlert}
                 title="Users Going Cold"
-                color="#F59E0B"
+                color="var(--color-warning)"
                 count={`${stats.coldUsers.length} users`}
               />
               <div style={{ maxHeight: '16rem', overflowY: 'auto' }}>
@@ -676,7 +675,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                         cursor: 'pointer', color: 'var(--text-tertiary)', flexShrink: 0,
                         transition: 'all 100ms',
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.color = '#F59E0B'; e.currentTarget.style.borderColor = '#F59E0B' }}
+                      onMouseEnter={e => { e.currentTarget.style.color = 'var(--color-warning)'; e.currentTarget.style.borderColor = 'var(--color-warning)' }}
                       onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-tertiary)'; e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
                     >
                       <Mail size={11} />
@@ -684,7 +683,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                     <div style={{ textAlign: 'right', flexShrink: 0 }}>
                       <div style={{
                         fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
-                        color: u.daysSinceActivity > 21 ? '#EF4444' : '#F59E0B',
+                        color: u.daysSinceActivity > 21 ? 'var(--color-error)' : 'var(--color-warning)',
                       }}>
                         {u.daysSinceActivity}d idle
                       </div>
@@ -702,7 +701,7 @@ export default function AdminDashboard({ user, onNavigate }) {
               <SectionHeader
                 icon={ShieldOff}
                 title="Projects Going Cold"
-                color="#F97316"
+                color="var(--color-warning)"
                 count={`${stats.coldProjects.length} projects`}
               />
               <div style={{ maxHeight: '16rem', overflowY: 'auto' }}>
@@ -725,7 +724,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                     <div style={{ textAlign: 'right', flexShrink: 0 }}>
                       <div style={{
                         fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
-                        color: p.daysSinceActivity > 21 ? '#EF4444' : '#F59E0B',
+                        color: p.daysSinceActivity > 21 ? 'var(--color-error)' : 'var(--color-warning)',
                       }}>
                         {p.daysSinceActivity}d idle
                       </div>
@@ -809,7 +808,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                   <div style={{ textAlign: 'right', flexShrink: 0 }}>
                     <div style={{
                       fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
-                      color: u.healthScore >= 60 ? '#10B981' : u.healthScore >= 30 ? '#F59E0B' : '#EF4444',
+                      color: u.healthScore >= 60 ? 'var(--color-success)' : u.healthScore >= 30 ? 'var(--color-warning)' : 'var(--color-error)',
                       marginBottom: '0.125rem',
                     }}>
                       {u.healthScore}
@@ -973,7 +972,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                 background: 'var(--hover-bg)', textAlign: 'center',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem' }}>
-                  <Cpu size={12} style={{ color: '#3B82F6' }} />
+                  <Cpu size={12} style={{ color: 'var(--accent)' }} />
                   <span style={{
                     fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700,
                     color: 'var(--text-primary)',
@@ -1008,7 +1007,7 @@ export default function AdminDashboard({ user, onNavigate }) {
               }}>
                 <div style={{
                   fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700,
-                  color: stats.avgAnalyzerScore >= 60 ? '#10B981' : stats.avgAnalyzerScore >= 40 ? '#F59E0B' : '#EF4444',
+                  color: stats.avgAnalyzerScore >= 60 ? 'var(--color-success)' : stats.avgAnalyzerScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)',
                 }}>
                   {stats.avgAnalyzerScore}
                 </div>
@@ -1030,10 +1029,10 @@ export default function AdminDashboard({ user, onNavigate }) {
           <SectionHeader
             icon={Mail}
             title="Latest Waitlist"
-            color="#2563EB"
+            color="var(--accent)"
             count={`${stats.waitlistTotal} total`}
             extra={waitlistWeeklyTrend > 0 ? (
-              <span style={{ fontSize: '0.625rem', fontWeight: 700, color: '#10B981' }}>
+              <span style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--color-success)' }}>
                 +{waitlistWeeklyTrend} this week
               </span>
             ) : null}
@@ -1046,10 +1045,10 @@ export default function AdminDashboard({ user, onNavigate }) {
               }}>
                 <div style={{
                   width: '1.5rem', height: '1.5rem', borderRadius: 6,
-                  background: 'rgba(37,99,235,0.1)',
+                  background: 'var(--accent-subtle)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                 }}>
-                  <Mail size={10} style={{ color: '#2563EB' }} />
+                  <Mail size={10} style={{ color: 'var(--accent)' }} />
                 </div>
                 <span style={{
                   flex: 1, fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)',
@@ -1081,7 +1080,7 @@ export default function AdminDashboard({ user, onNavigate }) {
               <span style={{
                 fontSize: '0.625rem', fontWeight: 700,
                 padding: '0.125rem 0.5rem', borderRadius: 99,
-                background: 'rgba(245,158,11,0.15)', color: '#F59E0B',
+                background: 'color-mix(in srgb, var(--color-warning) 15%, transparent)', color: 'var(--color-warning)',
               }}>
                 {stats.feedbackNew} new
               </span>
@@ -1213,7 +1212,7 @@ export default function AdminDashboard({ user, onNavigate }) {
                           }}>
                             <div style={{
                               width: `${progress}%`, height: '100%', borderRadius: '0.1875rem',
-                              background: progress >= 75 ? '#10B981' : progress >= 40 ? '#F59E0B' : progress > 0 ? '#3B82F6' : 'transparent',
+                              background: progress >= 75 ? 'var(--color-success)' : progress >= 40 ? 'var(--color-warning)' : progress > 0 ? 'var(--accent)' : 'transparent',
                             }} />
                           </div>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--text-tertiary)', minWidth: '2.5rem' }}>

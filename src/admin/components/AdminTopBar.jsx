@@ -24,7 +24,7 @@ export default memo(function AdminTopBar({ user, activeView }) {
             width: '2rem',
             height: '2rem',
             borderRadius: '0.5rem',
-            background: 'rgba(37,99,235,0.1)',
+            background: 'var(--accent-subtle)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -67,9 +67,9 @@ export default memo(function AdminTopBar({ user, activeView }) {
             letterSpacing: '0.04rem',
             padding: '0.125rem 0.4375rem',
             borderRadius: '0.25rem',
-            background: 'rgba(37,99,235,0.1)',
+            background: 'var(--accent-subtle)',
             color: 'var(--accent)',
-            border: '0.0625rem solid rgba(37,99,235,0.15)',
+            border: '0.0625rem solid var(--accent-subtle)',
           }}>
             SUPER ADMIN
           </span>

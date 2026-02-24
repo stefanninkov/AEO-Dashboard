@@ -12,9 +12,9 @@ import './LandingPage.css'
 const NAV_LINK_HREFS = ['#features', '#how-it-works', '#pricing', '#faq']
 
 const PROBLEM_META = [
-  { Icon: SearchCheck, color: '#2563EB' },
-  { Icon: BotMessageSquare, color: '#7B2FBE' },
-  { Icon: TrendingDown, color: '#0EA5E9' },
+  { Icon: SearchCheck, color: 'var(--accent)' },
+  { Icon: BotMessageSquare, color: 'var(--color-phase-2)' },
+  { Icon: TrendingDown, color: 'var(--color-phase-3)' },
 ]
 
 const FEATURE_BIG_META = [

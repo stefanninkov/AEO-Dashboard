@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { BotMessageSquare, SearchCheck, RefreshCw, ChevronDown, ChevronUp, User, Bot, MessageCircle } from 'lucide-react'
+import StatCard from '../../views/dashboard/StatCard'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { db } from '../../firebase'
 import logger from '../../utils/logger'
@@ -69,45 +70,38 @@ export default function AdminChatLogs({ user }) {
 
   if (loading) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-        <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading chat logs...</p>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading chat logs...</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            AI Chat Logs
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">AI Chat Logs</h2>
+          <p className="view-subtitle">
             {stats.total} sessions &middot; {stats.uniqueUsers} unique users &middot; {stats.thisWeek} this week
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh chat logs" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
-          <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
-        </button>
+        <div className="view-header-actions">
+          <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh chat logs" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+            <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
+          </button>
+        </div>
       </div>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(7rem, 1fr))', gap: '0.75rem' }}>
-        {[
-          { label: 'Total Sessions', value: stats.total, color: '#2563EB' },
-          { label: 'This Week', value: stats.thisWeek, color: '#3B82F6' },
-          { label: 'Avg Messages', value: stats.avgMessages, color: '#8B5CF6' },
-          { label: 'Unique Users', value: stats.uniqueUsers, color: '#10B981' },
-        ].map(s => (
-          <div key={s.label} className="card" style={{ padding: '1rem', textAlign: 'center' }}>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: s.color }}>
-              {s.value}
-            </div>
-            <div style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>{s.label}</div>
-          </div>
-        ))}
+      <div className="grid-stats">
+        <StatCard label="Total Sessions" value={stats.total} iconColor="var(--accent)" />
+        <StatCard label="This Week" value={stats.thisWeek} iconColor="var(--accent)" />
+        <StatCard label="Avg Messages" value={stats.avgMessages} iconColor="var(--color-phase-2)" />
+        <StatCard label="Unique Users" value={stats.uniqueUsers} iconColor="var(--color-success)" />
       </div>
 
       {/* Search */}
@@ -149,7 +143,7 @@ export default function AdminChatLogs({ user }) {
                   {/* Icon */}
                   <div style={{
                     width: '1.5rem', height: '1.5rem', borderRadius: 6,
-                    background: 'rgba(37,99,235,0.1)',
+                    background: 'var(--accent-subtle)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}>
@@ -186,7 +180,7 @@ export default function AdminChatLogs({ user }) {
                   <span style={{
                     fontSize: '0.6875rem', fontWeight: 600,
                     padding: '0.125rem 0.5rem', borderRadius: 99,
-                    background: 'rgba(139,92,246,0.1)', color: '#8B5CF6',
+                    background: 'color-mix(in srgb, var(--color-phase-2) 10%, transparent)', color: 'var(--color-phase-2)',
                     flexShrink: 0,
                   }}>
                     {msgCount} msg{msgCount !== 1 ? 's' : ''}
@@ -212,7 +206,7 @@ export default function AdminChatLogs({ user }) {
                       >
                         <div style={{
                           width: 22, height: 22, borderRadius: 6, flexShrink: 0,
-                          background: msg.role === 'user' ? 'var(--color-phase-4)' : 'rgba(37,99,235,0.1)',
+                          background: msg.role === 'user' ? 'var(--color-phase-4)' : 'var(--accent-subtle)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           {msg.role === 'user'

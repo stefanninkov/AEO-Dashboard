@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { UserPlus, SearchCheck, RefreshCw, Download, Mail, TrendingUp, Users } from 'lucide-react'
+import StatCard from '../../views/dashboard/StatCard'
 import { collection, getDocs, orderBy, query, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import logger from '../../utils/logger'
@@ -109,26 +110,26 @@ export default function AdminWaitlist({ user }) {
 
   if (loading) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-        <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading waitlist...</p>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading waitlist...</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            Waitlist Signups
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">Waitlist Signups</h2>
+          <p className="view-subtitle">
             {stats.total} total &middot; {stats.thisWeek} this week &middot; {stats.today} today
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div className="view-header-actions">
           <button onClick={handleExportCsv} className="icon-btn" title="Export CSV" aria-label="Export as CSV" disabled={filtered.length === 0}>
             <Download size={16} />
           </button>
@@ -139,29 +140,10 @@ export default function AdminWaitlist({ user }) {
       </div>
 
       {/* Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
-        {[
-          { label: 'Total Signups', value: stats.total, icon: Users, color: '#2563EB' },
-          { label: 'This Week', value: stats.thisWeek, icon: TrendingUp, color: '#3B82F6' },
-          { label: 'Today', value: stats.today, icon: UserPlus, color: '#10B981' },
-        ].map(s => {
-          const Icon = s.icon
-          return (
-            <div key={s.label} className="card" style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
-              <div style={{
-                width: '2.25rem', height: '2.25rem', borderRadius: 8,
-                background: `${s.color}15`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-              }}>
-                <Icon size={16} style={{ color: s.color }} />
-              </div>
-              <div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: s.color }}>{s.value}</div>
-                <div style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>{s.label}</div>
-              </div>
-            </div>
-          )
-        })}
+      <div className="grid-stats" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <StatCard layout="horizontal" icon={<Users size={16} />} iconColor="var(--accent)" label="Total Signups" value={stats.total} />
+        <StatCard layout="horizontal" icon={<TrendingUp size={16} />} iconColor="var(--accent)" label="This Week" value={stats.thisWeek} />
+        <StatCard layout="horizontal" icon={<UserPlus size={16} />} iconColor="var(--color-success)" label="Today" value={stats.today} />
       </div>
 
       {/* Filters */}
@@ -221,9 +203,9 @@ export default function AdminWaitlist({ user }) {
           {filtered.map(entry => {
             const status = entry.status || 'active'
             const statusColors = {
-              active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' },
-              converted: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' },
-              unsubscribed: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' },
+              active: { bg: 'color-mix(in srgb, var(--color-success) 10%, transparent)', color: 'var(--color-success)' },
+              converted: { bg: 'color-mix(in srgb, var(--accent) 10%, transparent)', color: 'var(--accent)' },
+              unsubscribed: { bg: 'color-mix(in srgb, var(--color-error) 10%, transparent)', color: 'var(--color-error)' },
             }
             const sc = statusColors[status] || statusColors.active
 
@@ -241,7 +223,7 @@ export default function AdminWaitlist({ user }) {
                 <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <div style={{
                     width: '1.5rem', height: '1.5rem', borderRadius: 6,
-                    background: 'rgba(37,99,235,0.1)',
+                    background: 'var(--accent-subtle)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   }}>
                     <Mail size={11} style={{ color: 'var(--accent)' }} />
@@ -283,7 +265,7 @@ export default function AdminWaitlist({ user }) {
                         style={{
                           background: 'none', border: '0.0625rem solid var(--border-subtle)', borderRadius: '0.375rem',
                           padding: '0.125rem 0.375rem', fontSize: '0.5625rem', fontWeight: 600,
-                          color: '#3B82F6', cursor: 'pointer', fontFamily: 'var(--font-body)',
+                          color: 'var(--accent)', cursor: 'pointer', fontFamily: 'var(--font-body)',
                         }}
                       >
                         Convert

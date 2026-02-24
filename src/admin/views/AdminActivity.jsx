@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Activity, SearchCheck, RefreshCw, Filter } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
+import EmptyState from '../../components/EmptyState'
 
 /* ── Helpers ── */
 function timeAgo(dateInput) {
@@ -90,36 +91,40 @@ export default function AdminActivity({ user }) {
 
   if (loading && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-        <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading activity...</p>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading activity...</p>
+        </div>
       </div>
     )
   }
 
   if (error && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
-        <button onClick={handleRefresh} className="btn-primary">Retry</button>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
+          <button onClick={handleRefresh} className="btn-primary">Retry</button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            Activity Log
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+    <div className="view-wrapper">
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">Activity Log</h2>
+          <p className="view-subtitle">
             {stats?.recentActivity?.length || 0} recent events
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh activity" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
-          <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
-        </button>
+        <div className="view-header-actions">
+          <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh activity" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+            <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -198,9 +203,12 @@ export default function AdminActivity({ user }) {
             )
           })}
           {filtered.length === 0 && (
-            <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
-              {search || typeFilter !== 'all' ? 'No matching activity' : 'No activity recorded yet'}
-            </div>
+            <EmptyState
+              icon={Activity}
+              title={search || typeFilter !== 'all' ? 'No Matching Activity' : 'No Activity'}
+              description={search || typeFilter !== 'all' ? 'Try adjusting your filters.' : 'No global activity recorded yet.'}
+              compact
+            />
           )}
         </div>
       </div>

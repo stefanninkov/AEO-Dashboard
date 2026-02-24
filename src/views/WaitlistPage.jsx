@@ -18,13 +18,13 @@ const NAV_HREFS = [
 ]
 
 const PHASE_META = [
-  { number: 1, color: 'var(--wl-accent)', Icon: Blocks },
-  { number: 2, color: '#7B2FBE', Icon: BarChart4 },
-  { number: 3, color: '#0EA5E9', Icon: FileEdit },
-  { number: 4, color: '#10B981', Icon: Cog },
-  { number: 5, color: '#F59E0B', Icon: Trophy },
-  { number: 6, color: '#EC4899', Icon: FlaskConical },
-  { number: 7, color: '#EF4444', Icon: TrendingUp },
+  { number: 1, color: 'var(--accent)', Icon: Blocks },
+  { number: 2, color: 'var(--color-phase-2)', Icon: BarChart4 },
+  { number: 3, color: 'var(--color-phase-3)', Icon: FileEdit },
+  { number: 4, color: 'var(--color-phase-4)', Icon: Cog },
+  { number: 5, color: 'var(--color-phase-5)', Icon: Trophy },
+  { number: 6, color: 'var(--color-phase-6)', Icon: FlaskConical },
+  { number: 7, color: 'var(--color-phase-7)', Icon: TrendingUp },
 ]
 
 const FEATURE_ICONS = [CheckCircle2, SearchCheck, FlaskConical, NotebookPen, Blocks, Radar]

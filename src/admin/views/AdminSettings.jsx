@@ -88,13 +88,13 @@ function AdminDigestSection() {
         </div>
         <div style={{
           padding: '0.625rem 0.75rem', borderRadius: '0.5rem',
-          background: 'rgba(245,158,11,0.08)', border: '0.0625rem solid rgba(245,158,11,0.15)',
+          background: 'color-mix(in srgb, var(--color-warning) 8%, transparent)', border: '0.0625rem solid color-mix(in srgb, var(--color-warning) 15%, transparent)',
           fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: 1.5,
         }}>
           Digest emails are sent via EmailJS. Make sure your EmailJS credentials are configured in your project's integration settings.
         </div>
         {saved && (
-          <span style={{ fontSize: '0.75rem', color: '#10B981', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-success)', fontWeight: 600 }}>
             Preferences saved
           </span>
         )}
@@ -255,24 +255,22 @@ export default function AdminSettings({ user }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            Admin Settings
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+    <div className="view-wrapper">
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">Admin Settings</h2>
+          <p className="view-subtitle">
             Platform configuration and feature flags
           </p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div className="view-header-actions">
           {saveStatus === 'saved' && (
-            <span style={{ fontSize: '0.75rem', color: '#10B981', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--color-success)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
               <Check size={14} /> Saved
             </span>
           )}
           {saveStatus === 'error' && (
-            <span style={{ fontSize: '0.75rem', color: '#EF4444', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--color-error)', fontWeight: 600 }}>
               Failed to save (check Firestore rules)
             </span>
           )}
@@ -317,8 +315,8 @@ export default function AdminSettings({ user }) {
             <div style={{
               padding: '0.5rem 0.75rem',
               borderRadius: '0.5rem',
-              background: 'rgba(59,130,246,0.08)',
-              border: '0.0625rem solid rgba(59,130,246,0.15)',
+              background: 'color-mix(in srgb, var(--accent) 8%, transparent)',
+              border: '0.0625rem solid color-mix(in srgb, var(--accent) 15%, transparent)',
               fontSize: '0.75rem',
               color: 'var(--text-tertiary)',
               lineHeight: 1.5,
@@ -344,8 +342,8 @@ export default function AdminSettings({ user }) {
           <div style={{
             padding: '0.625rem 0.75rem',
             borderRadius: '0.5rem',
-            background: 'rgba(245,158,11,0.08)',
-            border: '0.0625rem solid rgba(245,158,11,0.15)',
+            background: 'color-mix(in srgb, var(--color-warning) 8%, transparent)',
+            border: '0.0625rem solid color-mix(in srgb, var(--color-warning) 15%, transparent)',
             fontSize: '0.75rem',
             color: 'var(--text-tertiary)',
             lineHeight: 1.5,

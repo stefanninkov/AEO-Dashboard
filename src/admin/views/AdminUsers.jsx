@@ -78,9 +78,9 @@ function FeatureBadge({ label, used }) {
     <span style={{
       fontSize: '0.625rem', fontWeight: 600,
       padding: '0.125rem 0.5rem', borderRadius: 6,
-      background: used ? 'rgba(16,185,129,0.1)' : 'var(--hover-bg)',
-      color: used ? '#10B981' : 'var(--text-disabled)',
-      border: `0.0625rem solid ${used ? 'rgba(16,185,129,0.2)' : 'var(--border-subtle)'}`,
+      background: used ? 'color-mix(in srgb, var(--color-success) 10%, transparent)' : 'var(--hover-bg)',
+      color: used ? 'var(--color-success)' : 'var(--text-disabled)',
+      border: `0.0625rem solid ${used ? 'color-mix(in srgb, var(--color-success) 20%, transparent)' : 'var(--border-subtle)'}`,
     }}>
       {used ? '\u2713' : '\u2717'} {label}
     </span>
@@ -153,7 +153,7 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
               {healthData && (
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
-                  color: healthData.healthScore >= 60 ? '#10B981' : healthData.healthScore >= 30 ? '#F59E0B' : '#EF4444',
+                  color: healthData.healthScore >= 60 ? 'var(--color-success)' : healthData.healthScore >= 30 ? 'var(--color-warning)' : 'var(--color-error)',
                 }}>
                   Score: {healthData.healthScore}
                 </span>
@@ -176,7 +176,7 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
               cursor: 'pointer', color: 'var(--text-secondary)',
               fontSize: '0.6875rem', fontWeight: 500, transition: 'all 100ms',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--color-warning)'; e.currentTarget.style.color = 'var(--color-warning)' }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
           >
             <Mail size={12} /> Nudge
@@ -258,7 +258,7 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <div style={{ width: '3rem', height: '0.25rem', borderRadius: 2, background: 'var(--hover-bg)', overflow: 'hidden' }}>
-                    <div style={{ width: `${pct}%`, height: '100%', background: pct >= 75 ? '#10B981' : pct >= 40 ? '#F59E0B' : '#3B82F6' }} />
+                    <div style={{ width: `${pct}%`, height: '100%', background: pct >= 75 ? 'var(--color-success)' : pct >= 40 ? 'var(--color-warning)' : 'var(--accent)' }} />
                   </div>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--text-tertiary)', minWidth: '2rem', textAlign: 'right' }}>
                     {pct}%
@@ -290,7 +290,7 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
                 <div style={{
                   position: 'absolute', left: '-1.325rem', top: '0.6rem',
                   width: 8, height: 8, borderRadius: '50%',
-                  background: event.type === 'signup' ? '#10B981' : event.type === 'project' ? '#3B82F6' : 'var(--text-disabled)',
+                  background: event.type === 'signup' ? 'var(--color-success)' : event.type === 'project' ? 'var(--accent)' : 'var(--text-disabled)',
                   border: '0.125rem solid var(--bg-card)',
                 }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
@@ -407,36 +407,40 @@ export default function AdminUsers({ user }) {
 
   if (loading && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-        <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading users...</p>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading users...</p>
+        </div>
       </div>
     )
   }
 
   if (error && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
-        <button onClick={handleRefresh} className="btn-primary">Retry</button>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
+          <button onClick={handleRefresh} className="btn-primary">Retry</button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            User Management
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+    <div className="view-wrapper">
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">User Management</h2>
+          <p className="view-subtitle">
             {stats?.totalUsers || 0} registered users
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh users" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
-          <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
-        </button>
+        <div className="view-header-actions">
+          <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh users" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+            <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
+          </button>
+        </div>
       </div>
 
       {/* Status Filter Pills */}
@@ -578,7 +582,7 @@ export default function AdminUsers({ user }) {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <span style={{
                           fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
-                          color: (health?.healthScore || 0) >= 60 ? '#10B981' : (health?.healthScore || 0) >= 30 ? '#F59E0B' : '#EF4444',
+                          color: (health?.healthScore || 0) >= 60 ? 'var(--color-success)' : (health?.healthScore || 0) >= 30 ? 'var(--color-warning)' : 'var(--color-error)',
                         }}>
                           {health?.healthScore ?? '\u2014'}
                         </span>

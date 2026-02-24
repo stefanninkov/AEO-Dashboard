@@ -59,7 +59,8 @@ export default function LanguageSwitcher({ variant = 'app' }) {
         padding: '0.25rem 0.5rem', borderRadius: '0.375rem',
         background: 'transparent', border: '0.0625rem solid transparent',
         cursor: 'pointer', fontSize: '0.875rem', fontWeight: 500,
-        color: 'rgba(160,160,176,1)', fontFamily: 'inherit',
+        color: 'var(--lp-text-secondary, var(--wl-text-secondary, rgba(160,160,176,1)))',
+        fontFamily: 'inherit',
         transition: 'color 200ms, background 200ms',
       }
 
@@ -68,8 +69,8 @@ export default function LanguageSwitcher({ variant = 'app' }) {
     top: 'calc(100% + 0.375rem)',
     right: 0,
     minWidth: '10rem',
-    background: isApp ? 'var(--bg-card)' : '#16161e',
-    border: isApp ? '0.0625rem solid var(--border-default)' : '0.0625rem solid rgba(255,255,255,0.1)',
+    background: isApp ? 'var(--bg-card)' : 'var(--lp-bg-card, var(--wl-bg-card, #16161e))',
+    border: isApp ? '0.0625rem solid var(--border-default)' : '0.0625rem solid var(--lp-border, var(--wl-border, rgba(255,255,255,0.1)))',
     borderRadius: '0.75rem',
     overflow: 'hidden',
     boxShadow: isApp ? 'var(--shadow-md)' : '0 0.5rem 1.5rem rgba(0,0,0,0.4)',
@@ -87,11 +88,11 @@ export default function LanguageSwitcher({ variant = 'app' }) {
   const itemStyle = (isActive) => ({
     ...itemBase,
     background: isActive
-      ? (isApp ? 'var(--active-bg)' : 'rgba(255,255,255,0.06)')
+      ? (isApp ? 'var(--active-bg)' : 'rgba(128,128,128,0.08)')
       : 'transparent',
     color: isActive
-      ? (isApp ? 'var(--text-primary)' : '#f0f0f2')
-      : (isApp ? 'var(--text-secondary)' : 'rgba(160,160,176,1)'),
+      ? (isApp ? 'var(--text-primary)' : 'var(--lp-text-primary, var(--wl-text-primary, #f0f0f2))')
+      : (isApp ? 'var(--text-secondary)' : 'var(--lp-text-secondary, var(--wl-text-secondary, rgba(160,160,176,1)))'),
     fontWeight: isActive ? 600 : 400,
   })
 
@@ -105,13 +106,13 @@ export default function LanguageSwitcher({ variant = 'app' }) {
         style={btnStyle}
         onMouseEnter={(e) => {
           if (!isApp) {
-            e.currentTarget.style.color = '#f0f0f2'
-            e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
+            e.currentTarget.style.color = 'var(--lp-text-primary, var(--wl-text-primary, #f0f0f2))'
+            e.currentTarget.style.background = 'rgba(128,128,128,0.08)'
           }
         }}
         onMouseLeave={(e) => {
           if (!isApp) {
-            e.currentTarget.style.color = 'rgba(160,160,176,1)'
+            e.currentTarget.style.color = 'var(--lp-text-secondary, var(--wl-text-secondary, rgba(160,160,176,1)))'
             e.currentTarget.style.background = 'transparent'
           }
         }}
@@ -132,7 +133,7 @@ export default function LanguageSwitcher({ variant = 'app' }) {
                 onClick={() => handleSelect(lang.code)}
                 style={itemStyle(active)}
                 onMouseEnter={(e) => {
-                  if (!active) e.currentTarget.style.background = isApp ? 'var(--hover-bg)' : 'rgba(255,255,255,0.06)'
+                  if (!active) e.currentTarget.style.background = isApp ? 'var(--hover-bg)' : 'rgba(128,128,128,0.08)'
                 }}
                 onMouseLeave={(e) => {
                   if (!active) e.currentTarget.style.background = 'transparent'

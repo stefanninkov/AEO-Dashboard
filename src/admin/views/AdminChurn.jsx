@@ -62,7 +62,7 @@ function FunnelStep({ label, count, total, prevCount, isFirst, color }) {
         }}>
           <div style={{
             width: `${pct}%`, height: '100%', borderRadius: '0.375rem',
-            background: color || '#3B82F6', opacity: 0.7,
+            background: color || 'var(--accent)', opacity: 0.7,
             transition: 'width 0.5s ease',
             minWidth: count > 0 ? '2rem' : 0,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -79,7 +79,7 @@ function FunnelStep({ label, count, total, prevCount, isFirst, color }) {
       <div style={{ width: '4rem', textAlign: 'right', flexShrink: 0 }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>{pct}%</div>
         {!isFirst && dropOff > 0 && (
-          <div style={{ fontSize: '0.5625rem', color: '#EF4444', fontWeight: 600 }}>-{dropOff}%</div>
+          <div style={{ fontSize: '0.5625rem', color: 'var(--color-error)', fontWeight: 600 }}>-{dropOff}%</div>
         )}
       </div>
     </div>
@@ -132,8 +132,8 @@ function ChurnTrendChart({ data }) {
           {chartData[0]?.date}
         </span>
         <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <span style={{ fontSize: '0.5625rem', color: '#10B981', fontWeight: 600 }}>New</span>
-          <span style={{ fontSize: '0.5625rem', color: '#EF4444', fontWeight: 600 }}>Churned</span>
+          <span style={{ fontSize: '0.5625rem', color: 'var(--color-success)', fontWeight: 600 }}>New</span>
+          <span style={{ fontSize: '0.5625rem', color: 'var(--color-error)', fontWeight: 600 }}>Churned</span>
         </div>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--text-disabled)' }}>
           {chartData[chartData.length - 1]?.date}
@@ -213,18 +213,22 @@ export default function AdminChurn({ user }) {
 
   if (loading && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-        <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading churn data...</p>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <div style={{ width: '1.5rem', height: '1.5rem', border: '0.125rem solid var(--accent)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>Loading churn data...</p>
+        </div>
       </div>
     )
   }
 
   if (error && !stats) {
     return (
-      <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
-        <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
-        <button onClick={handleRefresh} className="btn-primary">Retry</button>
+      <div className="view-wrapper">
+        <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+          <p style={{ color: 'var(--color-error)', marginBottom: '1rem' }}>{error}</p>
+          <button onClick={handleRefresh} className="btn-primary">Retry</button>
+        </div>
       </div>
     )
   }
@@ -233,20 +237,20 @@ export default function AdminChurn({ user }) {
   const dropOff = stats?.dropOff || {}
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-            Churn & Retention
-          </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h2 className="view-title">Churn & Retention</h2>
+          <p className="view-subtitle">
             Track user retention, identify churn risks, and analyze drop-off points
           </p>
         </div>
-        <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh churn data" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
-          <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
-        </button>
+        <div className="view-header-actions">
+          <button onClick={handleRefresh} className="icon-btn" title="Refresh" aria-label="Refresh churn data" disabled={refreshing} style={{ opacity: refreshing ? 0.5 : 1 }}>
+            <RefreshCw size={16} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
+          </button>
+        </div>
       </div>
 
       {/* Overview KPIs */}
@@ -563,7 +567,7 @@ export default function AdminChurn({ user }) {
                     </div>
                   </td>
                   <td style={{ padding: '0.625rem 1rem' }}>
-                    <div style={{ fontSize: '0.75rem', color: u.daysSinceLogin > 30 ? '#EF4444' : u.daysSinceLogin > 14 ? '#F59E0B' : 'var(--text-secondary)', fontWeight: 600 }}>
+                    <div style={{ fontSize: '0.75rem', color: u.daysSinceLogin > 30 ? 'var(--color-error)' : u.daysSinceLogin > 14 ? 'var(--color-warning)' : 'var(--text-secondary)', fontWeight: 600 }}>
                       {u.daysSinceLogin}d ago
                     </div>
                     <div style={{ fontSize: '0.5625rem', color: 'var(--text-disabled)' }}>
@@ -575,8 +579,8 @@ export default function AdminChurn({ user }) {
                       display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
                       padding: '0.125rem 0.5rem', borderRadius: '1rem',
                       fontSize: '0.6875rem', fontWeight: 700,
-                      color: u.healthScore >= 50 ? '#10B981' : u.healthScore >= 25 ? '#F59E0B' : '#EF4444',
-                      background: u.healthScore >= 50 ? 'rgba(16,185,129,0.08)' : u.healthScore >= 25 ? 'rgba(245,158,11,0.08)' : 'rgba(239,68,68,0.08)',
+                      color: u.healthScore >= 50 ? 'var(--color-success)' : u.healthScore >= 25 ? 'var(--color-warning)' : 'var(--color-error)',
+                      background: u.healthScore >= 50 ? 'color-mix(in srgb, var(--color-success) 8%, transparent)' : u.healthScore >= 25 ? 'color-mix(in srgb, var(--color-warning) 8%, transparent)' : 'color-mix(in srgb, var(--color-error) 8%, transparent)',
                     }}>
                       {u.healthScore}
                     </div>
@@ -584,7 +588,7 @@ export default function AdminChurn({ user }) {
                   <td style={{ padding: '0.625rem 1rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <div style={{ width: '3rem', height: '0.375rem', borderRadius: '0.1875rem', background: 'var(--hover-bg)', overflow: 'hidden' }}>
-                        <div style={{ width: `${u.completionRate}%`, height: '100%', borderRadius: '0.1875rem', background: u.completionRate >= 50 ? '#10B981' : u.completionRate > 0 ? '#3B82F6' : 'transparent' }} />
+                        <div style={{ width: `${u.completionRate}%`, height: '100%', borderRadius: '0.1875rem', background: u.completionRate >= 50 ? 'var(--color-success)' : u.completionRate > 0 ? 'var(--accent)' : 'transparent' }} />
                       </div>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{u.completionRate}%</span>
                     </div>
@@ -603,7 +607,7 @@ export default function AdminChurn({ user }) {
                         cursor: 'pointer', color: 'var(--text-tertiary)',
                         fontSize: '0.625rem', fontWeight: 500, transition: 'all 100ms',
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B' }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--color-warning)'; e.currentTarget.style.color = 'var(--color-warning)' }}
                       onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.color = 'var(--text-tertiary)' }}
                     >
                       <Mail size={10} /> Nudge
