@@ -86,9 +86,9 @@
         "answerParagraph": "An AEO checklist is a structured task list that guides website owners through every optimization needed to appear in AI-generated answers. It covers schema markup implementation, content restructuring for direct answers, entity authority building, and technical configurations that help AI crawlers understand and cite your content."
       },
       "1": {
-        "badge": "AI-Powered",
-        "title": "Instant Site Analyzer",
-        "description": "Enter any URL and get an instant AEO readiness score. Our AI-powered analyzer checks schema markup, content structure, header hierarchy, FAQ formatting, and 20+ other signals that determine whether AI engines will cite your content."
+        "badge": "Deterministic + AI",
+        "title": "Real-Time Site Analyzer",
+        "description": "Enter any URL for an instant 100-point AEO readiness score \u2014 no API key needed. The deterministic engine crawls your HTML, checks 10 AI crawlers in robots.txt, analyzes your sitemap, and scores across 5 categories. Optionally layer on AI analysis for deeper recommendations."
       },
       "2": {
         "badge": "Multi-Engine",
@@ -116,7 +116,7 @@
     "bottomParagraph": "**Getting cited by ChatGPT requires a combination of structured data, authoritative content, and technical accessibility.** Implement comprehensive schema markup, format content as direct answers to common questions, build entity authority through consistent and accurate information, and ensure AI crawlers can freely access your pages. The AEO Dashboard automates this process with its 99-point checklist and AI-powered analysis tools.",
     "0": {
       "title": "Audit Your Site",
-      "description": "Run the AI-powered analyzer on any URL. Get an instant AEO readiness score with actionable recommendations for improving your AI search visibility."
+      "description": "Run the real-time analyzer on any URL. Get an instant 100-point AEO score checking schema, AI crawlers, content structure, and technical signals \u2014 no API key required."
     },
     "1": {
       "title": "Optimize with the Checklist",

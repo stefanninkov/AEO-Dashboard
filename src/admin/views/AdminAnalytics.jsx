@@ -318,9 +318,9 @@ export default function AdminAnalytics({ user }) {
     const featureAdoption = stats.featureUsage ? Object.entries(stats.featureUsage).map(([key, val]) => ({
       key,
       label: {
-        analyzer: 'Analyzer', contentWriter: 'Content Writer', competitors: 'Competitors',
-        metrics: 'Metrics', schema: 'Schema Generator', calendar: 'Content Calendar',
-        export: 'PDF Export', team: 'Team Members',
+        analyzer: 'Analyzer (AI)', deterministicScan: 'Site Scan (Free)', contentWriter: 'Content Writer',
+        competitors: 'Competitors', metrics: 'Metrics', schema: 'Schema Generator',
+        calendar: 'Content Calendar', export: 'PDF Export', team: 'Team Members',
       }[key] || key,
       ...val,
     })).sort((a, b) => b.pct - a.pct) : []

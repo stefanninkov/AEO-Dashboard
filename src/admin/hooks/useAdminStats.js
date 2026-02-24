@@ -508,6 +508,7 @@ export function useAdminStats(currentUser) {
       // ── 1d. Feature Usage Map (across all projects) ──
       const featureUsage = {
         analyzer: { used: allProjects.filter(p => p.analyzerResults).length, total: allProjects.length },
+        deterministicScan: { used: allProjects.filter(p => p.deterministicScore).length, total: allProjects.length },
         contentWriter: { used: allProjects.filter(p => p.contentHistory?.length > 0).length, total: allProjects.length },
         competitors: { used: allProjects.filter(p => p.competitors?.length > 0).length, total: allProjects.length },
         metrics: { used: allProjects.filter(p => p.metricsHistory?.length > 0).length, total: allProjects.length },

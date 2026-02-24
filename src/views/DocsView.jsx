@@ -29,7 +29,7 @@ export const APP_SECTIONS = [
       },
       {
         title: 'How the Dashboard Works',
-        body: 'Your Dashboard provides a high-level overview of your AEO performance — checklist progress across 7 phases, key metrics at a glance, and quick access to all tools. Think of it as your mission control for AEO optimization. The circular progress indicator shows your overall completion, while phase breakdowns help you identify where to focus next.',
+        body: 'Your Dashboard provides a high-level overview of your AEO performance — checklist progress across 7 phases, key metrics at a glance, and quick access to all tools. After running the Analyzer, the Dashboard shows a Site Health card with your deterministic AEO score and category breakdowns, plus an AI Crawler Access card showing which AI bots can reach your site. The circular progress indicator shows your overall checklist completion, while phase breakdowns help you identify where to focus next.',
       },
       {
         title: 'Navigating the App',
@@ -59,7 +59,7 @@ export const APP_SECTIONS = [
       },
       {
         title: 'Smart Prioritization',
-        body: 'When you first set up a project, the questionnaire determines which phase opens by default based on your current AEO maturity. For example, if you haven\'t implemented structured data yet, Phase 2 opens first. This helps you focus on the highest-impact tasks for your situation.',
+        body: 'Prioritization works at two levels. First, when you set up a project, the questionnaire determines which phase opens by default based on your AEO maturity. Second, when you run the Analyzer on your site, detected issues automatically generate priority alerts on the checklist — for example, if AI crawlers are blocked, the Technical Foundation phase gets a "critical" priority badge. This ensures you always focus on the highest-impact tasks.',
       },
       {
         title: 'Comments & Collaboration',
@@ -120,15 +120,23 @@ export const APP_SECTIONS = [
     items: [
       {
         title: 'How the Analyzer Works',
-        body: 'Enter any URL and the Analyzer scans it for AEO readiness. It checks structured data, content quality signals, technical SEO factors, heading structure, meta tags, and more. Results are presented as a score with detailed recommendations for improvement.',
+        body: 'Enter any URL and the Analyzer performs a two-layer analysis. First, a deterministic scan runs instantly — no API key needed. It fetches your page HTML, parses content structure, checks robots.txt for AI crawler access, and analyzes your sitemap. This produces a 100-point AEO Readiness Score across 5 categories: Content Structure (25pts), Schema Markup (20pts), Technical Foundation (20pts), AI Discoverability (20pts), and Authority Signals (15pts). Optionally, you can run a deeper AI-powered analysis for nuanced recommendations.',
       },
       {
-        title: 'Understanding Results',
-        body: 'The analysis breaks down into categories: structured data coverage, content authority signals, technical foundation, and AI discoverability factors. Each category shows what\'s working well (green), what needs attention (yellow), and critical issues (red). Action items are prioritized by impact.',
+        title: 'Deterministic Score (Free, No API Key)',
+        body: 'The deterministic analysis checks real page data: title tags, meta descriptions, heading hierarchy, word count, FAQ patterns, structured data (JSON-LD, Microdata, RDFa), viewport meta, canonical URLs, OpenGraph tags, page size, AI crawler access in robots.txt (GPTBot, ClaudeBot, Google-Extended, and 7 more), sitemap existence, lastmod dates, and content freshness. Results are reproducible and instant.',
+      },
+      {
+        title: 'AI Crawler Access',
+        body: 'The Analyzer checks your robots.txt for 10 known AI crawlers: GPTBot, ChatGPT-User, Google-Extended, PerplexityBot, ClaudeBot, anthropic-ai, CCBot, Bytespider, cohere-ai, and Diffbot. It shows which crawlers are allowed, blocked, or have no specific rules. Blocking AI crawlers prevents your content from being indexed by AI engines.',
+      },
+      {
+        title: 'AI Analysis (Optional)',
+        body: 'After the deterministic scan, you can optionally run an AI-powered analysis that provides deeper content quality assessment, entity recognition, and nuanced recommendations. This requires an API key but builds on top of the deterministic results for comprehensive insights.',
       },
       {
         title: 'When to Use It',
-        body: 'Run the Analyzer when you\'re starting a new project, after making significant content changes, or when checking specific pages for AEO compliance. It\'s especially useful for auditing individual pages against the AEO checklist requirements.',
+        body: 'Run the Analyzer when you\'re starting a new project, after making significant content changes, or when checking specific pages for AEO compliance. The deterministic scan is free and instant — use it frequently. The AI analysis adds depth for important pages where you need detailed recommendations.',
       },
     ],
   },

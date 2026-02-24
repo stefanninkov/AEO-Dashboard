@@ -1078,7 +1078,7 @@
       },
       "analyzer": {
         "title": "Analyzer",
-        "desc": "Enter any URL and the AI will scan it for AEO readiness — checking schema markup, content structure, technical SEO, and authority signals. You'll get a score from 0–100 with specific, actionable recommendations. This should be your starting point: analyze your site to get a baseline score."
+        "desc": "Enter any URL for an instant 100-point AEO score — no API key needed. The deterministic engine checks schema markup, content structure, AI crawler access, sitemap health, and 20+ signals. Optionally layer on AI analysis for deeper recommendations. This should be your starting point: analyze your site to get a baseline score."
       },
       "writer": {
         "title": "Content Writer",

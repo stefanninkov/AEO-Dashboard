@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import { SearchCheck, CheckCircle2, Lightbulb, ChevronDown } from 'lucide-react'
+import { SearchCheck, CheckCircle2, Lightbulb, ChevronDown, AlertTriangle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
 import VerifyDialog from '../components/VerifyDialog'
 import { getPhasePriority, getFirstPriorityPhase, INDUSTRY_LABELS, REGION_LABELS, COUNTRY_LABELS, AUDIENCE_LABELS, GOAL_LABELS, CMS_LABELS } from '../utils/getRecommendations'
+import { prioritizeChecklist } from '../utils/checklistPrioritizer'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { fireWebhooks } from '../utils/webhookDispatcher'
 import ChecklistStats from './checklist/ChecklistStats'
@@ -407,6 +408,50 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
         phases={phases}
         checked={checked}
       />
+
+      {/* Analyzer-based priority alerts */}
+      {(() => {
+        const priorities = prioritizeChecklist(phases, null, activeProject?.deterministicScore)
+        if (priorities.length === 0) return null
+        return (
+          <div className="card" style={{
+            padding: 'var(--space-3) var(--space-4)',
+            border: '1px solid var(--color-warning)',
+            background: 'rgba(245,158,11,0.04)',
+          }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
+              marginBottom: 'var(--space-2)',
+            }}>
+              <AlertTriangle size={13} style={{ color: 'var(--color-warning)' }} />
+              <span style={{
+                fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
+                textTransform: 'uppercase', letterSpacing: '0.03em', color: 'var(--color-warning)',
+              }}>
+                Priorities from Site Analysis
+              </span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+              {priorities.map((p, i) => (
+                <div key={i} style={{
+                  display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
+                  fontSize: 'var(--text-xs)', color: 'var(--text-secondary)',
+                }}>
+                  <span style={{
+                    fontSize: 'var(--text-2xs)', fontWeight: 700, padding: '0.0625rem 0.375rem',
+                    borderRadius: '0.25rem', textTransform: 'uppercase',
+                    background: p.urgency === 'critical' ? 'rgba(239,68,68,0.1)' : p.urgency === 'high' ? 'rgba(245,158,11,0.1)' : 'rgba(59,130,246,0.1)',
+                    color: p.urgency === 'critical' ? 'var(--color-error)' : p.urgency === 'high' ? 'var(--color-warning)' : 'var(--accent)',
+                  }}>
+                    {p.urgency}
+                  </span>
+                  <span>{p.reason}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })()}
 
       <ChecklistStats totalProgress={totalProgress} phaseCount={phases.length} />
 

@@ -603,7 +603,8 @@ export default function AdminDashboard({ user, onNavigate }) {
           <div style={{ padding: '1rem 1.25rem' }}>
             {stats.featureUsage && Object.entries(stats.featureUsage).map(([key, val]) => {
               const featureLabels = {
-                analyzer: 'AEO Analyzer',
+                analyzer: 'AEO Analyzer (AI)',
+                deterministicScan: 'Site Scan (Free)',
                 contentWriter: 'Content Writer',
                 competitors: 'Competitors',
                 metrics: 'Metrics',

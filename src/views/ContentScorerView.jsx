@@ -4,14 +4,16 @@
  * Evaluates content across 5 dimensions: clarity, structure, comprehensiveness,
  * authority, and natural language. Uses the same callAI pipeline as other tools.
  */
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Star, Loader2, AlertCircle, Copy, Check,
-  MessageSquare, Layers, BookOpen, Shield, Sparkles,
+  MessageSquare, Layers, BookOpen, Shield, Sparkles, Globe, FileText,
 } from 'lucide-react'
 import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
+import { fetchPageHtml, parsePageData } from '../utils/htmlCrawler'
+import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 
 const DIMENSIONS = [
   { key: 'clarity', icon: MessageSquare, color: 'var(--color-phase-1)' },
@@ -73,7 +75,11 @@ function parseJSON(text) {
 
 export default function ContentScorerView({ activeProject }) {
   const { t } = useTranslation('app')
+  const [scorerMode, setScorerMode] = useState('text') // 'text' | 'url'
+  const modeTabsRef = useRef(null)
+  useScrollActiveTab(modeTabsRef, scorerMode)
   const [text, setText] = useState('')
+  const [urlInput, setUrlInput] = useState(activeProject?.url || '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [result, setResult] = useState(null)
@@ -137,6 +143,81 @@ Return JSON:
     }
   }, [text, loading, activeProject, t])
 
+  const scoreUrl = useCallback(async () => {
+    if (!urlInput.trim() || loading) return
+    if (!hasApiKey()) {
+      setError(t('scorer.noApiKey'))
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+    setResult(null)
+
+    try {
+      const html = await fetchPageHtml(urlInput)
+      const pageData = parsePageData(html, urlInput)
+      // Extract main content text from the parsed page
+      const main = html.replace(/<script[\s\S]*?<\/script>/gi, '')
+        .replace(/<style[\s\S]*?<\/style>/gi, '')
+        .replace(/<nav[\s\S]*?<\/nav>/gi, '')
+        .replace(/<footer[\s\S]*?<\/footer>/gi, '')
+        .replace(/<header[\s\S]*?<\/header>/gi, '')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 8000)
+
+      const industry = activeProject?.questionnaire?.industry || ''
+      const context = industry ? `Industry context: ${industry}.` : ''
+
+      const data = await callAI({
+        maxTokens: 2000,
+        system: `You are an AI content scoring expert specializing in Answer Engine Optimization (AEO).
+Evaluate how well AI assistants (ChatGPT, Perplexity, Gemini, Claude) can extract and cite answers from content.
+${context}
+Additional page data: ${pageData.headings.totalCount} headings, ${pageData.content.wordCount} words, ${pageData.schema.count} schema(s) found, ${pageData.content.qaPatterns.hasQuestionHeadings ? 'has' : 'no'} question headings.
+Return ONLY valid JSON — no markdown fences, no explanation outside JSON.`,
+        messages: [{
+          role: 'user',
+          content: `Score this web page content for AEO answerability (0-100):
+
+URL: ${urlInput}
+
+Content:
+"""
+${main}
+"""
+
+Return JSON:
+{
+  "overallScore": <number 0-100>,
+  "scoreBreakdown": {
+    "clarity": { "score": <0-100>, "feedback": "<1 sentence>" },
+    "structure": { "score": <0-100>, "feedback": "<1 sentence>" },
+    "comprehensiveness": { "score": <0-100>, "feedback": "<1 sentence>" },
+    "authority": { "score": <0-100>, "feedback": "<1 sentence>" },
+    "naturalLanguage": { "score": <0-100>, "feedback": "<1 sentence>" }
+  },
+  "improvements": ["<top 3-5 specific improvements>"],
+  "aiCitationExample": "<How an AI might cite this content in an answer>"
+}`,
+        }],
+      })
+
+      const parsed = parseJSON(data.text)
+      if (parsed?.overallScore !== undefined) {
+        setResult(parsed)
+      } else {
+        setError(t('scorer.parseError'))
+      }
+    } catch (err) {
+      setError(err.message || t('scorer.genericError'))
+    } finally {
+      setLoading(false)
+    }
+  }, [urlInput, loading, activeProject, t])
+
   const handleCopy = () => {
     if (!result) return
     const summary = `AEO Answerability Score: ${result.overallScore}/100\n\n` +
@@ -158,42 +239,101 @@ Return JSON:
         </div>
       </div>
 
+      {/* Mode Toggle */}
+      <div ref={modeTabsRef} className="scrollable-tabs tab-bar-segmented">
+        <button
+          data-active={scorerMode === 'text' || undefined}
+          onClick={() => setScorerMode('text')}
+          className="tab-segmented"
+        >
+          <FileText size={14} />
+          Paste Text
+        </button>
+        <button
+          data-active={scorerMode === 'url' || undefined}
+          onClick={() => setScorerMode('url')}
+          className="tab-segmented"
+        >
+          <Globe size={14} />
+          Score URL
+        </button>
+      </div>
+
       <div style={{ display: 'grid', gridTemplateColumns: result ? '1fr 1fr' : '1fr', gap: 'var(--space-5)', alignItems: 'start' }}>
         {/* Input Panel */}
         <div className="card" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-          <div style={{
-            fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
-            textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
-          }}>
-            {t('scorer.pasteContent')}
-          </div>
-          <textarea
-            value={text}
-            onChange={e => setText(e.target.value)}
-            placeholder={t('scorer.placeholder')}
-            className="input-field"
-            style={{
-              width: '100%', minHeight: '14rem', resize: 'vertical',
-              fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', lineHeight: 1.6,
-            }}
-          />
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)' }}>
-              {text.length.toLocaleString()} {t('scorer.chars')}
-            </span>
-            <button
-              onClick={scoreContent}
-              disabled={!text.trim() || loading}
-              className="btn-primary btn-sm"
-              style={{ minWidth: '7rem' }}
-            >
-              {loading ? (
-                <><Loader2 size={13} className="spin" /> {t('scorer.scoring')}</>
-              ) : (
-                <><Star size={13} /> {t('scorer.scoreBtn')}</>
-              )}
-            </button>
-          </div>
+          {scorerMode === 'text' ? (
+            <>
+              <div style={{
+                fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
+                textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
+              }}>
+                {t('scorer.pasteContent')}
+              </div>
+              <textarea
+                value={text}
+                onChange={e => setText(e.target.value)}
+                placeholder={t('scorer.placeholder')}
+                className="input-field"
+                style={{
+                  width: '100%', minHeight: '14rem', resize: 'vertical',
+                  fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', lineHeight: 1.6,
+                }}
+              />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)' }}>
+                  {text.length.toLocaleString()} {t('scorer.chars')}
+                </span>
+                <button
+                  onClick={scoreContent}
+                  disabled={!text.trim() || loading}
+                  className="btn-primary btn-sm"
+                  style={{ minWidth: '7rem' }}
+                >
+                  {loading ? (
+                    <><Loader2 size={13} className="spin" /> {t('scorer.scoring')}</>
+                  ) : (
+                    <><Star size={13} /> {t('scorer.scoreBtn')}</>
+                  )}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{
+                fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
+                textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
+              }}>
+                Score a URL
+              </div>
+              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', lineHeight: 1.5 }}>
+                Enter a URL to fetch its content and score it for AI answerability. The page will be crawled and its text content extracted automatically.
+              </p>
+              <input
+                type="text"
+                value={urlInput}
+                onChange={e => setUrlInput(e.target.value)}
+                placeholder="https://example.com/article"
+                className="input-field"
+                style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)' }}
+                onKeyDown={e => e.key === 'Enter' && scoreUrl()}
+              />
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={scoreUrl}
+                  disabled={!urlInput.trim() || loading}
+                  className="btn-primary btn-sm"
+                  style={{ minWidth: '7rem' }}
+                >
+                  {loading ? (
+                    <><Loader2 size={13} className="spin" /> {t('scorer.scoring')}</>
+                  ) : (
+                    <><Globe size={13} /> Score URL</>
+                  )}
+                </button>
+              </div>
+            </>
+          )}
           {error && (
             <div style={{
               display: 'flex', alignItems: 'center', gap: 'var(--space-2)',

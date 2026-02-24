@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo, useCallback, memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing, Activity, TrendingUp, TrendingDown } from 'lucide-react'
+import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing, Activity, TrendingUp, TrendingDown, Shield, Bot, CheckCircle2, XCircle, MinusCircle } from 'lucide-react'
 import { getSmartRecommendations, getQuickWin, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
 import ActivityTimeline from '../components/ActivityTimeline'
 import {
@@ -280,6 +280,119 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
             <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
             <StatCard label={t('dashboard.aeoScore')} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
           </div>
+
+          {/* Site Health + AI Crawler Access — from deterministic analysis */}
+          {activeProject?.deterministicScore && (
+            <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+              {/* Site Health Card */}
+              <div className="card card-lg">
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
+                  marginBottom: 'var(--space-3)',
+                }}>
+                  <Shield size={14} style={{ color: 'var(--accent)' }} />
+                  <span style={{
+                    fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
+                    textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
+                  }}>
+                    {t('dashboard.siteHealth', 'Site Health')}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
+                  <div style={{
+                    width: '4rem', height: '4rem', borderRadius: '50%',
+                    border: `3px solid ${activeProject.deterministicScore.overallScore >= 70 ? 'var(--color-success)' : activeProject.deterministicScore.overallScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)'}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--font-heading)', fontSize: 'var(--text-xl)', fontWeight: 700,
+                    color: 'var(--text-primary)',
+                  }}>
+                    {activeProject.deterministicScore.overallScore}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    {Object.entries(activeProject.deterministicScore.categories).map(([name, cat]) => {
+                      const pct = Math.round((cat.score / cat.maxScore) * 100)
+                      return (
+                        <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
+                          <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-tertiary)', minWidth: '5.5rem' }}>{name}</span>
+                          <div style={{ flex: 1, height: '0.375rem', borderRadius: '0.1875rem', background: 'var(--border-subtle)', overflow: 'hidden' }}>
+                            <div style={{
+                              height: '100%', borderRadius: '0.1875rem',
+                              background: pct >= 70 ? 'var(--color-success)' : pct >= 40 ? 'var(--color-warning)' : 'var(--color-error)',
+                              width: `${pct}%`, transition: 'width 0.5s ease',
+                            }} />
+                          </div>
+                          <span style={{ fontSize: 'var(--text-2xs)', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', minWidth: '2rem', textAlign: 'right' }}>{pct}%</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveView('analyzer')}
+                  className="btn-ghost btn-sm"
+                  style={{ marginTop: 'var(--space-3)', fontSize: 'var(--text-2xs)', width: '100%' }}
+                >
+                  {t('dashboard.viewFullAnalysis', 'View Full Analysis →')}
+                </button>
+              </div>
+
+              {/* AI Crawler Access Card */}
+              {activeProject.robotsData && (
+                <div className="card card-lg">
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
+                    marginBottom: 'var(--space-3)',
+                  }}>
+                    <Bot size={14} style={{ color: 'var(--color-phase-3)' }} />
+                    <span style={{
+                      fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
+                      textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
+                    }}>
+                      {t('dashboard.aiCrawlerAccess', 'AI Crawler Access')}
+                    </span>
+                    {activeProject.robotsData.summary && (
+                      <span style={{
+                        marginLeft: 'auto', fontSize: 'var(--text-2xs)', fontWeight: 600,
+                        color: activeProject.robotsData.summary.blocked === 0 ? 'var(--color-success)' : 'var(--color-error)',
+                      }}>
+                        {activeProject.robotsData.summary.allowed}/{activeProject.robotsData.summary.total} allowed
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+                    {activeProject.robotsData.crawlers?.slice(0, 6).map(crawler => (
+                      <div key={crawler.name} style={{
+                        display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
+                        fontSize: 'var(--text-xs)', padding: 'var(--space-1) 0',
+                      }}>
+                        {crawler.status === 'allowed' ? (
+                          <CheckCircle2 size={12} style={{ color: 'var(--color-success)', flexShrink: 0 }} />
+                        ) : crawler.status === 'blocked' ? (
+                          <XCircle size={12} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
+                        ) : (
+                          <MinusCircle size={12} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+                        )}
+                        <span style={{ flex: 1, color: 'var(--text-secondary)' }}>{crawler.name}</span>
+                        <span style={{
+                          fontSize: 'var(--text-2xs)', fontWeight: 600,
+                          color: crawler.status === 'allowed' ? 'var(--color-success)' : crawler.status === 'blocked' ? 'var(--color-error)' : 'var(--text-disabled)',
+                        }}>
+                          {crawler.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => setActiveView('analyzer')}
+                    className="btn-ghost btn-sm"
+                    style={{ marginTop: 'var(--space-3)', fontSize: 'var(--text-2xs)', width: '100%' }}
+                  >
+                    {t('dashboard.viewDetails', 'View Details →')}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Quick Win — #1 highest-impact action */}
           <QuickWinCard quickWin={quickWin} />

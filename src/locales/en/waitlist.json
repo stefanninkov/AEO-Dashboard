@@ -138,8 +138,8 @@
       "description": "Phase-by-phase tasks covering every aspect of AEO \u2014 from schema markup to content structure to AI crawler access."
     },
     "1": {
-      "title": "AI-Powered Site Analyzer",
-      "description": "Enter any URL and get an instant AEO readiness score with actionable recommendations."
+      "title": "Real-Time Site Analyzer",
+      "description": "Enter any URL for an instant 100-point AEO readiness score — no API key needed. Checks schema, AI crawler access, content structure, and more."
     },
     "2": {
       "title": "Multi-Engine Testing Lab",

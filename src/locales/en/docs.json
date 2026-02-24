@@ -107,19 +107,23 @@
     },
     "analyzer": {
       "title": "Analyzer",
-      "description": "Analyze any URL for AEO readiness and get actionable recommendations.",
+      "description": "Analyze any URL for AEO readiness with a free deterministic scan and optional AI analysis.",
       "items": [
         {
           "title": "How the Analyzer Works",
-          "body": "Enter any URL and the Analyzer scans it for AEO readiness. It checks structured data, content quality signals, technical SEO factors, heading structure, meta tags, and more. Results are presented as a score with detailed recommendations for improvement."
+          "body": "Enter any URL and the Analyzer performs a two-layer analysis. First, a deterministic scan runs instantly \u2014 no API key needed. It fetches your page HTML, parses content structure, checks robots.txt for AI crawler access, and analyzes your sitemap. This produces a 100-point AEO Readiness Score across 5 categories. Optionally, run an AI-powered analysis for deeper recommendations."
+        },
+        {
+          "title": "Deterministic Score",
+          "body": "The free deterministic scan checks: title tags, meta descriptions, heading hierarchy, word count, FAQ patterns, structured data (JSON-LD, Microdata, RDFa), viewport meta, canonical URLs, OpenGraph tags, page size, AI crawler access in robots.txt (10 AI crawlers), sitemap existence, lastmod dates, and content freshness."
         },
         {
           "title": "Understanding Results",
-          "body": "The analysis breaks down into categories: structured data coverage, content authority signals, technical foundation, and AI discoverability factors. Each category shows what\u2019s working well (green), what needs attention (yellow), and critical issues (red). Action items are prioritized by impact."
+          "body": "Results break down into 5 scored categories: Content Structure (25pts), Schema Markup (20pts), Technical Foundation (20pts), AI Discoverability (20pts), and Authority Signals (15pts). Each check shows pass/fail/partial status with specific details and recommendations."
         },
         {
           "title": "When to Use It",
-          "body": "Run the Analyzer when you\u2019re starting a new project, after making significant content changes, or when checking specific pages for AEO compliance. It\u2019s especially useful for auditing individual pages against the AEO checklist requirements."
+          "body": "Run the Analyzer when starting a new project, after content changes, or when checking pages for AEO compliance. The deterministic scan is free and instant \u2014 use it frequently. The AI analysis adds depth for important pages."
         }
       ]
     },

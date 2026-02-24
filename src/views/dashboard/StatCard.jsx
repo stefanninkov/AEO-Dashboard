@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { DataConfidenceLabel } from '../../components/DataConfidenceLabel'
 
 /**
  * Unified stat card — used across Dashboard, Metrics, GSC, GA4, AeoImpact.
@@ -14,8 +15,9 @@ import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
  * @param {string} [subValue] - Secondary info below value (horizontal mode)
  * @param {'vertical'|'horizontal'} [layout='vertical'] - Card layout direction
  * @param {string} [className] - Extra class names
+ * @param {'measured'|'estimated'|'mixed'} [confidence] - Data confidence indicator
  */
-export default memo(function StatCard({ label, value, trend, icon, iconColor, subValue, layout = 'vertical', className = '' }) {
+export default memo(function StatCard({ label, value, trend, icon, iconColor, subValue, layout = 'vertical', className = '', confidence }) {
   const { t } = useTranslation('app')
   const isHorizontal = layout === 'horizontal'
 
@@ -30,7 +32,10 @@ export default memo(function StatCard({ label, value, trend, icon, iconColor, su
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div className="stat-card-label">{label}</div>
+            <div className="stat-card-label" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              {label}
+              {confidence && <DataConfidenceLabel type={confidence} />}
+            </div>
             <div className="stat-card-value" style={{ fontSize: 'var(--text-xl)' }}>{value}</div>
             {subValue && (
               <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', marginTop: 'var(--space-1)' }}>{subValue}</div>
@@ -44,7 +49,10 @@ export default memo(function StatCard({ label, value, trend, icon, iconColor, su
         /* ── Vertical: label + icon header, big value, trend ── */
         <>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span className="stat-card-label">{label}</span>
+            <span className="stat-card-label" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              {label}
+              {confidence && <DataConfidenceLabel type={confidence} />}
+            </span>
             {icon && (
               <div className="stat-card-icon" style={{ background: iconColor + '18', color: iconColor }}>
                 {icon}

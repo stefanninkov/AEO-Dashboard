@@ -9,6 +9,8 @@ import { useNotifications } from './hooks/useNotifications'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
 import { useDigestScheduler } from './hooks/useDigestScheduler'
+import { trackFeature, FEATURES } from './utils/featureTracker'
+import { trackMilestone, MILESTONES } from './utils/activationTracker'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -338,6 +340,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
 
   const handleQuizComplete = useCallback(async (quizAnswers) => {
     setShowQuiz(false)
+    trackMilestone(user?.uid, MILESTONES.COMPLETED_ONBOARDING)
 
     const isFirebaseConfigured = (() => {
       try {
@@ -483,11 +486,35 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
     setActiveView(view)
   }, [setActiveView])
 
-  // Reset scroll position when switching views
+  // Reset scroll position when switching views + track feature usage
   useEffect(() => {
     const scrollEl = document.getElementById('main-content')
     if (scrollEl) scrollEl.scrollTop = 0
-  }, [activeView])
+
+    // Track feature view
+    if (user?.uid && activeView) {
+      const featureMap = {
+        dashboard: FEATURES.DASHBOARD,
+        checklist: FEATURES.CHECKLIST,
+        analyzer: FEATURES.ANALYZER,
+        writer: FEATURES.CONTENT_WRITER,
+        scorer: FEATURES.CONTENT_SCORER,
+        schema: FEATURES.SCHEMA_GENERATOR,
+        monitoring: FEATURES.MONITORING,
+        metrics: FEATURES.METRICS,
+        gsc: FEATURES.GSC,
+        ga4: FEATURES.GA4,
+        'aeo-impact': FEATURES.AEO_IMPACT,
+        competitors: FEATURES.COMPETITORS,
+        testing: FEATURES.TESTING,
+        docs: FEATURES.DOCUMENTATION,
+        settings: FEATURES.SETTINGS,
+        'content-ops': FEATURES.CONTENT_OPS,
+      }
+      const feature = featureMap[activeView]
+      if (feature) trackFeature(user.uid, feature, 'view')
+    }
+  }, [activeView, user?.uid])
 
   const [refreshing, setRefreshing] = useState(false)
   const handleRefresh = useCallback(() => {
@@ -528,6 +555,8 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         })
       }
       setPendingProject(null)
+      trackMilestone(user?.uid, MILESTONES.CREATED_PROJECT)
+      trackMilestone(user?.uid, MILESTONES.COMPLETED_QUESTIONNAIRE)
     } else if (questionnaireProjectId) {
       // Re-take flow: project already exists
       updateProject(questionnaireProjectId, {
