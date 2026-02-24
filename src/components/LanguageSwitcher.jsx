@@ -69,7 +69,7 @@ export default function LanguageSwitcher({ variant = 'app' }) {
     top: 'calc(100% + 0.375rem)',
     right: 0,
     minWidth: '10rem',
-    background: isApp ? 'var(--bg-card)' : 'var(--lp-bg-card, var(--wl-bg-card, #16161e))',
+    background: isApp ? 'var(--bg-card)' : 'var(--lp-bg-page, var(--wl-bg-page, #08080D))',
     border: isApp ? '0.0625rem solid var(--border-default)' : '0.0625rem solid var(--lp-border, var(--wl-border, rgba(255,255,255,0.1)))',
     borderRadius: '0.75rem',
     overflow: 'hidden',
