@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { ChevronDown, Star, Target } from 'lucide-react'
+import { ChevronDown, Target } from 'lucide-react'
 import AnimatedNumber from '../../components/AnimatedNumber'
 import CollapsibleContent from '../../components/shared/CollapsibleContent'
 import CategorySection from './CategorySection'
@@ -60,17 +60,6 @@ export default memo(function PhaseCard({
               Phase {phase.number}
             </span>
             <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{phase.timeline}</span>
-            {isPriority && (
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.1875rem',
-                fontSize: '0.625rem', fontWeight: 600, color: 'var(--color-phase-5)',
-                padding: '0.0625rem 0.375rem', borderRadius: '0.25rem',
-                background: 'rgba(245,158,11,0.1)',
-              }}>
-                <Star size={9} style={{ fill: 'var(--color-phase-5)' }} />
-                Focus Phase
-              </span>
-            )}
           </div>
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginTop: '0.125rem', color: 'var(--text-primary)' }}>{phase.title}</h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem', lineHeight: 1.5 }}>{phase.description}</p>
