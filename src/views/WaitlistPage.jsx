@@ -187,34 +187,10 @@ export default function WaitlistPage() {
     return () => root.removeEventListener('scroll', handler)
   }, [])
 
-  // Scroll animations
+  // Make all sections visible immediately — no scroll animations for leads
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
-      const elements = rootRef.current?.querySelectorAll('[data-animate]')
-      if (elements) elements.forEach((el) => el.classList.add('wl-visible'))
-      return
-    }
-
-    const root = rootRef.current
-    if (!root) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('wl-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { root, threshold: 0.1 },
-    )
-
-    const elements = root.querySelectorAll('[data-animate]')
-    elements.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
+    const elements = rootRef.current?.querySelectorAll('[data-animate]')
+    if (elements) elements.forEach((el) => el.classList.add('wl-visible'))
   }, [])
 
   // JSON-LD injection
