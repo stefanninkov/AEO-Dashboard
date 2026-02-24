@@ -19,7 +19,8 @@
     "emailPlaceholder": "Enter your email",
     "cta": "Join Waitlist",
     "joinedCount_one": "{{count}} person has already joined",
-    "joinedCount_other": "{{count}} people have already joined"
+    "joinedCount_other": "{{count}} people have already joined",
+    "joinedSuffix": "people have already joined"
   },
   "education": {
     "label": "Education",

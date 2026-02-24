@@ -351,11 +351,10 @@ export default function WaitlistPage() {
 
             {error && <p className="wl-error">{error}</p>}
 
-            {count > 0 && (
-              <p className="wl-counter">
-                {t('hero.joinedCount', { count })}
-              </p>
-            )}
+            <p className="wl-counter">
+              <strong>{(count + 100).toLocaleString()}</strong>{' '}
+              {t('hero.joinedSuffix')}
+            </p>
           </div>
         </section>
 
@@ -579,11 +578,9 @@ export default function WaitlistPage() {
                 ? t('success.messageExisting')
                 : t('success.messageNew')}
             </p>
-            {count > 0 && (
-              <p className="wl-success-position">
-                {t('success.position', { count: count.toLocaleString() })}
-              </p>
-            )}
+            <p className="wl-success-position">
+              {t('success.position', { count: (count + 100).toLocaleString() })}
+            </p>
 
             <div className="wl-share-row">
               <button className="wl-share-btn" onClick={shareTwitter}>

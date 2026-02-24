@@ -19,7 +19,8 @@
     "emailPlaceholder": "E-Mail-Adresse eingeben",
     "cta": "Auf die Warteliste",
     "joinedCount_one": "{{count}} Person hat sich bereits angemeldet",
-    "joinedCount_other": "{{count}} Personen haben sich bereits angemeldet"
+    "joinedCount_other": "{{count}} Personen haben sich bereits angemeldet",
+    "joinedSuffix": "Personen haben sich bereits angemeldet"
   },
   "education": {
     "label": "Wissen",

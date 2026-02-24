@@ -139,10 +139,7 @@ export default function LanguageSwitcher({ variant = 'app' }) {
                   if (!active) e.currentTarget.style.background = 'transparent'
                 }}
               >
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.0625rem' }}>
-                  <span>{lang.nativeLabel}</span>
-                  <span style={{ fontSize: '0.6875rem', opacity: 0.45 }}>{lang.label}</span>
-                </div>
+                <span>{lang.nativeLabel}</span>
                 {active && <Check size={14} style={{ flexShrink: 0, opacity: 0.7 }} />}
               </button>
             )

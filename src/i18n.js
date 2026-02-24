@@ -12,8 +12,8 @@ import docsEn from './locales/en/docs.json'
 
 export const SUPPORTED_LANGUAGES = [
   { code: 'en', label: 'English', nativeLabel: 'English' },
-  { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
-  { code: 'sr', label: 'Serbian', nativeLabel: 'Српски' },
+  { code: 'de', label: 'Deutsch', nativeLabel: 'Deutsch' },
+  { code: 'sr', label: 'Srpski', nativeLabel: 'Srpski' },
 ]
 
 i18n

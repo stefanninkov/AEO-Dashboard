@@ -107,19 +107,23 @@
     },
     "analyzer": {
       "title": "Analysator",
-      "description": "Analysieren Sie jede URL auf AEO-Bereitschaft und erhalten Sie umsetzbare Empfehlungen.",
+      "description": "Analysieren Sie jede URL auf AEO-Bereitschaft mit einem kostenlosen deterministischen Scan und optionaler KI-Analyse.",
       "items": [
         {
           "title": "Wie der Analysator funktioniert",
-          "body": "Geben Sie eine beliebige URL ein und der Analysator prüft sie auf AEO-Bereitschaft. Er überprüft strukturierte Daten, Inhaltsqualitätssignale, technische SEO-Faktoren, Überschriftenstruktur, Meta-Tags und mehr. Die Ergebnisse werden als Score mit detaillierten Verbesserungsempfehlungen präsentiert."
+          "body": "Geben Sie eine beliebige URL ein und der Analysator führt eine zweistufige Analyse durch. Zuerst läuft ein deterministischer Scan sofort — kein API-Schlüssel erforderlich. Er ruft Ihre Seiten-HTML ab, analysiert die Inhaltsstruktur, prüft robots.txt auf KI-Crawler-Zugang und analysiert Ihre Sitemap. Dies ergibt einen 100-Punkte AEO-Bereitschafts-Score in 5 Kategorien. Optional können Sie eine KI-gestützte Analyse für tiefere Empfehlungen durchführen."
+        },
+        {
+          "title": "Deterministischer Score",
+          "body": "Der kostenlose deterministische Scan prüft: Title-Tags, Meta-Beschreibungen, Überschriftenhierarchie, Wortanzahl, FAQ-Muster, strukturierte Daten (JSON-LD, Microdata, RDFa), Viewport-Meta, kanonische URLs, OpenGraph-Tags, Seitengröße, KI-Crawler-Zugang in robots.txt (10 KI-Crawler), Sitemap-Existenz, Lastmod-Daten und Inhaltsfr ische."
         },
         {
           "title": "Ergebnisse verstehen",
-          "body": "Die Analyse gliedert sich in Kategorien: Abdeckung strukturierter Daten, Inhaltsautoritätssignale, technische Grundlage und KI-Auffindbarkeitsfaktoren. Jede Kategorie zeigt, was gut funktioniert (grün), was Aufmerksamkeit erfordert (gelb) und kritische Probleme (rot). Handlungsempfehlungen werden nach Auswirkung priorisiert."
+          "body": "Die Ergebnisse gliedern sich in 5 bewertete Kategorien: Inhaltsstruktur (25 Pkt.), Schema-Markup (20 Pkt.), Technische Grundlage (20 Pkt.), KI-Auffindbarkeit (20 Pkt.) und Autoritätssignale (15 Pkt.). Jede Prüfung zeigt Bestanden/Nicht bestanden/Teilweise-Status mit spezifischen Details und Empfehlungen."
         },
         {
           "title": "Wann man ihn verwenden sollte",
-          "body": "Verwenden Sie den Analysator, wenn Sie ein neues Projekt starten, nach wesentlichen Inhaltsänderungen oder wenn Sie bestimmte Seiten auf AEO-Konformität prüfen. Er ist besonders nützlich für die Überprüfung einzelner Seiten anhand der AEO-Checklisten-Anforderungen."
+          "body": "Verwenden Sie den Analysator beim Start eines neuen Projekts, nach Inhaltsänderungen oder bei der Überprüfung von Seiten auf AEO-Konformität. Der deterministische Scan ist kostenlos und sofort — nutzen Sie ihn häufig. Die KI-Analyse bietet Tiefe für wichtige Seiten."
         }
       ]
     },

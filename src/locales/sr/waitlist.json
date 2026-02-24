@@ -1,231 +1,232 @@
 {
   "nav": {
     "links": {
-      "0": "Шта је AEO?",
-      "1": "Фазе",
-      "2": "Функције",
+      "0": "Šta je AEO?",
+      "1": "Faze",
+      "2": "Funkcije",
       "3": "FAQ"
     },
-    "cta": "Придружите се листи чекања",
-    "openMenu": "Отвори мени",
-    "closeMenu": "Затвори мени"
+    "cta": "Pridružite se listi čekanja",
+    "openMenu": "Otvori meni",
+    "closeMenu": "Zatvori meni"
   },
   "hero": {
-    "badge": "Ускоро — Рани приступ за одабране кориснике",
-    "heading": "Будите пронађени од стране <1>AI претраживача</1>",
-    "headingPrefix": "Будите пронађени од стране ",
-    "headingAccent": "AI претраживача",
-    "subtitle": "Прва платформа направљена за Answer Engine Optimization. Будите цитирани од стране ChatGPT, Perplexity, Gemini и сваког AI претраживача који је битан.",
-    "emailPlaceholder": "Унесите свој имејл",
-    "cta": "Придружите се листи чекања",
-    "joinedCount_one": "{{count}} особа се већ придружила",
-    "joinedCount_other": "{{count}} особа се већ придружило"
+    "badge": "Uskoro — Rani pristup za odabrane korisnike",
+    "heading": "Budite pronađeni od strane <1>AI pretraživača</1>",
+    "headingPrefix": "Budite pronađeni od strane ",
+    "headingAccent": "AI pretraživača",
+    "subtitle": "Prva platforma napravljena za Answer Engine Optimization. Budite citirani od strane ChatGPT, Perplexity, Gemini i svakog AI pretraživača koji je bitan.",
+    "emailPlaceholder": "Unesite svoj imejl",
+    "cta": "Pridružite se listi čekanja",
+    "joinedCount_one": "{{count}} osoba se već pridružila",
+    "joinedCount_other": "{{count}} osoba se već pridružilo",
+    "joinedSuffix": "osoba se već pridružilo"
   },
   "education": {
-    "label": "Едукација",
-    "title": "Шта је Answer Engine Optimization?",
-    "description": "<strong>Answer Engine Optimization (AEO) је пракса оптимизације садржаја сајта да буде изабран, цитиран и приказан од стране AI претраживача.</strong> За разлику од традиционалног SEO који циља странице резултата претраге, AEO се фокусира на то да ваш садржај буде преферирани извор који велики језички модели попут ChatGPT, Perplexity и Google Gemini користе при генерисању одговора.",
-    "descriptionBold": "Answer Engine Optimization (AEO) је пракса оптимизације садржаја сајта да буде изабран, цитиран и приказан од стране AI претраживача.",
-    "descriptionRest": " За разлику од традиционалног SEO који циља странице резултата претраге, AEO се фокусира на то да ваш садржај буде преферирани извор који велики језички модели попут ChatGPT, Perplexity и Google Gemini користе при генерисању одговора.",
-    "comparisonTitle": "AEO у односу на традиционални SEO",
-    "pillarsTitle": "7 стубова AEO"
+    "label": "Edukacija",
+    "title": "Šta je Answer Engine Optimization?",
+    "description": "<strong>Answer Engine Optimization (AEO) je praksa optimizacije sadržaja sajta da bude izabran, citiran i prikazan od strane AI pretraživača.</strong> Za razliku od tradicionalnog SEO koji cilja stranice rezultata pretrage, AEO se fokusira na to da vaš sadržaj bude preferirani izvor koji veliki jezički modeli poput ChatGPT, Perplexity i Google Gemini koriste pri generisanju odgovora.",
+    "descriptionBold": "Answer Engine Optimization (AEO) je praksa optimizacije sadržaja sajta da bude izabran, citiran i prikazan od strane AI pretraživača.",
+    "descriptionRest": " Za razliku od tradicionalnog SEO koji cilja stranice rezultata pretrage, AEO se fokusira na to da vaš sadržaj bude preferirani izvor koji veliki jezički modeli poput ChatGPT, Perplexity i Google Gemini koriste pri generisanju odgovora.",
+    "comparisonTitle": "AEO u odnosu na tradicionalni SEO",
+    "pillarsTitle": "7 stubova AEO"
   },
   "aeoVsSeo": {
     "columns": {
-      "aspect": "Аспект",
-      "seo": "Традиционални SEO",
+      "aspect": "Aspekt",
+      "seo": "Tradicionalni SEO",
       "aeo": "AEO"
     },
     "rows": {
       "0": {
-        "aspect": "Примарни циљ",
-        "seo": "Рангирање у резултатима претраге",
-        "aeo": "Бити цитиран у AI одговорима"
+        "aspect": "Primarni cilj",
+        "seo": "Rangiranje u rezultatima pretrage",
+        "aeo": "Biti citiran u AI odgovorima"
       },
       "1": {
-        "aspect": "Кључна метрика",
-        "seo": "Позиција и стопа клика",
-        "aeo": "Учесталост и тачност цитирања"
+        "aspect": "Ključna metrika",
+        "seo": "Pozicija i stopa klika",
+        "aeo": "Učestalost i tačnost citiranja"
       },
       "2": {
-        "aspect": "Формат садржаја",
-        "seo": "Кључне речи и повратни линкови",
-        "aeo": "Структурирани подаци и директни одговори"
+        "aspect": "Format sadržaja",
+        "seo": "Ključne reči i povratni linkovi",
+        "aeo": "Strukturirani podaci i direktni odgovori"
       },
       "3": {
-        "aspect": "Циљни систем",
-        "seo": "Google, Bing роботи",
-        "aeo": "LLM модели, RAG пајплајни, AI агенти"
+        "aspect": "Ciljni sistem",
+        "seo": "Google, Bing roboti",
+        "aeo": "LLM modeli, RAG pajplajni, AI agenti"
       },
       "4": {
-        "aspect": "Оптимизација",
-        "seo": "Мета ознаке и брзина странице",
-        "aeo": "Schema ознаке и јасноћа ентитета"
+        "aspect": "Optimizacija",
+        "seo": "Meta oznake i brzina stranice",
+        "aeo": "Schema oznake i jasnoća entiteta"
       },
       "5": {
-        "aspect": "Временски оквир",
-        "seo": "Недеље до месеци",
-        "aeo": "Дани до недеља (реиндексирано од стране AI)"
+        "aspect": "Vremenski okvir",
+        "seo": "Nedelje do meseci",
+        "aeo": "Dani do nedelja (reindeksirano od strane AI)"
       }
     }
   },
   "pillars": {
-    "0": "Структурирани подаци и Schema ознаке",
-    "1": "Форматирање директних одговора",
-    "2": "Ауторитет ентитета и E-E-A-T",
-    "3": "Оптимизација за више платформи",
-    "4": "Приступачност за AI роботе",
-    "5": "Свежина и тачност садржаја",
-    "6": "Изградња сигнала цитирања"
+    "0": "Strukturirani podaci i Schema oznake",
+    "1": "Formatiranje direktnih odgovora",
+    "2": "Autoritet entiteta i E-E-A-T",
+    "3": "Optimizacija za više platformi",
+    "4": "Pristupačnost za AI robote",
+    "5": "Svežina i tačnost sadržaja",
+    "6": "Izgradnja signala citiranja"
   },
   "phases": {
-    "sectionLabel": "Путовање",
-    "sectionTitle": "Ваш пут до AI видљивости",
-    "sectionSubtitle": "7 фаза које вас воде од невидљивости до цитирања. Свака фаза се надовезује на претходну — ево шта можете очекивати.",
-    "footer": "<strong>Контролна листа од 99 тачака</strong> вас води кроз сваки задатак у свакој фази.",
-    "footerBold": "Контролна листа од 99 тачака",
+    "sectionLabel": "Putovanje",
+    "sectionTitle": "Vaš put do AI vidljivosti",
+    "sectionSubtitle": "7 faza koje vas vode od nevidljivosti do citiranja. Svaka faza se nadovezuje na prethodnu — evo šta možete očekivati.",
+    "footer": "<strong>Kontrolna lista od 99 tačaka</strong> vas vodi kroz svaki zadatak u svakoj fazi.",
+    "footerBold": "Kontrolna lista od 99 tačaka",
     "footerPrefix": "",
-    "footerSuffix": " вас води кроз сваки задатак у свакој фази.",
+    "footerSuffix": " vas vodi kroz svaki zadatak u svakoj fazi.",
     "0": {
-      "title": "Основа и ревизија",
-      "timeline": "Недеља 1-2",
-      "description": "Ревидирајте постојећи садржај и техничку инфраструктуру. Мапирајте питања, анализирајте конкуренте и утврдите AEO полазну основу.",
-      "visibility": "Знајте где стојите — почетне метрике и идентификоване празнине у садржају"
+      "title": "Osnova i revizija",
+      "timeline": "Nedelja 1-2",
+      "description": "Revidirajte postojeći sadržaj i tehničku infrastrukturu. Mapirajte pitanja, analizirajte konkurente i utvrdite AEO polaznu osnovu.",
+      "visibility": "Znajte gde stojite — početne metrike i identifikovane praznine u sadržaju"
     },
     "1": {
-      "title": "Структурирани подаци и Schema",
-      "timeline": "Недеља 2-4",
-      "description": "Имплементирајте FAQ, HowTo, Article, Product и Organization schema ознаке да бисте учинили садржај машински читљивим.",
-      "visibility": "AI претраживачи сада могу да читају и разумеју структуру вашег садржаја"
+      "title": "Strukturirani podaci i Schema",
+      "timeline": "Nedelja 2-4",
+      "description": "Implementirajte FAQ, HowTo, Article, Product i Organization schema oznake da biste učinili sadržaj mašinski čitljivim.",
+      "visibility": "AI pretraživači sada mogu da čitaju i razumeju strukturu vašeg sadržaja"
     },
     "2": {
-      "title": "Оптимизација садржаја",
-      "timeline": "Недеља 3-8",
-      "description": "Реструктурирајте садржај са параграфима одговора, хијерархијом наслова, табелама поређења и тематским кластерима.",
-      "visibility": "Ваш садржај постаје најбољи могући одговор за AI упите"
+      "title": "Optimizacija sadržaja",
+      "timeline": "Nedelja 3-8",
+      "description": "Restrukturirajte sadržaj sa paragrafima odgovora, hijerarhijom naslova, tabelama poređenja i tematskim klasterima.",
+      "visibility": "Vaš sadržaj postaje najbolji mogući odgovor za AI upite"
     },
     "3": {
-      "title": "Техничко AEO",
-      "timeline": "Недеља 4-6",
-      "description": "Конфигуришите приступ AI ботовима, семантички HTML, RSS фидове, интерно повезивање и мета оптимизацију.",
-      "visibility": "AI роботи могу ефикасно приступити и извући ваш садржај"
+      "title": "Tehničko AEO",
+      "timeline": "Nedelja 4-6",
+      "description": "Konfigurišite pristup AI botovima, semantički HTML, RSS fidove, interno povezivanje i meta optimizaciju.",
+      "visibility": "AI roboti mogu efikasno pristupiti i izvući vaš sadržaj"
     },
     "4": {
-      "title": "Ауторитет и поверење",
-      "timeline": "Недеља 6-12+",
-      "description": "Изградите E-E-A-T сигнале, ауторитативне повратне линкове, Google Business Profile и мреже цитирања.",
-      "visibility": "AI претраживачи верују вашем садржају као кредибилном, ауторитативном извору"
+      "title": "Autoritet i poverenje",
+      "timeline": "Nedelja 6-12+",
+      "description": "Izgradite E-E-A-T signale, autoritativne povratne linkove, Google Business Profile i mreže citiranja.",
+      "visibility": "AI pretraživači veruju vašem sadržaju kao kredibilnom, autoritativnom izvoru"
     },
     "5": {
-      "title": "Тестирање и валидација",
-      "timeline": "Недеља 6-8",
-      "description": "Тестирајте на ChatGPT, Perplexity, Google AI и Bing Copilot. Валидирајте schema и приступачност за роботе.",
-      "visibility": "Верификујте да се појављујете на свим великим AI платформама"
+      "title": "Testiranje i validacija",
+      "timeline": "Nedelja 6-8",
+      "description": "Testirajte na ChatGPT, Perplexity, Google AI i Bing Copilot. Validirajte schema i pristupačnost za robote.",
+      "visibility": "Verifikujte da se pojavljujete na svim velikim AI platformama"
     },
     "6": {
-      "title": "Мониторинг и итерација",
-      "timeline": "Недеља 8+",
-      "description": "Пратите AI цитирања, A/B тестирајте формате одговора, упоредите конкуренте и реоптимизујте месечно.",
-      "visibility": "Континуирано побољшање — останите видљиви док AI претраживачи еволуирају недељно"
+      "title": "Monitoring i iteracija",
+      "timeline": "Nedelja 8+",
+      "description": "Pratite AI citiranja, A/B testirajte formate odgovora, uporedite konkurente i reoptimizujte mesečno.",
+      "visibility": "Kontinuirano poboljšanje — ostanite vidljivi dok AI pretraživači evoluiraju nedeljno"
     }
   },
   "features": {
-    "sectionLabel": "Шта добијате",
-    "sectionTitle": "Направљено за AEO од основа",
-    "sectionSubtitle": "Све што вам треба за оптимизацију, тестирање и праћење ваше AI видљивости у претрази — на једној платформи.",
+    "sectionLabel": "Šta dobijate",
+    "sectionTitle": "Napravljeno za AEO od osnova",
+    "sectionSubtitle": "Sve što vam treba za optimizaciju, testiranje i praćenje vaše AI vidljivosti u pretrazi — na jednoj platformi.",
     "0": {
-      "title": "Контролна листа од 99 тачака за AEO",
-      "description": "Задаци фаза по фазу који покривају сваки аспект AEO — од schema ознака до структуре садржаја до приступа AI робота."
+      "title": "Kontrolna lista od 99 tačaka za AEO",
+      "description": "Zadaci faza po fazu koji pokrivaju svaki aspekt AEO — od schema oznaka do strukture sadržaja do pristupa AI robota."
     },
     "1": {
-      "title": "AI анализатор сајта",
-      "description": "Унесите било који URL и добијте тренутни AEO резултат спремности са практичним препорукама."
+      "title": "AI analizator sajta",
+      "description": "Unesite bilo koji URL i dobijte trenutni AEO rezultat spremnosti sa praktičnim preporukama."
     },
     "2": {
-      "title": "Лабораторија за тестирање на више претраживача",
-      "description": "Тестирајте како се ваш садржај приказује на ChatGPT, Perplexity, Claude и Gemini истовремено."
+      "title": "Laboratorija za testiranje na više pretraživača",
+      "description": "Testirajte kako se vaš sadržaj prikazuje na ChatGPT, Perplexity, Claude i Gemini istovremeno."
     },
     "3": {
-      "title": "AI писац садржаја",
-      "description": "Генеришите AEO-оптимизован садржај са структурираним подацима и форматирањем директних одговора."
+      "title": "AI pisac sadržaja",
+      "description": "Generišite AEO-optimizovan sadržaj sa strukturiranim podacima i formatiranjem direktnih odgovora."
     },
     "4": {
-      "title": "Schema генератор",
-      "description": "Генератор ознака са кликом за FAQ, HowTo, Article и друго — без потребе за кодирањем."
+      "title": "Schema generator",
+      "description": "Generator oznaka sa klikom za FAQ, HowTo, Article i drugo — bez potrebe za kodiranjem."
     },
     "5": {
-      "title": "Мониторинг и упозорења",
-      "description": "Пратите промене AI цитирања током времена и добијајте упозорења када се ваша видљивост промени."
+      "title": "Monitoring i upozorenja",
+      "description": "Pratite promene AI citiranja tokom vremena i dobijajte upozorenja kada se vaša vidljivost promeni."
     }
   },
   "faq": {
     "sectionLabel": "FAQ",
-    "sectionTitle": "Често постављана питања",
+    "sectionTitle": "Često postavljana pitanja",
     "0": {
-      "question": "Шта је Answer Engine Optimization (AEO)?",
-      "answer": "Answer Engine Optimization је пракса оптимизације садржаја сајта да буде цитиран од стране AI претраживача попут ChatGPT, Perplexity, Google AI Overviews и Bing Copilot. За разлику од традиционалног SEO који циља рангирање у претрази, AEO се фокусира на структуриране податке, форматирање директних одговора и ауторитет ентитета како би обезбедио да AI системи користе ваш садржај као референцу."
+      "question": "Šta je Answer Engine Optimization (AEO)?",
+      "answer": "Answer Engine Optimization je praksa optimizacije sadržaja sajta da bude citiran od strane AI pretraživača poput ChatGPT, Perplexity, Google AI Overviews i Bing Copilot. Za razliku od tradicionalnog SEO koji cilja rangiranje u pretrazi, AEO se fokusira na strukturirane podatke, formatiranje direktnih odgovora i autoritet entiteta kako bi obezbedio da AI sistemi koriste vaš sadržaj kao referencu."
     },
     "1": {
-      "question": "Како се AEO разликује од традиционалног SEO?",
-      "answer": "Док SEO оптимизује за рангирање у претраживачима и стопе клика, AEO оптимизује за AI цитирање и укључивање у генерисане одговоре. AEO наглашава schema ознаке, концизно форматирање одговора, јасноћу ентитета и E-E-A-T сигнале који помажу великим језичким моделима да идентификују и цитирају ауторитативне изворе."
+      "question": "Kako se AEO razlikuje od tradicionalnog SEO?",
+      "answer": "Dok SEO optimizuje za rangiranje u pretraživačima i stope klika, AEO optimizuje za AI citiranje i uključivanje u generisane odgovore. AEO naglašava schema oznake, koncizno formatiranje odgovora, jasnoću entiteta i E-E-A-T signale koji pomažu velikim jezičkim modelima da identifikuju i citiraju autoritativne izvore."
     },
     "2": {
-      "question": "За кога је направљен AEO Dashboard?",
-      "answer": "AEO Dashboard је направљен за агенције, SEO професионалце и дигиталне маркетаре који желе да обезбеде будућност онлајн видљивости својих клијената. Без обзира да ли управљате једним сајтом или стотинама, платформа се скалира са вама."
+      "question": "Za koga je napravljen AEO Dashboard?",
+      "answer": "AEO Dashboard je napravljen za agencije, SEO profesionalce i digitalne marketare koji žele da obezbede budućnost onlajn vidljivosti svojih klijenata. Bez obzira da li upravljate jednim sajtom ili stotinama, platforma se skalira sa vama."
     },
     "3": {
-      "question": "Када ће AEO Dashboard бити лансиран?",
-      "answer": "Тренутно смо у завршним фазама развоја. Придружите се листи чекања да бисте били обавештени чим лансирамо. Такође ћемо одабрати малу групу корисника за рани приступ да испробају платформу пре јавног издања."
+      "question": "Kada će AEO Dashboard biti lansiran?",
+      "answer": "Trenutno smo u završnim fazama razvoja. Pridružite se listi čekanja da biste bili obavešteni čim lansiramo. Takođe ćemo odabrati malu grupu korisnika za rani pristup da isprobaju platformu pre javnog izdanja."
     }
   },
   "earlyAccess": {
-    "title": "Желите рани приступ?",
-    "description": "Пре лансирања, одабраној групи раних подржаваоца дајемо приступ комплетној платформи. Придружите се листи чекања за шансу да будете међу првима који ће испробати AEO Dashboard — и помогните да обликујемо производ својим повратним информацијама.",
+    "title": "Želite rani pristup?",
+    "description": "Pre lansiranja, odabranoj grupi ranih podržavaoca dajemo pristup kompletnoj platformi. Pridružite se listi čekanja za šansu da budete među prvima koji će isprobati AEO Dashboard — i pomognite da oblikujemo proizvod svojim povratnim informacijama.",
     "benefits": {
-      "0": "Комплетан приступ платформи пре лансирања",
-      "1": "Директна линија до оснивачког тима",
-      "2": "Помозите да обликујете производ повратним информацијама",
-      "3": "Бесплатан приступ током раног периода"
+      "0": "Kompletan pristup platformi pre lansiranja",
+      "1": "Direktna linija do osnivačkog tima",
+      "2": "Pomozite da oblikujete proizvod povratnim informacijama",
+      "3": "Besplatan pristup tokom ranog perioda"
     },
-    "emailPlaceholder": "Унесите свој имејл",
-    "cta": "Придружите се листи чекања",
-    "note": "Одабраћемо ~10 корисника за рани приступ са листе чекања и лично им се обратити."
+    "emailPlaceholder": "Unesite svoj imejl",
+    "cta": "Pridružite se listi čekanja",
+    "note": "Odabraćemo ~10 korisnika za rani pristup sa liste čekanja i lično im se obratiti."
   },
   "footer": {
-    "brandDescription": "Комплетан алат за Answer Engine Optimization.",
+    "brandDescription": "Kompletan alat za Answer Engine Optimization.",
     "columns": {
       "0": {
-        "title": "Производ",
+        "title": "Proizvod",
         "links": {
-          "0": "Шта је AEO?",
-          "1": "Фазе",
-          "2": "Функције",
+          "0": "Šta je AEO?",
+          "1": "Faze",
+          "2": "Funkcije",
           "3": "FAQ"
         }
       },
       "1": {
-        "title": "Компанија",
+        "title": "Kompanija",
         "links": {
-          "0": "О нама",
-          "1": "Блог",
-          "2": "Контакт",
-          "3": "Политика приватности"
+          "0": "O nama",
+          "1": "Blog",
+          "2": "Kontakt",
+          "3": "Politika privatnosti"
         }
       }
     },
-    "copyright": "\u00a9 {{year}} AEO Dashboard. Сва права задржана."
+    "copyright": "© {{year}} AEO Dashboard. Sva prava zadržana."
   },
   "success": {
-    "titleNew": "На листи сте!",
-    "titleExisting": "Већ сте на листи!",
-    "messageNew": "Обавестићемо вас чим AEO Dashboard буде лансиран. Пратите нас!",
-    "messageExisting": "Већ имамо ваш имејл. Обавестићемо вас када лансирамо.",
-    "position": "#{{count}} на листи чекања",
-    "shareOnX": "Поделите на X",
+    "titleNew": "Na listi ste!",
+    "titleExisting": "Već ste na listi!",
+    "messageNew": "Obavestićemo vas čim AEO Dashboard bude lansiran. Pratite nas!",
+    "messageExisting": "Već imamo vaš imejl. Obavestićemo vas kada lansiramo.",
+    "position": "#{{count}} na listi čekanja",
+    "shareOnX": "Podelite na X",
     "shareOnLinkedIn": "LinkedIn",
-    "copyLink": "Копирај линк",
-    "copied": "Копирано!",
-    "close": "Затвори",
-    "shareText": "Управо сам се придружио/ла листи чекања за AEO Dashboard — прву платформу направљену за Answer Engine Optimization. Обезбедите рани приступ:"
+    "copyLink": "Kopiraj link",
+    "copied": "Kopirano!",
+    "close": "Zatvori",
+    "shareText": "Upravo sam se pridružio/la listi čekanja za AEO Dashboard — prvu platformu napravljenu za Answer Engine Optimization. Obezbedite rani pristup:"
   }
 }

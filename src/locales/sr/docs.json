@@ -1,321 +1,321 @@
 {
-  "title": "Документација и помоћ",
-  "subtitle": "Научите како да користите сваку алатку и разумете најбоље AEO праксе.",
-  "searchPlaceholder": "Претражите документацију...",
-  "searchFeatures": "Претражите функције...",
-  "searchQuestions": "Претражите питања...",
-  "allPhases": "Све фазе",
-  "noResults": "Нема одговарајућих резултата",
-  "noResultsDesc": "Покушајте да прилагодите претрагу или филтер фазе да бисте пронашли оно што тражите.",
-  "noMatchingFeatures": "Није пронађена ниједна одговарајућа функција",
-  "noMatchingQuestions": "Нема одговарајућих питања",
-  "tryDifferentSearch": "Покушајте са другим термином за претрагу.",
-  "showingDocs": "Приказано {{shown}} од {{total}} докумената",
-  "phase": "Фаза",
-  "doc": "документ",
-  "docs": "документи",
-  "open": "Отвори",
+  "title": "Dokumentacija i pomoć",
+  "subtitle": "Naučite kako da koristite svaku alatku i razumete najbolje AEO prakse.",
+  "searchPlaceholder": "Pretražite dokumentaciju...",
+  "searchFeatures": "Pretražite funkcije...",
+  "searchQuestions": "Pretražite pitanja...",
+  "allPhases": "Sve faze",
+  "noResults": "Nema odgovarajućih rezultata",
+  "noResultsDesc": "Pokušajte da prilagodite pretragu ili filter faze da biste pronašli ono što tražite.",
+  "noMatchingFeatures": "Nije pronađena nijedna odgovarajuća funkcija",
+  "noMatchingQuestions": "Nema odgovarajućih pitanja",
+  "tryDifferentSearch": "Pokušajte sa drugim terminom za pretragu.",
+  "showingDocs": "Prikazano {{shown}} od {{total}} dokumenata",
+  "phase": "Faza",
+  "doc": "dokument",
+  "docs": "dokumenti",
+  "open": "Otvori",
   "tabs": {
-    "guide": "Водич за апликацију",
-    "reference": "AEO референца",
+    "guide": "Vodič za aplikaciju",
+    "reference": "AEO referenca",
     "faq": "FAQ"
   },
   "sections": {
     "getting-started": {
-      "title": "Почетак",
-      "description": "Све што треба да знате да бисте почели ефикасно да користите AEO Dashboard.",
+      "title": "Početak",
+      "description": "Sve što treba da znate da biste počeli efikasno da koristite AEO Dashboard.",
       "items": [
         {
-          "title": "Шта је AEO Dashboard?",
-          "body": "AEO Dashboard је свеобухватна платформа за Answer Engine Optimization која вам помаже да оптимизујете свој сајт тако да се појављује у AI генерисаним одговорима — од ChatGPT и Google AI Overviews до Perplexity, Bing Copilot и других AI асистената. Уместо да само рангирате у традиционалним резултатима претраге, AEO осигурава да ваш садржај буде цитиран и референциран од стране AI система."
+          "title": "Šta je AEO Dashboard?",
+          "body": "AEO Dashboard je sveobuhvatna platforma za Answer Engine Optimization koja vam pomaže da optimizujete svoj sajt tako da se pojavljuje u AI generisanim odgovorima — od ChatGPT i Google AI Overviews do Perplexity, Bing Copilot i drugih AI asistenata. Umesto da samo rangirate u tradicionalnim rezultatima pretrage, AEO osigurava da vaš sadržaj bude citiran i referenciran od strane AI sistema."
         },
         {
-          "title": "Шта је Answer Engine Optimization (AEO)?",
-          "body": "AEO је пракса оптимизације вашег садржаја тако да AI претраживачи и асистенти користе ваш сајт као извор приликом генерисања одговора. Ово укључује оптимизацију структурираних података, ауторитета садржаја, препознавања ентитета, техничког SEO-а и још много тога. То је еволуција традиционалног SEO-а за еру вештачке интелигенције."
+          "title": "Šta je Answer Engine Optimization (AEO)?",
+          "body": "AEO je praksa optimizacije vašeg sadržaja tako da AI pretraživači i asistenti koriste vaš sajt kao izvor prilikom generisanja odgovora. Ovo uključuje optimizaciju strukturiranih podataka, autoriteta sadržaja, prepoznavanja entiteta, tehničkog SEO-a i još mnogo toga. To je evolucija tradicionalnog SEO-a za eru veštačke inteligencije."
         },
         {
-          "title": "Како функционише контролна табла",
-          "body": "Ваша контролна табла пружа преглед високог нивоа ваших AEO перформанси — напредак контролне листе кроз 7 фаза, кључне метрике на први поглед и брз приступ свим алаткама. Замислите је као ваш командни центар за AEO оптимизацију. Кружни индикатор напретка приказује вашу укупну завршеност, док разбијање по фазама помаже да идентификујете на шта да се фокусирате следеће."
+          "title": "Kako funkcioniše kontrolna tabla",
+          "body": "Vaša kontrolna tabla pruža pregled visokog nivoa vaših AEO performansi — napredak kontrolne liste kroz 7 faza, ključne metrike na prvi pogled i brz pristup svim alatkama. Zamislite je kao vaš komandni centar za AEO optimizaciju. Kružni indikator napretka prikazuje vašu ukupnu završenost, dok razbijanje po fazama pomaže da identifikujete na šta da se fokusirate sledeće."
         },
         {
-          "title": "Навигација кроз апликацију",
-          "body": "Користите бочну траку за пребацивање између алатки. Свака алатка служи одређеној сврси у вашем AEO радном процесу. Такође можете користити пречице на тастатури (\u2318+1 до \u2318+9) за брзо пребацивање између приказа, или притисните \u2318+K да отворите командну палету за брзу навигацију и акције. Бочна трака се може сакрити на мобилном уређају тапкањем ван ње."
+          "title": "Navigacija kroz aplikaciju",
+          "body": "Koristite bočnu traku za prebacivanje između alatki. Svaka alatka služi određenoj svrsi u vašem AEO radnom procesu. Takođe možete koristiti prečice na tastaturi (⌘+1 do ⌘+9) za brzo prebacivanje između prikaza, ili pritisnite ⌘+K da otvorite komandnu paletu za brzu navigaciju i akcije. Bočna traka se može sakriti na mobilnom uređaju tapkanjem van nje."
         },
         {
-          "title": "Пројекти и радни простори",
-          "body": "Сваки пројекат представља сајт или домен који оптимизујете. Можете креирати више пројеката из бочне траке, сваки са сопственим напретком контролне листе, подешавањима и подацима. Чланови тима могу бити позвани да сарађују на пројектима са дозволама заснованим на улогама (Власник, Администратор, Уредник, Прегледач)."
+          "title": "Projekti i radni prostori",
+          "body": "Svaki projekat predstavlja sajt ili domen koji optimizujete. Možete kreirati više projekata iz bočne trake, svaki sa sopstvenim napretkom kontrolne liste, podešavanjima i podacima. Članovi tima mogu biti pozvani da sarađuju na projektima sa dozvolama zasnovanim na ulogama (Vlasnik, Administrator, Urednik, Pregledač)."
         }
       ]
     },
     "aeo-guide": {
-      "title": "AEO водич",
-      "description": "Ваша мапа пута корак по корак кроз свих 7 фаза Answer Engine Optimization.",
+      "title": "AEO vodič",
+      "description": "Vaša mapa puta korak po korak kroz svih 7 faza Answer Engine Optimization.",
       "items": [
         {
-          "title": "7 фаза AEO-а",
-          "body": "AEO водич организује оптимизацију у 7 прогресивних фаза: (1) Техничка основа — могућност индексирања, брзина сајта, безбедност; (2) Schema и структурирани подаци — JSON-LD ознаке за AI разумевање; (3) Ауторитет садржаја — успостављање стручности и сигнала поверења; (4) AI откривљивост — чињење вашег садржаја проналазивим од стране AI претраживача; (5) Бренд и ентитет — изградња вашег ентитетског отиска; (6) Тестирање и валидација — верификација да ваше оптимизације функционишу; (7) Мониторинг и итерација — праћење перформанси и итерирање."
+          "title": "7 faza AEO-a",
+          "body": "AEO vodič organizuje optimizaciju u 7 progresivnih faza: (1) Tehnička osnova — mogućnost indeksiranja, brzina sajta, bezbednost; (2) Schema i strukturirani podaci — JSON-LD oznake za AI razumevanje; (3) Autoritet sadržaja — uspostavljanje stručnosti i signala poverenja; (4) AI otkrivljivost — činjenje vašeg sadržaja pronalazivim od strane AI pretraživača; (5) Brend i entitet — izgradnja vašeg entitetskog otiska; (6) Testiranje i validacija — verifikacija da vaše optimizacije funkcionišu; (7) Monitoring i iteracija — praćenje performansi i iteriranje."
         },
         {
-          "title": "Ставке контролне листе",
-          "body": "Свака фаза садржи категоризоване задатке. Штиклирајте ставке како их завршавате — ваш напредак се аутоматски чува. Свака ставка има детаљан опис, дугме \"Сазнај више\" које отвара свеобухватну документацију и дугме за акцију које вас води директно до релевантне алатке у апликацији. Ставке са обојеним дугмадима за акцију могу се завршити директно унутар апликације."
+          "title": "Stavke kontrolne liste",
+          "body": "Svaka faza sadrži kategorizovane zadatke. Štiklirajte stavke kako ih završavate — vaš napredak se automatski čuva. Svaka stavka ima detaljan opis, dugme \"Saznaj više\" koje otvara sveobuhvatnu dokumentaciju i dugme za akciju koje vas vodi direktno do relevantne alatke u aplikaciji. Stavke sa obojenim dugmadima za akciju mogu se završiti direktno unutar aplikacije."
         },
         {
-          "title": "Паметна приоритизација",
-          "body": "Када први пут подесите пројекат, упитник одређује која фаза се подразумевано отвара на основу ваше тренутне AEO зрелости. На пример, ако нисте имплементирали структуриране податке, Фаза 2 се отвара прва. Ово вам помаже да се фокусирате на задатке са највећим утицајем за вашу ситуацију."
+          "title": "Pametna prioritizacija",
+          "body": "Kada prvi put podesite projekat, upitnik određuje koja faza se podrazumevano otvara na osnovu vaše trenutne AEO zrelosti. Na primer, ako niste implementirali strukturirane podatke, Faza 2 se otvara prva. Ovo vam pomaže da se fokusirate na zadatke sa najvećim uticajem za vašu situaciju."
         },
         {
-          "title": "Коментари и сарадња",
-          "body": "Свака ставка контролне листе има нит коментара — пређите мишем преко било ког задатка да бисте видели иконицу коментара. Чланови тима могу дискутовати о детаљима имплементације, делити белешке и координирати рад директно на сваком задатку. Коментари укључују временске ознаке и информације о аутору за тимско праћење."
+          "title": "Komentari i saradnja",
+          "body": "Svaka stavka kontrolne liste ima nit komentara — pređite mišem preko bilo kog zadatka da biste videli ikonicu komentara. Članovi tima mogu diskutovati o detaljima implementacije, deliti beleške i koordinirati rad direktno na svakom zadatku. Komentari uključuju vremenske oznake i informacije o autoru za timsko praćenje."
         }
       ]
     },
     "geo-guide": {
-      "title": "GEO водич",
-      "description": "Generative Engine Optimization — истраживањем поткрепљена дисциплина за максимизирање вероватноће AI цитирања.",
+      "title": "GEO vodič",
+      "description": "Generative Engine Optimization — istraživanjem potkrepljena disciplina za maksimiziranje verovatnoće AI citiranja.",
       "items": [
         {
-          "title": "Шта је Generative Engine Optimization (GEO)?",
-          "body": "GEO (Generative Engine Optimization) је истраживањем поткрепљена дисциплина фокусирана на оптимизацију садржаја да буде цитиран од стране генеративних AI система — ChatGPT, Perplexity, Google AI Overviews и Bing Copilot. Првобитно описана у студији Princeton/Georgia Tech из 2023. године, GEO идентификује специфичне, мерљиве технике за побољшање стопе AI цитирања: интеграција статистика, додавање стручних цитата, оптимизација течности текста и корекција пристрасности позиције. AEO Dashboard интегрише GEO технике кроз целу своју контролну листу од 7 фаза."
+          "title": "Šta je Generative Engine Optimization (GEO)?",
+          "body": "GEO (Generative Engine Optimization) je istraživanjem potkrepljena disciplina fokusirana na optimizaciju sadržaja da bude citiran od strane generativnih AI sistema — ChatGPT, Perplexity, Google AI Overviews i Bing Copilot. Prvobitno opisana u studiji Princeton/Georgia Tech iz 2023. godine, GEO identifikuje specifične, merljive tehnike za poboljšanje stope AI citiranja: integracija statistika, dodavanje stručnih citata, optimizacija tečnosti teksta i korekcija pristrasnosti pozicije. AEO Dashboard integriše GEO tehnike kroz celu svoju kontrolnu listu od 7 faza."
         },
         {
-          "title": "GEO наспрам AEO: како се односе",
-          "body": "AEO (Answer Engine Optimization) је шира дисциплина чињења садржаја цитабилним од стране AI претраживача. GEO је прецизни слој изнад AEO-а — користи експериментално валидиране технике изведене из мерења стварних стопа цитирања на генеративним претраживачима. Свака GEO најбоља пракса је валидна AEO техника, али није свака AEO техника формално проучена у GEO оквиру. Замислите GEO као истраживањем валидиран, доказима заснован подскуп AEO-а."
+          "title": "GEO naspram AEO: kako se odnose",
+          "body": "AEO (Answer Engine Optimization) je šira disciplina činjenja sadržaja citabilnim od strane AI pretraživača. GEO je precizni sloj iznad AEO-a — koristi eksperimentalno validirane tehnike izvedene iz merenja stvarnih stopa citiranja na generativnim pretraživačima. Svaka GEO najbolja praksa je validna AEO tehnika, ali nije svaka AEO tehnika formalno proučena u GEO okviru. Zamislite GEO kao istraživanjem validiran, dokazima zasnovan podskup AEO-a."
         },
         {
-          "title": "Врхунске GEO технике по повећању цитирања",
-          "body": "Princeton/Georgia Tech GEO студија је мерила повећање цитирања кроз стратегије оптимизације садржаја. Најуспешније: (1) Интеграција статистика — додавање поткрепљених података повећава вероватноћу цитирања за преко 5,5%; (2) Оптимизација течности — јасне реченице у активном облику са недвосмисленом структуром побољшавају AI екстрактабилност; (3) Додавање цитата — стручни цитати са пуном атрибуцијом значајно повећавају сигнале поверења; (4) Цитирање извора — референцирање ауторитативних екстерних извора корелира са вишим стопама цитирања. Ове технике су интегрисане у Фазу 3 AEO контролне листе."
+          "title": "Vrhunske GEO tehnike po povećanju citiranja",
+          "body": "Princeton/Georgia Tech GEO studija je merila povećanje citiranja kroz strategije optimizacije sadržaja. Najuspešnije: (1) Integracija statistika — dodavanje potkrepljenih podataka povećava verovatnoću citiranja za preko 5,5%; (2) Optimizacija tečnosti — jasne rečenice u aktivnom obliku sa nedvosmislenom strukturom poboljšavaju AI ekstraktabilnost; (3) Dodavanje citata — stručni citati sa punom atribucijom značajno povećavaju signale poverenja; (4) Citiranje izvora — referenciranje autoritativnih eksternih izvora korelira sa višim stopama citiranja. Ove tehnike su integrisane u Fazu 3 AEO kontrolne liste."
         },
         {
-          "title": "GEO анализа јаза у цитирању",
-          "body": "Најважнија GEO дијагностика је јаз у цитирању: разлика између страница које AI претраживачи индексирају и страница које заиста цитирају. AI индексери посећују далеко више страница него што их на крају референцирају у генерисаним одговорима. Идентификовање које од ваших индексираних-али-нецитираних страница спадају у овај јаз — и примена GEO техника да се затвори — представља основни GEO радни процес. Користите приказ Тестирање да измерите стопе цитирања и упоредите их са подацима о AI индексерима из серверских логова."
+          "title": "GEO analiza jaza u citiranju",
+          "body": "Najvažnija GEO dijagnostika je jaz u citiranju: razlika između stranica koje AI pretraživači indeksiraju i stranica koje zaista citiraju. AI indekseri posećuju daleko više stranica nego što ih na kraju referenciraju u generisanim odgovorima. Identifikovanje koje od vaših indeksiranih-ali-necitiranih stranica spadaju u ovaj jaz — i primena GEO tehnika da se zatvori — predstavlja osnovni GEO radni proces. Koristite prikaz Testiranje da izmerite stope citiranja i uporedite ih sa podacima o AI indekserima iz serverskih logova."
         }
       ]
     },
     "competitors": {
-      "title": "Конкуренти",
-      "description": "Анализирајте и пратите AEO стратегије конкурената.",
+      "title": "Konkurenti",
+      "description": "Analizirajte i pratite AEO strategije konkurenata.",
       "items": [
         {
-          "title": "Праћење конкурената",
-          "body": "Додајте домене конкурената да бисте пратили њихове AEO перформансе заједно са вашим. Приказ конкурената вам омогућава да упоредите имплементацију структурираних података, стратегије садржаја и AI видљивост једне поред других. Ово помаже да идентификујете празнине у вашој стратегији и прилике које су ваши конкуренти можда пропустили."
+          "title": "Praćenje konkurenata",
+          "body": "Dodajte domene konkurenata da biste pratili njihove AEO performanse zajedno sa vašim. Prikaz konkurenata vam omogućava da uporedite implementaciju strukturiranih podataka, strategije sadržaja i AI vidljivost jedne pored drugih. Ovo pomaže da identifikujete praznine u vašoj strategiji i prilike koje su vaši konkurenti možda propustili."
         },
         {
-          "title": "Додавање конкурената",
-          "body": "Унесите URL-ове конкурената да бисте почели да их пратите. Систем анализира њихове schema ознаке, структуру садржаја и техничке SEO сигнале. Можете пратити више конкурената по пројекту и уклонити их у било ком тренутку."
+          "title": "Dodavanje konkurenata",
+          "body": "Unesite URL-ove konkurenata da biste počeli da ih pratite. Sistem analizira njihove schema oznake, strukturu sadržaja i tehničke SEO signale. Možete pratiti više konkurenata po projektu i ukloniti ih u bilo kom trenutku."
         }
       ]
     },
     "analyzer": {
-      "title": "Анализатор",
-      "description": "Анализирајте било који URL за AEO спремност и добијте практичне препоруке.",
+      "title": "Analizator",
+      "description": "Analizirajte bilo koji URL za AEO spremnost i dobijte praktične preporuke.",
       "items": [
         {
-          "title": "Како функционише анализатор",
-          "body": "Унесите било који URL и анализатор га скенира за AEO спремност. Проверава структуриране податке, сигнале квалитета садржаја, факторе техничког SEO-а, структуру наслова, мета ознаке и још много тога. Резултати се приказују као резултат са детаљним препорукама за побољшање."
+          "title": "Kako funkcioniše analizator",
+          "body": "Unesite bilo koji URL i analizator ga skenira za AEO spremnost. Proverava strukturirane podatke, signale kvaliteta sadržaja, faktore tehničkog SEO-a, strukturu naslova, meta oznake i još mnogo toga. Rezultati se prikazuju kao rezultat sa detaljnim preporukama za poboljšanje."
         },
         {
-          "title": "Разумевање резултата",
-          "body": "Анализа се разбија по категоријама: покривеност структурираним подацима, сигнали ауторитета садржаја, техничка основа и фактори AI откривљивости. Свака категорија приказује шта добро функционише (зелено), шта захтева пажњу (жуто) и критичне проблеме (црвено). Акциони задаци су приоритизовани по утицају."
+          "title": "Razumevanje rezultata",
+          "body": "Analiza se razbija po kategorijama: pokrivenost strukturiranim podacima, signali autoriteta sadržaja, tehnička osnova i faktori AI otkrivljivosti. Svaka kategorija prikazuje šta dobro funkcioniše (zeleno), šta zahteva pažnju (žuto) i kritične probleme (crveno). Akcioni zadaci su prioritizovani po uticaju."
         },
         {
-          "title": "Када га користити",
-          "body": "Покрените анализатор када почињете нови пројекат, након значајних промена садржаја или када проверавате одређене странице за AEO усклађеност. Посебно је користан за ревизију појединачних страница у односу на захтеве AEO контролне листе."
+          "title": "Kada ga koristiti",
+          "body": "Pokrenite analizator kada počinjete novi projekat, nakon značajnih promena sadržaja ili kada proveravate određene stranice za AEO usklađenost. Posebno je koristan za reviziju pojedinačnih stranica u odnosu na zahteve AEO kontrolne liste."
         }
       ]
     },
     "writer": {
-      "title": "Писац садржаја",
-      "description": "AI-покретано креирање садржаја оптимизовано за видљивост на Answer Engine претраживачима.",
+      "title": "Pisac sadržaja",
+      "description": "AI-pokretano kreiranje sadržaja optimizovano za vidljivost na Answer Engine pretraživačima.",
       "items": [
         {
-          "title": "AI генерисање садржаја",
-          "body": "Писац садржаја вам помаже да креирате AEO-оптимизован садржај користећи AI. Генерише садржај који је структуриран за AI разумевање — са јасним насловима, концизним одговорима на вероватна питања и правилним форматирањем које AI претраживачи преферирају приликом проналажења информација."
+          "title": "AI generisanje sadržaja",
+          "body": "Pisac sadržaja vam pomaže da kreirate AEO-optimizovan sadržaj koristeći AI. Generiše sadržaj koji je strukturiran za AI razumevanje — sa jasnim naslovima, konciznim odgovorima na verovatna pitanja i pravilnim formatiranjem koje AI pretraživači preferiraju prilikom pronalaženja informacija."
         },
         {
-          "title": "Шаблони садржаја",
-          "body": "Изаберите из шаблона дизајнираних за различите типове садржаја: FAQ странице, упутства, описе производа, упоредне чланке и још много тога. Сваки шаблон је структуриран да максимизира шансу да будете цитирани од стране AI асистената."
+          "title": "Šabloni sadržaja",
+          "body": "Izaberite iz šablona dizajniranih za različite tipove sadržaja: FAQ stranice, uputstva, opise proizvoda, uporedne članke i još mnogo toga. Svaki šablon je strukturiran da maksimizira šansu da budete citirani od strane AI asistenata."
         },
         {
-          "title": "Савети за оптимизацију",
-          "body": "Писац укључује предлоге у реалном времену за побољшање AI видљивости: јасноћа реченица, спремност за одговоре, помињање ентитета и фактичка прецизност. Садржај који је јасан, концизан и ауторитативан најбоље функционише са AI системима."
+          "title": "Saveti za optimizaciju",
+          "body": "Pisac uključuje predloge u realnom vremenu za poboljšanje AI vidljivosti: jasnoća rečenica, spremnost za odgovore, pominjanje entiteta i faktička preciznost. Sadržaj koji je jasan, koncizan i autoritativan najbolje funkcioniše sa AI sistemima."
         }
       ]
     },
     "content-ops": {
-      "title": "Операције садржаја",
-      "description": "Планирајте и управљајте операцијама садржаја и процесом објављивања.",
+      "title": "Operacije sadržaja",
+      "description": "Planirajte i upravljajte operacijama sadržaja i procesom objavljivanja.",
       "items": [
         {
-          "title": "Календар садржаја",
-          "body": "Операције садржаја пружају радни простор за управљање и планирање садржаја. Организујте свој процес садржаја, пратите шта треба креирати или ажурирати и осигурајте доследно објављивање. Ово помаже у одржавању сигнала свежине садржаја које AI претраживачи вреднују."
+          "title": "Kalendar sadržaja",
+          "body": "Operacije sadržaja pružaju radni prostor za upravljanje i planiranje sadržaja. Organizujte svoj proces sadržaja, pratite šta treba kreirati ili ažurirati i osigurajte dosledno objavljivanje. Ovo pomaže u održavanju signala svežine sadržaja koje AI pretraživači vrednuju."
         },
         {
-          "title": "Управљање радним процесом",
-          "body": "Пратите садржај кроз фазе од идеје до објављивања. Доделите задатке садржаја члановима тима, поставите рокове и пратите напредак. Доследан радни процес садржаја осигурава да ваша AEO стратегија остане на правом путу."
+          "title": "Upravljanje radnim procesom",
+          "body": "Pratite sadržaj kroz faze od ideje do objavljivanja. Dodelite zadatke sadržaja članovima tima, postavite rokove i pratite napredak. Dosledan radni proces sadržaja osigurava da vaša AEO strategija ostane na pravom putu."
         }
       ]
     },
     "schema": {
-      "title": "Schema генератор",
-      "description": "Генеришите JSON-LD структуриране податке за AI претраживаче.",
+      "title": "Schema generator",
+      "description": "Generišite JSON-LD strukturirane podatke za AI pretraživače.",
       "items": [
         {
-          "title": "Шта је Schema ознака?",
-          "body": "Schema ознака (структурирани подаци) је JSON-LD код који помаже AI претраживачима да разумеју ваш садржај. Говори AI системима тачно о чему је ваша страница — да ли је то FAQ, производ, чланак, организација или било који други тип ентитета. Ово је један од најважнијих фактора за AI видљивост."
+          "title": "Šta je Schema oznaka?",
+          "body": "Schema oznaka (strukturirani podaci) je JSON-LD kod koji pomaže AI pretraživačima da razumeju vaš sadržaj. Govori AI sistemima tačno o čemu je vaša stranica — da li je to FAQ, proizvod, članak, organizacija ili bilo koji drugi tip entiteta. Ovo je jedan od najvažnijih faktora za AI vidljivost."
         },
         {
-          "title": "Генерисање Schema",
-          "body": "Изаберите тип schema (FAQPage, HowTo, Article, Product, Organization итд.), попуните потребна поља и генератор избацује валидан JSON-LD код спреман за уметање у <head> ознаку вашег сајта. Генератор валидира ваше ознаке у складу са Google захтевима."
+          "title": "Generisanje Schema",
+          "body": "Izaberite tip schema (FAQPage, HowTo, Article, Product, Organization itd.), popunite potrebna polja i generator izbacuje validan JSON-LD kod spreman za umetanje u <head> oznaku vašeg sajta. Generator validira vaše oznake u skladu sa Google zahtevima."
         },
         {
-          "title": "Schema типови за AEO",
-          "body": "Најутицајнији schema типови за AI видљивост: FAQPage (за садржај питања и одговора), HowTo (за упутства), Article (за уреднички садржај), Organization (за идентитет бренда), Product (за е-трговину) и Speakable (означавање садржаја оптимизованог за гласовно/AI читање)."
+          "title": "Schema tipovi za AEO",
+          "body": "Najuticajniji schema tipovi za AI vidljivost: FAQPage (za sadržaj pitanja i odgovora), HowTo (za uputstva), Article (za urednički sadržaj), Organization (za identitet brenda), Product (za e-trgovinu) i Speakable (označavanje sadržaja optimizovanog za glasovno/AI čitanje)."
         }
       ]
     },
     "monitoring": {
-      "title": "Мониторинг",
-      "description": "Мониторинг ваших AEO сигнала перформанси у реалном времену.",
+      "title": "Monitoring",
+      "description": "Monitoring vaših AEO signala performansi u realnom vremenu.",
       "items": [
         {
-          "title": "Мониторинг перформанси",
-          "body": "Таб Мониторинг прати ваше AEO здравље у реалном времену. Прати промене у валидности структурираних података, статусу индексирања садржаја и сигналима техничког здравља. Подесите упозорења да будете обавештени када нешто захтева пажњу."
+          "title": "Monitoring performansi",
+          "body": "Tab Monitoring prati vaše AEO zdravlje u realnom vremenu. Prati promene u validnosti strukturiranih podataka, statusu indeksiranja sadržaja i signalima tehničkog zdravlja. Podesite upozorenja da budete obavešteni kada nešto zahteva pažnju."
         },
         {
-          "title": "Шта се прати",
-          "body": "Мониторинг покрива: статус валидације schema, перформансе учитавања страница, грешке индексирања, статус индексирања, промене садржаја и кретања конкурената. Контролна табла истиче најкритичније ставке тако да можете брзо реаговати на проблеме."
+          "title": "Šta se prati",
+          "body": "Monitoring pokriva: status validacije schema, performanse učitavanja stranica, greške indeksiranja, status indeksiranja, promene sadržaja i kretanja konkurenata. Kontrolna tabla ističe najkritičnije stavke tako da možete brzo reagovati na probleme."
         }
       ]
     },
     "metrics": {
-      "title": "Метрике",
-      "description": "Детаљна аналитика и метрике перформанси за ваше AEO напоре.",
+      "title": "Metrike",
+      "description": "Detaljna analitika i metrike performansi za vaše AEO napore.",
       "items": [
         {
-          "title": "Преглед AEO метрика",
-          "body": "Таб Метрике пружа детаљну аналитику о вашим AEO перформансама током времена. Пратите трендове у AI цитирањима, појављивањима у одговорима, стопама кликања са AI површина и укупним резултатима видљивости. Користите бирач опсега датума за преглед различитих временских периода."
+          "title": "Pregled AEO metrika",
+          "body": "Tab Metrike pruža detaljnu analitiku o vašim AEO performansama tokom vremena. Pratite trendove u AI citiranjima, pojavljivanjima u odgovorima, stopama klikanja sa AI površina i ukupnim rezultatima vidljivosti. Koristite birač opsega datuma za pregled različitih vremenskih perioda."
         },
         {
-          "title": "Кључне метрике за праћење",
-          "body": "Фокусирајте се на: стопу AI цитирања (колико често AI претраживачи референцирају ваш садржај), стопу појављивања у одговорима (колико често се појављујете у AI генерисаним одговорима), покривеност структурираним подацима (проценат страница са валидном schema) и резултат ауторитета садржаја (агрегатни сигнали поверења)."
+          "title": "Ključne metrike za praćenje",
+          "body": "Fokusirajte se na: stopu AI citiranja (koliko često AI pretraživači referenciraju vaš sadržaj), stopu pojavljivanja u odgovorima (koliko često se pojavljujete u AI generisanim odgovorima), pokrivenost strukturiranim podacima (procenat stranica sa validnom schema) i rezultat autoriteta sadržaja (agregatni signali poverenja)."
         }
       ]
     },
     "gsc": {
       "title": "Search Console",
-      "description": "Интеграција са Google Search Console за податке о перформансама претраге.",
+      "description": "Integracija sa Google Search Console za podatke o performansama pretrage.",
       "items": [
         {
-          "title": "Интеграција са Search Console",
-          "body": "Повежите свој Google Search Console налог да бисте преузели стварне податке о перформансама претраге. Ово приказује како ваше странице перформирају у Google резултатима претраге — приказивања, кликови, CTR и просечна позиција. Ови подаци вам помажу да разумете које странице Google AI системи проналазе."
+          "title": "Integracija sa Search Console",
+          "body": "Povežite svoj Google Search Console nalog da biste preuzeli stvarne podatke o performansama pretrage. Ovo prikazuje kako vaše stranice performiraju u Google rezultatima pretrage — prikazivanja, klikovi, CTR i prosečna pozicija. Ovi podaci vam pomažu da razumete koje stranice Google AI sistemi pronalaze."
         },
         {
-          "title": "Повезивање налога",
-          "body": "Идите у Подешавања да повежете своје Google Search Console својство. Када се повежете, подаци аутоматски теку у таб Search Console. Видећете податке на нивоу упита који показују тачно који термини претраге доводе саобраћај на ваш сајт."
+          "title": "Povezivanje naloga",
+          "body": "Idite u Podešavanja da povežete svoje Google Search Console svojstvo. Kada se povežete, podaci automatski teku u tab Search Console. Videćete podatke na nivou upita koji pokazuju tačno koji termini pretrage dovode saobraćaj na vaš sajt."
         }
       ]
     },
     "ga4": {
-      "title": "AI саобраћај",
-      "description": "Пратите саобраћај који долази специфично од AI претраживача и асистената.",
+      "title": "AI saobraćaj",
+      "description": "Pratite saobraćaj koji dolazi specifično od AI pretraživača i asistenata.",
       "items": [
         {
-          "title": "Праћење AI саобраћаја",
-          "body": "Таб AI саобраћај (GA4 интеграција) специфично прати посетиоце који долазе са AI извора: ChatGPT, Google AI Overviews, Perplexity, Bing Copilot, Claude и других AI асистената. Ово је најдиректнија мера вашег AEO успеха."
+          "title": "Praćenje AI saobraćaja",
+          "body": "Tab AI saobraćaj (GA4 integracija) specifično prati posetioce koji dolaze sa AI izvora: ChatGPT, Google AI Overviews, Perplexity, Bing Copilot, Claude i drugih AI asistenata. Ovo je najdirektnija mera vašeg AEO uspeha."
         },
         {
-          "title": "Подешавање праћења",
-          "body": "Повежите своје Google Analytics 4 својство у Подешавањима. Систем аутоматски идентификује AI препоручени саобраћај користећи познате обрасце AI претраживача. Ово раздваја AI-покретани саобраћај од традиционалног органског саобраћаја претраге."
+          "title": "Podešavanje praćenja",
+          "body": "Povežite svoje Google Analytics 4 svojstvo u Podešavanjima. Sistem automatski identifikuje AI preporučeni saobraćaj koristeći poznate obrasce AI pretraživača. Ovo razdvaja AI-pokretani saobraćaj od tradicionalnog organskog saobraćaja pretrage."
         }
       ]
     },
     "aeo-impact": {
-      "title": "AEO утицај",
-      "description": "Измерите пословни утицај ваших AEO напора оптимизације.",
+      "title": "AEO uticaj",
+      "description": "Izmerite poslovni uticaj vaših AEO napora optimizacije.",
       "items": [
         {
-          "title": "Мерење утицаја",
-          "body": "AEO утицај повезује ваш рад на оптимизацији са пословним резултатима. Корелира напредак контролне листе са променама у саобраћају, растом цитирања и метрикама конверзије. Ово вам помаже да демонстрирате повраћај инвестиције и одредите приоритет активности са највећим утицајем."
+          "title": "Merenje uticaja",
+          "body": "AEO uticaj povezuje vaš rad na optimizaciji sa poslovnim rezultatima. Korelira napredak kontrolne liste sa promenama u saobraćaju, rastom citiranja i metrikama konverzije. Ovo vam pomaže da demonstrirate povraćaj investicije i odredite prioritet aktivnosti sa najvećim uticajem."
         },
         {
-          "title": "Анализа пре и после",
-          "body": "Пратите како су одређене оптимизације (додавање schema, побољшање садржаја, отклањање техничких проблема) утицале на вашу AI видљивост током времена. Временска линија утицаја приказује промене заједно са вашим прекретницама оптимизације."
+          "title": "Analiza pre i posle",
+          "body": "Pratite kako su određene optimizacije (dodavanje schema, poboljšanje sadržaja, otklanjanje tehničkih problema) uticale na vašu AI vidljivost tokom vremena. Vremenska linija uticaja prikazuje promene zajedno sa vašim prekretnicama optimizacije."
         }
       ]
     },
     "testing": {
-      "title": "Тестирање",
-      "description": "Тестирајте како AI претраживачи реагују на ваш садржај са стварним упитима.",
+      "title": "Testiranje",
+      "description": "Testirajte kako AI pretraživači reaguju na vaš sadržaj sa stvarnim upitima.",
       "items": [
         {
-          "title": "Тестирање упита",
-          "body": "Таб Тестирање вам омогућава да тестирате упите на AI претраживачима да бисте видели да ли се ваш садржај појављује у њиховим одговорима. Унесите питања која би ваша циљна публика могла да постави и видите како AI системи реагују — да ли цитирају ваш садржај, референцирају ваш бренд или вас потпуно пропуштају."
+          "title": "Testiranje upita",
+          "body": "Tab Testiranje vam omogućava da testirate upite na AI pretraživačima da biste videli da li se vaš sadržaj pojavljuje u njihovim odgovorima. Unesite pitanja koja bi vaša ciljna publika mogla da postavi i vidite kako AI sistemi reaguju — da li citiraju vaš sadržaj, referenciraju vaš brend ili vas potpuno propuštaju."
         },
         {
-          "title": "Стратегије тестирања",
-          "body": "Тестирајте различите типове упита: брендоване упите (помињања вашег бренда), тематске упите (питања у вашој области стручности), упоредне упите (ваш бренд наспрам конкурената) и упите дугих репова (специфична питања на која ваш садржај одговара). Пратите на којим упитима побеђујете и на којима треба радити."
+          "title": "Strategije testiranja",
+          "body": "Testirajte različite tipove upita: brendovane upite (pominjanja vašeg brenda), tematske upite (pitanja u vašoj oblasti stručnosti), uporedne upite (vaš brend naspram konkurenata) i upite dugih repova (specifična pitanja na koja vaš sadržaj odgovara). Pratite na kojim upitima pobeđujete i na kojima treba raditi."
         }
       ]
     },
     "settings": {
-      "title": "Подешавања",
-      "description": "Конфигуришите свој пројекат, тим, интеграције и преференце налога.",
+      "title": "Podešavanja",
+      "description": "Konfigurišite svoj projekat, tim, integracije i preference naloga.",
       "items": [
         {
-          "title": "Подешавања пројекта",
-          "body": "Конфигуришите детаље пројекта: URL сајта, назив пројекта, опис и одговоре AEO упитника. Одговори из упитника утичу на то која фаза AEO водича је приоритизована и које препоруке добијате. Можете поново попунити упитник у било ком тренутку."
+          "title": "Podešavanja projekta",
+          "body": "Konfigurišite detalje projekta: URL sajta, naziv projekta, opis i odgovore AEO upitnika. Odgovori iz upitnika utiču na to koja faza AEO vodiča je prioritizovana i koje preporuke dobijate. Možete ponovo popuniti upitnik u bilo kom trenutku."
         },
         {
-          "title": "Управљање тимом",
-          "body": "Позовите чланове тима путем имејла са приступом заснованим на улогама: Власник (потпуна контрола), Администратор (управљање тимом и подешавањима), Уредник (уређивање садржаја и контролне листе) и Прегледач (приступ само за читање). Активност тима се прати у временској линији активности."
+          "title": "Upravljanje timom",
+          "body": "Pozovite članove tima putem imejla sa pristupom zasnovanim na ulogama: Vlasnik (potpuna kontrola), Administrator (upravljanje timom i podešavanjima), Urednik (uređivanje sadržaja i kontrolne liste) i Pregledač (pristup samo za čitanje). Aktivnost tima se prati u vremenskoj liniji aktivnosti."
         },
         {
-          "title": "Интеграције",
-          "body": "Повежите екстерне сервисе: Google Search Console (подаци о перформансама претраге), Google Analytics 4 (праћење AI саобраћаја) и Webflow (CMS интеграција). Свака интеграција обогаћује вашу контролну таблу стварним подацима о перформансама вашег сајта."
+          "title": "Integracije",
+          "body": "Povežite eksterne servise: Google Search Console (podaci o performansama pretrage), Google Analytics 4 (praćenje AI saobraćaja) i Webflow (CMS integracija). Svaka integracija obogaćuje vašu kontrolnu tablu stvarnim podacima o performansama vašeg sajta."
         },
         {
-          "title": "Тема и преференце",
-          "body": "Пребацујте се између светле и тамне теме користећи прекидач теме у бочној траци. Апликација подразумевано поштује преференцу вашег система. Пречице на тастатури и друге преференце корисничког интерфејса могу се прилагодити."
+          "title": "Tema i preference",
+          "body": "Prebacujte se između svetle i tamne teme koristeći prekidač teme u bočnoj traci. Aplikacija podrazumevano poštuje preferencu vašeg sistema. Prečice na tastaturi i druge preference korisničkog interfejsa mogu se prilagoditi."
         }
       ]
     }
   },
   "faq": [
     {
-      "q": "Како се AEO разликује од традиционалног SEO-а?",
-      "a": "Традиционални SEO се фокусира на рангирање у резултатима претраживача (SERP). AEO се фокусира на цитирање као извора од стране AI система — ChatGPT, Google AI Overviews, Perplexity итд. Иако постоји значајно преклапање (добар SEO помаже AEO-у), AEO посебно наглашава структуриране податке, јасноћу садржаја, препознавање ентитета и ауторитативно навођење извора које AI системи вреднују."
+      "q": "Kako se AEO razlikuje od tradicionalnog SEO-a?",
+      "a": "Tradicionalni SEO se fokusira na rangiranje u rezultatima pretraživača (SERP). AEO se fokusira na citiranje kao izvora od strane AI sistema — ChatGPT, Google AI Overviews, Perplexity itd. Iako postoji značajno preklapanje (dobar SEO pomaže AEO-u), AEO posebno naglašava strukturirane podatke, jasnoću sadržaja, prepoznavanje entiteta i autoritativno navođenje izvora koje AI sistemi vrednuju."
     },
     {
-      "q": "Да ли морам да завршим свих 7 фаза?",
-      "a": "Идеално да, али одредите приоритет на основу ваше тренутне зрелости. Фаза 1 (Техничка основа) и Фаза 2 (Schema) су најутицајније полазне тачке. Паметна приоритизација AEO водича отвара најрелевантнију фазу за вашу ситуацију. Можете радити на фазама паралелно — оне нису стриктно секвенцијалне."
+      "q": "Da li moram da završim svih 7 faza?",
+      "a": "Idealno da, ali odredite prioritet na osnovu vaše trenutne zrelosti. Faza 1 (Tehnička osnova) i Faza 2 (Schema) su najuticajnije polazne tačke. Pametna prioritizacija AEO vodiča otvara najrelevantniju fazu za vašu situaciju. Možete raditi na fazama paralelno — one nisu striktno sekvencijalne."
     },
     {
-      "q": "Колико често треба да проверавам своје AEO метрике?",
-      "a": "Пратите најмање недељно. AI видљивост се може брзо мењати како се AI модели ажурирају и конкуренти оптимизују. Таб Мониторинг вам помаже да будете у току са променама, а таб Метрике приказује трендове током времена. Подесите најкритичнија упозорења да будете обавештени о значајним променама."
+      "q": "Koliko često treba da proveravam svoje AEO metrike?",
+      "a": "Pratite najmanje nedeljno. AI vidljivost se može brzo menjati kako se AI modeli ažuriraju i konkurenti optimizuju. Tab Monitoring vam pomaže da budete u toku sa promenama, a tab Metrike prikazuje trendove tokom vremena. Podesite najkritičnija upozorenja da budete obavešteni o značajnim promenama."
     },
     {
-      "q": "Могу ли ово да користим за више сајтова?",
-      "a": "Да! Креирајте посебан пројекат за сваки сајт или домен. Сваки пројекат одржава сопствени напредак контролне листе, подешавања и интеграције. Пребацујте се између пројеката користећи бирач пројеката у бочној траци."
+      "q": "Mogu li ovo da koristim za više sajtova?",
+      "a": "Da! Kreirajte poseban projekat za svaki sajt ili domen. Svaki projekat održava sopstveni napredak kontrolne liste, podešavanja i integracije. Prebacujte se između projekata koristeći birač projekata u bočnoj traci."
     },
     {
-      "q": "Које пречице на тастатури су доступне?",
-      "a": "Притисните \u2318+K (или Ctrl+K на Windows-у) да отворите командну палету, која приказује све доступне акције. Користите \u2318+1 до \u2318+9 за брзо пребацивање између приказа. \u2318+N креира нови пројекат, а Escape затвара прозоре и прекриваче."
+      "q": "Koje prečice na tastaturi su dostupne?",
+      "a": "Pritisnite ⌘+K (ili Ctrl+K na Windows-u) da otvorite komandnu paletu, koja prikazuje sve dostupne akcije. Koristite ⌘+1 do ⌘+9 za brzo prebacivanje između prikaza. ⌘+N kreira novi projekat, a Escape zatvara prozore i prekrivače."
     },
     {
-      "q": "Како функционише тимска сарадња?",
-      "a": "Позовите чланове тима из Подешавања \u2192 Тим. Сваки члан добија улогу (Власник, Администратор, Уредник, Прегледач) која контролише шта може да ради. Присуство у реалном времену приказује ко је онлајн. Ставке контролне листе подржавају коментаре за дискусију, а све активности се бележе у тимској временској линији."
+      "q": "Kako funkcioniše timska saradnja?",
+      "a": "Pozovite članove tima iz Podešavanja → Tim. Svaki član dobija ulogu (Vlasnik, Administrator, Urednik, Pregledač) koja kontroliše šta može da radi. Prisustvo u realnom vremenu prikazuje ko je onlajn. Stavke kontrolne liste podržavaju komentare za diskusiju, a sve aktivnosti se beleže u timskoj vremenskoj liniji."
     },
     {
-      "q": "Да ли се моји подаци чувају аутоматски?",
-      "a": "Да. Сав напредак контролне листе, подешавања и подаци пројекта се аутоматски чувају у облаку (Firebase). Промене се синхронизују у реалном времену на свим уређајима чланова тима. Није потребно ручно чување."
+      "q": "Da li se moji podaci čuvaju automatski?",
+      "a": "Da. Sav napredak kontrolne liste, podešavanja i podaci projekta se automatski čuvaju u oblaku (Firebase). Promene se sinhronizuju u realnom vremenu na svim uređajima članova tima. Nije potrebno ručno čuvanje."
     },
     {
-      "q": "Шта је GEO и како се разликује од AEO?",
-      "a": "GEO (Generative Engine Optimization) је истраживањем поткрепљена дисциплина из студије Princeton/Georgia Tech из 2023. године, фокусирана на максимизирање вероватноће цитирања у генеративним AI претраживачима. AEO је шира пракса оптимизације за све AI претраживаче. GEO је суштински доказима заснован, истраживањем валидиран подскуп AEO-а — пружа специфичне, експериментално измерене технике попут интеграције статистика, додавања стручних цитата и оптимизације течности текста. AEO Dashboard интегрише GEO технике кроз целу контролну листу, са експлицитним GEO ознакама на релевантним ставкама."
+      "q": "Šta je GEO i kako se razlikuje od AEO?",
+      "a": "GEO (Generative Engine Optimization) je istraživanjem potkrepljena disciplina iz studije Princeton/Georgia Tech iz 2023. godine, fokusirana na maksimiziranje verovatnoće citiranja u generativnim AI pretraživačima. AEO je šira praksa optimizacije za sve AI pretraživače. GEO je suštinski dokazima zasnovan, istraživanjem validiran podskup AEO-a — pruža specifične, eksperimentalno izmerene tehnike poput integracije statistika, dodavanja stručnih citata i optimizacije tečnosti teksta. AEO Dashboard integriše GEO tehnike kroz celu kontrolnu listu, sa eksplicitnim GEO oznakama na relevantnim stavkama."
     },
     {
-      "q": "Које ставке контролне листе су повезане са GEO?",
-      "a": "GEO технике су уткане кроз целу контролну листу уместо да буду изоловане у једној фази. Кључне GEO ставке укључују: интеграцију статистика и стручне цитате (Фаза 3, Квалитет садржаја), RAG-оптимизовано сегментирање садржаја (Фаза 3, Структура садржаја), llms.txt и llms-full.txt (Фаза 4, Техничка AEO оптимизација), тестирање на генеративним претраживачима на више платформи (Фаза 6) и праћење AI удела гласа (Фаза 7). Потражите помињања \u201EGEO\u201C у детаљима ставки и документацији да идентификујете све GEO-побољшане задатке."
+      "q": "Koje stavke kontrolne liste su povezane sa GEO?",
+      "a": "GEO tehnike su utkane kroz celu kontrolnu listu umesto da budu izolovane u jednoj fazi. Ključne GEO stavke uključuju: integraciju statistika i stručne citate (Faza 3, Kvalitet sadržaja), RAG-optimizovano segmentiranje sadržaja (Faza 3, Struktura sadržaja), llms.txt i llms-full.txt (Faza 4, Tehnička AEO optimizacija), testiranje na generativnim pretraživačima na više platformi (Faza 6) i praćenje AI udela glasa (Faza 7). Potražite pominjanja „GEO“ u detaljima stavki i dokumentaciji da identifikujete sve GEO-poboljšane zadatke."
     }
   ]
 }
