@@ -5,6 +5,7 @@ import {
   Activity, Sparkles, ChartColumnIncreasing,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
+import { ROLE_LABELS, TEAM_SIZE_LABELS, USER_GOAL_LABELS, FAMILIARITY_LABELS, REFERRAL_LABELS } from '../../utils/fieldDefinitions'
 import NudgeEmailDialog from '../components/NudgeEmailDialog'
 
 /* ── Helpers ── */
@@ -229,6 +230,31 @@ function UserDetail({ user, healthData, projects, onClose, onNudge }) {
             <FeatureBadge label="Competitors" used={healthData.usedCompetitors} />
             <FeatureBadge label="PDF Export" used={healthData.usedExport} />
             <FeatureBadge label="Team" used={healthData.usedTeam} />
+          </div>
+        </div>
+      )}
+
+      {/* Onboarding Quiz */}
+      {user.onboarding && (
+        <div style={{ marginBottom: '1rem' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.05rem', marginBottom: '0.5rem' }}>
+            Onboarding Profile
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
+            {[
+              { k: 'role', m: ROLE_LABELS },
+              { k: 'teamSize', m: TEAM_SIZE_LABELS },
+              { k: 'primaryGoal', m: USER_GOAL_LABELS },
+              { k: 'aeoFamiliarity', m: FAMILIARITY_LABELS },
+              { k: 'referralSource', m: REFERRAL_LABELS },
+            ].map(({ k, m }) => user.onboarding[k] ? (
+              <span key={k} style={{
+                fontSize: '0.625rem', fontWeight: 600, padding: '0.1875rem 0.5rem',
+                borderRadius: '0.375rem', background: 'var(--hover-bg)', color: 'var(--text-secondary)',
+              }}>
+                {m[user.onboarding[k]] || user.onboarding[k]}
+              </span>
+            ) : null)}
           </div>
         </div>
       )}
@@ -509,6 +535,7 @@ export default function AdminUsers({ user }) {
                 {[
                   { key: 'displayName', label: 'User' },
                   { key: 'healthScore', label: 'Health' },
+                  { key: 'role', label: 'Role' },
                   { key: 'createdAt', label: 'Joined' },
                   { key: 'lastLoginAt', label: 'Last Active' },
                   { key: 'projects', label: 'Projects' },
@@ -589,6 +616,15 @@ export default function AdminUsers({ user }) {
                         {health && <HealthBadge status={health.status} />}
                       </div>
                     </td>
+                    <td style={{ padding: '0.75rem 1.25rem' }}>
+                      {u.onboarding?.role ? (
+                        <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)' }}>
+                          {ROLE_LABELS[u.onboarding.role] || u.onboarding.role}
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>&mdash;</span>
+                      )}
+                    </td>
                     <td style={{ padding: '0.75rem 1.25rem', fontSize: '0.8125rem', color: 'var(--text-tertiary)', whiteSpace: 'nowrap' }}>
                       {formatDate(u.createdAt)}
                     </td>
@@ -603,7 +639,7 @@ export default function AdminUsers({ user }) {
               })}
               {filteredUsers.length === 0 && (
                 <tr>
-                  <td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
+                  <td colSpan={6} style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
                     {search || statusFilter !== 'all' ? 'No users match your search' : 'No users found'}
                   </td>
                 </tr>

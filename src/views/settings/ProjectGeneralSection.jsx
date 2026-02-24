@@ -1,9 +1,9 @@
 /**
  * ProjectGeneralSection — Project name/URL/notes, Google Data Sources, Cache, Project Profile.
  */
-import { useState, useCallback } from 'react'
+import { useState, useCallback, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FolderCog, Plug, Database, Save, Check, Trash2, ClipboardList } from 'lucide-react'
+import { FolderCog, Plug, Database, Save, Check, Trash2, ClipboardList, Pencil } from 'lucide-react'
 import { useToast } from '../../components/Toast'
 import GscPropertySelector from '../../components/GscPropertySelector'
 import Ga4PropertySelector from '../../components/Ga4PropertySelector'
@@ -17,6 +17,8 @@ import {
   sectionTitleStyle, settingsRowStyle, lastRowStyle,
   labelStyle, flash,
 } from './SettingsShared'
+
+const ProjectProfileForm = lazy(() => import('../../components/ProjectProfileForm'))
 
 export default function ProjectGeneralSection({ activeProject, updateProject, google, permission }) {
   const canEdit = permission?.hasPermission?.('project:edit') !== false
@@ -32,6 +34,9 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
   const [projectUrlSaved, setProjectUrlSaved] = useState(false)
   const [webflowSaved, setWebflowSaved] = useState(false)
   const [notesSaved, setNotesSaved] = useState(false)
+
+  // Edit profile modal
+  const [editProfileOpen, setEditProfileOpen] = useState(false)
 
   // Cache state
   const [cacheStats, setCacheStats] = useState(() => getCacheStats())
@@ -72,6 +77,15 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
     setClearCacheConfirm(false)
     addToast('success', t('projectGeneral.cacheCleared'))
   }
+
+  const handleSaveProfile = useCallback((updatedAnswers) => {
+    if (!activeProject || !canEdit) return
+    updateProject(activeProject.id, {
+      questionnaire: { ...updatedAnswers, completedAt: new Date().toISOString() },
+    })
+    setEditProfileOpen(false)
+    addToast('success', t('projectGeneral.profileSaved', 'Project profile updated'))
+  }, [activeProject, canEdit, updateProject, addToast, t])
 
   const q = activeProject?.questionnaire
 
@@ -207,7 +221,21 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
       {/* ── Project Profile (from Questionnaire) ── */}
       {q?.completedAt && (
         <div className="card" style={{ marginBottom: '1rem' }}>
-          <div style={sectionTitleStyle}><ClipboardList size={15} /> {t('projectGeneral.projectProfile')}</div>
+          <div style={{ ...sectionTitleStyle, justifyContent: 'space-between' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <ClipboardList size={15} /> {t('projectGeneral.projectProfile')}
+            </span>
+            {canEdit && (
+              <button
+                onClick={() => setEditProfileOpen(true)}
+                className="btn-secondary btn-sm"
+                style={{ fontSize: '0.6875rem', padding: '0.25rem 0.625rem' }}
+              >
+                <Pencil size={11} />
+                {t('projectGeneral.editProfile', 'Edit')}
+              </button>
+            )}
+          </div>
 
           <div style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.industry')}</span>
@@ -308,6 +336,17 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
             </span>
           </div>
         </div>
+      )}
+
+      {/* ── Edit Profile Modal ── */}
+      {editProfileOpen && (
+        <Suspense fallback={null}>
+          <ProjectProfileForm
+            questionnaire={q}
+            onSave={handleSaveProfile}
+            onCancel={() => setEditProfileOpen(false)}
+          />
+        </Suspense>
       )}
     </>
   )

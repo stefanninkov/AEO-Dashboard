@@ -6,6 +6,7 @@ import {
   XCircle, PauseCircle, Sparkles, Eye,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
+import { INDUSTRY_LABELS, GOAL_LABELS, MATURITY_LABELS, CMS_LABELS } from '../../utils/fieldDefinitions'
 
 /* ── Helpers ── */
 function timeAgo(dateInput) {
@@ -203,6 +204,38 @@ function ProjectDetail({ project, healthData, onClose }) {
           <FeaturePill used={h.usedMetrics} label="Metrics" />
         </div>
       </div>
+
+      {/* Questionnaire Profile */}
+      {project.questionnaire?.completedAt && (
+        <div style={{ marginBottom: '1.25rem' }}>
+          <div style={{ fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.05rem', marginBottom: '0.5rem' }}>
+            Project Profile
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
+            {[
+              { k: 'industry', m: INDUSTRY_LABELS },
+              { k: 'primaryGoal', m: GOAL_LABELS },
+              { k: 'maturity', m: MATURITY_LABELS },
+              { k: 'cms', m: CMS_LABELS },
+            ].map(({ k, m }) => project.questionnaire[k] ? (
+              <span key={k} style={{
+                fontSize: '0.625rem', fontWeight: 600, padding: '0.1875rem 0.5rem',
+                borderRadius: '0.375rem', background: 'var(--hover-bg)', color: 'var(--text-secondary)',
+              }}>
+                {m[project.questionnaire[k]] || project.questionnaire[k]}
+              </span>
+            ) : null)}
+            {(project.questionnaire.targetEngines || []).map(e => (
+              <span key={e} style={{
+                fontSize: '0.625rem', fontWeight: 600, padding: '0.1875rem 0.5rem',
+                borderRadius: '0.375rem', background: 'rgba(255,107,53,0.08)', color: 'var(--accent)',
+              }}>
+                {e}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Members */}
       {members.length > 0 && (
@@ -496,6 +529,7 @@ export default function AdminProjects({ user }) {
                   { key: 'name', label: 'Project' },
                   { key: 'health', label: 'Health' },
                   { key: 'progress', label: 'Progress' },
+                  { key: 'industry', label: 'Industry' },
                   { key: 'members', label: 'Members' },
                   { key: 'updatedAt', label: 'Updated' },
                 ].map(col => (
@@ -550,6 +584,18 @@ export default function AdminProjects({ user }) {
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--text-tertiary)', minWidth: '2.5rem' }}>{pct}%</span>
                       </div>
                     </td>
+                    <td style={{ padding: '0.75rem 1.25rem' }}>
+                      {p.questionnaire?.industry ? (
+                        <span style={{
+                          fontSize: '0.625rem', fontWeight: 600, padding: '0.125rem 0.5rem',
+                          borderRadius: '1rem', background: 'rgba(255,107,53,0.08)', color: 'var(--accent)',
+                        }}>
+                          {INDUSTRY_LABELS[p.questionnaire.industry] || p.questionnaire.industry}
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>&mdash;</span>
+                      )}
+                    </td>
                     <td style={{ padding: '0.75rem 1.25rem', fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>{memberCount}</td>
                     <td style={{ padding: '0.75rem 1.25rem' }}>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-disabled)' }}>{timeAgo(p.updatedAt)}</div>
@@ -563,7 +609,7 @@ export default function AdminProjects({ user }) {
                 )
               })}
               {filteredProjects.length === 0 && (
-                <tr><td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
+                <tr><td colSpan={6} style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-disabled)', fontSize: '0.8125rem' }}>
                   {search ? 'No projects match your search' : healthFilter !== 'all' ? `No ${healthFilter} projects` : 'No projects found'}
                 </td></tr>
               )}

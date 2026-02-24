@@ -1591,5 +1591,68 @@
       "focusPhases": "Напредак фокус фаза",
       "tips": "Савети за индустрију"
     }
+  },
+  "onboardingQuiz": {
+    "title": "Brzo podešavanje",
+    "subtitle": "Pomozite nam da personalizujemo vaše iskustvo — traje 30 sekundi",
+    "skip": "Preskoči za sada",
+    "finish": "Započni",
+    "next": "Nastavi",
+    "back": "Nazad",
+    "stepOf": "{{current}} od {{total}}",
+    "steps": {
+      "role": {
+        "title": "Šta najbolje opisuje vašu ulogu?",
+        "options": {
+          "marketer": "Marketing stručnjak",
+          "developer": "Programer",
+          "founder": "Osnivač / CEO",
+          "content": "Kreator sadržaja",
+          "seo": "SEO stručnjak",
+          "analyst": "Analitičar podataka",
+          "other": "Drugo"
+        }
+      },
+      "teamSize": {
+        "title": "Koliki je vaš tim?",
+        "options": {
+          "solo": "Sam/a",
+          "small": "2–10 ljudi",
+          "medium": "11–50 ljudi",
+          "large": "51–200 ljudi",
+          "enterprise": "200+ ljudi"
+        }
+      },
+      "primaryGoal": {
+        "title": "Koji je vaš primarni cilj sa AEO?",
+        "options": {
+          "citations": "Biti citiran od strane AI mašina",
+          "traffic": "Generisati AI saobraćaj",
+          "brand": "Izgraditi autoritet brenda",
+          "competitive": "Steći konkurentsku prednost",
+          "learning": "Učenje i istraživanje"
+        }
+      },
+      "aeoFamiliarity": {
+        "title": "Koliko ste upoznati sa AEO?",
+        "options": {
+          "new": "Potpuno novo — tek otkrivam",
+          "beginner": "Početnik — poznajem osnove",
+          "intermediate": "Srednji nivo — aktivno optimizujem",
+          "advanced": "Napredno — duboka ekspertiza"
+        }
+      },
+      "referralSource": {
+        "title": "Kako ste nas pronašli?",
+        "options": {
+          "search": "Pretraživač",
+          "social": "Društvene mreže",
+          "colleague": "Kolega / prijatelj",
+          "blog": "Blog ili članak",
+          "conference": "Konferencija / događaj",
+          "other": "Drugo"
+        }
+      }
+    }
   }
 }

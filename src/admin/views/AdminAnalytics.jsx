@@ -33,6 +33,44 @@ function BarItem({ label, value, max, color, suffix }) {
   )
 }
 
+const MINI_BAR_COLORS = ['#2563EB', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#F59E0B', '#06B6D4', '#EF4444']
+
+/**
+ * MiniBarCard — Reusable card with horizontal bar chart.
+ * Accepts `data` as either:
+ *   - Array of [key, count] tuples (legacy topIndustries/topCms format)
+ *   - Array of { key, label, count } objects (new format)
+ */
+function MiniBarCard({ title, data }) {
+  if (!data || data.length === 0) return null
+  // Normalize to { label, count } format
+  const items = data.slice(0, 6).map(d =>
+    Array.isArray(d) ? { label: d[0], count: d[1] } : { label: d.label || d.key, count: d.count }
+  )
+  const maxVal = items[0]?.count || 1
+  return (
+    <div className="card" style={{ padding: '1.25rem' }}>
+      <div style={{
+        fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+        color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
+      }}>
+        {title}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
+        {items.map((item, i) => (
+          <BarItem
+            key={item.label}
+            label={item.label}
+            value={item.count}
+            max={maxVal}
+            color={MINI_BAR_COLORS[i % MINI_BAR_COLORS.length]}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* (StatBox removed — using shared StatCard) */
 
 /* ── Trend Chart ── */
@@ -451,52 +489,63 @@ export default function AdminAnalytics({ user }) {
         </div>
       </div>
 
-      {/* NEW: Aggregate Intelligence */}
+      {/* Aggregate Intelligence — Project Questionnaire */}
       {((stats?.topIndustries?.length > 0) || (stats?.topCms?.length > 0)) && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           {stats?.topIndustries?.length > 0 && (
-            <div className="card" style={{ padding: '1.25rem' }}>
-              <div style={{
-                fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
-                color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
-              }}>
-                Top Industries
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
-                {stats.topIndustries.slice(0, 6).map(([industry, count], i) => (
-                  <BarItem
-                    key={industry}
-                    label={industry}
-                    value={count}
-                    max={stats.topIndustries[0]?.[1] || 1}
-                    color={BAR_COLORS[i % BAR_COLORS.length]}
-                  />
-                ))}
-              </div>
-            </div>
+            <MiniBarCard title="Top Industries" data={stats.topIndustries} />
           )}
           {stats?.topCms?.length > 0 && (
-            <div className="card" style={{ padding: '1.25rem' }}>
-              <div style={{
-                fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
-                color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04rem', marginBottom: '1rem',
-              }}>
-                Top CMS Platforms
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
-                {stats.topCms.slice(0, 6).map(([cms, count], i) => (
-                  <BarItem
-                    key={cms}
-                    label={cms}
-                    value={count}
-                    max={stats.topCms[0]?.[1] || 1}
-                    color={BAR_COLORS[i % BAR_COLORS.length]}
-                  />
-                ))}
-              </div>
-            </div>
+            <MiniBarCard title="Top CMS Platforms" data={stats.topCms} />
           )}
         </div>
+      )}
+
+      {/* Extended questionnaire intelligence */}
+      {((stats?.topGoals?.length > 0) || (stats?.topMaturity?.length > 0) || (stats?.topEngines?.length > 0) || (stats?.topContentTypes?.length > 0)) && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          {stats?.topGoals?.length > 0 && (
+            <MiniBarCard title="Project Goals" data={stats.topGoals} />
+          )}
+          {stats?.topMaturity?.length > 0 && (
+            <MiniBarCard title="Maturity Distribution" data={stats.topMaturity} />
+          )}
+          {stats?.topEngines?.length > 0 && (
+            <MiniBarCard title="Target AI Engines" data={stats.topEngines} />
+          )}
+          {stats?.topContentTypes?.length > 0 && (
+            <MiniBarCard title="Content Types" data={stats.topContentTypes} />
+          )}
+        </div>
+      )}
+
+      {/* User Onboarding Quiz Intelligence */}
+      {((stats?.userRoles?.length > 0) || (stats?.userGoals?.length > 0) || (stats?.userFamiliarity?.length > 0) || (stats?.userReferrals?.length > 0)) && (
+        <>
+          <div style={{
+            fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700,
+            color: 'var(--text-primary)', paddingTop: '0.5rem',
+          }}>
+            User Demographics
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            {stats?.userRoles?.length > 0 && (
+              <MiniBarCard title="User Roles" data={stats.userRoles} />
+            )}
+            {stats?.userTeamSizes?.length > 0 && (
+              <MiniBarCard title="Team Sizes" data={stats.userTeamSizes} />
+            )}
+            {stats?.userGoals?.length > 0 && (
+              <MiniBarCard title="User Goals" data={stats.userGoals} />
+            )}
+            {stats?.userFamiliarity?.length > 0 && (
+              <MiniBarCard title="AEO Familiarity" data={stats.userFamiliarity} />
+            )}
+            {stats?.userReferrals?.length > 0 && (
+              <MiniBarCard title="Referral Sources" data={stats.userReferrals} />
+            )}
+          </div>
+        </>
       )}
 
       {/* Growth Metrics */}

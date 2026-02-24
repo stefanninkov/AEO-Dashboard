@@ -1591,5 +1591,68 @@
       "focusPhases": "Focus Phase Progress",
       "tips": "Industry Tips"
     }
+  },
+  "onboardingQuiz": {
+    "title": "Quick Setup",
+    "subtitle": "Help us personalize your experience — takes 30 seconds",
+    "skip": "Skip for now",
+    "finish": "Get Started",
+    "next": "Continue",
+    "back": "Back",
+    "stepOf": "{{current}} of {{total}}",
+    "steps": {
+      "role": {
+        "title": "What best describes your role?",
+        "options": {
+          "marketer": "Marketer",
+          "developer": "Developer",
+          "founder": "Founder / CEO",
+          "content": "Content Creator",
+          "seo": "SEO Specialist",
+          "analyst": "Data Analyst",
+          "other": "Other"
+        }
+      },
+      "teamSize": {
+        "title": "How big is your team?",
+        "options": {
+          "solo": "Solo",
+          "small": "2–10 people",
+          "medium": "11–50 people",
+          "large": "51–200 people",
+          "enterprise": "200+ people"
+        }
+      },
+      "primaryGoal": {
+        "title": "What's your primary goal with AEO?",
+        "options": {
+          "citations": "Get cited by AI engines",
+          "traffic": "Drive AI referral traffic",
+          "brand": "Build brand authority",
+          "competitive": "Gain competitive advantage",
+          "learning": "Learning & research"
+        }
+      },
+      "aeoFamiliarity": {
+        "title": "How familiar are you with AEO?",
+        "options": {
+          "new": "Brand new — just discovering it",
+          "beginner": "Beginner — know the basics",
+          "intermediate": "Intermediate — actively optimizing",
+          "advanced": "Advanced — deep expertise"
+        }
+      },
+      "referralSource": {
+        "title": "How did you find us?",
+        "options": {
+          "search": "Search engine",
+          "social": "Social media",
+          "colleague": "Colleague / friend",
+          "blog": "Blog or article",
+          "conference": "Conference / event",
+          "other": "Other"
+        }
+      }
+    }
   }
 }

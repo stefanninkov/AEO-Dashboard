@@ -10,42 +10,22 @@ import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
   GOAL_LABELS, MATURITY_LABELS, COUNTRY_OPTIONS, COUNTRY_LABELS,
   LANGUAGE_LABELS, LANGUAGE_OPTIONS, CMS_LABELS,
-} from '../utils/getRecommendations'
+  INDUSTRY_IDS, REGION_IDS, AUDIENCE_IDS, GOAL_IDS,
+  ENGINE_IDS, ENGINE_COLORS, CONTENT_IDS, MATURITY_IDS, CMS_IDS,
+} from '../utils/fieldDefinitions'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const TOTAL_STEPS = 6
 
-/* Non-translatable metadata — icons, colors, values stay module-scope */
-const INDUSTRY_META = [
-  { value: 'saas', icon: Layers },
-  { value: 'ecommerce', icon: ShoppingCart },
-  { value: 'healthcare', icon: Heart },
-  { value: 'finance', icon: Landmark },
-  { value: 'legal', icon: Scale },
-  { value: 'realestate', icon: Home },
-  { value: 'education', icon: GraduationCap },
-  { value: 'agency', icon: Megaphone },
-  { value: 'localbusiness', icon: Store },
-  { value: 'media', icon: Newspaper },
-  { value: 'other', icon: Briefcase },
-]
+/* Non-translatable metadata — icons stay here (React components can't live in utils) */
+const INDUSTRY_ICON_MAP = {
+  saas: Layers, ecommerce: ShoppingCart, healthcare: Heart, finance: Landmark,
+  legal: Scale, realestate: Home, education: GraduationCap, agency: Megaphone,
+  localbusiness: Store, media: Newspaper, other: Briefcase,
+}
+const INDUSTRY_META = INDUSTRY_IDS.map(id => ({ value: id, icon: INDUSTRY_ICON_MAP[id] }))
 
-const REGION_IDS = ['us', 'europe', 'uk', 'apac', 'latam', 'mena', 'global']
-const AUDIENCE_IDS = ['b2b', 'b2c', 'both']
-const GOAL_IDS = ['citations', 'answers', 'traffic', 'brand', 'all']
-
-const ENGINE_META = [
-  { value: 'chatgpt', color: '#10A37F' },
-  { value: 'perplexity', color: '#7B2FBE' },
-  { value: 'google-aio', color: '#4285F4' },
-  { value: 'bing-copilot', color: '#00A4EF' },
-  { value: 'claude', color: '#D97706' },
-  { value: 'all', color: '#2563EB' },
-]
-
-const CONTENT_IDS = ['blog', 'product', 'docs', 'landing', 'mixed']
-const MATURITY_IDS = ['beginner', 'basics', 'intermediate', 'advanced']
-const CMS_IDS = ['wordpress', 'shopify', 'webflow', 'wix', 'squarespace', 'custom', 'other']
+const ENGINE_META = ENGINE_IDS.map(id => ({ value: id, color: ENGINE_COLORS[id] }))
 
 export default function ProjectQuestionnaire({ onComplete, onCancel, initialData, isNewProject }) {
   const { t } = useTranslation('app')

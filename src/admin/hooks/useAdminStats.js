@@ -2,6 +2,12 @@ import { useState, useEffect, useCallback } from 'react'
 import { collection, doc, getDoc, getDocs, query, where, orderBy } from 'firebase/firestore'
 import { db } from '../../firebase'
 import logger from '../../utils/logger'
+import {
+  INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS,
+  MATURITY_LABELS, CONTENT_LABELS, ENGINE_LABELS, CMS_LABELS,
+  ROLE_LABELS, TEAM_SIZE_LABELS, USER_GOAL_LABELS,
+  FAMILIARITY_LABELS, REFERRAL_LABELS,
+} from '../../utils/fieldDefinitions'
 
 /**
  * Fetches platform-wide stats for the admin dashboard.
@@ -622,16 +628,55 @@ export function useAdminStats(currentUser) {
       const industries = {}
       const cmsPlatforms = {}
       const analyzerScores = []
+      const regions = {}
+      const goals = {}
+      const maturityLevels = {}
+      const audiences = {}
+      const engines = {}
+      const contentTypes = {}
+
       for (const p of allProjects) {
-        if (p.questionnaire?.industry) {
-          industries[p.questionnaire.industry] = (industries[p.questionnaire.industry] || 0) + 1
-        }
-        if (p.questionnaire?.cms) {
-          cmsPlatforms[p.questionnaire.cms] = (cmsPlatforms[p.questionnaire.cms] || 0) + 1
+        const q = p.questionnaire
+        if (q?.industry) industries[q.industry] = (industries[q.industry] || 0) + 1
+        if (q?.cms) cmsPlatforms[q.cms] = (cmsPlatforms[q.cms] || 0) + 1
+        if (q?.region) regions[q.region] = (regions[q.region] || 0) + 1
+        if (q?.primaryGoal) goals[q.primaryGoal] = (goals[q.primaryGoal] || 0) + 1
+        if (q?.maturity) maturityLevels[q.maturity] = (maturityLevels[q.maturity] || 0) + 1
+        if (q?.audience) audiences[q.audience] = (audiences[q.audience] || 0) + 1
+        if (q?.contentType) contentTypes[q.contentType] = (contentTypes[q.contentType] || 0) + 1
+        if (q?.targetEngines) {
+          for (const eng of q.targetEngines) {
+            engines[eng] = (engines[eng] || 0) + 1
+          }
         }
         if (p.analyzerResults?.overallScore) {
           analyzerScores.push(p.analyzerResults.overallScore)
         }
+      }
+
+      // Helper: convert { key: count } to sorted [{ key, label, count }] array
+      const toSortedArray = (map, labelMap) =>
+        Object.entries(map)
+          .map(([key, count]) => ({ key, label: labelMap[key] || key, count }))
+          .sort((a, b) => b.count - a.count)
+
+      // ── User Onboarding Quiz Aggregation ──
+      const userRolesMap = {}
+      const teamSizesMap = {}
+      const userGoalsMap = {}
+      const familiarityMap = {}
+      const referralsMap = {}
+      let quizCompletedCount = 0
+
+      for (const u of users) {
+        if (u.onboardingCompleted) quizCompletedCount++
+        const ob = u.onboarding
+        if (!ob) continue
+        if (ob.role) userRolesMap[ob.role] = (userRolesMap[ob.role] || 0) + 1
+        if (ob.teamSize) teamSizesMap[ob.teamSize] = (teamSizesMap[ob.teamSize] || 0) + 1
+        if (ob.primaryGoal) userGoalsMap[ob.primaryGoal] = (userGoalsMap[ob.primaryGoal] || 0) + 1
+        if (ob.aeoFamiliarity) familiarityMap[ob.aeoFamiliarity] = (familiarityMap[ob.aeoFamiliarity] || 0) + 1
+        if (ob.referralSource) referralsMap[ob.referralSource] = (referralsMap[ob.referralSource] || 0) + 1
       }
 
       // ── Churn Trend (30 days, daily: new vs churned) ──
@@ -779,10 +824,24 @@ export function useAdminStats(currentUser) {
           rawToAnalyzer: onboardingTimes.toAnalyzer,
         },
 
-        // Intelligence
+        // Intelligence — Project Questionnaire
         topIndustries: Object.entries(industries).sort((a, b) => b[1] - a[1]).slice(0, 10),
         topCms: Object.entries(cmsPlatforms).sort((a, b) => b[1] - a[1]).slice(0, 10),
+        topRegions: toSortedArray(regions, REGION_LABELS),
+        topGoals: toSortedArray(goals, GOAL_LABELS),
+        topMaturity: toSortedArray(maturityLevels, MATURITY_LABELS),
+        topAudience: toSortedArray(audiences, AUDIENCE_LABELS),
+        topEngines: toSortedArray(engines, ENGINE_LABELS),
+        topContentTypes: toSortedArray(contentTypes, CONTENT_LABELS),
         avgAnalyzerScore: avg(analyzerScores),
+
+        // Intelligence — User Onboarding Quiz
+        userRoles: toSortedArray(userRolesMap, ROLE_LABELS),
+        userTeamSizes: toSortedArray(teamSizesMap, TEAM_SIZE_LABELS),
+        userGoals: toSortedArray(userGoalsMap, USER_GOAL_LABELS),
+        userFamiliarity: toSortedArray(familiarityMap, FAMILIARITY_LABELS),
+        userReferrals: toSortedArray(referralsMap, REFERRAL_LABELS),
+        onboardingCompletionRate: users.length > 0 ? Math.round((quizCompletedCount / users.length) * 100) : 0,
 
         // API usage
         apiUsageToday,

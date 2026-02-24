@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from './firebase'
 import { useAuth } from './hooks/useAuth'
 import { useFirestoreProjects } from './hooks/useFirestoreProjects'
 import { usePermission } from './hooks/usePermission'
@@ -42,6 +44,7 @@ const ContentOpsView = lazy(() => import('./views/content-ops/ContentOpsView'))
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
 const NewProjectModal = lazy(() => import('./components/NewProjectModal'))
 const OnboardingTutorial = lazy(() => import('./components/OnboardingTutorial'))
+const OnboardingQuiz = lazy(() => import('./components/OnboardingQuiz'))
 const ProjectQuestionnaire = lazy(() => import('./components/ProjectQuestionnaire'))
 const EmailReportDialog = lazy(() => import('./components/EmailReportDialog'))
 const PdfExportDialog = lazy(() => import('./components/PdfExportDialog'))
@@ -299,6 +302,83 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const [showOnboarding, setShowOnboarding] = useState(() => {
     return localStorage.getItem('aeo-onboarding-completed') !== 'true'
   })
+
+  // Onboarding quiz — shown once after first login (before tutorial)
+  const [showQuiz, setShowQuiz] = useState(false)
+  const quizChecked = useRef(false)
+
+  useEffect(() => {
+    if (!user?.uid || quizChecked.current) return
+    quizChecked.current = true
+
+    const isFirebaseConfigured = (() => {
+      try {
+        const key = import.meta.env.VITE_FIREBASE_API_KEY || ''
+        return key.length > 0 && !key.startsWith('YOUR_')
+      } catch { return false }
+    })()
+
+    if (isFirebaseConfigured) {
+      // Firebase mode: check Firestore
+      getDoc(doc(db, 'users', user.uid))
+        .then(snap => {
+          if (snap.exists() && snap.data().onboardingCompleted) {
+            setShowQuiz(false)
+          } else {
+            setShowQuiz(true)
+          }
+        })
+        .catch(() => setShowQuiz(false)) // fail silently
+    } else {
+      // Dev mode: check localStorage
+      const key = `aeo-quiz-completed-${user.uid}`
+      setShowQuiz(localStorage.getItem(key) !== 'true')
+    }
+  }, [user?.uid])
+
+  const handleQuizComplete = useCallback(async (quizAnswers) => {
+    setShowQuiz(false)
+
+    const isFirebaseConfigured = (() => {
+      try {
+        const key = import.meta.env.VITE_FIREBASE_API_KEY || ''
+        return key.length > 0 && !key.startsWith('YOUR_')
+      } catch { return false }
+    })()
+
+    if (isFirebaseConfigured) {
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          onboarding: { ...quizAnswers, completedAt: new Date().toISOString() },
+          onboardingCompleted: true,
+        }, { merge: true })
+      } catch { /* non-critical */ }
+    } else {
+      localStorage.setItem(`aeo-quiz-completed-${user.uid}`, 'true')
+      localStorage.setItem(`aeo-quiz-data-${user.uid}`, JSON.stringify(quizAnswers))
+    }
+  }, [user?.uid])
+
+  const handleQuizSkip = useCallback(async () => {
+    setShowQuiz(false)
+
+    const isFirebaseConfigured = (() => {
+      try {
+        const key = import.meta.env.VITE_FIREBASE_API_KEY || ''
+        return key.length > 0 && !key.startsWith('YOUR_')
+      } catch { return false }
+    })()
+
+    if (isFirebaseConfigured) {
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          onboardingCompleted: true,
+        }, { merge: true })
+      } catch { /* non-critical */ }
+    } else {
+      localStorage.setItem(`aeo-quiz-completed-${user.uid}`, 'true')
+    }
+  }, [user?.uid])
 
   // Lazy-load the checklist data (large string payload — ~60-80 KB minified)
   const [rawPhases, setRawPhases] = useState(null)
@@ -722,7 +802,16 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         />
       )}
 
-      {!splashVisible && showOnboarding && (
+      {!splashVisible && showQuiz && (
+        <Suspense fallback={null}>
+          <OnboardingQuiz
+            onComplete={handleQuizComplete}
+            onSkip={handleQuizSkip}
+          />
+        </Suspense>
+      )}
+
+      {!splashVisible && !showQuiz && showOnboarding && (
         <OnboardingTutorial
           onComplete={() => setShowOnboarding(false)}
           onSkip={() => setShowOnboarding(false)}

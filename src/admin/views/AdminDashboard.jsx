@@ -5,7 +5,7 @@ import {
   Mail, MessageSquare, ArrowUpRight, ArrowDownRight, Minus,
   Shield, ShieldAlert, ShieldOff, UserX, AlertCircle,
   ChevronDown, ChevronUp, Cpu, ChartColumnIncreasing, Target,
-  Heart, ThumbsUp, ThumbsDown,
+  Heart, ThumbsUp, ThumbsDown, ClipboardCheck, Briefcase,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 import NudgeEmailDialog from '../components/NudgeEmailDialog'
@@ -544,6 +544,22 @@ export default function AdminDashboard({ user, onNavigate }) {
           color={platformHealthScore >= 70 ? '#10B981' : platformHealthScore >= 40 ? '#F59E0B' : '#EF4444'}
           badge={stats.apiUsageToday > 0 ? { text: `${stats.apiUsageToday} API calls today`, bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' } : null}
         />
+        <StatCard
+          icon={ClipboardCheck}
+          label="Quiz Completion"
+          value={`${stats.onboardingCompletionRate || 0}%`}
+          sublabel={`${stats.userRoles?.reduce((s, r) => s + r.count, 0) || 0} completed`}
+          color="#8B5CF6"
+        />
+        {stats.userRoles?.length > 0 && (
+          <StatCard
+            icon={Briefcase}
+            label="Top Role"
+            value={stats.userRoles[0]?.label || '\u2014'}
+            sublabel={`${stats.userRoles[0]?.count || 0} users`}
+            color="#EC4899"
+          />
+        )}
       </div>
 
       {/* ── User Journey Funnel + Feature Usage — side by side ── */}

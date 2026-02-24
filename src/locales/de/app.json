@@ -1591,5 +1591,68 @@
       "focusPhases": "Fokusphasen-Fortschritt",
       "tips": "Branchentipps"
     }
+  },
+  "onboardingQuiz": {
+    "title": "Schnelleinrichtung",
+    "subtitle": "Helfen Sie uns, Ihr Erlebnis zu personalisieren — dauert 30 Sekunden",
+    "skip": "Vorerst überspringen",
+    "finish": "Loslegen",
+    "next": "Weiter",
+    "back": "Zurück",
+    "stepOf": "{{current}} von {{total}}",
+    "steps": {
+      "role": {
+        "title": "Was beschreibt Ihre Rolle am besten?",
+        "options": {
+          "marketer": "Marketing-Experte",
+          "developer": "Entwickler",
+          "founder": "Gründer / CEO",
+          "content": "Content Creator",
+          "seo": "SEO-Spezialist",
+          "analyst": "Datenanalyst",
+          "other": "Sonstiges"
+        }
+      },
+      "teamSize": {
+        "title": "Wie groß ist Ihr Team?",
+        "options": {
+          "solo": "Einzelperson",
+          "small": "2–10 Personen",
+          "medium": "11–50 Personen",
+          "large": "51–200 Personen",
+          "enterprise": "200+ Personen"
+        }
+      },
+      "primaryGoal": {
+        "title": "Was ist Ihr Hauptziel mit AEO?",
+        "options": {
+          "citations": "Von AI-Engines zitiert werden",
+          "traffic": "AI-Empfehlungsverkehr generieren",
+          "brand": "Markenautorität aufbauen",
+          "competitive": "Wettbewerbsvorteil erzielen",
+          "learning": "Lernen & Forschung"
+        }
+      },
+      "aeoFamiliarity": {
+        "title": "Wie vertraut sind Sie mit AEO?",
+        "options": {
+          "new": "Ganz neu — gerade erst entdeckt",
+          "beginner": "Anfänger — kenne die Grundlagen",
+          "intermediate": "Fortgeschritten — optimiere aktiv",
+          "advanced": "Experte — tiefgehende Expertise"
+        }
+      },
+      "referralSource": {
+        "title": "Wie haben Sie uns gefunden?",
+        "options": {
+          "search": "Suchmaschine",
+          "social": "Soziale Medien",
+          "colleague": "Kollege / Freund",
+          "blog": "Blog oder Artikel",
+          "conference": "Konferenz / Veranstaltung",
+          "other": "Sonstiges"
+        }
+      }
+    }
   }
 }
