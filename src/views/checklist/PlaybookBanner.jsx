@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { BookOpen, ChevronDown, Star, Lightbulb } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { getPlaybook, isFocusPhase, getPhaseTip } from '../../data/industryPlaybooks'
+import { getPlaybook } from '../../data/industryPlaybooks'
 
 const INDUSTRY_NAMES = {
   saas: 'SaaS',
@@ -81,41 +81,15 @@ export default function PlaybookBanner({ industry, phases, checked }) {
           borderTop: '0.0625rem solid var(--border-subtle)',
           display: 'flex', flexDirection: 'column', gap: '0.75rem',
         }}>
-          {/* Recommended phase order */}
-          <div style={{ paddingTop: '0.75rem' }}>
-            <div style={{
-              fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.0625rem', color: 'var(--text-tertiary)',
-              marginBottom: '0.375rem',
+          {/* Industry description */}
+          {playbook.description && (
+            <p style={{
+              fontSize: '0.75rem', color: 'var(--text-secondary)',
+              lineHeight: 1.5, paddingTop: '0.75rem', margin: 0,
             }}>
-              {t('checklist.playbook.phaseOrder')}
-            </div>
-            <div style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
-              {playbook.phaseOrder.map((phaseNum, idx) => {
-                const phase = phases?.find(p => p.number === phaseNum)
-                const isFocus = isFocusPhase(industry, phaseNum)
-                return (
-                  <div key={phaseNum} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                    <span style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.1875rem',
-                      padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
-                      fontSize: '0.6875rem', fontWeight: 600,
-                      fontFamily: 'var(--font-mono)',
-                      background: isFocus ? (phase?.color || 'var(--color-phase-1)') + '15' : 'var(--hover-bg)',
-                      color: isFocus ? (phase?.color || 'var(--color-phase-1)') : 'var(--text-tertiary)',
-                      border: isFocus ? `0.0625rem solid ${(phase?.color || 'var(--color-phase-1)')}30` : '0.0625rem solid transparent',
-                    }}>
-                      {isFocus && <Star size={9} style={{ flexShrink: 0 }} />}
-                      P{phaseNum}
-                    </span>
-                    {idx < playbook.phaseOrder.length - 1 && (
-                      <span style={{ color: 'var(--text-disabled)', fontSize: '0.5rem' }}>→</span>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          </div>
+              {playbook.description}
+            </p>
+          )}
 
           {/* Focus phases progress */}
           <div>
@@ -123,10 +97,11 @@ export default function PlaybookBanner({ industry, phases, checked }) {
               fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase',
               letterSpacing: '0.0625rem', color: 'var(--text-tertiary)',
               marginBottom: '0.375rem',
+              ...(!playbook.description ? { paddingTop: '0.75rem' } : {}),
             }}>
               {t('checklist.playbook.focusPhases')}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {focusProgress.map(fp => (
                 <div key={fp.number}>
                   <div style={{
@@ -134,9 +109,11 @@ export default function PlaybookBanner({ industry, phases, checked }) {
                     marginBottom: '0.25rem',
                   }}>
                     <span style={{
+                      display: 'flex', alignItems: 'center', gap: '0.25rem',
                       fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)',
                     }}>
-                      <span style={{ fontFamily: 'var(--font-mono)', color: fp.color, marginRight: '0.375rem' }}>
+                      <Star size={10} style={{ color: fp.color, flexShrink: 0 }} />
+                      <span style={{ fontFamily: 'var(--font-mono)', color: fp.color, marginRight: '0.25rem' }}>
                         P{fp.number}
                       </span>
                       {fp.title}
@@ -159,6 +136,15 @@ export default function PlaybookBanner({ industry, phases, checked }) {
                       transition: 'width 300ms',
                     }} />
                   </div>
+                  {/* Focus phase explanation */}
+                  {playbook.focusExplanations?.[fp.number] && (
+                    <p style={{
+                      fontSize: '0.6875rem', color: 'var(--text-tertiary)',
+                      lineHeight: 1.45, marginTop: '0.25rem', margin: '0.25rem 0 0 0',
+                    }}>
+                      {playbook.focusExplanations[fp.number]}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
