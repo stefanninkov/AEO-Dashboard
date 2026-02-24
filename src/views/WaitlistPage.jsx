@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useWaitlist } from '../hooks/useWaitlist'
@@ -61,6 +61,30 @@ export default function WaitlistPage() {
   const rootRef = useRef(null)
   const { resolvedTheme, toggleTheme } = useTheme()
   const { count, submitting, submitted, error, alreadySignedUp, submitEmail } = useWaitlist()
+
+  // ── Counter-up animation ──
+  const targetCount = count + 100
+  const [displayCount, setDisplayCount] = useState(0)
+
+  useEffect(() => {
+    const duration = 1500 // ms
+    const start = performance.now()
+    const from = 0
+    const to = targetCount
+    let raf
+
+    const step = (now) => {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setDisplayCount(Math.round(from + (to - from) * eased))
+      if (progress < 1) raf = requestAnimationFrame(step)
+    }
+
+    raf = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(raf)
+  }, [targetCount])
 
   // ── Translated data arrays (rebuilt when language changes) ──
 
@@ -352,7 +376,7 @@ export default function WaitlistPage() {
             {error && <p className="wl-error">{error}</p>}
 
             <p className="wl-counter">
-              <strong>{(count + 100).toLocaleString()}</strong>{' '}
+              <strong>{displayCount.toLocaleString()}</strong>{' '}
               {t('hero.joinedSuffix')}
             </p>
           </div>

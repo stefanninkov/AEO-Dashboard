@@ -38,6 +38,7 @@
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  animation: wl-fade-in 0.8s ease both;
 }
 
 
@@ -1268,6 +1269,7 @@ html[data-theme="light"] .wl-nav-mobile-overlay {
 /* ========== REDUCED MOTION ========== */
 
 @media (prefers-reduced-motion: reduce) {
+  .wl-root,
   .wl-badge,
   .wl-hero h1,
   .wl-hero-sub,
