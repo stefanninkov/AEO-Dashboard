@@ -68,7 +68,7 @@ export default memo(function PhaseCard({
                 background: 'rgba(245,158,11,0.1)',
               }}>
                 <Star size={9} style={{ fill: 'var(--color-phase-5)' }} />
-                Recommended
+                Focus Phase
               </span>
             )}
           </div>
