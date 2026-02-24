@@ -198,7 +198,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
     <div className="space-y-6">
       {/* Header */}
       <div className="metrics-header">
-        <div>
+        <div className="view-header" style={{ marginBottom: 0 }}>
           <h2 className="view-title">{t('metrics.title')}</h2>
           <p className="view-subtitle">
             {activeProject.name} — {activeProject.url || t('metrics.noUrlSet')}

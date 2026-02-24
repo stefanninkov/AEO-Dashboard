@@ -29,7 +29,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
   }
 
   return (
-    <div style={{ padding: '1.5rem', maxWidth: '72rem', margin: '0 auto' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Header */}
       <div style={{ marginBottom: 'var(--space-5)' }}>
         <h2 className="view-title">{t('competitors.title')}</h2>

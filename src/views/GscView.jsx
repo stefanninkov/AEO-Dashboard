@@ -250,7 +250,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <div>
+        <div className="view-header" style={{ marginBottom: 0 }}>
           <h2 className="view-title">{t('gsc.title')}</h2>
           <p className="view-subtitle">
             {t('gsc.subtitleProperty', { property: formatSiteUrl(gscProperty) })}
@@ -271,7 +271,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
                   border: 'none',
                   borderRadius: '0.375rem',
                   cursor: 'pointer',
-                  background: datePreset === p.value ? 'var(--color-phase-1)' : 'transparent',
+                  background: datePreset === p.value ? 'var(--accent)' : 'transparent',
                   color: datePreset === p.value ? '#fff' : 'var(--text-tertiary)',
                   transition: 'all 100ms',
                 }}

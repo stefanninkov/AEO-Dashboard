@@ -10,6 +10,7 @@ import useContentCalendar, {
 } from './useContentCalendar'
 import EntryForm from './EntryForm'
 import StatCard from '../dashboard/StatCard'
+import EmptyState from '../../components/EmptyState'
 
 /* ── Entry Card (rendered inside day cells) ── */
 function EntryCard({ entry, compact, onClick, members, t }) {
@@ -376,21 +377,12 @@ export default function CalendarView({ activeProject, updateProject, user, phase
 
       {/* Empty state */}
       {cal.entries.length === 0 && (
-        <div style={{
-          textAlign: 'center', padding: '3rem 1.5rem',
-          color: 'var(--text-tertiary)',
-        }}>
-          <CalendarIcon size={40} style={{ opacity: 0.3, marginBottom: '0.75rem' }} />
-          <div style={{
-            fontFamily: 'var(--font-heading)', fontSize: '0.9375rem',
-            fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.375rem',
-          }}>
-            {t('contentOps.emptyTitle')}
-          </div>
-          <div style={{ fontSize: '0.8125rem', maxWidth: '24rem', margin: '0 auto', lineHeight: 1.5 }}>
-            {t('contentOps.emptyDesc')}
-          </div>
-        </div>
+        <EmptyState
+          icon={CalendarIcon}
+          title={t('contentOps.emptyTitle')}
+          description={t('contentOps.emptyDesc')}
+          action={{ label: t('contentOps.addEntry'), onClick: () => setShowForm(true) }}
+        />
       )}
 
       {/* Entry Form (slide-out panel) */}

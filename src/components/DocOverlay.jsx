@@ -109,18 +109,12 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
           {item?.action?.view && setActiveView && (
             <button
               onClick={() => { setActiveView(item.action.view); onClose() }}
+              className="btn-primary btn-sm"
               style={{
+                background: phaseColor,
                 display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.4375rem 0.875rem', borderRadius: '0.5rem',
-                border: 'none', cursor: 'pointer',
-                background: phaseColor, color: '#fff',
-                fontSize: '0.75rem', fontWeight: 600,
-                fontFamily: 'var(--font-body)',
                 whiteSpace: 'nowrap', flexShrink: 0,
-                transition: 'opacity 150ms',
               }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
             >
               {item.action.label}
               <ArrowRight size={13} />
@@ -131,19 +125,15 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
               href={safeHref(item.action.external)}
               target="_blank"
               rel="noopener noreferrer"
+              className="btn-secondary btn-sm"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.4375rem 0.875rem', borderRadius: '0.5rem',
-                border: `0.0625rem solid ${phaseColor}40`,
-                background: phaseColor + '10', color: phaseColor,
-                fontSize: '0.75rem', fontWeight: 600,
-                fontFamily: 'var(--font-body)',
                 textDecoration: 'none',
                 whiteSpace: 'nowrap', flexShrink: 0,
-                transition: 'opacity 150ms',
+                borderColor: phaseColor + '40',
+                background: phaseColor + '10',
+                color: phaseColor,
               }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
             >
               {item.action.label}
               <ExternalLink size={12} />

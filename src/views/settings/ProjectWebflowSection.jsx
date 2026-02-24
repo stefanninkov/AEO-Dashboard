@@ -13,6 +13,7 @@ import { hasApiKey } from '../../utils/aiProvider'
 import { useToast } from '../../components/Toast'
 import logger from '../../utils/logger'
 import { sectionTitleStyle } from './SettingsShared'
+import EmptyState from '../../components/EmptyState'
 
 const MCP_CONFIG = {
   mcp_servers: [{
@@ -388,15 +389,12 @@ Return ONLY valid JSON:
           </div>
 
           {sites.length === 0 && !loading && (
-            <div style={{ padding: '1.5rem', textAlign: 'center' }}>
-              <Globe size={28} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.625rem' }} />
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
-                No sites loaded. Click "Load Sites" to connect to your Webflow account.
-              </p>
-              <p style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', marginTop: '0.375rem' }}>
-                Requires an Anthropic API key and Webflow MCP authentication.
-              </p>
-            </div>
+            <EmptyState
+              compact
+              icon={Globe}
+              title="No sites loaded"
+              description='Click "Load Sites" to connect to your Webflow account. Requires an Anthropic API key and Webflow MCP authentication.'
+            />
           )}
 
           {sites.length > 0 && (
@@ -765,12 +763,12 @@ Return ONLY valid JSON:
           )}
 
           {pages.length === 0 && !pagesLoading && (
-            <div style={{ padding: '1.5rem 1.25rem', textAlign: 'center' }}>
-              <Layers size={24} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.5rem' }} />
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
-                {selectedSite ? 'Click "Scan Pages" to analyze your site' : 'Select a site from My Sites tab first'}
-              </p>
-            </div>
+            <EmptyState
+              compact
+              icon={Layers}
+              title="No pages scanned"
+              description={selectedSite ? 'Click "Scan Pages" to analyze your site' : 'Select a site from My Sites tab first'}
+            />
           )}
         </div>
       )}

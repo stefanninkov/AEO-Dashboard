@@ -446,7 +446,7 @@ Return ONLY valid JSON:
               data-active={mode === 'url' || undefined}
               onClick={() => setMode('url')}
               className={`analyzer-mode-tab ${mode === 'url' ? 'active' : ''}`}
-              style={mode === 'url' ? { backgroundColor: 'var(--color-phase-1)' } : {}}
+              style={mode === 'url' ? { backgroundColor: 'var(--accent)' } : {}}
             >
               <Globe size={14} />
               {t('analyzer.urlScan')}
@@ -455,7 +455,7 @@ Return ONLY valid JSON:
               data-active={mode === 'webflow' || undefined}
               onClick={() => setMode('webflow')}
               className={`analyzer-mode-tab ${mode === 'webflow' ? 'active' : ''}`}
-              style={mode === 'webflow' ? { backgroundColor: 'var(--color-phase-2)' } : {}}
+              style={mode === 'webflow' ? { backgroundColor: 'var(--accent)' } : {}}
             >
               <Link2 size={14} />
               {t('analyzer.webflowConnect')}
@@ -500,7 +500,7 @@ Return ONLY valid JSON:
                 <button
                   onClick={fetchWebflowSites}
                   disabled={webflowLoading}
-                  className="px-4 py-2 bg-phase-2 text-white rounded-lg text-[0.8125rem] font-medium hover:brightness-110 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
+                  className="px-4 py-2 bg-accent text-white rounded-lg text-[0.8125rem] font-medium hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
                 >
                   {webflowLoading ? <Loader2 size={14} className="animate-spin" /> : <Link2 size={14} />}
                   {webflowSites.length > 0 ? t('analyzer.refreshSites') : t('analyzer.loadSites')}

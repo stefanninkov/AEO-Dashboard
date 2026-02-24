@@ -215,7 +215,7 @@ export default function TestingView({ activeProject, updateProject }) {
             <button
               onClick={runMonitor}
               disabled={autoMonitoring || !activeProject?.url || !activeProject?.queryTracker?.length}
-              className="px-4 py-2 bg-phase-4 text-white rounded-lg text-sm font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none flex items-center gap-2 flex-shrink-0"
+              className="px-4 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none flex items-center gap-2 flex-shrink-0"
             >
               {autoMonitoring ? (
                 <>
@@ -417,7 +417,7 @@ export default function TestingView({ activeProject, updateProject }) {
           <button
             onClick={addQuery}
             disabled={!newQuery.trim()}
-            className="px-3 py-2 bg-phase-6 text-white rounded-lg text-sm font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:hover:scale-100"
+            className="px-3 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:hover:scale-100"
             aria-label={t('testing.addQuery')}
           >
             <Plus size={16} />

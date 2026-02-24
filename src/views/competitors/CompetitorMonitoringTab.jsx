@@ -10,6 +10,7 @@ import {
   ResponsiveContainer, Legend
 } from 'recharts'
 import { useCompetitorMonitor } from '../../hooks/useCompetitorMonitor'
+import EmptyState from '../../components/EmptyState'
 import { CATEGORY_LABELS, getHeatColor } from './CompetitorsOverviewTab'
 import { PHASE_COLOR_ARRAY } from '../../utils/chartColors'
 import { ToggleSwitch } from '../../views/settings/SettingsShared'
@@ -652,17 +653,13 @@ export default function CompetitorMonitoringTab({ activeProject, updateProject, 
 
       {/* ── Empty State ── */}
       {history.length === 0 && !monitoring && (
-        <div className="card" style={{ textAlign: 'center', padding: '2.5rem 1.5rem' }}>
-          <Activity size={36} style={{ color: 'var(--text-disabled)', marginBottom: '0.75rem' }} />
-          <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 0.25rem' }}>
-            No monitoring data yet
-          </p>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.5 }}>
-            {competitors.length === 0
-              ? 'Add competitors in the Overview tab first, then start monitoring.'
-              : 'Click "Run Monitor" to take the first snapshot of competitor AEO scores.'}
-          </p>
-        </div>
+        <EmptyState
+          icon={Activity}
+          title="No monitoring data yet"
+          description={competitors.length === 0
+            ? 'Add competitors in the Overview tab first, then start monitoring.'
+            : 'Click "Run Monitor" to take the first snapshot of competitor AEO scores.'}
+        />
       )}
     </div>
   )

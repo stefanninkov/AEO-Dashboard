@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
-const ThemeContext = createContext({ theme: 'dark', resolvedTheme: 'dark', setTheme: () => {}, toggleTheme: () => {} })
+const ThemeContext = createContext({ theme: 'light', resolvedTheme: 'light', setTheme: () => {}, toggleTheme: () => {} })
 
 function getSystemPreference() {
-  if (typeof window === 'undefined') return 'dark'
+  if (typeof window === 'undefined') return 'light'
   return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
 }
 
@@ -19,7 +19,7 @@ export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(() => {
     const stored = getStoredTheme()
     if (stored === 'light' || stored === 'dark' || stored === 'auto') return stored
-    return 'dark'
+    return 'light'
   })
 
   const [systemPref, setSystemPref] = useState(getSystemPreference)

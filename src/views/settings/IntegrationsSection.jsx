@@ -10,6 +10,7 @@ import { useToast } from '../../components/Toast'
 import {
   sectionTitleStyle, settingsRowStyle, lastRowStyle, labelStyle,
 } from './SettingsShared'
+import EmptyState from '../../components/EmptyState'
 
 export default function IntegrationsSection({ user }) {
   const { t } = useTranslation('app')
@@ -172,14 +173,12 @@ export default function IntegrationsSection({ user }) {
       {/* ── Future integrations placeholder ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Plug size={15} /> More Integrations</div>
-        <div style={{
-          padding: '1.5rem 1.25rem',
-          textAlign: 'center',
-          color: 'var(--text-disabled)',
-          fontSize: '0.8125rem',
-        }}>
-          More integrations coming soon — Slack notifications, Zapier webhooks, and more.
-        </div>
+        <EmptyState
+          compact
+          icon={Plug}
+          title="More Integrations"
+          description="More integrations coming soon — Slack notifications, Zapier webhooks, and more."
+        />
       </div>
     </>
   )

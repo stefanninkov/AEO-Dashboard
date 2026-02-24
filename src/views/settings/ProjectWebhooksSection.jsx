@@ -10,6 +10,7 @@ import { useToast } from '../../components/Toast'
 import {
   ToggleSwitch, sectionTitleStyle, settingsRowStyle,
 } from './SettingsShared'
+import EmptyState from '../../components/EmptyState'
 
 export default function ProjectWebhooksSection({ activeProject, updateProject }) {
   const { t } = useTranslation('app')
@@ -178,12 +179,12 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
 
       {/* Empty state */}
       {webhooks.length === 0 && !webhookFormOpen && (
-        <div style={{ padding: '1.5rem 1.25rem', textAlign: 'center' }}>
-          <Zap size={24} style={{ color: 'var(--text-disabled)', marginBottom: '0.375rem' }} />
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: 0 }}>
-            {t('webhooks.emptyState')}
-          </p>
-        </div>
+        <EmptyState
+          compact
+          icon={Zap}
+          title={t('webhooks.title')}
+          description={t('webhooks.emptyState')}
+        />
       )}
     </div>
   )

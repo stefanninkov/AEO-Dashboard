@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import useContentBrief from './useContentBrief'
 import { safeHref } from '../../utils/sanitizeUrl'
+import EmptyState from '../../components/EmptyState'
 
 /* ── Skeleton loader ── */
 function BriefSkeleton() {
@@ -423,23 +424,11 @@ export default function BriefView({ activeProject, updateProject, user }) {
 
         {/* Empty state */}
         {!brief.generating && !brief.selectedBrief && brief.briefs.length === 0 && (
-          <div style={{
-            textAlign: 'center', padding: '3rem 1.5rem',
-            color: 'var(--text-tertiary)',
-          }}>
-            <FileText size={40} style={{ opacity: 0.3, marginBottom: '0.75rem' }} />
-            <div style={{
-              fontFamily: 'var(--font-heading)', fontSize: '0.9375rem',
-              fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.375rem',
-            }}>
-              No content briefs yet
-            </div>
-            <div style={{ fontSize: '0.8125rem', maxWidth: '28rem', margin: '0 auto', lineHeight: 1.5 }}>
-              Enter a target query (e.g. "how to choose a CRM") and optionally a page URL.
-              The AI will research competitors, analyze top-ranking content, and generate
-              a complete brief with heading structure, questions to answer, schema recommendations, and more.
-            </div>
-          </div>
+          <EmptyState
+            icon={FileText}
+            title="No content briefs yet"
+            description='Enter a target query (e.g. "how to choose a CRM") and optionally a page URL. The AI will research competitors, analyze top-ranking content, and generate a complete brief with heading structure, questions to answer, schema recommendations, and more.'
+          />
         )}
       </div>
     </div>

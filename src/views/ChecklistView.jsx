@@ -389,7 +389,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       {/* Header */}
-      <div>
+      <div className="view-header" style={{ marginBottom: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
           <h2 className="view-title">AEO Guide</h2>
           <span style={{ fontSize: '0.6875rem', padding: '0.125rem 0.5rem', borderRadius: '6.1875rem', background: 'rgba(46,204,113,0.1)', color: 'var(--color-phase-3)', fontWeight: 500 }}>{activeProject?.name}</span>

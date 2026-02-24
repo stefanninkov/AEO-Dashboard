@@ -248,7 +248,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <div>
+        <div className="view-header" style={{ marginBottom: 0 }}>
           <h2 className="view-title">{t('ga4.title')}</h2>
           <p className="view-subtitle">{t('ga4.subtitleShort')}</p>
         </div>
@@ -261,7 +261,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
                 style={{
                   padding: '0.25rem 0.5rem', fontSize: '0.6875rem', fontWeight: 600,
                   fontFamily: 'var(--font-mono)', border: 'none', borderRadius: '0.375rem', cursor: 'pointer',
-                  background: datePreset === p.value ? 'var(--color-phase-1)' : 'transparent',
+                  background: datePreset === p.value ? 'var(--accent)' : 'transparent',
                   color: datePreset === p.value ? '#fff' : 'var(--text-tertiary)', transition: 'all 100ms',
                 }}
               >

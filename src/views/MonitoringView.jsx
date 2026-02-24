@@ -228,7 +228,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       <div className="mon-header">
         <div className="mon-header-left">
           <Activity size={24} className="mon-header-icon" />
-          <div>
+          <div className="view-header" style={{ marginBottom: 0 }}>
             <h1 className="view-title">{t('monitoring.title')}</h1>
             <p className="view-subtitle">{t('monitoring.subtitle')}</p>
           </div>

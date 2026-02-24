@@ -6,6 +6,7 @@ import {
   Copy, Check,
 } from 'lucide-react'
 import { useContentDecay } from '../../hooks/useContentDecay'
+import EmptyState from '../../components/EmptyState'
 
 const SEVERITY_CONFIG = {
   lost: { icon: AlertTriangle, color: 'var(--color-error)', bg: 'rgba(239,68,68,0.08)', label: 'Lost' },
@@ -96,57 +97,23 @@ export default function ContentDecayTab({ activeProject }) {
   // Empty / insufficient data state
   if (!hasData) {
     return (
-      <div className="card" style={{
-        display: 'flex', flexDirection: 'column', alignItems: 'center',
-        justifyContent: 'center', padding: '3rem 1.5rem',
-        border: '0.125rem dashed var(--border-default)',
-      }}>
-        <div style={{
-          width: '3rem', height: '3rem', borderRadius: '0.75rem',
-          background: 'var(--hover-bg)', display: 'flex',
-          alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem',
-        }}>
-          <TrendingDown size={20} style={{ color: 'var(--text-tertiary)' }} />
-        </div>
-        <h3 style={{
-          fontFamily: 'var(--font-heading)', fontSize: '0.8125rem',
-          fontWeight: 700, marginBottom: '0.25rem', color: 'var(--text-primary)',
-        }}>
-          {t('monitoring.decay.emptyTitle')}
-        </h3>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', textAlign: 'center', maxWidth: '20rem' }}>
-          {t('monitoring.decay.emptyDesc')}
-        </p>
-      </div>
+      <EmptyState
+        icon={TrendingDown}
+        title={t('monitoring.decay.emptyTitle')}
+        description={t('monitoring.decay.emptyDesc')}
+      />
     )
   }
 
   // No decays found (everything healthy)
   if (decays.length === 0) {
     return (
-      <div className="card" style={{
-        display: 'flex', flexDirection: 'column', alignItems: 'center',
-        justifyContent: 'center', padding: '2.5rem 1.5rem',
-        border: '0.0625rem solid rgba(46,204,113,0.2)',
-        background: 'rgba(46,204,113,0.03)',
-      }}>
-        <div style={{
-          width: '3rem', height: '3rem', borderRadius: '50%',
-          background: 'rgba(46,204,113,0.1)', display: 'flex',
-          alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem',
-        }}>
-          <CheckCircle2 size={24} style={{ color: 'var(--color-success)' }} />
-        </div>
-        <h3 style={{
-          fontFamily: 'var(--font-heading)', fontSize: '0.875rem',
-          fontWeight: 700, color: 'var(--color-success)', marginBottom: '0.25rem',
-        }}>
-          {t('monitoring.decay.healthyTitle')}
-        </h3>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-          {t('monitoring.decay.healthyDesc')}
-        </p>
-      </div>
+      <EmptyState
+        icon={CheckCircle2}
+        title={t('monitoring.decay.healthyTitle')}
+        description={t('monitoring.decay.healthyDesc')}
+        color="var(--color-success)"
+      />
     )
   }
 

@@ -656,7 +656,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
             <button
               onClick={() => setSelectedPhase(null)}
               className={`docs-filter-pill${!selectedPhase ? ' active' : ''}`}
-              style={!selectedPhase ? { backgroundColor: 'var(--color-phase-1)' } : undefined}
+              style={!selectedPhase ? { backgroundColor: 'var(--accent)' } : undefined}
             >
               {t('allPhases')}
             </button>
