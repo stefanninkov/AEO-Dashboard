@@ -29,7 +29,7 @@ function SkeletonRow({ iconSize = '1rem', lines = 1, delay = 0 }) {
 /* ── Dashboard Skeleton ── */
 export function DashboardSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <div className="view-wrapper">
       {/* Title area */}
       <div className="fade-in-up">
         <Skeleton width="12rem" height="1.25rem" style={{ marginBottom: '0.5rem' }} />
@@ -73,7 +73,7 @@ export function DashboardSkeleton() {
 /* ── Checklist Skeleton ── */
 export function ChecklistSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <div className="view-wrapper">
       {/* Title */}
       <div className="fade-in-up">
         <Skeleton width="6rem" height="1rem" />
@@ -122,7 +122,7 @@ export function ChecklistSkeleton() {
 /* ── Metrics Skeleton ── */
 export function MetricsSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <div className="view-wrapper">
       {/* Header */}
       <div className="fade-in-up" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Skeleton width="8rem" height="1rem" />
@@ -157,7 +157,7 @@ export function MetricsSkeleton() {
 /* ── Docs Skeleton ── */
 export function DocsSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <div className="view-wrapper">
       {/* Search bar */}
       <Skeleton width="100%" height="2.5rem" borderRadius="0.625rem" className="fade-in-up" />
 
@@ -186,7 +186,7 @@ export function DocsSkeleton() {
 /* ── Testing Skeleton ── */
 export function TestingSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <div className="view-wrapper">
       {/* Score card */}
       <div className="card fade-in-up" style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
         <Skeleton width="4rem" height="4rem" borderRadius="50%" />

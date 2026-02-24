@@ -473,11 +473,9 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
     }
   }, [noProjects, questionnaireProjectId, pendingProject])
 
-  // Show loading skeleton while checklist data is loading (must be after all hooks)
-  if (!phases) return <DashboardSkeleton />
-
   const renderView = () => {
-    if (projectsLoading) {
+    // Show loading skeleton while checklist data or projects are loading
+    if (!phases || projectsLoading) {
       switch (activeView) {
         case 'dashboard': return <DashboardSkeleton />
         case 'checklist': return <ChecklistSkeleton />
