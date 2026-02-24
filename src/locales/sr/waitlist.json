@@ -177,6 +177,30 @@
     "3": {
       "question": "Kada će AEO Dashboard biti lansiran?",
       "answer": "Trenutno smo u završnim fazama razvoja. Pridružite se listi čekanja da biste bili obavešteni čim lansiramo. Takođe ćemo odabrati malu grupu korisnika za rani pristup da isprobaju platformu pre javnog izdanja."
+    },
+    "4": {
+      "question": "Koje funkcije uključuje AEO Dashboard?",
+      "answer": "AEO Dashboard uključuje listu od 99 AEO stavki organizovanih u 7 faza, analizu sajta u realnom vremenu koja odmah ocenjuje bilo koji URL, laboratoriju za testiranje na više AI pretraživača uključujući ChatGPT, Perplexity, Claude i Gemini, AI pisac sadržaja, generator schema oznaka i monitoring sa obaveštenjima o promenama citiranja."
+    },
+    "5": {
+      "question": "Da li mi je potrebno tehničko znanje za korišćenje AEO Dashboard-a?",
+      "answer": "Ne. AEO Dashboard je dizajniran za marketare i SEO profesionalce svih nivoa znanja. Lista vas vodi korak po korak, generator schema oznaka ne zahteva programiranje, i svaki zadatak uključuje dokumentaciju koja objašnjava šta treba uraditi i zašto je to važno."
+    },
+    "6": {
+      "question": "Kako funkcioniše lista od 99 AEO stavki?",
+      "answer": "Lista deli AEO na 7 faza — od revizije trenutnog stanja do kontinuiranog monitoringa. Svaka faza sadrži specifične zadatke sa dokumentacijom, nivoima prioriteta i praćenjem napretka. Radite sekvencijalno kroz faze, a kontrolna tabla prikazuje procenat završenosti i ukupan AEO rezultat spremnosti."
+    },
+    "7": {
+      "question": "Koje AI pretraživače podržava AEO Dashboard?",
+      "answer": "AEO Dashboard vam pomaže da optimizujete za sve glavne AI pretraživače uključujući ChatGPT, Google AI Overviews, Google Gemini, Perplexity, Bing Copilot i Claude. Laboratorija za testiranje vam omogućava da ih sve istovremeno pretraživate i vidite kako se vaš sadržaj prikazuje."
+    },
+    "8": {
+      "question": "Da li je AEO Dashboard besplatan?",
+      "answer": "Tokom perioda ranog pristupa, odabrani korisnici dobijaju potpun pristup platformi besplatno. Nakon lansiranja, biće i besplatnih i plaćenih planova. Osnovna analiza sajta i bazična lista će uvek biti besplatne. Pridružite se listi čekanja da osigurate pogodnosti ranog pristupa."
+    },
+    "9": {
+      "question": "Mogu li koristiti AEO Dashboard za više sajtova?",
+      "answer": "Da. AEO Dashboard podržava više projekata, tako da možete upravljati AEO za nekoliko sajtova sa jednog naloga. Svaki projekat ima sopstveni napredak liste, rezultate analize i podatke monitoringa — idealno za agencije koje upravljaju portfolijima klijenata."
     }
   },
   "earlyAccess": {
@@ -202,15 +226,6 @@
           "1": "Faze",
           "2": "Funkcije",
           "3": "FAQ"
-        }
-      },
-      "1": {
-        "title": "Kompanija",
-        "links": {
-          "0": "O nama",
-          "1": "Blog",
-          "2": "Kontakt",
-          "3": "Politika privatnosti"
         }
       }
     },

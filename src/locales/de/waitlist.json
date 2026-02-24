@@ -177,6 +177,30 @@
     "3": {
       "question": "Wann wird AEO Dashboard veröffentlicht?",
       "answer": "Wir befinden uns derzeit in den letzten Entwicklungsphasen. Tragen Sie sich in die Warteliste ein, um benachrichtigt zu werden, sobald wir starten. Wir werden außerdem eine kleine Gruppe von Early-Access-Nutzern auswählen, die die Plattform vor der öffentlichen Veröffentlichung testen können."
+    },
+    "4": {
+      "question": "Welche Funktionen bietet AEO Dashboard?",
+      "answer": "AEO Dashboard umfasst eine 99-Punkte-AEO-Checkliste in 7 Phasen, einen Echtzeit-Site-Analyzer der jede URL sofort bewertet, ein Multi-Engine-Testlabor für ChatGPT, Perplexity, Claude und Gemini, einen AI-Content-Writer, einen Schema-Markup-Generator und Monitoring mit Benachrichtigungen bei Zitierungsänderungen."
+    },
+    "5": {
+      "question": "Brauche ich technisches Wissen, um AEO Dashboard zu nutzen?",
+      "answer": "Nein. AEO Dashboard ist für Marketer und SEO-Profis aller Erfahrungsstufen konzipiert. Die Checkliste führt Sie Schritt für Schritt, der Schema-Generator erfordert keine Programmierkenntnisse, und jede Aufgabe enthält Dokumentation, die erklärt, was zu tun ist und warum es wichtig ist."
+    },
+    "6": {
+      "question": "Wie funktioniert die 99-Punkte-AEO-Checkliste?",
+      "answer": "Die Checkliste unterteilt AEO in 7 Phasen — vom Audit des aktuellen Zustands bis zum laufenden Monitoring. Jede Phase enthält spezifische Aufgaben mit Dokumentation, Prioritätsstufen und Fortschrittsverfolgung. Sie arbeiten sich sequenziell durch, und das Dashboard zeigt Ihren Fertigstellungsgrad und den AEO-Bereitschaftswert."
+    },
+    "7": {
+      "question": "Welche AI-Engines unterstützt AEO Dashboard?",
+      "answer": "AEO Dashboard hilft Ihnen bei der Optimierung für alle großen AI-Suchmaschinen, darunter ChatGPT, Google AI Overviews, Google Gemini, Perplexity, Bing Copilot und Claude. Das Testlabor ermöglicht es Ihnen, alle gleichzeitig abzufragen und zu sehen, wie Ihr Content angezeigt wird."
+    },
+    "8": {
+      "question": "Ist AEO Dashboard kostenlos?",
+      "answer": "Während der Early-Access-Phase erhalten ausgewählte Nutzer kostenlosen Vollzugang zur Plattform. Nach dem Launch wird es sowohl kostenlose als auch kostenpflichtige Tarife geben. Der Site-Analyzer und die Basis-Checkliste bleiben immer kostenlos. Tragen Sie sich in die Warteliste ein, um sich Early-Access-Vorteile zu sichern."
+    },
+    "9": {
+      "question": "Kann ich AEO Dashboard für mehrere Websites nutzen?",
+      "answer": "Ja. AEO Dashboard unterstützt mehrere Projekte, sodass Sie AEO für verschiedene Websites von einem einzigen Konto aus verwalten können. Jedes Projekt hat eigene Checklisten-Fortschritte, Analyzer-Ergebnisse und Monitoring-Daten — ideal für Agenturen mit Kundenportfolios."
     }
   },
   "earlyAccess": {
@@ -202,15 +226,6 @@
           "1": "Phasen",
           "2": "Features",
           "3": "FAQ"
-        }
-      },
-      "1": {
-        "title": "Unternehmen",
-        "links": {
-          "0": "Über uns",
-          "1": "Blog",
-          "2": "Kontakt",
-          "3": "Datenschutzerklärung"
         }
       }
     },

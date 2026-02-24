@@ -177,6 +177,30 @@
     "3": {
       "question": "When will AEO Dashboard launch?",
       "answer": "We're currently in the final stages of development. Join the waitlist to be notified the moment we launch. We'll also be selecting a small group of early access users to try the platform before the public release."
+    },
+    "4": {
+      "question": "What features does AEO Dashboard include?",
+      "answer": "AEO Dashboard includes a 99-point AEO checklist organized across 7 phases, a real-time site analyzer that scores any URL instantly, a multi-engine testing lab to check your visibility across ChatGPT, Perplexity, Claude, and Gemini, an AI content writer, a schema markup generator, and monitoring with alerts for citation changes."
+    },
+    "5": {
+      "question": "Do I need technical knowledge to use AEO Dashboard?",
+      "answer": "No. AEO Dashboard is designed for marketers and SEO professionals of all skill levels. The checklist guides you step-by-step, the schema generator requires no coding, and every task includes documentation explaining what to do and why it matters."
+    },
+    "6": {
+      "question": "How does the 99-Point AEO Checklist work?",
+      "answer": "The checklist breaks AEO into 7 phases — from auditing your current state to ongoing monitoring. Each phase contains specific tasks with documentation, priority levels, and progress tracking. You work through it sequentially, and the dashboard shows your completion percentage and overall AEO readiness score."
+    },
+    "7": {
+      "question": "What AI engines does AEO Dashboard support?",
+      "answer": "AEO Dashboard helps you optimize for all major AI answer engines including ChatGPT, Google AI Overviews, Google Gemini, Perplexity, Bing Copilot, and Claude. The testing lab lets you query all of them simultaneously to see how your content appears."
+    },
+    "8": {
+      "question": "Is AEO Dashboard free?",
+      "answer": "During the early access period, selected users will get full platform access at no cost. After launch, there will be both free and paid tiers. The core site analyzer and basic checklist will always be free. Join the waitlist to lock in early access benefits."
+    },
+    "9": {
+      "question": "Can I use AEO Dashboard for multiple websites?",
+      "answer": "Yes. AEO Dashboard supports multiple projects, so you can manage AEO for several websites from a single account. Each project gets its own checklist progress, analyzer results, and monitoring data — ideal for agencies managing client portfolios."
     }
   },
   "earlyAccess": {
@@ -202,15 +226,6 @@
           "1": "Phases",
           "2": "Features",
           "3": "FAQ"
-        }
-      },
-      "1": {
-        "title": "Company",
-        "links": {
-          "0": "About",
-          "1": "Blog",
-          "2": "Contact",
-          "3": "Privacy Policy"
         }
       }
     },

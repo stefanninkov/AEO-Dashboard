@@ -36,12 +36,6 @@ const FOOTER_HREFS = [
     { href: '#features' },
     { href: '#faq' },
   ],
-  [
-    { href: '#' },
-    { href: '#' },
-    { href: '#' },
-    { href: '#' },
-  ],
 ]
 
 const BASE_PATH = import.meta.env.BASE_URL || '/AEO-Dashboard/'
@@ -126,7 +120,7 @@ export default function WaitlistPage() {
   [t])
 
   const FAQ_ITEMS = useMemo(() =>
-    Array.from({ length: 4 }, (_, i) => ({
+    Array.from({ length: 10 }, (_, i) => ({
       question: t(`faq.${i}.question`),
       answer: t(`faq.${i}.answer`),
     })),
