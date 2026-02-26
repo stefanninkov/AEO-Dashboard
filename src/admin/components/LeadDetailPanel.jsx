@@ -5,7 +5,8 @@
  * individual answers per category, priorities, admin notes, actions.
  */
 import { useState, useEffect, useRef } from 'react'
-import { X, Mail, Globe, Clock, Monitor, Languages, Send, UserCheck, Copy, Check } from 'lucide-react'
+import { X, Mail, Globe, Clock, Monitor, Languages, Send, UserCheck, Copy, Check, Trash2, Ticket } from 'lucide-react'
+import LeadEmailComposer from './LeadEmailComposer'
 import {
   CATEGORIES, SCORED_QUESTIONS, QUALIFYING_QUESTIONS, QUIZ_FLOW,
   getScoreTier, getLeadTier, MAX_TOTAL_SCORE,
@@ -27,30 +28,30 @@ const LEAD_TIER_DISPLAY = {
 
 const ROLE_LABELS = {
   agency_owner: 'Agency Owner / Partner',
-  seo_manager: 'SEO Manager / Director',
+  seo_director: 'SEO Manager / Director',
   inhouse: 'In-house Marketing / SEO',
-  freelance: 'Freelance Consultant',
+  freelancer: 'Freelance Consultant',
   other: 'Other / Just exploring',
 }
 
 const WEBSITE_LABELS = {
-  '10plus': '10+ client websites',
-  '3to9': '3\u20139 websites',
-  '1to2': '1\u20132 websites',
-  just_own: 'Just my own',
+  '10+': '10+ client websites',
+  '3-9': '3\u20139 websites',
+  '1-2': '1\u20132 websites',
+  own: 'Just my own',
 }
 
 const TIMELINE_LABELS = {
   immediately: 'Immediately \u2014 urgent',
-  '1to3months': 'Within 1\u20133 months',
+  '1-3months': 'Within 1\u20133 months',
   exploring: 'Exploring for the future',
   curious: 'Just curious for now',
 }
 
 const QUALIFYING_POINTS = {
-  role: { agency_owner: 4, seo_manager: 3, inhouse: 2, freelance: 2, other: 0 },
-  websiteCount: { '10plus': 4, '3to9': 3, '1to2': 1, just_own: 0 },
-  timeline: { immediately: 4, '1to3months': 3, exploring: 1, curious: 0 },
+  role: { agency_owner: 4, seo_director: 3, inhouse: 2, freelancer: 2, other: 0 },
+  websiteCount: { '10+': 4, '3-9': 3, '1-2': 1, own: 0 },
+  timeline: { immediately: 4, '1-3months': 2, exploring: 1, curious: 0 },
 }
 
 /* ── Score Ring (mini) ── */
@@ -105,9 +106,14 @@ function SectionDivider({ title }) {
 }
 
 /* ── Main Component ── */
-export default function LeadDetailPanel({ lead, onClose, onMarkInvited, onMarkNudged, onUpdateNotes }) {
+export default function LeadDetailPanel({
+  lead, onClose, onMarkInvited, onMarkNudged, onUpdateNotes,
+  onUpdateStatus, onDelete, onLogContact, customTemplates,
+}) {
   const [notes, setNotes] = useState(lead?.adminNotes || '')
   const [copied, setCopied] = useState(false)
+  const [emailComposerOpen, setEmailComposerOpen] = useState(false)
+  const [emailPreselect, setEmailPreselect] = useState(null)
   const notesRef = useRef(null)
 
   // Sync notes when lead changes
@@ -386,51 +392,111 @@ export default function LeadDetailPanel({ lead, onClose, onMarkInvited, onMarkNu
             }}
           />
 
+          {/* ── Contact History ── */}
+          {(lead.contactHistory?.length > 0) && (
+            <>
+              <SectionDivider title={`Contact History (${lead.contactHistory.length})`} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                {lead.contactHistory.slice(-5).reverse().map((c, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.6875rem', padding: '0.125rem 0' }}>
+                    <Mail size={10} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--text-disabled)', width: '6rem', flexShrink: 0 }}>
+                      {formatDate(c.sentAt)}
+                    </span>
+                    <span style={{ color: 'var(--text-secondary)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {c.templateName || c.subject || '—'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
           {/* ── Actions ── */}
+          <SectionDivider title="Actions" />
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {!lead.invited && (
-              <button
-                onClick={() => onMarkInvited?.(lead.id)}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                  padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
-                  border: '0.0625rem solid var(--accent)', background: 'transparent',
-                  color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600,
-                  cursor: 'pointer', fontFamily: 'var(--font-body)',
-                }}
-              >
-                <UserCheck size={13} /> Mark as Invited
-              </button>
-            )}
-            {!lead.nudged && (
-              <button
-                onClick={() => onMarkNudged?.(lead.id)}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                  padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
-                  border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
-                  color: 'var(--text-secondary)', fontSize: '0.75rem', fontWeight: 600,
-                  cursor: 'pointer', fontFamily: 'var(--font-body)',
-                }}
-              >
-                <Send size={13} /> Send Nudge
-              </button>
-            )}
+            <button
+              onClick={() => { setEmailPreselect(null); setEmailComposerOpen(true) }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
+                padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
+                border: 'none', background: 'var(--accent)', color: '#fff',
+                fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)',
+              }}
+            >
+              <Mail size={13} /> Send Email
+            </button>
+            <button
+              onClick={() => { setEmailPreselect('beta_invite'); setEmailComposerOpen(true) }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
+                padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
+                border: '0.0625rem solid var(--accent)', background: 'transparent',
+                color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600,
+                cursor: 'pointer', fontFamily: 'var(--font-body)',
+              }}
+            >
+              <Ticket size={13} /> Send Invite
+            </button>
+            <button
+              onClick={() => {
+                if (window.confirm(`Delete lead "${lead.name || lead.email}"? This cannot be undone.`)) {
+                  onDelete?.(lead.id)
+                  onClose?.()
+                }
+              }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
+                padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
+                border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
+                color: 'var(--color-error)', fontSize: '0.75rem', fontWeight: 600,
+                cursor: 'pointer', fontFamily: 'var(--font-body)',
+              }}
+            >
+              <Trash2 size={13} /> Delete
+            </button>
           </div>
 
-          {/* ── Status Row ── */}
+          {/* ── Status ── */}
           <div style={{
-            display: 'flex', gap: '0.75rem', flexWrap: 'wrap',
-            fontSize: '0.625rem', color: 'var(--text-disabled)', paddingTop: '0.5rem',
-            borderTop: '0.0625rem solid var(--border-subtle)',
+            display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap',
+            paddingTop: '0.5rem', borderTop: '0.0625rem solid var(--border-subtle)',
           }}>
-            <span>Status: <strong style={{ color: 'var(--text-secondary)' }}>{statusLabel}</strong></span>
-            <span>Invited: {lead.invited ? '\u2713' : '\u2014'}</span>
-            <span>Nudged: {lead.nudged ? '\u2713' : '\u2014'}</span>
-            <span>Converted: {lead.converted ? '\u2713' : '\u2014'}</span>
+            <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)' }}>Status:</span>
+            <select
+              value={lead.status || 'active'}
+              onChange={e => onUpdateStatus?.(lead.id, e.target.value)}
+              style={{
+                padding: '0.25rem 0.5rem', borderRadius: '0.25rem', fontSize: '0.6875rem',
+                fontWeight: 600, fontFamily: 'var(--font-body)',
+                border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
+                color: 'var(--text-primary)', cursor: 'pointer',
+              }}
+            >
+              <option value="active">Active</option>
+              <option value="invited">Invited</option>
+              <option value="converted">Converted</option>
+              <option value="unsubscribed">Unsubscribed</option>
+              <option value="archived">Archived</option>
+            </select>
+            <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.625rem', color: 'var(--text-disabled)' }}>
+              <span>Invited: {lead.invited ? '✓' : '—'}</span>
+              <span>Nudged: {lead.nudged ? '✓' : '—'}</span>
+              <span>Converted: {lead.converted ? '✓' : '—'}</span>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Email Composer Modal */}
+      <LeadEmailComposer
+        isOpen={emailComposerOpen}
+        onClose={() => setEmailComposerOpen(false)}
+        lead={lead}
+        preselectedTemplateId={emailPreselect}
+        onLogContact={onLogContact}
+        customTemplates={customTemplates}
+      />
 
       <style>{`
         @keyframes slideInRight {

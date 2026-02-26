@@ -52,48 +52,48 @@ export default memo(function AdminSidebar({ activeView, setActiveView, user, onS
         <span className="sidebar-logo-text">Admin Panel</span>
       </div>
 
-      {/* Section: Administration */}
-      <div className="sidebar-section-label">Administration</div>
+      {/* Scrollable content */}
+      <div className="sidebar-scroll">
+        {/* Section: Administration */}
+        <div className="sidebar-section-label">Administration</div>
 
-      {/* Nav Items */}
-      <nav>
-        {ADMIN_NAV_ITEMS.map(item => {
-          const Icon = item.icon
-          const isActive = activeView === item.id
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveView(item.id)}
-              className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-              style={{ width: '100%' }}
-            >
-              <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
-              {item.label}
-            </button>
-          )
-        })}
-      </nav>
+        {/* Nav Items */}
+        <nav>
+          {ADMIN_NAV_ITEMS.map(item => {
+            const Icon = item.icon
+            const isActive = activeView === item.id
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveView(item.id)}
+                className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                style={{ width: '100%' }}
+              >
+                <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                {item.label}
+              </button>
+            )
+          })}
+        </nav>
 
-      {/* Section: Tools */}
-      <div className="sidebar-section-label">Tools</div>
+        {/* Section: Tools */}
+        <div className="sidebar-section-label">Tools</div>
 
-      {/* Theme Toggle */}
-      <button onClick={(e) => toggleTheme(e)} className="sidebar-nav-item">
-        {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-        {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-      </button>
+        {/* Theme Toggle */}
+        <button onClick={(e) => toggleTheme(e)} className="sidebar-nav-item">
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+        </button>
 
-      {/* Back to App */}
-      <button
-        onClick={() => { window.location.href = window.location.origin + window.location.pathname + '?/app' }}
-        className="sidebar-nav-item"
-      >
-        <ArrowLeft size={16} />
-        Back to App
-      </button>
-
-      {/* Spacer */}
-      <div className="sidebar-spacer" />
+        {/* Back to App */}
+        <button
+          onClick={() => { window.location.href = window.location.origin + window.location.pathname + '?/app' }}
+          className="sidebar-nav-item"
+        >
+          <ArrowLeft size={16} />
+          Back to App
+        </button>
+      </div>
 
       {/* Divider */}
       <div className="sidebar-divider" />

@@ -10,7 +10,7 @@ import {
   Users, UserPlus, TrendingUp, RefreshCw, Download, Search, ChevronDown,
   CheckSquare, Target, BarChart4, AlertTriangle, ArrowUpDown, ChevronLeft,
   ChevronRight, Mail, Eye, ArrowUpRight, ArrowDownRight, Minus, Filter,
-  Clock, Zap, Globe, Monitor, Sun, Moon, Sunrise, Sunset,
+  Clock, Zap, Globe, Monitor, Sun, Moon, Sunrise, Sunset, Trash2,
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
@@ -244,7 +244,7 @@ export default function AdminWaitlist({ user, onNavigate }) {
   const [activeTab, setActiveTab] = useState('overview')
   const { leads, loading, error, refresh, ...stats } = useWaitlistStats()
   const bulkEmail = useBulkEmail()
-  const { markInvited, markNudged, updateAdminNotes } = useWaitlist()
+  const { markInvited, markNudged, updateAdminNotes, updateLeadStatus, deleteLead, logContact } = useWaitlist()
 
   /* Leads tab state */
   const [search, setSearch] = useState('')
@@ -507,6 +507,10 @@ export default function AdminWaitlist({ user, onNavigate }) {
           markInvited={markInvited}
           markNudged={markNudged}
           updateAdminNotes={updateAdminNotes}
+          updateLeadStatus={updateLeadStatus}
+          deleteLead={deleteLead}
+          logContact={logContact}
+          customTemplates={bulkEmail.customTemplates}
           refresh={refresh}
         />
       )}
@@ -819,7 +823,9 @@ function LeadsTab({
   timelineFilter, setTimelineFilter, statusFilter, setStatusFilter,
   sortField, sortDir, handleSort, page, setPage, totalPages,
   selectedLead, setSelectedLead, handleExportCsv, openBulkEmail,
-  markInvited, markNudged, updateAdminNotes, refresh,
+  markInvited, markNudged, updateAdminNotes,
+  updateLeadStatus, deleteLead, logContact, customTemplates,
+  refresh,
 }) {
   const [bulkDropdownOpen, setBulkDropdownOpen] = useState(false)
 
@@ -1077,6 +1083,18 @@ function LeadsTab({
                     }}>
                     <Eye size={10} style={{ color: 'var(--accent)' }} />
                   </button>
+                  <button onClick={async () => {
+                    if (window.confirm(`Delete ${lead.name || lead.email}?`)) {
+                      await deleteLead(lead.id)
+                      await refresh()
+                    }
+                  }} title="Delete lead"
+                    style={{
+                      background: 'none', border: '0.0625rem solid var(--border-subtle)', borderRadius: '0.25rem',
+                      padding: '0.125rem 0.25rem', cursor: 'pointer', display: 'flex', alignItems: 'center',
+                    }}>
+                    <Trash2 size={10} style={{ color: 'var(--color-error, #EF4444)' }} />
+                  </button>
                 </div>
               </div>
             )
@@ -1143,6 +1161,30 @@ function LeadsTab({
             await updateAdminNotes(selectedLead.id, notes)
           }
         }}
+        onUpdateStatus={async (status) => {
+          if (selectedLead) {
+            await updateLeadStatus(selectedLead.id, status)
+            await refresh()
+            setSelectedLead(prev => prev ? { ...prev, status } : null)
+          }
+        }}
+        onDelete={async () => {
+          if (selectedLead) {
+            await deleteLead(selectedLead.id)
+            setSelectedLead(null)
+            await refresh()
+          }
+        }}
+        onLogContact={async (leadId, contactEntry) => {
+          await logContact(leadId, contactEntry)
+          await refresh()
+          setSelectedLead(prev => {
+            if (!prev) return null
+            const history = prev.contactHistory || []
+            return { ...prev, contactHistory: [...history, { ...contactEntry, sentAt: new Date().toISOString() }] }
+          })
+        }}
+        customTemplates={customTemplates}
       />
     </div>
   )

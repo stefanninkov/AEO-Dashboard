@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import {
   collection, addDoc, getDocs, onSnapshot,
   query, where, serverTimestamp, doc, updateDoc,
+  deleteDoc, arrayUnion,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import logger from '../utils/logger'
@@ -273,6 +274,53 @@ export function useWaitlist() {
     }
   }, [])
 
+  // ── Admin: update lead status ──
+  const updateLeadStatus = useCallback(async (docId, status) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+    try {
+      const updates = { status }
+      if (status === 'converted') {
+        updates.converted = true
+        updates.convertedAt = serverTimestamp()
+      }
+      if (status === 'invited') {
+        updates.invited = true
+        updates.invitedAt = serverTimestamp()
+      }
+      await updateDoc(doc(db, 'waitlist', docId), updates)
+    } catch (err) {
+      logger.error('Update lead status error:', err)
+    }
+  }, [])
+
+  // ── Admin: delete lead ──
+  const deleteLead = useCallback(async (docId) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+    try {
+      await deleteDoc(doc(db, 'waitlist', docId))
+    } catch (err) {
+      logger.error('Delete lead error:', err)
+    }
+  }, [])
+
+  // ── Admin: log contact to lead's history ──
+  const logContact = useCallback(async (docId, contactEntry) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+    try {
+      await updateDoc(doc(db, 'waitlist', docId), {
+        contactHistory: arrayUnion({
+          ...contactEntry,
+          sentAt: new Date().toISOString(),
+        }),
+        lastContactedAt: serverTimestamp(),
+        nudged: true,
+        nudgedAt: serverTimestamp(),
+      })
+    } catch (err) {
+      logger.error('Log contact error:', err)
+    }
+  }, [])
+
   return {
     count, submitting, submitted, error, alreadySignedUp,
     submitEmail,        // legacy
@@ -283,5 +331,8 @@ export function useWaitlist() {
     markInvited,        // admin
     markNudged,         // admin
     updateAdminNotes,   // admin
+    updateLeadStatus,   // admin
+    deleteLead,         // admin
+    logContact,         // admin
   }
 }
