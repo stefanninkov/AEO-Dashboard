@@ -401,6 +401,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: auto;
 }
 
 /* ══════════════════════════════════════════════════
@@ -1043,12 +1044,6 @@ body {
   border-radius: 0.625rem;
   padding: 0.25rem;
   background: color-mix(in srgb, var(--hover-bg) 50%, transparent);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.sub-tab-bar::-webkit-scrollbar {
-  display: none;
 }
 .sub-tab {
   flex: 0 0 auto;
@@ -1348,14 +1343,16 @@ body {
   .search-mobile { display: none !important; }
 }
 
-/* ── Scrollable tabs utility ── */
-.scrollable-tabs {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.scrollable-tabs::-webkit-scrollbar {
-  display: none;
+/* ── Scrollable tabs utility (mobile only) ── */
+@media (max-width: 47.9375rem) {
+  .scrollable-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .scrollable-tabs::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .search-dropdown-footer {
@@ -6303,11 +6300,7 @@ body {
   padding: var(--space-1);
   background: var(--active-bg);
   border-radius: var(--radius-lg);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
-.tab-bar-segmented::-webkit-scrollbar { display: none; }
 
 .tab-segmented {
   flex: 0 0 auto;
@@ -6364,11 +6357,7 @@ body {
   align-items: center;
   gap: var(--space-4);
   border-bottom: 0.0625rem solid var(--border-subtle);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
-.tab-bar-underline::-webkit-scrollbar { display: none; }
 
 .tab-underline {
   flex: 0 0 auto;
