@@ -498,7 +498,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
       items: section.items.filter(item =>
         item.title.toLowerCase().includes(q) ||
         item.body.toLowerCase().includes(q) ||
-        section.title.toLowerCase().includes(q)
+        section.title.toLowerCase().includes(q) ||
+        section.description.toLowerCase().includes(q)
       )
     })).filter(section => section.items.length > 0)
   }, [debouncedSearch, activeTab, translatedSections])
@@ -571,7 +572,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           {filteredGuide.map(section => {
             const Icon = section.icon
-            const isExpanded = expandedSections[section.id]
+            const isSearching = debouncedSearch.trim() !== ''
+            const isExpanded = expandedSections[section.id] || isSearching
             return (
               <div
                 key={section.id}
