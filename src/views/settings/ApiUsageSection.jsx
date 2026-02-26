@@ -137,8 +137,8 @@ export default function ApiUsageSection() {
 
         <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>API Key</span>
-          <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            <div style={{ position: 'relative', flex: 1 }}>
+          <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center', minWidth: 0 }}>
+            <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
               <input
                 className="input-field"
                 type={showKey ? 'text' : 'password'}
