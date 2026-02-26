@@ -815,7 +815,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                   />
                 </button>
                 {isOpen && (
-                  <div style={{
+                  <div className="faq-answer" style={{
                     borderTop: '0.0625rem solid var(--border-subtle)',
                     padding: '0.6875rem 1rem 0.6875rem 2.625rem',
                   }}>

@@ -96,7 +96,7 @@ Search for and visit this website, then evaluate whether this specific item has 
       {/* Dialog */}
       <div
         ref={trapRef}
-        className="relative w-full max-w-lg rounded-xl overflow-hidden"
+        className="verify-dialog relative w-full max-w-lg rounded-xl overflow-hidden"
         role="dialog"
         aria-modal="true"
         aria-labelledby="verify-dialog-title"
@@ -113,7 +113,7 @@ Search for and visit this website, then evaluate whether this specific item has 
         onAnimationEnd={() => isClosing && onExited?.()}
       >
         {/* Header */}
-        <div className="px-5 py-4 flex items-start gap-3" style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
+        <div className="px-6 py-5 flex items-start gap-3" style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
           <div className="w-8 h-8 rounded-lg bg-phase-3/15 flex items-center justify-center flex-shrink-0 mt-0.5">
             <ShieldCheck size={16} className="text-phase-3" />
           </div>
@@ -132,7 +132,7 @@ Search for and visit this website, then evaluate whether this specific item has 
         </div>
 
         {/* Body */}
-        <div className="px-5 py-5 space-y-4">
+        <div className="px-6 py-6 space-y-5">
           {/* Mode Selection */}
           {!mode && !error && (
             <div className="space-y-3">
@@ -142,7 +142,7 @@ Search for and visit this website, then evaluate whether this specific item has 
               <button
                 onClick={startAiVerification}
                 disabled={!projectUrl}
-                className="w-full flex items-center gap-3 p-4 rounded-xl hover:border-phase-3 hover:bg-phase-3/5 transition-all duration-150 text-left group disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed"
+                className="w-full flex items-center gap-3 p-5 rounded-xl hover:border-phase-3 hover:bg-phase-3/5 transition-all duration-150 text-left group disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed"
                 style={{ border: '0.0625rem solid var(--border-subtle)' }}
               >
                 <div className="w-10 h-10 rounded-xl bg-phase-3/15 flex items-center justify-center flex-shrink-0 group-hover:bg-phase-3/25 transition-colors">
@@ -162,7 +162,7 @@ Search for and visit this website, then evaluate whether this specific item has 
               {/* Manual Verify */}
               <button
                 onClick={() => setMode('manual')}
-                className="w-full flex items-center gap-3 p-4 rounded-xl transition-all duration-150 text-left group"
+                className="w-full flex items-center gap-3 p-5 rounded-xl transition-all duration-150 text-left group"
                 style={{ border: '0.0625rem solid var(--border-subtle)' }}
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors" style={{ background: 'var(--hover-bg)' }}>

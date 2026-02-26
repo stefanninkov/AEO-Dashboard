@@ -46,6 +46,7 @@ export default memo(function PhaseCard({
     <div className={`card${isCelebrating ? ' phase-complete-pulse' : ''}`} style={{ padding: 0, overflow: 'hidden', '--phase-pulse-color': phase.color + '40' }}>
       {/* Phase Header */}
       <button
+        className="phase-header"
         onClick={() => onTogglePhase(phase.id)}
         aria-expanded={isExpanded}
         style={{
@@ -64,14 +65,14 @@ export default memo(function PhaseCard({
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, marginTop: '0.125rem', color: 'var(--text-primary)' }}>{phase.title}</h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem', lineHeight: 1.5 }}>{phase.description}</p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+        <div className="phase-header-right" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
           <div style={{ textAlign: 'right' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', fontWeight: 700, color: phase.color }}>
               <AnimatedNumber value={progress.percent} />%
             </span>
             <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-tertiary)' }}><AnimatedNumber value={progress.done} />/{progress.total}</span>
           </div>
-          <div style={{ width: '4rem', height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '6.1875rem', overflow: 'hidden' }}>
+          <div className="phase-header-bar" style={{ width: '4rem', height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '6.1875rem', overflow: 'hidden' }}>
             <div
               style={{ width: `${progress.percent}%`, height: '100%', borderRadius: '6.1875rem', backgroundColor: phase.color, transition: 'width 300ms' }}
             />

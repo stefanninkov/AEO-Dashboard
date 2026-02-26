@@ -205,7 +205,7 @@ export default memo(function ChecklistItem({
 
   return (
     <div className="group" style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.75rem 1rem', background: isSelected ? 'var(--color-phase-1)08' : undefined }}>
+      <div className="checklist-item-row" style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.75rem 1rem', background: isSelected ? 'var(--color-phase-1)08' : undefined }}>
         {/* Selection checkbox (multi-select mode) */}
         {selectionMode && (
           <button
@@ -273,10 +273,11 @@ export default memo(function ChecklistItem({
           {/* Detail — always visible */}
           <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem', lineHeight: 1.5 }}>{item.detail}</p>
           {/* Action buttons — always visible */}
-          <div style={{ display: 'flex', gap: '0.375rem', marginTop: '0.375rem', flexWrap: 'wrap' }}>
+          <div className="checklist-item-actions" style={{ display: 'flex', gap: '0.375rem', marginTop: '0.375rem', flexWrap: 'wrap' }}>
             {item.doc && (
               <button
                 onClick={() => onDocItem(item)}
+                className="btn-action"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
                   padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
@@ -298,6 +299,7 @@ export default memo(function ChecklistItem({
             {item.action?.view && onNavigate && (
               <button
                 onClick={() => onNavigate(item.action.view)}
+                className="btn-action"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
                   padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
@@ -320,6 +322,7 @@ export default memo(function ChecklistItem({
                 href={safeHref(item.action.external)}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="btn-action"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
                   padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
@@ -370,7 +373,7 @@ export default memo(function ChecklistItem({
         )}
 
         {/* Actions (hover) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, opacity: 0, position: 'relative' }} className="group-hover:opacity-100 transition-opacity duration-150">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, opacity: 0, position: 'relative' }} className="checklist-hover-actions group-hover:opacity-100 transition-opacity duration-150">
           <button
             onClick={() => onToggleComments(item.id)}
             className={`checklist-comment-btn${commentCount > 0 ? ' has-comments' : ''}`}

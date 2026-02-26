@@ -168,7 +168,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
       </div>
 
       {/* Toolbar: nav + mode toggle + add */}
-      <div style={{
+      <div className="cal-toolbar" style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem',
       }}>
@@ -182,7 +182,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
           <button onClick={cal.calendarMode === 'week' ? cal.goToNextWeek : cal.goToNextMonth} className="btn-icon" style={{ border: '0.0625rem solid var(--border-subtle)' }}>
             <ChevronRight size={14} />
           </button>
-          <span style={{
+          <span className="cal-toolbar-date" style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700,
             color: 'var(--text-primary)', marginLeft: '0.5rem',
           }}>

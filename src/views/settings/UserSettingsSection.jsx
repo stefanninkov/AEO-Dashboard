@@ -243,7 +243,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           </div>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('userSettings.displayName')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input className="input-field" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder={t('userSettings.namePlaceholder')} aria-label="Display name" style={{ flex: 1 }} />
@@ -254,12 +254,12 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           </div>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('userSettings.email')}</span>
           <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{user?.email || '--'}</span>
         </div>
 
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={labelStyle}>{t('userSettings.authMethod')}</span>
           <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{authMethodLabel}</span>
         </div>
@@ -269,7 +269,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Palette size={15} /> {t('userSettings.appearance')}</div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('userSettings.theme')}</span>
           <select className="input-field input-sm" value={theme} onChange={(e) => handleThemeChange(e.target.value)} aria-label={t('userSettings.theme')}>
             <option value="dark">{t('userSettings.dark')}</option>
@@ -278,7 +278,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           </select>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}><Globe size={13} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.375rem' }} />{t('userSettings.language')}</span>
           <select className="input-field input-sm" value={currentLang} onChange={(e) => handleLanguageChange(e.target.value)} aria-label="Language">
             {SUPPORTED_LANGUAGES.map(lang => (
@@ -287,20 +287,20 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           </select>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('userSettings.animations')}</span>
           <ToggleSwitch checked={animationsEnabled} onChange={handleAnimationsToggle} label="Toggle animations" />
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{animationsEnabled ? t('userSettings.enabled') : t('userSettings.disabled')}</span>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('userSettings.notificationSound')}</span>
           <ToggleSwitch checked={notificationSound} onChange={handleNotificationSoundToggle} label="Toggle notification sound" />
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{notificationSound ? t('userSettings.on') : t('userSettings.off')}</span>
         </div>
 
         {browserNotifsAvailable && (
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>
               <BellRing size={13} style={{ display: 'inline', verticalAlign: '-0.125rem', marginRight: '0.375rem' }} />
               {t('userSettings.browserNotifications')}
@@ -321,7 +321,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           </div>
         )}
 
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={labelStyle}>{t('userSettings.defaultDateRange')}</span>
           <select className="input-field input-sm" value={defaultDateRange} onChange={(e) => handleDefaultDateRange(e.target.value)} aria-label={t('userSettings.defaultDateRange')}>
             <option value="today">{t('userSettings.today')}</option>
@@ -341,7 +341,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
           ['Ctrl/Cmd + N', t('userSettings.shortcutNewProject')],
           ['Escape', t('userSettings.shortcutCloseModal')],
         ].map(([key, desc], i, arr) => (
-          <div key={key} style={i === arr.length - 1 ? lastRowStyle : settingsRowStyle}>
+          <div key={key} className="settings-row-inline" style={i === arr.length - 1 ? lastRowStyle : settingsRowStyle}>
             <kbd style={{ fontFamily: 'var(--font-heading)', fontSize: '0.6875rem', fontWeight: 600, padding: '0.1875rem 0.5rem', borderRadius: '0.25rem', background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)', color: 'var(--text-tertiary)', minWidth: '6rem', textAlign: 'center' }}>{key}</kbd>
             <span style={{ ...labelStyle, flex: 1 }}>{desc}</span>
           </div>
@@ -351,7 +351,7 @@ export default function UserSettingsSection({ user, updateUserProfile }) {
       {/* ── Tour ── */}
       <div className="card" style={{ marginBottom: '1.5rem' }}>
         <div style={sectionTitleStyle}><RotateCcw size={15} /> {t('userSettings.onboarding')}</div>
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={labelStyle}>{t('userSettings.restartTourDesc')}</span>
           <button className="btn-secondary btn-sm" onClick={() => { localStorage.removeItem('aeo-onboarding-completed'); window.location.reload() }}>
             <RotateCcw size={12} /> {t('userSettings.restartTour')}

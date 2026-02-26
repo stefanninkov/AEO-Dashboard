@@ -71,7 +71,7 @@ export default function ApiUsageSection() {
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Cpu size={15} /> AI Provider</div>
 
-        <div style={{ padding: '1rem 1.25rem', display: 'flex', gap: '0.5rem' }}>
+        <div className="settings-provider-grid" style={{ padding: '1rem 1.25rem', display: 'flex', gap: '0.5rem' }}>
           {providers.map(provider => {
             const isActive = activeProviderId === provider.id
             return (
@@ -135,7 +135,7 @@ export default function ApiUsageSection() {
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Key size={15} /> {activeConfig.name} API Key</div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>API Key</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <div style={{ position: 'relative', flex: 1 }}>
@@ -168,7 +168,7 @@ export default function ApiUsageSection() {
           </div>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>Status</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div style={{
@@ -185,7 +185,7 @@ export default function ApiUsageSection() {
           </div>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>Model</span>
           <select
             className="input-field input-sm"
@@ -201,7 +201,7 @@ export default function ApiUsageSection() {
           </select>
         </div>
 
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={labelStyle} />
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontStyle: 'italic' }}>
             Your API key is stored locally in your browser and never sent to our servers.
@@ -214,7 +214,7 @@ export default function ApiUsageSection() {
         <div style={sectionTitleStyle}><ChartColumnIncreasing size={15} /> Usage Overview</div>
 
         {/* Summary cards */}
-        <div className="stagger-grid" style={{
+        <div className="stagger-grid settings-usage-grid" style={{
           display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem',
           padding: '1rem 1.25rem',
         }}>
@@ -321,7 +321,7 @@ export default function ApiUsageSection() {
         )}
 
         {/* Reset button */}
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={labelStyle} />
           <button
             className="btn-secondary btn-sm"

@@ -60,6 +60,7 @@ export default function RecommendationsPanel({ recommendations, contextLine }) {
           return (
             <div
               key={rec.id}
+              className="rec-card"
               style={{
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
                 padding: '0.625rem 0.875rem', borderRadius: '0.625rem',
@@ -97,6 +98,7 @@ export default function RecommendationsPanel({ recommendations, contextLine }) {
               </div>
               <button
                 onClick={rec.action}
+                className="rec-card-action btn-action"
                 style={{
                   padding: '0.375rem 0.75rem', borderRadius: '0.5rem', border: 'none',
                   background: 'rgba(37,99,235,0.1)', color: 'var(--accent)',

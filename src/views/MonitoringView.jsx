@@ -315,7 +315,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       )}
 
       {/* Stats Cards */}
-      <div className="stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(14rem, 1fr))', gap: 'var(--space-4)' }}>
+      <div className="stagger-grid mon-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(14rem, 1fr))', gap: 'var(--space-4)' }}>
         {/* Current Score */}
         <StatCard
           label={t('monitoring.citationScore')}

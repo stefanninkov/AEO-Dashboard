@@ -15,7 +15,7 @@ export default function QuickWinCard({ quickWin }) {
 
   return (
     <div
-      className="card card-interactive fade-in-up"
+      className="card card-interactive fade-in-up quick-win-card"
       style={{
         padding: '1.25rem 1.5rem',
         borderLeft: '0.25rem solid var(--color-phase-1)',
@@ -30,7 +30,7 @@ export default function QuickWinCard({ quickWin }) {
       aria-label={`${t('dashboard.quickWin.label')}: ${quickWin.text}`}
     >
       {/* Icon */}
-      <div style={{
+      <div className="quick-win-icon" style={{
         width: '2.75rem', height: '2.75rem', borderRadius: '50%',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         background: 'rgba(37,99,235,0.12)', color: 'var(--accent)',
@@ -92,7 +92,7 @@ export default function QuickWinCard({ quickWin }) {
 
       {/* CTA */}
       <button
-        className="btn-primary btn-sm"
+        className="btn-primary btn-sm quick-win-cta"
         onClick={(e) => { e.stopPropagation(); quickWin.action() }}
         style={{ flexShrink: 0, whiteSpace: 'nowrap' }}
       >

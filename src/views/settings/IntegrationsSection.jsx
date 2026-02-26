@@ -58,7 +58,7 @@ export default function IntegrationsSection({ user }) {
           </div>
         ) : (
           <>
-            <div style={settingsRowStyle}>
+            <div className="settings-row-inline" style={settingsRowStyle}>
               <span style={labelStyle}>{t('userSettings.status')}</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 {google.isLoading ? (
@@ -86,14 +86,14 @@ export default function IntegrationsSection({ user }) {
             </div>
 
             {google.connectedEmail && (
-              <div style={settingsRowStyle}>
+              <div className="settings-row-inline" style={settingsRowStyle}>
                 <span style={labelStyle}>{t('userSettings.account')}</span>
                 <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{google.connectedEmail}</span>
               </div>
             )}
 
             {google.connectedAt && google.isConnected && (
-              <div style={settingsRowStyle}>
+              <div className="settings-row-inline" style={settingsRowStyle}>
                 <span style={labelStyle}>{t('userSettings.connectedLabel')}</span>
                 <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
                   {new Date(google.connectedAt).toLocaleDateString(undefined, {
@@ -103,7 +103,7 @@ export default function IntegrationsSection({ user }) {
               </div>
             )}
 
-            <div style={settingsRowStyle}>
+            <div className="settings-row-inline" style={settingsRowStyle}>
               <span style={labelStyle}>{t('userSettings.scopes')}</span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
                 <span style={{
@@ -129,7 +129,7 @@ export default function IntegrationsSection({ user }) {
               </div>
             )}
 
-            <div style={lastRowStyle}>
+            <div className="settings-row-inline" style={lastRowStyle}>
               <span style={labelStyle} />
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 {google.isConnected ? (
