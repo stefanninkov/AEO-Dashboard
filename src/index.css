@@ -3041,10 +3041,11 @@ body {
   background: color-mix(in srgb, var(--color-phase-3) 3%, var(--bg-card));
 }
 
-@media (max-width: 37.5rem) {
+@media (max-width: 47.9375rem) {
   .cw-type-grid { grid-template-columns: repeat(2, 1fr); }
   .cw-form-row { flex-direction: column; }
   .cw-comparison-grid { grid-template-columns: 1fr; }
+  .cw-select { min-width: 0; width: 100%; }
 }
 
 /* ══════════════════════════════════════════════════
@@ -5924,9 +5925,41 @@ body {
 }
 
 /* Calendar responsive */
-@media (max-width: 40rem) {
+@media (max-width: 47.9375rem) {
+  .cal-week-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    border-radius: 0.5rem !important;
+  }
+  .cal-week-grid > div {
+    min-height: 7rem !important;
+  }
+  .cal-month-header {
+    grid-template-columns: repeat(7, 1fr) !important;
+  }
+  .cal-month-header > div {
+    padding: 0.25rem !important;
+    font-size: 0.5rem !important;
+  }
+  .cal-month-row {
+    grid-template-columns: repeat(7, 1fr) !important;
+  }
+  .cal-month-row > div {
+    min-height: 3.5rem !important;
+    padding: 0.125rem !important;
+  }
   .content-cal-entry {
-    padding: 0.25rem 0.375rem !important;
+    padding: 0.1875rem 0.25rem !important;
+  }
+  .content-cal-entry > div:first-child {
+    font-size: 0.625rem !important;
+  }
+}
+@media (max-width: 29.9375rem) {
+  .cal-week-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .cal-week-grid > div {
+    min-height: auto !important;
   }
 }
 
@@ -6301,7 +6334,9 @@ body {
 }
 
 @media (max-width: 47.9375rem) {
-  .view-wrapper { padding: var(--space-4); }
+  .view-wrapper { padding: 0; gap: var(--space-4); }
+  .view-wrapper .card-lg { padding: var(--space-4); }
+  .view-wrapper .card-xl { padding: var(--space-5); }
 }
 
 /* ── 2G. View Header Pattern ── */

@@ -217,7 +217,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
 
       {/* ── Week View ── */}
       {cal.calendarMode === 'week' && (
-        <div style={{
+        <div className="cal-week-grid" style={{
           display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)',
           gap: '0.0625rem', background: 'var(--border-subtle)', borderRadius: '0.75rem',
           overflow: 'hidden', border: '0.0625rem solid var(--border-subtle)',
@@ -288,7 +288,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
       {cal.calendarMode === 'month' && (
         <div>
           {/* Header */}
-          <div style={{
+          <div className="cal-month-header" style={{
             display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 0,
             borderBottom: '0.0625rem solid var(--border-subtle)',
           }}>
@@ -311,7 +311,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
             overflow: 'hidden', border: '0.0625rem solid var(--border-subtle)', borderTop: 'none',
           }}>
             {monthWeeks.map((week, wi) => (
-              <div key={wi} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.0625rem' }}>
+              <div key={wi} className="cal-month-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.0625rem' }}>
                 {week.map((day, di) => {
                   const dateKey = formatDateKey(day)
                   const dayEntries = cal.entriesByDate[dateKey] || []
