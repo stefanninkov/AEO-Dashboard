@@ -626,7 +626,7 @@ export default function LeadDetailPanel({
             <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)' }}>Status:</span>
             <select
               value={lead.status || 'active'}
-              onChange={e => onUpdateStatus?.(lead.id, e.target.value)}
+              onChange={e => onUpdateStatus?.(e.target.value)}
               style={{
                 padding: '0.25rem 0.5rem', borderRadius: '0.25rem', fontSize: '0.6875rem',
                 fontWeight: 600, fontFamily: 'var(--font-body)',
