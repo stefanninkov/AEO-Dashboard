@@ -401,7 +401,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: auto;
 }
 
 /* ══════════════════════════════════════════════════
@@ -1040,6 +1039,7 @@ body {
 /* Sub-tab bar */
 .sub-tab-bar {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.25rem;
   border-radius: 0.625rem;
   padding: 0.25rem;
@@ -1346,6 +1346,7 @@ body {
 /* ── Scrollable tabs utility (mobile only) ── */
 @media (max-width: 47.9375rem) {
   .scrollable-tabs {
+    flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -6295,6 +6296,7 @@ body {
 /* Pattern 1: Segmented (pill group on semitransparent bg) */
 .tab-bar-segmented {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-1);
@@ -6354,6 +6356,7 @@ body {
 /* Pattern 3: Underline (bottom border indicator) */
 .tab-bar-underline {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-4);
   border-bottom: 0.0625rem solid var(--border-subtle);
