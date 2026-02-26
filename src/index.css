@@ -393,12 +393,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-.content-scroll::after {
-  content: '';
-  display: block;
-  flex-shrink: 0;
-  height: var(--space-6);
-}
 
 .content-wrapper {
   width: 100%;
@@ -6539,6 +6533,12 @@ body {
   gap: var(--space-6);
   flex: 1;
   min-height: 0;
+}
+.view-wrapper::after {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+  height: var(--space-4);
 }
 
 @media (max-width: 47.9375rem) {
