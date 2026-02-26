@@ -105,6 +105,73 @@ function SectionDivider({ title }) {
   )
 }
 
+/* ── Qualification Card ── */
+function QualificationCard({ question, options, selected, maxPts }) {
+  const selectedPts = options.find(o => o.value === selected)?.pts
+  return (
+    <div style={{
+      padding: '0.625rem 0.75rem', borderRadius: '0.5rem',
+      border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: '0.5rem',
+      }}>
+        <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.4 }}>
+          {question}
+        </span>
+        <span style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, flexShrink: 0,
+          marginLeft: '0.5rem', padding: '0.0625rem 0.375rem', borderRadius: 99,
+          background: selectedPts === maxPts ? 'rgba(16,185,129,0.1)' : 'transparent',
+          color: selectedPts === maxPts ? '#10B981' : 'var(--text-disabled)',
+        }}>
+          {selectedPts ?? '?'}/{maxPts}
+        </span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+        {options.map(opt => {
+          const isSelected = opt.value === selected
+          return (
+            <div key={opt.value} style={{
+              display: 'flex', alignItems: 'center', gap: '0.5rem',
+              padding: '0.375rem 0.5rem', borderRadius: '0.375rem',
+              background: isSelected ? 'rgba(16,185,129,0.08)' : 'transparent',
+              border: isSelected ? '0.0625rem solid rgba(16,185,129,0.25)' : '0.0625rem solid transparent',
+            }}>
+              <div style={{
+                width: '0.75rem', height: '0.75rem', borderRadius: '50%', flexShrink: 0,
+                border: isSelected ? '0.1875rem solid #10B981' : '0.0625rem solid var(--border-subtle)',
+                background: isSelected ? '#10B981' : 'transparent',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {isSelected && (
+                  <div style={{ width: '0.25rem', height: '0.25rem', borderRadius: '50%', background: '#fff' }} />
+                )}
+              </div>
+              <span style={{
+                flex: 1, fontSize: '0.6875rem', lineHeight: 1.3,
+                color: isSelected ? '#10B981' : 'var(--text-tertiary)',
+                fontWeight: isSelected ? 600 : 400,
+              }}>
+                {opt.label}
+              </span>
+              <span style={{
+                fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, flexShrink: 0,
+                padding: '0.0625rem 0.3125rem', borderRadius: 99,
+                background: isSelected ? (opt.pts > 0 ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.1)') : 'transparent',
+                color: isSelected ? (opt.pts > 0 ? '#10B981' : '#EF4444') : 'var(--text-disabled)',
+              }}>
+                {opt.pts} pts
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 /* ── Main Component ── */
 export default function LeadDetailPanel({
   lead, onClose, onMarkInvited, onMarkNudged, onUpdateNotes,
@@ -167,20 +234,34 @@ export default function LeadDetailPanel({
     strategyCompetition: 'Strategy & Competition',
   }
 
-  // Question text lookup (hardcoded since admin doesn't use i18n)
+  // Full question text (matches i18n en/waitlist.json)
   const Q_TEXT = {
-    q1: 'FAQ sections?', q2: 'Update frequency?', q3: 'AI-friendly content?',
-    q4: 'Schema / JSON-LD?', q5: 'AI crawlers?', q6: 'Sitemap?',
-    q7: 'AI citation testing?', q8: 'AI Overviews?', q9: 'AI traffic tracking?',
-    q10: 'Competitor AI?', q11: 'AEO strategy?',
+    q1: 'Does your website have FAQ sections with clear Q&A formatting?',
+    q2: 'How often do you publish or update content on your website?',
+    q3: 'Does your content directly answer questions people ask AI assistants?',
+    q4: 'Does your website use structured data (schema markup)?',
+    q5: 'Are AI crawlers (GPTBot, PerplexityBot, etc.) allowed in your robots.txt?',
+    q6: 'Does your website have an XML sitemap with accurate lastmod dates?',
+    q7: 'Have you tested how your brand appears in AI search engines?',
+    q8: 'Do you know if your content appears in Google AI Overviews?',
+    q9: 'Do you track how much traffic comes from AI-powered sources?',
+    q10: 'Do you know if your competitors are being cited by AI engines?',
+    q11: 'Does your organization have a dedicated AEO strategy (beyond traditional SEO)?',
   }
 
-  // Answer text
-  const getAnswerText = (qId, optIndex) => {
-    const q = SCORED_QUESTIONS.find(sq => sq.id === qId)
-    if (!q || optIndex < 0) return '\u2014'
-    // Short labels
-    return q.options[optIndex]?.value?.replace(/_/g, ' ') || '\u2014'
+  // Full answer option labels
+  const ANSWER_LABELS = {
+    q1: ['Yes, on most pages', 'On some pages', 'No / Not sure'],
+    q2: ['Weekly or more', 'Monthly', 'Rarely or never'],
+    q3: ['Yes, we write for this specifically', 'Some of our content does naturally', "We haven't thought about this"],
+    q4: ['Yes, multiple types (FAQ, Article, HowTo…)', 'Basic only (Organization, Breadcrumb)', "No / Don't know"],
+    q5: ["Yes, they're all allowed", "I've checked some", "No / What's that?"],
+    q6: ['Yes, auto-updated', 'Yes, but not sure about lastmod', "No / Don't know"],
+    q7: ['Yes, we monitor this regularly', "I've checked a few times", 'Never'],
+    q8: ['Yes, we track this', "I've noticed some", 'No idea'],
+    q9: ['Yes, we have this set up', 'Planning to', 'No'],
+    q10: ['Yes, we monitor this', "I've checked a few", 'No'],
+    q11: ["Yes, it's part of our roadmap", "We're exploring it", 'No, SEO only'],
   }
 
   return (
@@ -285,47 +366,66 @@ export default function LeadDetailPanel({
           {Object.keys(qualification).length > 0 && (
             <>
               <SectionDivider title="Qualification" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+
+              {/* Lead Score summary */}
+              {lead.leadScore != null && (
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '0.5rem 0.625rem', borderRadius: '0.375rem', background: 'var(--hover-bg)',
+                  marginBottom: '0.25rem',
+                }}>
+                  <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                    Lead Score
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: leadTierInfo.color }}>
+                    {lead.leadScore}/12 → {leadTierInfo.emoji} {leadTierInfo.label}
+                  </span>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                {/* Role */}
                 {qualification.role && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                    <span style={{ color: 'var(--text-secondary)' }}>Role:</span>
-                    <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
-                      {ROLE_LABELS[qualification.role] || qualification.role}
-                      <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-disabled)', marginLeft: '0.5rem' }}>
-                        ({QUALIFYING_POINTS.role[qualification.role] ?? '?'}/4 pts)
-                      </span>
-                    </span>
-                  </div>
+                  <QualificationCard
+                    question="What best describes your role?"
+                    options={[
+                      { value: 'agency_owner', label: 'Agency Owner / Partner', pts: 4 },
+                      { value: 'seo_director', label: 'SEO Manager / Director', pts: 3 },
+                      { value: 'inhouse', label: 'In-house Marketing / SEO', pts: 2 },
+                      { value: 'freelancer', label: 'Freelance Consultant', pts: 2 },
+                      { value: 'other', label: 'Other / Just exploring', pts: 0 },
+                    ]}
+                    selected={qualification.role}
+                    maxPts={4}
+                  />
                 )}
+                {/* Website Count */}
                 {qualification.websiteCount && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                    <span style={{ color: 'var(--text-secondary)' }}>Websites:</span>
-                    <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
-                      {WEBSITE_LABELS[qualification.websiteCount] || qualification.websiteCount}
-                      <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-disabled)', marginLeft: '0.5rem' }}>
-                        ({QUALIFYING_POINTS.websiteCount[qualification.websiteCount] ?? '?'}/4 pts)
-                      </span>
-                    </span>
-                  </div>
+                  <QualificationCard
+                    question="How many websites do you manage?"
+                    options={[
+                      { value: '10+', label: '10+ client websites', pts: 4 },
+                      { value: '3-9', label: '3\u20139 websites', pts: 3 },
+                      { value: '1-2', label: '1\u20132 websites', pts: 1 },
+                      { value: 'own', label: 'Just my own', pts: 0 },
+                    ]}
+                    selected={qualification.websiteCount}
+                    maxPts={4}
+                  />
                 )}
+                {/* Timeline */}
                 {qualification.timeline && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                    <span style={{ color: 'var(--text-secondary)' }}>Timeline:</span>
-                    <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
-                      {TIMELINE_LABELS[qualification.timeline] || qualification.timeline}
-                      <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-disabled)', marginLeft: '0.5rem' }}>
-                        ({QUALIFYING_POINTS.timeline[qualification.timeline] ?? '?'}/4 pts)
-                      </span>
-                    </span>
-                  </div>
-                )}
-                {lead.leadScore != null && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', paddingTop: '0.25rem', borderTop: '0.0625rem solid var(--border-subtle)' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Lead Score:</span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: leadTierInfo.color }}>
-                      {lead.leadScore}/12 \u2192 {leadTierInfo.emoji} {leadTierInfo.label}
-                    </span>
-                  </div>
+                  <QualificationCard
+                    question="When are you looking to optimize for AI?"
+                    options={[
+                      { value: 'immediately', label: 'Immediately \u2014 this is urgent', pts: 4 },
+                      { value: '1-3months', label: 'Within 1\u20133 months', pts: 2 },
+                      { value: 'exploring', label: 'Exploring for the future', pts: 1 },
+                      { value: 'curious', label: 'Just curious for now', pts: 0 },
+                    ]}
+                    selected={qualification.timeline}
+                    maxPts={4}
+                  />
                 )}
               </div>
             </>
@@ -336,21 +436,100 @@ export default function LeadDetailPanel({
             <>
               <SectionDivider title="Individual Answers" />
               {answersByCategory.map(cat => (
-                <div key={cat.id} style={{ marginBottom: '0.5rem' }}>
-                  <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>
-                    {CAT_LABELS[cat.id]} ({cat.subtotal}/{cat.maxScore})
+                <div key={cat.id} style={{ marginBottom: '0.75rem' }}>
+                  {/* Category header */}
+                  <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    marginBottom: '0.5rem', padding: '0.375rem 0.625rem', borderRadius: '0.375rem',
+                    background: 'var(--hover-bg)',
+                  }}>
+                    <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                      {CAT_LABELS[cat.id]}
+                    </span>
+                    <span style={{
+                      fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
+                      padding: '0.0625rem 0.375rem', borderRadius: 99,
+                      background: cat.subtotal === cat.maxScore ? 'rgba(16,185,129,0.1)' : 'transparent',
+                      color: cat.subtotal === cat.maxScore ? '#10B981' : 'var(--text-disabled)',
+                    }}>
+                      {cat.subtotal}/{cat.maxScore} pts
+                    </span>
                   </div>
-                  {cat.answers.map(a => (
-                    <div key={a.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.6875rem', padding: '0.125rem 0', gap: '0.5rem' }}>
-                      <span style={{ color: 'var(--text-tertiary)', minWidth: 0 }}>{Q_TEXT[a.id]}</span>
-                      <span style={{ color: 'var(--text-secondary)', textAlign: 'right', flexShrink: 0 }}>
-                        {getAnswerText(a.id, a.optIndex)}
-                      </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', color: a.points > 0 ? 'var(--color-success)' : 'var(--text-disabled)', fontWeight: 600, minWidth: '2rem', textAlign: 'right', flexShrink: 0 }}>
-                        {a.points ?? '\u2014'} pts
-                      </span>
-                    </div>
-                  ))}
+
+                  {/* Questions */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                    {cat.answers.map(a => {
+                      const q = SCORED_QUESTIONS.find(sq => sq.id === a.id)
+                      const labels = ANSWER_LABELS[a.id] || []
+                      return (
+                        <div key={a.id} style={{
+                          padding: '0.625rem 0.75rem', borderRadius: '0.5rem',
+                          border: '0.0625rem solid var(--border-subtle)',
+                          background: 'var(--bg-card)',
+                        }}>
+                          {/* Question text */}
+                          <div style={{
+                            fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)',
+                            marginBottom: '0.5rem', lineHeight: 1.4,
+                          }}>
+                            {Q_TEXT[a.id]}
+                          </div>
+
+                          {/* All options */}
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            {q?.options.map((opt, i) => {
+                              const isSelected = i === a.optIndex
+                              const pts = opt.points
+                              return (
+                                <div key={opt.value} style={{
+                                  display: 'flex', alignItems: 'center', gap: '0.5rem',
+                                  padding: '0.375rem 0.5rem', borderRadius: '0.375rem',
+                                  background: isSelected ? 'rgba(16,185,129,0.08)' : 'transparent',
+                                  border: isSelected ? '0.0625rem solid rgba(16,185,129,0.25)' : '0.0625rem solid transparent',
+                                  transition: 'all 150ms',
+                                }}>
+                                  {/* Radio indicator */}
+                                  <div style={{
+                                    width: '0.75rem', height: '0.75rem', borderRadius: '50%', flexShrink: 0,
+                                    border: isSelected ? '0.1875rem solid #10B981' : '0.0625rem solid var(--border-subtle)',
+                                    background: isSelected ? '#10B981' : 'transparent',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                  }}>
+                                    {isSelected && (
+                                      <div style={{ width: '0.25rem', height: '0.25rem', borderRadius: '50%', background: '#fff' }} />
+                                    )}
+                                  </div>
+
+                                  {/* Label */}
+                                  <span style={{
+                                    flex: 1, fontSize: '0.6875rem', lineHeight: 1.3,
+                                    color: isSelected ? '#10B981' : 'var(--text-tertiary)',
+                                    fontWeight: isSelected ? 600 : 400,
+                                  }}>
+                                    {labels[i] || opt.value}
+                                  </span>
+
+                                  {/* Points badge */}
+                                  <span style={{
+                                    fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, flexShrink: 0,
+                                    padding: '0.0625rem 0.3125rem', borderRadius: 99,
+                                    background: isSelected
+                                      ? (pts > 0 ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.1)')
+                                      : 'transparent',
+                                    color: isSelected
+                                      ? (pts > 0 ? '#10B981' : '#EF4444')
+                                      : 'var(--text-disabled)',
+                                  }}>
+                                    {pts} pts
+                                  </span>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
               ))}
             </>
