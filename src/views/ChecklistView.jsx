@@ -456,7 +456,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
       <ChecklistStats totalProgress={totalProgress} phaseCount={phases.length} />
 
       {/* Key Principles */}
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+      <div className="card" style={{ padding: 0 }}>
         <button
           onClick={() => setPrinciplesOpen(prev => !prev)}
           style={{

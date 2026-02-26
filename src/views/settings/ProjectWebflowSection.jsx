@@ -330,7 +330,7 @@ Return ONLY valid JSON:
   }
 
   return (
-    <div className="card" style={{ overflow: 'hidden' }}>
+    <div className="card">
       {/* Section Title */}
       <div style={sectionTitleStyle}>
         <Globe size={15} />

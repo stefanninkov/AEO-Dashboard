@@ -160,7 +160,7 @@ export default function AdminActivity({ user }) {
       </div>
 
       {/* Activity Feed */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="card">
         <div style={{ maxHeight: '40rem', overflowY: 'auto' }}>
           {filtered.map((act, i) => {
             const color = ACTIVITY_COLORS[act.type] || '#6B7280'

@@ -121,7 +121,7 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
   const gridTemplate = '1fr 3.5rem 3rem 3rem 3rem 3rem 4.5rem 3.5rem'
 
   return (
-    <div className="card" style={{ overflow: 'hidden' }}>
+    <div className="card">
       {/* Toolbar */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1rem',

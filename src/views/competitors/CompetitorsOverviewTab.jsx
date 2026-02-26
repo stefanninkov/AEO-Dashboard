@@ -160,7 +160,7 @@ export default function CompetitorsOverviewTab({ activeProject, updateProject, u
 
       {/* Rankings Table */}
       {sorted.length > 0 && (
-        <div className="card table-scroll-wrap" style={{ overflow: 'hidden' }}>
+        <div className="card table-scroll-wrap">
           <div style={{ padding: '1rem 1.25rem', fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             {t('competitors.rankings')}
           </div>

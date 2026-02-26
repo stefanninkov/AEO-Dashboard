@@ -69,11 +69,10 @@ export default function LanguageSwitcher({ variant = 'app' }) {
     top: 'calc(100% + 0.375rem)',
     right: 0,
     minWidth: '10rem',
-    background: isApp ? 'var(--bg-card)' : 'var(--lp-bg-page, var(--wl-bg-page, #08080D))',
-    border: isApp ? '0.0625rem solid var(--border-default)' : '0.0625rem solid var(--lp-border, var(--wl-border, rgba(255,255,255,0.1)))',
+    background: isApp ? 'var(--bg-card)' : 'var(--lp-bg-card, var(--wl-bg-page, #F8F9FB))',
+    border: isApp ? '0.0625rem solid var(--border-default)' : '0.0625rem solid var(--lp-border, var(--wl-border, rgba(0,0,0,0.08)))',
     borderRadius: '0.75rem',
-    overflow: 'hidden',
-    boxShadow: isApp ? 'var(--shadow-md)' : '0 0.5rem 1.5rem rgba(0,0,0,0.4)',
+    boxShadow: isApp ? 'var(--shadow-md)' : 'var(--lp-shadow-md, var(--wl-shadow-md, 0 0.25rem 1rem rgba(0,0,0,0.08)))',
     zIndex: 50,
   }
 
@@ -91,8 +90,8 @@ export default function LanguageSwitcher({ variant = 'app' }) {
       ? (isApp ? 'var(--active-bg)' : 'rgba(128,128,128,0.08)')
       : 'transparent',
     color: isActive
-      ? (isApp ? 'var(--text-primary)' : 'var(--lp-text-primary, var(--wl-text-primary, #f0f0f2))')
-      : (isApp ? 'var(--text-secondary)' : 'var(--lp-text-secondary, var(--wl-text-secondary, rgba(160,160,176,1)))'),
+      ? (isApp ? 'var(--text-primary)' : 'var(--lp-text-primary, var(--wl-text-primary, #18181B))')
+      : (isApp ? 'var(--text-secondary)' : 'var(--lp-text-secondary, var(--wl-text-secondary, #52525B))'),
     fontWeight: isActive ? 600 : 400,
   })
 

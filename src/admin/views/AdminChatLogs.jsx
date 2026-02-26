@@ -118,7 +118,7 @@ export default function AdminChatLogs({ user }) {
       </div>
 
       {/* Chat Log List */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="card">
         <div style={{ maxHeight: '40rem', overflowY: 'auto' }}>
           {filtered.map(log => {
             const isExpanded = expandedId === log.id

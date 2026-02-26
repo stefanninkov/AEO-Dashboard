@@ -100,7 +100,7 @@ export default function ProgressSummaryCard({ activeProject, phases, setActiveVi
   }, [setActiveView])
 
   return (
-    <div className="card fade-in-up" style={{ padding: 0, overflow: 'hidden' }}>
+    <div className="card fade-in-up" style={{ padding: 0 }}>
 
       {/* ── Section 1: Milestones ── */}
       <div style={{ padding: '1.25rem 1.25rem 1rem' }}>

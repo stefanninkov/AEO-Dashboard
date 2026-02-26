@@ -527,7 +527,7 @@ export default function AdminUsers({ user }) {
       )}
 
       {/* Users Table */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="card">
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>

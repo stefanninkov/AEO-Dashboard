@@ -138,7 +138,7 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
 
       {/* ── Gap Table ── */}
       {gaps.length > 0 && (
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           {/* Table header */}
           <div style={{
             display: 'grid', gridTemplateColumns: '2rem 1fr auto',

@@ -219,7 +219,7 @@ export default function PageHealthTab({ activeProject }) {
       )}
 
       {/* Pages Table */}
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+      <div className="card" style={{ padding: 0 }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-xs)' }}>
           <thead>
             <tr style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>

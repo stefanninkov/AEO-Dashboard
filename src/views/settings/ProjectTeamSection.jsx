@@ -316,7 +316,7 @@ export default function ProjectTeamSection({ activeProject, updateProject, user,
 
   return (
     <>
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="card">
         {/* Section Title */}
         <div style={{ ...sectionTitleStyle, justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

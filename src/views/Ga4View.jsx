@@ -397,7 +397,7 @@ export default function Ga4View({ activeProject, user, setActiveView }) {
 
           {/* Top Landing Pages */}
           {landingPages && landingPages.length > 0 && (
-            <div className="card" style={{ overflow: 'hidden' }}>
+            <div className="card">
               <div style={{
                 fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.06rem', color: 'var(--text-disabled)',

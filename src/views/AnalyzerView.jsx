@@ -111,7 +111,7 @@ function CrawlerRow({ crawler }) {
 function DetSection({ title, icon, children, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div className="card" style={{ overflow: 'hidden' }}>
+    <div className="card">
       <button
         onClick={() => setOpen(!open)}
         style={{

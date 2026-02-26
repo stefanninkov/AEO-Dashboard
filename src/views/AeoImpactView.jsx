@@ -341,7 +341,7 @@ export default function AeoImpactView({ activeProject, user, setActiveView }) {
           </div>
 
           {/* Cross-Referenced Pages Table */}
-          <div className="card table-scroll-wrap" style={{ overflow: 'hidden' }}>
+          <div className="card table-scroll-wrap">
             <div style={{
               display: 'flex', alignItems: 'center', gap: '0.5rem',
               padding: '1rem 1.25rem 0.5rem',

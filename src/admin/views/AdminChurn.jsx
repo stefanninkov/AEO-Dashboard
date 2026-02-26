@@ -459,7 +459,7 @@ export default function AdminChurn({ user }) {
       </div>
 
       {/* Churn Risk List */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="card">
         <div style={{ padding: '1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,

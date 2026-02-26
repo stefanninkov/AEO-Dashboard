@@ -645,7 +645,7 @@ function OverviewTab({ stats, leads }) {
 
       {/* 2. Score Distribution Histogram */}
       {stats.scoreDistribution.length > 0 && (
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader icon={BarChart4} title="Score Distribution" color="#8B5CF6"
             count={`${stats.completedCount} completed`} />
           <div style={{ padding: '1rem 1.25rem' }}>
@@ -678,7 +678,7 @@ function OverviewTab({ stats, leads }) {
       {/* 3. Lead Tier Donut + Conversion Funnel */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(20rem, 1fr))', gap: '0.75rem' }}>
         {/* Lead Tier Donut */}
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader icon={Target} title="Lead Tiers" color="#EF4444" />
           <div style={{ padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
             {stats.leadTierDistribution.some(d => d.count > 0) ? (
@@ -712,7 +712,7 @@ function OverviewTab({ stats, leads }) {
         </div>
 
         {/* Conversion Funnel */}
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader icon={TrendingUp} title="Conversion Funnel" color="#10B981" />
           <div style={{ padding: '1rem 1.25rem' }}>
             {stats.funnel.map((step, i) => (
@@ -731,7 +731,7 @@ function OverviewTab({ stats, leads }) {
 
       {/* 4. Category Weakness Analysis */}
       {stats.avgCategoryScores.length > 0 && (
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader icon={AlertTriangle} title="Category Weakness Analysis" color="#F59E0B"
             count="Sorted weakest → strongest" />
           <div style={{ padding: '1rem 1.25rem' }}>
@@ -774,7 +774,7 @@ function OverviewTab({ stats, leads }) {
           { title: 'By Website Count', data: stats.byWebsiteCount, icon: Globe, color: '#8B5CF6' },
           { title: 'By Timeline', data: stats.byTimeline, icon: Clock, color: '#06B6D4' },
         ].map(section => (
-          <div key={section.title} className="card" style={{ overflow: 'hidden' }}>
+          <div key={section.title} className="card">
             <SectionHeader icon={section.icon} title={section.title} color={section.color} />
             <div style={{ padding: '1rem 1.25rem' }}>
               {section.data.length > 0 ? section.data.map(item => {
@@ -803,7 +803,7 @@ function OverviewTab({ stats, leads }) {
 
       {/* 6. Abandonment Analysis */}
       {stats.abandonmentByStep.length > 0 && (
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader icon={AlertTriangle} title="Abandonment by Step" color="#EF4444"
             count={`${stats.totalAbandonment} total (${stats.abandonmentRate}%)`} />
           <div style={{ padding: '1rem 1.25rem' }}>
@@ -832,7 +832,7 @@ function OverviewTab({ stats, leads }) {
 
       {/* 7. Signup Trend (last 30 days) */}
       {stats.signupsByDay.length > 0 && (
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader icon={TrendingUp} title="Signup Trend (30 Days)" color="#3B82F6" />
           <div style={{ padding: '1rem 1.25rem' }}>
             <ResponsiveContainer width="100%" height={160}>
@@ -864,7 +864,7 @@ function OverviewTab({ stats, leads }) {
           { title: 'By Device', data: stats.byDevice, icon: Monitor, color: '#06B6D4' },
           { title: 'By Time of Day', data: stats.byTimeOfDay, icon: Clock, color: '#F59E0B' },
         ].map(section => (
-          <div key={section.title} className="card" style={{ overflow: 'hidden' }}>
+          <div key={section.title} className="card">
             <SectionHeader icon={section.icon} title={section.title} color={section.color} />
             <div style={{ padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
               {section.data.length > 0 && section.data.some(d => d.count > 0) && (
@@ -1148,7 +1148,7 @@ function LeadsTab({
       </div>
 
       {/* Table */}
-      <div className="card" style={{ overflow: 'hidden', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+      <div className="card" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
         <div style={{ overflowX: 'auto', flex: 1, minHeight: 0 }}>
           {/* Header */}
           <div style={{
@@ -1391,7 +1391,7 @@ function TemplatesTab({ bulkEmail, leads }) {
       />
 
       {/* Send History */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="card">
         <SectionHeader icon={Clock} title="Send History" color="#06B6D4"
           count={`${bulkEmail.sendHistory.length} exports`} />
         {bulkEmail.sendHistory.length === 0 ? (

@@ -45,7 +45,7 @@ export default function PlaybookBanner({ industry, phases, checked }) {
   })
 
   return (
-    <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+    <div className="card" style={{ padding: 0 }}>
       <button
         onClick={() => setExpanded(prev => !prev)}
         style={{

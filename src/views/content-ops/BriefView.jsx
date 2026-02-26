@@ -37,7 +37,7 @@ function BriefSkeleton() {
 /* ── Section component ── */
 function BriefSection({ icon: Icon, title, children, color }) {
   return (
-    <div className="card" style={{ overflow: 'hidden' }}>
+    <div className="card">
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.5rem',
         padding: '0.75rem 1rem',

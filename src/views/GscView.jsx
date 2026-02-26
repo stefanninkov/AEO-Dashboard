@@ -419,7 +419,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
 
       {/* Query / AEO Table */}
       {(activeTab === 'queries' || activeTab === 'aeo') && queryData && (
-        <div className="card table-scroll-wrap" style={{ overflow: 'hidden' }}>
+        <div className="card table-scroll-wrap">
           {/* Table header */}
           <div style={{
             display: 'grid',
@@ -518,7 +518,7 @@ export default function GscView({ activeProject, updateProject, user, setActiveV
 
       {/* Pages Table */}
       {activeTab === 'pages' && pageData && (
-        <div className="card table-scroll-wrap" style={{ overflow: 'hidden' }}>
+        <div className="card table-scroll-wrap">
           {/* Table header */}
           <div style={{
             display: 'grid',

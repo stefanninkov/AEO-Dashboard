@@ -205,7 +205,7 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
           const snippet = getPreviewSnippet(entry)
 
           return (
-            <div key={entry.id} className="card" style={{ overflow: 'hidden' }}>
+            <div key={entry.id} className="card">
               {/* ── Header row ── */}
               <div
                 style={{

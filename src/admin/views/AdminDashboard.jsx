@@ -447,7 +447,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
 
       {/* ── Alert Banner ── */}
       {stats.alerts && stats.alerts.length > 0 && (
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <div style={{
             padding: '0.75rem 1.25rem',
             background: 'color-mix(in srgb, var(--color-error) 4%, transparent)',
@@ -728,7 +728,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
         display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(18rem, 1fr))', gap: '1rem',
       }}>
         {/* Funnel */}
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader icon={Target} title="User Journey Funnel" color="var(--color-phase-2)" />
           <div style={{ padding: '1rem 1.25rem' }}>
             {stats.churnFunnel && (() => {
@@ -759,7 +759,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
         </div>
 
         {/* Feature Adoption */}
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader icon={ChartColumnIncreasing} title="Feature Adoption" color="var(--accent)" />
           <div style={{ padding: '1rem 1.25rem' }}>
             {stats.featureUsage && Object.entries(stats.featureUsage).map(([key, val]) => {
@@ -805,7 +805,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
         }}>
           {/* Cold Users */}
           {stats.coldUsers?.length > 0 && (
-            <div className="card" style={{ overflow: 'hidden' }}>
+            <div className="card">
               <SectionHeader
                 icon={ShieldAlert}
                 title="Users Going Cold"
@@ -875,7 +875,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
 
           {/* Cold Projects */}
           {stats.coldProjects?.length > 0 && (
-            <div className="card" style={{ overflow: 'hidden' }}>
+            <div className="card">
               <SectionHeader
                 icon={ShieldOff}
                 title="Projects Going Cold"
@@ -933,7 +933,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
         display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(18rem, 1fr))', gap: '1rem',
       }}>
         {/* At-Risk Users */}
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader
             icon={UserPlus}
             title="Users by Health"
@@ -1004,7 +1004,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
         </div>
 
         {/* Recent Activity */}
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader
             icon={Activity}
             title="Recent Activity"
@@ -1203,7 +1203,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
         display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(18rem, 1fr))', gap: '1rem',
       }}>
         {/* Recent Waitlist */}
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader
             icon={Mail}
             title="Latest Waitlist"
@@ -1250,7 +1250,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
         </div>
 
         {/* Recent Feedback */}
-        <div className="card" style={{ overflow: 'hidden' }}>
+        <div className="card">
           <SectionHeader
             icon={MessageSquare}
             title="Latest Feedback"
@@ -1323,7 +1323,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
       </div>
 
       {/* ── All Projects Table (with health column) ── */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="card">
         <SectionHeader
           icon={FolderKanban}
           title="All Projects"

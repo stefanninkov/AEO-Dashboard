@@ -203,7 +203,7 @@ export default function ContentDecayTab({ activeProject }) {
       </div>
 
       {/* Decay list */}
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+      <div className="card" style={{ padding: 0 }}>
         {/* Select all header */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: '0.75rem',
@@ -382,7 +382,7 @@ export default function ContentDecayTab({ activeProject }) {
 
       {/* AI Suggestions results */}
       {suggestions && suggestions.length > 0 && (
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div className="card" style={{ padding: 0 }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem',
             padding: '0.75rem 1rem',

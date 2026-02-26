@@ -43,7 +43,7 @@ export default memo(function PhaseCard({
 }) {
 
   return (
-    <div className={`card${isCelebrating ? ' phase-complete-pulse' : ''}`} style={{ padding: 0, overflow: 'hidden', '--phase-pulse-color': phase.color + '40' }}>
+    <div className={`card${isCelebrating ? ' phase-complete-pulse' : ''}`} style={{ padding: 0, '--phase-pulse-color': phase.color + '40' }}>
       {/* Phase Header */}
       <button
         className="phase-header"

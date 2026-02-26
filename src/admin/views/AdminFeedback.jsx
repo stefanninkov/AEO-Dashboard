@@ -298,7 +298,7 @@ export default function AdminFeedback({ user }) {
       </div>
 
       {/* Feedback List */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="card">
         <div style={{ maxHeight: '50rem', overflowY: 'auto' }}>
           {filtered.map(item => {
             const isExpanded = expandedId === item.id
