@@ -105,66 +105,42 @@ function SectionDivider({ title }) {
   )
 }
 
-/* ── Qualification Card ── */
-function QualificationCard({ question, options, selected, maxPts }) {
-  const selectedPts = options.find(o => o.value === selected)?.pts
+/* ── Qualification Row (compact, distinct from scored answers) ── */
+function QualRow({ label, question, value, options, maxPts }) {
+  const selected = options.find(o => o.value === value)
+  const pts = selected?.pts ?? 0
   return (
-    <div style={{
-      padding: '0.625rem 0.75rem', borderRadius: '0.5rem',
-      border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
-    }}>
+    <div>
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: '0.5rem',
+        marginBottom: '0.375rem',
       }}>
-        <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.4 }}>
+        <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
           {question}
         </span>
         <span style={{
           fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, flexShrink: 0,
           marginLeft: '0.5rem', padding: '0.0625rem 0.375rem', borderRadius: 99,
-          background: selectedPts === maxPts ? 'rgba(16,185,129,0.1)' : 'transparent',
-          color: selectedPts === maxPts ? '#10B981' : 'var(--text-disabled)',
+          background: pts === maxPts ? 'rgba(16,185,129,0.1)' : 'var(--hover-bg)',
+          color: pts === maxPts ? '#10B981' : 'var(--text-disabled)',
         }}>
-          {selectedPts ?? '?'}/{maxPts}
+          {pts}/{maxPts}
         </span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
         {options.map(opt => {
-          const isSelected = opt.value === selected
+          const isSelected = opt.value === value
           return (
-            <div key={opt.value} style={{
-              display: 'flex', alignItems: 'center', gap: '0.5rem',
-              padding: '0.375rem 0.5rem', borderRadius: '0.375rem',
-              background: isSelected ? 'rgba(16,185,129,0.08)' : 'transparent',
-              border: isSelected ? '0.0625rem solid rgba(16,185,129,0.25)' : '0.0625rem solid transparent',
+            <span key={opt.value} style={{
+              fontSize: '0.625rem', fontWeight: isSelected ? 700 : 500,
+              padding: '0.25rem 0.5rem', borderRadius: 99,
+              background: isSelected ? 'rgba(16,185,129,0.1)' : 'var(--hover-bg)',
+              color: isSelected ? '#10B981' : 'var(--text-disabled)',
+              border: isSelected ? '0.0625rem solid rgba(16,185,129,0.3)' : '0.0625rem solid transparent',
+              whiteSpace: 'nowrap',
             }}>
-              <div style={{
-                width: '0.75rem', height: '0.75rem', borderRadius: '50%', flexShrink: 0,
-                border: isSelected ? '0.1875rem solid #10B981' : '0.0625rem solid var(--border-subtle)',
-                background: isSelected ? '#10B981' : 'transparent',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                {isSelected && (
-                  <div style={{ width: '0.25rem', height: '0.25rem', borderRadius: '50%', background: '#fff' }} />
-                )}
-              </div>
-              <span style={{
-                flex: 1, fontSize: '0.6875rem', lineHeight: 1.3,
-                color: isSelected ? '#10B981' : 'var(--text-tertiary)',
-                fontWeight: isSelected ? 600 : 400,
-              }}>
-                {opt.label}
-              </span>
-              <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, flexShrink: 0,
-                padding: '0.0625rem 0.3125rem', borderRadius: 99,
-                background: isSelected ? (opt.pts > 0 ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.1)') : 'transparent',
-                color: isSelected ? (opt.pts > 0 ? '#10B981' : '#EF4444') : 'var(--text-disabled)',
-              }}>
-                {opt.pts} pts
-              </span>
-            </div>
+              {opt.label}
+            </span>
           )
         })}
       </div>
@@ -366,28 +342,33 @@ export default function LeadDetailPanel({
           {Object.keys(qualification).length > 0 && (
             <>
               <SectionDivider title="Qualification" />
+              <div style={{
+                padding: '0.75rem', borderRadius: '0.5rem',
+                border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
+                display: 'flex', flexDirection: 'column', gap: '0.625rem',
+              }}>
+                {/* Lead Score summary */}
+                {lead.leadScore != null && (
+                  <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '0.5rem 0.625rem', borderRadius: '0.375rem',
+                    background: leadTierInfo.bg,
+                  }}>
+                    <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                      Lead Score
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: leadTierInfo.color }}>
+                      {lead.leadScore}/12 → {leadTierInfo.emoji} {leadTierInfo.label}
+                    </span>
+                  </div>
+                )}
 
-              {/* Lead Score summary */}
-              {lead.leadScore != null && (
-                <div style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '0.5rem 0.625rem', borderRadius: '0.375rem', background: 'var(--hover-bg)',
-                  marginBottom: '0.25rem',
-                }}>
-                  <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
-                    Lead Score
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: leadTierInfo.color }}>
-                    {lead.leadScore}/12 → {leadTierInfo.emoji} {leadTierInfo.label}
-                  </span>
-                </div>
-              )}
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                 {/* Role */}
                 {qualification.role && (
-                  <QualificationCard
+                  <QualRow
+                    label="Role"
                     question="What best describes your role?"
+                    value={qualification.role}
                     options={[
                       { value: 'agency_owner', label: 'Agency Owner / Partner', pts: 4 },
                       { value: 'seo_director', label: 'SEO Manager / Director', pts: 3 },
@@ -395,35 +376,36 @@ export default function LeadDetailPanel({
                       { value: 'freelancer', label: 'Freelance Consultant', pts: 2 },
                       { value: 'other', label: 'Other / Just exploring', pts: 0 },
                     ]}
-                    selected={qualification.role}
                     maxPts={4}
                   />
                 )}
                 {/* Website Count */}
                 {qualification.websiteCount && (
-                  <QualificationCard
+                  <QualRow
+                    label="Websites"
                     question="How many websites do you manage?"
+                    value={qualification.websiteCount}
                     options={[
                       { value: '10+', label: '10+ client websites', pts: 4 },
-                      { value: '3-9', label: '3\u20139 websites', pts: 3 },
-                      { value: '1-2', label: '1\u20132 websites', pts: 1 },
+                      { value: '3-9', label: '3–9 websites', pts: 3 },
+                      { value: '1-2', label: '1–2 websites', pts: 1 },
                       { value: 'own', label: 'Just my own', pts: 0 },
                     ]}
-                    selected={qualification.websiteCount}
                     maxPts={4}
                   />
                 )}
                 {/* Timeline */}
                 {qualification.timeline && (
-                  <QualificationCard
+                  <QualRow
+                    label="Timeline"
                     question="When are you looking to optimize for AI?"
+                    value={qualification.timeline}
                     options={[
-                      { value: 'immediately', label: 'Immediately \u2014 this is urgent', pts: 4 },
-                      { value: '1-3months', label: 'Within 1\u20133 months', pts: 2 },
+                      { value: 'immediately', label: 'Immediately — this is urgent', pts: 4 },
+                      { value: '1-3months', label: 'Within 1–3 months', pts: 2 },
                       { value: 'exploring', label: 'Exploring for the future', pts: 1 },
                       { value: 'curious', label: 'Just curious for now', pts: 0 },
                     ]}
-                    selected={qualification.timeline}
                     maxPts={4}
                   />
                 )}
