@@ -329,7 +329,7 @@ export default function TestingView({ activeProject, updateProject }) {
       >
         <div className="space-y-2">
           {WEEKLY_TASKS.map(task => (
-            <label key={task.id} className="flex items-center gap-3 py-2 px-1 cursor-pointer group">
+            <label key={task.id} className="flex items-center gap-3 py-2 px-1 cursor-pointer group testing-routine-item">
               <input
                 type="checkbox"
                 checked={weeklyChecked[task.id] || false}
@@ -361,7 +361,7 @@ export default function TestingView({ activeProject, updateProject }) {
       >
         <div className="space-y-2">
           {MONTHLY_TASKS.map(task => (
-            <label key={task.id} className="flex items-center gap-3 py-2 px-1 cursor-pointer group">
+            <label key={task.id} className="flex items-center gap-3 py-2 px-1 cursor-pointer group testing-routine-item">
               <input
                 type="checkbox"
                 checked={monthlyChecked[task.id] || false}
@@ -391,7 +391,7 @@ export default function TestingView({ activeProject, updateProject }) {
         onToggle={() => toggleSection('tracker')}
       >
         {/* Add Query */}
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 mb-4 testing-query-input-row">
           <input
             type="text"
             placeholder={t('testing.addQueryPlaceholder')}
@@ -493,7 +493,7 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.links}
         onToggle={() => toggleSection('links')}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 testing-links-grid">
           {QUICK_LINKS.map(link => (
             <a
               key={link.name}

@@ -133,13 +133,13 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Activity size={15} /> {t('integrations.monitoring')}</div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.autoMonitoring')}</span>
           <ToggleSwitch checked={monitoringEnabled} onChange={handleMonitoringToggle} label="Toggle auto-monitoring" />
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{monitoringEnabled ? t('integrations.enabled') : t('integrations.disabled')}</span>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.checkInterval')}</span>
           <select className="input-field input-sm" value={monitoringInterval} onChange={(e) => handleMonitoringInterval(e.target.value)} aria-label="Check interval">
             <option value="1d">{t('integrations.everyDay')}</option>
@@ -150,13 +150,13 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
           </select>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.alertThreshold')}</span>
           <input type="number" className="input-field" value={alertThreshold} onChange={(e) => handleAlertThreshold(e.target.value)} min={1} max={50} aria-label="Alert threshold percentage" style={{ width: '5rem' }} />
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('integrations.changeTriggers')}</span>
         </div>
 
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={labelStyle}>{t('integrations.lastRun')}</span>
           <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{lastMonitorRun}</span>
         </div>
@@ -165,7 +165,7 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
       {/* ── Client Portal ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Share2 size={15} /> {t('integrations.clientPortal')}</div>
-        <div style={{ padding: '0 1.25rem 1rem' }}>
+        <div className="settings-desc" style={{ padding: '0 1.25rem 1rem' }}>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem', lineHeight: 1.6 }}>
             {t('integrations.clientPortalDesc')}
           </p>
@@ -206,32 +206,32 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
       {/* ── EmailJS ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Mail size={15} /> {t('integrations.emailService')}</div>
-        <div style={{ padding: '0 1.25rem 0.5rem' }}>
+        <div className="settings-desc" style={{ padding: '0 1.25rem 0.5rem' }}>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
             <Trans i18nKey="integrations.emailServiceDesc" t={t} components={{ link: <a href="https://emailjs.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-phase-1)', textDecoration: 'underline' }} /> }} />
           </p>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.serviceId')}</span>
           <input className="input-field" value={emailServiceId} onChange={(e) => setEmailServiceId(e.target.value)} placeholder="service_xxxxxxx" aria-label="EmailJS Service ID" style={{ flex: 1 }} />
         </div>
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.templateId')}</span>
           <input className="input-field" value={emailTemplateId} onChange={(e) => setEmailTemplateId(e.target.value)} placeholder="template_xxxxxxx" aria-label="EmailJS Template ID" style={{ flex: 1 }} />
         </div>
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.publicKey')}</span>
           <input className="input-field" value={emailPublicKey} onChange={(e) => setEmailPublicKey(e.target.value)} placeholder="Your public key" aria-label="EmailJS Public Key" style={{ flex: 1 }} />
         </div>
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.status')}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: emailConfigExists ? 'var(--color-success)' : 'var(--text-disabled)', flexShrink: 0 }} />
             <span style={{ fontSize: '0.8125rem', color: emailConfigExists ? 'var(--color-success)' : 'var(--text-tertiary)' }}>{emailConfigExists ? t('integrations.configured') : t('integrations.notConfigured')}</span>
           </div>
         </div>
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={labelStyle} />
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button className="btn-primary btn-sm" style={{ flexShrink: 0 }} onClick={handleSaveEmailConfig}>
@@ -250,13 +250,13 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Mail size={15} /> {t('integrations.emailDigest')}</div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.autoDigest')}</span>
           <ToggleSwitch checked={digestEnabled} onChange={handleDigestToggle} label="Toggle email digest" />
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{digestEnabled ? t('integrations.enabled') : t('integrations.disabled')}</span>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.frequency')}</span>
           <select className="input-field input-sm" value={digestInterval} onChange={(e) => handleDigestInterval(e.target.value)} aria-label="Digest frequency">
             <option value="daily">{t('integrations.daily')}</option>
@@ -265,12 +265,12 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
           </select>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.recipient')}</span>
           <input className="input-field" type="email" value={digestEmail} onChange={(e) => handleDigestEmail(e.target.value)} placeholder="you@example.com" aria-label="Digest recipient email" style={{ flex: 1 }} />
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('integrations.include')}</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
@@ -288,7 +288,7 @@ export default function ProjectIntegrationsSection({ activeProject, updateProjec
           </div>
         </div>
 
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={labelStyle}>{t('integrations.lastSent')}</span>
           <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{lastDigestSent}</span>
         </div>

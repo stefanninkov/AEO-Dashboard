@@ -373,7 +373,7 @@ export default memo(function ChecklistItem({
         )}
 
         {/* Actions (hover) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, opacity: 0, position: 'relative' }} className="checklist-hover-actions group-hover:opacity-100 transition-opacity duration-150">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0, position: 'relative' }} className="checklist-hover-actions transition-opacity duration-150">
           <button
             onClick={() => onToggleComments(item.id)}
             className={`checklist-comment-btn${commentCount > 0 ? ' has-comments' : ''}`}

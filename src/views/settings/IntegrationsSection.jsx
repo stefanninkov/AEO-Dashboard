@@ -23,14 +23,14 @@ export default function IntegrationsSection({ user }) {
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><Plug size={15} /> {t('userSettings.googleIntegration')}</div>
 
-        <div style={{ padding: '0 1.25rem 0.5rem' }}>
+        <div className="settings-desc" style={{ padding: '0 1.25rem 0.5rem' }}>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
             {t('userSettings.googleIntegrationDesc')}
           </p>
         </div>
 
         {!isGoogleOAuthConfigured() ? (
-          <div style={{ padding: '0 1.25rem 1.25rem' }}>
+          <div className="settings-desc" style={{ padding: '0 1.25rem 1.25rem' }}>
             <div style={{
               padding: '0.75rem 1rem', borderRadius: '0.625rem',
               background: 'rgba(245,158,11,0.08)', border: '0.0625rem solid rgba(245,158,11,0.15)',

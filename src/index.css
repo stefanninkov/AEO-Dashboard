@@ -1014,6 +1014,9 @@ body {
   width: 8.125rem;
   flex-shrink: 0;
 }
+.settings-desc {
+  padding: 0.75rem 1.25rem 0.5rem;
+}
 
 /* Section label (uppercase divider) */
 .section-label {
@@ -3044,6 +3047,7 @@ body {
 @media (max-width: 47.9375rem) {
   .cw-type-grid { grid-template-columns: repeat(2, 1fr); }
   .cw-form-row { flex-direction: column; }
+  .cw-form-field { width: 100% !important; }
   .cw-comparison-grid { grid-template-columns: 1fr; }
   .cw-select { min-width: 0; width: 100%; }
 }
@@ -5713,8 +5717,6 @@ body {
     padding: 0.625rem 0.75rem !important;
     gap: 0.5rem !important;
   }
-  .checklist-hover-actions { opacity: 1 !important; }
-
   /* ── Verify Dialog bottom-sheet ── */
   .verify-dialog {
     position: fixed !important;
@@ -5786,6 +5788,11 @@ body {
     padding: 0.75rem 1rem !important;
   }
 
+  /* ── Settings description padding ── */
+  .settings-desc {
+    padding: 0.5rem 1rem !important;
+  }
+
   /* ── Monitoring ── */
   .mon-stats-grid {
     grid-template-columns: 1fr !important;
@@ -5793,6 +5800,46 @@ body {
   }
   .mon-history-details {
     padding-left: 1rem !important;
+  }
+  .mon-result-excerpt,
+  .mon-detail-excerpt {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+  }
+  .mon-detail-query {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  .mon-history-detail-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.125rem !important;
+  }
+
+  /* ── Testing routine items ── */
+  .testing-routine-item {
+    padding: 0.625rem 0.5rem !important;
+    border-bottom: 0.0625rem solid var(--border-subtle);
+  }
+  .testing-routine-item:last-child {
+    border-bottom: none;
+  }
+
+  /* ── Testing inputs/links ── */
+  .testing-query-input-row {
+    flex-direction: column !important;
+  }
+  .testing-query-input-row .btn-primary {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .testing-links-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+  .testing-links-grid a {
+    padding: 0.75rem !important;
   }
 }
 
@@ -5904,6 +5951,18 @@ body {
 
   /* ── Settings usage grid even tighter ── */
   .settings-usage-grid { padding: 0.5rem !important; }
+
+  /* ── Settings input+button stack vertically ── */
+  .settings-row-inline > div:has(.input-field) {
+    flex-direction: column !important;
+  }
+  .settings-row-inline > div:has(.input-field) .btn-sm {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .settings-row-inline > div:has(textarea) {
+    flex-direction: column !important;
+  }
 }
 
 /* Minimum viewport */

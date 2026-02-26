@@ -95,7 +95,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
       <div className="card" style={{ marginBottom: '1rem' }}>
         <div style={sectionTitleStyle}><FolderCog size={15} /> {t('projectGeneral.general')}</div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('projectGeneral.projectName')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input className="input-field" value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder={t('projectGeneral.projectNamePlaceholder')} aria-label={t('projectGeneral.projectNamePlaceholder')} style={{ flex: 1 }} />
@@ -106,7 +106,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           </div>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('projectGeneral.websiteUrl')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input className="input-field" value={projectUrl} onChange={(e) => setProjectUrl(e.target.value)} placeholder="https://example.com" aria-label={t('projectGeneral.websiteUrl')} style={{ flex: 1 }} />
@@ -117,7 +117,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           </div>
         </div>
 
-        <div style={settingsRowStyle}>
+        <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{t('projectGeneral.webflowSiteId')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input className="input-field" value={webflowSiteId} onChange={(e) => setWebflowSiteId(e.target.value)} placeholder={t('projectGeneral.optional')} aria-label={t('projectGeneral.webflowSiteId')} style={{ flex: 1 }} />
@@ -128,7 +128,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           </div>
         </div>
 
-        <div style={lastRowStyle}>
+        <div className="settings-row-inline" style={lastRowStyle}>
           <span style={{ ...labelStyle, alignSelf: 'flex-start', paddingTop: '0.625rem' }}>{t('projectGeneral.notes')}</span>
           <div style={{ flex: 1, display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
             <textarea className="input-field" value={projectNotes} onChange={(e) => setProjectNotes(e.target.value)} placeholder={t('projectGeneral.notesPlaceholder')} aria-label={t('projectGeneral.notes')} rows={3} style={{ flex: 1, resize: 'vertical', minHeight: '3.75rem' }} />
@@ -144,13 +144,13 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
       {google?.isConnected && (
         <div className="card" style={{ marginBottom: '1rem' }}>
           <div style={sectionTitleStyle}><Plug size={15} /> {t('projectGeneral.googleDataSources')}</div>
-          <div style={{ padding: '0 1.25rem 0.5rem' }}>
+          <div className="settings-desc" style={{ padding: '0 1.25rem 0.5rem' }}>
             <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
               {t('projectGeneral.googleDataDesc')}
             </p>
           </div>
 
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.searchConsole')}</span>
             <div style={{ flex: 1 }}>
               <GscPropertySelector
@@ -166,7 +166,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
             </div>
           </div>
 
-          <div style={lastRowStyle}>
+          <div className="settings-row-inline" style={lastRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.analytics4')}</span>
             <div style={{ flex: 1 }}>
               <Ga4PropertySelector
@@ -188,23 +188,23 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
       {google?.isConnected && (
         <div className="card" style={{ marginBottom: '1rem' }}>
           <div style={sectionTitleStyle}><Database size={15} /> {t('projectGeneral.googleCache')}</div>
-          <div style={{ padding: '0 1.25rem 0.5rem' }}>
+          <div className="settings-desc" style={{ padding: '0 1.25rem 0.5rem' }}>
             <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
               {t('projectGeneral.cacheDesc')}
             </p>
           </div>
 
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.memory')}</span>
             <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{t('projectGeneral.entries', { count: cacheStats.memoryEntries })}</span>
           </div>
 
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.storage')}</span>
             <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{t('projectGeneral.entriesWithSize', { count: cacheStats.localStorageEntries, size: cacheStats.totalSizeKB })}</span>
           </div>
 
-          <div style={lastRowStyle}>
+          <div className="settings-row-inline" style={lastRowStyle}>
             <span style={labelStyle} />
             <button
               className="btn-secondary btn-sm"
@@ -237,7 +237,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
             )}
           </div>
 
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.industry')}</span>
             <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
               {INDUSTRY_LABELS[q.industry] || q.industry || '\u2014'}
@@ -245,7 +245,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
             </span>
           </div>
 
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.region')}</span>
             <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
               {(q.countries?.length > 0 || q.country) ? `${(q.countries?.length > 0 ? q.countries : [q.country]).map(c => COUNTRY_LABELS[c] || c).join(', ')}, ` : ''}
@@ -254,7 +254,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           </div>
 
           {q.languages?.length > 0 && (
-            <div style={settingsRowStyle}>
+            <div className="settings-row-inline" style={settingsRowStyle}>
               <span style={labelStyle}>{t('projectGeneral.languages')}</span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
                 {q.languages.map(l => (
@@ -266,17 +266,17 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
             </div>
           )}
 
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.audience')}</span>
             <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{AUDIENCE_LABELS[q.audience] || q.audience || '\u2014'}</span>
           </div>
 
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.primaryGoal')}</span>
             <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{GOAL_LABELS[q.primaryGoal] || q.primaryGoal || '\u2014'}</span>
           </div>
 
-          <div style={settingsRowStyle}>
+          <div className="settings-row-inline" style={settingsRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.targetEngines')}</span>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
               {(q.targetEngines || []).map(e => (
@@ -291,28 +291,28 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           </div>
 
           {q.maturity && (
-            <div style={settingsRowStyle}>
+            <div className="settings-row-inline" style={settingsRowStyle}>
               <span style={labelStyle}>{t('projectGeneral.aeoMaturity')}</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{MATURITY_LABELS[q.maturity] || q.maturity}</span>
             </div>
           )}
 
           {q.contentType && (
-            <div style={settingsRowStyle}>
+            <div className="settings-row-inline" style={settingsRowStyle}>
               <span style={labelStyle}>{t('projectGeneral.contentType')}</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{CONTENT_LABELS[q.contentType] || q.contentType}</span>
             </div>
           )}
 
           {q.cms && (
-            <div style={settingsRowStyle}>
+            <div className="settings-row-inline" style={settingsRowStyle}>
               <span style={labelStyle}>{t('projectGeneral.cmsPlatform')}</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{CMS_LABELS[q.cms] || q.cms}</span>
             </div>
           )}
 
           {q.businessDescription?.trim() && (
-            <div style={settingsRowStyle}>
+            <div className="settings-row-inline" style={settingsRowStyle}>
               <span style={labelStyle}>{t('projectGeneral.description')}</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', maxWidth: '65%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {q.businessDescription.trim()}
@@ -321,7 +321,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
           )}
 
           {q.topServices?.trim() && (
-            <div style={settingsRowStyle}>
+            <div className="settings-row-inline" style={settingsRowStyle}>
               <span style={labelStyle}>{t('projectGeneral.services')}</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', maxWidth: '65%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {q.topServices.trim()}
@@ -329,7 +329,7 @@ export default function ProjectGeneralSection({ activeProject, updateProject, go
             </div>
           )}
 
-          <div style={lastRowStyle}>
+          <div className="settings-row-inline" style={lastRowStyle}>
             <span style={labelStyle}>{t('projectGeneral.completed')}</span>
             <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
               {new Date(q.completedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
