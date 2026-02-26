@@ -130,7 +130,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
         </div>
 
         {/* Footer — task reference + action button */}
-        <div className="px-6 py-4 flex-shrink-0" style={{ borderTop: '0.0625rem solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+        <div className="flex-shrink-0" style={{ padding: '1rem 1.75rem', borderTop: '0.0625rem solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
           <p className="text-xs text-text-tertiary" style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {t('docOverlay.task')} {item?.text}
           </p>
