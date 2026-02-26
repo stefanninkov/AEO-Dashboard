@@ -8,6 +8,7 @@ import {
   Heart, ThumbsUp, ThumbsDown, ClipboardCheck, Briefcase,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
+import { useWaitlistStats } from '../hooks/useWaitlistStats'
 import NudgeEmailDialog from '../components/NudgeEmailDialog'
 
 /* ── Helpers ── */
@@ -339,6 +340,7 @@ function DashboardSkeleton() {
    ═══════════════════════════════════════════ */
 export default function AdminDashboard({ user, onNavigate }) {
   const { stats, loading, error, permissionWarning, refresh } = useAdminStats(user)
+  const wl = useWaitlistStats()
   const [refreshing, setRefreshing] = useState(false)
   const [expandedSection, setExpandedSection] = useState(null)
   const [nudgeUser, setNudgeUser] = useState(null)
@@ -561,6 +563,75 @@ export default function AdminDashboard({ user, onNavigate }) {
           />
         )}
       </div>
+
+      {/* ── Waitlist Intelligence ── */}
+      {!wl.loading && (
+        <>
+          <div style={{
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(13rem, 1fr))', gap: '1rem',
+          }}>
+            <StatCard
+              icon={UserPlus}
+              label="Total Leads"
+              value={wl.total}
+              sublabel={`${wl.today} today · ${wl.thisWeek} this week`}
+              color="#3B82F6"
+            />
+            <StatCard
+              icon={CheckSquare}
+              label="Quiz Completed"
+              value={wl.completedCount}
+              sublabel={`${wl.completionRate}% completion`}
+              color="#10B981"
+              badge={{ text: `${wl.completionRate}%`, bg: 'rgba(16,185,129,0.1)', color: '#10B981' }}
+            />
+            <StatCard
+              icon={Target}
+              label="Hot Leads"
+              value={wl.hotLeads.length}
+              sublabel={`${wl.hotNotInvited.length} not contacted`}
+              color="#EF4444"
+              badge={wl.hotNotInvited.length > 0 ? { text: `${wl.hotNotInvited.length} new`, bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } : null}
+            />
+            <StatCard
+              icon={TrendingUp}
+              label="Avg Score"
+              value={`${wl.avgScore}/33`}
+              sublabel={wl.avgScoreTier ? { invisible: 'Invisible', starting: 'Starting', onTrack: 'On Track', aiReady: 'AI Ready' }[wl.avgScoreTier.id] || '' : ''}
+              color="#8B5CF6"
+              badge={wl.avgScoreTier ? { text: { invisible: 'Invisible', starting: 'Starting', onTrack: 'On Track', aiReady: 'AI Ready' }[wl.avgScoreTier.id], bg: `${wl.avgScoreTier.color}15`, color: wl.avgScoreTier.color } : null}
+            />
+          </div>
+
+          {/* Hot Lead Alert */}
+          {wl.hotNotInvited.length > 0 && (
+            <div
+              onClick={() => nav('waitlist')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '0.75rem',
+                padding: '0.75rem 1.25rem', borderRadius: '0.75rem', cursor: 'pointer',
+                background: 'color-mix(in srgb, #EF4444 6%, transparent)',
+                border: '0.0625rem solid color-mix(in srgb, #EF4444 15%, transparent)',
+                transition: 'background 150ms',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'color-mix(in srgb, #EF4444 10%, transparent)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'color-mix(in srgb, #EF4444 6%, transparent)'}
+            >
+              <span style={{ fontSize: '1.125rem' }}>🔥</span>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', flex: 1 }}>
+                <strong style={{ color: '#EF4444' }}>{wl.hotNotInvited.length} hot lead{wl.hotNotInvited.length > 1 ? 's' : ''}</strong>
+                {' '}haven&apos;t been contacted yet
+              </span>
+              <span style={{
+                fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent)',
+                display: 'flex', alignItems: 'center', gap: '0.25rem',
+              }}>
+                View in Waitlist <ArrowUpRight size={12} />
+              </span>
+            </div>
+          )}
+        </>
+      )}
 
       {/* ── User Journey Funnel + Feature Usage — side by side ── */}
       <div style={{

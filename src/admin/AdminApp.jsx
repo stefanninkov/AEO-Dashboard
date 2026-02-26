@@ -239,7 +239,7 @@ export default function AdminApp({ user, onSignOut }) {
       case 'chatlogs':
         return <AdminChatLogs user={user} />
       case 'waitlist':
-        return <AdminWaitlist user={user} />
+        return <AdminWaitlist user={user} onNavigate={setActiveAdminView} />
       case 'churn':
         return <AdminChurn user={user} />
       default:

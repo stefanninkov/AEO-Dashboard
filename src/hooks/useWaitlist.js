@@ -236,6 +236,43 @@ export function useWaitlist() {
     }
   }, [])
 
+  // ── Admin: mark lead as invited ──
+  const markInvited = useCallback(async (docId) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+    try {
+      await updateDoc(doc(db, 'waitlist', docId), {
+        invited: true,
+        invitedAt: serverTimestamp(),
+        status: 'invited',
+      })
+    } catch (err) {
+      logger.error('Mark invited error:', err)
+    }
+  }, [])
+
+  // ── Admin: mark lead as nudged ──
+  const markNudged = useCallback(async (docId) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+    try {
+      await updateDoc(doc(db, 'waitlist', docId), {
+        nudged: true,
+        nudgedAt: serverTimestamp(),
+      })
+    } catch (err) {
+      logger.error('Mark nudged error:', err)
+    }
+  }, [])
+
+  // ── Admin: update admin notes ──
+  const updateAdminNotes = useCallback(async (docId, notes) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+    try {
+      await updateDoc(doc(db, 'waitlist', docId), { adminNotes: notes })
+    } catch (err) {
+      logger.error('Update admin notes error:', err)
+    }
+  }, [])
+
   return {
     count, submitting, submitted, error, alreadySignedUp,
     submitEmail,        // legacy
@@ -243,5 +280,8 @@ export function useWaitlist() {
     completeScorecard,  // scorecard: after quiz
     trackAbandonment,   // scorecard: on close/skip
     markConverted,      // scorecard: results CTA
+    markInvited,        // admin
+    markNudged,         // admin
+    updateAdminNotes,   // admin
   }
 }
