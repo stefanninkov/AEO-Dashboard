@@ -390,10 +390,16 @@ body {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .content-wrapper {
   width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 /* ══════════════════════════════════════════════════
@@ -1300,7 +1306,7 @@ body {
   animation: shimmer 1.5s infinite;
   border-radius: 0.5rem;
 }
-.view-enter { animation: view-enter var(--duration-normal) cubic-bezier(0.16, 1, 0.3, 1) both; }
+.view-enter { animation: view-enter var(--duration-normal) cubic-bezier(0.16, 1, 0.3, 1) both; flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .content-reveal { animation: content-reveal var(--duration-normal) ease-out both; }
 .check-bounce { animation: check-bounce var(--duration-normal) ease-out; }
 .fade-in-up { animation: fade-in-up var(--duration-slow) cubic-bezier(0.16, 1, 0.3, 1) both; }
@@ -6561,6 +6567,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+  flex: 1;
+  min-height: 0;
 }
 
 @media (max-width: 47.9375rem) {

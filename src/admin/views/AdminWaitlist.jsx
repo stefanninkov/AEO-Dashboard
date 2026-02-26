@@ -409,7 +409,7 @@ export default function AdminWaitlist({ user, onNavigate }) {
   ]
 
   return (
-    <div className="view-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div className="view-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1, minHeight: 0 }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
@@ -830,7 +830,7 @@ function LeadsTab({
   const [bulkDropdownOpen, setBulkDropdownOpen] = useState(false)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1, minHeight: 0 }}>
       {/* Filters Row */}
       <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
         {/* Search */}
@@ -933,8 +933,8 @@ function LeadsTab({
       </div>
 
       {/* Table */}
-      <div className="card" style={{ overflow: 'hidden' }}>
-        <div style={{ overflowX: 'auto' }}>
+      <div className="card" style={{ overflow: 'hidden', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ overflowX: 'auto', flex: 1, minHeight: 0 }}>
           {/* Header */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem',
