@@ -713,13 +713,6 @@ body {
    CARD, BUTTON, INPUT — Reusable components
    ══════════════════════════════════════════════════ */
 
-.card {
-  background: var(--bg-card);
-  border: 0.0625rem solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
 .card-padded {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
@@ -6217,7 +6210,6 @@ body {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  overflow: hidden;
   transition: border-color var(--transition-fast),
               box-shadow var(--transition-fast),
               transform var(--transition-fast);
