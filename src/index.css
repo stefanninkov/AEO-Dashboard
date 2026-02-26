@@ -393,6 +393,12 @@ body {
   display: flex;
   flex-direction: column;
 }
+.content-scroll::after {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+  height: var(--space-6);
+}
 
 .content-wrapper {
   width: 100%;
@@ -400,7 +406,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  padding-bottom: var(--space-6);
 }
 
 /* ══════════════════════════════════════════════════
