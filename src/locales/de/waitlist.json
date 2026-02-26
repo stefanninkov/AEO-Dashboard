@@ -203,6 +203,31 @@
       "answer": "Ja. AEO Dashboard unterstützt mehrere Projekte, sodass Sie AEO für verschiedene Websites von einem einzigen Konto aus verwalten können. Jedes Projekt hat eigene Checklisten-Fortschritte, Analyzer-Ergebnisse und Monitoring-Daten — ideal für Agenturen mit Kundenportfolios."
     }
   },
+  "aiCost": {
+    "label": "AI-Kosten",
+    "title": "AI-gestützt für unter 3 $",
+    "subtitle": "Verbinden Sie Ihren eigenen API-Key — kein Aufschlag, keine versteckten Gebühren. Die vollständige Projektoptimierung kostet weniger als eine Tasse Kaffee.",
+    "price": "2–3 $",
+    "priceLabel": "Gesamt für ein vollständiges Projekt",
+    "description": "Schließen Sie alle 99 Checklisten-Einträge mit jeder AI-Funktion ab — Content Writer, Analyzer, Schema Generator und mehr — für ca. 2–3 $ an API-Kosten.",
+    "cards": {
+      "0": {
+        "value": "0,01–0,05 $",
+        "label": "Pro AI-Funktionsnutzung",
+        "description": "Jede AI-Aktion kostet Centbeträge — von Content-Bewertung bis Schema-Generierung."
+      },
+      "1": {
+        "value": "~2–3 $",
+        "label": "Vollständiges Projekt",
+        "description": "Nutzen Sie jede AI-Funktion für alle 99 Checklisten-Einträge einer Website."
+      },
+      "2": {
+        "value": "~0,30–0,50 $",
+        "label": "Laufende monatliche Kosten",
+        "description": "Monitoring, Neubewertung und gelegentliche AI-Nutzung nach der Ersteinrichtung."
+      }
+    }
+  },
   "earlyAccess": {
     "title": "Early Access gewünscht?",
     "description": "Vor dem Launch geben wir einer ausgewählten Gruppe von frühen Unterstützern Zugang zur vollständigen Plattform. Tragen Sie sich in die Warteliste ein, um die Chance zu erhalten, zu den Ersten zu gehören, die AEO Dashboard testen — und helfen Sie mit Ihrem Feedback, das Produkt zu gestalten.",

@@ -1158,6 +1158,95 @@
 }
 
 
+/* ========== AI COST HIGHLIGHT ========== */
+
+.lp-cost-highlight {
+  max-width: 36rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: var(--lp-bg-card);
+  border: 0.0625rem solid var(--lp-border);
+  border-radius: var(--lp-radius-xl);
+  transition: border-color var(--lp-transition-fast);
+}
+
+.lp-cost-highlight:hover {
+  border-color: var(--lp-border-strong);
+}
+
+.lp-cost-price {
+  font-family: var(--lp-font-heading);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #10B981;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.lp-cost-price-label {
+  font-family: var(--lp-font-heading);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--lp-text-primary);
+  margin-bottom: 1rem;
+}
+
+.lp-cost-description {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--lp-text-secondary);
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+.lp-cost-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.lp-cost-card {
+  text-align: center;
+  padding: 1.5rem 1.25rem;
+  background: var(--lp-bg-card);
+  border: 0.0625rem solid var(--lp-border);
+  border-radius: var(--lp-radius-lg);
+  transition: border-color var(--lp-transition-fast), background var(--lp-transition-fast);
+}
+
+.lp-cost-card:hover {
+  border-color: var(--lp-border-strong);
+  background: var(--lp-bg-card-hover);
+}
+
+.lp-cost-card-value {
+  font-family: var(--lp-font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--lp-accent);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.lp-cost-card-label {
+  font-family: var(--lp-font-heading);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--lp-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.lp-cost-card-desc {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--lp-text-tertiary);
+}
+
+
 /* ========== HOW IT WORKS ========== */
 
 .lp-steps {
@@ -1922,6 +2011,11 @@
 
   /* Features grid */
   .lp-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* AI Cost grid */
+  .lp-cost-grid {
     grid-template-columns: 1fr;
   }
 

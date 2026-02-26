@@ -163,6 +163,32 @@
       }
     }
   },
+  "aiCost": {
+    "label": "AI troškovi",
+    "title": "AI funkcije za manje od 3 $",
+    "subtitle": "Povežite sopstveni API ključ — bez marže, bez skrivenih naknada. Kompletna optimizacija projekta košta manje od jedne kafe.",
+    "price": "2–3 $",
+    "priceLabel": "Ukupno za kompletan projekat",
+    "description": "Završite svih 99 stavki kontrolne liste koristeći svaku AI funkciju — Content Writer, Analyzer, Schema Generator i ostale — za približno 2–3 $ ukupnih API troškova.",
+    "cards": {
+      "0": {
+        "value": "0,01–0,05 $",
+        "label": "Po korišćenju AI funkcije",
+        "description": "Svaka AI akcija košta sitniš — od ocene sadržaja do generisanja schema oznaka."
+      },
+      "1": {
+        "value": "~2–3 $",
+        "label": "Kompletan projekat",
+        "description": "Pokrenite svaku AI funkciju za svih 99 stavki kontrolne liste jednog sajta."
+      },
+      "2": {
+        "value": "~0,30–0,50 $",
+        "label": "Tekući mesečni troškovi",
+        "description": "Monitoring, ponovno ocenjivanje i povremeno korišćenje AI nakon početnog podešavanja."
+      }
+    }
+  },
+
   "steps": {
     "sectionLabel": "Kako funkcioniše",
     "title": "Tri koraka do AI vidljivosti",

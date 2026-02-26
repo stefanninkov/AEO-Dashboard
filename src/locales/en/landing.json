@@ -109,6 +109,32 @@
     }
   },
 
+  "aiCost": {
+    "label": "AI Costs",
+    "title": "AI-Powered for Under $3",
+    "subtitle": "Connect your own API key — no markup, no hidden fees. Full project optimization costs less than a cup of coffee.",
+    "price": "$2–3",
+    "priceLabel": "Total for a full project",
+    "description": "Complete all 99 checklist items using every AI feature — Content Writer, Analyzer, Schema Generator, and more — for approximately $2–3 in total API costs.",
+    "cards": {
+      "0": {
+        "value": "$0.01–0.05",
+        "label": "Per AI feature use",
+        "description": "Each AI action costs pennies — from content scoring to schema generation."
+      },
+      "1": {
+        "value": "~$2–3",
+        "label": "Full project completion",
+        "description": "Run every AI feature across all 99 checklist items for one website."
+      },
+      "2": {
+        "value": "~$0.30–0.50",
+        "label": "Ongoing monthly cost",
+        "description": "Monitoring, rescoring, and occasional AI usage after initial setup."
+      }
+    }
+  },
+
   "steps": {
     "sectionLabel": "How It Works",
     "title": "Three Steps to AI Visibility",

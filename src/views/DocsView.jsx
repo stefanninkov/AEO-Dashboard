@@ -5,7 +5,7 @@ import {
   Users, Sparkles, PenTool, CalendarDays, Code2, Activity,
   ChartColumnIncreasing, Layers, FlaskConical,
   SlidersHorizontal, ArrowRight, ExternalLink, Info, Lightbulb,
-  Rocket, HelpCircle,
+  Rocket, HelpCircle, Coins,
 } from 'lucide-react'
 import { useDebounce } from '../hooks/useDebounce'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
@@ -38,6 +38,43 @@ export const APP_SECTIONS = [
       {
         title: 'Projects & Workspaces',
         body: 'Each project represents a website or domain you\'re optimizing. You can create multiple projects from the sidebar, each with its own checklist progress, settings, and data. Team members can be invited to collaborate on projects with role-based permissions (Owner, Admin, Editor, Viewer).',
+      },
+    ],
+  },
+  {
+    id: 'api-costs',
+    icon: Coins,
+    title: 'API Usage & Costs',
+    color: '#10b981',
+    description: 'Understand API costs for AI-powered features — full project optimization for under $3.',
+    items: [
+      {
+        title: 'Your API Key, Your Costs',
+        body: 'AEO Dashboard\'s AI features use your own Claude (Anthropic) or OpenAI API key. You are billed directly by your API provider at their standard rates — AEO Dashboard does not add any markup or surcharge. This means you get the lowest possible AI costs and full transparency through your provider\'s usage dashboard.',
+      },
+      {
+        title: 'Which Features Use the API',
+        body: 'Eight features use your API key: Content Writer (generates AEO-optimized content), Content Scorer (evaluates content quality), Schema Generator (creates JSON-LD markup), Analyzer AI Mode (deep page analysis), Auto Monitor (scheduled site checks), Help Chat (in-app AI assistant), Page Analyzer (single-page deep dive), and Content Brief (generates content outlines). The deterministic Analyzer scan, the full checklist, and all dashboard analytics work without an API key.',
+      },
+      {
+        title: 'Cost Per Feature',
+        body: 'Individual feature costs are minimal. Content Writer: ~$0.02–0.05 per generation. Content Scorer: ~$0.01–0.02 per score. Schema Generator: ~$0.01–0.03 per schema. Analyzer AI Mode: ~$0.02–0.04 per analysis. Auto Monitor: ~$0.01–0.02 per check. Help Chat: ~$0.005–0.02 per message. Page Analyzer: ~$0.02–0.04 per page. Content Brief: ~$0.02–0.05 per brief.',
+      },
+      {
+        title: 'Total Project Cost: ~$2–3',
+        body: 'Completing all 99 checklist items for a full project — using every AI feature along the way — costs approximately $2–3 total in API usage. This covers running the Analyzer on your pages, generating schema markup, scoring your content, creating optimized drafts, and using the Help Chat throughout the process. That\'s less than a cup of coffee for a complete AEO optimization.',
+      },
+      {
+        title: 'Ongoing Monthly Cost: ~$0.30–0.50',
+        body: 'After completing initial optimization, ongoing monitoring and maintenance costs approximately $0.30–0.50 per month. This covers periodic Auto Monitor checks, occasional content rescoring, and Help Chat usage. If you re-optimize pages or generate new content, costs scale proportionally but remain minimal.',
+      },
+      {
+        title: 'Claude vs OpenAI Pricing',
+        body: 'Both Claude (Anthropic) and OpenAI are supported. Claude Haiku is the most cost-effective option for most features, while Claude Sonnet offers higher quality at slightly higher cost. OpenAI\'s GPT-4o-mini is comparable to Claude Haiku in pricing. You can switch models in Settings at any time — the app works with whichever provider you prefer.',
+      },
+      {
+        title: 'Tracking Your Usage',
+        body: 'Monitor your API spending directly through your provider\'s dashboard: console.anthropic.com for Claude or platform.openai.com/usage for OpenAI. Both providers show per-request costs, daily totals, and monthly summaries. You can also set spending limits and alerts in your provider dashboard to prevent unexpected charges.',
       },
     ],
   },

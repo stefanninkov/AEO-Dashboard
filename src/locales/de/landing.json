@@ -109,6 +109,32 @@
     }
   },
 
+  "aiCost": {
+    "label": "AI-Kosten",
+    "title": "AI-gestützt für unter 3 $",
+    "subtitle": "Verbinden Sie Ihren eigenen API-Key — kein Aufschlag, keine versteckten Gebühren. Die vollständige Projektoptimierung kostet weniger als eine Tasse Kaffee.",
+    "price": "2–3 $",
+    "priceLabel": "Gesamt für ein vollständiges Projekt",
+    "description": "Schließen Sie alle 99 Checklisten-Einträge mit jeder AI-Funktion ab — Content Writer, Analyzer, Schema Generator und mehr — für ca. 2–3 $ an API-Kosten.",
+    "cards": {
+      "0": {
+        "value": "0,01–0,05 $",
+        "label": "Pro AI-Funktionsnutzung",
+        "description": "Jede AI-Aktion kostet Centbeträge — von Content-Bewertung bis Schema-Generierung."
+      },
+      "1": {
+        "value": "~2–3 $",
+        "label": "Vollständiges Projekt",
+        "description": "Nutzen Sie jede AI-Funktion für alle 99 Checklisten-Einträge einer Website."
+      },
+      "2": {
+        "value": "~0,30–0,50 $",
+        "label": "Laufende monatliche Kosten",
+        "description": "Monitoring, Neubewertung und gelegentliche AI-Nutzung nach der Ersteinrichtung."
+      }
+    }
+  },
+
   "steps": {
     "sectionLabel": "So funktioniert's",
     "title": "Drei Schritte zur AI-Sichtbarkeit",

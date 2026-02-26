@@ -47,6 +47,40 @@
         }
       ]
     },
+    "api-costs": {
+      "title": "API-Nutzung & Kosten",
+      "description": "Verstehen Sie die API-Kosten für KI-gestützte Funktionen — vollständige Projektoptimierung für unter 3 $.",
+      "items": [
+        {
+          "title": "Ihr API Key, Ihre Kosten",
+          "body": "Die KI-Funktionen des AEO Dashboard verwenden Ihren eigenen Claude (Anthropic) oder OpenAI API Key. Sie werden direkt von Ihrem API-Anbieter zu dessen Standardtarifen abgerechnet — AEO Dashboard erhebt keinen Aufschlag oder Zuschlag. Das bedeutet, Sie erhalten die niedrigstmöglichen KI-Kosten und volle Transparenz über das Nutzungs-Dashboard Ihres Anbieters."
+        },
+        {
+          "title": "Welche Funktionen die API nutzen",
+          "body": "Acht Funktionen verwenden Ihren API Key: Content Writer (erstellt AEO-optimierte Inhalte), Content Scorer (bewertet die Inhaltsqualität), Schema Generator (erstellt JSON-LD-Markup), Analyzer AI Mode (tiefgehende Seitenanalyse), Auto Monitor (geplante Website-Prüfungen), Help Chat (KI-Assistent in der App), Page Analyzer (tiefgehende Einzelseitenanalyse) und Content Brief (erstellt Inhaltsentwürfe). Der deterministische Analyzer-Scan, die vollständige Checkliste und alle Dashboard-Analysen funktionieren ohne API Key."
+        },
+        {
+          "title": "Kosten pro Funktion",
+          "body": "Die Kosten der einzelnen Funktionen sind minimal. Content Writer: ~0,02–0,05 $ pro Generierung. Content Scorer: ~0,01–0,02 $ pro Bewertung. Schema Generator: ~0,01–0,03 $ pro Schema. Analyzer AI Mode: ~0,02–0,04 $ pro Analyse. Auto Monitor: ~0,01–0,02 $ pro Prüfung. Help Chat: ~0,005–0,02 $ pro Nachricht. Page Analyzer: ~0,02–0,04 $ pro Seite. Content Brief: ~0,02–0,05 $ pro Brief."
+        },
+        {
+          "title": "Gesamte Projektkosten: ~2–3 $",
+          "body": "Das Abschließen aller 99 Checklisten-Einträge für ein vollständiges Projekt — unter Nutzung jeder KI-Funktion unterwegs — kostet insgesamt etwa 2–3 $ an API-Nutzung. Dies umfasst das Ausführen des Analyzers auf Ihren Seiten, das Generieren von Schema-Markup, das Bewerten Ihrer Inhalte, das Erstellen optimierter Entwürfe und die Nutzung des Help Chat während des gesamten Prozesses. Das ist weniger als eine Tasse Kaffee für eine vollständige AEO-Optimierung."
+        },
+        {
+          "title": "Laufende monatliche Kosten: ~0,30–0,50 $",
+          "body": "Nach Abschluss der ersten Optimierung kostet die laufende Überwachung und Wartung etwa 0,30–0,50 $ pro Monat. Dies umfasst regelmäßige Auto Monitor-Prüfungen, gelegentliche Neubewertungen von Inhalten und die Nutzung des Help Chat. Wenn Sie Seiten erneut optimieren oder neue Inhalte generieren, skalieren die Kosten proportional, bleiben aber minimal."
+        },
+        {
+          "title": "Claude vs. OpenAI Preisgestaltung",
+          "body": "Sowohl Claude (Anthropic) als auch OpenAI werden unterstützt. Claude Haiku ist die kosteneffizienteste Option für die meisten Funktionen, während Claude Sonnet höhere Qualität zu etwas höheren Kosten bietet. OpenAIs GPT-4o-mini ist preislich mit Claude Haiku vergleichbar. Sie können Modelle jederzeit in den Einstellungen wechseln — die App funktioniert mit jedem Anbieter, den Sie bevorzugen."
+        },
+        {
+          "title": "Ihre Nutzung verfolgen",
+          "body": "Überwachen Sie Ihre API-Ausgaben direkt über das Dashboard Ihres Anbieters: console.anthropic.com für Claude oder platform.openai.com/usage für OpenAI. Beide Anbieter zeigen Kosten pro Anfrage, Tagessummen und Monatszusammenfassungen. Sie können auch Ausgabenlimits und Benachrichtigungen im Dashboard Ihres Anbieters einrichten, um unerwartete Kosten zu vermeiden."
+        }
+      ]
+    },
     "aeo-guide": {
       "title": "AEO-Leitfaden",
       "description": "Ihre Schritt-für-Schritt-Roadmap durch alle 7 Phasen der Answer Engine Optimization.",

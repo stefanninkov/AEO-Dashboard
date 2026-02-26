@@ -716,7 +716,40 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ═══════════ 8. HOW IT WORKS ═══════════ */}
+        {/* ═══════════ 8. AI COST HIGHLIGHT ═══════════ */}
+        <section id="ai-cost" className="lp-section" aria-label="AI costs" data-animate>
+          <div className="lp-section-center">
+            <span className="lp-section-label">{t('aiCost.label')}</span>
+            <h2 className="lp-section-title">{t('aiCost.title')}</h2>
+            <p className="lp-section-subtitle">{t('aiCost.subtitle')}</p>
+          </div>
+
+          <div className="lp-cost-highlight">
+            <div className="lp-cost-price">{t('aiCost.price')}</div>
+            <p className="lp-cost-price-label">{t('aiCost.priceLabel')}</p>
+            <p className="lp-cost-description">{t('aiCost.description')}</p>
+          </div>
+
+          <div className="lp-cost-grid">
+            <div className="lp-cost-card">
+              <div className="lp-cost-card-value">{t('aiCost.cards.0.value')}</div>
+              <div className="lp-cost-card-label">{t('aiCost.cards.0.label')}</div>
+              <p className="lp-cost-card-desc">{t('aiCost.cards.0.description')}</p>
+            </div>
+            <div className="lp-cost-card">
+              <div className="lp-cost-card-value">{t('aiCost.cards.1.value')}</div>
+              <div className="lp-cost-card-label">{t('aiCost.cards.1.label')}</div>
+              <p className="lp-cost-card-desc">{t('aiCost.cards.1.description')}</p>
+            </div>
+            <div className="lp-cost-card">
+              <div className="lp-cost-card-value">{t('aiCost.cards.2.value')}</div>
+              <div className="lp-cost-card-label">{t('aiCost.cards.2.label')}</div>
+              <p className="lp-cost-card-desc">{t('aiCost.cards.2.description')}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ 9. HOW IT WORKS ═══════════ */}
         <section id="how-it-works" className="lp-section" aria-label="How it works" data-animate>
           <div className="lp-section-center">
             <span className="lp-section-label">{t('steps.sectionLabel')}</span>

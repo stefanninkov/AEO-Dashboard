@@ -719,6 +719,95 @@
 }
 
 
+/* ========== AI COST HIGHLIGHT ========== */
+
+.wl-cost-highlight {
+  max-width: 36rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: var(--wl-bg-card);
+  border: 0.0625rem solid var(--wl-border);
+  border-radius: var(--wl-radius-xl);
+  transition: border-color var(--wl-transition-fast);
+}
+
+.wl-cost-highlight:hover {
+  border-color: var(--wl-border-strong);
+}
+
+.wl-cost-price {
+  font-family: var(--wl-font-heading);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #10B981;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.wl-cost-price-label {
+  font-family: var(--wl-font-heading);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--wl-text-primary);
+  margin-bottom: 1rem;
+}
+
+.wl-cost-description {
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--wl-text-secondary);
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+.wl-cost-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.wl-cost-card {
+  text-align: center;
+  padding: 1.5rem 1.25rem;
+  background: var(--wl-bg-card);
+  border: 0.0625rem solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  transition: border-color var(--wl-transition-fast), background var(--wl-transition-fast);
+}
+
+.wl-cost-card:hover {
+  border-color: var(--wl-border-strong);
+  background: var(--wl-bg-card-hover);
+}
+
+.wl-cost-card-value {
+  font-family: var(--wl-font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--wl-accent);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.wl-cost-card-label {
+  font-family: var(--wl-font-heading);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--wl-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.wl-cost-card-desc {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--wl-text-tertiary);
+}
+
+
 /* ========== FAQ ========== */
 
 .wl-faq-list {
@@ -1088,6 +1177,10 @@
   }
 
   .wl-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-cost-grid {
     grid-template-columns: 1fr;
   }
 

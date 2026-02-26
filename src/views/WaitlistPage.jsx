@@ -476,7 +476,42 @@ export default function WaitlistPage() {
           </div>
         </section>
 
-        {/* ═══════════ 6. FAQ ═══════════ */}
+        {/* ═══════════ 6. AI COST HIGHLIGHT ═══════════ */}
+        <section id="ai-cost" className="wl-section" data-animate>
+          <div className="wl-section-inner">
+            <div className="wl-section-center">
+              <span className="wl-section-label">{t('aiCost.label')}</span>
+              <h2 className="wl-section-title">{t('aiCost.title')}</h2>
+              <p className="wl-section-subtitle wl-centered">{t('aiCost.subtitle')}</p>
+            </div>
+
+            <div className="wl-cost-highlight">
+              <div className="wl-cost-price">{t('aiCost.price')}</div>
+              <p className="wl-cost-price-label">{t('aiCost.priceLabel')}</p>
+              <p className="wl-cost-description">{t('aiCost.description')}</p>
+            </div>
+
+            <div className="wl-cost-grid">
+              <div className="wl-cost-card">
+                <div className="wl-cost-card-value">{t('aiCost.cards.0.value')}</div>
+                <div className="wl-cost-card-label">{t('aiCost.cards.0.label')}</div>
+                <p className="wl-cost-card-desc">{t('aiCost.cards.0.description')}</p>
+              </div>
+              <div className="wl-cost-card">
+                <div className="wl-cost-card-value">{t('aiCost.cards.1.value')}</div>
+                <div className="wl-cost-card-label">{t('aiCost.cards.1.label')}</div>
+                <p className="wl-cost-card-desc">{t('aiCost.cards.1.description')}</p>
+              </div>
+              <div className="wl-cost-card">
+                <div className="wl-cost-card-value">{t('aiCost.cards.2.value')}</div>
+                <div className="wl-cost-card-label">{t('aiCost.cards.2.label')}</div>
+                <p className="wl-cost-card-desc">{t('aiCost.cards.2.description')}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ 7. FAQ ═══════════ */}
         <section id="faq" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">

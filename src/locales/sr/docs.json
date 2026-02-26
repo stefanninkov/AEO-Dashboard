@@ -47,6 +47,40 @@
         }
       ]
     },
+    "api-costs": {
+      "title": "API korišćenje i troškovi",
+      "description": "Razumite API troškove za AI funkcije — kompletna optimizacija projekta za manje od 3 $.",
+      "items": [
+        {
+          "title": "Vaš API Key, vaši troškovi",
+          "body": "AI funkcije AEO Dashboard-a koriste vaš sopstveni Claude (Anthropic) ili OpenAI API Key. Naplaćuje vam direktno vaš API provajder po njihovim standardnim cenama — AEO Dashboard ne dodaje nikakvu maržu ili doplatu. To znači da dobijate najniže moguće AI troškove i potpunu transparentnost kroz kontrolnu tablu korišćenja vašeg provajdera."
+        },
+        {
+          "title": "Koje funkcije koriste API",
+          "body": "Osam funkcija koristi vaš API Key: Content Writer (generiše AEO-optimizovan sadržaj), Content Scorer (ocenjuje kvalitet sadržaja), Schema Generator (kreira JSON-LD oznake), Analyzer AI Mode (duboka analiza stranice), Auto Monitor (zakazane provere sajta), Help Chat (AI asistent u aplikaciji), Page Analyzer (duboka analiza pojedinačne stranice) i Content Brief (generiše nacrte sadržaja). Deterministički Analyzer sken, kompletna kontrolna lista i sva analitika kontrolne table rade bez API Key-a."
+        },
+        {
+          "title": "Cena po funkciji",
+          "body": "Troškovi pojedinačnih funkcija su minimalni. Content Writer: ~0,02–0,05 $ po generisanju. Content Scorer: ~0,01–0,02 $ po oceni. Schema Generator: ~0,01–0,03 $ po schemi. Analyzer AI Mode: ~0,02–0,04 $ po analizi. Auto Monitor: ~0,01–0,02 $ po proveri. Help Chat: ~0,005–0,02 $ po poruci. Page Analyzer: ~0,02–0,04 $ po stranici. Content Brief: ~0,02–0,05 $ po nacrtu."
+        },
+        {
+          "title": "Ukupni troškovi projekta: ~2–3 $",
+          "body": "Završavanje svih 99 stavki kontrolne liste za kompletan projekat — koristeći svaku AI funkciju usput — košta približno 2–3 $ ukupno u API korišćenju. Ovo pokriva pokretanje Analyzer-a na vašim stranicama, generisanje schema oznaka, ocenjivanje vašeg sadržaja, kreiranje optimizovanih nacrta i korišćenje Help Chat-a tokom celog procesa. To je manje od cene jedne kafe za kompletnu AEO optimizaciju."
+        },
+        {
+          "title": "Tekući mesečni troškovi: ~0,30–0,50 $",
+          "body": "Nakon završetka početne optimizacije, tekući monitoring i održavanje košta približno 0,30–0,50 $ mesečno. Ovo pokriva periodične Auto Monitor provere, povremeno ponovno ocenjivanje sadržaja i korišćenje Help Chat-a. Ako ponovo optimizujete stranice ili generišete novi sadržaj, troškovi se proporcionalno povećavaju, ali ostaju minimalni."
+        },
+        {
+          "title": "Claude naspram OpenAI cene",
+          "body": "Podržani su i Claude (Anthropic) i OpenAI. Claude Haiku je najisplativija opcija za većinu funkcija, dok Claude Sonnet nudi viši kvalitet po nešto višoj ceni. OpenAI GPT-4o-mini je uporediv sa Claude Haiku po cenama. Možete menjati modele u Podešavanjima u bilo kom trenutku — aplikacija radi sa bilo kojim provajderom koji preferirate."
+        },
+        {
+          "title": "Praćenje vašeg korišćenja",
+          "body": "Pratite vaše API troškove direktno preko kontrolne table vašeg provajdera: console.anthropic.com za Claude ili platform.openai.com/usage za OpenAI. Oba provajdera prikazuju troškove po zahtevu, dnevne ukupne iznose i mesečne preglede. Takođe možete podesiti limite potrošnje i upozorenja na kontrolnoj tabli vašeg provajdera da biste sprečili neočekivane troškove."
+        }
+      ]
+    },
     "aeo-guide": {
       "title": "AEO vodič",
       "description": "Vaša mapa puta korak po korak kroz svih 7 faza Answer Engine Optimization.",
