@@ -392,7 +392,6 @@ body {
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  padding-bottom: var(--space-6);
 }
 
 .content-wrapper {
@@ -401,6 +400,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  padding-bottom: var(--space-6);
 }
 
 /* ══════════════════════════════════════════════════

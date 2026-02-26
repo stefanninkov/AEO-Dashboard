@@ -312,21 +312,6 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
                         {relativeTime(member.lastActive)}
                       </div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', flexShrink: 0 }}>
-                      <div style={{
-                        width: '2rem', height: '0.1875rem', borderRadius: 'var(--radius-full)',
-                        background: 'var(--hover-bg)', overflow: 'hidden',
-                      }}>
-                        <div style={{
-                          width: `${pct}%`, height: '100%',
-                          background: `var(--color-phase-${(i % 7) + 1})`,
-                          borderRadius: 'var(--radius-full)',
-                        }} />
-                      </div>
-                      <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)', fontFamily: 'var(--font-mono)', minWidth: '1.5rem', textAlign: 'right' }}>
-                        {member.count}
-                      </span>
-                    </div>
                   </div>
                 )
               })}
