@@ -188,7 +188,7 @@ export default function TestingView({ activeProject, updateProject }) {
       >
         <div className="space-y-4">
           {/* Run button + status */}
-          <div className="flex items-center justify-between gap-4">
+          <div className="mon-run-row flex items-center justify-between gap-4">
             <div className="flex-1">
               <p className="text-sm text-text-secondary">
                 {t('testing.autoMonitorDesc')}
