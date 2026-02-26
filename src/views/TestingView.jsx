@@ -493,18 +493,23 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.links}
         onToggle={() => toggleSection('links')}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 testing-links-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 testing-links-grid">
           {QUICK_LINKS.map(link => (
             <a
               key={link.name}
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 group"
-              style={{ background: 'var(--bg-page)', border: '0.0625rem solid var(--border-subtle)' }}
+              className="flex items-center gap-3 rounded-xl hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 group"
+              style={{ padding: '0.75rem 1rem', background: 'var(--bg-page)', border: '0.0625rem solid var(--border-subtle)' }}
             >
-              <ExternalLink size={14} className="text-text-tertiary group-hover:text-phase-3 transition-colors flex-shrink-0" />
-              <span className="text-sm text-text-secondary group-hover:text-text-primary transition-colors">{link.name}</span>
+              <div
+                className="flex-shrink-0 flex items-center justify-center rounded-lg"
+                style={{ width: '2rem', height: '2rem', background: 'var(--hover-bg)' }}
+              >
+                <ExternalLink size={14} className="text-text-tertiary group-hover:text-phase-3 transition-colors" />
+              </div>
+              <span className="text-sm font-medium text-text-secondary group-hover:text-text-primary transition-colors">{link.name}</span>
             </a>
           ))}
         </div>
@@ -518,7 +523,7 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.timeline}
         onToggle={() => toggleSection('timeline')}
       >
-        <div className="space-y-4">
+        <div className="space-y-3">
           <TimelineItem
             period={t('testing.timeline.fast')}
             description={t('testing.timeline.fastDesc')}
@@ -569,13 +574,19 @@ function CollapsibleSection({ title, subtitle, icon, expanded, onToggle, childre
 
 function TimelineItem({ period, description, color }) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="relative flex-shrink-0">
-        <div className="w-3 h-3 rounded-full mt-1" style={{ backgroundColor: color }} />
+    <div
+      className="flex items-start gap-3 rounded-xl"
+      style={{ padding: '0.875rem 1rem', background: 'var(--bg-page)', border: '0.0625rem solid var(--border-subtle)' }}
+    >
+      <div
+        className="flex-shrink-0 flex items-center justify-center rounded-lg"
+        style={{ width: '2.25rem', height: '2.25rem', background: `color-mix(in srgb, ${color} 12%, transparent)` }}
+      >
+        <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
       </div>
-      <div>
-        <p className="text-sm font-medium font-heading" style={{ color }}>{period}</p>
-        <p className="text-xs text-text-secondary mt-0.5">{description}</p>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <p className="text-sm font-semibold font-heading" style={{ color }}>{period}</p>
+        <p className="text-xs text-text-secondary" style={{ marginTop: '0.25rem', lineHeight: 1.5 }}>{description}</p>
       </div>
     </div>
   )
