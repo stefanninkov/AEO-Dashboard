@@ -88,7 +88,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
         </div>
 
         {/* Content — scrollable */}
-        <div className="flex-1 overflow-y-auto" style={{ padding: '1.5rem 1.75rem' }}>
+        <div className="flex-1 overflow-y-auto" style={{ padding: '1.5rem 1.75rem 2rem' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {item?.doc?.sections?.map((section, idx) => (
               <div
