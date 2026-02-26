@@ -331,7 +331,7 @@ export default memo(function TopBar({
               className="project-dropdown"
               style={{
                 background: 'var(--bg-card)', border: '0.0625rem solid var(--border-default)',
-                borderRadius: '0.75rem', overflow: 'hidden', boxShadow: 'var(--shadow-md)',
+                borderRadius: '0.75rem', boxShadow: 'var(--shadow-md)',
                 zIndex: 'var(--z-dropdown)',
               }}
             >

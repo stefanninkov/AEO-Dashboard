@@ -392,6 +392,7 @@ body {
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  padding-bottom: var(--space-6);
 }
 
 .content-wrapper {
@@ -718,7 +719,6 @@ body {
   border: 0.0625rem solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
-  overflow: hidden;
 }
 
 .btn-primary {
@@ -864,7 +864,6 @@ body {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  overflow: hidden;
   margin-bottom: var(--space-6);
 }
 .phase-progress-card-header {
@@ -2322,7 +2321,6 @@ body {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: 0.75rem;
-  overflow: hidden;
 }
 
 .analyzer-category-header {
@@ -2388,7 +2386,6 @@ body {
   margin: 0 1.25rem 0.75rem 2.75rem;
   border: 0.0625rem solid color-mix(in srgb, var(--color-phase-3) 20%, var(--border-subtle));
   border-radius: 0.5rem;
-  overflow: hidden;
   background: color-mix(in srgb, var(--color-phase-3) 3%, var(--bg-card));
 }
 
@@ -2495,7 +2492,6 @@ body {
 .fix-code-wrapper {
   border: 0.0625rem solid var(--border-subtle);
   border-radius: 0.5rem;
-  overflow: hidden;
   margin-bottom: 0.625rem;
 }
 
@@ -2847,7 +2843,6 @@ body {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: 0.75rem;
-  overflow: hidden;
 }
 
 .cw-result-header {
@@ -3372,7 +3367,6 @@ body {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: 0.75rem;
-  overflow: hidden;
 }
 
 .schema-code-label {
@@ -3545,7 +3539,6 @@ body {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  overflow: hidden;
   margin-top: 0.25rem;
 }
 .schema-validation-header {
@@ -3632,7 +3625,6 @@ body {
   background: var(--bg-page);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: var(--radius-md);
-  overflow: hidden;
 }
 .digest-preview-body {
   margin: 0;
@@ -4040,7 +4032,6 @@ body {
 
 .mon-history-item {
   border-radius: 0.5rem;
-  overflow: hidden;
 }
 
 .mon-history-row {
@@ -4698,7 +4689,6 @@ body {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: 0.75rem;
-  overflow: hidden;
   margin-bottom: 0.75rem;
 }
 .docs-phase-group:last-child {
@@ -4838,7 +4828,6 @@ body {
   background: var(--bg-card);
   border: 0.0625rem solid var(--border-subtle);
   border-radius: 0.75rem;
-  overflow: hidden;
 }
 
 .testing-section-header {

@@ -581,7 +581,6 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                   background: 'var(--bg-card)',
                   borderRadius: '0.75rem',
                   border: '0.0625rem solid var(--border-subtle)',
-                  overflow: 'hidden',
                   transition: 'box-shadow 150ms',
                 }}
               >
@@ -785,7 +784,6 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                   background: 'var(--bg-card)',
                   borderRadius: '0.625rem',
                   border: '0.0625rem solid var(--border-subtle)',
-                  overflow: 'hidden',
                 }}
               >
                 <button
