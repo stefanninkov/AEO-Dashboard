@@ -12,7 +12,9 @@ import {
   CheckSquare, Target, BarChart4, AlertTriangle, ArrowUpDown, ChevronLeft,
   ChevronRight, Mail, Eye, ArrowUpRight, ArrowDownRight, Minus, Filter,
   Clock, Zap, Globe, Monitor, Sun, Moon, Sunrise, Sunset, Trash2,
+  Flame, CircleDot, Circle,
 } from 'lucide-react'
+import { ALL_STAGES, getStage } from '../constants/pipelineStages'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
   PieChart, Pie, AreaChart, Area,
@@ -224,9 +226,9 @@ const TIMELINE_LABELS = {
   immediately: 'Immediately', '1-3months': '1–3 months', exploring: 'Exploring', curious: 'Curious',
 }
 const LEAD_TIER_DISPLAY = {
-  hot: { emoji: '🔥', label: 'Hot', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
-  warm: { emoji: '🟡', label: 'Warm', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
-  cold: { emoji: '⚪', label: 'Cold', color: '#6B7280', bg: 'rgba(107,114,128,0.1)' },
+  hot: { icon: Flame, label: 'Hot', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
+  warm: { icon: CircleDot, label: 'Warm', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+  cold: { icon: Circle, label: 'Cold', color: '#6B7280', bg: 'rgba(107,114,128,0.1)' },
 }
 const SCORE_TIER_LABELS = { invisible: 'Invisible', starting: 'Starting', onTrack: 'On Track', aiReady: 'AI Ready' }
 
@@ -302,10 +304,7 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
       result = result.filter(l => l.qualification?.timeline === timelineFilter)
     }
     if (statusFilter !== 'all') {
-      result = result.filter(l => {
-        const s = l.status || (l.invited ? 'invited' : l.converted ? 'converted' : l.scorecard?.completed ? 'active' : l.scorecard?.abandonedAtStep != null ? 'abandoned' : 'active')
-        return s === statusFilter
-      })
+      result = result.filter(l => (l.pipelineStage || 'new') === statusFilter)
     }
     return result
   }, [leads, search, leadTierFilter, scoreTierFilter, roleFilter, timelineFilter, statusFilter])
@@ -486,7 +485,10 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
       {activeTab === 'pipeline' && (
         <PipelineBoard
           leadsByStage={pipeline.leadsByStage}
-          onMoveStage={pipeline.moveToStage}
+          onMoveStage={async (leadId, fromStage, toStage) => {
+            await pipeline.moveToStage(leadId, fromStage, toStage)
+            await refresh()
+          }}
           onSelectLead={setSelectedLead}
         />
       )}
@@ -521,6 +523,14 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
           openBulkEmail={openBulkEmail}
           deleteLead={deleteLead}
           refresh={refresh}
+          onBulkMoveStage={async (leadIds, stageId) => {
+            for (const lid of leadIds) {
+              const lead = leads.find(l => l.id === lid)
+              if (lead) {
+                await pipeline.moveToStage(lid, lead.pipelineStage || 'new', stageId)
+              }
+            }
+          }}
         />
       )}
       {activeTab === 'templates' && (
@@ -892,9 +902,69 @@ function LeadsTab({
   timelineFilter, setTimelineFilter, statusFilter, setStatusFilter,
   sortField, sortDir, handleSort, page, setPage, totalPages,
   selectedLead, setSelectedLead, handleExportCsv, openBulkEmail,
-  deleteLead, refresh,
+  deleteLead, refresh, onBulkMoveStage,
 }) {
   const [bulkDropdownOpen, setBulkDropdownOpen] = useState(false)
+  const [selectedIds, setSelectedIds] = useState(new Set())
+  const [bulkStageOpen, setBulkStageOpen] = useState(false)
+  const [bulkActing, setBulkActing] = useState(false)
+
+  const allPageSelected = pagedLeads.length > 0 && pagedLeads.every(l => selectedIds.has(l.id))
+  const someSelected = selectedIds.size > 0
+
+  const toggleOne = (id) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id); else next.add(id)
+      return next
+    })
+  }
+  const toggleAllPage = () => {
+    if (allPageSelected) {
+      setSelectedIds(prev => {
+        const next = new Set(prev)
+        pagedLeads.forEach(l => next.delete(l.id))
+        return next
+      })
+    } else {
+      setSelectedIds(prev => {
+        const next = new Set(prev)
+        pagedLeads.forEach(l => next.add(l.id))
+        return next
+      })
+    }
+  }
+  const clearSelection = () => setSelectedIds(new Set())
+
+  const handleBulkDelete = async () => {
+    if (!window.confirm(`Delete ${selectedIds.size} selected lead(s)? This cannot be undone.`)) return
+    setBulkActing(true)
+    try {
+      for (const id of selectedIds) {
+        await deleteLead(id)
+      }
+      await refresh()
+      clearSelection()
+    } catch (err) {
+      console.error('Bulk delete error:', err)
+    } finally {
+      setBulkActing(false)
+    }
+  }
+
+  const handleBulkStage = async (stageId) => {
+    setBulkActing(true)
+    setBulkStageOpen(false)
+    try {
+      await onBulkMoveStage(Array.from(selectedIds), stageId)
+      await refresh()
+      clearSelection()
+    } catch (err) {
+      console.error('Bulk stage change error:', err)
+    } finally {
+      setBulkActing(false)
+    }
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1, minHeight: 0 }}>
@@ -919,7 +989,7 @@ function LeadsTab({
 
         {/* Filter Dropdowns */}
         <FilterDropdown label="Lead Tier" value={leadTierFilter} onChange={v => { setLeadTierFilter(v); setPage(0) }}
-          options={[{ value: 'all', label: 'Lead Tier' }, { value: 'hot', label: '🔥 Hot' }, { value: 'warm', label: '🟡 Warm' }, { value: 'cold', label: '⚪ Cold' }]} />
+          options={[{ value: 'all', label: 'Lead Tier' }, { value: 'hot', label: 'Hot' }, { value: 'warm', label: 'Warm' }, { value: 'cold', label: 'Cold' }]} />
         <FilterDropdown label="Score Tier" value={scoreTierFilter} onChange={v => { setScoreTierFilter(v); setPage(0) }}
           options={[{ value: 'all', label: 'Score Tier' }, ...SCORE_TIERS.map(t => ({ value: t.id, label: SCORE_TIER_LABELS[t.id] }))]} />
         <FilterDropdown label="Role" value={roleFilter} onChange={v => { setRoleFilter(v); setPage(0) }}
@@ -928,10 +998,8 @@ function LeadsTab({
           options={[{ value: 'all', label: 'Timeline' }, ...Object.entries(TIMELINE_LABELS).map(([v, l]) => ({ value: v, label: l }))]} />
         <FilterDropdown label="Status" value={statusFilter} onChange={v => { setStatusFilter(v); setPage(0) }}
           options={[
-            { value: 'all', label: 'Status' }, { value: 'active', label: 'Active' },
-            { value: 'invited', label: 'Invited' }, { value: 'converted', label: 'Converted' },
-            { value: 'unsubscribed', label: 'Unsubscribed' }, { value: 'archived', label: 'Archived' },
-            { value: 'abandoned', label: 'Abandoned' },
+            { value: 'all', label: 'Status' },
+            ...ALL_STAGES.map(s => ({ value: s.id, label: s.label })),
           ]} />
 
         {/* Actions */}
@@ -967,9 +1035,9 @@ function LeadsTab({
                 minWidth: '12rem', overflow: 'hidden',
               }}>
                 {[
-                  { label: '🔥 Email Hot Leads', action: () => openBulkEmail('hot') },
-                  { label: '🟡 Email Warm Leads', action: () => openBulkEmail('warm') },
-                  { label: '⚪ Email Cold Leads', action: () => openBulkEmail('cold') },
+                  { label: 'Email Hot Leads', action: () => openBulkEmail('hot') },
+                  { label: 'Email Warm Leads', action: () => openBulkEmail('warm') },
+                  { label: 'Email Cold Leads', action: () => openBulkEmail('cold') },
                   null,
                   { label: 'Email Current Filter', action: () => openBulkEmail('current') },
                   { label: 'Email All Completed', action: () => openBulkEmail('all') },
@@ -994,6 +1062,85 @@ function LeadsTab({
         </div>
       </div>
 
+      {/* Bulk Action Bar — visible when leads are selected */}
+      {someSelected && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 0.75rem',
+          borderRadius: '0.5rem', background: 'color-mix(in srgb, var(--accent) 8%, transparent)',
+          border: '0.0625rem solid color-mix(in srgb, var(--accent) 20%, transparent)',
+        }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', fontWeight: 700,
+            color: 'var(--accent)',
+          }}>
+            {selectedIds.size} selected
+          </span>
+
+          {/* Change Status */}
+          <div style={{ position: 'relative' }}>
+            <button onClick={() => setBulkStageOpen(o => !o)} disabled={bulkActing}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                padding: '0.3125rem 0.625rem', borderRadius: '0.375rem', fontSize: '0.6875rem',
+                fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer',
+                border: '0.0625rem solid var(--border-subtle)', background: 'var(--card-bg)',
+                color: 'var(--text-secondary)', opacity: bulkActing ? 0.5 : 1,
+              }}>
+              <ArrowUpDown size={10} /> Change Status <ChevronDown size={9} />
+            </button>
+            {bulkStageOpen && (
+              <>
+                <div style={{ position: 'fixed', inset: 0, zIndex: 99 }} onClick={() => setBulkStageOpen(false)} />
+                <div style={{
+                  position: 'absolute', left: 0, top: '100%', marginTop: '0.25rem', zIndex: 100,
+                  background: 'var(--card-bg)', border: '0.0625rem solid var(--border-subtle)',
+                  borderRadius: '0.5rem', boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                  minWidth: '11rem', overflow: 'hidden', maxHeight: '16rem', overflowY: 'auto',
+                }}>
+                  {ALL_STAGES.map(stage => (
+                    <button key={stage.id} onClick={() => handleBulkStage(stage.id)}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%',
+                        textAlign: 'left', padding: '0.5rem 0.875rem',
+                        fontSize: '0.75rem', fontWeight: 500, fontFamily: 'var(--font-body)',
+                        background: 'transparent', border: 'none', color: 'var(--text-secondary)',
+                        cursor: 'pointer',
+                      }}
+                      onMouseEnter={e => e.target.style.background = 'var(--hover-bg)'}
+                      onMouseLeave={e => e.target.style.background = 'transparent'}>
+                      <stage.icon size={12} style={{ color: stage.color, flexShrink: 0 }} />
+                      {stage.label}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Bulk Delete */}
+          <button onClick={handleBulkDelete} disabled={bulkActing}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+              padding: '0.3125rem 0.625rem', borderRadius: '0.375rem', fontSize: '0.6875rem',
+              fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer',
+              border: '0.0625rem solid rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.06)',
+              color: '#EF4444', opacity: bulkActing ? 0.5 : 1,
+            }}>
+            <Trash2 size={10} /> Delete
+          </button>
+
+          {/* Clear */}
+          <button onClick={clearSelection}
+            style={{
+              marginLeft: 'auto', background: 'none', border: 'none',
+              fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-tertiary)',
+              cursor: 'pointer', fontFamily: 'var(--font-body)',
+            }}>
+            Clear
+          </button>
+        </div>
+      )}
+
       {/* Results Count */}
       <div style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)', fontFamily: 'var(--font-mono)' }}>
         Showing {sortedLeads.length > 0 ? page * PAGE_SIZE + 1 : 0}–{Math.min((page + 1) * PAGE_SIZE, sortedLeads.length)} of {sortedLeads.length} leads
@@ -1007,8 +1154,19 @@ function LeadsTab({
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem',
             borderBottom: '0.0625rem solid var(--border-subtle)', background: 'var(--hover-bg)',
-            minWidth: '60rem',
+            minWidth: '62rem',
           }}>
+            {/* Select All Checkbox */}
+            <div style={{ width: '1.25rem', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              onClick={e => e.stopPropagation()}>
+              <input
+                type="checkbox"
+                checked={allPageSelected}
+                onChange={toggleAllPage}
+                style={{ cursor: 'pointer', accentColor: 'var(--accent)' }}
+                aria-label="Select all leads on page"
+              />
+            </div>
             {[
               { label: 'Name', field: 'name', width: '10rem' },
               { label: 'Email', field: 'email', width: '12rem' },
@@ -1040,18 +1198,7 @@ function LeadsTab({
           {pagedLeads.map(lead => {
             const tier = LEAD_TIER_DISPLAY[lead.leadTier]
             const scoreTier = lead.scorecard?.tier ? SCORE_TIERS.find(t => t.id === lead.scorecard.tier) : null
-            const status = lead.status || (lead.invited ? 'invited' : lead.converted ? 'converted' : lead.scorecard?.completed ? 'completed' : lead.scorecard?.abandonedAtStep != null ? 'abandoned' : 'active')
-            const statusColors = {
-              active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981', label: 'Active' },
-              completed: { bg: 'rgba(16,185,129,0.1)', color: '#10B981', label: 'Completed' },
-              invited: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6', label: 'Invited' },
-              converted: { bg: 'rgba(6,182,212,0.1)', color: '#06B6D4', label: 'Converted' },
-              abandoned: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444', label: 'Abandoned' },
-              unsubscribed: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444', label: 'Unsubscribed' },
-              archived: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280', label: 'Archived' },
-              pending: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280', label: 'Pending' },
-            }
-            const sc = statusColors[status] || statusColors.pending
+            const stageInfo = getStage(lead.pipelineStage || 'new')
 
             return (
               <div key={lead.id}
@@ -1059,10 +1206,23 @@ function LeadsTab({
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem',
                   borderBottom: '0.0625rem solid var(--border-subtle)', cursor: 'pointer',
-                  transition: 'background 150ms', minWidth: '60rem',
+                  transition: 'background 150ms', minWidth: '62rem',
+                  background: selectedIds.has(lead.id) ? 'color-mix(in srgb, var(--accent) 5%, transparent)' : 'transparent',
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                onMouseEnter={e => { if (!selectedIds.has(lead.id)) e.currentTarget.style.background = 'var(--hover-bg)' }}
+                onMouseLeave={e => { if (!selectedIds.has(lead.id)) e.currentTarget.style.background = 'transparent' }}>
+                {/* Checkbox */}
+                <div style={{ width: '1.25rem', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  onClick={e => { e.stopPropagation(); toggleOne(lead.id) }}>
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(lead.id)}
+                    onChange={() => toggleOne(lead.id)}
+                    style={{ cursor: 'pointer', accentColor: 'var(--accent)' }}
+                    aria-label={`Select ${lead.name || lead.email}`}
+                    onClick={e => e.stopPropagation()}
+                  />
+                </div>
                 {/* Name */}
                 <div style={{ width: '10rem', flexShrink: 0, display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
                   <div style={{
@@ -1108,8 +1268,9 @@ function LeadsTab({
                       fontSize: '0.625rem', fontWeight: 700,
                       padding: '0.0625rem 0.375rem', borderRadius: 99,
                       background: tier.bg, color: tier.color,
+                      display: 'inline-flex', alignItems: 'center', gap: '0.175rem',
                     }}>
-                      {tier.emoji} {tier.label}
+                      <tier.icon size={9} /> {tier.label}
                     </span>
                   ) : (
                     <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>—</span>
@@ -1132,9 +1293,9 @@ function LeadsTab({
                   <span style={{
                     fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
                     padding: '0.125rem 0.375rem', borderRadius: 99,
-                    background: sc.bg, color: sc.color,
+                    background: `${stageInfo.color}15`, color: stageInfo.color,
                   }}>
-                    {sc.label}
+                    {stageInfo.label}
                   </span>
                 </div>
                 {/* Signed Up */}

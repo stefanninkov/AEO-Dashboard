@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from 'react'
 import {
   X, Mail, Globe, Clock, Monitor, Languages, Send, UserCheck, Copy, Check,
   Trash2, Ticket, Tag, ListTodo, Activity, BarChart3, FileQuestion, Plus,
+  Flame, CircleDot, Circle,
 } from 'lucide-react'
 import LeadEmailComposer from './LeadEmailComposer'
 import LeadTimeline from './LeadTimeline'
@@ -29,9 +30,9 @@ function formatDate(val) {
 }
 
 const LEAD_TIER_DISPLAY = {
-  hot: { emoji: '\uD83D\uDD25', label: 'Hot', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
-  warm: { emoji: '\uD83D\uDFE1', label: 'Warm', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
-  cold: { emoji: '\u26AA', label: 'Cold', color: '#6B7280', bg: 'rgba(107,114,128,0.1)' },
+  hot: { icon: Flame, label: 'Hot', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
+  warm: { icon: CircleDot, label: 'Warm', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+  cold: { icon: Circle, label: 'Cold', color: '#6B7280', bg: 'rgba(107,114,128,0.1)' },
 }
 
 const ROLE_LABELS = {
@@ -263,8 +264,8 @@ export default function LeadDetailPanel({
                 {lead.name || '\u2014'}
               </span>
               {lead.leadTier && (
-                <span style={{ fontSize: '0.625rem', fontWeight: 700, padding: '0.125rem 0.5rem', borderRadius: 99, background: leadTierInfo.bg, color: leadTierInfo.color, flexShrink: 0 }}>
-                  {leadTierInfo.emoji} {leadTierInfo.label}
+                <span style={{ fontSize: '0.625rem', fontWeight: 700, padding: '0.125rem 0.5rem', borderRadius: 99, background: leadTierInfo.bg, color: leadTierInfo.color, flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.175rem' }}>
+                  <leadTierInfo.icon size={10} /> {leadTierInfo.label}
                 </span>
               )}
             </div>
@@ -289,7 +290,7 @@ export default function LeadDetailPanel({
 
           {/* Row 3: Stage dropdown */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--text-disabled)' }}>Stage:</span>
+            <span style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--text-disabled)' }}>Status:</span>
             <select
               value={currentStage}
               onChange={(e) => onMoveStage?.(currentStage, e.target.value)}
@@ -301,7 +302,7 @@ export default function LeadDetailPanel({
               }}
             >
               {ALL_STAGES.map(s => (
-                <option key={s.id} value={s.id}>{s.emoji} {s.label}</option>
+                <option key={s.id} value={s.id}>{s.label}</option>
               ))}
             </select>
             <span style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', marginLeft: 'auto' }}>
@@ -506,8 +507,8 @@ export default function LeadDetailPanel({
                       padding: '0.5rem 0.625rem', borderRadius: '0.375rem', background: leadTierInfo.bg,
                     }}>
                       <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>Lead Score</span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: leadTierInfo.color }}>
-                        {lead.leadScore}/12 {'\u2192'} {leadTierInfo.emoji} {leadTierInfo.label}
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: leadTierInfo.color, display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+                        {lead.leadScore}/12 {'\u2192'} <leadTierInfo.icon size={12} /> {leadTierInfo.label}
                       </span>
                     </div>
                   )}

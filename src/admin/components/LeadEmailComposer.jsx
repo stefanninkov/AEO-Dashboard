@@ -178,7 +178,7 @@ export default function LeadEmailComposer({
             >
               {allTemplates.map(t => (
                 <option key={t.id} value={t.id}>
-                  {t.emoji || '✉️'} {t.name}
+                  {t.name}
                 </option>
               ))}
             </select>

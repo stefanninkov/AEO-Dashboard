@@ -2,7 +2,7 @@
  * BulkEmailComposer — 3-step modal: Choose Template → Customize → Preview & Export.
  */
 import { useState, useMemo, useRef } from 'react'
-import { X, ArrowLeft, ArrowRight, Copy, Download, Check, AlertTriangle, ChevronDown } from 'lucide-react'
+import { X, ArrowLeft, ArrowRight, Copy, Download, Check, AlertTriangle, ChevronDown, Mail } from 'lucide-react'
 import { EMAIL_TEMPLATES, fillTemplate, buildLeadVariables, getTemplatesForAudience } from '../constants/emailTemplates'
 
 const STEPS = ['Choose Template', 'Customize', 'Preview & Export']
@@ -184,7 +184,9 @@ export default function BulkEmailComposer({
                         cursor: 'pointer', transition: 'border-color 150ms',
                       }}
                     >
-                      <span style={{ fontSize: '1.25rem' }}>{t.emoji || '\u2709\uFE0F'}</span>
+                      <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '1.5rem', flexShrink: 0 }}>
+                        {t.icon ? <t.icon size={16} style={{ color: 'var(--accent)' }} /> : <Mail size={16} style={{ color: 'var(--accent)' }} />}
+                      </span>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{t.name}</div>
                         <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{t.description}</div>

@@ -84,10 +84,11 @@ export default function LeadTasks({ leadId, tasks, onComplete, onUncomplete, onO
                       {formatDueDate(task.dueDate)}
                     </span>
                     <span style={{
-                      fontSize: '0.5rem', fontWeight: 700, padding: '0.0625rem 0.25rem',
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      padding: '0.0625rem 0.25rem',
                       borderRadius: 99, background: `${priority.color}15`, color: priority.color,
                     }}>
-                      {priority.emoji}
+                      <priority.icon size={8} />
                     </span>
                   </div>
                 </div>

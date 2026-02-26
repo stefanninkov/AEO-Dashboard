@@ -186,7 +186,7 @@ export default function TaskCreatorModal({ isOpen, onClose, lead, onCreateTask }
                         color: isActive ? p.color : 'var(--text-tertiary)',
                       }}
                     >
-                      {p.emoji} {p.label}
+                      <p.icon size={11} /> {p.label}
                     </button>
                   )
                 })}

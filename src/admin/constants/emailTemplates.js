@@ -5,14 +5,20 @@
  * {name} {email} {score} {maxScore} {tierLabel} {weakestCategory}
  * {websiteCount} {role} {priority1} {priority2} {priority3}
  * {link} {customField1} {customField2} {customField3}
+ *
+ * DESIGN POLICY: No emojis. All visual indicators use lucide-react icons.
  */
+import {
+  Flame, Circle, CircleDot, Mail, Rocket, Ticket,
+  BarChart3, DollarSign, Newspaper, TrendingUp, Trophy, RefreshCw,
+} from 'lucide-react'
 
 // ── OUTREACH (4) ──
 
 const hotLeadOutreach = {
   id: 'hot_lead_outreach',
   name: 'Hot Lead — Personal Outreach',
-  emoji: '\uD83D\uDD25',
+  icon: Flame,
   description: 'Direct, personal message for high-scoring leads with strong buying signals.',
   recommendedAudience: ['hot'],
   subject: '{name}, your AEO score puts you ahead of 95% of websites',
@@ -33,7 +39,7 @@ Got 15 minutes this week for a quick call?
 const warmLeadNurture = {
   id: 'warm_lead_nurture',
   name: 'Warm Lead — Value + Nurture',
-  emoji: '\uD83D\uDFE1',
+  icon: Circle,
   description: 'Provide value and build trust with moderately qualified leads.',
   recommendedAudience: ['warm'],
   subject: '{name}, 3 quick wins to improve your AEO score from {score}',
@@ -58,7 +64,7 @@ Want to be first in line when we launch? You're already on the list — I'll per
 const coldLeadEducate = {
   id: 'cold_lead_educate',
   name: 'Cold Lead — Educate',
-  emoji: '\u26AA',
+  icon: CircleDot,
   description: 'Educational approach for early-stage leads who need awareness.',
   recommendedAudience: ['cold'],
   subject: 'Why AI search engines can\'t find your website, {name}',
@@ -85,7 +91,7 @@ I'm building AEO Dashboard to make this easy. Want me to send you a free guide o
 const abandonedQuizNudge = {
   id: 'abandoned_quiz_nudge',
   name: 'Abandoned Quiz — Nudge',
-  emoji: '\uD83D\uDCE9',
+  icon: Mail,
   description: 'Re-engage leads who started but didn\'t finish the assessment.',
   recommendedAudience: ['abandoned'],
   subject: '{name}, your AEO assessment is waiting',
@@ -111,7 +117,7 @@ The insights are worth it — 77% of people who complete it find at least one cr
 const productLaunch = {
   id: 'product_launch',
   name: 'Product Launch Announcement',
-  emoji: '\uD83D\uDE80',
+  icon: Rocket,
   description: 'Announce AEO Dashboard launch to all leads.',
   recommendedAudience: ['hot', 'warm', 'cold'],
   subject: 'AEO Dashboard is live \u2014 your early access is ready, {name}',
@@ -136,7 +142,7 @@ Your early access is ready. Log in here: {link}
 const betaInvite = {
   id: 'beta_invite',
   name: 'Exclusive Beta Invite',
-  emoji: '\uD83C\uDF9F\uFE0F',
+  icon: Ticket,
   description: 'Invite high-value leads to beta test before public launch.',
   recommendedAudience: ['hot'],
   subject: 'You\'re in, {name} \u2014 AEO Dashboard beta access',
@@ -161,7 +167,7 @@ Interested? Reply to this email and I'll set up your account today.
 const scoreFollowUp = {
   id: 'score_follow_up',
   name: 'Score Follow-Up',
-  emoji: '\uD83D\uDCCA',
+  icon: BarChart3,
   description: 'Personalized follow-up with action plan based on their score.',
   recommendedAudience: ['hot', 'warm'],
   subject: 'Your AEO score: {score}/33 \u2014 here\'s your action plan, {name}',
@@ -186,7 +192,7 @@ Want help getting started? Reply and I'll point you to the right resources.
 const earlyBirdPricing = {
   id: 'early_bird_pricing',
   name: 'Early Bird / Pricing',
-  emoji: '\uD83D\uDCB0',
+  icon: DollarSign,
   description: 'Urgency-driven pricing announcement with deadline.',
   recommendedAudience: ['hot', 'warm'],
   subject: 'Early bird pricing ends soon \u2014 {name}, lock in your rate',
@@ -215,7 +221,7 @@ Lock in your rate: {link}
 const featureUpdate = {
   id: 'feature_update',
   name: 'Feature Update / Newsletter',
-  emoji: '\uD83D\uDCF0',
+  icon: Newspaper,
   description: 'Announce new features, relevant to their weakest category.',
   recommendedAudience: ['hot', 'warm', 'cold'],
   subject: 'New in AEO Dashboard: {customField1}',
@@ -241,7 +247,7 @@ What would you like to see next? Hit reply \u2014 I read every response.
 const industryInsight = {
   id: 'industry_insight',
   name: 'Industry Insight / Educational',
-  emoji: '\uD83D\uDCC8',
+  icon: TrendingUp,
   description: 'Educational content to warm up cold/warm leads.',
   recommendedAudience: ['cold', 'warm'],
   subject: '{customField1}',
@@ -265,7 +271,7 @@ Want to see where you stand now? Retake the assessment: {link}
 const caseStudy = {
   id: 'case_study',
   name: 'Case Study / Social Proof',
-  emoji: '\uD83C\uDFC6',
+  icon: Trophy,
   description: 'Share a success story relevant to their profile.',
   recommendedAudience: ['hot', 'warm'],
   subject: 'How {customField1} improved their AEO score by {customField2} points',
@@ -290,7 +296,7 @@ Want to see what similar improvements could look like for your sites? {link}
 const reEngagement = {
   id: 're_engagement',
   name: 'Re-engagement',
-  emoji: '\uD83D\uDD04',
+  icon: RefreshCw,
   description: 'Win back inactive leads (30+ days since signup).',
   recommendedAudience: ['hot', 'warm', 'cold'],
   subject: 'Still thinking about AEO, {name}?',

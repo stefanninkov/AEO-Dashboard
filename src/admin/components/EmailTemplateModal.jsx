@@ -3,7 +3,7 @@
  * Copy buttons for subject, body, or both.
  */
 import { useState, useMemo } from 'react'
-import { X, Copy, Check, ChevronDown } from 'lucide-react'
+import { X, Copy, Check, ChevronDown, Mail } from 'lucide-react'
 import { fillTemplate, buildLeadVariables } from '../constants/emailTemplates'
 
 export default function EmailTemplateModal({ isOpen, onClose, template, leads = [] }) {
@@ -47,8 +47,9 @@ export default function EmailTemplateModal({ isOpen, onClose, template, leads = 
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div>
-            <h3 style={{ margin: 0, fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              {template.emoji} {template.name}
+            <h3 style={{ margin: 0, fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              {template.icon ? <template.icon size={16} style={{ color: 'var(--accent)' }} /> : <Mail size={16} style={{ color: 'var(--accent)' }} />}
+              {template.name}
             </h3>
             <p style={{ margin: '0.25rem 0 0', fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
               {template.description}

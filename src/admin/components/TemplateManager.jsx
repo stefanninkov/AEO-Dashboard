@@ -63,7 +63,7 @@ export default function TemplateManager({
               return (
                 <div key={t.id} className="card" style={{ padding: '0.875rem', display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                    <span style={{ fontSize: '1rem' }}>{original.emoji}</span>
+                    {original.icon ? <original.icon size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} /> : <Mail size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />}
                     <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', flex: 1 }}>{t.name}</span>
                     {isEdited && (
                       <span style={{
@@ -96,7 +96,7 @@ export default function TemplateManager({
                     }}>
                       <Eye size={10} /> Preview
                     </button>
-                    <button onClick={() => setEditTemplate({ ...t, id: original.id, emoji: original.emoji })} style={{
+                    <button onClick={() => setEditTemplate({ ...t, id: original.id, icon: original.icon })} style={{
                       display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
                       padding: '0.25rem 0.5rem', borderRadius: '0.25rem', fontSize: '0.625rem', fontWeight: 600,
                       border: '0.0625rem solid var(--border-subtle)', background: 'transparent',

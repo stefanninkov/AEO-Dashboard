@@ -5,7 +5,7 @@ import {
   Mail, MessageSquare, ArrowUpRight, ArrowDownRight, Minus,
   Shield, ShieldAlert, ShieldOff, UserX, AlertCircle,
   ChevronDown, ChevronUp, Cpu, ChartColumnIncreasing, Target,
-  Heart, ThumbsUp, ThumbsDown, ClipboardCheck, Briefcase,
+  Heart, ThumbsUp, ThumbsDown, ClipboardCheck, Briefcase, Flame,
 } from 'lucide-react'
 import { useAdminStats } from '../hooks/useAdminStats'
 import { useWaitlistStats } from '../hooks/useWaitlistStats'
@@ -617,7 +617,7 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
               onMouseEnter={e => e.currentTarget.style.background = 'color-mix(in srgb, #EF4444 10%, transparent)'}
               onMouseLeave={e => e.currentTarget.style.background = 'color-mix(in srgb, #EF4444 6%, transparent)'}
             >
-              <span style={{ fontSize: '1.125rem' }}>🔥</span>
+              <Flame size={18} style={{ color: '#EF4444', flexShrink: 0 }} />
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', flex: 1 }}>
                 <strong style={{ color: '#EF4444' }}>{wl.hotNotInvited.length} hot lead{wl.hotNotInvited.length > 1 ? 's' : ''}</strong>
                 {' '}haven&apos;t been contacted yet

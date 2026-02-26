@@ -8,6 +8,7 @@ import { useState, useMemo } from 'react'
 import {
   CheckCircle2, Circle, Clock, AlertTriangle, Search, Filter,
   ListTodo, ChevronDown, ChevronRight,
+  Siren, CalendarDays, Clock3, ClipboardList, CircleCheck,
 } from 'lucide-react'
 import { TASK_PRIORITIES } from '../constants/pipelineStages'
 
@@ -90,13 +91,13 @@ function TaskRow({ task, onComplete, onUncomplete, onNavigateToLead }) {
         borderRadius: 99, background: `${priority.color}15`, color: priority.color,
         flexShrink: 0,
       }}>
-        {priority.emoji} {priority.label}
+        <priority.icon size={9} /> {priority.label}
       </span>
     </div>
   )
 }
 
-function TaskSection({ title, emoji, color, tasks, defaultOpen = true, onComplete, onUncomplete, onNavigateToLead }) {
+function TaskSection({ title, icon: SectionIcon, color, tasks, defaultOpen = true, onComplete, onUncomplete, onNavigateToLead }) {
   const [isOpen, setIsOpen] = useState(defaultOpen)
 
   if (tasks.length === 0) return null
@@ -112,7 +113,7 @@ function TaskSection({ title, emoji, color, tasks, defaultOpen = true, onComplet
         }}
       >
         {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-        <span style={{ fontSize: '0.875rem' }}>{emoji}</span>
+        <SectionIcon size={14} style={{ color: color || 'var(--text-secondary)' }} />
         <span style={{
           fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
           color: color || 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.02rem',
@@ -219,7 +220,7 @@ export default function AdminTasks({ user, onNavigate, tasksHook }) {
         >
           <option value="all">All Priorities</option>
           {TASK_PRIORITIES.map(p => (
-            <option key={p.id} value={p.id}>{p.emoji} {p.label}</option>
+            <option key={p.id} value={p.id}>{p.label}</option>
           ))}
         </select>
       </div>
@@ -227,35 +228,35 @@ export default function AdminTasks({ user, onNavigate, tasksHook }) {
       {/* Task Sections */}
       <div className="card" style={{ padding: '1rem' }}>
         <TaskSection
-          title="Overdue" emoji="\uD83D\uDEA8" color="#EF4444"
+          title="Overdue" icon={Siren} color="#EF4444"
           tasks={filterTasks(tasks.overdueTasks)}
           onComplete={tasks.completeTask}
           onUncomplete={tasks.uncompleteTask}
           onNavigateToLead={handleNavigateToLead}
         />
         <TaskSection
-          title="Today" emoji="\uD83D\uDCC5" color="#F59E0B"
+          title="Today" icon={CalendarDays} color="#F59E0B"
           tasks={filterTasks(tasks.todayTasks)}
           onComplete={tasks.completeTask}
           onUncomplete={tasks.uncompleteTask}
           onNavigateToLead={handleNavigateToLead}
         />
         <TaskSection
-          title="Upcoming" emoji="\uD83D\uDD52" color="#3B82F6"
+          title="Upcoming" icon={Clock3} color="#3B82F6"
           tasks={filterTasks(tasks.upcomingTasks)}
           onComplete={tasks.completeTask}
           onUncomplete={tasks.uncompleteTask}
           onNavigateToLead={handleNavigateToLead}
         />
         <TaskSection
-          title="Unscheduled" emoji="\uD83D\uDCCB" color="#6B7280"
+          title="Unscheduled" icon={ClipboardList} color="#6B7280"
           tasks={filterTasks(tasks.unscheduledTasks)}
           onComplete={tasks.completeTask}
           onUncomplete={tasks.uncompleteTask}
           onNavigateToLead={handleNavigateToLead}
         />
         <TaskSection
-          title="Completed" emoji="\u2705" color="#10B981"
+          title="Completed" icon={CircleCheck} color="#10B981"
           tasks={filterTasks(tasks.completedTasks).slice(0, 20)}
           defaultOpen={false}
           onComplete={tasks.completeTask}

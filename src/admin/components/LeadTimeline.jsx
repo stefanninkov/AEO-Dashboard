@@ -133,12 +133,12 @@ export default function LeadTimeline({ lead }) {
                 }}>
                   {/* Icon */}
                   <span style={{
-                    fontSize: '0.75rem', width: '1.25rem', height: '1.25rem',
+                    width: '1.25rem', height: '1.25rem',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0, borderRadius: '0.25rem',
                     background: `${typeInfo.color}15`,
                   }}>
-                    {typeInfo.emoji}
+                    <typeInfo.icon size={11} style={{ color: typeInfo.color }} />
                   </span>
 
                   {/* Content */}
