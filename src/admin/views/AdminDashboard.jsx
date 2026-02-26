@@ -338,7 +338,7 @@ function DashboardSkeleton() {
 /* ═══════════════════════════════════════════
    MAIN DASHBOARD — Command Center
    ═══════════════════════════════════════════ */
-export default function AdminDashboard({ user, onNavigate }) {
+export default function AdminDashboard({ user, onNavigate, tasksHook }) {
   const { stats, loading, error, permissionWarning, refresh } = useAdminStats(user)
   const wl = useWaitlistStats()
   const [refreshing, setRefreshing] = useState(false)
@@ -631,6 +631,96 @@ export default function AdminDashboard({ user, onNavigate }) {
             </div>
           )}
         </>
+      )}
+
+      {/* ── CRM Pipeline + Tasks Widget ── */}
+      {!wl.loading && (
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(13rem, 1fr))', gap: '1rem',
+        }}>
+          {/* Pipeline Funnel Mini */}
+          <div className="card" style={{ padding: '0.875rem 1rem', cursor: 'pointer' }}
+            onClick={() => nav('waitlist')}>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700,
+              color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.04rem',
+              marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.375rem',
+            }}>
+              <Target size={11} style={{ color: '#8B5CF6' }} />
+              Pipeline
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {[
+                { label: 'New', count: wl.leads?.filter(l => (l.pipelineStage || 'new') === 'new').length || 0, color: '#6B7280' },
+                { label: 'Contacted', count: wl.leads?.filter(l => l.pipelineStage === 'contacted').length || 0, color: '#3B82F6' },
+                { label: 'Engaged', count: wl.leads?.filter(l => l.pipelineStage === 'engaged').length || 0, color: '#8B5CF6' },
+                { label: 'Invited', count: wl.leads?.filter(l => l.pipelineStage === 'invited').length || 0, color: '#F59E0B' },
+                { label: 'Active', count: wl.leads?.filter(l => l.pipelineStage === 'activeUser').length || 0, color: '#10B981' },
+                { label: 'Paying', count: wl.leads?.filter(l => l.pipelineStage === 'paying').length || 0, color: '#059669' },
+              ].map(s => (
+                <div key={s.label} style={{ textAlign: 'center', minWidth: '2.5rem' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: 700, color: s.color }}>
+                    {s.count}
+                  </div>
+                  <div style={{ fontSize: '0.5rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase' }}>
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Tasks Widget */}
+          {tasksHook && (
+            <div className="card" style={{ padding: '0.875rem 1rem', cursor: 'pointer' }}
+              onClick={() => nav('tasks')}>
+              <div style={{
+                fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700,
+                color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.04rem',
+                marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.375rem',
+              }}>
+                <CheckSquare size={11} style={{ color: '#F59E0B' }} />
+                Tasks
+              </div>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                {tasksHook.overdueTasks.length > 0 && (
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: 700, color: '#EF4444' }}>
+                      {tasksHook.overdueTasks.length}
+                    </div>
+                    <div style={{ fontSize: '0.5rem', fontWeight: 600, color: '#EF4444', textTransform: 'uppercase' }}>
+                      Overdue
+                    </div>
+                  </div>
+                )}
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: 700, color: '#F59E0B' }}>
+                    {tasksHook.todayTasks.length}
+                  </div>
+                  <div style={{ fontSize: '0.5rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase' }}>
+                    Today
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: 700, color: '#3B82F6' }}>
+                    {tasksHook.upcomingTasks.length}
+                  </div>
+                  <div style={{ fontSize: '0.5rem', fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase' }}>
+                    Upcoming
+                  </div>
+                </div>
+              </div>
+              {tasksHook.overdueTasks.length > 0 && (
+                <div style={{
+                  marginTop: '0.5rem', padding: '0.25rem 0.5rem', borderRadius: '0.25rem',
+                  background: 'rgba(239,68,68,0.06)', fontSize: '0.625rem', color: '#EF4444', fontWeight: 600,
+                }}>
+                  {tasksHook.overdueTasks[0]?.title}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       )}
 
       {/* ── User Journey Funnel + Feature Usage — side by side ── */}

@@ -238,14 +238,26 @@ export function useWaitlist() {
   }, [])
 
   // ── Admin: mark lead as invited ──
-  const markInvited = useCallback(async (docId) => {
+  const markInvited = useCallback(async (docId, currentStage) => {
     if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
     try {
-      await updateDoc(doc(db, 'waitlist', docId), {
+      const updates = {
         invited: true,
         invitedAt: serverTimestamp(),
         status: 'invited',
-      })
+      }
+      // Auto-move to 'invited' stage if currently new or contacted
+      if (!currentStage || currentStage === 'new' || currentStage === 'contacted') {
+        updates.pipelineStage = 'invited'
+        updates.stageChangedAt = serverTimestamp()
+        updates.stageHistory = arrayUnion({
+          from: currentStage || 'new',
+          to: 'invited',
+          changedAt: new Date().toISOString(),
+          changedBy: 'admin',
+        })
+      }
+      await updateDoc(doc(db, 'waitlist', docId), updates)
     } catch (err) {
       logger.error('Mark invited error:', err)
     }
@@ -304,10 +316,10 @@ export function useWaitlist() {
   }, [])
 
   // ── Admin: log contact to lead's history ──
-  const logContact = useCallback(async (docId, contactEntry) => {
+  const logContact = useCallback(async (docId, contactEntry, currentStage) => {
     if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
     try {
-      await updateDoc(doc(db, 'waitlist', docId), {
+      const updates = {
         contactHistory: arrayUnion({
           ...contactEntry,
           sentAt: new Date().toISOString(),
@@ -315,7 +327,19 @@ export function useWaitlist() {
         lastContactedAt: serverTimestamp(),
         nudged: true,
         nudgedAt: serverTimestamp(),
-      })
+      }
+      // Auto-move to 'contacted' if currently 'new'
+      if (currentStage === 'new') {
+        updates.pipelineStage = 'contacted'
+        updates.stageChangedAt = serverTimestamp()
+        updates.stageHistory = arrayUnion({
+          from: 'new',
+          to: 'contacted',
+          changedAt: new Date().toISOString(),
+          changedBy: 'admin',
+        })
+      }
+      await updateDoc(doc(db, 'waitlist', docId), updates)
     } catch (err) {
       logger.error('Log contact error:', err)
     }

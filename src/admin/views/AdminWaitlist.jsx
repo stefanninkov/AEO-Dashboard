@@ -1,7 +1,8 @@
 /**
- * AdminWaitlist — 3-tab admin view: Overview | Leads | Templates.
+ * AdminWaitlist — 4-tab admin view: Overview | Pipeline | Leads | Templates.
  *
  * Overview:  8 analytics sections (Recharts + custom SVG).
+ * Pipeline: Kanban board with drag-and-drop stage transitions.
  * Leads:    Full table with filters, sort, pagination, detail panel, bulk email.
  * Templates: Pre-built + custom template management, send history.
  */
@@ -18,10 +19,14 @@ import {
 } from 'recharts'
 import { useWaitlistStats } from '../hooks/useWaitlistStats'
 import { useBulkEmail } from '../hooks/useBulkEmail'
+import { usePipeline } from '../hooks/usePipeline'
+import { useTags } from '../hooks/useTags'
+import { useTasks } from '../hooks/useTasks'
 import { CATEGORIES, SCORE_TIERS, MAX_TOTAL_SCORE } from '../../utils/scorecardScoring'
 import LeadDetailPanel from '../components/LeadDetailPanel'
 import BulkEmailComposer from '../components/BulkEmailComposer'
 import TemplateManager from '../components/TemplateManager'
+import PipelineBoard from '../components/PipelineBoard'
 import { useWaitlist } from '../../hooks/useWaitlist'
 
 /* ─── Helpers ─── */
@@ -240,11 +245,14 @@ const PAGE_SIZE = 25
 /*  MAIN COMPONENT                                 */
 /* ═══════════════════════════════════════════════ */
 
-export default function AdminWaitlist({ user, onNavigate }) {
+export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
   const [activeTab, setActiveTab] = useState('overview')
   const { leads, loading, error, refresh, ...stats } = useWaitlistStats()
   const bulkEmail = useBulkEmail()
   const { markInvited, markNudged, updateAdminNotes, updateLeadStatus, deleteLead, logContact } = useWaitlist()
+  const pipeline = usePipeline(leads)
+  const tags = useTags()
+  const tasks = tasksHook || { tasks: [], createTask: () => {}, completeTask: () => {}, uncompleteTask: () => {} }
 
   /* Leads tab state */
   const [search, setSearch] = useState('')
@@ -256,7 +264,7 @@ export default function AdminWaitlist({ user, onNavigate }) {
   const [sortField, setSortField] = useState('signedUpAt')
   const [sortDir, setSortDir] = useState('desc')
   const [page, setPage] = useState(0)
-  const [selectedLead, setSelectedLead] = useState(null)
+  const [selectedLead, setSelectedLead] = useState(null) // lifted for Pipeline + Leads
   const [bulkEmailOpen, setBulkEmailOpen] = useState(false)
   const [bulkEmailLeads, setBulkEmailLeads] = useState([])
   const [bulkEmailLabel, setBulkEmailLabel] = useState('')
@@ -403,6 +411,7 @@ export default function AdminWaitlist({ user, onNavigate }) {
 
   const tabs = [
     { id: 'overview', label: 'Overview' },
+    { id: 'pipeline', label: 'Pipeline', count: pipeline.stageStats._pipelineTotal },
     { id: 'leads', label: 'Leads', count: stats.total },
     { id: 'templates', label: 'Templates' },
   ]
@@ -474,6 +483,13 @@ export default function AdminWaitlist({ user, onNavigate }) {
 
       {/* Tab Content */}
       {activeTab === 'overview' && <OverviewTab stats={stats} leads={leads} />}
+      {activeTab === 'pipeline' && (
+        <PipelineBoard
+          leadsByStage={pipeline.leadsByStage}
+          onMoveStage={pipeline.moveToStage}
+          onSelectLead={setSelectedLead}
+        />
+      )}
       {activeTab === 'leads' && (
         <LeadsTab
           leads={leads}
@@ -503,13 +519,7 @@ export default function AdminWaitlist({ user, onNavigate }) {
           setSelectedLead={setSelectedLead}
           handleExportCsv={handleExportCsv}
           openBulkEmail={openBulkEmail}
-          markInvited={markInvited}
-          markNudged={markNudged}
-          updateAdminNotes={updateAdminNotes}
-          updateLeadStatus={updateLeadStatus}
           deleteLead={deleteLead}
-          logContact={logContact}
-          customTemplates={bulkEmail.customTemplates}
           refresh={refresh}
         />
       )}
@@ -517,6 +527,66 @@ export default function AdminWaitlist({ user, onNavigate }) {
         <TemplatesTab
           bulkEmail={bulkEmail}
           leads={leads}
+        />
+      )}
+
+      {/* Lead Detail Panel — Lifted to parent so it works from Pipeline + Leads tabs */}
+      {selectedLead && (
+        <LeadDetailPanel
+          lead={selectedLead}
+          onClose={() => setSelectedLead(null)}
+          onMarkInvited={async () => {
+            if (selectedLead) {
+              await markInvited(selectedLead.id, selectedLead.pipelineStage)
+              await refresh()
+              setSelectedLead(prev => prev ? { ...prev, invited: true, pipelineStage: 'invited' } : null)
+            }
+          }}
+          onMarkNudged={async () => {
+            if (selectedLead) {
+              await markNudged(selectedLead.id)
+              await refresh()
+              setSelectedLead(prev => prev ? { ...prev, nudged: true } : null)
+            }
+          }}
+          onUpdateNotes={async (notes) => {
+            if (selectedLead) {
+              await updateAdminNotes(selectedLead.id, notes)
+            }
+          }}
+          onUpdateStatus={async (status) => {
+            if (selectedLead) {
+              await updateLeadStatus(selectedLead.id, status)
+              await refresh()
+              setSelectedLead(prev => prev ? { ...prev, status } : null)
+            }
+          }}
+          onDelete={async () => {
+            if (selectedLead) {
+              await deleteLead(selectedLead.id)
+              setSelectedLead(null)
+              await refresh()
+            }
+          }}
+          onLogContact={async (leadId, contactEntry) => {
+            await logContact(leadId, contactEntry, selectedLead?.pipelineStage)
+            await refresh()
+            setSelectedLead(prev => {
+              if (!prev) return null
+              const history = prev.contactHistory || []
+              return { ...prev, contactHistory: [...history, { ...contactEntry, sentAt: new Date().toISOString() }] }
+            })
+          }}
+          onMoveStage={async (fromStage, toStage) => {
+            if (selectedLead) {
+              await pipeline.moveToStage(selectedLead.id, fromStage, toStage)
+              await refresh()
+              setSelectedLead(prev => prev ? { ...prev, pipelineStage: toStage } : null)
+            }
+          }}
+          customTemplates={bulkEmail.customTemplates}
+          tags={tags}
+          tasks={tasks}
         />
       )}
 
@@ -822,9 +892,7 @@ function LeadsTab({
   timelineFilter, setTimelineFilter, statusFilter, setStatusFilter,
   sortField, sortDir, handleSort, page, setPage, totalPages,
   selectedLead, setSelectedLead, handleExportCsv, openBulkEmail,
-  markInvited, markNudged, updateAdminNotes,
-  updateLeadStatus, deleteLead, logContact, customTemplates,
-  refresh,
+  deleteLead, refresh,
 }) {
   const [bulkDropdownOpen, setBulkDropdownOpen] = useState(false)
 
@@ -1140,55 +1208,6 @@ function LeadsTab({
         </div>
       )}
 
-      {/* Lead Detail Panel */}
-      <LeadDetailPanel
-        isOpen={!!selectedLead}
-        onClose={() => setSelectedLead(null)}
-        lead={selectedLead}
-        onMarkInvited={async () => {
-          if (selectedLead) {
-            await markInvited(selectedLead.id)
-            await refresh()
-            setSelectedLead(prev => prev ? { ...prev, invited: true } : null)
-          }
-        }}
-        onMarkNudged={async () => {
-          if (selectedLead) {
-            await markNudged(selectedLead.id)
-            await refresh()
-            setSelectedLead(prev => prev ? { ...prev, nudged: true } : null)
-          }
-        }}
-        onUpdateNotes={async (notes) => {
-          if (selectedLead) {
-            await updateAdminNotes(selectedLead.id, notes)
-          }
-        }}
-        onUpdateStatus={async (status) => {
-          if (selectedLead) {
-            await updateLeadStatus(selectedLead.id, status)
-            await refresh()
-            setSelectedLead(prev => prev ? { ...prev, status } : null)
-          }
-        }}
-        onDelete={async () => {
-          if (selectedLead) {
-            await deleteLead(selectedLead.id)
-            setSelectedLead(null)
-            await refresh()
-          }
-        }}
-        onLogContact={async (leadId, contactEntry) => {
-          await logContact(leadId, contactEntry)
-          await refresh()
-          setSelectedLead(prev => {
-            if (!prev) return null
-            const history = prev.contactHistory || []
-            return { ...prev, contactHistory: [...history, { ...contactEntry, sentAt: new Date().toISOString() }] }
-          })
-        }}
-        customTemplates={customTemplates}
-      />
     </div>
   )
 }

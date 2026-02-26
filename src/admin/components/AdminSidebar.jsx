@@ -2,7 +2,7 @@ import { memo } from 'react'
 import {
   Shield, Gauge, Users, FolderKanban, Activity,
   DollarSign, ChartColumnIncreasing, SlidersHorizontal, LogOut, Sun, Moon, ArrowLeft,
-  MessageSquare, BotMessageSquare, UserPlus, UserX,
+  MessageSquare, BotMessageSquare, UserPlus, UserX, CheckSquare,
 } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 
@@ -29,7 +29,8 @@ function getAvatarColor(name) {
 
 const ADMIN_NAV_ITEMS = [
   { id: 'dashboard', label: 'Overview', icon: Gauge },
-  { id: 'waitlist', label: 'Waitlist', icon: UserPlus },
+  { id: 'waitlist', label: 'Waitlist CRM', icon: UserPlus },
+  { id: 'tasks', label: 'Tasks', icon: CheckSquare },
   { id: 'users', label: 'Users', icon: Users },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
   { id: 'activity', label: 'Activity Log', icon: Activity },
@@ -41,7 +42,7 @@ const ADMIN_NAV_ITEMS = [
   { id: 'settings', label: 'Settings', icon: SlidersHorizontal },
 ]
 
-export default memo(function AdminSidebar({ activeView, setActiveView, user, onSignOut }) {
+export default memo(function AdminSidebar({ activeView, setActiveView, user, onSignOut, overdueCount = 0 }) {
   const { theme, toggleTheme } = useTheme()
 
   return (
@@ -62,15 +63,26 @@ export default memo(function AdminSidebar({ activeView, setActiveView, user, onS
           {ADMIN_NAV_ITEMS.map(item => {
             const Icon = item.icon
             const isActive = activeView === item.id
+            const showBadge = item.id === 'tasks' && overdueCount > 0
             return (
               <button
                 key={item.id}
                 onClick={() => setActiveView(item.id)}
                 className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-                style={{ width: '100%' }}
+                style={{ width: '100%', position: 'relative' }}
               >
                 <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
                 {item.label}
+                {showBadge && (
+                  <span style={{
+                    marginLeft: 'auto', fontSize: '0.5rem', fontWeight: 700,
+                    fontFamily: 'var(--font-mono)',
+                    padding: '0.0625rem 0.3125rem', borderRadius: 99,
+                    background: '#EF4444', color: '#fff', lineHeight: 1.4,
+                  }}>
+                    {overdueCount}
+                  </span>
+                )}
               </button>
             )
           })}

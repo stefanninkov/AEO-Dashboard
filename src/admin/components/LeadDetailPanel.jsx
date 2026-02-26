@@ -1,16 +1,24 @@
 /**
- * LeadDetailPanel — Slide-in panel showing full lead details.
+ * LeadDetailPanel — CRM slide-in panel with 5-tab layout.
  *
- * Shows: contact info, score ring, category bars, qualification,
- * individual answers per category, priorities, admin notes, actions.
+ * Header: Name, tier badge, email, website, stage dropdown, tag pills, admin notes, quick actions.
+ * Tabs: AEO Score | Qualification | Answers | Timeline | Tasks
  */
 import { useState, useEffect, useRef } from 'react'
-import { X, Mail, Globe, Clock, Monitor, Languages, Send, UserCheck, Copy, Check, Trash2, Ticket } from 'lucide-react'
+import {
+  X, Mail, Globe, Clock, Monitor, Languages, Send, UserCheck, Copy, Check,
+  Trash2, Ticket, Tag, ListTodo, Activity, BarChart3, FileQuestion, Plus,
+} from 'lucide-react'
 import LeadEmailComposer from './LeadEmailComposer'
+import LeadTimeline from './LeadTimeline'
+import LeadTasks from './LeadTasks'
+import TaskCreatorModal from './TaskCreatorModal'
+import TagSelector from './TagSelector'
 import {
   CATEGORIES, SCORED_QUESTIONS, QUALIFYING_QUESTIONS, QUIZ_FLOW,
   getScoreTier, getLeadTier, MAX_TOTAL_SCORE,
 } from '../../utils/scorecardScoring'
+import { ALL_STAGES } from '../constants/pipelineStages'
 
 /* ── Helpers ── */
 function formatDate(val) {
@@ -91,33 +99,14 @@ function CategoryBar({ label, score, maxScore, color }) {
   )
 }
 
-/* ── Section Divider ── */
-function SectionDivider({ title }) {
-  return (
-    <div style={{
-      fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
-      color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.06rem',
-      padding: '0.75rem 0 0.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
-      marginBottom: '0.5rem',
-    }}>
-      {title}
-    </div>
-  )
-}
-
-/* ── Qualification Row (compact, distinct from scored answers) ── */
-function QualRow({ label, question, value, options, maxPts }) {
+/* ── Qualification Row ── */
+function QualRow({ question, value, options, maxPts }) {
   const selected = options.find(o => o.value === value)
   const pts = selected?.pts ?? 0
   return (
     <div>
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: '0.375rem',
-      }}>
-        <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-          {question}
-        </span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem' }}>
+        <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{question}</span>
         <span style={{
           fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, flexShrink: 0,
           marginLeft: '0.5rem', padding: '0.0625rem 0.375rem', borderRadius: 99,
@@ -151,17 +140,21 @@ function QualRow({ label, question, value, options, maxPts }) {
 /* ── Main Component ── */
 export default function LeadDetailPanel({
   lead, onClose, onMarkInvited, onMarkNudged, onUpdateNotes,
-  onUpdateStatus, onDelete, onLogContact, customTemplates,
+  onUpdateStatus, onDelete, onLogContact, onMoveStage,
+  customTemplates, tags, tasks,
 }) {
   const [notes, setNotes] = useState(lead?.adminNotes || '')
   const [copied, setCopied] = useState(false)
   const [emailComposerOpen, setEmailComposerOpen] = useState(false)
   const [emailPreselect, setEmailPreselect] = useState(null)
+  const [taskCreatorOpen, setTaskCreatorOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('score')
   const notesRef = useRef(null)
 
   // Sync notes when lead changes
   useEffect(() => {
     setNotes(lead?.adminNotes || '')
+    setActiveTab('score')
   }, [lead?.id])
 
   if (!lead) return null
@@ -173,16 +166,12 @@ export default function LeadDetailPanel({
   const leadTierInfo = LEAD_TIER_DISPLAY[lead.leadTier] || LEAD_TIER_DISPLAY.cold
   const catScores = scorecard.categoryScores || {}
   const answers = scorecard.answers || {}
-
-  // Status label
-  let statusLabel = 'Active'
-  if (lead.converted) statusLabel = 'Converted'
-  else if (lead.invited) statusLabel = 'Invited'
-  else if (scorecard.abandonedAtStep != null && !isCompleted) statusLabel = `Abandoned at step ${scorecard.abandonedAtStep + 1}`
+  const leadTags = lead.tags || []
+  const currentStage = lead.pipelineStage || 'new'
 
   const handleNotesBlur = () => {
     if (notes !== (lead.adminNotes || '')) {
-      onUpdateNotes?.(lead.id, notes)
+      onUpdateNotes?.(notes)
     }
   }
 
@@ -190,6 +179,13 @@ export default function LeadDetailPanel({
     navigator.clipboard.writeText(lead.email || '')
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  const CAT_LABELS = {
+    contentStructure: 'Content & Structure',
+    technicalSchema: 'Technical & Schema',
+    aiVisibility: 'AI Visibility',
+    strategyCompetition: 'Strategy & Competition',
   }
 
   // Build individual answers grouped by category
@@ -203,14 +199,6 @@ export default function LeadDetailPanel({
     return { ...cat, answers: catAnswers, subtotal: catAnswers.reduce((s, a) => s + (a.points || 0), 0) }
   })
 
-  const CAT_LABELS = {
-    contentStructure: 'Content & Structure',
-    technicalSchema: 'Technical & Schema',
-    aiVisibility: 'AI Visibility',
-    strategyCompetition: 'Strategy & Competition',
-  }
-
-  // Full question text (matches i18n en/waitlist.json)
   const Q_TEXT = {
     q1: 'Does your website have FAQ sections with clear Q&A formatting?',
     q2: 'How often do you publish or update content on your website?',
@@ -225,12 +213,11 @@ export default function LeadDetailPanel({
     q11: 'Does your organization have a dedicated AEO strategy (beyond traditional SEO)?',
   }
 
-  // Full answer option labels
   const ANSWER_LABELS = {
     q1: ['Yes, on most pages', 'On some pages', 'No / Not sure'],
     q2: ['Weekly or more', 'Monthly', 'Rarely or never'],
     q3: ['Yes, we write for this specifically', 'Some of our content does naturally', "We haven't thought about this"],
-    q4: ['Yes, multiple types (FAQ, Article, HowTo…)', 'Basic only (Organization, Breadcrumb)', "No / Don't know"],
+    q4: ['Yes, multiple types (FAQ, Article, HowTo\u2026)', 'Basic only (Organization, Breadcrumb)', "No / Don't know"],
     q5: ["Yes, they're all allowed", "I've checked some", "No / What's that?"],
     q6: ['Yes, auto-updated', 'Yes, but not sure about lastmod', "No / Don't know"],
     q7: ['Yes, we monitor this regularly', "I've checked a few times", 'Never'],
@@ -240,41 +227,53 @@ export default function LeadDetailPanel({
     q11: ["Yes, it's part of our roadmap", "We're exploring it", 'No, SEO only'],
   }
 
+  const detailTabs = [
+    { id: 'score', label: 'AEO Score', icon: BarChart3 },
+    { id: 'qualification', label: 'Qualification', icon: FileQuestion },
+    { id: 'answers', label: 'Answers', icon: ListTodo },
+    { id: 'timeline', label: 'Timeline', icon: Activity },
+    { id: 'tasks', label: 'Tasks', icon: ListTodo },
+  ]
+
   return (
     <>
       {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)',
-          zIndex: 199, transition: 'opacity 200ms',
-        }}
-      />
+      <div onClick={onClose} style={{
+        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)',
+        zIndex: 199, transition: 'opacity 200ms',
+      }} />
 
       {/* Panel */}
       <div style={{
-        position: 'fixed', top: 0, right: 0, bottom: 0, width: '28rem', maxWidth: '100vw',
+        position: 'fixed', top: 0, right: 0, bottom: 0, width: '30rem', maxWidth: '100vw',
         background: 'var(--bg-page)', borderLeft: '0.0625rem solid var(--border-subtle)',
-        zIndex: 200, overflowY: 'auto', display: 'flex', flexDirection: 'column',
+        zIndex: 200, display: 'flex', flexDirection: 'column',
         animation: 'slideInRight 200ms ease',
       }}>
 
-        {/* Header */}
-        <div style={{ padding: '1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        {/* ═══ Header ═══ */}
+        <div style={{
+          padding: '1rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)',
+          display: 'flex', flexDirection: 'column', gap: '0.5rem', flexShrink: 0,
+        }}>
+          {/* Row 1: Name + Tier + Close */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>{lead.name || '\u2014'}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, minWidth: 0 }}>
+              <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {lead.name || '\u2014'}
+              </span>
               {lead.leadTier && (
-                <span style={{ fontSize: '0.625rem', fontWeight: 700, padding: '0.125rem 0.5rem', borderRadius: 99, background: leadTierInfo.bg, color: leadTierInfo.color }}>
+                <span style={{ fontSize: '0.625rem', fontWeight: 700, padding: '0.125rem 0.5rem', borderRadius: 99, background: leadTierInfo.bg, color: leadTierInfo.color, flexShrink: 0 }}>
                   {leadTierInfo.emoji} {leadTierInfo.label}
                 </span>
               )}
             </div>
-            <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '0.25rem' }}>
+            <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '0.25rem', flexShrink: 0 }}>
               <X size={18} />
             </button>
           </div>
 
+          {/* Row 2: Email + Website */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button onClick={copyEmail} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', background: 'none', border: 'none', fontSize: '0.75rem', color: 'var(--accent)', cursor: 'pointer', fontFamily: 'var(--font-body)', padding: 0 }}>
               {copied ? <Check size={11} /> : <Mail size={11} />}
@@ -288,364 +287,367 @@ export default function LeadDetailPanel({
             )}
           </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-              <Clock size={10} /> {formatDate(lead.signedUpAt)}
-            </span>
-            {lead.language && (
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                <Languages size={10} /> {lead.language}
-              </span>
-            )}
-            {lead.screenSize && (
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                <Monitor size={10} /> {lead.screenSize}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Content */}
-        <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
-
-          {/* ── AEO Score ── */}
-          {isCompleted ? (
-            <>
-              <SectionDivider title={`AEO Score: ${scorecard.totalScore}/${MAX_TOTAL_SCORE} \u2014 ${tier?.label || ''}`} />
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <MiniScoreRing score={scorecard.totalScore} max={MAX_TOTAL_SCORE} color={tier?.color || 'var(--accent)'} />
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingTop: '0.25rem' }}>
-                  {CATEGORIES.map(cat => (
-                    <CategoryBar
-                      key={cat.id}
-                      label={CAT_LABELS[cat.id]}
-                      score={catScores[cat.id] || 0}
-                      maxScore={cat.maxScore}
-                      color={cat.color}
-                    />
-                  ))}
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <SectionDivider title="AEO Score" />
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-disabled)', fontStyle: 'italic' }}>
-                {scorecard.abandonedAtStep != null
-                  ? `Abandoned at step ${scorecard.abandonedAtStep + 1} of 14`
-                  : 'Quiz not started'}
-              </p>
-            </>
-          )}
-
-          {/* ── Qualification ── */}
-          {Object.keys(qualification).length > 0 && (
-            <>
-              <SectionDivider title="Qualification" />
-              <div style={{
-                padding: '0.75rem', borderRadius: '0.5rem',
-                border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
-                display: 'flex', flexDirection: 'column', gap: '0.625rem',
-              }}>
-                {/* Lead Score summary */}
-                {lead.leadScore != null && (
-                  <div style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '0.5rem 0.625rem', borderRadius: '0.375rem',
-                    background: leadTierInfo.bg,
-                  }}>
-                    <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
-                      Lead Score
-                    </span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: leadTierInfo.color }}>
-                      {lead.leadScore}/12 → {leadTierInfo.emoji} {leadTierInfo.label}
-                    </span>
-                  </div>
-                )}
-
-                {/* Role */}
-                {qualification.role && (
-                  <QualRow
-                    label="Role"
-                    question="What best describes your role?"
-                    value={qualification.role}
-                    options={[
-                      { value: 'agency_owner', label: 'Agency Owner / Partner', pts: 4 },
-                      { value: 'seo_director', label: 'SEO Manager / Director', pts: 3 },
-                      { value: 'inhouse', label: 'In-house Marketing / SEO', pts: 2 },
-                      { value: 'freelancer', label: 'Freelance Consultant', pts: 2 },
-                      { value: 'other', label: 'Other / Just exploring', pts: 0 },
-                    ]}
-                    maxPts={4}
-                  />
-                )}
-                {/* Website Count */}
-                {qualification.websiteCount && (
-                  <QualRow
-                    label="Websites"
-                    question="How many websites do you manage?"
-                    value={qualification.websiteCount}
-                    options={[
-                      { value: '10+', label: '10+ client websites', pts: 4 },
-                      { value: '3-9', label: '3–9 websites', pts: 3 },
-                      { value: '1-2', label: '1–2 websites', pts: 1 },
-                      { value: 'own', label: 'Just my own', pts: 0 },
-                    ]}
-                    maxPts={4}
-                  />
-                )}
-                {/* Timeline */}
-                {qualification.timeline && (
-                  <QualRow
-                    label="Timeline"
-                    question="When are you looking to optimize for AI?"
-                    value={qualification.timeline}
-                    options={[
-                      { value: 'immediately', label: 'Immediately — this is urgent', pts: 4 },
-                      { value: '1-3months', label: 'Within 1–3 months', pts: 2 },
-                      { value: 'exploring', label: 'Exploring for the future', pts: 1 },
-                      { value: 'curious', label: 'Just curious for now', pts: 0 },
-                    ]}
-                    maxPts={4}
-                  />
-                )}
-              </div>
-            </>
-          )}
-
-          {/* ── Individual Answers ── */}
-          {isCompleted && (
-            <>
-              <SectionDivider title="Individual Answers" />
-              {answersByCategory.map(cat => (
-                <div key={cat.id} style={{ marginBottom: '0.75rem' }}>
-                  {/* Category header */}
-                  <div style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    marginBottom: '0.5rem', padding: '0.375rem 0.625rem', borderRadius: '0.375rem',
-                    background: 'var(--hover-bg)',
-                  }}>
-                    <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
-                      {CAT_LABELS[cat.id]}
-                    </span>
-                    <span style={{
-                      fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
-                      padding: '0.0625rem 0.375rem', borderRadius: 99,
-                      background: cat.subtotal === cat.maxScore ? 'rgba(16,185,129,0.1)' : 'transparent',
-                      color: cat.subtotal === cat.maxScore ? '#10B981' : 'var(--text-disabled)',
-                    }}>
-                      {cat.subtotal}/{cat.maxScore} pts
-                    </span>
-                  </div>
-
-                  {/* Questions */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
-                    {cat.answers.map(a => {
-                      const q = SCORED_QUESTIONS.find(sq => sq.id === a.id)
-                      const labels = ANSWER_LABELS[a.id] || []
-                      return (
-                        <div key={a.id} style={{
-                          padding: '0.625rem 0.75rem', borderRadius: '0.5rem',
-                          border: '0.0625rem solid var(--border-subtle)',
-                          background: 'var(--bg-card)',
-                        }}>
-                          {/* Question text */}
-                          <div style={{
-                            fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)',
-                            marginBottom: '0.5rem', lineHeight: 1.4,
-                          }}>
-                            {Q_TEXT[a.id]}
-                          </div>
-
-                          {/* All options */}
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                            {q?.options.map((opt, i) => {
-                              const isSelected = i === a.optIndex
-                              const pts = opt.points
-                              return (
-                                <div key={opt.value} style={{
-                                  display: 'flex', alignItems: 'center', gap: '0.5rem',
-                                  padding: '0.375rem 0.5rem', borderRadius: '0.375rem',
-                                  background: isSelected ? 'rgba(16,185,129,0.08)' : 'transparent',
-                                  border: isSelected ? '0.0625rem solid rgba(16,185,129,0.25)' : '0.0625rem solid transparent',
-                                  transition: 'all 150ms',
-                                }}>
-                                  {/* Radio indicator */}
-                                  <div style={{
-                                    width: '0.75rem', height: '0.75rem', borderRadius: '50%', flexShrink: 0,
-                                    border: isSelected ? '0.1875rem solid #10B981' : '0.0625rem solid var(--border-subtle)',
-                                    background: isSelected ? '#10B981' : 'transparent',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  }}>
-                                    {isSelected && (
-                                      <div style={{ width: '0.25rem', height: '0.25rem', borderRadius: '50%', background: '#fff' }} />
-                                    )}
-                                  </div>
-
-                                  {/* Label */}
-                                  <span style={{
-                                    flex: 1, fontSize: '0.6875rem', lineHeight: 1.3,
-                                    color: isSelected ? '#10B981' : 'var(--text-tertiary)',
-                                    fontWeight: isSelected ? 600 : 400,
-                                  }}>
-                                    {labels[i] || opt.value}
-                                  </span>
-
-                                  {/* Points badge */}
-                                  <span style={{
-                                    fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, flexShrink: 0,
-                                    padding: '0.0625rem 0.3125rem', borderRadius: 99,
-                                    background: isSelected
-                                      ? (pts > 0 ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.1)')
-                                      : 'transparent',
-                                    color: isSelected
-                                      ? (pts > 0 ? '#10B981' : '#EF4444')
-                                      : 'var(--text-disabled)',
-                                  }}>
-                                    {pts} pts
-                                  </span>
-                                </div>
-                              )
-                            })}
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              ))}
-            </>
-          )}
-
-          {/* ── Priorities ── */}
-          {isCompleted && scorecard.priorities?.length > 0 && (
-            <>
-              <SectionDivider title="Top Priorities" />
-              {scorecard.priorities.map((p, i) => {
-                const catScore = catScores[p.categoryId] || 0
-                const catMax = CATEGORIES.find(c => c.id === p.categoryId)?.maxScore || 1
-                const ratio = catMax > 0 ? catScore / catMax : 0
-                const icon = ratio > 0.66 ? '\u2705' : ratio >= 0.33 ? '\u26A0\uFE0F' : '\u274C'
-                return (
-                  <div key={p.id} style={{ display: 'flex', gap: '0.5rem', fontSize: '0.75rem', padding: '0.25rem 0' }}>
-                    <span>{icon}</span>
-                    <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{p.title || p.id}</span>
-                  </div>
-                )
-              })}
-            </>
-          )}
-
-          {/* ── Admin Notes ── */}
-          <SectionDivider title="Admin Notes" />
-          <textarea
-            ref={notesRef}
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            onBlur={handleNotesBlur}
-            placeholder="Add notes about this lead..."
-            rows={3}
-            style={{
-              width: '100%', padding: '0.625rem', border: '0.0625rem solid var(--border-subtle)',
-              borderRadius: '0.5rem', background: 'var(--bg-card)', color: 'var(--text-primary)',
-              fontSize: '0.8125rem', fontFamily: 'var(--font-body)', resize: 'vertical',
-              outline: 'none',
-            }}
-          />
-
-          {/* ── Contact History ── */}
-          {(lead.contactHistory?.length > 0) && (
-            <>
-              <SectionDivider title={`Contact History (${lead.contactHistory.length})`} />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                {lead.contactHistory.slice(-5).reverse().map((c, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.6875rem', padding: '0.125rem 0' }}>
-                    <Mail size={10} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--text-disabled)', width: '6rem', flexShrink: 0 }}>
-                      {formatDate(c.sentAt)}
-                    </span>
-                    <span style={{ color: 'var(--text-secondary)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {c.templateName || c.subject || '—'}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-
-          {/* ── Actions ── */}
-          <SectionDivider title="Actions" />
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => { setEmailPreselect(null); setEmailComposerOpen(true) }}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
-                border: 'none', background: 'var(--accent)', color: '#fff',
-                fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)',
-              }}
-            >
-              <Mail size={13} /> Send Email
-            </button>
-            <button
-              onClick={() => { setEmailPreselect('beta_invite'); setEmailComposerOpen(true) }}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
-                border: '0.0625rem solid var(--accent)', background: 'transparent',
-                color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600,
-                cursor: 'pointer', fontFamily: 'var(--font-body)',
-              }}
-            >
-              <Ticket size={13} /> Send Invite
-            </button>
-            <button
-              onClick={() => {
-                if (window.confirm(`Delete lead "${lead.name || lead.email}"? This cannot be undone.`)) {
-                  onDelete?.(lead.id)
-                  onClose?.()
-                }
-              }}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
-                border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
-                color: 'var(--color-error)', fontSize: '0.75rem', fontWeight: 600,
-                cursor: 'pointer', fontFamily: 'var(--font-body)',
-              }}
-            >
-              <Trash2 size={13} /> Delete
-            </button>
-          </div>
-
-          {/* ── Status ── */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap',
-            paddingTop: '0.5rem', borderTop: '0.0625rem solid var(--border-subtle)',
-          }}>
-            <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-disabled)' }}>Status:</span>
+          {/* Row 3: Stage dropdown */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--text-disabled)' }}>Stage:</span>
             <select
-              value={lead.status || 'active'}
-              onChange={e => onUpdateStatus?.(e.target.value)}
+              value={currentStage}
+              onChange={(e) => onMoveStage?.(currentStage, e.target.value)}
               style={{
                 padding: '0.25rem 0.5rem', borderRadius: '0.25rem', fontSize: '0.6875rem',
                 fontWeight: 600, fontFamily: 'var(--font-body)',
                 border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
-                color: 'var(--text-primary)', cursor: 'pointer',
+                color: 'var(--text-primary)', cursor: 'pointer', outline: 'none',
               }}
             >
-              <option value="active">Active</option>
-              <option value="invited">Invited</option>
-              <option value="converted">Converted</option>
-              <option value="unsubscribed">Unsubscribed</option>
-              <option value="archived">Archived</option>
+              {ALL_STAGES.map(s => (
+                <option key={s.id} value={s.id}>{s.emoji} {s.label}</option>
+              ))}
             </select>
-            <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.625rem', color: 'var(--text-disabled)' }}>
-              <span>Invited: {lead.invited ? '✓' : '—'}</span>
-              <span>Nudged: {lead.nudged ? '✓' : '—'}</span>
-              <span>Converted: {lead.converted ? '✓' : '—'}</span>
-            </div>
+            <span style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', marginLeft: 'auto' }}>
+              <Clock size={10} style={{ verticalAlign: 'middle' }} /> {formatDate(lead.signedUpAt)}
+            </span>
           </div>
+
+          {/* Row 4: Tag pills */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', alignItems: 'center' }}>
+            {leadTags.map((tagName) => {
+              const color = tags?.getTagColor?.(tagName) || '#6B7280'
+              return (
+                <span key={tagName} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                  fontSize: '0.5625rem', fontWeight: 600, padding: '0.125rem 0.375rem',
+                  borderRadius: 99, background: `${color}15`, color,
+                }}>
+                  <span style={{ width: '0.375rem', height: '0.375rem', borderRadius: '50%', background: color }} />
+                  {tagName}
+                  <button
+                    onClick={() => tags?.removeTagFromLead?.(lead.id, tagName)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'inline-flex', color, opacity: 0.6 }}
+                  >
+                    <X size={8} />
+                  </button>
+                </span>
+              )
+            })}
+            {tags && (
+              <TagSelector
+                allTags={tags.allTags}
+                leadTags={leadTags}
+                onAddTag={(tagName) => tags.addTagToLead(lead.id, tagName)}
+                onRemoveTag={(tagName) => tags.removeTagFromLead(lead.id, tagName)}
+                onCreateTag={tags.createTag}
+                getTagColor={tags.getTagColor}
+              />
+            )}
+          </div>
+
+          {/* Row 5: Admin Notes (pinned) */}
+          <textarea
+            ref={notesRef}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            onBlur={handleNotesBlur}
+            placeholder="Admin notes..."
+            rows={2}
+            style={{
+              width: '100%', padding: '0.5rem', border: '0.0625rem solid var(--border-subtle)',
+              borderRadius: '0.375rem', background: 'var(--bg-card)', color: 'var(--text-primary)',
+              fontSize: '0.75rem', fontFamily: 'var(--font-body)', resize: 'none',
+              outline: 'none', boxSizing: 'border-box',
+            }}
+          />
+
+          {/* Row 6: Quick Actions */}
+          <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
+            <button onClick={() => { setEmailPreselect(null); setEmailComposerOpen(true) }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                padding: '0.25rem 0.5rem', borderRadius: '0.25rem',
+                border: 'none', background: 'var(--accent)', color: '#fff',
+                fontSize: '0.625rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)',
+              }}>
+              <Mail size={10} /> Email
+            </button>
+            <button onClick={() => setTaskCreatorOpen(true)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                padding: '0.25rem 0.5rem', borderRadius: '0.25rem',
+                border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
+                color: 'var(--text-secondary)', fontSize: '0.625rem', fontWeight: 600,
+                cursor: 'pointer', fontFamily: 'var(--font-body)',
+              }}>
+              <ListTodo size={10} /> Task
+            </button>
+            <button onClick={() => { setEmailPreselect('beta_invite'); setEmailComposerOpen(true) }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                padding: '0.25rem 0.5rem', borderRadius: '0.25rem',
+                border: '0.0625rem solid var(--accent)', background: 'transparent',
+                color: 'var(--accent)', fontSize: '0.625rem', fontWeight: 600,
+                cursor: 'pointer', fontFamily: 'var(--font-body)',
+              }}>
+              <Ticket size={10} /> Invite
+            </button>
+            <button
+              onClick={() => {
+                if (window.confirm(`Delete lead "${lead.name || lead.email}"? This cannot be undone.`)) {
+                  onDelete?.()
+                  onClose?.()
+                }
+              }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                padding: '0.25rem 0.5rem', borderRadius: '0.25rem',
+                border: '0.0625rem solid var(--border-subtle)', background: 'transparent',
+                color: 'var(--color-error, #EF4444)', fontSize: '0.625rem', fontWeight: 600,
+                cursor: 'pointer', fontFamily: 'var(--font-body)', marginLeft: 'auto',
+              }}>
+              <Trash2 size={10} /> Delete
+            </button>
+          </div>
+        </div>
+
+        {/* ═══ Tab Bar ═══ */}
+        <div style={{
+          display: 'flex', gap: '0', borderBottom: '0.0625rem solid var(--border-subtle)',
+          flexShrink: 0, overflowX: 'auto',
+        }}>
+          {detailTabs.map(tab => {
+            const Icon = tab.icon
+            const isActive = activeTab === tab.id
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.25rem',
+                  padding: '0.5rem 0.75rem', border: 'none', cursor: 'pointer',
+                  fontSize: '0.625rem', fontWeight: 600, fontFamily: 'var(--font-body)',
+                  background: 'transparent',
+                  color: isActive ? 'var(--accent)' : 'var(--text-tertiary)',
+                  borderBottom: isActive ? '0.125rem solid var(--accent)' : '0.125rem solid transparent',
+                  transition: 'all 100ms',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <Icon size={11} />
+                {tab.label}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* ═══ Tab Content ═══ */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1rem 1.25rem' }}>
+
+          {/* ── Tab: AEO Score ── */}
+          {activeTab === 'score' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {isCompleted ? (
+                <>
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <MiniScoreRing score={scorecard.totalScore} max={MAX_TOTAL_SCORE} color={tier?.color || 'var(--accent)'} />
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingTop: '0.25rem' }}>
+                      {CATEGORIES.map(cat => (
+                        <CategoryBar
+                          key={cat.id} label={CAT_LABELS[cat.id]}
+                          score={catScores[cat.id] || 0} maxScore={cat.maxScore} color={cat.color}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  {scorecard.priorities?.length > 0 && (
+                    <div>
+                      <div style={{
+                        fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
+                        color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.06rem',
+                        padding: '0.5rem 0 0.25rem', borderBottom: '0.0625rem solid var(--border-subtle)', marginBottom: '0.5rem',
+                      }}>
+                        Top Priorities
+                      </div>
+                      {scorecard.priorities.map((p, i) => {
+                        const catScore = catScores[p.categoryId] || 0
+                        const catMax = CATEGORIES.find(c => c.id === p.categoryId)?.maxScore || 1
+                        const ratio = catMax > 0 ? catScore / catMax : 0
+                        const icon = ratio > 0.66 ? '\u2705' : ratio >= 0.33 ? '\u26A0\uFE0F' : '\u274C'
+                        return (
+                          <div key={p.id} style={{ display: 'flex', gap: '0.5rem', fontSize: '0.75rem', padding: '0.25rem 0' }}>
+                            <span>{icon}</span>
+                            <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{p.title || p.id}</span>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-disabled)', fontStyle: 'italic' }}>
+                  {scorecard.abandonedAtStep != null
+                    ? `Abandoned at step ${scorecard.abandonedAtStep + 1} of 14`
+                    : 'Quiz not started'}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* ── Tab: Qualification ── */}
+          {activeTab === 'qualification' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {Object.keys(qualification).length > 0 ? (
+                <div style={{
+                  padding: '0.75rem', borderRadius: '0.5rem',
+                  border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
+                  display: 'flex', flexDirection: 'column', gap: '0.625rem',
+                }}>
+                  {lead.leadScore != null && (
+                    <div style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      padding: '0.5rem 0.625rem', borderRadius: '0.375rem', background: leadTierInfo.bg,
+                    }}>
+                      <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>Lead Score</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: leadTierInfo.color }}>
+                        {lead.leadScore}/12 {'\u2192'} {leadTierInfo.emoji} {leadTierInfo.label}
+                      </span>
+                    </div>
+                  )}
+                  {qualification.role && (
+                    <QualRow question="What best describes your role?" value={qualification.role}
+                      options={[
+                        { value: 'agency_owner', label: 'Agency Owner / Partner', pts: 4 },
+                        { value: 'seo_director', label: 'SEO Manager / Director', pts: 3 },
+                        { value: 'inhouse', label: 'In-house Marketing / SEO', pts: 2 },
+                        { value: 'freelancer', label: 'Freelance Consultant', pts: 2 },
+                        { value: 'other', label: 'Other / Just exploring', pts: 0 },
+                      ]} maxPts={4} />
+                  )}
+                  {qualification.websiteCount && (
+                    <QualRow question="How many websites do you manage?" value={qualification.websiteCount}
+                      options={[
+                        { value: '10+', label: '10+ client websites', pts: 4 },
+                        { value: '3-9', label: '3\u20139 websites', pts: 3 },
+                        { value: '1-2', label: '1\u20132 websites', pts: 1 },
+                        { value: 'own', label: 'Just my own', pts: 0 },
+                      ]} maxPts={4} />
+                  )}
+                  {qualification.timeline && (
+                    <QualRow question="When are you looking to optimize for AI?" value={qualification.timeline}
+                      options={[
+                        { value: 'immediately', label: 'Immediately \u2014 this is urgent', pts: 4 },
+                        { value: '1-3months', label: 'Within 1\u20133 months', pts: 2 },
+                        { value: 'exploring', label: 'Exploring for the future', pts: 1 },
+                        { value: 'curious', label: 'Just curious for now', pts: 0 },
+                      ]} maxPts={4} />
+                  )}
+                </div>
+              ) : (
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-disabled)', fontStyle: 'italic' }}>
+                  No qualification data
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* ── Tab: Answers ── */}
+          {activeTab === 'answers' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {isCompleted ? (
+                answersByCategory.map(cat => (
+                  <div key={cat.id} style={{ marginBottom: '0.5rem' }}>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      marginBottom: '0.5rem', padding: '0.375rem 0.625rem', borderRadius: '0.375rem',
+                      background: 'var(--hover-bg)',
+                    }}>
+                      <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-secondary)' }}>{CAT_LABELS[cat.id]}</span>
+                      <span style={{
+                        fontFamily: 'var(--font-mono)', fontSize: '0.625rem', fontWeight: 700,
+                        padding: '0.0625rem 0.375rem', borderRadius: 99,
+                        background: cat.subtotal === cat.maxScore ? 'rgba(16,185,129,0.1)' : 'transparent',
+                        color: cat.subtotal === cat.maxScore ? '#10B981' : 'var(--text-disabled)',
+                      }}>
+                        {cat.subtotal}/{cat.maxScore} pts
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+                      {cat.answers.map(a => {
+                        const q = SCORED_QUESTIONS.find(sq => sq.id === a.id)
+                        const labels = ANSWER_LABELS[a.id] || []
+                        return (
+                          <div key={a.id} style={{
+                            padding: '0.625rem 0.75rem', borderRadius: '0.5rem',
+                            border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
+                          }}>
+                            <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem', lineHeight: 1.4 }}>
+                              {Q_TEXT[a.id]}
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                              {q?.options.map((opt, i) => {
+                                const isSelected = i === a.optIndex
+                                const pts = opt.points
+                                return (
+                                  <div key={opt.value} style={{
+                                    display: 'flex', alignItems: 'center', gap: '0.5rem',
+                                    padding: '0.375rem 0.5rem', borderRadius: '0.375rem',
+                                    background: isSelected ? 'rgba(16,185,129,0.08)' : 'transparent',
+                                    border: isSelected ? '0.0625rem solid rgba(16,185,129,0.25)' : '0.0625rem solid transparent',
+                                  }}>
+                                    <div style={{
+                                      width: '0.75rem', height: '0.75rem', borderRadius: '50%', flexShrink: 0,
+                                      border: isSelected ? '0.1875rem solid #10B981' : '0.0625rem solid var(--border-subtle)',
+                                      background: isSelected ? '#10B981' : 'transparent',
+                                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    }}>
+                                      {isSelected && <div style={{ width: '0.25rem', height: '0.25rem', borderRadius: '50%', background: '#fff' }} />}
+                                    </div>
+                                    <span style={{
+                                      flex: 1, fontSize: '0.6875rem', lineHeight: 1.3,
+                                      color: isSelected ? '#10B981' : 'var(--text-tertiary)',
+                                      fontWeight: isSelected ? 600 : 400,
+                                    }}>
+                                      {labels[i] || opt.value}
+                                    </span>
+                                    <span style={{
+                                      fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', fontWeight: 700, flexShrink: 0,
+                                      padding: '0.0625rem 0.3125rem', borderRadius: 99,
+                                      background: isSelected ? (pts > 0 ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.1)') : 'transparent',
+                                      color: isSelected ? (pts > 0 ? '#10B981' : '#EF4444') : 'var(--text-disabled)',
+                                    }}>
+                                      {pts} pts
+                                    </span>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-disabled)', fontStyle: 'italic' }}>
+                  Quiz not completed
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* ── Tab: Timeline ── */}
+          {activeTab === 'timeline' && (
+            <LeadTimeline lead={lead} />
+          )}
+
+          {/* ── Tab: Tasks ── */}
+          {activeTab === 'tasks' && (
+            <LeadTasks
+              leadId={lead.id}
+              tasks={tasks?.tasks || []}
+              onComplete={tasks?.completeTask}
+              onUncomplete={tasks?.uncompleteTask}
+              onOpenCreate={() => setTaskCreatorOpen(true)}
+            />
+          )}
         </div>
       </div>
 
@@ -657,6 +659,14 @@ export default function LeadDetailPanel({
         preselectedTemplateId={emailPreselect}
         onLogContact={onLogContact}
         customTemplates={customTemplates}
+      />
+
+      {/* Task Creator Modal */}
+      <TaskCreatorModal
+        isOpen={taskCreatorOpen}
+        onClose={() => setTaskCreatorOpen(false)}
+        lead={lead}
+        onCreateTask={tasks?.createTask}
       />
 
       <style>{`

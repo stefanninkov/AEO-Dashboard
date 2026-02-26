@@ -3,6 +3,7 @@ import { isSuperAdmin, hasConfiguredAdmins } from '../config/superAdmins'
 import { ShieldOff, AlertCircle } from 'lucide-react'
 import AdminSidebar from './components/AdminSidebar'
 import AdminTopBar from './components/AdminTopBar'
+import { useTasks } from './hooks/useTasks'
 
 // Lazy-loaded admin views
 const AdminDashboard = lazy(() => import('./views/AdminDashboard'))
@@ -16,6 +17,7 @@ const AdminFeedback = lazy(() => import('./views/AdminFeedback'))
 const AdminChatLogs = lazy(() => import('./views/AdminChatLogs'))
 const AdminWaitlist = lazy(() => import('./views/AdminWaitlist'))
 const AdminChurn = lazy(() => import('./views/AdminChurn'))
+const AdminTasks = lazy(() => import('./views/AdminTasks'))
 
 /* ── Loading Screen ── */
 function LoadingScreen() {
@@ -214,6 +216,7 @@ export default function AdminApp({ user, onSignOut }) {
   const isAdmin = useMemo(() => isSuperAdmin(user?.uid), [user?.uid])
   const isConfigured = useMemo(() => hasConfiguredAdmins(), [])
   const [activeAdminView, setActiveAdminView] = useState('dashboard')
+  const tasksHook = useTasks()
 
   if (!isConfigured) return <NotConfigured user={user} />
   if (!isAdmin) return <AccessDenied />
@@ -221,7 +224,7 @@ export default function AdminApp({ user, onSignOut }) {
   const renderView = () => {
     switch (activeAdminView) {
       case 'dashboard':
-        return <AdminDashboard user={user} onNavigate={setActiveAdminView} />
+        return <AdminDashboard user={user} onNavigate={setActiveAdminView} tasksHook={tasksHook} />
       case 'users':
         return <AdminUsers user={user} />
       case 'projects':
@@ -239,7 +242,9 @@ export default function AdminApp({ user, onSignOut }) {
       case 'chatlogs':
         return <AdminChatLogs user={user} />
       case 'waitlist':
-        return <AdminWaitlist user={user} onNavigate={setActiveAdminView} />
+        return <AdminWaitlist user={user} onNavigate={setActiveAdminView} tasksHook={tasksHook} />
+      case 'tasks':
+        return <AdminTasks user={user} onNavigate={setActiveAdminView} tasksHook={tasksHook} />
       case 'churn':
         return <AdminChurn user={user} />
       default:
@@ -257,6 +262,7 @@ export default function AdminApp({ user, onSignOut }) {
           setActiveView={setActiveAdminView}
           user={user}
           onSignOut={onSignOut}
+          overdueCount={tasksHook.overdueTasks.length}
         />
 
         <div className="main-area">
