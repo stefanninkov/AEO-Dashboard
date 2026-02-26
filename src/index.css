@@ -1343,18 +1343,7 @@ body {
   .search-mobile { display: none !important; }
 }
 
-/* ── Scrollable tabs utility (mobile only) ── */
-@media (max-width: 47.9375rem) {
-  .scrollable-tabs {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .scrollable-tabs::-webkit-scrollbar {
-    display: none;
-  }
-}
+/* ── Scrollable tabs utility — no-op, wrapping handled by flex-wrap on tab bars ── */
 
 .search-dropdown-footer {
   display: flex;
@@ -6306,6 +6295,9 @@ body {
 
 .tab-segmented {
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
   border: none;

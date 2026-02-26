@@ -523,7 +523,7 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.timeline}
         onToggle={() => toggleSection('timeline')}
       >
-        <div className="space-y-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <TimelineItem
             period={t('testing.timeline.fast')}
             description={t('testing.timeline.fastDesc')}
