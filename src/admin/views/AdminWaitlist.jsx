@@ -294,11 +294,10 @@ export default function AdminWaitlist({ user, onNavigate }) {
       result = result.filter(l => l.qualification?.timeline === timelineFilter)
     }
     if (statusFilter !== 'all') {
-      if (statusFilter === 'completed') result = result.filter(l => l.scorecard?.completed)
-      else if (statusFilter === 'abandoned') result = result.filter(l => !l.scorecard?.completed && l.scorecard?.abandonedAtStep != null)
-      else if (statusFilter === 'invited') result = result.filter(l => l.invited)
-      else if (statusFilter === 'converted') result = result.filter(l => l.converted)
-      else if (statusFilter === 'notStarted') result = result.filter(l => !l.scorecard?.completed && l.scorecard?.abandonedAtStep == null)
+      result = result.filter(l => {
+        const s = l.status || (l.invited ? 'invited' : l.converted ? 'converted' : l.scorecard?.completed ? 'active' : l.scorecard?.abandonedAtStep != null ? 'abandoned' : 'active')
+        return s === statusFilter
+      })
     }
     return result
   }, [leads, search, leadTierFilter, scoreTierFilter, roleFilter, timelineFilter, statusFilter])
@@ -861,9 +860,10 @@ function LeadsTab({
           options={[{ value: 'all', label: 'Timeline' }, ...Object.entries(TIMELINE_LABELS).map(([v, l]) => ({ value: v, label: l }))]} />
         <FilterDropdown label="Status" value={statusFilter} onChange={v => { setStatusFilter(v); setPage(0) }}
           options={[
-            { value: 'all', label: 'Status' }, { value: 'completed', label: 'Completed' },
-            { value: 'abandoned', label: 'Abandoned' }, { value: 'notStarted', label: 'Not Started' },
+            { value: 'all', label: 'Status' }, { value: 'active', label: 'Active' },
             { value: 'invited', label: 'Invited' }, { value: 'converted', label: 'Converted' },
+            { value: 'unsubscribed', label: 'Unsubscribed' }, { value: 'archived', label: 'Archived' },
+            { value: 'abandoned', label: 'Abandoned' },
           ]} />
 
         {/* Actions */}
@@ -972,12 +972,15 @@ function LeadsTab({
           {pagedLeads.map(lead => {
             const tier = LEAD_TIER_DISPLAY[lead.leadTier]
             const scoreTier = lead.scorecard?.tier ? SCORE_TIERS.find(t => t.id === lead.scorecard.tier) : null
-            const status = lead.invited ? 'invited' : lead.converted ? 'converted' : lead.scorecard?.completed ? 'completed' : lead.scorecard?.abandonedAtStep != null ? 'abandoned' : 'pending'
+            const status = lead.status || (lead.invited ? 'invited' : lead.converted ? 'converted' : lead.scorecard?.completed ? 'completed' : lead.scorecard?.abandonedAtStep != null ? 'abandoned' : 'active')
             const statusColors = {
+              active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981', label: 'Active' },
               completed: { bg: 'rgba(16,185,129,0.1)', color: '#10B981', label: 'Completed' },
               invited: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6', label: 'Invited' },
               converted: { bg: 'rgba(6,182,212,0.1)', color: '#06B6D4', label: 'Converted' },
               abandoned: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444', label: 'Abandoned' },
+              unsubscribed: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444', label: 'Unsubscribed' },
+              archived: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280', label: 'Archived' },
               pending: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280', label: 'Pending' },
             }
             const sc = statusColors[status] || statusColors.pending
