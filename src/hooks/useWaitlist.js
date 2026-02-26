@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
   collection, addDoc, getDocs, onSnapshot,
-  query, where, serverTimestamp,
+  query, where, serverTimestamp, doc, updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import logger from '../utils/logger'
@@ -44,6 +44,7 @@ export function useWaitlist() {
     return () => unsubscribe()
   }, [])
 
+  // ── Legacy: simple email submission (backward compat) ──
   const submitEmail = useCallback(async (email) => {
     setSubmitting(true)
     setError(null)
@@ -113,5 +114,134 @@ export function useWaitlist() {
     }
   }, [])
 
-  return { count, submitting, submitted, error, alreadySignedUp, submitEmail }
+  // ── Scorecard: create lead on capture step ──
+  const createLead = useCallback(async ({ name, email, websiteUrl }) => {
+    if (!isFirebaseConfigured) {
+      // Dev mode: localStorage
+      const stored = JSON.parse(localStorage.getItem('aeo-waitlist') || '[]')
+      if (stored.find(e => e.email === email)) {
+        throw new Error('already_signed_up')
+      }
+      const fakeId = `dev_${Date.now()}`
+      stored.push({
+        id: fakeId, name, email, websiteUrl: websiteUrl || null,
+        signedUpAt: new Date().toISOString(), source: 'scorecard',
+      })
+      localStorage.setItem('aeo-waitlist', JSON.stringify(stored))
+      setCount(stored.length)
+      return fakeId
+    }
+
+    // Check for duplicate
+    const q = query(collection(db, 'waitlist'), where('email', '==', email))
+    const existing = await getDocs(q)
+    if (!existing.empty) {
+      throw new Error('already_signed_up')
+    }
+
+    const docRef = await addDoc(collection(db, 'waitlist'), {
+      // ── Capture ──
+      name,
+      email,
+      websiteUrl: websiteUrl || null,
+      signedUpAt: serverTimestamp(),
+      source: 'scorecard',
+      userAgent: navigator.userAgent,
+      screenSize: `${window.innerWidth}x${window.innerHeight}`,
+      language: document.documentElement.lang || 'en',
+      status: 'active',
+      notified: false,
+
+      // ── Scorecard (placeholder until completed) ──
+      scorecard: {
+        completed: false,
+        completedAt: null,
+        abandonedAtStep: null,
+        totalScore: null,
+        tier: null,
+        categoryScores: {},
+        answers: {},
+        priorities: [],
+      },
+
+      // ── Qualification (filled after quiz) ──
+      qualification: {},
+      leadScore: null,
+      leadTier: null,
+
+      // ── Admin state (initialized for Pass 2) ──
+      adminNotes: '',
+      invited: false,
+      invitedAt: null,
+      converted: false,
+      convertedAt: null,
+      nudged: false,
+      nudgedAt: null,
+      pipelineStage: 'new',
+      stageChangedAt: serverTimestamp(),
+      stageHistory: [],
+      tags: [],
+      lastActivityAt: serverTimestamp(),
+      lastContactedAt: null,
+      totalActivities: 0,
+    })
+
+    return docRef.id
+  }, [])
+
+  // ── Scorecard: save completed quiz results ──
+  const completeScorecard = useCallback(async (docId, data) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+
+    await updateDoc(doc(db, 'waitlist', docId), {
+      'scorecard.completed': true,
+      'scorecard.completedAt': serverTimestamp(),
+      'scorecard.abandonedAtStep': null,
+      'scorecard.totalScore': data.totalScore,
+      'scorecard.tier': data.tier,
+      'scorecard.categoryScores': data.categoryScores,
+      'scorecard.answers': data.answers,
+      'scorecard.priorities': data.priorities,
+      qualification: data.qualifyingAnswers,
+      leadScore: data.leadScore,
+      leadTier: data.leadTier,
+      lastActivityAt: serverTimestamp(),
+    })
+  }, [])
+
+  // ── Scorecard: track abandonment ──
+  const trackAbandonment = useCallback(async (docId, stepIndex) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+
+    try {
+      await updateDoc(doc(db, 'waitlist', docId), {
+        'scorecard.abandonedAtStep': stepIndex,
+      })
+    } catch (err) {
+      logger.error('Track abandonment error:', err)
+    }
+  }, [])
+
+  // ── Scorecard: mark converted (clicked "Get Early Access" on results) ──
+  const markConverted = useCallback(async (docId) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+
+    try {
+      await updateDoc(doc(db, 'waitlist', docId), {
+        converted: true,
+        convertedAt: serverTimestamp(),
+      })
+    } catch (err) {
+      logger.error('Mark converted error:', err)
+    }
+  }, [])
+
+  return {
+    count, submitting, submitted, error, alreadySignedUp,
+    submitEmail,        // legacy
+    createLead,         // scorecard: step 1
+    completeScorecard,  // scorecard: after quiz
+    trackAbandonment,   // scorecard: on close/skip
+    markConverted,      // scorecard: results CTA
+  }
 }

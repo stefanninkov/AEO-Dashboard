@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useWaitlist } from '../hooks/useWaitlist'
 import { useTheme } from '../contexts/ThemeContext'
-import { Check, Share2, Copy, Loader, Sparkles, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar, Sun, Moon } from 'lucide-react'
+import { Check, Share2, Copy, Sparkles, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar, Sun, Moon } from 'lucide-react'
+import WaitlistScorecard from '../components/WaitlistScorecard'
+import { MAX_TOTAL_SCORE } from '../utils/scorecardScoring'
 import './WaitlistPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -47,17 +49,18 @@ const SITE_URL = `https://stefanninkov.github.io${BASE_PATH}`
 
 export default function WaitlistPage() {
   const { t } = useTranslation('waitlist')
-  const [email, setEmail] = useState('')
   const [navSolid, setNavSolid] = useState(false)
   const [copied, setCopied] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState(null)
   const rootRef = useRef(null)
   const { resolvedTheme, toggleTheme } = useTheme()
-  const { count, submitting, submitted, error, alreadySignedUp, submitEmail } = useWaitlist()
+  const { count, submitted, alreadySignedUp } = useWaitlist()
+  const [showScorecard, setShowScorecard] = useState(false)
+  const [completedResults, setCompletedResults] = useState(null)
 
   // ── Counter-up animation ──
-  const targetCount = count + 100
+  const targetCount = count
   const [displayCount, setDisplayCount] = useState(0)
 
   useEffect(() => {
@@ -95,10 +98,6 @@ export default function WaitlistPage() {
       seo: t(`aeoVsSeo.rows.${i}.seo`),
       aeo: t(`aeoVsSeo.rows.${i}.aeo`),
     })),
-  [t])
-
-  const PILLARS = useMemo(() =>
-    Array.from({ length: 7 }, (_, i) => t(`pillars.${i}`)),
   [t])
 
   const PHASES = useMemo(() =>
@@ -139,16 +138,6 @@ export default function WaitlistPage() {
   const EARLY_ACCESS_BENEFITS = useMemo(() =>
     Array.from({ length: 4 }, (_, i) => t(`earlyAccess.benefits.${i}`)),
   [t])
-
-  // Email validation
-  const isValidEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (isValidEmail(email.trim())) {
-      submitEmail(email.trim().toLowerCase())
-    }
-  }
 
   // JSON-LD schema
   const schemaData = useMemo(() => ({
@@ -348,30 +337,34 @@ export default function WaitlistPage() {
               {t('hero.subtitle')}
             </p>
 
-            <form className="wl-email-form" onSubmit={handleSubmit}>
-              <input
-                type="email"
-                className="wl-email-input"
-                placeholder={t('hero.emailPlaceholder')}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={submitting}
-                required
-              />
-              <button
-                type="submit"
-                className="wl-submit-btn"
-                disabled={submitting || !email.trim()}
-              >
-                {submitting ? <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} /> : t('hero.cta')}
-              </button>
-            </form>
-
-            {error && <p className="wl-error">{error}</p>}
+            {completedResults ? (
+              <div className="wl-sc-success-inline">
+                <p className="wl-sc-success-title">
+                  {t('scorecard.successState.title', {
+                    score: completedResults.totalScore,
+                    max: MAX_TOTAL_SCORE,
+                    tier: t(`scorecard.tiers.${completedResults.tier}.label`),
+                  })}
+                </p>
+                <p className="wl-sc-success-subtitle">{t('scorecard.successState.subtitle')}</p>
+              </div>
+            ) : (
+              <>
+                <button
+                  className="wl-submit-btn wl-sc-hero-btn"
+                  onClick={() => setShowScorecard(true)}
+                >
+                  {t('scorecard.heroButton')}
+                </button>
+                <p className="wl-hero-note">{t('scorecard.heroNote')}</p>
+              </>
+            )}
 
             <p className="wl-counter">
               <strong>{displayCount.toLocaleString()}</strong>{' '}
-              {t('hero.joinedSuffix')}
+              {completedResults
+                ? t('scorecard.counterSuffix')
+                : t('hero.joinedSuffix')}
             </p>
           </div>
         </section>
@@ -408,12 +401,6 @@ export default function WaitlistPage() {
                 </tbody>
               </table>
 
-              <h3>{t('education.pillarsTitle')}</h3>
-              <ol className="wl-pillars-list">
-                {PILLARS.map((p, i) => (
-                  <li key={i}>{p}</li>
-                ))}
-              </ol>
             </div>
           </div>
         </section>
@@ -558,30 +545,25 @@ export default function WaitlistPage() {
             ))}
           </div>
 
-          <form
-            className="wl-email-form"
-            style={{ animationDelay: '0s' }}
-            onSubmit={handleSubmit}
+          <button
+            className="wl-submit-btn wl-sc-hero-btn"
+            onClick={() => setShowScorecard(true)}
           >
-            <input
-              type="email"
-              className="wl-email-input"
-              placeholder={t('earlyAccess.emailPlaceholder')}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={submitting}
-              required
-            />
-            <button
-              type="submit"
-              className="wl-submit-btn"
-              disabled={submitting || !email.trim()}
-            >
-              {submitting ? <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} /> : t('earlyAccess.cta')}
-            </button>
-          </form>
+            {t('scorecard.heroButton')}
+          </button>
 
           <p className="wl-early-note">{t('earlyAccess.note')}</p>
+        </section>
+
+        {/* ═══════════ BOTTOM CTA ═══════════ */}
+        <section className="wl-bottom-cta" data-animate>
+          <h3>{t('scorecard.bottomCtaTitle')}</h3>
+          <button
+            className="wl-submit-btn wl-sc-hero-btn"
+            onClick={() => setShowScorecard(true)}
+          >
+            {t('scorecard.heroButton')}
+          </button>
         </section>
 
       </main>
@@ -619,6 +601,7 @@ export default function WaitlistPage() {
       </footer>
 
       {/* ═══════════ SUCCESS OVERLAY ═══════════ */}
+      {/* ═══════════ SUCCESS OVERLAY (legacy email flow) ═══════════ */}
       {submitted && (
         <div className="wl-success-overlay" onClick={(e) => e.target === e.currentTarget && window.location.reload()}>
           <div className="wl-success-card">
@@ -632,7 +615,7 @@ export default function WaitlistPage() {
                 : t('success.messageNew')}
             </p>
             <p className="wl-success-position">
-              {t('success.position', { count: (count + 100).toLocaleString() })}
+              {t('success.position', { count: count.toLocaleString() })}
             </p>
 
             <div className="wl-share-row">
@@ -658,6 +641,17 @@ export default function WaitlistPage() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* ═══════════ SCORECARD OVERLAY ═══════════ */}
+      {showScorecard && (
+        <WaitlistScorecard
+          onClose={() => setShowScorecard(false)}
+          onComplete={(results) => {
+            setShowScorecard(false)
+            setCompletedResults(results)
+          }}
+        />
       )}
 
     </div>

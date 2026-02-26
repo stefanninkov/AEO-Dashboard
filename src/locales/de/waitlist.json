@@ -268,5 +268,246 @@
     "copied": "Kopiert!",
     "close": "Schließen",
     "shareText": "Ich habe mich gerade in die Warteliste für AEO Dashboard eingetragen — die erste Plattform, die speziell für Answer Engine Optimization entwickelt wurde. Jetzt Early Access sichern:"
+  },
+  "scorecard": {
+    "heroButton": "Ihren AEO-Score prüfen \u2192",
+    "heroNote": "Kostenlos \u2022 2 Minuten \u2022 Sofortergebnisse",
+    "counterSuffix": "Fachleute haben ihren Score geprüft",
+    "bottomCtaTitle": "Bereit, Ihren Score zu prüfen?",
+
+    "capture": {
+      "title": "Wie AI-bereit ist Ihre Website?",
+      "subtitle": "Beantworten Sie 14 kurze Fragen. Erhalten Sie sofort Ihren persönlichen AEO-Bereitschafts-Score.",
+      "timeNote": "Dauert weniger als 2 Minuten",
+      "name": "Ihr Name",
+      "email": "Ihre E-Mail-Adresse",
+      "website": "Website-URL (optional)",
+      "start": "Bewertung starten \u2192",
+      "consent": "Mit dem Start tragen Sie sich in unsere Early-Access-Liste ein. Kein Spam, niemals.",
+      "duplicate": "Diese E-Mail-Adresse steht bereits auf unserer Liste!"
+    },
+
+    "progress": "Schritt {{current}} von {{total}}",
+    "back": "Zurück",
+    "next": "Weiter",
+    "skip": "Bewertung überspringen",
+    "skipConfirm": "Teildaten speichern und schließen?",
+    "closeConfirm": "Ihr Fortschritt wird gespeichert. Schließen?",
+
+    "categories": {
+      "contentStructure": "Inhalt & Struktur",
+      "technicalSchema": "Technik & Schema",
+      "aiVisibility": "AI-Sichtbarkeit",
+      "strategyCompetition": "Strategie & Wettbewerb"
+    },
+
+    "questions": {
+      "q1": {
+        "text": "Hat Ihre Website FAQ-Bereiche mit klarer Frage-Antwort-Formatierung?",
+        "options": {
+          "0": "Ja, auf den meisten Seiten",
+          "1": "Auf einigen Seiten",
+          "2": "Nein / Nicht sicher"
+        }
+      },
+      "q2": {
+        "text": "Wie häufig veröffentlichen oder aktualisieren Sie Inhalte auf Ihrer Website?",
+        "options": {
+          "0": "Wöchentlich oder öfter",
+          "1": "Monatlich",
+          "2": "Selten oder nie"
+        }
+      },
+      "q3": {
+        "text": "Beantwortet Ihr Content direkt Fragen, die Menschen AI-Assistenten stellen?",
+        "options": {
+          "0": "Ja, wir schreiben gezielt dafür",
+          "1": "Ein Teil unseres Contents tut das natürlicherweise",
+          "2": "Darüber haben wir noch nicht nachgedacht"
+        }
+      },
+      "q4": {
+        "text": "Verwendet Ihre Website strukturierte Daten (Schema-Markup)?",
+        "options": {
+          "0": "Ja, mehrere Typen (FAQ, Article, HowTo...)",
+          "1": "Nur Basis (Organization, Breadcrumb)",
+          "2": "Nein / Weiß nicht"
+        }
+      },
+      "q5": {
+        "text": "Sind AI-Crawler (GPTBot, PerplexityBot usw.) in Ihrer robots.txt erlaubt?",
+        "options": {
+          "0": "Ja, alle sind erlaubt",
+          "1": "Ich habe einige überprüft",
+          "2": "Nein / Was ist das?"
+        }
+      },
+      "q6": {
+        "text": "Hat Ihre Website eine XML-Sitemap mit aktuellen lastmod-Daten?",
+        "options": {
+          "0": "Ja, automatisch aktualisiert",
+          "1": "Ja, aber nicht sicher bezüglich lastmod",
+          "2": "Nein / Weiß nicht"
+        }
+      },
+      "q7": {
+        "text": "Haben Sie getestet, wie Ihre Marke in AI-Suchmaschinen (ChatGPT, Perplexity, Gemini) erscheint?",
+        "options": {
+          "0": "Ja, wir überwachen das regelmäßig",
+          "1": "Ich habe ein paar Mal nachgesehen",
+          "2": "Nie"
+        }
+      },
+      "q8": {
+        "text": "Wissen Sie, ob Ihre Inhalte in Google AI Overviews erscheinen?",
+        "options": {
+          "0": "Ja, wir verfolgen das",
+          "1": "Ich habe einige bemerkt",
+          "2": "Keine Ahnung"
+        }
+      },
+      "q9": {
+        "text": "Verfolgen Sie, wie viel Traffic aus AI-gestützten Quellen kommt?",
+        "options": {
+          "0": "Ja, das haben wir eingerichtet",
+          "1": "Ist geplant",
+          "2": "Nein"
+        }
+      },
+      "q10": {
+        "text": "Wissen Sie, ob Ihre Wettbewerber von AI-Engines zitiert werden?",
+        "options": {
+          "0": "Ja, wir überwachen das",
+          "1": "Ich habe einige überprüft",
+          "2": "Nein"
+        }
+      },
+      "q11": {
+        "text": "Hat Ihre Organisation eine dedizierte AEO-Strategie (über klassisches SEO hinaus)?",
+        "options": {
+          "0": "Ja, das ist Teil unserer Roadmap",
+          "1": "Wir erkunden es",
+          "2": "Nein, nur SEO"
+        }
+      }
+    },
+
+    "qualifying": {
+      "role": {
+        "text": "Was beschreibt Ihre Rolle am besten?",
+        "options": {
+          "0": "Agenturinhaber / Partner",
+          "1": "SEO-Manager / Director in einer Agentur",
+          "2": "Inhouse-Marketing / SEO",
+          "3": "Freiberuflicher Berater",
+          "4": "Sonstiges / Schaue mich nur um"
+        }
+      },
+      "websiteCount": {
+        "text": "Wie viele Websites betreuen Sie?",
+        "options": {
+          "0": "10+ Kunden-Websites",
+          "1": "3\u20139 Websites",
+          "2": "1\u20132 Websites",
+          "3": "Nur meine eigene"
+        }
+      },
+      "timeline": {
+        "text": "Wann möchten Sie AEO implementieren?",
+        "options": {
+          "0": "Sofort \u2014 das ist dringend",
+          "1": "Innerhalb von 1\u20133 Monaten",
+          "2": "Erkunde es für die Zukunft",
+          "3": "Vorerst nur neugierig"
+        }
+      }
+    },
+
+    "results": {
+      "title": "Ihr AEO-Bereitschafts-Score",
+      "outOf": "/ {{max}}",
+      "breakdown": "Aufschlüsselung nach Kategorie",
+      "priorities": "Ihre Top-Prioritäten",
+      "ctaTitle": "AEO Dashboard behebt all das \u2014 automatisch.",
+      "ctaButton": "Early Access sichern",
+      "ctaDone": "\u2713 Sie sind auf der Liste!",
+      "shareX": "Auf X teilen",
+      "shareLI": "Auf LinkedIn teilen",
+      "copyLink": "Link kopieren",
+      "copied": "Kopiert!",
+      "counter": "{{count}} Fachleute haben ihren Score geprüft"
+    },
+
+    "tiers": {
+      "invisible": {
+        "label": "AI-unsichtbar",
+        "desc": "Ihre Website ist für AI-Engines praktisch unsichtbar. Ohne strukturierte Daten, direkte Antworten oder AI-Crawler-Zugang haben AI-Systeme keine Möglichkeit, Ihren Content zu finden oder zu zitieren. Die gute Nachricht: Es gibt einen klaren Weg, das zu ändern."
+      },
+      "starting": {
+        "label": "Am Anfang",
+        "desc": "Ihre Website hat einige Grundlagen, aber es bestehen erhebliche Lücken darin, wie AI-Engines Ihren Content finden und zitieren. Diese Lücken zu schließen könnte Ihre AI-Sichtbarkeit innerhalb von Wochen dramatisch steigern."
+      },
+      "onTrack": {
+        "label": "Auf Kurs",
+        "desc": "Gute Basis! Ihre Website hat viele AEO-Elemente implementiert. Einige gezielte Verbesserungen in Ihren schwächsten Bereichen könnten Sie in die Spitzengruppe der AI-bereiten Websites bringen."
+      },
+      "aiReady": {
+        "label": "AI-bereit",
+        "desc": "Hervorragend! Ihre Website ist gut für AI-Suchmaschinen optimiert. Sie sind 95 % aller Websites voraus. Überwachen und optimieren Sie weiterhin, um Ihren Wettbewerbsvorteil zu halten."
+      }
+    },
+
+    "priorities": {
+      "add_faq_sections": {
+        "title": "FAQ-Bereiche auf wichtigen Seiten hinzufügen",
+        "desc": "AI-Engines stützen sich stark auf Frage-Antwort-formatierte Inhalte, um direkte Antworten zu generieren. FAQ-Bereiche hinzuzufügen ist der schnellste Weg, zitiert zu werden."
+      },
+      "increase_publish_frequency": {
+        "title": "Content-Veröffentlichungsfrequenz erhöhen",
+        "desc": "Frische, regelmäßig aktualisierte Inhalte signalisieren AI-Engines, dass Ihre Website eine aktive, autoritative Quelle ist, die es wert ist, zitiert zu werden."
+      },
+      "write_direct_answers": {
+        "title": "Inhalte schreiben, die AI-Anfragen direkt beantworten",
+        "desc": "Strukturieren Sie Ihren Content als klare, prägnante Antworten auf häufige Fragen in Ihrer Branche. AI-Engines bevorzugen direkte Antwortformatierung."
+      },
+      "add_schema_markup": {
+        "title": "JSON-LD-Schema-Markup hinzufügen",
+        "desc": "Ihnen fehlt das wichtigste technische Signal, das AI-Engines nutzen, um Ihren Content zu verstehen. Schema-Markup ist essenziell für AI-Sichtbarkeit."
+      },
+      "check_ai_crawlers": {
+        "title": "AI-Crawler-Zugang in robots.txt prüfen",
+        "desc": "Wenn GPTBot, PerplexityBot und andere AI-Crawler blockiert sind, kann Ihr Content niemals in AI-generierten Antworten erscheinen."
+      },
+      "add_sitemap_lastmod": {
+        "title": "XML-Sitemap mit lastmod-Daten hinzufügen",
+        "desc": "Eine korrekte Sitemap mit aktuellen lastmod-Daten hilft AI-Engines zu erkennen, welche Inhalte priorisiert und neu indexiert werden sollen."
+      },
+      "test_ai_citations": {
+        "title": "AI-Zitierungen testen",
+        "desc": "Was man nicht misst, kann man nicht verbessern. Prüfen Sie, wie Ihre Marke in ChatGPT, Perplexity und Gemini erscheint."
+      },
+      "track_ai_overviews": {
+        "title": "Google AI Overviews überwachen",
+        "desc": "AI Overviews ersetzen bei vielen Suchanfragen traditionelle Suchergebnisse. Verfolgen Sie, welche Ihrer Seiten dort erscheinen."
+      },
+      "setup_ai_traffic_tracking": {
+        "title": "AI-Traffic-Tracking einrichten",
+        "desc": "Die meisten Analytics-Tools trennen AI-gestützten Traffic nicht. Richtiges Tracking einzurichten zeigt die tatsächliche Auswirkung der AI-Suche."
+      },
+      "monitor_competitors_ai": {
+        "title": "Wettbewerber in der AI-Suche überwachen",
+        "desc": "Zu wissen, welche Wettbewerber AI-Engines zitieren, hilft Ihnen, Lücken in Ihrem eigenen Content und Ihrer Strategie zu erkennen."
+      },
+      "create_aeo_strategy": {
+        "title": "Dedizierte AEO-Strategie erstellen",
+        "desc": "AEO erfordert andere Taktiken als klassisches SEO. Eine dedizierte Strategie stellt sicher, dass Sie für die Art und Weise optimieren, wie AI tatsächlich Quellen auswählt."
+      }
+    },
+
+    "successState": {
+      "title": "\u2713 Ihr AEO-Score: {{score}}/{{max}} \u2014 {{tier}}",
+      "subtitle": "Wir melden uns mit Ihrem persönlichen Aktionsplan.",
+      "share": "Ihren Score teilen"
+    }
   }
 }

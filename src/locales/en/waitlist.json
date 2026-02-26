@@ -268,5 +268,246 @@
     "copied": "Copied!",
     "close": "Close",
     "shareText": "I just joined the waitlist for AEO Dashboard \u2014 the first platform built for Answer Engine Optimization. Get early access:"
+  },
+  "scorecard": {
+    "heroButton": "Check Your AEO Score \u2192",
+    "heroNote": "Free \u2022 2 minutes \u2022 Instant results",
+    "counterSuffix": "professionals have checked their score",
+    "bottomCtaTitle": "Ready to check your score?",
+
+    "capture": {
+      "title": "How AI-Ready Is Your Website?",
+      "subtitle": "Answer 14 quick questions. Get your personalized AEO Readiness Score instantly.",
+      "timeNote": "Takes less than 2 minutes",
+      "name": "Your name",
+      "email": "Your email",
+      "website": "Website URL (optional)",
+      "start": "Start Assessment \u2192",
+      "consent": "By starting, you join our early access list. No spam, ever.",
+      "duplicate": "This email is already on our list!"
+    },
+
+    "progress": "Step {{current}} of {{total}}",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip assessment",
+    "skipConfirm": "Save partial data and close?",
+    "closeConfirm": "Your progress will be saved. Close?",
+
+    "categories": {
+      "contentStructure": "Content & Structure",
+      "technicalSchema": "Technical & Schema",
+      "aiVisibility": "AI Visibility",
+      "strategyCompetition": "Strategy & Competition"
+    },
+
+    "questions": {
+      "q1": {
+        "text": "Does your website have FAQ sections with clear Q&A formatting?",
+        "options": {
+          "0": "Yes, on most pages",
+          "1": "On some pages",
+          "2": "No / Not sure"
+        }
+      },
+      "q2": {
+        "text": "How often do you publish or update content on your website?",
+        "options": {
+          "0": "Weekly or more",
+          "1": "Monthly",
+          "2": "Rarely or never"
+        }
+      },
+      "q3": {
+        "text": "Does your content directly answer questions people ask AI assistants?",
+        "options": {
+          "0": "Yes, we write for this specifically",
+          "1": "Some of our content does naturally",
+          "2": "We haven't thought about this"
+        }
+      },
+      "q4": {
+        "text": "Does your website use structured data (schema markup)?",
+        "options": {
+          "0": "Yes, multiple types (FAQ, Article, HowTo...)",
+          "1": "Basic only (Organization, Breadcrumb)",
+          "2": "No / Don't know"
+        }
+      },
+      "q5": {
+        "text": "Are AI crawlers (GPTBot, PerplexityBot, etc.) allowed in your robots.txt?",
+        "options": {
+          "0": "Yes, they're all allowed",
+          "1": "I've checked some",
+          "2": "No / What's that?"
+        }
+      },
+      "q6": {
+        "text": "Does your website have an XML sitemap with accurate lastmod dates?",
+        "options": {
+          "0": "Yes, auto-updated",
+          "1": "Yes, but not sure about lastmod",
+          "2": "No / Don't know"
+        }
+      },
+      "q7": {
+        "text": "Have you tested how your brand appears in AI search engines (ChatGPT, Perplexity, Gemini)?",
+        "options": {
+          "0": "Yes, we monitor this regularly",
+          "1": "I've checked a few times",
+          "2": "Never"
+        }
+      },
+      "q8": {
+        "text": "Do you know if your content appears in Google AI Overviews?",
+        "options": {
+          "0": "Yes, we track this",
+          "1": "I've noticed some",
+          "2": "No idea"
+        }
+      },
+      "q9": {
+        "text": "Do you track how much traffic comes from AI-powered sources?",
+        "options": {
+          "0": "Yes, we have this set up",
+          "1": "Planning to",
+          "2": "No"
+        }
+      },
+      "q10": {
+        "text": "Do you know if your competitors are being cited by AI engines?",
+        "options": {
+          "0": "Yes, we monitor this",
+          "1": "I've checked a few",
+          "2": "No"
+        }
+      },
+      "q11": {
+        "text": "Does your organization have a dedicated AEO strategy (beyond traditional SEO)?",
+        "options": {
+          "0": "Yes, it's part of our roadmap",
+          "1": "We're exploring it",
+          "2": "No, SEO only"
+        }
+      }
+    },
+
+    "qualifying": {
+      "role": {
+        "text": "What best describes your role?",
+        "options": {
+          "0": "Agency owner / Partner",
+          "1": "SEO Manager / Director at agency",
+          "2": "In-house marketing / SEO",
+          "3": "Freelance consultant",
+          "4": "Other / Just exploring"
+        }
+      },
+      "websiteCount": {
+        "text": "How many websites do you manage?",
+        "options": {
+          "0": "10+ client websites",
+          "1": "3\u20139 websites",
+          "2": "1\u20132 websites",
+          "3": "Just my own"
+        }
+      },
+      "timeline": {
+        "text": "When are you looking to implement AEO?",
+        "options": {
+          "0": "Immediately \u2014 this is urgent",
+          "1": "Within 1\u20133 months",
+          "2": "Exploring for the future",
+          "3": "Just curious for now"
+        }
+      }
+    },
+
+    "results": {
+      "title": "Your AEO Readiness Score",
+      "outOf": "/ {{max}}",
+      "breakdown": "Breakdown by Category",
+      "priorities": "Your Top Priorities",
+      "ctaTitle": "AEO Dashboard fixes all of this \u2014 automatically.",
+      "ctaButton": "Get Early Access",
+      "ctaDone": "\u2713 You're on the list!",
+      "shareX": "Share on X",
+      "shareLI": "Share on LinkedIn",
+      "copyLink": "Copy Link",
+      "copied": "Copied!",
+      "counter": "{{count}} professionals have checked their score"
+    },
+
+    "tiers": {
+      "invisible": {
+        "label": "AI Invisible",
+        "desc": "Your website is essentially invisible to AI engines. Without structured data, direct answers, or AI crawler access, AI systems have no way to discover or cite your content. The good news: there's a clear path to fix this."
+      },
+      "starting": {
+        "label": "Getting Started",
+        "desc": "Your website has some basics in place, but significant gaps remain in how AI engines find and cite your content. Closing these gaps could dramatically increase your AI visibility within weeks."
+      },
+      "onTrack": {
+        "label": "On Track",
+        "desc": "Good foundation! Your site has many AEO elements in place. A few targeted improvements in your weakest areas could push you into the top tier of AI-ready websites."
+      },
+      "aiReady": {
+        "label": "AI Ready",
+        "desc": "Excellent! Your website is well-optimized for AI search engines. You're ahead of 95% of websites. Keep monitoring and iterating to maintain your competitive edge."
+      }
+    },
+
+    "priorities": {
+      "add_faq_sections": {
+        "title": "Add FAQ sections to key pages",
+        "desc": "AI engines heavily rely on Q&A formatted content to generate direct answers. Adding FAQ sections is the single fastest way to get cited."
+      },
+      "increase_publish_frequency": {
+        "title": "Increase content publishing frequency",
+        "desc": "Fresh, regularly updated content signals to AI engines that your site is an active, authoritative source worth citing."
+      },
+      "write_direct_answers": {
+        "title": "Write content that directly answers AI queries",
+        "desc": "Structure your content as clear, concise answers to common questions in your industry. AI engines prefer direct answer formatting."
+      },
+      "add_schema_markup": {
+        "title": "Add JSON-LD schema markup",
+        "desc": "You're missing the #1 technical signal AI engines use to understand your content. Schema markup is essential for AI visibility."
+      },
+      "check_ai_crawlers": {
+        "title": "Check AI crawler access in robots.txt",
+        "desc": "If GPTBot, PerplexityBot, and other AI crawlers are blocked, your content can never appear in AI-generated answers."
+      },
+      "add_sitemap_lastmod": {
+        "title": "Add an XML sitemap with lastmod dates",
+        "desc": "A proper sitemap with accurate lastmod dates helps AI engines know which content to prioritize and re-index."
+      },
+      "test_ai_citations": {
+        "title": "Start testing AI citations",
+        "desc": "You can't improve what you don't measure. Check how your brand appears in ChatGPT, Perplexity, and Gemini."
+      },
+      "track_ai_overviews": {
+        "title": "Monitor Google AI Overviews",
+        "desc": "AI Overviews are replacing traditional search results for many queries. Track which of your pages appear there."
+      },
+      "setup_ai_traffic_tracking": {
+        "title": "Set up AI traffic tracking",
+        "desc": "Most analytics tools don't separate AI-driven traffic. Setting up proper tracking reveals the true impact of AI search."
+      },
+      "monitor_competitors_ai": {
+        "title": "Monitor competitors in AI search",
+        "desc": "Knowing which competitors AI engines cite helps you identify gaps in your own content and strategy."
+      },
+      "create_aeo_strategy": {
+        "title": "Create a dedicated AEO strategy",
+        "desc": "AEO requires different tactics than traditional SEO. A dedicated strategy ensures you're optimizing for how AI actually selects sources."
+      }
+    },
+
+    "successState": {
+      "title": "\u2713 Your AEO Score: {{score}}/{{max}} \u2014 {{tier}}",
+      "subtitle": "We'll reach out with your personalized action plan.",
+      "share": "Share Your Score"
+    }
   }
 }
