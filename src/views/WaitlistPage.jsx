@@ -273,7 +273,7 @@ export default function WaitlistPage() {
             </button>
             <button
               className="wl-nav-cta"
-              onClick={(e) => scrollToSection(e, '#hero')}
+              onClick={() => setShowScorecard(true)}
             >
               {t('nav.cta')}
             </button>
@@ -313,7 +313,7 @@ export default function WaitlistPage() {
         </button>
         <button
           className="wl-nav-cta"
-          onClick={(e) => scrollToSection(e, '#hero')}
+          onClick={() => { setMobileMenuOpen(false); setShowScorecard(true); }}
         >
           {t('nav.cta')}
         </button>
