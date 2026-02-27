@@ -11,11 +11,11 @@
     "closeMenu": "Zatvori meni"
   },
   "hero": {
-    "badge": "Samo 10 mesta — ostalo još 10",
+    "badge": "Lista čekanja za rani pristup \u2014 Ograničena mesta",
     "heading": "AI odgovara na pitanja. <1>Da li citira tebe?</1>",
     "headingPrefix": "AI odgovara na pitanja. ",
     "headingAccent": "Da li citira tebe?",
-    "subtitle": "Ljudi svaki dan pitaju ChatGPT i Perplexity. Mi pomažemo da AI izabere tvoj sajt.",
+    "subtitle": "Proveri svoj AEO rezultat besplatno. Puna platforma dolazi uskoro \u2014 pridruži se listi čekanja za rani pristup.",
     "emailPlaceholder": "Unesi svoj imejl",
     "cta": "Pridruži se listi",
     "joinedCount_one": "{{count}} osoba se već pridružila",
@@ -257,25 +257,26 @@
   "howItWorks": {
     "label": "Kako radi",
     "title": "Četiri koraka do AI vidljivosti",
-    "subtitle": "Pređi od nevidljivog do citiranog za par nedelja. Evo kako tačno.",
+    "subtitle": "Počni sa besplatnim rezultatom. Pridruži se listi. Dobij rani pristup kad lansiramo.",
     "steps": {
       "0": {
         "title": "Proveri rezultat",
-        "description": "Uradi besplatnu procenu od 2 minuta. Vidi gde stojiš sada."
+        "description": "Uradi besplatan kviz od 2 minuta. Odgovori na 14 pitanja o tvom sajtu."
       },
       "1": {
-        "title": "Dobij plan",
-        "description": "Šaljemo ti akcioni plan korak po korak na osnovu tvog rezultata."
+        "title": "Vidi šta ne radi",
+        "description": "Dobij svoj AEO rezultat odmah. Vidi najslabije oblasti i top 3 prioriteta."
       },
       "2": {
-        "title": "Popravi slabosti",
-        "description": "Koristi alate na dashboardu da brzo zatvoriš praznine. Bez kodiranja."
+        "title": "Pridruži se listi",
+        "description": "Unesi imejl da sačuvaš rezultate i pridružiš se listi za rani pristup."
       },
       "3": {
-        "title": "AI te citira",
-        "description": "AI alati počinju da citiraju tvoj sajt. Prati svaki citat u realnom vremenu."
+        "title": "Dobij rani pristup",
+        "description": "Kad lansiramo, članovi sa ranim pristupom dobijaju punu platformu prvi \u2014 sa alatima za svaku slabost."
       }
-    }
+    },
+    "cta": "Proveri svoj rezultat \u2192"
   },
   "audience": {
     "label": "Za koga",
@@ -311,6 +312,28 @@
     "notePre": "Izabraćemo ~",
     "noteHighlight": "10",
     "notePost": " korisnika za rani pristup sa liste i lično im se javiti."
+  },
+  "waitlistExplainer": {
+    "label": "Lista čekanja",
+    "title": "Puna platforma dolazi uskoro",
+    "subtitle": "AEO Dashboard je u završnoj fazi razvoja. Uradi besplatan kviz da se pridružiš listi čekanja \u2014 javićemo ti prvi kad lansiramo.",
+    "now": {
+      "heading": "Šta dobijaš sada",
+      "0": "Besplatan AEO rezultat (odmah)",
+      "1": "Pregled po kategorijama",
+      "2": "Tvoja top 3 prioriteta",
+      "3": "Rezultati sačuvani na tvom profilu"
+    },
+    "atLaunch": {
+      "heading": "Šta dobijaš kad lansiramo",
+      "0": "Lista od 99 AEO zadataka sa fazama",
+      "1": "Analizator sajta u realnom vremenu",
+      "2": "AI pisac sadržaja + schema generator",
+      "3": "Testlabor za više AI pretraživača",
+      "4": "Praćenje i upozorenja za citiranja"
+    },
+    "cta": "Proveri rezultat i pridruži se listi \u2192",
+    "note": "Besplatno zauvek tokom ranog pristupa. Bez kreditne kartice."
   },
   "footer": {
     "brandDescription": "Kompletan alat za Answer Engine Optimization.",

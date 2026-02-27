@@ -11,11 +11,11 @@
     "closeMenu": "Close menu"
   },
   "hero": {
-    "badge": "Only 10 Early Access Spots \u2014 10 Left",
+    "badge": "Early Access Waitlist \u2014 Limited Spots",
     "heading": "AI Answers Questions. <1>Is It Quoting You?</1>",
     "headingPrefix": "AI Answers Questions. ",
     "headingAccent": "Is It Quoting You?",
-    "subtitle": "People ask ChatGPT and Perplexity every day. We make sure AI picks your website.",
+    "subtitle": "Check your AEO score for free. The full platform is coming soon \u2014 join the waitlist to get early access.",
     "emailPlaceholder": "Enter your email",
     "cta": "Join Waitlist",
     "joinedCount_one": "{{count}} person has already joined",
@@ -256,25 +256,26 @@
   "howItWorks": {
     "label": "How It Works",
     "title": "Four Steps to AI Visibility",
-    "subtitle": "Go from invisible to cited in weeks. Here is exactly how.",
+    "subtitle": "Start with a free score. Join the waitlist. Get early access when we launch.",
     "steps": {
       "0": {
-        "title": "Check your score",
-        "description": "Take the free 2-minute assessment. See where you stand right now."
+        "title": "Check Your Score",
+        "description": "Take the free 2-minute quiz. Answer 14 questions about your website."
       },
       "1": {
-        "title": "Get your plan",
-        "description": "We send you a step-by-step action plan based on your score."
+        "title": "See What's Broken",
+        "description": "Get your AEO Readiness Score instantly. See your weakest areas and top 3 priorities."
       },
       "2": {
-        "title": "Fix what matters",
-        "description": "Use the dashboard tools to close gaps fast. No code needed."
+        "title": "Join the Waitlist",
+        "description": "Enter your email to save your results and join the early access list."
       },
       "3": {
-        "title": "Get cited by AI",
-        "description": "AI tools start quoting your site. Track every citation in real time."
+        "title": "Get Early Access",
+        "description": "When we launch, early access members get the full platform first \u2014 with tools to fix every gap we found."
       }
-    }
+    },
+    "cta": "Get Your Free Score \u2192"
   },
   "audience": {
     "label": "Who It's For",
@@ -310,6 +311,28 @@
     "notePre": "We\u2019ll select ~",
     "noteHighlight": "10",
     "notePost": " early access users from the waitlist and reach out personally."
+  },
+  "waitlistExplainer": {
+    "label": "Waitlist",
+    "title": "The Full Platform Is Coming Soon",
+    "subtitle": "AEO Dashboard is in the final stages of development. Take the free score quiz to join the waitlist \u2014 we\u2019ll let you in first when we launch.",
+    "now": {
+      "heading": "What You Get Now",
+      "0": "Free AEO Readiness Score (instant)",
+      "1": "Personalized breakdown by category",
+      "2": "Your top 3 priorities to fix",
+      "3": "Results saved to your profile"
+    },
+    "atLaunch": {
+      "heading": "What You Get at Launch",
+      "0": "99-point AEO checklist with guided phases",
+      "1": "Real-time site analyzer (enter any URL)",
+      "2": "AI content writer + schema generator",
+      "3": "Multi-engine testing lab (ChatGPT, Perplexity, Gemini)",
+      "4": "Monitoring & alerts for AI citation changes"
+    },
+    "cta": "Check Your Score & Join Waitlist \u2192",
+    "note": "Free forever during early access. No credit card needed."
   },
   "footer": {
     "brandDescription": "The complete toolkit for Answer Engine Optimization.",

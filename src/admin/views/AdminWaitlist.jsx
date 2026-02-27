@@ -1209,7 +1209,7 @@ function LeadsTab({
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem',
             borderBottom: '0.0625rem solid var(--border-subtle)', background: 'var(--hover-bg)',
-            minWidth: '65rem',
+            minWidth: '68rem',
           }}>
             {/* Select All Checkbox */}
             <div style={{ width: '1.25rem', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -1263,7 +1263,7 @@ function LeadsTab({
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem',
                   borderBottom: '0.0625rem solid var(--border-subtle)', cursor: 'pointer',
-                  transition: 'background 150ms', minWidth: '65rem',
+                  transition: 'background 150ms', minWidth: '68rem',
                   background: selectedIds.has(lead.id) ? 'color-mix(in srgb, var(--accent) 5%, transparent)' : 'transparent',
                 }}
                 onMouseEnter={e => { if (!selectedIds.has(lead.id)) e.currentTarget.style.background = 'var(--hover-bg)' }}

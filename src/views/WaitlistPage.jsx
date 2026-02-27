@@ -159,6 +159,14 @@ export default function WaitlistPage() {
     })),
   [t])
 
+  const WAITLIST_NOW = useMemo(() =>
+    Array.from({ length: 4 }, (_, i) => t(`waitlistExplainer.now.${i}`)),
+  [t])
+
+  const WAITLIST_LAUNCH = useMemo(() =>
+    Array.from({ length: 5 }, (_, i) => t(`waitlistExplainer.atLaunch.${i}`)),
+  [t])
+
   const AUDIENCE_CARDS = useMemo(() =>
     Array.from({ length: 3 }, (_, i) => ({
       title: t(`audience.cards.${i}.title`),
@@ -516,6 +524,62 @@ export default function WaitlistPage() {
                   <p className="wl-how-step-desc">{step.description}</p>
                 </div>
               ))}
+            </div>
+            <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+              <button
+                className="wl-submit-btn wl-sc-hero-btn"
+                onClick={() => setShowScorecard(true)}
+              >
+                {t('howItWorks.cta')}
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ JOIN WAITLIST EXPLAINER ═══════════ */}
+        <section id="join-waitlist" className="wl-section" data-animate>
+          <div className="wl-section-inner">
+            <div className="wl-section-center">
+              <span className="wl-section-label">{t('waitlistExplainer.label')}</span>
+              <h2 className="wl-section-title">{t('waitlistExplainer.title')}</h2>
+              <p className="wl-section-subtitle wl-centered">{t('waitlistExplainer.subtitle')}</p>
+            </div>
+            <div className="wl-waitlist-columns">
+              <div className="wl-waitlist-col">
+                <h3 className="wl-waitlist-col-heading">{t('waitlistExplainer.now.heading')}</h3>
+                <ul className="wl-waitlist-list">
+                  {WAITLIST_NOW.map((item, i) => (
+                    <li key={i} className="wl-waitlist-item">
+                      <div className="wl-waitlist-check">
+                        <Check size={14} style={{ color: '#10B981' }} />
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="wl-waitlist-col">
+                <h3 className="wl-waitlist-col-heading">{t('waitlistExplainer.atLaunch.heading')}</h3>
+                <ul className="wl-waitlist-list">
+                  {WAITLIST_LAUNCH.map((item, i) => (
+                    <li key={i} className="wl-waitlist-item">
+                      <div className="wl-waitlist-check">
+                        <Check size={14} style={{ color: '#10B981' }} />
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <button
+                className="wl-submit-btn wl-sc-hero-btn"
+                onClick={() => setShowScorecard(true)}
+              >
+                {t('waitlistExplainer.cta')}
+              </button>
+              <p className="wl-waitlist-note">{t('waitlistExplainer.note')}</p>
             </div>
           </div>
         </section>

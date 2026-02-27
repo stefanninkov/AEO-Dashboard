@@ -11,11 +11,11 @@
     "closeMenu": "Menü schließen"
   },
   "hero": {
-    "badge": "Nur 10 Plätze — noch 10 frei",
+    "badge": "Early-Access-Warteliste \u2014 Begrenzte Plätze",
     "heading": "AI beantwortet Fragen. <1>Zitiert sie Ihre Website?</1>",
     "headingPrefix": "AI beantwortet Fragen. ",
     "headingAccent": "Zitiert sie Ihre Website?",
-    "subtitle": "Menschen fragen täglich ChatGPT und Perplexity. Wir sorgen dafür, dass AI Ihre Website wählt.",
+    "subtitle": "Prüfen Sie Ihren AEO-Score kostenlos. Die volle Plattform kommt bald \u2014 tragen Sie sich auf die Warteliste ein für Early Access.",
     "emailPlaceholder": "E-Mail-Adresse eingeben",
     "cta": "Auf die Warteliste",
     "joinedCount_one": "{{count}} Person hat sich bereits angemeldet",
@@ -256,25 +256,26 @@
   "howItWorks": {
     "label": "So funktioniert es",
     "title": "Vier Schritte zur AI-Sichtbarkeit",
-    "subtitle": "Von unsichtbar bis zitiert in wenigen Wochen. So geht es.",
+    "subtitle": "Starten Sie mit einem kostenlosen Score. Kommen Sie auf die Warteliste. Erhalten Sie Early Access beim Launch.",
     "steps": {
       "0": {
         "title": "Score prüfen",
-        "description": "Machen Sie die kostenlose 2-Minuten-Bewertung. Sehen Sie, wo Sie stehen."
+        "description": "Machen Sie das kostenlose 2-Minuten-Quiz. Beantworten Sie 14 Fragen zu Ihrer Website."
       },
       "1": {
-        "title": "Plan erhalten",
-        "description": "Wir senden Ihnen einen Aktionsplan, der auf Ihrem Score basiert."
+        "title": "Schwachstellen sehen",
+        "description": "Erhalten Sie Ihren AEO-Score sofort. Sehen Sie Ihre schwächsten Bereiche und Top-3-Prioritäten."
       },
       "2": {
-        "title": "Schwachstellen beheben",
-        "description": "Nutzen Sie die Dashboard-Tools, um Lücken schnell zu schließen. Kein Code nötig."
+        "title": "Auf die Warteliste",
+        "description": "Geben Sie Ihre E-Mail ein, um Ergebnisse zu speichern und sich für Early Access einzutragen."
       },
       "3": {
-        "title": "Von AI zitiert werden",
-        "description": "AI-Tools beginnen, Ihre Website zu zitieren. Verfolgen Sie jedes Zitat in Echtzeit."
+        "title": "Early Access erhalten",
+        "description": "Beim Launch erhalten Early-Access-Mitglieder die volle Plattform zuerst \u2014 mit Tools für jede Lücke."
       }
-    }
+    },
+    "cta": "Score jetzt prüfen \u2192"
   },
   "audience": {
     "label": "Für wen",
@@ -310,6 +311,28 @@
     "notePre": "Wir wählen ca. ",
     "noteHighlight": "10",
     "notePost": " Early-Access-Nutzer aus und kontaktieren sie persönlich."
+  },
+  "waitlistExplainer": {
+    "label": "Warteliste",
+    "title": "Die volle Plattform kommt bald",
+    "subtitle": "AEO Dashboard ist in der letzten Entwicklungsphase. Machen Sie das kostenlose Score-Quiz, um auf die Warteliste zu kommen \u2014 Sie erhalten als Erste Zugang.",
+    "now": {
+      "heading": "Was Sie jetzt bekommen",
+      "0": "Kostenloser AEO-Score (sofort)",
+      "1": "Aufschlüsselung nach Kategorie",
+      "2": "Ihre Top-3-Prioritäten",
+      "3": "Ergebnisse in Ihrem Profil gespeichert"
+    },
+    "atLaunch": {
+      "heading": "Was Sie beim Launch bekommen",
+      "0": "99-Punkte-AEO-Checkliste mit Phasen",
+      "1": "Website-Analyzer in Echtzeit",
+      "2": "AI-Content-Writer + Schema-Generator",
+      "3": "Testlabor für mehrere AI-Suchmaschinen",
+      "4": "Monitoring und Alerts bei Zitierungen"
+    },
+    "cta": "Score prüfen & auf die Warteliste \u2192",
+    "note": "Kostenlos während Early Access. Keine Kreditkarte nötig."
   },
   "footer": {
     "brandDescription": "Das komplette Toolkit für Answer Engine Optimization.",

@@ -1301,6 +1301,74 @@
 }
 
 
+/* ========== WAITLIST EXPLAINER ========== */
+
+.wl-waitlist-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 50rem;
+  margin: 0 auto 2.5rem;
+}
+
+.wl-waitlist-col {
+  padding: 2rem;
+  background: var(--wl-bg-card);
+  border: 0.0625rem solid var(--wl-border);
+  border-radius: var(--wl-radius-xl);
+  transition: border-color var(--wl-transition-fast);
+}
+
+.wl-waitlist-col:hover {
+  border-color: var(--wl-border-strong);
+}
+
+.wl-waitlist-col-heading {
+  font-family: var(--wl-font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--wl-text-primary);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.wl-waitlist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.wl-waitlist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--text-sm);
+  color: var(--wl-text-secondary);
+  line-height: 1.5;
+}
+
+.wl-waitlist-check {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wl-waitlist-note {
+  font-size: var(--text-sm);
+  color: var(--wl-text-tertiary);
+  margin-top: 1rem;
+  text-align: center;
+}
+
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 48rem) {
@@ -1391,6 +1459,10 @@
   }
 
   .wl-audience-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-waitlist-columns {
     grid-template-columns: 1fr;
   }
 
