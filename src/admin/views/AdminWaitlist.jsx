@@ -1217,6 +1217,7 @@ function LeadsTab({
               { label: 'Sites', field: null, width: '3rem' },
               { label: 'Timeline', field: 'timeline', width: '5rem' },
               { label: 'Status', field: null, width: '5rem' },
+              { label: 'EA', field: null, width: '3rem' },
               { label: 'Signed Up', field: 'signedUpAt', width: '5.5rem' },
               { label: 'Actions', field: null, width: '4rem' },
             ].map(col => (
@@ -1344,6 +1345,20 @@ function LeadsTab({
                   }}>
                     {stageInfo.label}
                   </span>
+                </div>
+                {/* Early Access */}
+                <div style={{ width: '3rem', flexShrink: 0 }}>
+                  {lead.converted ? (
+                    <span style={{
+                      fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
+                      padding: '0.125rem 0.375rem', borderRadius: 99,
+                      background: '#06B6D415', color: '#06B6D4',
+                    }}>
+                      Yes
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>—</span>
+                  )}
                 </div>
                 {/* Signed Up */}
                 <span style={{
