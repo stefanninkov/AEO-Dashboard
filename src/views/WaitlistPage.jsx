@@ -209,6 +209,33 @@ export default function WaitlistPage() {
     return () => { if (script.parentNode) script.parentNode.removeChild(script) }
   }, [schemaData])
 
+  // Meta & Open Graph tags
+  useEffect(() => {
+    const title = 'AEO Dashboard — Get Quoted by AI Search Engines'
+    const desc = 'AI answers questions every day. Is it quoting your website? Check your free AEO score and find out.'
+    const image = `${SITE_URL}icon-512.svg`
+    document.title = title
+    const tags = [
+      ['meta', { name: 'description', content: desc }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: desc }],
+      ['meta', { property: 'og:image', content: image }],
+      ['meta', { property: 'og:url', content: SITE_URL }],
+      ['meta', { property: 'og:type', content: 'website' }],
+      ['meta', { name: 'twitter:card', content: 'summary' }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: desc }],
+      ['meta', { name: 'twitter:image', content: image }],
+    ]
+    const els = tags.map(([tag, attrs]) => {
+      const el = document.createElement(tag)
+      Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v))
+      document.head.appendChild(el)
+      return el
+    })
+    return () => els.forEach(el => { if (el.parentNode) el.parentNode.removeChild(el) })
+  }, [])
+
   // Smooth scroll handler
   function scrollToSection(e, href) {
     e.preventDefault()
