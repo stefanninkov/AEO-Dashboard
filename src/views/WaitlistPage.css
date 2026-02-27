@@ -1578,7 +1578,7 @@ html[data-theme="light"] .wl-nav-mobile-overlay {
 }
 .wl-sc-close {
   position: absolute;
-  top: 1rem;
+  top: 1.75rem;
   right: 1rem;
   background: none;
   border: none;
