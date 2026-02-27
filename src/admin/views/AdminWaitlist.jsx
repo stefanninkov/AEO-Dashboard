@@ -1203,7 +1203,7 @@ function LeadsTab({
       </div>
 
       {/* Table */}
-      <div className="card" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+      <div className="card" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto', flex: 1, minHeight: 0 }}>
           {/* Header */}
           <div style={{
