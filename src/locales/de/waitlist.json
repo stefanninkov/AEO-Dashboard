@@ -11,7 +11,7 @@
     "closeMenu": "Menü schließen"
   },
   "hero": {
-    "badge": "Nur 10 Plätze — noch 7 frei",
+    "badge": "Nur 10 Plätze — noch 10 frei",
     "heading": "AI beantwortet Fragen. <1>Zitiert sie Ihre Website?</1>",
     "headingPrefix": "AI beantwortet Fragen. ",
     "headingAccent": "Zitiert sie Ihre Website?",
@@ -324,10 +324,10 @@
     "copyright": "© {{year}} AEO Dashboard. Alle Rechte vorbehalten."
   },
   "success": {
-    "titleNew": "Sie sind auf der Liste!",
-    "titleExisting": "Sie stehen bereits auf der Liste!",
-    "messageNew": "Wir benachrichtigen Sie, sobald AEO Dashboard startet. Bleiben Sie dran!",
-    "messageExisting": "Ihre E-Mail ist bereits registriert. Wir melden uns zum Launch.",
+    "titleNew": "Ihre Bewerbung wurde eingereicht!",
+    "titleExisting": "Bereits eingereicht!",
+    "messageNew": "Wir prüfen Ihre Bewerbung und informieren Sie über Early Access.",
+    "messageExisting": "Ihre E-Mail ist bereits registriert. Sie hören von uns zum Early Access.",
     "position": "#{{count}} auf der Warteliste",
     "shareOnX": "Auf X teilen",
     "shareOnLinkedIn": "LinkedIn",
@@ -512,8 +512,8 @@
       "whatHappensNext": {
         "title": "Wie es weitergeht",
         "step1": "Ihr Score ist gespeichert",
-        "step2": "Wir prüfen Ihre Ergebnisse und informieren Sie über Early Access",
-        "step3": "Top-Scorer erhalten Einladungen zum Early Access"
+        "step2": "Sie werden über Early Access informiert, falls wir es starten",
+        "step3": "Sie werden benachrichtigt, wenn wir starten"
       }
     },
 

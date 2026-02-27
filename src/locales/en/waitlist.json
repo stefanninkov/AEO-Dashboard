@@ -11,7 +11,7 @@
     "closeMenu": "Close menu"
   },
   "hero": {
-    "badge": "Only 10 Early Access Spots \u2014 7 Left",
+    "badge": "Only 10 Early Access Spots \u2014 10 Left",
     "heading": "AI Answers Questions. <1>Is It Quoting You?</1>",
     "headingPrefix": "AI Answers Questions. ",
     "headingAccent": "Is It Quoting You?",
@@ -324,10 +324,10 @@
     "copyright": "\u00a9 {{year}} AEO Dashboard. All rights reserved."
   },
   "success": {
-    "titleNew": "You're on the list!",
-    "titleExisting": "You're already on the list!",
-    "messageNew": "We'll notify you as soon as AEO Dashboard launches. Stay tuned!",
-    "messageExisting": "We already have your email. We'll notify you when we launch.",
+    "titleNew": "You're being considered!",
+    "titleExisting": "Already submitted!",
+    "messageNew": "We'll review your submission and notify you about early access.",
+    "messageExisting": "We already have your email. You'll hear from us about early access.",
     "position": "#{{count}} on the waitlist",
     "shareOnX": "Share on X",
     "shareOnLinkedIn": "LinkedIn",
@@ -512,8 +512,8 @@
       "whatHappensNext": {
         "title": "What Happens Next",
         "step1": "Your score is saved",
-        "step2": "We review your results and notify you about early access",
-        "step3": "Top scorers get early access invites"
+        "step2": "You'll be notified about early access if we launch it",
+        "step3": "You'll be notified when we launch"
       }
     },
 

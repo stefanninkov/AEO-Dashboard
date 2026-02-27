@@ -430,6 +430,9 @@ export default function WaitlistPage() {
                   {t('scorecard.heroButton')}
                 </button>
                 <p className="wl-hero-note">{t('scorecard.heroNote')}</p>
+                <p className="wl-hero-counter">
+                  {t('scorecard.results.counter', { count: displayCount })}
+                </p>
               </>
             )}
 

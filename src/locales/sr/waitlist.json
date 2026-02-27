@@ -11,7 +11,7 @@
     "closeMenu": "Zatvori meni"
   },
   "hero": {
-    "badge": "Samo 10 mesta — ostalo još 7",
+    "badge": "Samo 10 mesta — ostalo još 10",
     "heading": "AI odgovara na pitanja. <1>Da li citira tebe?</1>",
     "headingPrefix": "AI odgovara na pitanja. ",
     "headingAccent": "Da li citira tebe?",
@@ -325,10 +325,10 @@
     "copyright": "© {{year}} AEO Dashboard. Sva prava zadržana."
   },
   "success": {
-    "titleNew": "Na listi si!",
-    "titleExisting": "Već si na listi!",
-    "messageNew": "Javićemo ti čim AEO Dashboard bude spreman. Prati nas!",
-    "messageExisting": "Već imamo tvoj imejl. Javićemo ti kad lansiramo.",
+    "titleNew": "Prijava je primljena!",
+    "titleExisting": "Već si se prijavio/la!",
+    "messageNew": "Pregledaćemo tvoju prijavu i javićemo ti za rani pristup.",
+    "messageExisting": "Već imamo tvoj imejl. Javićemo ti za rani pristup.",
     "position": "#{{count}} na listi",
     "shareOnX": "Podeli na X",
     "shareOnLinkedIn": "LinkedIn",
@@ -513,8 +513,8 @@
       "whatHappensNext": {
         "title": "Šta sledi",
         "step1": "Tvoj rezultat je sačuvan",
-        "step2": "Pregledamo tvoje rezultate i javljamo ti za rani pristup",
-        "step3": "Najbolji rezultati dobijaju pozivnicu za rani pristup"
+        "step2": "Bićeš obavešten/a o ranom pristupu ako ga pokrenemo",
+        "step3": "Bićeš obavešten/a kad lansiramo"
       }
     },
 
