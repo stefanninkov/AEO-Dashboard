@@ -345,6 +345,13 @@ export function useWaitlist() {
     }
   }, [])
 
+  const updateWebsiteUrl = useCallback(async (docId, websiteUrl) => {
+    if (!isFirebaseConfigured || !docId || docId.startsWith('dev_')) return
+    try {
+      await updateDoc(doc(db, 'waitlist', docId), { websiteUrl })
+    } catch { /* silent */ }
+  }, [])
+
   return {
     count, submitting, submitted, error, alreadySignedUp,
     submitEmail,        // legacy
@@ -352,6 +359,7 @@ export function useWaitlist() {
     completeScorecard,  // scorecard: after quiz
     trackAbandonment,   // scorecard: on close/skip
     markConverted,      // scorecard: results CTA
+    updateWebsiteUrl,   // scorecard: results page optional URL
     markInvited,        // admin
     markNudged,         // admin
     updateAdminNotes,   // admin

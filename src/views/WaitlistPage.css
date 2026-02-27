@@ -1807,6 +1807,70 @@ html[data-theme="light"] .wl-nav-mobile-overlay {
   margin: 0;
 }
 
+/* ── Website Prompt (results page) ── */
+.wl-sc-website-prompt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--wl-bg-card, var(--hover-bg));
+  border: 1px solid var(--wl-border, var(--border-subtle));
+}
+.wl-sc-website-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--wl-text-primary, var(--text-primary));
+}
+
+/* ── What Happens Next (results page) ── */
+.wl-sc-next-steps {
+  text-align: center;
+}
+.wl-sc-steps-grid {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+.wl-sc-step-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.75rem;
+  border-radius: 0.75rem;
+  background: var(--wl-bg-card, var(--hover-bg));
+  border: 1px solid var(--wl-border, var(--border-subtle));
+}
+.wl-sc-step-number {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--wl-accent, var(--accent));
+  color: #fff;
+}
+.wl-sc-step-text {
+  font-size: 0.8125rem;
+  color: var(--wl-text-primary, var(--text-primary));
+  line-height: 1.4;
+}
+@media (max-width: 30rem) {
+  .wl-sc-steps-grid {
+    flex-direction: column;
+  }
+  .wl-sc-step-card {
+    flex-direction: row;
+    text-align: left;
+  }
+}
+
 /* ── Hero CTA + note (new for scorecard) ── */
 .wl-sc-hero-btn {
   min-width: 16rem;

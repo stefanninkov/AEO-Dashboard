@@ -436,6 +436,9 @@
       "copyLink": "Copy Link",
       "copied": "Copied!",
       "counter": "{{count}} professionals have checked their score",
+      "websitePrompt": "Want a site-specific report? Add your URL:",
+      "websitePlaceholder": "https://yourwebsite.com",
+      "websiteSaved": "Website saved \u2014 we'll include it in your action plan.",
       "whatHappensNext": {
         "title": "What Happens Next",
         "step1": "Your score is saved",

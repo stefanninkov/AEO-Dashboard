@@ -89,11 +89,13 @@ function priorityIcon(score, maxScore) {
 
 /* ── Main Component ── */
 export default function ScorecardResults({
-  totalScore, categoryScores, tier, priorities, count, docId, onConvert, onClose,
+  totalScore, categoryScores, tier, priorities, count, docId, onConvert, onClose, onUpdateWebsite,
 }) {
   const { t } = useTranslation('waitlist')
   const [converted, setConverted] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [websiteUrl, setWebsiteUrl] = useState('')
+  const [websiteSaved, setWebsiteSaved] = useState(false)
   const tierData = getScoreTier(totalScore)
 
   const handleConvert = async () => {
@@ -156,6 +158,39 @@ export default function ScorecardResults({
         {t(`scorecard.tiers.${tier}.desc`)}
       </p>
 
+      {/* Optional Website URL */}
+      {onUpdateWebsite && !websiteSaved && (
+        <div className="wl-sc-website-prompt">
+          <label className="wl-sc-website-label">{t('scorecard.results.websitePrompt', { defaultValue: 'Want a site-specific report? Add your URL:' })}</label>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <input
+              type="url"
+              className="wl-sc-input"
+              placeholder={t('scorecard.results.websitePlaceholder', { defaultValue: 'https://yourwebsite.com' })}
+              value={websiteUrl}
+              onChange={(e) => setWebsiteUrl(e.target.value)}
+              style={{ flex: 1 }}
+            />
+            <button
+              className="wl-submit-btn"
+              style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem' }}
+              disabled={!websiteUrl.trim()}
+              onClick={() => {
+                onUpdateWebsite(websiteUrl.trim())
+                setWebsiteSaved(true)
+              }}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      )}
+      {websiteSaved && (
+        <p style={{ fontSize: '0.8125rem', color: 'var(--wl-accent)', textAlign: 'center' }}>
+          ✓ Website saved — we'll include it in your action plan.
+        </p>
+      )}
+
       {/* Category Breakdown */}
       <h3 className="wl-sc-section-heading">{t('scorecard.results.breakdown')}</h3>
       <div className="wl-sc-bars">
@@ -203,6 +238,19 @@ export default function ScorecardResults({
         >
           {converted ? t('scorecard.results.ctaDone') : t('scorecard.results.ctaButton')}
         </button>
+      </div>
+
+      {/* What Happens Next */}
+      <div className="wl-sc-next-steps">
+        <h3 className="wl-sc-section-heading">{t('scorecard.results.whatHappensNext.title')}</h3>
+        <div className="wl-sc-steps-grid">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="wl-sc-step-card">
+              <span className="wl-sc-step-number">{i}</span>
+              <span className="wl-sc-step-text">{t(`scorecard.results.whatHappensNext.step${i}`)}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Share Row */}

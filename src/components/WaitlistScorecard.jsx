@@ -23,7 +23,7 @@ const TOTAL_STEPS = TOTAL_QUESTION_STEPS + 1     // 15 (capture excluded from pr
 export default function WaitlistScorecard({ onClose, onComplete }) {
   const { t } = useTranslation('waitlist')
   const {
-    count, createLead, completeScorecard, trackAbandonment, markConverted,
+    count, createLead, completeScorecard, trackAbandonment, markConverted, updateWebsiteUrl,
   } = useWaitlist()
 
   // ── State ──
@@ -296,14 +296,6 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
                 onChange={(e) => setContactInfo(prev => ({ ...prev, email: e.target.value }))}
                 required
               />
-              <input
-                type="url"
-                className="wl-sc-input"
-                placeholder={t('scorecard.capture.website')}
-                value={contactInfo.websiteUrl}
-                onChange={(e) => setContactInfo(prev => ({ ...prev, websiteUrl: e.target.value }))}
-              />
-
               {error && <p className="wl-sc-error">{error}</p>}
 
               <button
@@ -336,6 +328,7 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
               docId={docId}
               onConvert={handleConvert}
               onClose={onClose}
+              onUpdateWebsite={(url) => updateWebsiteUrl(docId, url)}
             />
           </div>
         )}
