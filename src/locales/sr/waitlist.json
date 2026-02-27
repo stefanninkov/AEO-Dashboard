@@ -2,8 +2,9 @@
   "nav": {
     "links": {
       "0": "Šta je AEO?",
-      "1": "Funkcije",
-      "2": "FAQ"
+      "1": "Faze",
+      "2": "Funkcije",
+      "3": "FAQ"
     },
     "cta": "Proveri rezultat",
     "openMenu": "Otvori meni",
@@ -231,6 +232,70 @@
       }
     }
   },
+  "whyNow": {
+    "label": "Zašto sada",
+    "title": "Zašto je AEO bitan upravo sada",
+    "subtitle": "AI menja način na koji ljudi nalaze odgovore. Ovi brojevi pokazuju zašto treba da reaguješ danas.",
+    "stats": {
+      "0": {
+        "value": "40%",
+        "label": "pretraga koristi AI",
+        "description": "Skoro polovina svih pretraga sada ide kroz AI alate kao što su ChatGPT i Perplexity."
+      },
+      "1": {
+        "value": "0%",
+        "label": "sajtova je spremno za AEO",
+        "description": "Skoro nijedan sajt nije podešen za AI citiranje. Ovo je tvoja šansa."
+      },
+      "2": {
+        "value": "3x",
+        "label": "više poverenja iz AI citata",
+        "description": "Ljudi veruju AI odgovorima više nego reklamama. Citiranje gradi trenutno poverenje."
+      }
+    }
+  },
+  "howItWorks": {
+    "label": "Kako radi",
+    "title": "Četiri koraka do AI vidljivosti",
+    "subtitle": "Pređi od nevidljivog do citiranog za par nedelja. Evo kako tačno.",
+    "steps": {
+      "0": {
+        "title": "Proveri rezultat",
+        "description": "Uradi besplatnu procenu od 2 minuta. Vidi gde stojiš sada."
+      },
+      "1": {
+        "title": "Dobij plan",
+        "description": "Šaljemo ti akcioni plan korak po korak na osnovu tvog rezultata."
+      },
+      "2": {
+        "title": "Popravi slabosti",
+        "description": "Koristi alate na dashboardu da brzo zatvoriš praznine. Bez kodiranja."
+      },
+      "3": {
+        "title": "AI te citira",
+        "description": "AI alati počinju da citiraju tvoj sajt. Prati svaki citat u realnom vremenu."
+      }
+    }
+  },
+  "audience": {
+    "label": "Za koga",
+    "title": "Za sve kojima je bitan promet na sajtu",
+    "subtitle": "Ako se oslonjaš na posete iz pretrage, AEO je tvoj sledeći korak.",
+    "cards": {
+      "0": {
+        "title": "Vlasnici agencija",
+        "description": "Ponudi AEO kao novi servis. Upravljaj svim sajtovima klijenata sa jednog mesta. Izdvoji se od drugih agencija."
+      },
+      "1": {
+        "title": "SEO profesionalci",
+        "description": "Dodaj AEO u svoje veštine. Koristi alate koji razumeju kako AI bira izvore. Budi korak ispred."
+      },
+      "2": {
+        "title": "Interni marketari",
+        "description": "Učini sajt vidljivim za AI bez velikog tima. Prati jasne korake. Vidi rezultate za nedelje."
+      }
+    }
+  },
   "earlyAccess": {
     "title": "Želiš rani pristup?",
     "description": "Pre lansiranja, dajemo odabranoj grupi pristup celoj platformi. Pridruži se listi da budeš među prvima koji isprobavaju AEO Dashboard — i pomozi nam da oblikujemo proizvod.",
@@ -251,8 +316,9 @@
         "title": "Proizvod",
         "links": {
           "0": "Šta je AEO?",
-          "1": "Funkcije",
-          "2": "FAQ"
+          "1": "Faze",
+          "2": "Funkcije",
+          "3": "FAQ"
         }
       }
     },
@@ -520,7 +586,7 @@
 
     "successState": {
       "title": "✓ Tvoj AEO rezultat: {{score}}/{{max}} — {{tier}}",
-      "subtitle": "Javićemo ti se sa prilagođenim akcionim planom.",
+      "subtitle": "Bićeš prvi koji će saznati kad lansiramo.",
       "share": "Podeli svoj rezultat",
       "sharePrompt": "Podeli rezultat sa timom:",
       "timeline": "Pregledaćemo tvoj rezultat i poslati prilagođen plan u roku od 24 sata. Najbolji rezultati dobijaju rani pristup."

@@ -14,11 +14,11 @@ import './WaitlistPage.css'
 
 const NAV_HREFS = [
   { href: '#what-is-aeo' },
+  { href: '#phases' },
   { href: '#features' },
   { href: '#faq' },
 ]
 
-/* COMMENTED OUT — Phases section removed from page
 const PHASE_META = [
   { number: 1, color: 'var(--accent)', Icon: Blocks },
   { number: 2, color: 'var(--color-phase-2)', Icon: BarChart4 },
@@ -28,13 +28,13 @@ const PHASE_META = [
   { number: 6, color: 'var(--color-phase-6)', Icon: FlaskConical },
   { number: 7, color: 'var(--color-phase-7)', Icon: TrendingUp },
 ]
-*/
 
 const FEATURE_ICONS = [CheckCircle2, SearchCheck, FlaskConical, NotebookPen, Blocks, Radar]
 
 const FOOTER_HREFS = [
   [
     { href: '#what-is-aeo' },
+    { href: '#phases' },
     { href: '#features' },
     { href: '#faq' },
   ],
@@ -100,7 +100,6 @@ export default function WaitlistPage() {
     })),
   [t])
 
-  /* COMMENTED OUT — Phases section removed from page
   const PHASES = useMemo(() =>
     PHASE_META.map((meta, i) => ({
       ...meta,
@@ -110,10 +109,13 @@ export default function WaitlistPage() {
       visibility: t(`phases.${i}.visibility`),
     })),
   [t])
-  */
+
+  const PILLARS = useMemo(() =>
+    Array.from({ length: 7 }, (_, i) => t(`pillars.${i}`)),
+  [t])
 
   const FEATURES_OVERVIEW = useMemo(() =>
-    [0, 1, 5].map((i) => ({
+    Array.from({ length: 6 }, (_, i) => ({
       Icon: FEATURE_ICONS[i],
       title: t(`features.${i}.title`),
       description: t(`features.${i}.description`),
@@ -121,7 +123,7 @@ export default function WaitlistPage() {
   [t])
 
   const FAQ_ITEMS = useMemo(() =>
-    Array.from({ length: 5 }, (_, i) => ({
+    Array.from({ length: 10 }, (_, i) => ({
       question: t(`faq.${i}.question`),
       answer: t(`faq.${i}.answer`),
     })),
@@ -139,6 +141,29 @@ export default function WaitlistPage() {
 
   const EARLY_ACCESS_BENEFITS = useMemo(() =>
     Array.from({ length: 4 }, (_, i) => t(`earlyAccess.benefits.${i}`)),
+  [t])
+
+  const WHY_NOW_STATS = useMemo(() =>
+    Array.from({ length: 3 }, (_, i) => ({
+      value: t(`whyNow.stats.${i}.value`),
+      label: t(`whyNow.stats.${i}.label`),
+      description: t(`whyNow.stats.${i}.description`),
+    })),
+  [t])
+
+  const HOW_IT_WORKS_STEPS = useMemo(() =>
+    Array.from({ length: 4 }, (_, i) => ({
+      number: i + 1,
+      title: t(`howItWorks.steps.${i}.title`),
+      description: t(`howItWorks.steps.${i}.description`),
+    })),
+  [t])
+
+  const AUDIENCE_CARDS = useMemo(() =>
+    Array.from({ length: 3 }, (_, i) => ({
+      title: t(`audience.cards.${i}.title`),
+      description: t(`audience.cards.${i}.description`),
+    })),
   [t])
 
   // JSON-LD schema
@@ -417,6 +442,26 @@ export default function WaitlistPage() {
           </div>
         </section>
 
+        {/* ═══════════ WHY AEO MATTERS NOW ═══════════ */}
+        <section id="why-now" className="wl-section" data-animate>
+          <div className="wl-section-inner">
+            <div className="wl-section-center">
+              <span className="wl-section-label">{t('whyNow.label')}</span>
+              <h2 className="wl-section-title">{t('whyNow.title')}</h2>
+              <p className="wl-section-subtitle wl-centered">{t('whyNow.subtitle')}</p>
+            </div>
+            <div className="wl-why-now-grid">
+              {WHY_NOW_STATS.map((stat, i) => (
+                <div key={i} className="wl-why-now-card" data-animate>
+                  <div className="wl-why-now-value">{stat.value}</div>
+                  <div className="wl-why-now-label">{stat.label}</div>
+                  <p className="wl-why-now-desc">{stat.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ═══════════ 3. WHAT IS AEO? ═══════════ */}
         <section id="what-is-aeo" className="wl-section" data-animate>
           <div className="wl-section-inner">
@@ -429,7 +474,6 @@ export default function WaitlistPage() {
                 <strong>{t('education.descriptionBold')}</strong>{t('education.descriptionRest')}
               </p>
 
-              {/* COMMENTED OUT — AEO vs SEO comparison table removed
               <h3>{t('education.comparisonTitle')}</h3>
               <table className="wl-comparison-table">
                 <thead>
@@ -449,7 +493,11 @@ export default function WaitlistPage() {
                   ))}
                 </tbody>
               </table>
-              */}
+
+              <h3>{t('education.pillarsTitle')}</h3>
+              <ol className="wl-pillars-list">
+                {PILLARS.map((p, i) => <li key={i}>{p}</li>)}
+              </ol>
 
             </div>
           </div>
@@ -466,7 +514,27 @@ export default function WaitlistPage() {
           </div>
         </section>
 
-        {/* COMMENTED OUT — 7 Phases section removed from page
+        {/* ═══════════ HOW IT WORKS ═══════════ */}
+        <section id="how-it-works" className="wl-section" data-animate>
+          <div className="wl-section-inner">
+            <div className="wl-section-center">
+              <span className="wl-section-label">{t('howItWorks.label')}</span>
+              <h2 className="wl-section-title">{t('howItWorks.title')}</h2>
+              <p className="wl-section-subtitle wl-centered">{t('howItWorks.subtitle')}</p>
+            </div>
+            <div className="wl-how-steps">
+              {HOW_IT_WORKS_STEPS.map((step, i) => (
+                <div key={i} className="wl-how-step" data-animate>
+                  <div className="wl-how-step-number">{step.number}</div>
+                  <h3 className="wl-how-step-title">{step.title}</h3>
+                  <p className="wl-how-step-desc">{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ PHASES ═══════════ */}
         <section id="phases" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
@@ -503,7 +571,6 @@ export default function WaitlistPage() {
             </p>
           </div>
         </section>
-        */}
 
         {/* ═══════════ 5. FEATURES OVERVIEW ═══════════ */}
         <section id="features" className="wl-section" data-animate>
@@ -525,7 +592,26 @@ export default function WaitlistPage() {
           </div>
         </section>
 
-        {/* COMMENTED OUT — AI Cost section removed from page
+        {/* ═══════════ WHO IT'S FOR ═══════════ */}
+        <section id="who-its-for" className="wl-section" data-animate>
+          <div className="wl-section-inner">
+            <div className="wl-section-center">
+              <span className="wl-section-label">{t('audience.label')}</span>
+              <h2 className="wl-section-title">{t('audience.title')}</h2>
+              <p className="wl-section-subtitle wl-centered">{t('audience.subtitle')}</p>
+            </div>
+            <div className="wl-audience-grid">
+              {AUDIENCE_CARDS.map((card, i) => (
+                <div key={i} className="wl-audience-card" data-animate>
+                  <h3>{card.title}</h3>
+                  <p>{card.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ AI COST ═══════════ */}
         <section id="ai-cost" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
@@ -559,7 +645,6 @@ export default function WaitlistPage() {
             </div>
           </div>
         </section>
-        */}
 
         {/* ═══════════ 7. FAQ ═══════════ */}
         <section id="faq" className="wl-section" data-animate>
@@ -590,7 +675,7 @@ export default function WaitlistPage() {
           </div>
         </section>
 
-        {/* COMMENTED OUT — Early Access section removed from page
+        {/* ═══════════ EARLY ACCESS ═══════════ */}
         <section className="wl-early-access" data-animate>
           <h2>{t('earlyAccess.title')}</h2>
           <p>
@@ -617,7 +702,6 @@ export default function WaitlistPage() {
 
           <p className="wl-early-note">{t('earlyAccess.note')}</p>
         </section>
-        */}
 
         {/* ═══════════ BOTTOM CTA ═══════════ */}
         <section className="wl-bottom-cta" data-animate>

@@ -2,8 +2,9 @@
   "nav": {
     "links": {
       "0": "What is AEO?",
-      "1": "Features",
-      "2": "FAQ"
+      "1": "Phases",
+      "2": "Features",
+      "3": "FAQ"
     },
     "cta": "Check Your Score",
     "openMenu": "Open menu",
@@ -230,6 +231,70 @@
       }
     }
   },
+  "whyNow": {
+    "label": "Why Now",
+    "title": "Why AEO Matters Right Now",
+    "subtitle": "AI is changing how people find answers. These numbers show why you need to act today.",
+    "stats": {
+      "0": {
+        "value": "40%",
+        "label": "of searches use AI",
+        "description": "Nearly half of all searches now go through AI tools like ChatGPT and Perplexity."
+      },
+      "1": {
+        "value": "0%",
+        "label": "of sites are AEO-ready",
+        "description": "Almost no websites are set up to be cited by AI. This is your window."
+      },
+      "2": {
+        "value": "3x",
+        "label": "more trust from AI citations",
+        "description": "People trust answers from AI more than ads. Being cited builds instant trust."
+      }
+    }
+  },
+  "howItWorks": {
+    "label": "How It Works",
+    "title": "Four Steps to AI Visibility",
+    "subtitle": "Go from invisible to cited in weeks. Here is exactly how.",
+    "steps": {
+      "0": {
+        "title": "Check your score",
+        "description": "Take the free 2-minute assessment. See where you stand right now."
+      },
+      "1": {
+        "title": "Get your plan",
+        "description": "We send you a step-by-step action plan based on your score."
+      },
+      "2": {
+        "title": "Fix what matters",
+        "description": "Use the dashboard tools to close gaps fast. No code needed."
+      },
+      "3": {
+        "title": "Get cited by AI",
+        "description": "AI tools start quoting your site. Track every citation in real time."
+      }
+    }
+  },
+  "audience": {
+    "label": "Who It's For",
+    "title": "Built for People Who Care About Traffic",
+    "subtitle": "If you rely on search traffic, AEO is your next move.",
+    "cards": {
+      "0": {
+        "title": "Agency Owners",
+        "description": "Offer AEO as a new service. Manage many client sites from one place. Stand out from other agencies."
+      },
+      "1": {
+        "title": "SEO Professionals",
+        "description": "Add AEO to your skill set. Use tools built for the way AI picks sources. Stay ahead of the curve."
+      },
+      "2": {
+        "title": "In-House Marketers",
+        "description": "Make your site visible to AI without a big team. Follow clear steps. See results in weeks."
+      }
+    }
+  },
   "earlyAccess": {
     "title": "Want Early Access?",
     "description": "Before we launch, we\u2019re giving a select group of early supporters access to the full platform. Join the waitlist for a chance to be one of the first to try AEO Dashboard \u2014 and help shape the product with your feedback.",
@@ -250,8 +315,9 @@
         "title": "Product",
         "links": {
           "0": "What is AEO?",
-          "1": "Features",
-          "2": "FAQ"
+          "1": "Phases",
+          "2": "Features",
+          "3": "FAQ"
         }
       }
     },
@@ -519,7 +585,7 @@
 
     "successState": {
       "title": "\u2713 Your AEO Score: {{score}}/{{max}} \u2014 {{tier}}",
-      "subtitle": "We'll reach out with your personalized action plan.",
+      "subtitle": "You'll be the first to know when we launch.",
       "share": "Share Your Score",
       "sharePrompt": "Share your score with your team:",
       "timeline": "We'll review your score and send a custom plan within 24 hours. Top scorers get early access."

@@ -2,8 +2,9 @@
   "nav": {
     "links": {
       "0": "Was ist AEO?",
-      "1": "Features",
-      "2": "FAQ"
+      "1": "Phasen",
+      "2": "Features",
+      "3": "FAQ"
     },
     "cta": "Score jetzt prüfen",
     "openMenu": "Menü öffnen",
@@ -230,6 +231,70 @@
       }
     }
   },
+  "whyNow": {
+    "label": "Warum jetzt",
+    "title": "Warum AEO jetzt wichtig ist",
+    "subtitle": "AI verändert, wie Menschen Antworten finden. Diese Zahlen zeigen, warum Sie jetzt handeln sollten.",
+    "stats": {
+      "0": {
+        "value": "40 %",
+        "label": "der Suchen nutzen AI",
+        "description": "Fast die Hälfte aller Suchen läuft über AI-Tools wie ChatGPT und Perplexity."
+      },
+      "1": {
+        "value": "0 %",
+        "label": "der Websites sind AEO-bereit",
+        "description": "Fast keine Website ist für AI-Zitierung optimiert. Das ist Ihre Chance."
+      },
+      "2": {
+        "value": "3x",
+        "label": "mehr Vertrauen durch AI-Zitate",
+        "description": "Menschen vertrauen AI-Antworten mehr als Werbung. Zitiert werden schafft sofort Vertrauen."
+      }
+    }
+  },
+  "howItWorks": {
+    "label": "So funktioniert es",
+    "title": "Vier Schritte zur AI-Sichtbarkeit",
+    "subtitle": "Von unsichtbar bis zitiert in wenigen Wochen. So geht es.",
+    "steps": {
+      "0": {
+        "title": "Score prüfen",
+        "description": "Machen Sie die kostenlose 2-Minuten-Bewertung. Sehen Sie, wo Sie stehen."
+      },
+      "1": {
+        "title": "Plan erhalten",
+        "description": "Wir senden Ihnen einen Aktionsplan, der auf Ihrem Score basiert."
+      },
+      "2": {
+        "title": "Schwachstellen beheben",
+        "description": "Nutzen Sie die Dashboard-Tools, um Lücken schnell zu schließen. Kein Code nötig."
+      },
+      "3": {
+        "title": "Von AI zitiert werden",
+        "description": "AI-Tools beginnen, Ihre Website zu zitieren. Verfolgen Sie jedes Zitat in Echtzeit."
+      }
+    }
+  },
+  "audience": {
+    "label": "Für wen",
+    "title": "Für alle, die auf Traffic angewiesen sind",
+    "subtitle": "Wenn Sie auf Such-Traffic setzen, ist AEO Ihr nächster Schritt.",
+    "cards": {
+      "0": {
+        "title": "Agentur-Inhaber",
+        "description": "Bieten Sie AEO als neuen Service an. Verwalten Sie viele Websites zentral. Heben Sie sich von anderen Agenturen ab."
+      },
+      "1": {
+        "title": "SEO-Profis",
+        "description": "Erweitern Sie Ihr Know-how um AEO. Nutzen Sie Tools, die verstehen, wie AI Quellen auswählt."
+      },
+      "2": {
+        "title": "Inhouse-Marketer",
+        "description": "Machen Sie Ihre Website für AI sichtbar — ohne großes Team. Klare Schritte. Ergebnisse in Wochen."
+      }
+    }
+  },
   "earlyAccess": {
     "title": "Early Access gewünscht?",
     "description": "Vor dem Launch geben wir einer kleinen Gruppe Zugang zur kompletten Plattform. Tragen Sie sich ein für die Chance, AEO Dashboard als Erste zu testen — und das Produkt mitzugestalten.",
@@ -250,8 +315,9 @@
         "title": "Produkt",
         "links": {
           "0": "Was ist AEO?",
-          "1": "Features",
-          "2": "FAQ"
+          "1": "Phasen",
+          "2": "Features",
+          "3": "FAQ"
         }
       }
     },
@@ -519,7 +585,7 @@
 
     "successState": {
       "title": "✓ Ihr AEO-Score: {{score}}/{{max}} — {{tier}}",
-      "subtitle": "Wir melden uns mit Ihrem persönlichen Aktionsplan.",
+      "subtitle": "Sie erfahren als Erste, wenn wir starten.",
       "share": "Ihren Score teilen",
       "sharePrompt": "Teilen Sie Ihren Score mit dem Team:",
       "timeline": "Wir prüfen Ihren Score und senden einen Aktionsplan innerhalb von 24 Stunden. Top-Scorer erhalten Early Access."
