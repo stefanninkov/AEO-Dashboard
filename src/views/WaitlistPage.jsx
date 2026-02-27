@@ -433,12 +433,6 @@ export default function WaitlistPage() {
               </>
             )}
 
-            <p className="wl-counter">
-              <strong>{displayCount.toLocaleString()}</strong>{' '}
-              {completedResults
-                ? t('scorecard.counterSuffix')
-                : t('hero.joinedSuffix')}
-            </p>
           </div>
         </section>
 
@@ -499,17 +493,6 @@ export default function WaitlistPage() {
                 {PILLARS.map((p, i) => <li key={i}>{p}</li>)}
               </ol>
 
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════ SOCIAL PROOF ═══════════ */}
-        <section className="wl-section wl-social-proof" data-animate>
-          <div className="wl-section-inner">
-            <div className="wl-section-center">
-              <p className="wl-counter" style={{ fontSize: '1.25rem' }}>
-                {t('socialProof.title', { count: displayCount.toLocaleString() })}
-              </p>
             </div>
           </div>
         </section>
@@ -701,17 +684,6 @@ export default function WaitlistPage() {
           </button>
 
           <p className="wl-early-note">{t('earlyAccess.note')}</p>
-        </section>
-
-        {/* ═══════════ BOTTOM CTA ═══════════ */}
-        <section className="wl-bottom-cta" data-animate>
-          <h3>{t('scorecard.bottomCtaTitle')}</h3>
-          <button
-            className="wl-submit-btn wl-sc-hero-btn"
-            onClick={() => setShowScorecard(true)}
-          >
-            {t('scorecard.heroButton')}
-          </button>
         </section>
 
       </main>

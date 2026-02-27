@@ -243,9 +243,9 @@
         "description": "Skoro polovina svih pretraga sada ide kroz AI alate kao što su ChatGPT i Perplexity."
       },
       "1": {
-        "value": "0%",
-        "label": "sajtova je spremno za AEO",
-        "description": "Skoro nijedan sajt nije podešen za AI citiranje. Ovo je tvoja šansa."
+        "value": "58%",
+        "label": "marketara nema AEO plan",
+        "description": "Većina marketing timova još nije počela da optimizuje za AI pretragu. Ko krene prvi, ima jasnu prednost."
       },
       "2": {
         "value": "3x",
