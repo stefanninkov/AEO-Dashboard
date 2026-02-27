@@ -544,6 +544,8 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
           setTimelineFilter={setTimelineFilter}
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
+          earlyAccessFilter={earlyAccessFilter}
+          setEarlyAccessFilter={setEarlyAccessFilter}
           languageFilter={languageFilter}
           setLanguageFilter={setLanguageFilter}
           sortField={sortField}
@@ -938,6 +940,7 @@ function LeadsTab({
   search, setSearch, leadTierFilter, setLeadTierFilter,
   scoreTierFilter, setScoreTierFilter, roleFilter, setRoleFilter,
   timelineFilter, setTimelineFilter, statusFilter, setStatusFilter,
+  earlyAccessFilter, setEarlyAccessFilter,
   languageFilter, setLanguageFilter,
   sortField, sortDir, handleSort, page, setPage, totalPages,
   selectedLead, setSelectedLead, handleExportCsv, openBulkEmail,
