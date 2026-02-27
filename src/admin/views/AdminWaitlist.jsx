@@ -12,7 +12,7 @@ import {
   CheckSquare, Target, BarChart4, AlertTriangle, ArrowUpDown, ChevronLeft,
   ChevronRight, Mail, Eye, ArrowUpRight, ArrowDownRight, Minus, Filter,
   Clock, Zap, Globe, Monitor, Sun, Moon, Sunrise, Sunset, Trash2,
-  Flame, CircleDot, Circle,
+  Flame, CircleDot, Circle, UserCheck,
 } from 'lucide-react'
 import { ALL_STAGES, getStage } from '../constants/pipelineStages'
 import {
@@ -270,6 +270,7 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
   const [roleFilter, setRoleFilter] = useState('all')
   const [timelineFilter, setTimelineFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [earlyAccessFilter, setEarlyAccessFilter] = useState('all')
   const [languageFilter, setLanguageFilter] = useState('all')
   const [sortField, setSortField] = useState('signedUpAt')
   const [sortDir, setSortDir] = useState('desc')
@@ -314,11 +315,14 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
     if (statusFilter !== 'all') {
       result = result.filter(l => (l.pipelineStage || 'new') === statusFilter)
     }
+    if (earlyAccessFilter !== 'all') {
+      result = result.filter(l => earlyAccessFilter === 'yes' ? l.converted : !l.converted)
+    }
     if (languageFilter !== 'all') {
       result = result.filter(l => (l.language || 'en') === languageFilter)
     }
     return result
-  }, [leads, search, leadTierFilter, scoreTierFilter, roleFilter, timelineFilter, statusFilter, languageFilter])
+  }, [leads, search, leadTierFilter, scoreTierFilter, roleFilter, timelineFilter, statusFilter, earlyAccessFilter, languageFilter])
 
   const sortedLeads = useMemo(() => {
     const sorted = [...filteredLeads]
@@ -377,7 +381,7 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
       (l.tags || []).join('; '),
       ...qIds.map(id => l.scorecard?.answers?.[id] || ''),
       ...catIds.map(id => l.scorecard?.categoryScores?.[id] ?? ''),
-      l.invited ? 'invited' : l.converted ? 'converted' : l.scorecard?.completed ? 'completed' : 'pending',
+      l.invited ? 'invited' : l.converted ? 'early_access' : l.scorecard?.completed ? 'completed' : 'pending',
       formatDate(l.signedUpAt),
     ])
     const escape = (s) => `"${String(s || '').replace(/"/g, '""')}"`
@@ -671,8 +675,10 @@ function OverviewTab({ stats, leads }) {
           badge={stats.avgScoreTier ? { text: SCORE_TIER_LABELS[stats.avgScoreTier.id], bg: `${stats.avgScoreTier.color}15`, color: stats.avgScoreTier.color } : undefined} />
         <StatCard icon={AlertTriangle} label="Abandoned" value={stats.abandonedCount} color="#F59E0B"
           sublabel={`${stats.abandonmentRate}% abandonment rate`} />
-        <StatCard icon={TrendingUp} label="Converted" value={leads.filter(l => l.converted).length} color="#06B6D4"
+        <StatCard icon={TrendingUp} label="Early Access" value={leads.filter(l => l.converted).length} color="#06B6D4"
           sublabel={`${leads.filter(l => l.invited).length} invited`} />
+        <StatCard icon={UserCheck} label="Converted" value={leads.filter(l => (l.pipelineStage === 'activeUser' || l.pipelineStage === 'paying')).length} color="#10B981"
+          sublabel="signed up as users" />
       </div>
 
       {/* 2. Score Distribution Histogram */}
@@ -1033,6 +1039,12 @@ function LeadsTab({
           options={[
             { value: 'all', label: 'Status' },
             ...ALL_STAGES.map(s => ({ value: s.id, label: s.label })),
+          ]} />
+        <FilterDropdown label="Early Access" value={earlyAccessFilter} onChange={v => { setEarlyAccessFilter(v); setPage(0) }}
+          options={[
+            { value: 'all', label: 'Early Access' },
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
           ]} />
         <FilterDropdown label="Language" value={languageFilter} onChange={v => { setLanguageFilter(v); setPage(0) }}
           options={[
