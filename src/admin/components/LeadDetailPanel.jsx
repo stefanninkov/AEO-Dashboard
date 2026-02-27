@@ -268,6 +268,13 @@ export default function LeadDetailPanel({
                   <leadTierInfo.icon size={10} /> {leadTierInfo.label}
                 </span>
               )}
+              <span style={{
+                fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase',
+                padding: '1px 6px', borderRadius: 3,
+                background: 'var(--bg-secondary)', color: 'var(--text-disabled)',
+              }}>
+                {(lead.language || 'en').toUpperCase()}
+              </span>
             </div>
             <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '0.25rem', flexShrink: 0 }}>
               <X size={18} />
@@ -540,6 +547,15 @@ export default function LeadDetailPanel({
                         { value: 'curious', label: 'Just curious for now', pts: 0 },
                       ]} maxPts={4} />
                   )}
+                  <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '0.5rem 0.625rem',
+                  }}>
+                    <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Language</span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                      {{ en: 'English', sr: 'Serbian', de: 'German' }[lead.language] || 'English'}
+                    </span>
+                  </div>
                 </div>
               ) : (
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-disabled)', fontStyle: 'italic' }}>

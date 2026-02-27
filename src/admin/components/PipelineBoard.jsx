@@ -76,6 +76,14 @@ function PipelineCard({ lead, onSelect, onDragStart }) {
             <TierIcon size={10} /> {lead.scorecard?.totalScore || 0}/33
           </span>
         )}
+        <span style={{
+          fontSize: '0.55rem', fontWeight: 700, textTransform: 'uppercase',
+          padding: '1px 4px', borderRadius: 2,
+          background: 'var(--bg-secondary)', color: 'var(--text-disabled)',
+          marginLeft: '0.25rem',
+        }}>
+          {(lead.language || 'en').toUpperCase()}
+        </span>
       </div>
 
       {/* Row 2: Role + Sites */}

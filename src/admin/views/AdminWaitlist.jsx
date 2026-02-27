@@ -217,6 +217,13 @@ function FilterDropdown({ label, value, options, onChange }) {
 }
 
 /* ─── Role / Website / Timeline labels ─── */
+const LANGUAGE_LABELS = { en: 'English', sr: 'Serbian', de: 'German' }
+const langBadgeStyle = {
+  fontSize: '0.6rem', fontWeight: 700, textTransform: 'uppercase',
+  padding: '1px 6px', borderRadius: 3, letterSpacing: '0.03em',
+  background: 'var(--bg-secondary)', color: 'var(--text-disabled)',
+}
+
 const ROLE_LABELS = {
   agency_owner: 'Agency Owner', seo_director: 'SEO Director', inhouse: 'In-house',
   freelancer: 'Freelancer', other: 'Other',
@@ -263,6 +270,7 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
   const [roleFilter, setRoleFilter] = useState('all')
   const [timelineFilter, setTimelineFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [languageFilter, setLanguageFilter] = useState('all')
   const [sortField, setSortField] = useState('signedUpAt')
   const [sortDir, setSortDir] = useState('desc')
   const [page, setPage] = useState(0)
@@ -306,8 +314,11 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
     if (statusFilter !== 'all') {
       result = result.filter(l => (l.pipelineStage || 'new') === statusFilter)
     }
+    if (languageFilter !== 'all') {
+      result = result.filter(l => (l.language || 'en') === languageFilter)
+    }
     return result
-  }, [leads, search, leadTierFilter, scoreTierFilter, roleFilter, timelineFilter, statusFilter])
+  }, [leads, search, leadTierFilter, scoreTierFilter, roleFilter, timelineFilter, statusFilter, languageFilter])
 
   const sortedLeads = useMemo(() => {
     const sorted = [...filteredLeads]
@@ -352,14 +363,14 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
     const qIds = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11']
     const catIds = ['contentStructure', 'technicalSchema', 'aiVisibility', 'strategyCompetition']
     const headers = [
-      'Name', 'Email', 'Website', 'Score', 'Score Tier', 'Lead Tier',
+      'Name', 'Email', 'Language', 'Website', 'Score', 'Score Tier', 'Lead Tier',
       'Role', 'Websites', 'Timeline', 'Pipeline Stage', 'Tags',
       ...qIds.map(id => `Answer: ${id}`),
       ...catIds.map(id => `Category: ${id}`),
       'Status', 'Signed Up',
     ]
     const rows = filteredLeads.map(l => [
-      l.name || '', l.email || '', l.websiteUrl || l.website || '',
+      l.name || '', l.email || '', l.language || 'en', l.websiteUrl || l.website || '',
       l.scorecard?.totalScore ?? '', l.scorecard?.tier || '',
       l.leadTier || '', l.qualification?.role || '', l.qualification?.websiteCount || '',
       l.qualification?.timeline || '', l.pipelineStage || 'new',
@@ -394,10 +405,16 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
       targets = leads.filter(l => l.leadTier === tier && l.scorecard?.completed && l.email)
       label = `${LEAD_TIER_DISPLAY[tier]?.label || tier} Leads (${targets.length})`
     }
+    // Apply language filter if active
+    if (languageFilter !== 'all') {
+      targets = targets.filter(l => (l.language || 'en') === languageFilter)
+      const langLabel = LANGUAGE_LABELS[languageFilter] || languageFilter.toUpperCase()
+      label = `${label.replace(/\(\d+\)/, '').trim()} — ${langLabel} (${targets.length})`
+    }
     setBulkEmailLeads(targets)
     setBulkEmailLabel(label)
     setBulkEmailOpen(true)
-  }, [filteredLeads, leads])
+  }, [filteredLeads, leads, languageFilter])
 
   /* ─── Loading ─── */
 
@@ -618,6 +635,7 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
         onClose={() => setBulkEmailOpen(false)}
         leads={bulkEmailLeads}
         audienceLabel={bulkEmailLabel}
+        languageHint={languageFilter}
         customTemplates={bulkEmail.customTemplates}
         onSaveCustom={bulkEmail.saveCustomTemplate}
         onLogExport={bulkEmail.logBulkExport}
@@ -1013,6 +1031,13 @@ function LeadsTab({
             { value: 'all', label: 'Status' },
             ...ALL_STAGES.map(s => ({ value: s.id, label: s.label })),
           ]} />
+        <FilterDropdown label="Language" value={languageFilter} onChange={v => { setLanguageFilter(v); setPage(0) }}
+          options={[
+            { value: 'all', label: 'Language' },
+            { value: 'en', label: 'English' },
+            { value: 'sr', label: 'Serbian' },
+            { value: 'de', label: 'German' },
+          ]} />
 
         {/* Actions */}
         <button onClick={handleExportCsv} title="Export CSV" disabled={filteredLeads.length === 0}
@@ -1166,7 +1191,7 @@ function LeadsTab({
           <div style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem',
             borderBottom: '0.0625rem solid var(--border-subtle)', background: 'var(--hover-bg)',
-            minWidth: '62rem',
+            minWidth: '65rem',
           }}>
             {/* Select All Checkbox */}
             <div style={{ width: '1.25rem', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -1182,6 +1207,7 @@ function LeadsTab({
             {[
               { label: 'Name', field: 'name', width: '10rem' },
               { label: 'Email', field: 'email', width: '12rem' },
+              { label: 'Lang', field: null, width: '2.5rem' },
               { label: 'Score', field: 'score', width: '4.5rem' },
               { label: 'Lead', field: 'leadTier', width: '3.5rem' },
               { label: 'Role', field: 'role', width: '6rem' },
@@ -1218,7 +1244,7 @@ function LeadsTab({
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem',
                   borderBottom: '0.0625rem solid var(--border-subtle)', cursor: 'pointer',
-                  transition: 'background 150ms', minWidth: '62rem',
+                  transition: 'background 150ms', minWidth: '65rem',
                   background: selectedIds.has(lead.id) ? 'color-mix(in srgb, var(--accent) 5%, transparent)' : 'transparent',
                 }}
                 onMouseEnter={e => { if (!selectedIds.has(lead.id)) e.currentTarget.style.background = 'var(--hover-bg)' }}
@@ -1258,6 +1284,12 @@ function LeadsTab({
                 }}>
                   {lead.email || '—'}
                 </span>
+                {/* Language */}
+                <div style={{ width: '2.5rem', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+                  <span style={langBadgeStyle}>
+                    {(lead.language || 'en').toUpperCase()}
+                  </span>
+                </div>
                 {/* Score */}
                 <div style={{ width: '4.5rem', flexShrink: 0 }}>
                   {lead.scorecard?.totalScore != null ? (

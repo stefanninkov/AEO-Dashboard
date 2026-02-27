@@ -15,7 +15,7 @@ const AVAILABLE_VARIABLES = [
 ]
 
 export default function BulkEmailComposer({
-  isOpen, onClose, leads = [], audienceLabel = '',
+  isOpen, onClose, leads = [], audienceLabel = '', languageHint = 'all',
   customTemplates = [], onSaveCustom, onLogExport, onGenerateCsv,
 }) {
   const [step, setStep] = useState(0)
@@ -31,21 +31,30 @@ export default function BulkEmailComposer({
   if (!isOpen) return null
 
   const previewLead = leads.find(l => l.id === previewLeadId) || leads[0]
-  const previewVars = previewLead ? buildLeadVariables(previewLead, customOverrides) : {}
+  const previewVars = previewLead ? buildLeadVariables(previewLead, customOverrides, selectedTemplate?.lang || previewLead?.language || 'en') : {}
   const filledSubject = fillTemplate(subject, previewVars)
   const filledBody = fillTemplate(body, previewVars)
 
-  // Smart sort: matching audience first
+  // Smart sort: matching language first, then audience
   const sortedTemplates = useMemo(() => {
     const audience = audienceLabel.toLowerCase()
+    const activeLang = languageHint !== 'all' ? languageHint : null
     return [...EMAIL_TEMPLATES].sort((a, b) => {
+      // Language match first
+      if (activeLang) {
+        const aLang = (a.lang || 'en') === activeLang
+        const bLang = (b.lang || 'en') === activeLang
+        if (aLang && !bLang) return -1
+        if (!aLang && bLang) return 1
+      }
+      // Then audience match
       const aMatch = a.recommendedAudience.includes(audience)
       const bMatch = b.recommendedAudience.includes(audience)
       if (aMatch && !bMatch) return -1
       if (!aMatch && bMatch) return 1
       return 0
     })
-  }, [audienceLabel])
+  }, [audienceLabel, languageHint])
 
   const selectTemplate = (t) => {
     setSelectedTemplate(t)
