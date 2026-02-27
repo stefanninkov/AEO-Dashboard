@@ -448,8 +448,8 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
 
       {/* Tab Bar */}
       <div style={{
-        display: 'flex', gap: '0.25rem', padding: '0.25rem',
-        background: 'var(--hover-bg)', borderRadius: '0.5rem', width: 'fit-content',
+        display: 'flex', flexWrap: 'wrap', gap: '0.25rem', padding: '0.25rem',
+        background: 'var(--hover-bg)', borderRadius: '0.5rem',
       }}>
         {tabs.map(tab => (
           <button
