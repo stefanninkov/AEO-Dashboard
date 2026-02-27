@@ -1526,6 +1526,17 @@ html[data-theme="light"] .wl-nav-mobile-overlay {
   margin: 0.5rem 0 1.5rem;
   line-height: 1.4;
 }
+.wl-sc-hint {
+  font-size: 0.8125rem;
+  color: var(--wl-text-tertiary, var(--text-tertiary));
+  font-style: italic;
+  margin: -1rem 0 1.25rem;
+  padding: 0.625rem 0.875rem;
+  background: var(--wl-bg-card, var(--hover-bg));
+  border-left: 2px solid var(--wl-accent, var(--accent));
+  border-radius: 0.25rem;
+  line-height: 1.5;
+}
 
 /* ── Options ── */
 .wl-sc-options {

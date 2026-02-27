@@ -328,6 +328,7 @@
       },
       "q4": {
         "text": "Does your website use structured data (schema markup)?",
+        "hint": "Schema markup is code that helps AI read your site. Think of it like labels on a file folder.",
         "options": {
           "0": "Yes, multiple types (FAQ, Article, HowTo...)",
           "1": "Basic only (Organization, Breadcrumb)",
@@ -336,6 +337,7 @@
       },
       "q5": {
         "text": "Are AI crawlers (GPTBot, PerplexityBot, etc.) allowed in your robots.txt?",
+        "hint": "These are bots that ChatGPT and Perplexity use to read your site. Check at yoursite.com/robots.txt.",
         "options": {
           "0": "Yes, they're all allowed",
           "1": "I've checked some",
@@ -344,6 +346,7 @@
       },
       "q6": {
         "text": "Does your website have an XML sitemap with accurate lastmod dates?",
+        "hint": "A sitemap lists all your pages so AI can find them. The lastmod date tells it what's new.",
         "options": {
           "0": "Yes, auto-updated",
           "1": "Yes, but not sure about lastmod",

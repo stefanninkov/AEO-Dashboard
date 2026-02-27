@@ -216,6 +216,11 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
         {/* Question text */}
         <h2 className="wl-sc-question">{questionText}</h2>
 
+        {/* Hint (for technical questions) */}
+        {type === 'scored' && t(`scorecard.questions.${id}.hint`, { defaultValue: '' }) && (
+          <p className="wl-sc-hint">{t(`scorecard.questions.${id}.hint`)}</p>
+        )}
+
         {/* Options */}
         <div className="wl-sc-options">
           {options.map((opt) => (
