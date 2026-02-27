@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Shield } from 'lucide-react'
+import { Shield, Menu } from 'lucide-react'
 
 const VIEW_TITLES = {
   dashboard: 'Dashboard Overview',
@@ -14,12 +14,17 @@ const VIEW_TITLES = {
   settings: 'Admin Settings',
 }
 
-export default memo(function AdminTopBar({ user, activeView }) {
+export default memo(function AdminTopBar({ user, activeView, onToggleSidebar }) {
   return (
     <div className="top-bar">
       <div className="top-bar-row-1" style={{ justifyContent: 'space-between' }}>
-        {/* Title */}
+        {/* Hamburger + Title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div className="mobile-nav-group">
+            <button className="hamburger-btn" onClick={onToggleSidebar} aria-label="Toggle sidebar">
+              <Menu size={18} />
+            </button>
+          </div>
           <div style={{
             width: '2rem',
             height: '2rem',

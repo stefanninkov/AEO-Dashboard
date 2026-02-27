@@ -216,7 +216,11 @@ export default function AdminApp({ user, onSignOut }) {
   const isAdmin = useMemo(() => isSuperAdmin(user?.uid), [user?.uid])
   const isConfigured = useMemo(() => hasConfiguredAdmins(), [])
   const [activeAdminView, setActiveAdminView] = useState('dashboard')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const tasksHook = useTasks()
+
+  const toggleSidebar = useCallback(() => setSidebarOpen(p => !p), [])
+  const closeSidebar = useCallback(() => setSidebarOpen(false), [])
 
   if (!isConfigured) return <NotConfigured user={user} />
   if (!isAdmin) return <AccessDenied />
@@ -263,10 +267,13 @@ export default function AdminApp({ user, onSignOut }) {
           user={user}
           onSignOut={onSignOut}
           overdueCount={tasksHook.overdueTasks.length}
+          sidebarOpen={sidebarOpen}
+          closeSidebar={closeSidebar}
         />
+        <div className={`sidebar-backdrop ${sidebarOpen ? 'visible' : ''}`} onClick={closeSidebar} />
 
         <div className="main-area">
-          <AdminTopBar user={user} activeView={activeAdminView} />
+          <AdminTopBar user={user} activeView={activeAdminView} onToggleSidebar={toggleSidebar} />
 
           <div className="content-scroll" id="admin-content" tabIndex="-1">
             <div className="content-wrapper">

@@ -42,11 +42,11 @@ const ADMIN_NAV_ITEMS = [
   { id: 'settings', label: 'Settings', icon: SlidersHorizontal },
 ]
 
-export default memo(function AdminSidebar({ activeView, setActiveView, user, onSignOut, overdueCount = 0 }) {
+export default memo(function AdminSidebar({ activeView, setActiveView, user, onSignOut, overdueCount = 0, sidebarOpen, closeSidebar }) {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
       {/* Logo */}
       <div className="sidebar-logo">
         <Shield size={20} style={{ color: 'var(--accent)', flexShrink: 0 }} />
@@ -67,7 +67,7 @@ export default memo(function AdminSidebar({ activeView, setActiveView, user, onS
             return (
               <button
                 key={item.id}
-                onClick={() => setActiveView(item.id)}
+                onClick={() => { setActiveView(item.id); closeSidebar?.() }}
                 className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
                 style={{ width: '100%', position: 'relative' }}
               >
