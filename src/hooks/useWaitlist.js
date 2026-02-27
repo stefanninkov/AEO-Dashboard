@@ -207,6 +207,13 @@ export function useWaitlist() {
       leadScore: data.leadScore,
       leadTier: data.leadTier,
       lastActivityAt: serverTimestamp(),
+      stageHistory: arrayUnion({
+        from: 'new',
+        to: 'new',
+        changedAt: new Date().toISOString(),
+        changedBy: 'system',
+        reason: 'scorecard_completed',
+      }),
     })
   }, [])
 

@@ -349,12 +349,24 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
   /* ─── CSV Export ─── */
 
   const handleExportCsv = useCallback(() => {
-    const headers = ['Name', 'Email', 'Website', 'Score', 'Score Tier', 'Lead Tier', 'Role', 'Websites', 'Timeline', 'Status', 'Signed Up']
+    const qIds = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11']
+    const catIds = ['contentStructure', 'technicalSchema', 'aiVisibility', 'strategyCompetition']
+    const headers = [
+      'Name', 'Email', 'Website', 'Score', 'Score Tier', 'Lead Tier',
+      'Role', 'Websites', 'Timeline', 'Pipeline Stage', 'Tags',
+      ...qIds.map(id => `Answer: ${id}`),
+      ...catIds.map(id => `Category: ${id}`),
+      'Status', 'Signed Up',
+    ]
     const rows = filteredLeads.map(l => [
-      l.name || '', l.email || '', l.website || '',
+      l.name || '', l.email || '', l.websiteUrl || l.website || '',
       l.scorecard?.totalScore ?? '', l.scorecard?.tier || '',
       l.leadTier || '', l.qualification?.role || '', l.qualification?.websiteCount || '',
-      l.qualification?.timeline || '', l.invited ? 'invited' : l.converted ? 'converted' : l.scorecard?.completed ? 'completed' : 'pending',
+      l.qualification?.timeline || '', l.pipelineStage || 'new',
+      (l.tags || []).join('; '),
+      ...qIds.map(id => l.scorecard?.answers?.[id] || ''),
+      ...catIds.map(id => l.scorecard?.categoryScores?.[id] ?? ''),
+      l.invited ? 'invited' : l.converted ? 'converted' : l.scorecard?.completed ? 'completed' : 'pending',
       formatDate(l.signedUpAt),
     ])
     const escape = (s) => `"${String(s || '').replace(/"/g, '""')}"`
