@@ -2,9 +2,8 @@
   "nav": {
     "links": {
       "0": "What is AEO?",
-      "1": "Phases",
-      "2": "Features",
-      "3": "FAQ"
+      "1": "Features",
+      "2": "FAQ"
     },
     "cta": "Check Your Score",
     "openMenu": "Open menu",
@@ -30,6 +29,9 @@
     "descriptionRest": " AEO helps them pick yours. It's the new way to show up when AI gives answers.",
     "comparisonTitle": "AEO vs Traditional SEO",
     "pillarsTitle": "The 7 Pillars of AEO"
+  },
+  "socialProof": {
+    "title": "Join {{count}} pros who checked their AEO score"
   },
   "aeoVsSeo": {
     "columns": {
@@ -248,9 +250,8 @@
         "title": "Product",
         "links": {
           "0": "What is AEO?",
-          "1": "Phases",
-          "2": "Features",
-          "3": "FAQ"
+          "1": "Features",
+          "2": "FAQ"
         }
       }
     },

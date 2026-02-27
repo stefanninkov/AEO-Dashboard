@@ -14,11 +14,11 @@ import './WaitlistPage.css'
 
 const NAV_HREFS = [
   { href: '#what-is-aeo' },
-  { href: '#phases' },
   { href: '#features' },
   { href: '#faq' },
 ]
 
+/* COMMENTED OUT — Phases section removed from page
 const PHASE_META = [
   { number: 1, color: 'var(--accent)', Icon: Blocks },
   { number: 2, color: 'var(--color-phase-2)', Icon: BarChart4 },
@@ -28,13 +28,13 @@ const PHASE_META = [
   { number: 6, color: 'var(--color-phase-6)', Icon: FlaskConical },
   { number: 7, color: 'var(--color-phase-7)', Icon: TrendingUp },
 ]
+*/
 
 const FEATURE_ICONS = [CheckCircle2, SearchCheck, FlaskConical, NotebookPen, Blocks, Radar]
 
 const FOOTER_HREFS = [
   [
     { href: '#what-is-aeo' },
-    { href: '#phases' },
     { href: '#features' },
     { href: '#faq' },
   ],
@@ -100,6 +100,7 @@ export default function WaitlistPage() {
     })),
   [t])
 
+  /* COMMENTED OUT — Phases section removed from page
   const PHASES = useMemo(() =>
     PHASE_META.map((meta, i) => ({
       ...meta,
@@ -109,17 +110,18 @@ export default function WaitlistPage() {
       visibility: t(`phases.${i}.visibility`),
     })),
   [t])
+  */
 
   const FEATURES_OVERVIEW = useMemo(() =>
-    FEATURE_ICONS.map((Icon, i) => ({
-      Icon,
+    [0, 1, 5].map((i) => ({
+      Icon: FEATURE_ICONS[i],
       title: t(`features.${i}.title`),
       description: t(`features.${i}.description`),
     })),
   [t])
 
   const FAQ_ITEMS = useMemo(() =>
-    Array.from({ length: 10 }, (_, i) => ({
+    Array.from({ length: 5 }, (_, i) => ({
       question: t(`faq.${i}.question`),
       answer: t(`faq.${i}.answer`),
     })),
@@ -157,7 +159,7 @@ export default function WaitlistPage() {
         description: 'Join the waitlist for AEO Dashboard, the first platform built for Answer Engine Optimization. Get cited by ChatGPT, Perplexity, Gemini, and every AI that matters.',
         speakable: {
           '@type': 'SpeakableSpecification',
-          cssSelector: ['#hero', '#what-is-aeo', '#phases', '#faq'],
+          cssSelector: ['#hero', '#what-is-aeo', '#faq'],
         },
       },
       {
@@ -427,6 +429,7 @@ export default function WaitlistPage() {
                 <strong>{t('education.descriptionBold')}</strong>{t('education.descriptionRest')}
               </p>
 
+              {/* COMMENTED OUT — AEO vs SEO comparison table removed
               <h3>{t('education.comparisonTitle')}</h3>
               <table className="wl-comparison-table">
                 <thead>
@@ -446,12 +449,24 @@ export default function WaitlistPage() {
                   ))}
                 </tbody>
               </table>
+              */}
 
             </div>
           </div>
         </section>
 
-        {/* ═══════════ 4. THE 7 PHASES ═══════════ */}
+        {/* ═══════════ SOCIAL PROOF ═══════════ */}
+        <section className="wl-section wl-social-proof" data-animate>
+          <div className="wl-section-inner">
+            <div className="wl-section-center">
+              <p className="wl-counter" style={{ fontSize: '1.25rem' }}>
+                {t('socialProof.title', { count: displayCount.toLocaleString() })}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* COMMENTED OUT — 7 Phases section removed from page
         <section id="phases" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
@@ -488,6 +503,7 @@ export default function WaitlistPage() {
             </p>
           </div>
         </section>
+        */}
 
         {/* ═══════════ 5. FEATURES OVERVIEW ═══════════ */}
         <section id="features" className="wl-section" data-animate>
@@ -509,7 +525,7 @@ export default function WaitlistPage() {
           </div>
         </section>
 
-        {/* ═══════════ 6. AI COST HIGHLIGHT ═══════════ */}
+        {/* COMMENTED OUT — AI Cost section removed from page
         <section id="ai-cost" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
@@ -543,6 +559,7 @@ export default function WaitlistPage() {
             </div>
           </div>
         </section>
+        */}
 
         {/* ═══════════ 7. FAQ ═══════════ */}
         <section id="faq" className="wl-section" data-animate>
@@ -573,7 +590,7 @@ export default function WaitlistPage() {
           </div>
         </section>
 
-        {/* ═══════════ 7. EARLY ACCESS + FINAL CTA ═══════════ */}
+        {/* COMMENTED OUT — Early Access section removed from page
         <section className="wl-early-access" data-animate>
           <h2>{t('earlyAccess.title')}</h2>
           <p>
@@ -600,6 +617,7 @@ export default function WaitlistPage() {
 
           <p className="wl-early-note">{t('earlyAccess.note')}</p>
         </section>
+        */}
 
         {/* ═══════════ BOTTOM CTA ═══════════ */}
         <section className="wl-bottom-cta" data-animate>
