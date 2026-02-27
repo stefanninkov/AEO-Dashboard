@@ -2,20 +2,19 @@
   "nav": {
     "links": {
       "0": "Was ist AEO?",
-      "1": "Phasen",
-      "2": "Features",
-      "3": "FAQ"
+      "1": "Features",
+      "2": "FAQ"
     },
-    "cta": "Auf die Warteliste",
+    "cta": "Score jetzt prüfen",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen"
   },
   "hero": {
-    "badge": "Demnächst verfügbar — Early Access für ausgewählte Nutzer",
-    "heading": "Werden Sie von <1>AI-Suchmaschinen</1> gefunden",
-    "headingPrefix": "Werden Sie von ",
-    "headingAccent": "AI-Suchmaschinen",
-    "subtitle": "Die erste Plattform, die speziell für Answer Engine Optimization entwickelt wurde. Werden Sie von ChatGPT, Perplexity, Gemini und jeder AI zitiert, die zählt.",
+    "badge": "Nur 10 Plätze — noch 7 frei",
+    "heading": "AI beantwortet Fragen. <1>Zitiert sie Ihre Website?</1>",
+    "headingPrefix": "AI beantwortet Fragen. ",
+    "headingAccent": "Zitiert sie Ihre Website?",
+    "subtitle": "Menschen fragen täglich ChatGPT und Perplexity. Wir sorgen dafür, dass AI Ihre Website wählt.",
     "emailPlaceholder": "E-Mail-Adresse eingeben",
     "cta": "Auf die Warteliste",
     "joinedCount_one": "{{count}} Person hat sich bereits angemeldet",
@@ -25,11 +24,14 @@
   "education": {
     "label": "Wissen",
     "title": "Was ist Answer Engine Optimization?",
-    "description": "<strong>Answer Engine Optimization (AEO) ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen ausgewählt, zitiert und angezeigt werden.</strong> Im Gegensatz zu klassischem SEO, das auf Suchergebnisseiten abzielt, konzentriert sich AEO darauf, Ihren Content zur bevorzugten Quelle zu machen, die große Sprachmodelle wie ChatGPT, Perplexity und Google Gemini bei der Generierung von Antworten referenzieren.",
-    "descriptionBold": "Answer Engine Optimization (AEO) ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen ausgewählt, zitiert und angezeigt werden.",
-    "descriptionRest": " Im Gegensatz zu klassischem SEO, das auf Suchergebnisseiten abzielt, konzentriert sich AEO darauf, Ihren Content zur bevorzugten Quelle zu machen, die große Sprachmodelle wie ChatGPT, Perplexity und Google Gemini bei der Generierung von Antworten referenzieren.",
+    "description": "<strong>AI-Suchmaschinen wählen Websites aus, die sie zitieren.</strong> AEO sorgt dafür, dass sie Ihre wählen. So werden Sie sichtbar, wenn AI Antworten gibt.",
+    "descriptionBold": "AI-Suchmaschinen wählen Websites aus, die sie zitieren.",
+    "descriptionRest": " AEO sorgt dafür, dass sie Ihre wählen. So werden Sie sichtbar, wenn AI Antworten gibt.",
     "comparisonTitle": "AEO vs. klassisches SEO",
     "pillarsTitle": "Die 7 Säulen der AEO"
+  },
+  "socialProof": {
+    "title": "{{count}} Profis haben bereits ihren AEO-Score geprüft"
   },
   "aeoVsSeo": {
     "columns": {
@@ -46,43 +48,43 @@
       "1": {
         "aspect": "Wichtigste Kennzahl",
         "seo": "Position & Klickrate",
-        "aeo": "Zitierungshäufigkeit & -genauigkeit"
+        "aeo": "Wie oft und genau Sie zitiert werden"
       },
       "2": {
-        "aspect": "Inhaltsformat",
+        "aspect": "Content-Format",
         "seo": "Keywords & Backlinks",
         "aeo": "Strukturierte Daten & direkte Antworten"
       },
       "3": {
         "aspect": "Zielsystem",
         "seo": "Google-, Bing-Crawler",
-        "aeo": "LLMs, RAG-Pipelines, AI-Agenten"
+        "aeo": "LLMs, RAG-Systeme, AI-Agenten"
       },
       "4": {
         "aspect": "Optimierung",
-        "seo": "Meta-Tags & Seitenladezeit",
+        "seo": "Meta-Tags & Ladezeit",
         "aeo": "Schema-Markup & Entity-Klarheit"
       },
       "5": {
         "aspect": "Zeithorizont",
         "seo": "Wochen bis Monate",
-        "aeo": "Tage bis Wochen (Neuindexierung durch AI)"
+        "aeo": "Tage bis Wochen (AI indexiert neu)"
       }
     }
   },
   "pillars": {
     "0": "Strukturierte Daten & Schema-Markup",
-    "1": "Direkte Antwortformatierung",
+    "1": "Direktes Antwort-Format",
     "2": "Entity-Autorität & E-E-A-T",
-    "3": "Multi-Plattform-Optimierung",
-    "4": "AI-Crawler-Zugänglichkeit",
-    "5": "Content-Aktualität & -Genauigkeit",
-    "6": "Aufbau von Zitierungssignalen"
+    "3": "Optimierung für mehrere Plattformen",
+    "4": "Zugang für AI-Crawler",
+    "5": "Aktualität & Genauigkeit",
+    "6": "Aufbau von Zitierungs-Signalen"
   },
   "phases": {
     "sectionLabel": "Der Weg",
     "sectionTitle": "Ihr Weg zur AI-Sichtbarkeit",
-    "sectionSubtitle": "7 Phasen, die Sie von unsichtbar zu zitiert bringen. Jede Phase baut auf der vorherigen auf — hier erfahren Sie, was Sie erwartet.",
+    "sectionSubtitle": "7 Phasen — von unsichtbar bis zitiert. Jede baut auf der vorherigen auf.",
     "footer": "Die <strong>99-Punkte-Checkliste</strong> führt Sie durch jede Aufgabe in jeder Phase.",
     "footerBold": "99-Punkte-Checkliste",
     "footerPrefix": "Die ",
@@ -90,73 +92,73 @@
     "0": {
       "title": "Fundament & Audit",
       "timeline": "Woche 1–2",
-      "description": "Prüfen Sie bestehende Inhalte und technische Infrastruktur. Erfassen Sie Fragen, analysieren Sie Wettbewerber und erstellen Sie Ihre AEO-Ausgangsbasis.",
-      "visibility": "Wissen, wo Sie stehen — Ausgangswerte und Content-Lücken identifiziert"
+      "description": "Prüfen Sie Ihren Content und Ihre Technik. Erfassen Sie Fragen, analysieren Sie Wettbewerber und legen Sie Ihre AEO-Basis fest.",
+      "visibility": "Sie wissen, wo Sie stehen — Ausgangswerte und Lücken identifiziert"
     },
     "1": {
       "title": "Strukturierte Daten & Schema",
       "timeline": "Woche 2–4",
-      "description": "Implementieren Sie FAQ-, HowTo-, Article-, Product- und Organization-Schema-Markup, um Ihren Content maschinenlesbar zu machen.",
-      "visibility": "AI-Engines können jetzt Ihre Inhaltsstruktur lesen und verstehen"
+      "description": "Fügen Sie Schema-Markup hinzu: FAQ, HowTo, Article, Product, Organization. So kann AI Ihren Content lesen.",
+      "visibility": "AI-Suchmaschinen verstehen jetzt die Struktur Ihres Contents"
     },
     "2": {
       "title": "Content-Optimierung",
       "timeline": "Woche 3–8",
-      "description": "Strukturieren Sie Inhalte um mit Antwortabsätzen, Überschriftenhierarchie, Vergleichstabellen und Themen-Clustern.",
-      "visibility": "Ihr Content wird zur bestmöglichen Antwort für AI-Anfragen"
+      "description": "Strukturieren Sie Inhalte mit Antwort-Absätzen, klaren Überschriften, Tabellen und Themen-Clustern.",
+      "visibility": "Ihr Content wird zur besten Antwort für AI-Anfragen"
     },
     "3": {
       "title": "Technisches AEO",
       "timeline": "Woche 4–6",
-      "description": "Konfigurieren Sie AI-Bot-Zugang, semantisches HTML, RSS-Feeds, interne Verlinkung und Meta-Optimierung.",
-      "visibility": "AI-Crawler können Ihren Content effizient abrufen und extrahieren"
+      "description": "Richten Sie AI-Bot-Zugang, semantisches HTML, RSS-Feeds, interne Links und Meta-Optimierung ein.",
+      "visibility": "AI-Crawler können Ihren Content effizient abrufen"
     },
     "4": {
       "title": "Autorität & Vertrauen",
       "timeline": "Woche 6–12+",
-      "description": "Bauen Sie E-E-A-T-Signale, autoritative Backlinks, Google Business Profile und Zitierungsnetzwerke auf.",
-      "visibility": "AI-Engines vertrauen Ihrem Content als glaubwürdige, autoritative Quelle"
+      "description": "Bauen Sie E-E-A-T-Signale, starke Backlinks, Google Business Profile und ein Netzwerk für Zitierungen auf.",
+      "visibility": "AI-Suchmaschinen vertrauen Ihrem Content als glaubwürdige Quelle"
     },
     "5": {
       "title": "Testing & Validierung",
       "timeline": "Woche 6–8",
-      "description": "Testen Sie in ChatGPT, Perplexity, Google AI und Bing Copilot. Validieren Sie Schema und Crawlbarkeit.",
-      "visibility": "Überprüfen Sie, ob Sie auf allen wichtigen AI-Plattformen erscheinen"
+      "description": "Testen Sie in ChatGPT, Perplexity, Google AI und Bing Copilot. Prüfen Sie Schema und Crawler-Zugang.",
+      "visibility": "Bestätigen Sie, dass Sie auf allen großen AI-Plattformen erscheinen"
     },
     "6": {
-      "title": "Überwachen & Iterieren",
+      "title": "Monitoring & Optimierung",
       "timeline": "Woche 8+",
-      "description": "Verfolgen Sie AI-Zitierungen, testen Sie Antwortformate per A/B-Test, benchmarken Sie Wettbewerber und optimieren Sie monatlich neu.",
-      "visibility": "Kontinuierliche Verbesserung — bleiben Sie sichtbar, während sich AI-Engines wöchentlich weiterentwickeln"
+      "description": "Verfolgen Sie Zitierungen, testen Sie Formate, vergleichen Sie Wettbewerber und optimieren Sie monatlich.",
+      "visibility": "Bleiben Sie sichtbar, während sich AI-Suchmaschinen weiterentwickeln"
     }
   },
   "features": {
     "sectionLabel": "Was Sie erhalten",
     "sectionTitle": "Von Grund auf für AEO entwickelt",
-    "sectionSubtitle": "Alles, was Sie zum Optimieren, Testen und Überwachen Ihrer AI-Suchsichtbarkeit brauchen — auf einer Plattform.",
+    "sectionSubtitle": "Schwachstellen finden. Beheben. Ergebnisse verfolgen. Ein Tool.",
     "0": {
       "title": "99-Punkte-AEO-Checkliste",
-      "description": "Phasenweise Aufgaben, die jeden Aspekt der AEO abdecken — von Schema-Markup über Inhaltsstruktur bis hin zum AI-Crawler-Zugang."
+      "description": "Aufgaben Phase für Phase — von Schema-Markup über Content-Struktur bis zum Zugang für AI-Crawler."
     },
     "1": {
-      "title": "AI-gestützter Website-Analysator",
-      "description": "Geben Sie eine beliebige URL ein und erhalten Sie sofort einen AEO-Bereitschafts-Score mit umsetzbaren Empfehlungen."
+      "title": "Website-Analyzer",
+      "description": "URL eingeben, sofort einen AEO-Score mit 100 Punkten erhalten. Kein API-Key nötig. Prüft Schema, Crawler-Zugang, Struktur und mehr."
     },
     "2": {
-      "title": "Multi-Engine-Testlabor",
-      "description": "Testen Sie, wie Ihr Content in ChatGPT, Perplexity, Claude und Gemini gleichzeitig erscheint."
+      "title": "AI-Testlabor",
+      "description": "Testen Sie, wie Ihr Content in ChatGPT, Perplexity, Claude und Gemini erscheint — alles gleichzeitig."
     },
     "3": {
-      "title": "AI-Content-Autor",
-      "description": "Generieren Sie AEO-optimierte Inhalte mit integrierten strukturierten Daten und direkter Antwortformatierung."
+      "title": "AI-Content-Writer",
+      "description": "Erstellen Sie AEO-optimierte Inhalte mit integrierten strukturierten Daten und direktem Antwort-Format."
     },
     "4": {
       "title": "Schema-Generator",
-      "description": "Point-and-Click-Markup-Builder für FAQ, HowTo, Article und mehr — keine Programmierkenntnisse erforderlich."
+      "description": "Markup per Klick erstellen für FAQ, HowTo, Article und mehr — keine Programmierung nötig."
     },
     "5": {
-      "title": "Monitoring & Benachrichtigungen",
-      "description": "Verfolgen Sie AI-Zitierungsänderungen im Zeitverlauf und erhalten Sie Benachrichtigungen bei Sichtbarkeitsverschiebungen."
+      "title": "Monitoring & Alerts",
+      "description": "Verfolgen Sie Änderungen bei AI-Zitierungen und erhalten Sie Alerts, wenn sich Ihre Sichtbarkeit ändert."
     }
   },
   "faq": {
@@ -164,82 +166,82 @@
     "sectionTitle": "Häufig gestellte Fragen",
     "0": {
       "question": "Was ist Answer Engine Optimization (AEO)?",
-      "answer": "Answer Engine Optimization ist die Praxis, Website-Inhalte so zu optimieren, dass sie von AI-gestützten Suchmaschinen wie ChatGPT, Perplexity, Google AI Overviews und Bing Copilot zitiert werden. Im Gegensatz zu klassischem SEO, das auf Suchergebnis-Rankings abzielt, konzentriert sich AEO auf strukturierte Daten, direkte Antwortformatierung und Entity-Autorität, um sicherzustellen, dass AI-Systeme Ihren Content referenzieren."
+      "answer": "AEO sorgt dafür, dass AI-Suchmaschinen Ihre Website zitieren. ChatGPT, Perplexity und Gemini durchsuchen das Web nach Antworten. AEO macht Ihre Website zur ersten Wahl."
     },
     "1": {
       "question": "Wie unterscheidet sich AEO von klassischem SEO?",
-      "answer": "Während SEO für Suchergebnis-Rankings und Klickraten optimiert, optimiert AEO für AI-Zitierung und Aufnahme in generierte Antworten. AEO betont Schema-Markup, prägnante Antwortformatierung, Entity-Klarheit und E-E-A-T-Signale, die großen Sprachmodellen helfen, autoritative Quellen zu identifizieren und zu zitieren."
+      "answer": "SEO bringt Sie in die Google-Rankings. AEO sorgt dafür, dass AI-Tools Sie zitieren. Beides zählt — aber AEO zielt auf die Art, wie AI Quellen auswählt."
     },
     "2": {
-      "question": "Für wen ist AEO Dashboard gedacht?",
-      "answer": "AEO Dashboard ist für Agenturen, SEO-Profis und digitale Marketer konzipiert, die die Online-Sichtbarkeit ihrer Kunden zukunftssicher machen möchten. Ob Sie eine Website oder Hunderte betreuen — die Plattform skaliert mit Ihnen."
+      "question": "Für wen ist AEO Dashboard?",
+      "answer": "Agenturen, SEO-Profis und Marketer. Ob eine Website oder hundert — das Tool skaliert mit Ihnen."
     },
     "3": {
-      "question": "Wann wird AEO Dashboard veröffentlicht?",
-      "answer": "Wir befinden uns derzeit in den letzten Entwicklungsphasen. Tragen Sie sich in die Warteliste ein, um benachrichtigt zu werden, sobald wir starten. Wir werden außerdem eine kleine Gruppe von Early-Access-Nutzern auswählen, die die Plattform vor der öffentlichen Veröffentlichung testen können."
+      "question": "Wann startet AEO Dashboard?",
+      "answer": "Wir sind in der finalen Bauphase. Tragen Sie sich ein, um als Erste zu erfahren. Eine kleine Gruppe erhält Early Access vor dem Launch."
     },
     "4": {
       "question": "Welche Funktionen bietet AEO Dashboard?",
-      "answer": "AEO Dashboard umfasst eine 99-Punkte-AEO-Checkliste in 7 Phasen, einen Echtzeit-Site-Analyzer der jede URL sofort bewertet, ein Multi-Engine-Testlabor für ChatGPT, Perplexity, Claude und Gemini, einen AI-Content-Writer, einen Schema-Markup-Generator und Monitoring mit Benachrichtigungen bei Zitierungsänderungen."
+      "answer": "Eine 99-Punkte-Checkliste. Einen Website-Scanner. Ein Testlabor für AI-Tools. Einen Content-Writer, Schema-Generator und Alerts bei Änderungen."
     },
     "5": {
-      "question": "Brauche ich technisches Wissen, um AEO Dashboard zu nutzen?",
-      "answer": "Nein. AEO Dashboard ist für Marketer und SEO-Profis aller Erfahrungsstufen konzipiert. Die Checkliste führt Sie Schritt für Schritt, der Schema-Generator erfordert keine Programmierkenntnisse, und jede Aufgabe enthält Dokumentation, die erklärt, was zu tun ist und warum es wichtig ist."
+      "question": "Brauche ich technisches Wissen?",
+      "answer": "Nein. Das Tool führt Sie Schritt für Schritt. Kein Code nötig. Jede Aufgabe erklärt, was zu tun ist und warum."
     },
     "6": {
-      "question": "Wie funktioniert die 99-Punkte-AEO-Checkliste?",
-      "answer": "Die Checkliste unterteilt AEO in 7 Phasen — vom Audit des aktuellen Zustands bis zum laufenden Monitoring. Jede Phase enthält spezifische Aufgaben mit Dokumentation, Prioritätsstufen und Fortschrittsverfolgung. Sie arbeiten sich sequenziell durch, und das Dashboard zeigt Ihren Fertigstellungsgrad und den AEO-Bereitschaftswert."
+      "question": "Wie funktioniert die 99-Punkte-Checkliste?",
+      "answer": "Sie teilt AEO in 7 Phasen. Jede Phase hat klare Aufgaben mit Anleitungen. Sie haken ab, das Tool trackt Ihren Score."
     },
     "7": {
-      "question": "Welche AI-Engines unterstützt AEO Dashboard?",
-      "answer": "AEO Dashboard hilft Ihnen bei der Optimierung für alle großen AI-Suchmaschinen, darunter ChatGPT, Google AI Overviews, Google Gemini, Perplexity, Bing Copilot und Claude. Das Testlabor ermöglicht es Ihnen, alle gleichzeitig abzufragen und zu sehen, wie Ihr Content angezeigt wird."
+      "question": "Welche AI-Suchmaschinen werden unterstützt?",
+      "answer": "ChatGPT, Google AI, Gemini, Perplexity, Bing Copilot und Claude. Das Testlabor prüft alle gleichzeitig."
     },
     "8": {
       "question": "Ist AEO Dashboard kostenlos?",
-      "answer": "Während der Early-Access-Phase erhalten ausgewählte Nutzer kostenlosen Vollzugang zur Plattform. Nach dem Launch wird es sowohl kostenlose als auch kostenpflichtige Tarife geben. Der Site-Analyzer und die Basis-Checkliste bleiben immer kostenlos. Tragen Sie sich in die Warteliste ein, um sich Early-Access-Vorteile zu sichern."
+      "answer": "Early-Access-Nutzer erhalten vollen Zugang ohne Kosten. Nach dem Launch gibt es kostenlose und Bezahl-Pläne. Tragen Sie sich ein, um Ihren Platz zu sichern."
     },
     "9": {
-      "question": "Kann ich AEO Dashboard für mehrere Websites nutzen?",
-      "answer": "Ja. AEO Dashboard unterstützt mehrere Projekte, sodass Sie AEO für verschiedene Websites von einem einzigen Konto aus verwalten können. Jedes Projekt hat eigene Checklisten-Fortschritte, Analyzer-Ergebnisse und Monitoring-Daten — ideal für Agenturen mit Kundenportfolios."
+      "question": "Kann ich mehrere Websites verwalten?",
+      "answer": "Ja. Legen Sie viele Websites in einem Konto an. Jede bekommt eigene Checkliste, Scores und Alerts."
     }
   },
   "aiCost": {
     "label": "AI-Kosten",
     "title": "AI-gestützt für unter 3 $",
-    "subtitle": "Verbinden Sie Ihren eigenen API-Key — kein Aufschlag, keine versteckten Gebühren. Die vollständige Projektoptimierung kostet weniger als eine Tasse Kaffee.",
+    "subtitle": "Verbinden Sie Ihren eigenen API-Key — kein Aufschlag, keine versteckten Kosten. Ein ganzes Projekt kostet weniger als ein Kaffee.",
     "price": "2–3 $",
-    "priceLabel": "Gesamt für ein vollständiges Projekt",
-    "description": "Schließen Sie alle 99 Checklisten-Einträge mit jeder AI-Funktion ab — Content Writer, Analyzer, Schema Generator und mehr — für ca. 2–3 $ an API-Kosten.",
+    "priceLabel": "Gesamt für ein Projekt",
+    "description": "Schließen Sie alle 99 Aufgaben ab — Content-Writer, Analyzer, Schema-Generator und mehr — für ca. 2–3 $ API-Kosten.",
     "cards": {
       "0": {
         "value": "0,01–0,05 $",
-        "label": "Pro AI-Funktionsnutzung",
-        "description": "Jede AI-Aktion kostet Centbeträge — von Content-Bewertung bis Schema-Generierung."
+        "label": "Pro AI-Aktion",
+        "description": "Jede AI-Aktion kostet Centbeträge — von Content-Bewertung bis Schema-Erstellung."
       },
       "1": {
         "value": "~2–3 $",
-        "label": "Vollständiges Projekt",
-        "description": "Nutzen Sie jede AI-Funktion für alle 99 Checklisten-Einträge einer Website."
+        "label": "Komplettes Projekt",
+        "description": "Alle AI-Funktionen für alle 99 Aufgaben einer Website."
       },
       "2": {
         "value": "~0,30–0,50 $",
-        "label": "Laufende monatliche Kosten",
-        "description": "Monitoring, Neubewertung und gelegentliche AI-Nutzung nach der Ersteinrichtung."
+        "label": "Monatliche Kosten",
+        "description": "Monitoring, Neubewertung und gelegentliche AI-Nutzung nach der Einrichtung."
       }
     }
   },
   "earlyAccess": {
     "title": "Early Access gewünscht?",
-    "description": "Vor dem Launch geben wir einer ausgewählten Gruppe von frühen Unterstützern Zugang zur vollständigen Plattform. Tragen Sie sich in die Warteliste ein, um die Chance zu erhalten, zu den Ersten zu gehören, die AEO Dashboard testen — und helfen Sie mit Ihrem Feedback, das Produkt zu gestalten.",
+    "description": "Vor dem Launch geben wir einer kleinen Gruppe Zugang zur kompletten Plattform. Tragen Sie sich ein für die Chance, AEO Dashboard als Erste zu testen — und das Produkt mitzugestalten.",
     "benefits": {
-      "0": "Voller Plattform-Zugang vor dem Launch",
+      "0": "Voller Zugang vor dem Launch",
       "1": "Direkter Draht zum Gründungsteam",
-      "2": "Helfen Sie mit Feedback, das Produkt zu gestalten",
-      "3": "Kostenloser Zugang während der Early-Access-Phase"
+      "2": "Gestalten Sie das Produkt mit",
+      "3": "Kostenloser Zugang in der Early-Access-Phase"
     },
     "emailPlaceholder": "E-Mail-Adresse eingeben",
     "cta": "Auf die Warteliste",
-    "note": "Wir wählen ca. 10 Early-Access-Nutzer aus der Warteliste aus und kontaktieren sie persönlich."
+    "note": "Wir wählen ca. 10 Early-Access-Nutzer aus und kontaktieren sie persönlich."
   },
   "footer": {
     "brandDescription": "Das komplette Toolkit für Answer Engine Optimization.",
@@ -248,54 +250,53 @@
         "title": "Produkt",
         "links": {
           "0": "Was ist AEO?",
-          "1": "Phasen",
-          "2": "Features",
-          "3": "FAQ"
+          "1": "Features",
+          "2": "FAQ"
         }
       }
     },
-    "copyright": "\u00a9 {{year}} AEO Dashboard. Alle Rechte vorbehalten."
+    "copyright": "© {{year}} AEO Dashboard. Alle Rechte vorbehalten."
   },
   "success": {
     "titleNew": "Sie sind auf der Liste!",
     "titleExisting": "Sie stehen bereits auf der Liste!",
     "messageNew": "Wir benachrichtigen Sie, sobald AEO Dashboard startet. Bleiben Sie dran!",
-    "messageExisting": "Wir haben Ihre E-Mail-Adresse bereits. Wir benachrichtigen Sie, wenn wir starten.",
+    "messageExisting": "Ihre E-Mail ist bereits registriert. Wir melden uns zum Launch.",
     "position": "#{{count}} auf der Warteliste",
     "shareOnX": "Auf X teilen",
     "shareOnLinkedIn": "LinkedIn",
     "copyLink": "Link kopieren",
     "copied": "Kopiert!",
     "close": "Schließen",
-    "shareText": "Ich habe mich gerade in die Warteliste für AEO Dashboard eingetragen — die erste Plattform, die speziell für Answer Engine Optimization entwickelt wurde. Jetzt Early Access sichern:"
+    "shareText": "Ich habe mich für AEO Dashboard eingetragen — die erste Plattform für Answer Engine Optimization. Jetzt Early Access sichern:"
   },
   "scorecard": {
-    "heroButton": "Ihren AEO-Score prüfen \u2192",
-    "heroNote": "Kostenlos \u2022 2 Minuten \u2022 Sofortergebnisse",
-    "counterSuffix": "Fachleute haben ihren Score geprüft",
+    "heroButton": "Score jetzt prüfen →",
+    "heroNote": "Kostenlos • 2 Minuten • Sofort Ergebnis",
+    "counterSuffix": "Profis haben ihren Score geprüft",
     "bottomCtaTitle": "Bereit, Ihren Score zu prüfen?",
 
     "capture": {
-      "title": "Wie AI-bereit ist Ihre Website?",
-      "subtitle": "Beantworten Sie 14 kurze Fragen. Erhalten Sie sofort Ihren persönlichen AEO-Bereitschafts-Score.",
+      "title": "Wie AI-ready ist Ihre Website?",
+      "subtitle": "14 kurze Fragen. Ihr persönlicher AEO-Score — sofort.",
       "timeNote": "Dauert weniger als 2 Minuten",
       "name": "Ihr Name",
       "email": "Ihre E-Mail-Adresse",
       "website": "Website-URL (optional)",
-      "start": "Bewertung starten \u2192",
+      "start": "Jetzt starten →",
       "consent": "Mit dem Start tragen Sie sich in unsere Early-Access-Liste ein. Kein Spam, niemals.",
-      "duplicate": "Diese E-Mail-Adresse steht bereits auf unserer Liste!"
+      "duplicate": "Diese E-Mail steht bereits auf unserer Liste!"
     },
 
     "progress": "Schritt {{current}} von {{total}}",
     "back": "Zurück",
     "next": "Weiter",
     "skip": "Bewertung überspringen",
-    "skipConfirm": "Teildaten speichern und schließen?",
+    "skipConfirm": "Daten speichern und schließen?",
     "closeConfirm": "Ihr Fortschritt wird gespeichert. Schließen?",
 
     "categories": {
-      "contentStructure": "Inhalt & Struktur",
+      "contentStructure": "Content & Struktur",
       "technicalSchema": "Technik & Schema",
       "aiVisibility": "AI-Sichtbarkeit",
       "strategyCompetition": "Strategie & Wettbewerb"
@@ -303,7 +304,7 @@
 
     "questions": {
       "q1": {
-        "text": "Hat Ihre Website FAQ-Bereiche mit klarer Frage-Antwort-Formatierung?",
+        "text": "Hat Ihre Website FAQ-Bereiche mit klarem Frage-Antwort-Format?",
         "options": {
           "0": "Ja, auf den meisten Seiten",
           "1": "Auf einigen Seiten",
@@ -311,7 +312,7 @@
         }
       },
       "q2": {
-        "text": "Wie häufig veröffentlichen oder aktualisieren Sie Inhalte auf Ihrer Website?",
+        "text": "Wie oft veröffentlichen oder aktualisieren Sie Content?",
         "options": {
           "0": "Wöchentlich oder öfter",
           "1": "Monatlich",
@@ -319,15 +320,16 @@
         }
       },
       "q3": {
-        "text": "Beantwortet Ihr Content direkt Fragen, die Menschen AI-Assistenten stellen?",
+        "text": "Beantwortet Ihr Content direkt Fragen, die Menschen AI-Tools stellen?",
         "options": {
           "0": "Ja, wir schreiben gezielt dafür",
-          "1": "Ein Teil unseres Contents tut das natürlicherweise",
-          "2": "Darüber haben wir noch nicht nachgedacht"
+          "1": "Teilweise, eher zufällig",
+          "2": "Darüber haben wir nicht nachgedacht"
         }
       },
       "q4": {
-        "text": "Verwendet Ihre Website strukturierte Daten (Schema-Markup)?",
+        "text": "Nutzt Ihre Website strukturierte Daten (Schema-Markup)?",
+        "hint": "Schema-Markup ist Code, der AI hilft, Ihre Website zu lesen. Wie Etiketten auf einem Ordner.",
         "options": {
           "0": "Ja, mehrere Typen (FAQ, Article, HowTo...)",
           "1": "Nur Basis (Organization, Breadcrumb)",
@@ -336,56 +338,58 @@
       },
       "q5": {
         "text": "Sind AI-Crawler (GPTBot, PerplexityBot usw.) in Ihrer robots.txt erlaubt?",
+        "hint": "Das sind Bots, die ChatGPT und Perplexity nutzen, um Ihre Website zu lesen. Prüfen Sie unter ihrewebsite.de/robots.txt.",
         "options": {
           "0": "Ja, alle sind erlaubt",
-          "1": "Ich habe einige überprüft",
+          "1": "Einige habe ich geprüft",
           "2": "Nein / Was ist das?"
         }
       },
       "q6": {
         "text": "Hat Ihre Website eine XML-Sitemap mit aktuellen lastmod-Daten?",
+        "hint": "Eine Sitemap listet alle Ihre Seiten, damit AI sie findet. Das lastmod-Datum zeigt, was neu ist.",
         "options": {
-          "0": "Ja, automatisch aktualisiert",
-          "1": "Ja, aber nicht sicher bezüglich lastmod",
+          "0": "Ja, wird automatisch aktualisiert",
+          "1": "Ja, aber unsicher bei lastmod",
           "2": "Nein / Weiß nicht"
         }
       },
       "q7": {
-        "text": "Haben Sie getestet, wie Ihre Marke in AI-Suchmaschinen (ChatGPT, Perplexity, Gemini) erscheint?",
+        "text": "Haben Sie getestet, wie Ihre Marke in AI-Suchmaschinen erscheint?",
         "options": {
-          "0": "Ja, wir überwachen das regelmäßig",
-          "1": "Ich habe ein paar Mal nachgesehen",
+          "0": "Ja, wir prüfen das regelmäßig",
+          "1": "Ein paar Mal nachgesehen",
           "2": "Nie"
         }
       },
       "q8": {
-        "text": "Wissen Sie, ob Ihre Inhalte in Google AI Overviews erscheinen?",
+        "text": "Wissen Sie, ob Ihr Content in Google AI Overviews erscheint?",
         "options": {
-          "0": "Ja, wir verfolgen das",
-          "1": "Ich habe einige bemerkt",
+          "0": "Ja, wir tracken das",
+          "1": "Einige bemerkt",
           "2": "Keine Ahnung"
         }
       },
       "q9": {
-        "text": "Verfolgen Sie, wie viel Traffic aus AI-gestützten Quellen kommt?",
+        "text": "Tracken Sie, wie viel Traffic von AI-Quellen kommt?",
         "options": {
-          "0": "Ja, das haben wir eingerichtet",
+          "0": "Ja, ist eingerichtet",
           "1": "Ist geplant",
           "2": "Nein"
         }
       },
       "q10": {
-        "text": "Wissen Sie, ob Ihre Wettbewerber von AI-Engines zitiert werden?",
+        "text": "Wissen Sie, ob AI-Suchmaschinen Ihre Wettbewerber zitieren?",
         "options": {
-          "0": "Ja, wir überwachen das",
-          "1": "Ich habe einige überprüft",
+          "0": "Ja, wir beobachten das",
+          "1": "Einige geprüft",
           "2": "Nein"
         }
       },
       "q11": {
-        "text": "Hat Ihre Organisation eine dedizierte AEO-Strategie (über klassisches SEO hinaus)?",
+        "text": "Hat Ihre Organisation eine eigene AEO-Strategie (über SEO hinaus)?",
         "options": {
-          "0": "Ja, das ist Teil unserer Roadmap",
+          "0": "Ja, Teil unserer Roadmap",
           "1": "Wir erkunden es",
           "2": "Nein, nur SEO"
         }
@@ -396,7 +400,7 @@
       "role": {
         "text": "Was beschreibt Ihre Rolle am besten?",
         "options": {
-          "0": "Agenturinhaber / Partner",
+          "0": "Agentur-Inhaber / Partner",
           "1": "SEO-Manager / Director in einer Agentur",
           "2": "Inhouse-Marketing / SEO",
           "3": "Freiberuflicher Berater",
@@ -407,16 +411,16 @@
         "text": "Wie viele Websites betreuen Sie?",
         "options": {
           "0": "10+ Kunden-Websites",
-          "1": "3\u20139 Websites",
-          "2": "1\u20132 Websites",
+          "1": "3–9 Websites",
+          "2": "1–2 Websites",
           "3": "Nur meine eigene"
         }
       },
       "timeline": {
-        "text": "Wann möchten Sie AEO implementieren?",
+        "text": "Wann möchten Sie mit AEO starten?",
         "options": {
-          "0": "Sofort \u2014 das ist dringend",
-          "1": "Innerhalb von 1\u20133 Monaten",
+          "0": "Sofort — das ist dringend",
+          "1": "Innerhalb von 1–3 Monaten",
           "2": "Erkunde es für die Zukunft",
           "3": "Vorerst nur neugierig"
         }
@@ -424,90 +428,101 @@
     },
 
     "results": {
-      "title": "Ihr AEO-Bereitschafts-Score",
+      "title": "Ihr AEO-Score",
       "outOf": "/ {{max}}",
       "breakdown": "Aufschlüsselung nach Kategorie",
       "priorities": "Ihre Top-Prioritäten",
-      "ctaTitle": "AEO Dashboard behebt all das \u2014 automatisch.",
+      "ctaTitle": "AEO Dashboard behebt all das — automatisch.",
       "ctaButton": "Early Access sichern",
-      "ctaDone": "\u2713 Sie sind auf der Liste!",
+      "ctaDone": "✓ Sie sind auf der Liste!",
       "shareX": "Auf X teilen",
       "shareLI": "Auf LinkedIn teilen",
       "copyLink": "Link kopieren",
       "copied": "Kopiert!",
-      "counter": "{{count}} Fachleute haben ihren Score geprüft"
+      "counter": "{{count}} Profis haben ihren Score geprüft",
+      "websitePrompt": "Website-Report gewünscht? URL eingeben:",
+      "websitePlaceholder": "https://ihrewebsite.de",
+      "websiteSaved": "Website gespeichert — wir berücksichtigen sie in Ihrem Aktionsplan.",
+      "whatHappensNext": {
+        "title": "Wie es weitergeht",
+        "step1": "Ihr Score ist gespeichert",
+        "step2": "Wir senden Ihnen einen Aktionsplan innerhalb von 24 Stunden",
+        "step3": "Top-Scorer erhalten Einladungen zum Early Access"
+      }
     },
 
     "tiers": {
       "invisible": {
         "label": "AI-unsichtbar",
-        "desc": "Ihre Website ist für AI-Engines praktisch unsichtbar. Ohne strukturierte Daten, direkte Antworten oder AI-Crawler-Zugang haben AI-Systeme keine Möglichkeit, Ihren Content zu finden oder zu zitieren. Die gute Nachricht: Es gibt einen klaren Weg, das zu ändern."
+        "desc": "AI-Suchmaschinen finden Ihre Website nicht. Keine Zitate, kein AI-Traffic. Aber die Lösung ist klar. Wir zeigen Ihnen wie."
       },
       "starting": {
         "label": "Am Anfang",
-        "desc": "Ihre Website hat einige Grundlagen, aber es bestehen erhebliche Lücken darin, wie AI-Engines Ihren Content finden und zitieren. Diese Lücken zu schließen könnte Ihre AI-Sichtbarkeit innerhalb von Wochen dramatisch steigern."
+        "desc": "Einige Grundlagen sind da. Aber große Lücken bleiben. Schließen Sie sie schnell — AI-Traffic kann in Wochen kommen."
       },
       "onTrack": {
         "label": "Auf Kurs",
-        "desc": "Gute Basis! Ihre Website hat viele AEO-Elemente implementiert. Einige gezielte Verbesserungen in Ihren schwächsten Bereichen könnten Sie in die Spitzengruppe der AI-bereiten Websites bringen."
+        "desc": "Starke Basis! Ihre Website ist auf dem richtigen Weg. Ein paar gezielte Fixes in Ihren Schwachstellen bringen Sie an die Spitze."
       },
       "aiReady": {
-        "label": "AI-bereit",
-        "desc": "Hervorragend! Ihre Website ist gut für AI-Suchmaschinen optimiert. Sie sind 95 % aller Websites voraus. Überwachen und optimieren Sie weiterhin, um Ihren Wettbewerbsvorteil zu halten."
+        "label": "AI-ready",
+        "desc": "Sie sind 95 % aller Websites voraus. AI-Tools finden und zitieren Ihren Content. Bleiben Sie dran und halten Sie die Spitze."
       }
     },
 
     "priorities": {
       "add_faq_sections": {
-        "title": "FAQ-Bereiche auf wichtigen Seiten hinzufügen",
-        "desc": "AI-Engines stützen sich stark auf Frage-Antwort-formatierte Inhalte, um direkte Antworten zu generieren. FAQ-Bereiche hinzuzufügen ist der schnellste Weg, zitiert zu werden."
+        "title": "FAQ-Bereiche auf wichtigen Seiten ergänzen",
+        "desc": "AI-Tools lieben FAQ-Content. Ergänzen Sie FAQs — das ist der schnellste Weg, zitiert zu werden."
       },
       "increase_publish_frequency": {
-        "title": "Content-Veröffentlichungsfrequenz erhöhen",
-        "desc": "Frische, regelmäßig aktualisierte Inhalte signalisieren AI-Engines, dass Ihre Website eine aktive, autoritative Quelle ist, die es wert ist, zitiert zu werden."
+        "title": "Öfter neuen Content veröffentlichen",
+        "desc": "Frischer Content zeigt AI, dass Ihre Website aktiv ist. Ziel: wöchentlich veröffentlichen."
       },
       "write_direct_answers": {
-        "title": "Inhalte schreiben, die AI-Anfragen direkt beantworten",
-        "desc": "Strukturieren Sie Ihren Content als klare, prägnante Antworten auf häufige Fragen in Ihrer Branche. AI-Engines bevorzugen direkte Antwortformatierung."
+        "title": "Klare Antworten auf häufige Fragen schreiben",
+        "desc": "AI wählt kurze, klare Antworten. Schreiben Sie, als würden Sie einem Kollegen helfen."
       },
       "add_schema_markup": {
-        "title": "JSON-LD-Schema-Markup hinzufügen",
-        "desc": "Ihnen fehlt das wichtigste technische Signal, das AI-Engines nutzen, um Ihren Content zu verstehen. Schema-Markup ist essenziell für AI-Sichtbarkeit."
+        "title": "Schema-Markup auf Ihrer Website ergänzen",
+        "desc": "Das wichtigste technische Signal für AI. Ohne Schema-Markup versteht AI Ihre Seiten kaum."
       },
       "check_ai_crawlers": {
-        "title": "AI-Crawler-Zugang in robots.txt prüfen",
-        "desc": "Wenn GPTBot, PerplexityBot und andere AI-Crawler blockiert sind, kann Ihr Content niemals in AI-generierten Antworten erscheinen."
+        "title": "AI-Bots in robots.txt freigeben",
+        "desc": "Wenn AI-Bots blockiert sind, erscheint Ihre Website nie in AI-Antworten. Prüfen Sie das heute."
       },
       "add_sitemap_lastmod": {
-        "title": "XML-Sitemap mit lastmod-Daten hinzufügen",
-        "desc": "Eine korrekte Sitemap mit aktuellen lastmod-Daten hilft AI-Engines zu erkennen, welche Inhalte priorisiert und neu indexiert werden sollen."
+        "title": "Sitemap mit aktuellen Daten ergänzen",
+        "desc": "Eine Sitemap zeigt AI Ihre Seiten. Die Daten zeigen, was neu ist. Beides zählt."
       },
       "test_ai_citations": {
-        "title": "AI-Zitierungen testen",
-        "desc": "Was man nicht misst, kann man nicht verbessern. Prüfen Sie, wie Ihre Marke in ChatGPT, Perplexity und Gemini erscheint."
+        "title": "Ihre Website in AI-Tools testen",
+        "desc": "Fragen Sie ChatGPT und Perplexity nach Ihrer Marke. Was Sie nicht sehen, können Sie nicht verbessern."
       },
       "track_ai_overviews": {
-        "title": "Google AI Overviews überwachen",
-        "desc": "AI Overviews ersetzen bei vielen Suchanfragen traditionelle Suchergebnisse. Verfolgen Sie, welche Ihrer Seiten dort erscheinen."
+        "title": "Google AI Overviews tracken",
+        "desc": "Google zeigt jetzt AI-Antworten über den Suchergebnissen. Prüfen Sie, ob Ihre Seiten dort erscheinen."
       },
       "setup_ai_traffic_tracking": {
         "title": "AI-Traffic-Tracking einrichten",
-        "desc": "Die meisten Analytics-Tools trennen AI-gestützten Traffic nicht. Richtiges Tracking einzurichten zeigt die tatsächliche Auswirkung der AI-Suche."
+        "desc": "Die meisten Tools trennen AI-Traffic nicht. Richten Sie das ein, damit Sie wissen, was AI Ihnen bringt."
       },
       "monitor_competitors_ai": {
-        "title": "Wettbewerber in der AI-Suche überwachen",
-        "desc": "Zu wissen, welche Wettbewerber AI-Engines zitieren, hilft Ihnen, Lücken in Ihrem eigenen Content und Ihrer Strategie zu erkennen."
+        "title": "Prüfen, was AI über Wettbewerber sagt",
+        "desc": "Wenn AI Ihren Wettbewerber zitiert, aber nicht Sie — finden Sie heraus warum. Dann schließen Sie die Lücke."
       },
       "create_aeo_strategy": {
-        "title": "Dedizierte AEO-Strategie erstellen",
-        "desc": "AEO erfordert andere Taktiken als klassisches SEO. Eine dedizierte Strategie stellt sicher, dass Sie für die Art und Weise optimieren, wie AI tatsächlich Quellen auswählt."
+        "title": "Eigenen AEO-Plan erstellen",
+        "desc": "AEO braucht einen eigenen Plan. SEO-Taktiken allein reichen nicht. Definieren Sie, was Sie wann optimieren."
       }
     },
 
     "successState": {
-      "title": "\u2713 Ihr AEO-Score: {{score}}/{{max}} \u2014 {{tier}}",
+      "title": "✓ Ihr AEO-Score: {{score}}/{{max}} — {{tier}}",
       "subtitle": "Wir melden uns mit Ihrem persönlichen Aktionsplan.",
-      "share": "Ihren Score teilen"
+      "share": "Ihren Score teilen",
+      "sharePrompt": "Teilen Sie Ihren Score mit dem Team:",
+      "timeline": "Wir prüfen Ihren Score und senden einen Aktionsplan innerhalb von 24 Stunden. Top-Scorer erhalten Early Access."
     }
   }
 }

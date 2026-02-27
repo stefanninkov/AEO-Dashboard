@@ -2,34 +2,37 @@
   "nav": {
     "links": {
       "0": "Šta je AEO?",
-      "1": "Faze",
-      "2": "Funkcije",
-      "3": "FAQ"
+      "1": "Funkcije",
+      "2": "FAQ"
     },
-    "cta": "Pridružite se listi čekanja",
+    "cta": "Proveri rezultat",
     "openMenu": "Otvori meni",
     "closeMenu": "Zatvori meni"
   },
   "hero": {
-    "badge": "Uskoro — Rani pristup za odabrane korisnike",
-    "heading": "Budite pronađeni od strane <1>AI pretraživača</1>",
-    "headingPrefix": "Budite pronađeni od strane ",
-    "headingAccent": "AI pretraživača",
-    "subtitle": "Prva platforma napravljena za Answer Engine Optimization. Budite citirani od strane ChatGPT, Perplexity, Gemini i svakog AI pretraživača koji je bitan.",
-    "emailPlaceholder": "Unesite svoj imejl",
-    "cta": "Pridružite se listi čekanja",
+    "badge": "Samo 10 mesta — ostalo još 7",
+    "heading": "AI odgovara na pitanja. <1>Da li citira tebe?</1>",
+    "headingPrefix": "AI odgovara na pitanja. ",
+    "headingAccent": "Da li citira tebe?",
+    "subtitle": "Ljudi svaki dan pitaju ChatGPT i Perplexity. Mi pomažemo da AI izabere tvoj sajt.",
+    "emailPlaceholder": "Unesi svoj imejl",
+    "cta": "Pridruži se listi",
     "joinedCount_one": "{{count}} osoba se već pridružila",
+    "joinedCount_few": "{{count}} osobe su se već pridružile",
     "joinedCount_other": "{{count}} osoba se već pridružilo",
     "joinedSuffix": "osoba se već pridružilo"
   },
   "education": {
     "label": "Edukacija",
     "title": "Šta je Answer Engine Optimization?",
-    "description": "<strong>Answer Engine Optimization (AEO) je praksa optimizacije sadržaja sajta da bude izabran, citiran i prikazan od strane AI pretraživača.</strong> Za razliku od tradicionalnog SEO koji cilja stranice rezultata pretrage, AEO se fokusira na to da vaš sadržaj bude preferirani izvor koji veliki jezički modeli poput ChatGPT, Perplexity i Google Gemini koriste pri generisanju odgovora.",
-    "descriptionBold": "Answer Engine Optimization (AEO) je praksa optimizacije sadržaja sajta da bude izabran, citiran i prikazan od strane AI pretraživača.",
-    "descriptionRest": " Za razliku od tradicionalnog SEO koji cilja stranice rezultata pretrage, AEO se fokusira na to da vaš sadržaj bude preferirani izvor koji veliki jezički modeli poput ChatGPT, Perplexity i Google Gemini koriste pri generisanju odgovora.",
+    "description": "<strong>AI pretraživači biraju sajtove koje citiraju.</strong> AEO pomaže da izaberu tvoj. To je novi način da se pojaviš kad AI daje odgovore.",
+    "descriptionBold": "AI pretraživači biraju sajtove koje citiraju.",
+    "descriptionRest": " AEO pomaže da izaberu tvoj. To je novi način da se pojaviš kad AI daje odgovore.",
     "comparisonTitle": "AEO u odnosu na tradicionalni SEO",
     "pillarsTitle": "7 stubova AEO"
+  },
+  "socialProof": {
+    "title": "Pridruži se {{count}} profesionalaca koji su proverili svoj AEO rezultat"
   },
   "aeoVsSeo": {
     "columns": {
@@ -39,24 +42,24 @@
     },
     "rows": {
       "0": {
-        "aspect": "Primarni cilj",
+        "aspect": "Glavni cilj",
         "seo": "Rangiranje u rezultatima pretrage",
-        "aeo": "Biti citiran u AI odgovorima"
+        "aeo": "Citiranje u AI odgovorima"
       },
       "1": {
         "aspect": "Ključna metrika",
         "seo": "Pozicija i stopa klika",
-        "aeo": "Učestalost i tačnost citiranja"
+        "aeo": "Koliko često i tačno te AI citira"
       },
       "2": {
         "aspect": "Format sadržaja",
-        "seo": "Ključne reči i povratni linkovi",
+        "seo": "Ključne reči i linkovi",
         "aeo": "Strukturirani podaci i direktni odgovori"
       },
       "3": {
         "aspect": "Ciljni sistem",
         "seo": "Google, Bing roboti",
-        "aeo": "LLM modeli, RAG pajplajni, AI agenti"
+        "aeo": "LLM modeli, RAG sistemi, AI agenti"
       },
       "4": {
         "aspect": "Optimizacija",
@@ -66,97 +69,97 @@
       "5": {
         "aspect": "Vremenski okvir",
         "seo": "Nedelje do meseci",
-        "aeo": "Dani do nedelja (reindeksirano od strane AI)"
+        "aeo": "Dani do nedelja (AI ponovo indeksira)"
       }
     }
   },
   "pillars": {
-    "0": "Strukturirani podaci i Schema oznake",
+    "0": "Strukturirani podaci i schema oznake",
     "1": "Formatiranje direktnih odgovora",
     "2": "Autoritet entiteta i E-E-A-T",
     "3": "Optimizacija za više platformi",
-    "4": "Pristupačnost za AI robote",
+    "4": "Pristup za AI botove",
     "5": "Svežina i tačnost sadržaja",
-    "6": "Izgradnja signala citiranja"
+    "6": "Izgradnja signala za citiranje"
   },
   "phases": {
     "sectionLabel": "Putovanje",
-    "sectionTitle": "Vaš put do AI vidljivosti",
-    "sectionSubtitle": "7 faza koje vas vode od nevidljivosti do citiranja. Svaka faza se nadovezuje na prethodnu — evo šta možete očekivati.",
-    "footer": "<strong>Kontrolna lista od 99 tačaka</strong> vas vodi kroz svaki zadatak u svakoj fazi.",
-    "footerBold": "Kontrolna lista od 99 tačaka",
+    "sectionTitle": "Tvoj put do AI vidljivosti",
+    "sectionSubtitle": "7 faza koje te vode od nule do citiranja. Svaka se nadovezuje na prethodnu — evo šta te čeka.",
+    "footer": "<strong>Lista od 99 zadataka</strong> te vodi kroz svaki korak svake faze.",
+    "footerBold": "Lista od 99 zadataka",
     "footerPrefix": "",
-    "footerSuffix": " vas vodi kroz svaki zadatak u svakoj fazi.",
+    "footerSuffix": " te vodi kroz svaki korak svake faze.",
     "0": {
       "title": "Osnova i revizija",
-      "timeline": "Nedelja 1-2",
-      "description": "Revidirajte postojeći sadržaj i tehničku infrastrukturu. Mapirajte pitanja, analizirajte konkurente i utvrdite AEO polaznu osnovu.",
-      "visibility": "Znajte gde stojite — početne metrike i identifikovane praznine u sadržaju"
+      "timeline": "Nedelja 1–2",
+      "description": "Proveri postojeći sadržaj i tehničku osnovu. Mapiraj pitanja, analiziraj konkurenciju i utvrdi polaznu tačku.",
+      "visibility": "Znaš gde stojiš — početne metrike i praznine u sadržaju"
     },
     "1": {
-      "title": "Strukturirani podaci i Schema",
-      "timeline": "Nedelja 2-4",
-      "description": "Implementirajte FAQ, HowTo, Article, Product i Organization schema oznake da biste učinili sadržaj mašinski čitljivim.",
-      "visibility": "AI pretraživači sada mogu da čitaju i razumeju strukturu vašeg sadržaja"
+      "title": "Strukturirani podaci i schema",
+      "timeline": "Nedelja 2–4",
+      "description": "Dodaj FAQ, HowTo, Article, Product i Organization schema oznake da bi AI mogao da čita tvoj sadržaj.",
+      "visibility": "AI pretraživači sada mogu da čitaju i razumeju strukturu tvog sadržaja"
     },
     "2": {
       "title": "Optimizacija sadržaja",
-      "timeline": "Nedelja 3-8",
-      "description": "Restrukturirajte sadržaj sa paragrafima odgovora, hijerarhijom naslova, tabelama poređenja i tematskim klasterima.",
-      "visibility": "Vaš sadržaj postaje najbolji mogući odgovor za AI upite"
+      "timeline": "Nedelja 3–8",
+      "description": "Prestrukturiraj sadržaj sa odgovorima u paragrafima, jasnim naslovima, tabelama i tematskim grupama.",
+      "visibility": "Tvoj sadržaj postaje najbolji mogući odgovor za AI upite"
     },
     "3": {
       "title": "Tehničko AEO",
-      "timeline": "Nedelja 4-6",
-      "description": "Konfigurišite pristup AI botovima, semantički HTML, RSS fidove, interno povezivanje i meta optimizaciju.",
-      "visibility": "AI roboti mogu efikasno pristupiti i izvući vaš sadržaj"
+      "timeline": "Nedelja 4–6",
+      "description": "Podesi pristup AI botovima, semantički HTML, RSS, interno linkovanje i meta optimizaciju.",
+      "visibility": "AI botovi mogu lako da pristupe tvom sadržaju i izvuku podatke"
     },
     "4": {
       "title": "Autoritet i poverenje",
-      "timeline": "Nedelja 6-12+",
-      "description": "Izgradite E-E-A-T signale, autoritativne povratne linkove, Google Business Profile i mreže citiranja.",
-      "visibility": "AI pretraživači veruju vašem sadržaju kao kredibilnom, autoritativnom izvoru"
+      "timeline": "Nedelja 6–12+",
+      "description": "Izgradi E-E-A-T signale, jake linkove, Google Business Profile i mrežu citiranja.",
+      "visibility": "AI pretraživači veruju tvom sadržaju kao pouzdanom izvoru"
     },
     "5": {
-      "title": "Testiranje i validacija",
-      "timeline": "Nedelja 6-8",
-      "description": "Testirajte na ChatGPT, Perplexity, Google AI i Bing Copilot. Validirajte schema i pristupačnost za robote.",
-      "visibility": "Verifikujte da se pojavljujete na svim velikim AI platformama"
+      "title": "Testiranje i provera",
+      "timeline": "Nedelja 6–8",
+      "description": "Testiraj na ChatGPT, Perplexity, Google AI i Bing Copilot. Proveri schema oznake i pristup botova.",
+      "visibility": "Potvrdi da se pojavljuješ na svim velikim AI platformama"
     },
     "6": {
-      "title": "Monitoring i iteracija",
+      "title": "Praćenje i poboljšanje",
       "timeline": "Nedelja 8+",
-      "description": "Pratite AI citiranja, A/B testirajte formate odgovora, uporedite konkurente i reoptimizujte mesečno.",
-      "visibility": "Kontinuirano poboljšanje — ostanite vidljivi dok AI pretraživači evoluiraju nedeljno"
+      "description": "Prati AI citiranja, testiraj formate odgovora, uporedi konkurenciju i optimizuj svaki mesec.",
+      "visibility": "Stalno poboljšanje — ostani vidljiv dok AI pretraživači napreduju"
     }
   },
   "features": {
-    "sectionLabel": "Šta dobijate",
+    "sectionLabel": "Šta dobijaš",
     "sectionTitle": "Napravljeno za AEO od osnova",
-    "sectionSubtitle": "Sve što vam treba za optimizaciju, testiranje i praćenje vaše AI vidljivosti u pretrazi — na jednoj platformi.",
+    "sectionSubtitle": "Pronađi šta ne radi. Popravi. Prati rezultate. Jedan alat.",
     "0": {
-      "title": "Kontrolna lista od 99 tačaka za AEO",
-      "description": "Zadaci faza po fazu koji pokrivaju svaki aspekt AEO — od schema oznaka do strukture sadržaja do pristupa AI robota."
+      "title": "Lista od 99 AEO zadataka",
+      "description": "Zadaci fazu po fazu koji pokrivaju sve — schema oznake, strukturu sadržaja, pristup AI botova."
     },
     "1": {
       "title": "AI analizator sajta",
-      "description": "Unesite bilo koji URL i dobijte trenutni AEO rezultat spremnosti sa praktičnim preporukama."
+      "description": "Unesi bilo koji URL i odmah dobij AEO rezultat sa 100 bodova. Bez API ključa. Proverava schema, pristup botova, strukturu i više."
     },
     "2": {
-      "title": "Laboratorija za testiranje na više pretraživača",
-      "description": "Testirajte kako se vaš sadržaj prikazuje na ChatGPT, Perplexity, Claude i Gemini istovremeno."
+      "title": "Laboratorija za više AI pretraživača",
+      "description": "Testiraj kako se tvoj sadržaj pojavljuje u ChatGPT, Perplexity, Claude i Gemini — sve odjednom."
     },
     "3": {
       "title": "AI pisac sadržaja",
-      "description": "Generišite AEO-optimizovan sadržaj sa strukturiranim podacima i formatiranjem direktnih odgovora."
+      "description": "Generiši AEO sadržaj sa ugrađenim strukturiranim podacima i formatom direktnih odgovora."
     },
     "4": {
       "title": "Schema generator",
-      "description": "Generator oznaka sa klikom za FAQ, HowTo, Article i drugo — bez potrebe za kodiranjem."
+      "description": "Napravi schema oznake klikom za FAQ, HowTo, Article i ostalo — bez kodiranja."
     },
     "5": {
-      "title": "Monitoring i upozorenja",
-      "description": "Pratite promene AI citiranja tokom vremena i dobijajte upozorenja kada se vaša vidljivost promeni."
+      "title": "Praćenje i upozorenja",
+      "description": "Prati promene AI citiranja i dobijaj obaveštenja kad se tvoja vidljivost promeni."
     }
   },
   "faq": {
@@ -164,82 +167,82 @@
     "sectionTitle": "Često postavljana pitanja",
     "0": {
       "question": "Šta je Answer Engine Optimization (AEO)?",
-      "answer": "Answer Engine Optimization je praksa optimizacije sadržaja sajta da bude citiran od strane AI pretraživača poput ChatGPT, Perplexity, Google AI Overviews i Bing Copilot. Za razliku od tradicionalnog SEO koji cilja rangiranje u pretrazi, AEO se fokusira na strukturirane podatke, formatiranje direktnih odgovora i autoritet entiteta kako bi obezbedio da AI sistemi koriste vaš sadržaj kao referencu."
+      "answer": "AEO pomaže tvom sajtu da bude citiran u AI alatima. ChatGPT, Perplexity i Gemini čitaju web i traže odgovore. AEO obezbeđuje da pronađu i citiraju tvoj sajt."
     },
     "1": {
       "question": "Kako se AEO razlikuje od tradicionalnog SEO?",
-      "answer": "Dok SEO optimizuje za rangiranje u pretraživačima i stope klika, AEO optimizuje za AI citiranje i uključivanje u generisane odgovore. AEO naglašava schema oznake, koncizno formatiranje odgovora, jasnoću entiteta i E-E-A-T signale koji pomažu velikim jezičkim modelima da identifikuju i citiraju autoritativne izvore."
+      "answer": "SEO ti pomaže da se rangiraš na Google-u. AEO pomaže da te AI alati citiraju. Oba su bitna, ali AEO cilja način na koji AI bira izvore."
     },
     "2": {
       "question": "Za koga je napravljen AEO Dashboard?",
-      "answer": "AEO Dashboard je napravljen za agencije, SEO profesionalce i digitalne marketare koji žele da obezbede budućnost onlajn vidljivosti svojih klijenata. Bez obzira da li upravljate jednim sajtom ili stotinama, platforma se skalira sa vama."
+      "answer": "Za agencije, SEO profesionalce i marketare. Bilo da vodiš jedan sajt ili sto, alat raste sa tobom."
     },
     "3": {
       "question": "Kada će AEO Dashboard biti lansiran?",
-      "answer": "Trenutno smo u završnim fazama razvoja. Pridružite se listi čekanja da biste bili obavešteni čim lansiramo. Takođe ćemo odabrati malu grupu korisnika za rani pristup da isprobaju platformu pre javnog izdanja."
+      "answer": "U završnoj smo fazi. Pridruži se listi da saznaš prvi. Mala grupa dobija rani pristup pre lansiranja."
     },
     "4": {
       "question": "Koje funkcije uključuje AEO Dashboard?",
-      "answer": "AEO Dashboard uključuje listu od 99 AEO stavki organizovanih u 7 faza, analizu sajta u realnom vremenu koja odmah ocenjuje bilo koji URL, laboratoriju za testiranje na više AI pretraživača uključujući ChatGPT, Perplexity, Claude i Gemini, AI pisac sadržaja, generator schema oznaka i monitoring sa obaveštenjima o promenama citiranja."
+      "answer": "Lista od 99 zadataka. Skener sajta. Laboratorija za AI alate. Pisac sadržaja, generator schema oznaka i upozorenja kad se nešto promeni."
     },
     "5": {
-      "question": "Da li mi je potrebno tehničko znanje za korišćenje AEO Dashboard-a?",
-      "answer": "Ne. AEO Dashboard je dizajniran za marketare i SEO profesionalce svih nivoa znanja. Lista vas vodi korak po korak, generator schema oznaka ne zahteva programiranje, i svaki zadatak uključuje dokumentaciju koja objašnjava šta treba uraditi i zašto je to važno."
+      "question": "Da li mi treba tehničko znanje za AEO Dashboard?",
+      "answer": "Ne. Alat te vodi korak po korak. Bez kodiranja. Svaki zadatak ti kaže šta da uradiš i zašto."
     },
     "6": {
-      "question": "Kako funkcioniše lista od 99 AEO stavki?",
-      "answer": "Lista deli AEO na 7 faza — od revizije trenutnog stanja do kontinuiranog monitoringa. Svaka faza sadrži specifične zadatke sa dokumentacijom, nivoima prioriteta i praćenjem napretka. Radite sekvencijalno kroz faze, a kontrolna tabla prikazuje procenat završenosti i ukupan AEO rezultat spremnosti."
+      "question": "Kako funkcioniše lista od 99 AEO zadataka?",
+      "answer": "Deli AEO na 7 koraka. Svaki korak ima jasne zadatke sa uputstvima. Čekiraš ih, a alat prati tvoj rezultat."
     },
     "7": {
       "question": "Koje AI pretraživače podržava AEO Dashboard?",
-      "answer": "AEO Dashboard vam pomaže da optimizujete za sve glavne AI pretraživače uključujući ChatGPT, Google AI Overviews, Google Gemini, Perplexity, Bing Copilot i Claude. Laboratorija za testiranje vam omogućava da ih sve istovremeno pretraživate i vidite kako se vaš sadržaj prikazuje."
+      "answer": "ChatGPT, Google AI, Gemini, Perplexity, Bing Copilot i Claude. Laboratorija ih sve proverava odjednom."
     },
     "8": {
       "question": "Da li je AEO Dashboard besplatan?",
-      "answer": "Tokom perioda ranog pristupa, odabrani korisnici dobijaju potpun pristup platformi besplatno. Nakon lansiranja, biće i besplatnih i plaćenih planova. Osnovna analiza sajta i bazična lista će uvek biti besplatne. Pridružite se listi čekanja da osigurate pogodnosti ranog pristupa."
+      "answer": "Rani korisnici dobijaju pun pristup bez troškova. Posle lansiranja biće besplatnih i plaćenih planova. Pridruži se listi da osiguraš svoje mesto."
     },
     "9": {
       "question": "Mogu li koristiti AEO Dashboard za više sajtova?",
-      "answer": "Da. AEO Dashboard podržava više projekata, tako da možete upravljati AEO za nekoliko sajtova sa jednog naloga. Svaki projekat ima sopstveni napredak liste, rezultate analize i podatke monitoringa — idealno za agencije koje upravljaju portfolijima klijenata."
+      "answer": "Da. Možeš dodati mnogo sajtova na jedan nalog. Svaki dobija svoju listu, rezultate i upozorenja."
     }
   },
   "aiCost": {
     "label": "AI troškovi",
     "title": "AI funkcije za manje od 3 $",
-    "subtitle": "Povežite sopstveni API ključ — bez marže, bez skrivenih naknada. Kompletna optimizacija projekta košta manje od jedne kafe.",
+    "subtitle": "Poveži svoj API ključ — bez marže, bez skrivenih naknada. Kompletna optimizacija projekta košta manje od jedne kafe.",
     "price": "2–3 $",
     "priceLabel": "Ukupno za kompletan projekat",
-    "description": "Završite svih 99 stavki kontrolne liste koristeći svaku AI funkciju — Content Writer, Analyzer, Schema Generator i ostale — za približno 2–3 $ ukupnih API troškova.",
+    "description": "Završi svih 99 zadataka koristeći svaku AI funkciju — pisac sadržaja, analizator, schema generator i ostalo — za oko 2–3 $ ukupnih API troškova.",
     "cards": {
       "0": {
         "value": "0,01–0,05 $",
-        "label": "Po korišćenju AI funkcije",
+        "label": "Po AI akciji",
         "description": "Svaka AI akcija košta sitniš — od ocene sadržaja do generisanja schema oznaka."
       },
       "1": {
         "value": "~2–3 $",
         "label": "Kompletan projekat",
-        "description": "Pokrenite svaku AI funkciju za svih 99 stavki kontrolne liste jednog sajta."
+        "description": "Pokreni svaku AI funkciju za svih 99 zadataka jednog sajta."
       },
       "2": {
         "value": "~0,30–0,50 $",
-        "label": "Tekući mesečni troškovi",
-        "description": "Monitoring, ponovno ocenjivanje i povremeno korišćenje AI nakon početnog podešavanja."
+        "label": "Mesečni troškovi",
+        "description": "Praćenje, ponovna ocena i povremeno korišćenje AI posle početnog podešavanja."
       }
     }
   },
   "earlyAccess": {
-    "title": "Želite rani pristup?",
-    "description": "Pre lansiranja, odabranoj grupi ranih podržavaoca dajemo pristup kompletnoj platformi. Pridružite se listi čekanja za šansu da budete među prvima koji će isprobati AEO Dashboard — i pomognite da oblikujemo proizvod svojim povratnim informacijama.",
+    "title": "Želiš rani pristup?",
+    "description": "Pre lansiranja, dajemo odabranoj grupi pristup celoj platformi. Pridruži se listi da budeš među prvima koji isprobavaju AEO Dashboard — i pomozi nam da oblikujemo proizvod.",
     "benefits": {
-      "0": "Kompletan pristup platformi pre lansiranja",
+      "0": "Pun pristup platformi pre lansiranja",
       "1": "Direktna linija do osnivačkog tima",
-      "2": "Pomozite da oblikujete proizvod povratnim informacijama",
+      "2": "Pomozi da oblikujemo proizvod",
       "3": "Besplatan pristup tokom ranog perioda"
     },
-    "emailPlaceholder": "Unesite svoj imejl",
-    "cta": "Pridružite se listi čekanja",
-    "note": "Odabraćemo ~10 korisnika za rani pristup sa liste čekanja i lično im se obratiti."
+    "emailPlaceholder": "Unesi svoj imejl",
+    "cta": "Pridruži se listi",
+    "note": "Izabraćemo ~10 korisnika za rani pristup sa liste i lično im se javiti."
   },
   "footer": {
     "brandDescription": "Kompletan alat za Answer Engine Optimization.",
@@ -248,42 +251,41 @@
         "title": "Proizvod",
         "links": {
           "0": "Šta je AEO?",
-          "1": "Faze",
-          "2": "Funkcije",
-          "3": "FAQ"
+          "1": "Funkcije",
+          "2": "FAQ"
         }
       }
     },
     "copyright": "© {{year}} AEO Dashboard. Sva prava zadržana."
   },
   "success": {
-    "titleNew": "Na listi ste!",
-    "titleExisting": "Već ste na listi!",
-    "messageNew": "Obavestićemo vas čim AEO Dashboard bude lansiran. Pratite nas!",
-    "messageExisting": "Već imamo vaš imejl. Obavestićemo vas kada lansiramo.",
-    "position": "#{{count}} na listi čekanja",
-    "shareOnX": "Podelite na X",
+    "titleNew": "Na listi si!",
+    "titleExisting": "Već si na listi!",
+    "messageNew": "Javićemo ti čim AEO Dashboard bude spreman. Prati nas!",
+    "messageExisting": "Već imamo tvoj imejl. Javićemo ti kad lansiramo.",
+    "position": "#{{count}} na listi",
+    "shareOnX": "Podeli na X",
     "shareOnLinkedIn": "LinkedIn",
     "copyLink": "Kopiraj link",
     "copied": "Kopirano!",
     "close": "Zatvori",
-    "shareText": "Upravo sam se pridružio/la listi čekanja za AEO Dashboard — prvu platformu napravljenu za Answer Engine Optimization. Obezbedite rani pristup:"
+    "shareText": "Upravo sam se prijavio za AEO Dashboard — prvu platformu za Answer Engine Optimization. Obezbedi rani pristup:"
   },
   "scorecard": {
-    "heroButton": "Proverite svoj AEO rezultat \u2192",
-    "heroNote": "Besplatno \u2022 2 minuta \u2022 Trenutni rezultati",
+    "heroButton": "Proveri svoj rezultat →",
+    "heroNote": "Besplatno • 2 minuta • Odmah rezultat",
     "counterSuffix": "profesionalaca je proverilo svoj rezultat",
-    "bottomCtaTitle": "Spremni da proverite svoj rezultat?",
+    "bottomCtaTitle": "Spreman da proveriš svoj rezultat?",
 
     "capture": {
-      "title": "Koliko je vaš sajt spreman za AI?",
-      "subtitle": "Odgovorite na 14 brzih pitanja. Dobijte personalizovani AEO rezultat spremnosti odmah.",
+      "title": "Koliko je tvoj sajt spreman za AI?",
+      "subtitle": "Odgovori na 14 brzih pitanja. Dobij svoj AEO rezultat odmah.",
       "timeNote": "Traje manje od 2 minuta",
-      "name": "Vaše ime",
-      "email": "Vaš imejl",
+      "name": "Tvoje ime",
+      "email": "Tvoj imejl",
       "website": "URL sajta (opciono)",
-      "start": "Započni procenu \u2192",
-      "consent": "Pokretanjem se pridružujete našoj listi za rani pristup. Bez neželjene pošte, ikad.",
+      "start": "Započni procenu →",
+      "consent": "Pokretanjem se pridružuješ listi za rani pristup. Bez spama, ikad.",
       "duplicate": "Ovaj imejl je već na našoj listi!"
     },
 
@@ -291,27 +293,27 @@
     "back": "Nazad",
     "next": "Dalje",
     "skip": "Preskoči procenu",
-    "skipConfirm": "Sačuvaj delimične podatke i zatvori?",
-    "closeConfirm": "Vaš napredak će biti sačuvan. Zatvoriti?",
+    "skipConfirm": "Sačuvaj podatke i zatvori?",
+    "closeConfirm": "Napredak će biti sačuvan. Zatvori?",
 
     "categories": {
       "contentStructure": "Sadržaj i struktura",
-      "technicalSchema": "Tehničko i Schema",
+      "technicalSchema": "Tehničko i schema",
       "aiVisibility": "AI vidljivost",
       "strategyCompetition": "Strategija i konkurencija"
     },
 
     "questions": {
       "q1": {
-        "text": "Da li vaš sajt ima FAQ sekcije sa jasnim formatom pitanja i odgovora?",
+        "text": "Da li tvoj sajt ima FAQ sekcije sa jasnim formatom pitanja i odgovora?",
         "options": {
           "0": "Da, na većini stranica",
           "1": "Na nekim stranicama",
-          "2": "Ne / Nisam siguran/na"
+          "2": "Ne / Nisam siguran"
         }
       },
       "q2": {
-        "text": "Koliko često objavljujete ili ažurirate sadržaj na svom sajtu?",
+        "text": "Koliko često objavljuješ ili ažuriraš sadržaj na sajtu?",
         "options": {
           "0": "Nedeljno ili češće",
           "1": "Mesečno",
@@ -319,74 +321,77 @@
         }
       },
       "q3": {
-        "text": "Da li vaš sadržaj direktno odgovara na pitanja koja ljudi postavljaju AI asistentima?",
+        "text": "Da li tvoj sadržaj direktno odgovara na pitanja koja ljudi postavljaju AI alatima?",
         "options": {
-          "0": "Da, pišemo specifično za to",
-          "1": "Deo našeg sadržaja to radi prirodno",
+          "0": "Da, pišemo baš za to",
+          "1": "Deo sadržaja to radi prirodno",
           "2": "Nismo razmišljali o tome"
         }
       },
       "q4": {
-        "text": "Da li vaš sajt koristi strukturirane podatke (schema oznake)?",
+        "text": "Da li tvoj sajt koristi strukturirane podatke (schema oznake)?",
+        "hint": "Schema oznake su kod koji pomaže AI da čita tvoj sajt. Zamisli ih kao nalepnice na fascikli.",
         "options": {
           "0": "Da, više tipova (FAQ, Article, HowTo...)",
-          "1": "Samo osnovne (Organization, Breadcrumb)",
+          "1": "Samo osnovno (Organization, Breadcrumb)",
           "2": "Ne / Ne znam"
         }
       },
       "q5": {
-        "text": "Da li su AI roboti (GPTBot, PerplexityBot, itd.) dozvoljeni u vašem robots.txt?",
+        "text": "Da li su AI botovi (GPTBot, PerplexityBot, itd.) dozvoljeni u tvom robots.txt?",
+        "hint": "To su botovi koje ChatGPT i Perplexity koriste da čitaju tvoj sajt. Proveri na tvojsajt.com/robots.txt.",
         "options": {
           "0": "Da, svi su dozvoljeni",
-          "1": "Proverio/la sam neke",
+          "1": "Neke sam proverio",
           "2": "Ne / Šta je to?"
         }
       },
       "q6": {
-        "text": "Da li vaš sajt ima XML mapu sajta sa tačnim lastmod datumima?",
+        "text": "Da li tvoj sajt ima XML mapu sajta sa tačnim lastmod datumima?",
+        "hint": "Mapa sajta navodi sve tvoje stranice da bi ih AI pronašao. Lastmod datum govori šta je novo.",
         "options": {
           "0": "Da, automatski se ažurira",
-          "1": "Da, ali nisam siguran/na za lastmod",
+          "1": "Da, ali nisam siguran za lastmod",
           "2": "Ne / Ne znam"
         }
       },
       "q7": {
-        "text": "Da li ste testirali kako se vaš brend prikazuje u AI pretraživačima (ChatGPT, Perplexity, Gemini)?",
+        "text": "Da li si testirao kako se tvoj brend prikazuje u AI pretraživačima (ChatGPT, Perplexity, Gemini)?",
         "options": {
-          "0": "Da, redovno to pratimo",
-          "1": "Proverio/la sam nekoliko puta",
+          "0": "Da, redovno pratimo",
+          "1": "Proverio sam par puta",
           "2": "Nikad"
         }
       },
       "q8": {
-        "text": "Da li znate da li se vaš sadržaj pojavljuje u Google AI pregledima?",
+        "text": "Da li znaš da li se tvoj sadržaj pojavljuje u Google AI pregledima?",
         "options": {
           "0": "Da, pratimo to",
-          "1": "Primetio/la sam neke",
+          "1": "Primetio sam neke",
           "2": "Nemam pojma"
         }
       },
       "q9": {
-        "text": "Da li pratite koliko saobraćaja dolazi iz AI izvora?",
+        "text": "Da li pratiš koliko poseta dolazi iz AI izvora?",
         "options": {
-          "0": "Da, to imamo podešeno",
-          "1": "Planiramo to",
+          "0": "Da, to je podešeno",
+          "1": "Planiram to",
           "2": "Ne"
         }
       },
       "q10": {
-        "text": "Da li znate da li AI pretraživači citiraju vaše konkurente?",
+        "text": "Da li znaš da li AI pretraživači citiraju tvoje konkurente?",
         "options": {
           "0": "Da, pratimo to",
-          "1": "Proverio/la sam neke",
+          "1": "Proverio sam neke",
           "2": "Ne"
         }
       },
       "q11": {
-        "text": "Da li vaša organizacija ima posvećenu AEO strategiju (van tradicionalnog SEO)?",
+        "text": "Da li tvoja firma ima posebnu AEO strategiju (van klasičnog SEO)?",
         "options": {
-          "0": "Da, deo je naše mape puta",
-          "1": "Istražujemo to",
+          "0": "Da, deo je našeg plana",
+          "1": "Istražujemo",
           "2": "Ne, samo SEO"
         }
       }
@@ -394,120 +399,131 @@
 
     "qualifying": {
       "role": {
-        "text": "Šta najbolje opisuje vašu ulogu?",
+        "text": "Šta najbolje opisuje tvoju ulogu?",
         "options": {
           "0": "Vlasnik agencije / Partner",
           "1": "SEO menadžer / Direktor u agenciji",
           "2": "Interni marketing / SEO",
           "3": "Freelance konsultant",
-          "4": "Drugo / Samo istražujem"
+          "4": "Drugo / Samo gledam"
         }
       },
       "websiteCount": {
-        "text": "Koliko sajtova upravljate?",
+        "text": "Koliko sajtova vodiš?",
         "options": {
           "0": "10+ klijentskih sajtova",
-          "1": "3\u20139 sajtova",
-          "2": "1\u20132 sajta",
+          "1": "3–9 sajtova",
+          "2": "1–2 sajta",
           "3": "Samo svoj"
         }
       },
       "timeline": {
-        "text": "Kada planirate da implementirate AEO?",
+        "text": "Kada planiraš da kreneš sa AEO?",
         "options": {
-          "0": "Odmah \u2014 ovo je hitno",
-          "1": "U roku od 1\u20133 meseca",
-          "2": "Istražujem za budućnost",
-          "3": "Samo sam radoznao/la za sada"
+          "0": "Odmah — hitno je",
+          "1": "U roku od 1–3 meseca",
+          "2": "Gledam za budućnost",
+          "3": "Samo me zanima za sada"
         }
       }
     },
 
     "results": {
-      "title": "Vaš AEO rezultat spremnosti",
+      "title": "Tvoj AEO rezultat",
       "outOf": "/ {{max}}",
       "breakdown": "Pregled po kategorijama",
-      "priorities": "Vaši glavni prioriteti",
-      "ctaTitle": "AEO Dashboard sve ovo rešava \u2014 automatski.",
-      "ctaButton": "Obezbedite rani pristup",
-      "ctaDone": "\u2713 Na listi ste!",
-      "shareX": "Podelite na X",
-      "shareLI": "Podelite na LinkedIn",
+      "priorities": "Tvoji glavni prioriteti",
+      "ctaTitle": "AEO Dashboard sve ovo rešava — automatski.",
+      "ctaButton": "Obezbedi mesto",
+      "ctaDone": "✓ Na listi si!",
+      "shareX": "Podeli na X",
+      "shareLI": "Podeli na LinkedIn",
       "copyLink": "Kopiraj link",
       "copied": "Kopirano!",
-      "counter": "{{count}} profesionalaca je proverilo svoj rezultat"
+      "counter": "{{count}} profesionalaca je proverilo svoj rezultat",
+      "websitePrompt": "Želiš izveštaj za tvoj sajt? Dodaj URL:",
+      "websitePlaceholder": "https://tvojsajt.com",
+      "websiteSaved": "Sajt sačuvan — uključićemo ga u tvoj akcioni plan.",
+      "whatHappensNext": {
+        "title": "Šta sledi",
+        "step1": "Tvoj rezultat je sačuvan",
+        "step2": "Šaljemo ti prilagođen akcioni plan u roku od 24 sata",
+        "step3": "Najbolji rezultati dobijaju pozivnicu za rani pristup"
+      }
     },
 
     "tiers": {
       "invisible": {
         "label": "AI nevidljiv",
-        "desc": "Vaš sajt je praktično nevidljiv za AI pretraživače. Bez strukturiranih podataka, direktnih odgovora ili pristupa AI robota, AI sistemi nemaju način da pronađu ili citiraju vaš sadržaj. Dobra vest: postoji jasan put da se ovo popravi."
+        "desc": "AI pretraživači ne vide tvoj sajt. To znači nula citata i nula poseta. Ali popravka je jasna. Pokazaćemo ti kako."
       },
       "starting": {
         "label": "Početak",
-        "desc": "Vaš sajt ima neke osnove na mestu, ali značajne praznine ostaju u načinu na koji AI pretraživači pronalaze i citiraju vaš sadržaj. Popunjavanje ovih praznina može dramatično povećati vašu AI vidljivost za nekoliko nedelja."
+        "desc": "Imaš neke osnove. Ali velike praznine ostaju. Zatvori ih brzo i AI posete mogu doći za par nedelja."
       },
       "onTrack": {
         "label": "Na dobrom putu",
-        "desc": "Dobra osnova! Vaš sajt ima mnoge AEO elemente na mestu. Nekoliko ciljanih poboljšanja u vašim najslabijim oblastima moglo bi vas gurnuti u vrhunski nivo sajtova spremnih za AI."
+        "desc": "Svaka čast! Tvoj sajt je na pravom putu. Par malih popravki u slabim tačkama može te gurnuti u sam vrh."
       },
       "aiReady": {
         "label": "Spreman za AI",
-        "desc": "Odlično! Vaš sajt je dobro optimizovan za AI pretraživače. Ispred ste 95% sajtova. Nastavite da pratite i unapređujete kako biste zadržali konkurentsku prednost."
+        "desc": "Ispred si 95% sajtova. AI alati pronalaze i citiraju tvoj sadržaj. Nastavi tako i drži se vrha."
       }
     },
 
     "priorities": {
       "add_faq_sections": {
-        "title": "Dodajte FAQ sekcije na ključne stranice",
-        "desc": "AI pretraživači se u velikoj meri oslanjaju na sadržaj formatiran kao pitanja i odgovore za generisanje direktnih odgovora. Dodavanje FAQ sekcija je najbrži način da budete citirani."
+        "title": "Dodaj FAQ sekcije na ključne stranice",
+        "desc": "AI alati obožavaju pitanja i odgovore. Dodaj FAQ i bićeš citiran brže nego bilo kojom drugom popravkom."
       },
       "increase_publish_frequency": {
-        "title": "Povećajte učestalost objavljivanja sadržaja",
-        "desc": "Svež, redovno ažuriran sadržaj šalje signal AI pretraživačima da je vaš sajt aktivan, autoritativan izvor koji vredi citirati."
+        "title": "Objavljuj novi sadržaj češće",
+        "desc": "Svež sadržaj govori AI-u da je tvoj sajt aktivan. Ciljaj na nedeljno objavljivanje ako možeš."
       },
       "write_direct_answers": {
-        "title": "Pišite sadržaj koji direktno odgovara na AI upite",
-        "desc": "Strukturirajte sadržaj kao jasne, koncizne odgovore na česta pitanja u vašoj industriji. AI pretraživači preferiraju format direktnih odgovora."
+        "title": "Piši jasne odgovore na česta pitanja",
+        "desc": "AI bira kratke, jasne odgovore. Piši kao da objašnjavaš drugaru koji traži pomoć."
       },
       "add_schema_markup": {
-        "title": "Dodajte JSON-LD schema oznake",
-        "desc": "Nedostaje vam tehnički signal #1 koji AI pretraživači koriste da razumeju vaš sadržaj. Schema oznake su neophodne za AI vidljivost."
+        "title": "Dodaj schema oznake na sajt",
+        "desc": "Ovo je tehnički signal #1 koji AI koristi da čita tvoj sajt. Bez toga, AI teško razume tvoje stranice."
       },
       "check_ai_crawlers": {
-        "title": "Proverite pristup AI robota u robots.txt",
-        "desc": "Ako su GPTBot, PerplexityBot i drugi AI roboti blokirani, vaš sadržaj nikad ne može da se pojavi u AI generisanim odgovorima."
+        "title": "Odblokiraj AI botove u robots.txt",
+        "desc": "Ako su AI botovi blokirani, tvoj sajt nikad neće biti citiran u AI odgovorima. Proveri ovo danas."
       },
       "add_sitemap_lastmod": {
-        "title": "Dodajte XML mapu sajta sa lastmod datumima",
-        "desc": "Pravilna mapa sajta sa tačnim lastmod datumima pomaže AI pretraživačima da znaju koji sadržaj da prioritetizuju i reindeksiraju."
+        "title": "Dodaj mapu sajta sa aktuelnim datumima",
+        "desc": "Mapa sajta kaže AI-u koje stranice imaš. Datumi mu kažu šta je novo. Oboje je bitno."
       },
       "test_ai_citations": {
-        "title": "Počnite da testirate AI citiranja",
-        "desc": "Ne možete poboljšati ono što ne merite. Proverite kako se vaš brend prikazuje u ChatGPT, Perplexity i Gemini."
+        "title": "Testiraj sajt u AI pretraživačima",
+        "desc": "Pitaj ChatGPT i Perplexity za tvoj brend. Vidi šta se pojavi. Ne možeš popraviti ono što ne vidiš."
       },
       "track_ai_overviews": {
-        "title": "Pratite Google AI preglede",
-        "desc": "AI pregledi zamenjuju tradicionalne rezultate pretrage za mnoge upite. Pratite koje vaše stranice se tamo pojavljuju."
+        "title": "Prati Google AI preglede",
+        "desc": "Google sada prikazuje AI odgovore iznad rezultata pretrage. Proveri da li se tvoje stranice tu pojavljuju."
       },
       "setup_ai_traffic_tracking": {
-        "title": "Podesite praćenje AI saobraćaja",
-        "desc": "Većina analitičkih alata ne razdvaja saobraćaj iz AI izvora. Pravilno podešavanje praćenja otkriva stvarni uticaj AI pretrage."
+        "title": "Podesi praćenje AI poseta",
+        "desc": "Većina alata ne razdvaja AI posete. Podesi ovo da znaš koliko poseta dolazi od AI."
       },
       "monitor_competitors_ai": {
-        "title": "Pratite konkurente u AI pretrazi",
-        "desc": "Znanje o tome koje konkurente AI pretraživači citiraju pomaže vam da identifikujete praznine u sopstvenom sadržaju i strategiji."
+        "title": "Proveri šta AI kaže o konkurenciji",
+        "desc": "Ako AI citira konkurenta a ne tebe, saznaj zašto. Onda zatvori tu razliku."
       },
       "create_aeo_strategy": {
-        "title": "Kreirajte posvećenu AEO strategiju",
-        "desc": "AEO zahteva drugačije taktike od tradicionalnog SEO. Posvećena strategija obezbeđuje da optimizujete za način na koji AI zaista bira izvore."
+        "title": "Napravi plan samo za AEO",
+        "desc": "AEO traži svoj plan. Samo SEO taktike nisu dovoljne. Mapiraj šta da popraviš i kad."
       }
     },
 
     "successState": {
-      "title": "\u2713 Vaš AEO rezultat: {{score}}/{{max}} \u2014 {{tier}}",
-      "subtitle": "Javićemo vam se sa vašim personalizovanim akcionim planom.",
-      "share": "Podelite svoj rezultat"
+      "title": "✓ Tvoj AEO rezultat: {{score}}/{{max}} — {{tier}}",
+      "subtitle": "Javićemo ti se sa prilagođenim akcionim planom.",
+      "share": "Podeli svoj rezultat",
+      "sharePrompt": "Podeli rezultat sa timom:",
+      "timeline": "Pregledaćemo tvoj rezultat i poslati prilagođen plan u roku od 24 sata. Najbolji rezultati dobijaju rani pristup."
     }
   }
 }
