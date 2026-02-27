@@ -430,8 +430,8 @@ export default function WaitlistPage() {
                   {t('scorecard.heroButton')}
                 </button>
                 <p className="wl-hero-note">{t('scorecard.heroNote')}</p>
-                <p className="wl-hero-counter">
-                  {t('scorecard.results.counter', { count: displayCount })}
+                <p className="wl-hero-counter" style={{ marginTop: '1.5rem' }}>
+                  <strong>{displayCount}</strong> {t('scorecard.counterSuffix')}
                 </p>
               </>
             )}
@@ -686,7 +686,9 @@ export default function WaitlistPage() {
             {t('scorecard.heroButton')}
           </button>
 
-          <p className="wl-early-note">{t('earlyAccess.note')}</p>
+          <p className="wl-early-note" style={{ marginTop: '1.5rem' }}>
+            {t('earlyAccess.notePre')}<strong>{t('earlyAccess.noteHighlight')}</strong>{t('earlyAccess.notePost')}
+          </p>
         </section>
 
       </main>

@@ -306,7 +306,10 @@
     },
     "emailPlaceholder": "Enter your email",
     "cta": "Join Waitlist",
-    "note": "We\u2019ll select ~10 early access users from the waitlist and reach out personally."
+    "note": "We\u2019ll select ~10 early access users from the waitlist and reach out personally.",
+    "notePre": "We\u2019ll select ~",
+    "noteHighlight": "10",
+    "notePost": " early access users from the waitlist and reach out personally."
   },
   "footer": {
     "brandDescription": "The complete toolkit for Answer Engine Optimization.",

@@ -307,7 +307,10 @@
     },
     "emailPlaceholder": "Unesi svoj imejl",
     "cta": "Pridruži se listi",
-    "note": "Izabraćemo ~10 korisnika za rani pristup sa liste i lično im se javiti."
+    "note": "Izabraćemo ~10 korisnika za rani pristup sa liste i lično im se javiti.",
+    "notePre": "Izabraćemo ~",
+    "noteHighlight": "10",
+    "notePost": " korisnika za rani pristup sa liste i lično im se javiti."
   },
   "footer": {
     "brandDescription": "Kompletan alat za Answer Engine Optimization.",

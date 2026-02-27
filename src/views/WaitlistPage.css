@@ -2091,6 +2091,23 @@ html[data-theme="light"] .wl-nav-mobile-overlay {
   text-align: center;
 }
 
+.wl-hero-counter {
+  font-size: var(--text-xs, 0.8125rem);
+  color: var(--wl-text-secondary, var(--text-tertiary));
+  text-align: center;
+  margin: 0;
+}
+
+.wl-hero-counter strong {
+  color: var(--wl-accent, var(--accent));
+  font-weight: 700;
+}
+
+.wl-early-note strong {
+  color: var(--wl-accent, var(--accent));
+  font-weight: 700;
+}
+
 /* ── Success inline (post-quiz hero) ── */
 .wl-sc-success-inline {
   text-align: center;

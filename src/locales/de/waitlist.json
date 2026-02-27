@@ -306,7 +306,10 @@
     },
     "emailPlaceholder": "E-Mail-Adresse eingeben",
     "cta": "Auf die Warteliste",
-    "note": "Wir wählen ca. 10 Early-Access-Nutzer aus und kontaktieren sie persönlich."
+    "note": "Wir wählen ca. 10 Early-Access-Nutzer aus und kontaktieren sie persönlich.",
+    "notePre": "Wir wählen ca. ",
+    "noteHighlight": "10",
+    "notePost": " Early-Access-Nutzer aus und kontaktieren sie persönlich."
   },
   "footer": {
     "brandDescription": "Das komplette Toolkit für Answer Engine Optimization.",
