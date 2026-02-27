@@ -509,11 +509,11 @@
       "counter": "{{count}} profesionalaca je proverilo svoj rezultat",
       "websitePrompt": "Želiš izveštaj za tvoj sajt? Dodaj URL:",
       "websitePlaceholder": "https://tvojsajt.com",
-      "websiteSaved": "Sajt sačuvan — uključićemo ga u tvoj akcioni plan.",
+      "websiteSaved": "Sajt sačuvan — koristićemo ga pri pregledu tvog rezultata.",
       "whatHappensNext": {
         "title": "Šta sledi",
         "step1": "Tvoj rezultat je sačuvan",
-        "step2": "Šaljemo ti prilagođen akcioni plan u roku od 24 sata",
+        "step2": "Pregledamo tvoje rezultate i javljamo ti za rani pristup",
         "step3": "Najbolji rezultati dobijaju pozivnicu za rani pristup"
       }
     },
@@ -589,7 +589,7 @@
       "subtitle": "Bićeš prvi koji će saznati kad lansiramo.",
       "share": "Podeli svoj rezultat",
       "sharePrompt": "Podeli rezultat sa timom:",
-      "timeline": "Pregledaćemo tvoj rezultat i poslati prilagođen plan u roku od 24 sata. Najbolji rezultati dobijaju rani pristup."
+      "timeline": "Pregledaćemo tvoj rezultat i javiti se onima sa najboljim rezultatom za rani pristup."
     }
   }
 }

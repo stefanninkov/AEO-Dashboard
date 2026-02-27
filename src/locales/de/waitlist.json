@@ -508,11 +508,11 @@
       "counter": "{{count}} Profis haben ihren Score geprüft",
       "websitePrompt": "Website-Report gewünscht? URL eingeben:",
       "websitePlaceholder": "https://ihrewebsite.de",
-      "websiteSaved": "Website gespeichert — wir berücksichtigen sie in Ihrem Aktionsplan.",
+      "websiteSaved": "Website gespeichert — wir nutzen sie bei der Prüfung Ihres Scores.",
       "whatHappensNext": {
         "title": "Wie es weitergeht",
         "step1": "Ihr Score ist gespeichert",
-        "step2": "Wir senden Ihnen einen Aktionsplan innerhalb von 24 Stunden",
+        "step2": "Wir prüfen Ihre Ergebnisse und informieren Sie über Early Access",
         "step3": "Top-Scorer erhalten Einladungen zum Early Access"
       }
     },
@@ -588,7 +588,7 @@
       "subtitle": "Sie erfahren als Erste, wenn wir starten.",
       "share": "Ihren Score teilen",
       "sharePrompt": "Teilen Sie Ihren Score mit dem Team:",
-      "timeline": "Wir prüfen Ihren Score und senden einen Aktionsplan innerhalb von 24 Stunden. Top-Scorer erhalten Early Access."
+      "timeline": "Wir prüfen Ihren Score und kontaktieren Top-Scorer für Early Access."
     }
   }
 }

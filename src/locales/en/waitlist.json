@@ -508,11 +508,11 @@
       "counter": "{{count}} professionals have checked their score",
       "websitePrompt": "Want a site-specific report? Add your URL:",
       "websitePlaceholder": "https://yourwebsite.com",
-      "websiteSaved": "Website saved \u2014 we'll include it in your action plan.",
+      "websiteSaved": "Website saved \u2014 we'll use it when reviewing your score.",
       "whatHappensNext": {
         "title": "What Happens Next",
         "step1": "Your score is saved",
-        "step2": "We send you a custom action plan within 24 hours",
+        "step2": "We review your results and notify you about early access",
         "step3": "Top scorers get early access invites"
       }
     },
@@ -588,7 +588,7 @@
       "subtitle": "You'll be the first to know when we launch.",
       "share": "Share Your Score",
       "sharePrompt": "Share your score with your team:",
-      "timeline": "We'll review your score and send a custom plan within 24 hours. Top scorers get early access."
+      "timeline": "We'll review your score and reach out to top scorers with early access."
     }
   }
 }
