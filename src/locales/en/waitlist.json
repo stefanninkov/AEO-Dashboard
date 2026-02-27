@@ -11,11 +11,11 @@
     "closeMenu": "Close menu"
   },
   "hero": {
-    "badge": "Coming Soon \u2014 Early Access for Select Users",
-    "heading": "Get Found by <1>AI Search Engines</1>",
-    "headingPrefix": "Get Found by ",
-    "headingAccent": "AI Search Engines",
-    "subtitle": "The first platform built for Answer Engine Optimization. Get cited by ChatGPT, Perplexity, Gemini, and every AI that matters.",
+    "badge": "Only 10 Early Access Spots \u2014 7 Left",
+    "heading": "AI Answers Questions. <1>Is It Quoting You?</1>",
+    "headingPrefix": "AI Answers Questions. ",
+    "headingAccent": "Is It Quoting You?",
+    "subtitle": "People ask ChatGPT and Perplexity every day. We make sure AI picks your website.",
     "emailPlaceholder": "Enter your email",
     "cta": "Join Waitlist",
     "joinedCount_one": "{{count}} person has already joined",
@@ -25,9 +25,9 @@
   "education": {
     "label": "Education",
     "title": "What is Answer Engine Optimization?",
-    "description": "<strong>Answer Engine Optimization (AEO) is the practice of optimizing website content to be selected, cited, and surfaced by AI-powered answer engines.</strong> Unlike traditional SEO that targets search engine result pages, AEO focuses on making your content the preferred source that large language models like ChatGPT, Perplexity, and Google Gemini reference when generating answers.",
-    "descriptionBold": "Answer Engine Optimization (AEO) is the practice of optimizing website content to be selected, cited, and surfaced by AI-powered answer engines.",
-    "descriptionRest": " Unlike traditional SEO that targets search engine result pages, AEO focuses on making your content the preferred source that large language models like ChatGPT, Perplexity, and Google Gemini reference when generating answers.",
+    "description": "<strong>AI search engines pick websites to quote.</strong> AEO helps them pick yours. It's the new way to show up when AI gives answers.",
+    "descriptionBold": "AI search engines pick websites to quote.",
+    "descriptionRest": " AEO helps them pick yours. It's the new way to show up when AI gives answers.",
     "comparisonTitle": "AEO vs Traditional SEO",
     "pillarsTitle": "The 7 Pillars of AEO"
   },
@@ -133,14 +133,14 @@
   "features": {
     "sectionLabel": "What You Get",
     "sectionTitle": "Built for AEO from the Ground Up",
-    "sectionSubtitle": "Everything you need to optimize, test, and monitor your AI search visibility \u2014 in one platform.",
+    "sectionSubtitle": "Find what's broken. Fix it. Track the results. One tool.",
     "0": {
       "title": "99-Point AEO Checklist",
       "description": "Phase-by-phase tasks covering every aspect of AEO \u2014 from schema markup to content structure to AI crawler access."
     },
     "1": {
       "title": "Real-Time Site Analyzer",
-      "description": "Enter any URL for an instant 100-point AEO readiness score — no API key needed. Checks schema, AI crawler access, content structure, and more."
+      "description": "Enter any URL for an instant 100-point AEO readiness score \u2014 no API key needed. Checks schema, AI crawler access, content structure, and more."
     },
     "2": {
       "title": "Multi-Engine Testing Lab",
@@ -164,65 +164,65 @@
     "sectionTitle": "Frequently Asked Questions",
     "0": {
       "question": "What is Answer Engine Optimization (AEO)?",
-      "answer": "Answer Engine Optimization is the practice of optimizing website content to be cited by AI-powered answer engines like ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Unlike traditional SEO which targets search rankings, AEO focuses on structured data, direct answer formatting, and entity authority to ensure AI systems reference your content."
+      "answer": "AEO helps your website get quoted by AI tools. ChatGPT, Perplexity, and Gemini read the web for answers. AEO makes sure they find and cite your site."
     },
     "1": {
       "question": "How is AEO different from traditional SEO?",
-      "answer": "While SEO optimizes for search engine rankings and click-through rates, AEO optimizes for AI citation and inclusion in generated answers. AEO emphasizes schema markup, concise answer formatting, entity clarity, and E-E-A-T signals that help large language models identify and cite authoritative sources."
+      "answer": "SEO helps you rank on Google. AEO helps AI tools quote you. Both matter, but AEO targets how AI picks its sources."
     },
     "2": {
       "question": "Who is AEO Dashboard built for?",
-      "answer": "AEO Dashboard is built for agencies, SEO professionals, and digital marketers who want to future-proof their clients' online visibility. Whether you manage one website or hundreds, the platform scales with you."
+      "answer": "Agencies, SEO pros, and marketers. Whether you run one site or a hundred, the tool scales with you."
     },
     "3": {
       "question": "When will AEO Dashboard launch?",
-      "answer": "We're currently in the final stages of development. Join the waitlist to be notified the moment we launch. We'll also be selecting a small group of early access users to try the platform before the public release."
+      "answer": "We're in the final build phase. Join the list to hear first. A small group gets early access before launch."
     },
     "4": {
       "question": "What features does AEO Dashboard include?",
-      "answer": "AEO Dashboard includes a 99-point AEO checklist organized across 7 phases, a real-time site analyzer that scores any URL instantly, a multi-engine testing lab to check your visibility across ChatGPT, Perplexity, Claude, and Gemini, an AI content writer, a schema markup generator, and monitoring with alerts for citation changes."
+      "answer": "A 99-point checklist. A site scanner. A test lab for AI tools. A content writer, markup builder, and alerts when things change."
     },
     "5": {
       "question": "Do I need technical knowledge to use AEO Dashboard?",
-      "answer": "No. AEO Dashboard is designed for marketers and SEO professionals of all skill levels. The checklist guides you step-by-step, the schema generator requires no coding, and every task includes documentation explaining what to do and why it matters."
+      "answer": "No. The tool walks you through each step. No coding needed. Each task tells you what to do and why."
     },
     "6": {
       "question": "How does the 99-Point AEO Checklist work?",
-      "answer": "The checklist breaks AEO into 7 phases — from auditing your current state to ongoing monitoring. Each phase contains specific tasks with documentation, priority levels, and progress tracking. You work through it sequentially, and the dashboard shows your completion percentage and overall AEO readiness score."
+      "answer": "It breaks AEO into 7 steps. Each step has clear tasks with guides. You check them off, and the tool tracks your score."
     },
     "7": {
       "question": "What AI engines does AEO Dashboard support?",
-      "answer": "AEO Dashboard helps you optimize for all major AI answer engines including ChatGPT, Google AI Overviews, Google Gemini, Perplexity, Bing Copilot, and Claude. The testing lab lets you query all of them simultaneously to see how your content appears."
+      "answer": "ChatGPT, Google AI, Gemini, Perplexity, Bing Copilot, and Claude. The test lab checks all of them at once."
     },
     "8": {
       "question": "Is AEO Dashboard free?",
-      "answer": "During the early access period, selected users will get full platform access at no cost. After launch, there will be both free and paid tiers. The core site analyzer and basic checklist will always be free. Join the waitlist to lock in early access benefits."
+      "answer": "Early users get full access at no cost. After launch, there will be free and paid plans. Join the list to lock in your spot."
     },
     "9": {
       "question": "Can I use AEO Dashboard for multiple websites?",
-      "answer": "Yes. AEO Dashboard supports multiple projects, so you can manage AEO for several websites from a single account. Each project gets its own checklist progress, analyzer results, and monitoring data — ideal for agencies managing client portfolios."
+      "answer": "Yes. You can add many sites to one account. Each site gets its own checklist, scores, and alerts."
     }
   },
   "aiCost": {
     "label": "AI Costs",
     "title": "AI-Powered for Under $3",
-    "subtitle": "Connect your own API key — no markup, no hidden fees. Full project optimization costs less than a cup of coffee.",
-    "price": "$2–3",
+    "subtitle": "Connect your own API key \u2014 no markup, no hidden fees. Full project optimization costs less than a cup of coffee.",
+    "price": "$2\u20133",
     "priceLabel": "Total for a full project",
-    "description": "Complete all 99 checklist items using every AI feature — Content Writer, Analyzer, Schema Generator, and more — for approximately $2–3 in total API costs.",
+    "description": "Complete all 99 checklist items using every AI feature \u2014 Content Writer, Analyzer, Schema Generator, and more \u2014 for approximately $2\u20133 in total API costs.",
     "cards": {
       "0": {
-        "value": "$0.01–0.05",
+        "value": "$0.01\u20130.05",
         "label": "Per AI feature use",
-        "description": "Each AI action costs pennies — from content scoring to schema generation."
+        "description": "Each AI action costs pennies \u2014 from content scoring to schema generation."
       },
       "1": {
-        "value": "~$2–3",
+        "value": "~$2\u20133",
         "label": "Full project completion",
         "description": "Run every AI feature across all 99 checklist items for one website."
       },
       "2": {
-        "value": "~$0.30–0.50",
+        "value": "~$0.30\u20130.50",
         "label": "Ongoing monthly cost",
         "description": "Monitoring, rescoring, and occasional AI usage after initial setup."
       }
@@ -270,7 +270,7 @@
     "shareText": "I just joined the waitlist for AEO Dashboard \u2014 the first platform built for Answer Engine Optimization. Get early access:"
   },
   "scorecard": {
-    "heroButton": "Check Your AEO Score \u2192",
+    "heroButton": "Get Your Free Score \u2192",
     "heroNote": "Free \u2022 2 minutes \u2022 Instant results",
     "counterSuffix": "professionals have checked their score",
     "bottomCtaTitle": "Ready to check your score?",
@@ -435,79 +435,87 @@
       "shareLI": "Share on LinkedIn",
       "copyLink": "Copy Link",
       "copied": "Copied!",
-      "counter": "{{count}} professionals have checked their score"
+      "counter": "{{count}} professionals have checked their score",
+      "whatHappensNext": {
+        "title": "What Happens Next",
+        "step1": "Your score is saved",
+        "step2": "We send you a custom action plan within 24 hours",
+        "step3": "Top scorers get early access invites"
+      }
     },
 
     "tiers": {
       "invisible": {
         "label": "AI Invisible",
-        "desc": "Your website is essentially invisible to AI engines. Without structured data, direct answers, or AI crawler access, AI systems have no way to discover or cite your content. The good news: there's a clear path to fix this."
+        "desc": "AI tools can't find your site right now. That means zero quotes and zero traffic from AI. But the fix is clear. Let us show you how."
       },
       "starting": {
         "label": "Getting Started",
-        "desc": "Your website has some basics in place, but significant gaps remain in how AI engines find and cite your content. Closing these gaps could dramatically increase your AI visibility within weeks."
+        "desc": "You have some basics in place. But big gaps remain. Close them fast and you could see AI traffic in weeks."
       },
       "onTrack": {
         "label": "On Track",
-        "desc": "Good foundation! Your site has many AEO elements in place. A few targeted improvements in your weakest areas could push you into the top tier of AI-ready websites."
+        "desc": "Nice work! Your site is on the right track. A few small fixes in your weak spots could push you to the top tier."
       },
       "aiReady": {
         "label": "AI Ready",
-        "desc": "Excellent! Your website is well-optimized for AI search engines. You're ahead of 95% of websites. Keep monitoring and iterating to maintain your competitive edge."
+        "desc": "You're ahead of 95% of sites. AI tools can find and quote your content. Keep it up and stay on top."
       }
     },
 
     "priorities": {
       "add_faq_sections": {
         "title": "Add FAQ sections to key pages",
-        "desc": "AI engines heavily rely on Q&A formatted content to generate direct answers. Adding FAQ sections is the single fastest way to get cited."
+        "desc": "AI tools love Q&A content. Add FAQs and you'll get quoted faster than any other fix."
       },
       "increase_publish_frequency": {
-        "title": "Increase content publishing frequency",
-        "desc": "Fresh, regularly updated content signals to AI engines that your site is an active, authoritative source worth citing."
+        "title": "Post new content more often",
+        "desc": "Fresh content tells AI your site is active. Aim to post weekly if you can."
       },
       "write_direct_answers": {
-        "title": "Write content that directly answers AI queries",
-        "desc": "Structure your content as clear, concise answers to common questions in your industry. AI engines prefer direct answer formatting."
+        "title": "Write clear answers to common questions",
+        "desc": "AI picks short, clear answers. Write like you're talking to a friend who asked for help."
       },
       "add_schema_markup": {
-        "title": "Add JSON-LD schema markup",
-        "desc": "You're missing the #1 technical signal AI engines use to understand your content. Schema markup is essential for AI visibility."
+        "title": "Add schema markup to your site",
+        "desc": "This is the #1 tech signal AI uses to read your site. Without it, AI can't parse your pages well."
       },
       "check_ai_crawlers": {
-        "title": "Check AI crawler access in robots.txt",
-        "desc": "If GPTBot, PerplexityBot, and other AI crawlers are blocked, your content can never appear in AI-generated answers."
+        "title": "Unblock AI bots in robots.txt",
+        "desc": "If AI bots are blocked, your site will never show up in AI answers. Check this today."
       },
       "add_sitemap_lastmod": {
-        "title": "Add an XML sitemap with lastmod dates",
-        "desc": "A proper sitemap with accurate lastmod dates helps AI engines know which content to prioritize and re-index."
+        "title": "Add a sitemap with fresh dates",
+        "desc": "A sitemap tells AI which pages you have. The dates tell it what's new. Both matter."
       },
       "test_ai_citations": {
-        "title": "Start testing AI citations",
-        "desc": "You can't improve what you don't measure. Check how your brand appears in ChatGPT, Perplexity, and Gemini."
+        "title": "Test your site in AI search tools",
+        "desc": "Ask ChatGPT and Perplexity about your brand. See what comes up. You can't fix what you don't see."
       },
       "track_ai_overviews": {
-        "title": "Monitor Google AI Overviews",
-        "desc": "AI Overviews are replacing traditional search results for many queries. Track which of your pages appear there."
+        "title": "Track Google AI Overviews",
+        "desc": "Google now shows AI answers above search results. Check if your pages show up there."
       },
       "setup_ai_traffic_tracking": {
         "title": "Set up AI traffic tracking",
-        "desc": "Most analytics tools don't separate AI-driven traffic. Setting up proper tracking reveals the true impact of AI search."
+        "desc": "Most tools don't split out AI traffic. Set this up so you know how much AI sends your way."
       },
       "monitor_competitors_ai": {
-        "title": "Monitor competitors in AI search",
-        "desc": "Knowing which competitors AI engines cite helps you identify gaps in your own content and strategy."
+        "title": "Check what AI says about your rivals",
+        "desc": "If AI quotes your rival but not you, find out why. Then close the gap."
       },
       "create_aeo_strategy": {
-        "title": "Create a dedicated AEO strategy",
-        "desc": "AEO requires different tactics than traditional SEO. A dedicated strategy ensures you're optimizing for how AI actually selects sources."
+        "title": "Build a plan just for AEO",
+        "desc": "AEO needs its own plan. SEO tactics alone won't cut it. Map out what to fix and when."
       }
     },
 
     "successState": {
       "title": "\u2713 Your AEO Score: {{score}}/{{max}} \u2014 {{tier}}",
       "subtitle": "We'll reach out with your personalized action plan.",
-      "share": "Share Your Score"
+      "share": "Share Your Score",
+      "sharePrompt": "Share your score with your team:",
+      "timeline": "We'll review your score and send a custom plan within 24 hours. Top scorers get early access."
     }
   }
 }
