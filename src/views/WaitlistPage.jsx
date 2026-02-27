@@ -245,7 +245,9 @@ export default function WaitlistPage() {
   }
 
   // Share handlers
-  const shareText = t('success.shareText')
+  const shareText = completedResults
+    ? `I scored ${completedResults.totalScore}/${MAX_TOTAL_SCORE} on the AEO Readiness Assessment! How AI-ready is YOUR website?`
+    : t('success.shareText')
   const shareUrl = SITE_URL
 
   const shareTwitter = () => {
@@ -373,7 +375,24 @@ export default function WaitlistPage() {
                     tier: t(`scorecard.tiers.${completedResults.tier}.label`),
                   })}
                 </p>
-                <p className="wl-sc-success-subtitle">{t('scorecard.successState.subtitle')}</p>
+                <p className="wl-sc-success-subtitle">{t('scorecard.successState.sharePrompt')}</p>
+                <div className="wl-sc-share-row" style={{ marginTop: '0.75rem' }}>
+                  <button className="wl-share-btn" onClick={shareTwitter}>
+                    <Share2 size={14} />
+                    {t('scorecard.results.shareX')}
+                  </button>
+                  <button className="wl-share-btn" onClick={shareLinkedIn}>
+                    <Share2 size={14} />
+                    {t('scorecard.results.shareLI')}
+                  </button>
+                  <button className="wl-share-btn" onClick={copyLink}>
+                    {copied ? <Check size={14} /> : <Copy size={14} />}
+                    {copied ? t('scorecard.results.copied') : t('scorecard.results.copyLink')}
+                  </button>
+                </div>
+                <p className="wl-sc-success-timeline" style={{ fontSize: '0.8125rem', color: 'var(--wl-text-secondary)', marginTop: '1rem', textAlign: 'center' }}>
+                  {t('scorecard.successState.timeline')}
+                </p>
               </div>
             ) : (
               <>
