@@ -1686,6 +1686,8 @@
     "aeoNote": "Titel, Meta-Beschreibung, Überschriften, Schema-Markup und Link-Analyse werden im AEO-Analyzer-Tab abgedeckt.",
     "coveredInAeo": "Auch im AEO-Analyzer abgedeckt",
     "coveredInAeoDesc": "Diese Prüfungen werden im Analyzer-Tab detailliert bewertet. Hier als Referenz angezeigt.",
+    "learnMoreHint": "Neu in diesem Bereich? Lesen Sie die Dokumentation, um zu verstehen, was jede Prüfung bedeutet.",
+    "learnMore": "Mehr erfahren",
     "onPage": {
       "keywordOptimization": "Keyword-Optimierung",
       "readability": "Lesbarkeit & UX",

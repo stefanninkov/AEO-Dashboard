@@ -316,6 +316,44 @@
           "body": "Toggle between light and dark mode using the theme switcher in the sidebar, or via the sun/moon icon on the Waitlist and Features pages. The app supports three modes: Light, Dark, and Auto (follows your system preference). Theme transitions use a smooth circular reveal animation. The design system uses JetBrains Mono for headings and Plus Jakarta Sans for body text, with a blue accent color throughout."
         }
       ]
+    },
+    "seo-guide": {
+      "title": "SEO Optimization Guide",
+      "description": "Complete guide to the SEO Optimization tool — scoring, checks, and how to improve your results.",
+      "items": [
+        {
+          "title": "SEO Audit Overview",
+          "body": "The SEO Audit analyzes your page across 5 categories with 30+ checks, scoring out of 100 points. Categories: Keyword Optimization (25pts), Readability & UX (20pts), URL & Technical (20pts), Social & Sharing (20pts), Image Optimization (15pts). All deterministic checks work without an API key. AI-powered keyword research and content optimization require an API key configured in Settings."
+        },
+        {
+          "title": "Keyword Optimization",
+          "body": "The audit extracts your target keyword from overlapping words in your title and H1 heading, then checks keyword placement across 8 areas: title tag, meta description, H1, content density, first 100 words, URL slug, subheadings, and image alt text. Ideal keyword density is 0.5-3%. Click any failing check to see step-by-step fix instructions with code examples."
+        },
+        {
+          "title": "Readability & UX",
+          "body": "Readability is scored using the Flesch-Kincaid formula. Aim for 60+ (8th grade reading level). Additional checks: average sentence length under 20 words, no paragraphs over 150 words, subheadings every ~300 words, no walls of text, and a clear introductory paragraph. Good readability reduces bounce rate and helps search engines understand your content."
+        },
+        {
+          "title": "Technical SEO & Server Data",
+          "body": "Technical checks cover URL structure (HTTPS, length, hyphens, clean URLs), charset, favicon, hreflang tags, and robots meta directives. Server data captures response time (TTFB), compression (gzip/brotli), cache headers, HSTS, and security headers. Core Web Vitals uses Google's PageSpeed Insights API to measure LCP, TBT, CLS, FCP, and Speed Index."
+        },
+        {
+          "title": "Social & Sharing Meta",
+          "body": "Social meta tags control how your page appears when shared on Facebook, LinkedIn, Twitter/X, and other platforms. The audit checks for Open Graph tags (og:image, og:type, og:title, og:description), Twitter Card meta (twitter:card, twitter:image), optimized social titles, and Apple touch icons. Missing social tags mean your links will look plain when shared."
+        },
+        {
+          "title": "Image Optimization",
+          "body": "Image checks cover lazy loading (loading='lazy' attribute), explicit width/height dimensions (prevents layout shifts), modern formats (WebP/AVIF), and descriptive file names. Images should be compressed, properly sized, and use next-gen formats for best performance. Tools: squoosh.app for manual compression, or CDN auto-optimization."
+        },
+        {
+          "title": "AI-Powered Features",
+          "body": "Keyword Research: AI analyzes your page content to suggest 15-20 keywords with search intent, difficulty, and topic clusters. Content Optimization: AI suggests title/meta rewrites, content gaps, heading improvements, internal linking opportunities, and readability fixes. Both features require an API key — all suggestions include copy-to-clipboard buttons."
+        },
+        {
+          "title": "SEO vs AEO — What's Different?",
+          "body": "The SEO Audit and AEO Analyzer cover complementary areas with zero overlap. SEO covers: keyword optimization, readability, URL structure, social meta, image optimization, and server performance. AEO covers: title/meta quality, heading structure, schema markup, robots.txt AI crawler access, sitemap, structured data, and content depth. Both scores are shown together for a complete picture."
+        }
+      ]
     }
   },
   "faq": [

@@ -1737,6 +1737,8 @@
     "aeoNote": "Naslov, meta opis, naslovi, schema markup i analiza linkova su pokriveni u AEO Analyzer tabu.",
     "coveredInAeo": "Takođe pokriveno u AEO Analyzeru",
     "coveredInAeoDesc": "Ove provere se detaljno ocenjuju u Analyzer tabu. Prikazano ovde kao referenca.",
+    "learnMoreHint": "Novi ste u ovom delu? Pročitajte dokumentaciju da biste razumeli šta svaka provera znači.",
+    "learnMore": "Saznaj više",
     "onPage": {
       "keywordOptimization": "Optimizacija ključnih reči",
       "readability": "Čitljivost i UX",

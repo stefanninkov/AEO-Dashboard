@@ -312,6 +312,44 @@
           "body": "Prebacujte se između svetle i tamne teme koristeći prekidač teme u bočnoj traci. Aplikacija podrazumevano poštuje preferencu vašeg sistema. Prečice na tastaturi i druge preference korisničkog interfejsa mogu se prilagoditi."
         }
       ]
+    },
+    "seo-guide": {
+      "title": "Vodič za SEO optimizaciju",
+      "description": "Kompletan vodič za alat SEO optimizacije — bodovanje, provere i kako da poboljšate rezultate.",
+      "items": [
+        {
+          "title": "Pregled SEO revizije",
+          "body": "SEO revizija analizira vašu stranicu u 5 kategorija sa više od 30 provera, ocenjujući do 100 poena. Kategorije: Optimizacija ključnih reči (25 poena), Čitljivost i UX (20 poena), URL i tehnika (20 poena), Društvene mreže i deljenje (20 poena), Optimizacija slika (15 poena). Sve determinističke provere rade bez API ključa. AI funkcije za istraživanje ključnih reči i optimizaciju sadržaja zahtevaju API ključ podešen u Podešavanjima."
+        },
+        {
+          "title": "Optimizacija ključnih reči",
+          "body": "Revizija ekstrahuje vašu ciljanu ključnu reč iz preklapajućih reči u naslovu i H1 zaglavlju, a zatim proverava pozicioniranje ključne reči u 8 oblasti: title tag, meta opis, H1, gustina sadržaja, prvih 100 reči, URL slug, podnaslovi i alt tekst slika. Idealna gustina ključne reči je 0,5–3%. Kliknite na bilo koju neuspelu proveru da vidite detaljna uputstva za popravku sa primerima koda."
+        },
+        {
+          "title": "Čitljivost i UX",
+          "body": "Čitljivost se ocenjuje korišćenjem Flesch-Kincaid formule. Ciljajte na 60+ (nivo čitanja za 8. razred). Dodatne provere: prosečna dužina rečenice ispod 20 reči, nema pasusa dužih od 150 reči, podnaslovi na svakih ~300 reči, nema zidova teksta i jasan uvodni pasus. Dobra čitljivost smanjuje stopu napuštanja i pomaže pretraživačima da razumeju vaš sadržaj."
+        },
+        {
+          "title": "Tehničko SEO i podaci servera",
+          "body": "Tehničke provere pokrivaju strukturu URL-a (HTTPS, dužina, crtice, čisti URL-ovi), charset, favicon, hreflang oznake i robots meta direktive. Podaci servera beleže vreme odgovora (TTFB), kompresiju (gzip/brotli), keš zaglavlja, HSTS i bezbednosna zaglavlja. Core Web Vitals koristi Google PageSpeed Insights API za merenje LCP, TBT, CLS, FCP i Speed Index."
+        },
+        {
+          "title": "Meta oznake za društvene mreže",
+          "body": "Meta oznake za društvene mreže kontrolišu kako vaša stranica izgleda kada se deli na Facebook-u, LinkedIn-u, Twitter/X-u i drugim platformama. Revizija proverava Open Graph oznake (og:image, og:type, og:title, og:description), Twitter Card meta (twitter:card, twitter:image), optimizovane naslove za deljenje i Apple touch ikone. Nedostajuće oznake za društvene mreže znače da će vaši linkovi izgledati obično kada se dele."
+        },
+        {
+          "title": "Optimizacija slika",
+          "body": "Provere slika pokrivaju lazy loading (loading='lazy' atribut), eksplicitne dimenzije širine/visine (sprečava pomeranje rasporeda), moderne formate (WebP/AVIF) i opisna imena fajlova. Slike treba da budu komprimovane, pravilno dimenzionisane i u modernim formatima za najbolje performanse. Alati: squoosh.app za ručnu kompresiju ili CDN auto-optimizacija."
+        },
+        {
+          "title": "AI funkcije",
+          "body": "Istraživanje ključnih reči: AI analizira sadržaj vaše stranice i predlaže 15–20 ključnih reči sa namerom pretrage, težinom i tematskim klasterima. Optimizacija sadržaja: AI predlaže prepravke naslova/opisa, praznine u sadržaju, poboljšanja zaglavlja, mogućnosti internog linkovanja i popravke čitljivosti. Obe funkcije zahtevaju API ključ — svi predlozi imaju dugmad za kopiranje u klipbord."
+        },
+        {
+          "title": "SEO naspram AEO — Koja je razlika?",
+          "body": "SEO revizija i AEO analizator pokrivaju komplementarne oblasti bez preklapanja. SEO pokriva: optimizaciju ključnih reči, čitljivost, strukturu URL-a, meta oznake za društvene mreže, optimizaciju slika i performanse servera. AEO pokriva: kvalitet naslova/opisa, strukturu zaglavlja, schema oznake, pristup AI indeksera u robots.txt, sitemap, strukturirane podatke i dubinu sadržaja. Oba rezultata se prikazuju zajedno za kompletnu sliku."
+        }
+      ]
     }
   },
   "faq": [

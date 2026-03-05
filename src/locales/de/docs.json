@@ -316,6 +316,44 @@
           "body": "Wechseln Sie zwischen hellem und dunklem Modus über den Design-Umschalter in der Seitenleiste. Die App respektiert standardmäßig Ihre Systemeinstellung. Tastenkürzel und andere UI-Einstellungen können angepasst werden."
         }
       ]
+    },
+    "seo-guide": {
+      "title": "SEO-Optimierungsleitfaden",
+      "description": "Vollständiger Leitfaden zum SEO-Optimierungstool — Bewertung, Prüfungen und wie Sie Ihre Ergebnisse verbessern.",
+      "items": [
+        {
+          "title": "SEO-Audit-Überblick",
+          "body": "Das SEO-Audit analysiert Ihre Seite in 5 Kategorien mit über 30 Prüfungen und bewertet mit bis zu 100 Punkten. Kategorien: Keyword-Optimierung (25 Pkt.), Lesbarkeit & UX (20 Pkt.), URL & Technik (20 Pkt.), Social & Sharing (20 Pkt.), Bildoptimierung (15 Pkt.). Alle deterministischen Prüfungen funktionieren ohne API-Schlüssel. KI-gestützte Keyword-Recherche und Inhaltsoptimierung erfordern einen API-Schlüssel in den Einstellungen."
+        },
+        {
+          "title": "Keyword-Optimierung",
+          "body": "Das Audit extrahiert Ihr Ziel-Keyword aus überlappenden Wörtern in Ihrem Titel und der H1-Überschrift und prüft dann die Keyword-Platzierung in 8 Bereichen: Title-Tag, Meta-Beschreibung, H1, Inhaltsdichte, erste 100 Wörter, URL-Slug, Unterüberschriften und Bild-Alt-Texte. Die ideale Keyword-Dichte liegt bei 0,5–3 %. Klicken Sie auf eine fehlgeschlagene Prüfung, um schrittweise Anleitungen mit Codebeispielen zu sehen."
+        },
+        {
+          "title": "Lesbarkeit & UX",
+          "body": "Die Lesbarkeit wird mit der Flesch-Kincaid-Formel bewertet. Streben Sie 60+ an (Lesestufe 8. Klasse). Weitere Prüfungen: durchschnittliche Satzlänge unter 20 Wörter, keine Absätze über 150 Wörter, Unterüberschriften alle ~300 Wörter, keine Textwände und ein klarer Einleitungsabsatz. Gute Lesbarkeit reduziert die Absprungrate und hilft Suchmaschinen, Ihren Inhalt zu verstehen."
+        },
+        {
+          "title": "Technisches SEO & Server-Daten",
+          "body": "Technische Prüfungen umfassen URL-Struktur (HTTPS, Länge, Bindestriche, saubere URLs), Zeichensatz, Favicon, Hreflang-Tags und Robots-Meta-Direktiven. Server-Daten erfassen Antwortzeit (TTFB), Komprimierung (Gzip/Brotli), Cache-Header, HSTS und Sicherheitsheader. Core Web Vitals nutzt Googles PageSpeed Insights API, um LCP, TBT, CLS, FCP und Speed Index zu messen."
+        },
+        {
+          "title": "Social & Sharing-Meta",
+          "body": "Social-Meta-Tags steuern, wie Ihre Seite beim Teilen auf Facebook, LinkedIn, Twitter/X und anderen Plattformen angezeigt wird. Das Audit prüft Open-Graph-Tags (og:image, og:type, og:title, og:description), Twitter-Card-Meta (twitter:card, twitter:image), optimierte Social-Titel und Apple-Touch-Icons. Fehlende Social-Tags bedeuten, dass Ihre Links beim Teilen schlicht aussehen."
+        },
+        {
+          "title": "Bildoptimierung",
+          "body": "Bildprüfungen umfassen Lazy Loading (loading='lazy'-Attribut), explizite Breiten-/Höhenangaben (verhindert Layout-Verschiebungen), moderne Formate (WebP/AVIF) und beschreibende Dateinamen. Bilder sollten komprimiert, richtig dimensioniert und in modernen Formaten für beste Leistung vorliegen. Tools: squoosh.app für manuelle Komprimierung oder CDN-Auto-Optimierung."
+        },
+        {
+          "title": "KI-gestützte Funktionen",
+          "body": "Keyword-Recherche: KI analysiert Ihren Seiteninhalt und schlägt 15–20 Keywords mit Suchintention, Schwierigkeit und Themen-Clustern vor. Inhaltsoptimierung: KI schlägt Titel-/Meta-Umschreibungen, Inhaltslücken, Überschriftenverbesserungen, interne Verlinkungsmöglichkeiten und Lesbarkeitskorrekturen vor. Beide Funktionen erfordern einen API-Schlüssel — alle Vorschläge haben In-die-Zwischenablage-kopieren-Buttons."
+        },
+        {
+          "title": "SEO vs. AEO — Was ist der Unterschied?",
+          "body": "Das SEO-Audit und der AEO-Analyzer decken komplementäre Bereiche ohne Überschneidung ab. SEO umfasst: Keyword-Optimierung, Lesbarkeit, URL-Struktur, Social-Meta, Bildoptimierung und Server-Leistung. AEO umfasst: Titel-/Meta-Qualität, Überschriftenstruktur, Schema-Markup, KI-Crawler-Zugang in robots.txt, Sitemap, strukturierte Daten und Inhaltstiefe. Beide Bewertungen werden zusammen angezeigt, um ein vollständiges Bild zu erhalten."
+        }
+      ]
     }
   },
   "faq": [
