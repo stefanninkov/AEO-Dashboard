@@ -104,6 +104,23 @@ export const SEO_DOCS = {
     },
   },
 
+  extension: {
+    text: 'Chrome Extension',
+    doc: {
+      title: 'Chrome Extension — Coming Soon',
+      sections: [
+        {
+          heading: 'Instant SEO Scores While Browsing',
+          body: 'We\'re building a Chrome extension that gives you instant SEO and AEO scores as you browse any website.\n\nFeatures planned:\n- One-click SEO score for any page you visit\n- Quick audit overlay without leaving the page\n- Compare the current page against your project\'s benchmarks\n- Export findings directly to your AEO Dashboard project\n\nThis feature is currently in development. Stay tuned!',
+        },
+        {
+          heading: 'How will it work?',
+          body: 'The extension will run the same deterministic scoring engine used in this dashboard, but directly in your browser.\n\n1. Visit any webpage\n2. Click the AEO Dashboard extension icon\n3. See instant SEO + AEO scores\n4. Drill into specific categories\n5. Send results to your dashboard project for tracking\n\nNo API key required for basic scoring — the same client-side analysis runs locally in your browser.',
+        },
+      ],
+    },
+  },
+
   content: {
     text: 'Content Optimization',
     doc: {

@@ -24,6 +24,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
     { key: 'competitors', label: t('pdfExport.sections.competitors'), desc: t('pdfExport.sections.competitorsDesc'), default: false },
     { key: 'metrics', label: t('pdfExport.sections.metrics'), desc: t('pdfExport.sections.metricsDesc'), default: false },
     { key: 'contentCalendar', label: t('pdfExport.sections.contentCalendar'), desc: t('pdfExport.sections.contentCalendarDesc'), default: false },
+    { key: 'seo', label: t('pdfExport.sections.seo', 'SEO Analysis'), desc: t('pdfExport.sections.seoDesc', 'SEO & AEO scores, category breakdown, and top issues'), default: false },
   ], [t])
 
   const [agencyName, setAgencyName] = useState('')
@@ -53,6 +54,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
   const hasCompetitors = !!activeProject?.competitors?.length
   const hasMetrics = !!activeProject?.metricsHistory?.length
   const hasCalendar = !!activeProject?.contentCalendar?.length
+  const hasSeo = !!activeProject?.seo?.scans && Object.keys(activeProject.seo.scans).length > 0
 
   // Determine disabled state per section
   const isDisabled = (key) => {
@@ -60,6 +62,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
     if (key === 'competitors') return !hasCompetitors
     if (key === 'metrics') return !hasMetrics
     if (key === 'contentCalendar') return !hasCalendar
+    if (key === 'seo') return !hasSeo
     return false
   }
 

@@ -712,6 +712,107 @@ export async function generatePdf({ project, phases, sections, agencyName, repor
   }
 
   // ════════════════════════════════════════
+  // SEO ANALYSIS PAGE (Optional)
+  // ════════════════════════════════════════
+
+  if (sections.seo && project?.seo) {
+    try {
+      const seoData = project.seo
+      const scans = seoData.scans || {}
+      const lastScanUrl = seoData.lastScanUrl
+      const lastScan = lastScanUrl ? scans[lastScanUrl] : null
+
+      if (lastScan) {
+        doc.addPage()
+        let y = 30
+
+        y = drawSectionHeader('SEO Analysis', y, [14, 165, 233])
+
+        const seoScore = lastScan.seoScore
+        const aeoScore = lastScan.aeoScore
+        const healthScore = seoScore && aeoScore
+          ? Math.round((seoScore.overallScore + aeoScore.overallScore) / 2)
+          : seoScore?.overallScore || 0
+
+        // Score stat boxes
+        const seoBoxW = (contentW - 6) / 3
+        const seoScoreColor = seoScore.overallScore >= 70 ? [16, 185, 129] : seoScore.overallScore >= 40 ? [245, 158, 11] : [239, 68, 68]
+        const aeoScoreColor = aeoScore ? (aeoScore.overallScore >= 70 ? [16, 185, 129] : aeoScore.overallScore >= 40 ? [245, 158, 11] : [239, 68, 68]) : [120, 120, 120]
+        const healthColor = healthScore >= 70 ? [16, 185, 129] : healthScore >= 40 ? [245, 158, 11] : [239, 68, 68]
+
+        drawStatBox(margin, y, seoBoxW, 22, seoScore.overallScore, 'SEO Score', seoScoreColor)
+        drawStatBox(margin + seoBoxW + 3, y, seoBoxW, 22, aeoScore ? aeoScore.overallScore : '—', 'AEO Score', aeoScoreColor)
+        drawStatBox(margin + (seoBoxW + 3) * 2, y, seoBoxW, 22, healthScore, 'Site Health', healthColor)
+        y += 30
+
+        // URL info
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(8)
+        doc.setTextColor(100, 100, 100)
+        doc.text(`URL: ${lastScan.url}`, margin, y)
+        y += 4
+        doc.text(`Scanned: ${new Date(lastScan.timestamp).toLocaleString()}`, margin, y)
+        y += 8
+
+        // Category breakdown table
+        if (seoScore.categories) {
+          doc.autoTable({
+            startY: y,
+            head: [['Category', 'Score', 'Max', 'Percentage', 'Status']],
+            body: Object.entries(seoScore.categories).map(([name, cat]) => {
+              const pct = cat.maxScore > 0 ? Math.round((cat.score / cat.maxScore) * 100) : 0
+              const status = pct >= 90 ? 'Excellent' : pct >= 70 ? 'Good' : pct >= 40 ? 'Needs Work' : 'Poor'
+              return [name, cat.score.toString(), cat.maxScore.toString(), `${pct}%`, status]
+            }),
+            margin: { left: margin, right: margin },
+            styles: { fontSize: 8.5, cellPadding: 3, textColor: [60, 60, 60] },
+            headStyles: { fillColor: [14, 165, 233], textColor: [255, 255, 255], fontStyle: 'bold' },
+            alternateRowStyles: { fillColor: [248, 248, 248] },
+            didParseCell: (data) => {
+              if (data.section === 'body' && data.column.index === 4) {
+                const status = data.cell.text[0]
+                if (status === 'Excellent') data.cell.styles.textColor = [16, 185, 129]
+                else if (status === 'Good') data.cell.styles.textColor = [16, 185, 129]
+                else if (status === 'Needs Work') data.cell.styles.textColor = [245, 158, 11]
+                else data.cell.styles.textColor = [239, 68, 68]
+              }
+            },
+          })
+          y = doc.lastAutoTable.finalY + 10
+        }
+
+        // Failing checks table
+        const failingChecks = (seoScore.checks || []).filter(c => c.status === 'fail')
+        if (failingChecks.length > 0 && y < pageH - 40) {
+          if (y > pageH - 60) { doc.addPage(); y = 30 }
+
+          doc.setFont('helvetica', 'bold')
+          doc.setFontSize(11)
+          doc.setTextColor(30, 30, 30)
+          doc.text('Failing Checks', margin, y)
+          y += 6
+
+          doc.autoTable({
+            startY: y,
+            head: [['Check', 'Category', 'Points Lost', 'Fix']],
+            body: failingChecks.slice(0, 15).map(c => [
+              c.item || '',
+              c.category || '',
+              `${c.maxPoints - c.points}`,
+              Array.isArray(c.fix) ? c.fix[0] || '' : (c.fix || '').substring(0, 80),
+            ]),
+            margin: { left: margin, right: margin },
+            styles: { fontSize: 7.5, cellPadding: 2.5, textColor: [60, 60, 60] },
+            headStyles: { fillColor: [239, 68, 68], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7 },
+            alternateRowStyles: { fillColor: [248, 248, 248] },
+            columnStyles: { 0: { cellWidth: 45 }, 3: { cellWidth: 55 } },
+          })
+        }
+      }
+    } catch { /* skip SEO section on error */ }
+  }
+
+  // ════════════════════════════════════════
   // BRANDED FOOTERS — on every page except cover
   // ════════════════════════════════════════
 

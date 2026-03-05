@@ -5,7 +5,7 @@ import {
   SearchCheck, Gauge, Users, Sparkles,
   ChartColumnIncreasing, BookOpen, FlaskConical, SlidersHorizontal, Sun, Moon,
   Plus, Download, FileText, CornerDownLeft, PenTool,
-  CalendarDays, Code2, Activity, Layers,
+  CalendarDays, Code2, Activity, Layers, Search,
 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useFocusTrap } from '../hooks/useFocusTrap'
@@ -18,6 +18,7 @@ const NAV_ICONS = {
   writer: PenTool,
   'content-ops': CalendarDays,
   schema: Code2,
+  seo: Search,
   monitoring: Activity,
   metrics: ChartColumnIncreasing,
   gsc: SearchCheck,
@@ -43,6 +44,7 @@ const NAV_KEYS = [
   { id: 'aeo-impact', i18nKey: 'nav.aeoImpact' },
   { id: 'docs', i18nKey: 'nav.docs' },
   { id: 'testing', i18nKey: 'nav.testing' },
+  { id: 'seo', i18nKey: 'nav.seo' },
   { id: 'settings', i18nKey: 'nav.settings' },
 ]
 
@@ -115,6 +117,13 @@ export default function CommandPalette({
         label: t('actions.exportReport'),
         icon: Download,
         action: () => onExport(),
+      },
+      {
+        id: 'action-seo-audit',
+        type: 'Action',
+        label: 'Quick SEO Audit',
+        icon: Search,
+        action: () => setActiveView('seo'),
       },
       {
         id: 'action-toggle-theme',

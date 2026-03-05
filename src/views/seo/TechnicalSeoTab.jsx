@@ -3,8 +3,35 @@ import { useTranslation } from 'react-i18next'
 import {
   CheckCircle2, XCircle, MinusCircle, ExternalLink, Wrench,
   Globe, Loader2, Shield, Server, Zap, ChevronDown, ChevronUp, Lightbulb,
-  Clock, ArrowRight, Lock, HardDrive,
+  Clock, ArrowRight, Lock, HardDrive, Copy, Check, Smartphone, Monitor,
 } from 'lucide-react'
+
+/* ── Copy Button ── */
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false)
+  const handleCopy = (e) => {
+    e.stopPropagation()
+    const copyText = Array.isArray(text) ? text.join('\n') : text
+    navigator.clipboard.writeText(copyText).catch(() => {})
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+  return (
+    <button
+      onClick={handleCopy}
+      title={copied ? 'Copied!' : 'Copy'}
+      style={{
+        background: 'none', border: '0.0625rem solid var(--border-subtle)',
+        borderRadius: 'var(--radius-sm)', padding: '0.25rem', cursor: 'pointer',
+        color: copied ? 'var(--color-success)' : 'var(--text-tertiary)',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        transition: 'color 200ms',
+      }}
+    >
+      {copied ? <Check size={10} /> : <Copy size={10} />}
+    </button>
+  )
+}
 
 /* ── Check Item Row with expandable fix guidance ── */
 function CheckRow({ check }) {
@@ -47,9 +74,12 @@ function CheckRow({ check }) {
           border: '0.0625rem solid color-mix(in srgb, var(--accent) 12%, transparent)',
           borderRadius: 'var(--radius-md)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', marginBottom: '0.375rem' }}>
-            <Lightbulb size={12} style={{ color: 'var(--accent)' }} />
-            <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent)' }}>How to fix</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <Lightbulb size={12} style={{ color: 'var(--accent)' }} />
+              <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent)' }}>How to fix</span>
+            </div>
+            <CopyButton text={check.fix} />
           </div>
           {Array.isArray(check.fix) ? (
             <ol style={{ margin: 0, paddingLeft: '1.125rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
@@ -246,12 +276,20 @@ function CoreWebVitals({ url }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [retryCount, setRetryCount] = useState(0)
+  const [strategy, setStrategy] = useState('mobile')
+  const [cache, setCache] = useState({}) // { mobile: data, desktop: data }
 
-  const fetchCWV = async () => {
+  const fetchCWV = async (strat) => {
+    const s = strat || strategy
+    // Check cache first
+    if (cache[s]) {
+      setData(cache[s])
+      return
+    }
     setLoading(true)
     setError(null)
     try {
-      const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile&category=performance`
+      const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=${s}&category=performance`
       const res = await fetch(apiUrl, { signal: AbortSignal.timeout(60000) })
       if (res.status === 429) {
         setRetryCount(prev => prev + 1)
@@ -270,14 +308,16 @@ function CoreWebVitals({ url }) {
       const fcpVal = metrics?.['first-contentful-paint']?.numericValue
       const siVal = metrics?.['speed-index']?.numericValue
 
-      setData({
+      const result = {
         performanceScore: Math.round((categories?.performance?.score || 0) * 100),
         lcp: { display: metrics?.['largest-contentful-paint']?.displayValue || 'N/A', value: lcpVal, status: lcpVal <= 2500 ? 'good' : lcpVal <= 4000 ? 'needs-improvement' : 'poor' },
         cls: { display: metrics?.['cumulative-layout-shift']?.displayValue || 'N/A', value: clsVal, status: clsVal <= 0.1 ? 'good' : clsVal <= 0.25 ? 'needs-improvement' : 'poor' },
         tbt: { display: metrics?.['total-blocking-time']?.displayValue || 'N/A', value: tbtVal, status: tbtVal <= 200 ? 'good' : tbtVal <= 600 ? 'needs-improvement' : 'poor' },
         fcp: { display: metrics?.['first-contentful-paint']?.displayValue || 'N/A', value: fcpVal, status: fcpVal <= 1800 ? 'good' : fcpVal <= 3000 ? 'needs-improvement' : 'poor' },
         si: { display: metrics?.['speed-index']?.displayValue || 'N/A', value: siVal, status: siVal <= 3400 ? 'good' : siVal <= 5800 ? 'needs-improvement' : 'poor' },
-      })
+      }
+      setData(result)
+      setCache(prev => ({ ...prev, [s]: result }))
       setRetryCount(0)
     } catch (err) {
       if (err.message === 'RATE_LIMITED') {
@@ -305,12 +345,39 @@ function CoreWebVitals({ url }) {
           </h3>
         </div>
         <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginBottom: '1rem' }}>
-          Analyze your page's real-world performance using Google's PageSpeed Insights API. Measures LCP, CLS, TBT, FCP and Speed Index on mobile.
+          Analyze your page's real-world performance using Google's PageSpeed Insights API. Measures LCP, CLS, TBT, FCP and Speed Index.
         </p>
-        <button onClick={fetchCWV} className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-          <Zap size={14} />
-          Run Performance Test
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <button onClick={() => fetchCWV()} className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+            <Zap size={14} />
+            Run Performance Test
+          </button>
+          <div style={{ display: 'flex', border: '0.0625rem solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+            <button
+              onClick={() => { setStrategy('mobile'); fetchCWV('mobile') }}
+              style={{
+                padding: '0.375rem 0.5rem', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem',
+                fontSize: '0.6875rem', fontWeight: 500,
+                background: strategy === 'mobile' ? 'color-mix(in srgb, var(--accent) 12%, transparent)' : 'var(--bg-card)',
+                color: strategy === 'mobile' ? 'var(--accent)' : 'var(--text-tertiary)',
+              }}
+            >
+              <Smartphone size={12} /> Mobile
+            </button>
+            <button
+              onClick={() => { setStrategy('desktop'); fetchCWV('desktop') }}
+              style={{
+                padding: '0.375rem 0.5rem', border: 'none', borderLeft: '0.0625rem solid var(--border-subtle)', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: '0.25rem',
+                fontSize: '0.6875rem', fontWeight: 500,
+                background: strategy === 'desktop' ? 'color-mix(in srgb, var(--accent) 12%, transparent)' : 'var(--bg-card)',
+                color: strategy === 'desktop' ? 'var(--accent)' : 'var(--text-tertiary)',
+              }}
+            >
+              <Monitor size={12} /> Desktop
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
@@ -407,7 +474,34 @@ function CoreWebVitals({ url }) {
           <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
             Core Web Vitals
           </h3>
-          <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>Mobile Performance — Google PageSpeed Insights</span>
+          <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
+            {strategy === 'mobile' ? 'Mobile' : 'Desktop'} Performance — Google PageSpeed Insights
+          </span>
+        </div>
+        <div style={{ display: 'flex', border: '0.0625rem solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', overflow: 'hidden', marginLeft: 'auto' }}>
+          <button
+            onClick={() => { setStrategy('mobile'); fetchCWV('mobile') }}
+            style={{
+              padding: '0.25rem 0.5rem', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem',
+              fontSize: '0.625rem', fontWeight: 500,
+              background: strategy === 'mobile' ? 'color-mix(in srgb, var(--accent) 12%, transparent)' : 'var(--bg-card)',
+              color: strategy === 'mobile' ? 'var(--accent)' : 'var(--text-tertiary)',
+            }}
+          >
+            <Smartphone size={11} /> Mobile
+          </button>
+          <button
+            onClick={() => { setStrategy('desktop'); fetchCWV('desktop') }}
+            style={{
+              padding: '0.25rem 0.5rem', border: 'none', borderLeft: '0.0625rem solid var(--border-subtle)', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: '0.25rem',
+              fontSize: '0.625rem', fontWeight: 500,
+              background: strategy === 'desktop' ? 'color-mix(in srgb, var(--accent) 12%, transparent)' : 'var(--bg-card)',
+              color: strategy === 'desktop' ? 'var(--accent)' : 'var(--text-tertiary)',
+            }}
+          >
+            <Monitor size={11} /> Desktop
+          </button>
         </div>
       </div>
 
@@ -469,9 +563,12 @@ function MetricRow({ metric, metricColor }) {
           border: '0.0625rem solid color-mix(in srgb, var(--accent) 12%, transparent)',
           borderRadius: 'var(--radius-md)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', marginBottom: '0.375rem' }}>
-            <Lightbulb size={12} style={{ color: 'var(--accent)' }} />
-            <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent)' }}>How to improve {m.label}</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <Lightbulb size={12} style={{ color: 'var(--accent)' }} />
+              <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent)' }}>How to improve {m.label}</span>
+            </div>
+            <CopyButton text={m.fix} />
           </div>
           <ol style={{ margin: 0, paddingLeft: '1.125rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             {m.fix.map((step, i) => (
