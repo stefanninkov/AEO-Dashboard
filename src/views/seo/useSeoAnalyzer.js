@@ -6,6 +6,51 @@ import { scorePage } from '../../utils/deterministicScorer'
 import { scoreSeo } from '../../utils/seoScorer'
 import { useActivityWithWebhooks } from '../../hooks/useActivityWithWebhooks'
 
+/**
+ * Fetch server-side data: response time, headers, redirects, compression.
+ * Uses a timed fetch to capture what's available (CORS may limit some headers).
+ */
+async function fetchServerData(url) {
+  const defaults = {
+    responseTime: null, status: null, redirected: false, finalUrl: url,
+    server: null, contentEncoding: null, cacheControl: null,
+    xPoweredBy: null, contentType: null, hsts: null, xFrameOptions: null,
+  }
+  try {
+    const start = performance.now()
+    const res = await fetch(url, {
+      method: 'HEAD',
+      mode: 'cors',
+      signal: AbortSignal.timeout(10000),
+      redirect: 'follow',
+    })
+    const responseTime = Math.round(performance.now() - start)
+    return {
+      responseTime,
+      status: res.status,
+      redirected: res.redirected,
+      finalUrl: res.url || url,
+      server: res.headers.get('server'),
+      contentEncoding: res.headers.get('content-encoding'),
+      cacheControl: res.headers.get('cache-control'),
+      xPoweredBy: res.headers.get('x-powered-by'),
+      contentType: res.headers.get('content-type'),
+      hsts: res.headers.get('strict-transport-security'),
+      xFrameOptions: res.headers.get('x-frame-options'),
+    }
+  } catch {
+    // CORS or network issue — try via CORS proxy for basic timing
+    try {
+      const start = performance.now()
+      const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+      const res = await fetch(proxy, { method: 'HEAD', signal: AbortSignal.timeout(10000) })
+      return { ...defaults, responseTime: Math.round(performance.now() - start), status: res.status }
+    } catch {
+      return defaults
+    }
+  }
+}
+
 export function useSeoAnalyzer({ activeProject, updateProject, user }) {
   const [scanning, setScanning] = useState(false)
   const [error, setError] = useState(null)
@@ -25,6 +70,9 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
     if (!url.startsWith('http')) url = 'https://' + url
 
     try {
+      // 0. Capture server response data (timing, headers, redirects)
+      const serverData = await fetchServerData(url)
+
       // 1. Fetch HTML
       const html = await fetchPageHtml(url)
 
@@ -51,6 +99,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
         pageData,
         robotsData,
         sitemapData,
+        serverData,
         timestamp: new Date().toISOString(),
       }
 
