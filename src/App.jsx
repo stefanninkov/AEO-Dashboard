@@ -41,6 +41,7 @@ const GscView = lazy(() => import('./views/GscView'))
 const Ga4View = lazy(() => import('./views/Ga4View'))
 const AeoImpactView = lazy(() => import('./views/AeoImpactView'))
 const ContentOpsView = lazy(() => import('./views/content-ops/ContentOpsView'))
+const SeoView = lazy(() => import('./views/seo/SeoView'))
 
 // Lazy-loaded modals (only loaded when opened)
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
@@ -510,6 +511,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         docs: FEATURES.DOCUMENTATION,
         settings: FEATURES.SETTINGS,
         'content-ops': FEATURES.CONTENT_OPS,
+        seo: FEATURES.SEO,
       }
       const feature = featureMap[activeView]
       if (feature) trackFeature(user.uid, feature, 'view')
@@ -658,6 +660,14 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
       case 'schema':
         return (
           <SchemaGeneratorView
+            activeProject={activeProject}
+            updateProject={updateProject}
+            user={user}
+          />
+        )
+      case 'seo':
+        return (
+          <SeoView
             activeProject={activeProject}
             updateProject={updateProject}
             user={user}

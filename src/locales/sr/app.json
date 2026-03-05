@@ -1705,5 +1705,75 @@
         }
       }
     }
+  },
+  "seo": {
+    "title": "SEO optimizacija",
+    "subtitle": "Sveobuhvatna analiza optimizacije za pretraživače za tvoj projekat",
+    "tabAudit": "SEO audit",
+    "tabOnPage": "On-Page SEO",
+    "tabTechnical": "Tehnički SEO",
+    "tabKeywords": "Istraživanje ključnih reči",
+    "tabContent": "Optimizacija sadržaja",
+    "scanUrl": "Unesi URL za analizu...",
+    "scanning": "Skeniranje...",
+    "runAudit": "Pokreni SEO audit",
+    "seoScore": "SEO rezultat",
+    "aeoScore": "AEO rezultat",
+    "overallScore": "Ukupni SEO rezultat",
+    "categoryBreakdown": "Pregled po kategorijama",
+    "priorityIssues": "Prioritetni problemi",
+    "quickWins": "Brze pobede",
+    "scoreHistory": "Istorija rezultata",
+    "noScans": "Nema SEO skeniranja",
+    "noScansDesc": "Unesi URL za sveobuhvatni SEO audit i preporuke.",
+    "runAuditFirst": "Prvo pokreni SEO audit iz SEO Audit taba.",
+    "passed": "prošlo",
+    "partial": "delimično",
+    "failed": "palo",
+    "targetKeyword": "Ciljna ključna reč",
+    "autoDetected": "automatski detektovano iz naslova + H1",
+    "aeoReference": "AEO Analyzer rezultat",
+    "aeoReferenceDesc": "Naslov, meta, naslovi, schema, robots.txt, sitemap i linkovi se ocenjuju u AEO Analyzeru.",
+    "aeoNote": "Naslov, meta opis, naslovi, schema markup i analiza linkova su pokriveni u AEO Analyzer tabu.",
+    "coveredInAeo": "Takođe pokriveno u AEO Analyzeru",
+    "coveredInAeoDesc": "Ove provere se detaljno ocenjuju u Analyzer tabu. Prikazano ovde kao referenca.",
+    "onPage": {
+      "keywordOptimization": "Optimizacija ključnih reči",
+      "readability": "Čitljivost i UX",
+      "imageOptimization": "Optimizacija slika"
+    },
+    "technical": {
+      "urlTechnical": "URL i tehnički SEO",
+      "socialSharing": "Social i Sharing meta",
+      "coreWebVitals": "Core Web Vitals",
+      "cwvDesc": "Izmeri performanse stranice koristeći Google PageSpeed Insights API.",
+      "runCWV": "Proveri Core Web Vitals",
+      "cwvLoading": "Analiziranje performansi stranice..."
+    },
+    "keywords": {
+      "title": "Istraživanje ključnih reči",
+      "subtitle": "AI predlozi ključnih reči na osnovu tvog sadržaja",
+      "extractKeywords": "Izvuci ključne reči",
+      "noKeywords": "Nema istraživanja ključnih reči",
+      "noKeywordsDesc": "Prvo skeniraj stranicu, pa koristi AI za pronalaženje ključnih reči.",
+      "requiresApiKey": "Istraživanje ključnih reči zahteva API ključ. Podesi ga u Podešavanjima.",
+      "primaryKeyword": "Primarna ključna reč",
+      "suggestions": "Predlozi ključnih reči",
+      "clusters": "Klasteri ključnih reči",
+      "questions": "Ključne reči u obliku pitanja",
+      "strategySuggestion": "Predlog strategije"
+    },
+    "content": {
+      "title": "Optimizacija sadržaja",
+      "subtitle": "AI predlozi za poboljšanje sadržaja za pretraživače",
+      "optimize": "Optimizuj sadržaj",
+      "requiresApiKey": "Optimizacija sadržaja zahteva API ključ. Podesi ga u Podešavanjima.",
+      "strategy": "Strategija",
+      "titleSuggestions": "Predlozi za naslov",
+      "metaDescSuggestions": "Predlozi za meta opis",
+      "gapAnalysis": "Analiza praznina u sadržaju",
+      "linkingSuggestions": "Mogućnosti internog linkovanja",
+      "readability": "Poboljšanja čitljivosti"
+    }
   }
 }

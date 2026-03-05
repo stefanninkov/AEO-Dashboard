@@ -58,6 +58,13 @@ const DEFAULT_PROJECT_DATA = {
   competitorAlerts: [],
   citationShareHistory: [],
   lastCitationShareRun: null,
+  seo: {
+    scans: {},
+    auditHistory: [],
+    keywordResearch: [],
+    contentOptimizations: [],
+    lastScanUrl: null,
+  },
   questionnaire: {
     industry: null,
     industryOther: '',

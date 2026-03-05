@@ -110,6 +110,7 @@ export const FEATURES = {
   COMPETITORS: 'competitors',
   TESTING: 'testing',
   DOCUMENTATION: 'documentation',
+  SEO: 'seo',
   SETTINGS: 'settings',
   REPORT_EXPORT: 'report_export',
 }

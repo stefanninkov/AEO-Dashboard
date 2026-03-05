@@ -1654,5 +1654,75 @@
         }
       }
     }
+  },
+  "seo": {
+    "title": "SEO Optimization",
+    "subtitle": "Comprehensive search engine optimization analysis for your project",
+    "tabAudit": "SEO Audit",
+    "tabOnPage": "On-Page SEO",
+    "tabTechnical": "Technical SEO",
+    "tabKeywords": "Keyword Research",
+    "tabContent": "Content Optimization",
+    "scanUrl": "Enter URL to analyze...",
+    "scanning": "Scanning...",
+    "runAudit": "Run SEO Audit",
+    "seoScore": "SEO Score",
+    "aeoScore": "AEO Score",
+    "overallScore": "Overall SEO Score",
+    "categoryBreakdown": "Category Breakdown",
+    "priorityIssues": "Priority Issues",
+    "quickWins": "Quick Wins",
+    "scoreHistory": "Score History",
+    "noScans": "No SEO scans yet",
+    "noScansDesc": "Enter a URL to run a comprehensive SEO audit and get actionable recommendations.",
+    "runAuditFirst": "Run an SEO audit first from the SEO Audit tab.",
+    "passed": "passed",
+    "partial": "partial",
+    "failed": "failed",
+    "targetKeyword": "Target Keyword",
+    "autoDetected": "auto-detected from title + H1",
+    "aeoReference": "AEO Analyzer Score",
+    "aeoReferenceDesc": "Title, meta, headings, schema, robots.txt, sitemap, and links are scored in the AEO Analyzer.",
+    "aeoNote": "Title, meta description, headings, schema markup, and link analysis are covered in the AEO Analyzer tab.",
+    "coveredInAeo": "Also Covered in AEO Analyzer",
+    "coveredInAeoDesc": "These checks are scored in detail in the Analyzer tab. Shown here for reference.",
+    "onPage": {
+      "keywordOptimization": "Keyword Optimization",
+      "readability": "Readability & UX",
+      "imageOptimization": "Image Optimization"
+    },
+    "technical": {
+      "urlTechnical": "URL & Technical SEO",
+      "socialSharing": "Social & Sharing Meta",
+      "coreWebVitals": "Core Web Vitals",
+      "cwvDesc": "Measure real-world page performance using Google PageSpeed Insights API.",
+      "runCWV": "Run Core Web Vitals",
+      "cwvLoading": "Analyzing page performance..."
+    },
+    "keywords": {
+      "title": "Keyword Research",
+      "subtitle": "AI-powered keyword suggestions based on your content",
+      "extractKeywords": "Extract Keywords",
+      "noKeywords": "No keyword research yet",
+      "noKeywordsDesc": "Scan a page first, then use AI to find keyword opportunities.",
+      "requiresApiKey": "Keyword research requires an API key. Set one in Settings.",
+      "primaryKeyword": "Primary Keyword",
+      "suggestions": "Keyword Suggestions",
+      "clusters": "Keyword Clusters",
+      "questions": "Question Keywords",
+      "strategySuggestion": "Strategy Suggestion"
+    },
+    "content": {
+      "title": "Content Optimization",
+      "subtitle": "AI-powered suggestions to improve your content for search engines",
+      "optimize": "Optimize Content",
+      "requiresApiKey": "Content optimization requires an API key. Set one in Settings.",
+      "strategy": "Strategy",
+      "titleSuggestions": "Title Tag Suggestions",
+      "metaDescSuggestions": "Meta Description Suggestions",
+      "gapAnalysis": "Content Gap Analysis",
+      "linkingSuggestions": "Internal Linking Opportunities",
+      "readability": "Readability Improvements"
+    }
   }
 }

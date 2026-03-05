@@ -1654,5 +1654,75 @@
         }
       }
     }
+  },
+  "seo": {
+    "title": "SEO-Optimierung",
+    "subtitle": "Umfassende Suchmaschinenoptimierung für Ihr Projekt",
+    "tabAudit": "SEO-Audit",
+    "tabOnPage": "On-Page-SEO",
+    "tabTechnical": "Technisches SEO",
+    "tabKeywords": "Keyword-Recherche",
+    "tabContent": "Content-Optimierung",
+    "scanUrl": "URL zur Analyse eingeben...",
+    "scanning": "Wird gescannt...",
+    "runAudit": "SEO-Audit starten",
+    "seoScore": "SEO-Score",
+    "aeoScore": "AEO-Score",
+    "overallScore": "Gesamt-SEO-Score",
+    "categoryBreakdown": "Kategorien-Aufschlüsselung",
+    "priorityIssues": "Prioritäre Probleme",
+    "quickWins": "Schnelle Erfolge",
+    "scoreHistory": "Score-Verlauf",
+    "noScans": "Noch keine SEO-Scans",
+    "noScansDesc": "Geben Sie eine URL ein, um ein umfassendes SEO-Audit durchzuführen.",
+    "runAuditFirst": "Führen Sie zuerst ein SEO-Audit im SEO-Audit-Tab durch.",
+    "passed": "bestanden",
+    "partial": "teilweise",
+    "failed": "fehlgeschlagen",
+    "targetKeyword": "Ziel-Keyword",
+    "autoDetected": "automatisch aus Titel + H1 erkannt",
+    "aeoReference": "AEO-Analyzer-Score",
+    "aeoReferenceDesc": "Titel, Meta, Überschriften, Schema, robots.txt, Sitemap und Links werden im AEO-Analyzer bewertet.",
+    "aeoNote": "Titel, Meta-Beschreibung, Überschriften, Schema-Markup und Link-Analyse werden im AEO-Analyzer-Tab abgedeckt.",
+    "coveredInAeo": "Auch im AEO-Analyzer abgedeckt",
+    "coveredInAeoDesc": "Diese Prüfungen werden im Analyzer-Tab detailliert bewertet. Hier als Referenz angezeigt.",
+    "onPage": {
+      "keywordOptimization": "Keyword-Optimierung",
+      "readability": "Lesbarkeit & UX",
+      "imageOptimization": "Bild-Optimierung"
+    },
+    "technical": {
+      "urlTechnical": "URL & Technisches SEO",
+      "socialSharing": "Social & Sharing Meta",
+      "coreWebVitals": "Core Web Vitals",
+      "cwvDesc": "Messen Sie die Seitenleistung mit der Google PageSpeed Insights API.",
+      "runCWV": "Core Web Vitals prüfen",
+      "cwvLoading": "Seitenleistung wird analysiert..."
+    },
+    "keywords": {
+      "title": "Keyword-Recherche",
+      "subtitle": "KI-gestützte Keyword-Vorschläge basierend auf Ihrem Inhalt",
+      "extractKeywords": "Keywords extrahieren",
+      "noKeywords": "Noch keine Keyword-Recherche",
+      "noKeywordsDesc": "Scannen Sie zuerst eine Seite, dann nutzen Sie KI für Keyword-Möglichkeiten.",
+      "requiresApiKey": "Keyword-Recherche erfordert einen API-Schlüssel. Legen Sie einen in den Einstellungen fest.",
+      "primaryKeyword": "Primäres Keyword",
+      "suggestions": "Keyword-Vorschläge",
+      "clusters": "Keyword-Cluster",
+      "questions": "Frage-Keywords",
+      "strategySuggestion": "Strategie-Empfehlung"
+    },
+    "content": {
+      "title": "Content-Optimierung",
+      "subtitle": "KI-gestützte Vorschläge zur Verbesserung Ihres Contents für Suchmaschinen",
+      "optimize": "Content optimieren",
+      "requiresApiKey": "Content-Optimierung erfordert einen API-Schlüssel. Legen Sie einen in den Einstellungen fest.",
+      "strategy": "Strategie",
+      "titleSuggestions": "Titel-Vorschläge",
+      "metaDescSuggestions": "Meta-Beschreibungs-Vorschläge",
+      "gapAnalysis": "Content-Lücken-Analyse",
+      "linkingSuggestions": "Interne Verlinkungsmöglichkeiten",
+      "readability": "Lesbarkeits-Verbesserungen"
+    }
   }
 }
