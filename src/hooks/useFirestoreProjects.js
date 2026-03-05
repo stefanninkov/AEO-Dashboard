@@ -204,7 +204,14 @@ function useFirestoreProjectsImpl(user) {
   const [sharedProjects, setSharedProjects] = useState([])
   const [legacyLoaded, setLegacyLoaded] = useState(false)
   const [sharedLoaded, setSharedLoaded] = useState(false)
-  const [activeProjectId, setActiveProjectId] = useState(null)
+  // Persist active project ID to localStorage so it survives page refresh
+  const [activeProjectId, setActiveProjectIdRaw] = useState(() => {
+    try { return localStorage.getItem('aeo-active-project') } catch { return null }
+  })
+  const setActiveProjectId = useCallback((id) => {
+    setActiveProjectIdRaw(id)
+    try { if (id) localStorage.setItem('aeo-active-project', id); else localStorage.removeItem('aeo-active-project') } catch { /* ignore */ }
+  }, [])
 
   const [firestoreError, setFirestoreError] = useState(null)
 

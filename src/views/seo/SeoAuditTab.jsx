@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Globe, Loader2, AlertCircle, CheckCircle2, XCircle, MinusCircle,
-  TrendingUp, Zap, ExternalLink,
+  TrendingUp, Zap, ExternalLink, ChevronDown, ChevronUp, Lightbulb,
 } from 'lucide-react'
 
 /* ── Score Ring ── */
@@ -43,26 +43,63 @@ function CategoryBar({ name, score, maxScore }) {
   )
 }
 
-/* ── Check Item Row ── */
+/* ── Check Item Row with expandable fix guidance ── */
 function CheckRow({ check }) {
+  const [expanded, setExpanded] = useState(false)
   const icon = check.status === 'pass' ? <CheckCircle2 size={14} /> : check.status === 'fail' ? <XCircle size={14} /> : <MinusCircle size={14} />
   const color = check.status === 'pass' ? 'var(--color-success)' : check.status === 'fail' ? 'var(--color-error)' : 'var(--color-warning)'
+  const hasFix = check.status !== 'pass' && check.fix
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', padding: '0.5rem 0', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
-      <span style={{ color, flexShrink: 0, marginTop: '0.0625rem' }}>{icon}</span>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{check.item}</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color, fontWeight: 600 }}>
-            {check.points}/{check.maxPoints}
-          </span>
+    <div style={{ padding: '0.5rem 0', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
+      <div
+        style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: hasFix ? 'pointer' : 'default' }}
+        onClick={() => hasFix && setExpanded(prev => !prev)}
+      >
+        <span style={{ color, flexShrink: 0, marginTop: '0.0625rem' }}>{icon}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>{check.item}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color, fontWeight: 600 }}>
+                {check.points}/{check.maxPoints}
+              </span>
+              {hasFix && (
+                expanded
+                  ? <ChevronUp size={12} style={{ color: 'var(--text-tertiary)' }} />
+                  : <ChevronDown size={12} style={{ color: 'var(--text-tertiary)' }} />
+              )}
+            </div>
+          </div>
+          {check.detail && (
+            <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem', lineHeight: 1.4 }}>
+              {check.detail}
+            </p>
+          )}
         </div>
-        {check.detail && (
-          <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem', lineHeight: 1.4 }}>
-            {check.detail}
-          </p>
-        )}
       </div>
+      {/* Expandable fix guidance */}
+      {expanded && check.fix && (
+        <div style={{
+          marginTop: '0.5rem', marginLeft: '1.375rem', padding: '0.625rem 0.75rem',
+          background: 'color-mix(in srgb, var(--accent) 5%, transparent)',
+          border: '0.0625rem solid color-mix(in srgb, var(--accent) 12%, transparent)',
+          borderRadius: 'var(--radius-md)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', marginBottom: '0.375rem' }}>
+            <Lightbulb size={12} style={{ color: 'var(--accent)' }} />
+            <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent)' }}>How to fix</span>
+          </div>
+          {Array.isArray(check.fix) ? (
+            <ol style={{ margin: 0, paddingLeft: '1.125rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              {check.fix.map((step, i) => (
+                <li key={i} style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{step}</li>
+              ))}
+            </ol>
+          ) : (
+            <p style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', lineHeight: 1.5, margin: 0 }}>{check.fix}</p>
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -71,6 +108,12 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
   const { t } = useTranslation('app')
   const [urlInput, setUrlInput] = useState(analyzer.lastScanUrl || activeProject?.url || '')
   const { scanning, error, lastScan, auditHistory, scanUrl } = analyzer
+
+  // Reset URL input when project changes
+  const projectId = activeProject?.id
+  useEffect(() => {
+    setUrlInput(analyzer.lastScanUrl || activeProject?.url || '')
+  }, [projectId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleScan = async () => {
     if (!urlInput.trim() || scanning) return
