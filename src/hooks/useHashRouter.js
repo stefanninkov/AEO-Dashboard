@@ -11,7 +11,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 
 const VALID_VIEWS = new Set([
   'dashboard', 'checklist', 'competitors', 'analyzer', 'writer', 'scorer',
-  'content-ops', 'schema', 'monitoring', 'metrics', 'gsc',
+  'content-ops', 'schema', 'seo', 'monitoring', 'metrics', 'gsc',
   'ga4', 'aeo-impact', 'docs', 'testing', 'settings',
 ])
 
