@@ -174,7 +174,97 @@
         "social": "Team",
         "competitors": "Wettbewerber"
       }
+    },
+    "presets": {
+      "overview": "Übersicht",
+      "overviewDesc": "Statistiken, Phasenfortschritt, Empfehlungen & Schnellaktionen",
+      "seoFocus": "SEO-Fokus",
+      "seoFocusDesc": "SEO-Scores, technische Probleme & Wettbewerbsvergleich",
+      "contentFocus": "Content-Fokus",
+      "contentFocusDesc": "Inhaltsqualität, Decay-Warnungen & Schreibtools",
+      "competitiveIntel": "Wettbewerbs-Intel",
+      "competitiveIntelDesc": "Wettbewerber-Tracking, Zitationen & Inhaltslücken"
     }
+  },
+  "tour": {
+    "skip": "Tour überspringen",
+    "next": "Weiter",
+    "prev": "Zurück",
+    "finish": "Fertig",
+    "sidebar": {
+      "title": "Navigationsleiste",
+      "body": "Greifen Sie hier auf alle Dashboard-Ansichten zu — Checkliste, Analysator, Content-Tools, SEO, Wettbewerber und mehr."
+    },
+    "projectSelector": {
+      "title": "Projektauswahl",
+      "body": "Wechseln Sie zwischen Ihren Projekten oder erstellen Sie neue. Jedes Projekt verfolgt eine separate Website."
+    },
+    "dashboardStats": {
+      "title": "Kennzahlen",
+      "body": "Sehen Sie Ihre Zitationen, Prompts, aktiven KI-Engines und AEO-Score auf einen Blick."
+    },
+    "quickWin": {
+      "title": "Quick Win",
+      "body": "Ihre wichtigste nächste Aktion. Befolgen Sie diese Empfehlungen, um Ihren Score schnell zu verbessern."
+    },
+    "recommendations": {
+      "title": "Intelligente Empfehlungen",
+      "body": "KI-gestützte Vorschläge, zugeschnitten auf Ihr Projekt, Ihre Wettbewerber und Scores."
+    }
+  },
+  "gettingStarted": {
+    "title": "Erste Schritte",
+    "progress": "Fortschritt",
+    "createProject": "Projekt erstellen",
+    "runAnalysis": "Erste Analyse durchführen",
+    "checkChecklist": "AEO-Checkliste überprüfen",
+    "connectGsc": "Google Search Console verbinden",
+    "inviteTeam": "Teammitglied einladen",
+    "setupMonitoring": "Monitoring einrichten",
+    "allDone": "Fertig! Sie sind vollständig eingerichtet.",
+    "dismiss": "Checkliste ausblenden"
+  },
+  "inlineEditor": {
+    "clickToEdit": "Klicken zum Bearbeiten",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "undo": "Rückgängig",
+    "redo": "Wiederholen"
+  },
+  "templates": {
+    "title": "Vorlagen",
+    "search": "Vorlagen durchsuchen...",
+    "allCategories": "Alle",
+    "content": "Inhalt",
+    "schema": "Schema",
+    "analysis": "Analyse",
+    "custom": "Meine Vorlagen",
+    "noResults": "Keine Vorlagen gefunden.",
+    "blogPost": "Blogbeitrag",
+    "blogPostDesc": "Strukturierter Blogbeitrag, optimiert für KI-Zitationen mit FAQ-Bereich und strukturierten Daten.",
+    "faqPage": "FAQ-Seite",
+    "faqPageDesc": "FAQ-Seite mit automatischer FAQPage-Schema-Markup-Generierung.",
+    "productPage": "Produktseite",
+    "productPageDesc": "Produkt-Landingpage mit Produkt-Schema und Bewertungs-Snippets.",
+    "landingPage": "Landingpage",
+    "landingPageDesc": "Conversion-optimierte Landingpage mit Hero, Features, Social Proof und CTA.",
+    "organizationSchema": "Organisations-Schema",
+    "orgSchemaDesc": "Organisations-strukturierte Daten für das Marken-Knowledge-Panel.",
+    "articleSchema": "Artikel-Schema",
+    "articleSchemaDesc": "Artikel-strukturierte Daten für Nachrichten und Blogbeiträge.",
+    "howToSchema": "HowTo-Schema",
+    "howToSchemaDesc": "HowTo-strukturierte Daten für Schritt-für-Schritt-Anleitungen.",
+    "fullAnalysis": "Vollständige SEO + AEO Analyse",
+    "fullAnalysisDesc": "Komplette Analyse aller SEO- und AEO-Dimensionen.",
+    "quickAudit": "Schnell-Audit",
+    "quickAuditDesc": "Schnelle technische und inhaltliche Prüfung für Quick Wins."
+  },
+  "batch": {
+    "toolbar": "Stapelaktionen",
+    "selected": "{{count}} von {{total}} ausgewählt",
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen",
+    "clear": "Auswahl aufheben"
   },
   "analyzer": {
     "title": "AEO-Analysator",

@@ -19,6 +19,7 @@ import AnalyticsPanel from './dashboard/AnalyticsPanel'
 import ProgressSummaryCard from './dashboard/ProgressSummaryCard'
 import QuickWinCard from './dashboard/QuickWinCard'
 import ActivityInsightsPanel from './dashboard/ActivityInsightsPanel'
+import DashboardPresetSwitcher, { getStoredPreset, storePreset, isSectionVisible } from './dashboard/DashboardPresets'
 import useGridNav from '../hooks/useGridNav'
 
 const SUB_TAB_KEYS = [
@@ -161,10 +162,18 @@ function DashboardEmptyState({ message, onAction, t }) {
 export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid, updateProject }) {
   const { t } = useTranslation('app')
   const [subTab, setSubTab] = useState('overview')
+  const [activePreset, setActivePreset] = useState(() => getStoredPreset())
   const subTabsRef = useRef(null)
   const statsGridRef = useRef(null)
   useScrollActiveTab(subTabsRef, subTab)
   useGridNav(statsGridRef)
+
+  const handlePresetChange = useCallback((presetId) => {
+    setActivePreset(presetId)
+    storePreset(presetId)
+  }, [])
+
+  const showSection = useCallback((name) => isSectionVisible(activePreset, name), [activePreset])
 
   const getPhaseProgress = useCallback((phase) => {
     if (!activeProject) return { total: 0, checked: 0, percent: 0 }
@@ -280,35 +289,42 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
         </div>
       </div>
 
-      {/* Sub-tabs — segmented pattern */}
-      <div ref={subTabsRef} className="tab-bar-segmented scrollable-tabs" role="tablist">
-        {SUB_TAB_KEYS.map(tab => (
-          <button
-            key={tab.id}
-            className="tab-segmented"
-            role="tab"
-            aria-selected={subTab === tab.id}
-            data-active={subTab === tab.id || undefined}
-            onClick={() => setSubTab(tab.id)}
-          >
-            {t(tab.i18nKey)}
-          </button>
-        ))}
+      {/* Sub-tabs + Preset Switcher */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+        <div ref={subTabsRef} className="tab-bar-segmented scrollable-tabs" role="tablist" style={{ flex: 1 }}>
+          {SUB_TAB_KEYS.map(tab => (
+            <button
+              key={tab.id}
+              className="tab-segmented"
+              role="tab"
+              aria-selected={subTab === tab.id}
+              data-active={subTab === tab.id || undefined}
+              onClick={() => setSubTab(tab.id)}
+            >
+              {t(tab.i18nKey)}
+            </button>
+          ))}
+        </div>
+        {subTab === 'overview' && (
+          <DashboardPresetSwitcher activePreset={activePreset} onSelect={handlePresetChange} />
+        )}
       </div>
 
       {/* ═══ OVERVIEW TAB ═══ */}
       {subTab === 'overview' && (
         <>
           {/* 4 Stat Cards */}
-          <div ref={statsGridRef} className="stats-grid-4 stagger-grid" role="grid" aria-label={t('dashboard.overview')}>
+          {showSection('stats') && (
+          <div ref={statsGridRef} className="stats-grid-4 stagger-grid" role="grid" aria-label={t('dashboard.overview')} data-tour="dashboard-stats">
             <StatCard label={t('dashboard.totalCitations')} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
             <StatCard label={t('dashboard.totalPrompts')} value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
             <StatCard label={t('dashboard.activeAiEngines')} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
             <StatCard label={t('dashboard.aeoScore')} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
           </div>
+          )}
 
           {/* Site Health + AI Crawler Access — from deterministic analysis */}
-          {activeProject?.deterministicScore && (
+          {showSection('siteHealth') && activeProject?.deterministicScore && (
             <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
               {/* Site Health Card */}
               <div className="card card-lg">
@@ -421,28 +437,36 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           )}
 
           {/* Quick Win — #1 highest-impact action */}
-          <QuickWinCard quickWin={quickWin} />
+          {showSection('quickWin') && (
+          <div data-tour="quick-win">
+            <QuickWinCard quickWin={quickWin} />
+          </div>
+          )}
 
           {/* Score History Timeline */}
-          {activeProject && (
+          {showSection('scoreHistory') && activeProject && (
             <ScoreHistorySection activeProject={activeProject} updateProject={updateProject} t={t} />
           )}
 
           {/* Donut Chart — Phase Progress */}
-          {activeProject && phases && (
+          {showSection('donut') && activeProject && phases && (
             <PhaseDonut phases={phases} getPhaseProgress={getPhaseProgress} onNavigate={() => setActiveView('checklist')} />
           )}
 
           {/* Progress Summary — Milestones, Quick Wins, Timeline */}
-          {activeProject && phases && (
+          {showSection('progress') && activeProject && phases && (
             <ProgressSummaryCard activeProject={activeProject} phases={phases} setActiveView={setActiveView} />
           )}
 
           {/* Personalized Recommendations */}
-          <RecommendationsPanel recommendations={recommendations} contextLine={activeProject?.questionnaire?.completedAt ? getProjectContextLine(activeProject.questionnaire, t) : null} />
+          {showSection('recommendations') && (
+          <div data-tour="recommendations">
+            <RecommendationsPanel recommendations={recommendations} contextLine={activeProject?.questionnaire?.completedAt ? getProjectContextLine(activeProject.questionnaire, t) : null} />
+          </div>
+          )}
 
           {/* Charts Row */}
-          {latestMetrics && (
+          {showSection('charts') && latestMetrics && (
             <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
               <div className="card card-lg">
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
@@ -501,7 +525,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           )}
 
           {/* Phase Progress Card */}
-          {activeProject && phases && (
+          {showSection('phaseProgress') && activeProject && phases && (
             <div className="phase-progress-card">
               <div className="phase-progress-card-header">{t('dashboard.phaseProgress')}</div>
               {phases.map(phase => {
@@ -522,7 +546,7 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
           )}
 
           {/* Recent Activity */}
-          <div className="card card-lg">
+          {showSection('activity') && <div className="card card-lg">
             <div style={{
               fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
               textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
@@ -531,19 +555,21 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
               {t('dashboard.recentActivity')}
             </div>
             <ActivityTimeline activities={activeProject?.activityLog || []} currentUserUid={currentUserUid} />
-          </div>
+          </div>}
 
           {/* Team Activity Insights */}
-          <ActivityInsightsPanel activities={activeProject?.activityLog || []} />
+          {showSection('activityInsights') && (
+            <ActivityInsightsPanel activities={activeProject?.activityLog || []} />
+          )}
 
           {/* Competitor Alert Digest */}
-          <CompetitorAlertDigest
+          {showSection('competitorAlerts') && <CompetitorAlertDigest
             alerts={activeProject?.competitorAlerts}
             setActiveView={setActiveView}
             t={t}
-          />
+          />}
 
-          <QuickActions setActiveView={setActiveView} />
+          {showSection('quickActions') && <QuickActions setActiveView={setActiveView} />}
         </>
       )}
 

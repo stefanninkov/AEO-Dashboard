@@ -308,7 +308,7 @@ export default memo(function TopBar({
         </div>
 
         {/* Project switcher */}
-        <div className="relative" ref={dropdownRef} style={{ minWidth: 0 }}>
+        <div className="relative" ref={dropdownRef} style={{ minWidth: 0 }} data-tour="project-selector">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             style={{
