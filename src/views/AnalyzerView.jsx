@@ -6,6 +6,8 @@ import {
   Code2, FileCode, ExternalLink, Zap,
 } from 'lucide-react'
 import { getAnalyzerIndustryContext } from '../utils/getRecommendations'
+import RecommendationCard from '../components/RecommendationCard'
+import { useRecommendations } from '../hooks/useRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { callAI } from '../utils/apiClient'
 import { getApiKey, setApiKey as setProviderApiKey, hasApiKey } from '../utils/aiProvider'
@@ -151,6 +153,10 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
 
   // Score history — auto-record scores after analysis
   const { addSnapshot: addScoreSnapshot } = useScoreHistory({ activeProject, updateProject })
+
+  // Analyzer recommendations — score-based
+  const { scoreRecommendations } = useRecommendations({ activeProject, phases: null, setActiveView: () => {} })
+  const analyzerRecs = useMemo(() => scoreRecommendations.slice(0, 4), [scoreRecommendations])
 
   // Deterministic state
   const [deterministicScore, setDeterministicScore] = useState(activeProject?.deterministicScore || null)
@@ -819,6 +825,23 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
                         </div>
                       </div>
                     </DetSection>
+                  )}
+
+                  {/* Score-based Recommendations */}
+                  {analyzerRecs.length > 0 && (
+                    <div className="card" style={{ padding: '0.875rem 1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.625rem' }}>
+                        <Zap size={14} style={{ color: 'var(--color-phase-5)' }} />
+                        <span style={{ fontSize: '0.8125rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
+                          Quick Recommendations
+                        </span>
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+                        {analyzerRecs.map(rec => (
+                          <RecommendationCard key={rec.id} recommendation={rec} compact />
+                        ))}
+                      </div>
+                    </div>
                   )}
 
                   {/* AI Analysis Button */}

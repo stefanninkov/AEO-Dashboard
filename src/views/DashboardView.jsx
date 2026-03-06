@@ -1,7 +1,8 @@
 import { useState, useRef, useMemo, useCallback, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing, Activity, TrendingUp, TrendingDown, Shield, Bot, CheckCircle2, XCircle, MinusCircle } from 'lucide-react'
-import { getSmartRecommendations, getQuickWin, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
+import { getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
+import { useRecommendations } from '../hooks/useRecommendations'
 import { useScoreHistory } from '../hooks/useScoreHistory'
 import { ScoreHistoryChart } from '../components/charts'
 import ActivityTimeline from '../components/ActivityTimeline'
@@ -249,11 +250,8 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
     Citations: m.citations?.total || 0,
   })), [metricsHistory])
 
-  // Smart Recommendations — uses full project state, not just questionnaire
-  const recommendations = useMemo(() => getSmartRecommendations(activeProject, phases, setActiveView), [activeProject, phases, setActiveView])
-
-  // Quick Win — single highest-impact next action
-  const quickWin = useMemo(() => getQuickWin(activeProject, phases, setActiveView), [activeProject, phases, setActiveView])
+  // Smart Recommendations — enhanced with score + competitor gap analysis
+  const { recommendations, quickWin } = useRecommendations({ activeProject, phases, setActiveView })
 
   const emptyStateAction = useCallback(() => setActiveView('metrics'), [setActiveView])
 

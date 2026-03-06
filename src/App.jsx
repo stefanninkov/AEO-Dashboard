@@ -675,6 +675,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             updateProject={updateProject}
             user={user}
             setDocItem={handleSetDocItem}
+            setActiveView={setActiveView}
           />
         )
       case 'monitoring':

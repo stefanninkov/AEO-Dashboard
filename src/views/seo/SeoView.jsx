@@ -1,12 +1,14 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ClipboardCheck, FileSearch, Wrench, KeyRound, PenLine, BookOpen,
-  Settings2, Clock, ToggleLeft, ToggleRight,
+  Settings2, Clock, ToggleLeft, ToggleRight, Lightbulb,
 } from 'lucide-react'
 import { useScrollActiveTab } from '../../hooks/useScrollActiveTab'
 import { useSeoAnalyzer } from './useSeoAnalyzer'
 import { SEO_DOCS } from '../../data/seo-docs'
+import RecommendationCard from '../../components/RecommendationCard'
+import { useRecommendations } from '../../hooks/useRecommendations'
 import SeoAuditTab from './SeoAuditTab'
 import OnPageSeoTab from './OnPageSeoTab'
 import TechnicalSeoTab from './TechnicalSeoTab'
@@ -83,14 +85,22 @@ function AutoScanPopover({ analyzer, onClose }) {
   )
 }
 
-export default function SeoView({ activeProject, updateProject, user, setDocItem }) {
+export default function SeoView({ activeProject, updateProject, user, setDocItem, setActiveView }) {
   const { t } = useTranslation('app')
   const [activeTab, setActiveTab] = useState('audit')
   const [showAutoScan, setShowAutoScan] = useState(false)
+  const [showRecs, setShowRecs] = useState(true)
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
 
   const analyzer = useSeoAnalyzer({ activeProject, updateProject, user })
+
+  // SEO-specific recommendations
+  const { recommendations: allRecs } = useRecommendations({ activeProject, phases: null, setActiveView: setActiveView || (() => {}) })
+  const seoRecs = useMemo(() =>
+    allRecs.filter(r => r.category === 'analysis' || r.source === 'score').slice(0, 5),
+    [allRecs]
+  )
 
   const openDoc = useCallback((docKey) => {
     if (setDocItem && SEO_DOCS[docKey]) {
@@ -178,6 +188,26 @@ export default function SeoView({ activeProject, updateProject, user, setDocItem
             <BookOpen size={11} />
             {t('seo.learnMore')}
           </button>
+        </div>
+      )}
+
+      {/* SEO Recommendations */}
+      {showRecs && seoRecs.length > 0 && (
+        <div className="card" style={{ padding: '0.875rem 1rem', marginTop: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.625rem' }}>
+            <Lightbulb size={14} style={{ color: 'var(--color-phase-5)' }} />
+            <span style={{ fontSize: '0.8125rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', flex: 1 }}>
+              {t('seo.recommendations', 'SEO Recommendations')}
+            </span>
+            <button onClick={() => setShowRecs(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
+              {t('common.dismiss', 'Dismiss')}
+            </button>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+            {seoRecs.map(rec => (
+              <RecommendationCard key={rec.id} recommendation={rec} compact />
+            ))}
+          </div>
         </div>
       )}
 
