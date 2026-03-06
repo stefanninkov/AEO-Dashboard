@@ -373,6 +373,103 @@ export const APP_SECTIONS = [
       },
     ],
   },
+  {
+    id: 'dashboard-presets',
+    icon: SlidersHorizontal,
+    title: 'Dashboard Layouts',
+    color: '#3b82f6',
+    description: 'Customize your dashboard view with preset layouts tailored to your workflow.',
+    items: [
+      {
+        title: 'What are Dashboard Presets?',
+        body: 'Dashboard Presets let you switch between different layout configurations optimized for specific workflows. Instead of a one-size-fits-all dashboard, you can choose a layout that highlights the data most relevant to your current task. Your selected preset is saved and persists between sessions.',
+      },
+      {
+        title: 'Available Presets',
+        body: 'Four preset layouts are available: (1) Overview — the default, showing all sections including stats, phase progress, recommendations, and quick actions. (2) SEO Focus — prioritizes SEO scores, site health, score history, and competitor alerts. (3) Content Focus — emphasizes content quality, progress tracking, and recommendations. (4) Competitive Intel — highlights competitor tracking, citation charts, and activity insights.',
+      },
+      {
+        title: 'Switching Presets',
+        body: 'Use the preset switcher dropdown in the Dashboard header (visible on the Overview sub-tab). Click the current preset name to see all options with descriptions. Your selection is saved to localStorage and remembered across sessions.',
+      },
+    ],
+  },
+  {
+    id: 'onboarding-features',
+    icon: Rocket,
+    title: 'Onboarding & Getting Started',
+    color: '#8b5cf6',
+    description: 'Product tour, getting started checklist, and onboarding tools to help you get the most out of AEO Dashboard.',
+    items: [
+      {
+        title: 'Product Tour',
+        body: 'When you first log in, a guided product tour highlights key interface elements — the sidebar navigation, project selector, dashboard stats, quick win card, and recommendations panel. Navigate with arrow keys or click Next/Back. You can skip the tour at any time, and it will not appear again.',
+      },
+      {
+        title: 'Getting Started Checklist',
+        body: 'A floating checklist widget appears in the bottom-right corner of the dashboard. It tracks 6 setup tasks: Create a project, Run your first analysis, Review the AEO checklist, Connect Google Search Console, Invite a team member, and Set up monitoring. Steps auto-detect completion based on your project state. You can also manually check items off.',
+      },
+      {
+        title: 'Dismissing the Checklist',
+        body: 'Once all steps are complete, a celebration message appears. You can dismiss the checklist permanently using the dismiss button. The checklist can also be minimized to a floating button that shows your progress count.',
+      },
+    ],
+  },
+  {
+    id: 'inline-editing',
+    icon: PenTool,
+    title: 'Inline Editing',
+    color: '#f59e0b',
+    description: 'Edit content directly in place without navigating to separate editors.',
+    items: [
+      {
+        title: 'How Inline Editing Works',
+        body: 'Click any editable text to switch it to edit mode. A text input appears with the current value pre-filled. Make your changes and press Enter to save, or Escape to cancel. For multiline content, use Ctrl+Enter to save.',
+      },
+      {
+        title: 'Undo & Redo',
+        body: 'While editing inline, use Ctrl+Z to undo and Ctrl+Shift+Z to redo. Undo/redo buttons also appear next to the input field. The system tracks up to 50 history states per editing session.',
+      },
+    ],
+  },
+  {
+    id: 'templates',
+    icon: Layers,
+    title: 'Templates & Presets',
+    color: '#10b981',
+    description: 'Pre-built configurations and templates for common content types, schema markup, and analysis settings.',
+    items: [
+      {
+        title: 'Template Browser',
+        body: 'Access the template browser from content creation tools. Browse built-in templates organized into three categories: Content (Blog Post, FAQ Page, Product Page, Landing Page), Schema (Organization, Article, HowTo), and Analysis (Full SEO+AEO, Quick Audit). Use the search bar to filter templates by name or description.',
+      },
+      {
+        title: 'Custom Templates',
+        body: 'Save your own templates by configuring settings and clicking "Save as Template". Custom templates appear in the "My Templates" category. They are stored locally and persist between sessions.',
+      },
+      {
+        title: 'Favorites',
+        body: 'Star templates you use frequently for quick access. Favorited templates appear with a highlighted star icon in the browser.',
+      },
+    ],
+  },
+  {
+    id: 'batch-operations',
+    icon: Layers,
+    title: 'Batch Operations',
+    color: '#ef4444',
+    description: 'Select multiple items and apply actions in bulk for efficient workflow.',
+    items: [
+      {
+        title: 'Multi-Select',
+        body: 'In views that support batch operations (Analyzer, Checklist), click the checkbox next to items to select them. Use "Select All" to select everything visible. The selection count appears in a floating action bar at the bottom of the screen.',
+      },
+      {
+        title: 'Bulk Actions',
+        body: 'With items selected, the batch action bar offers context-specific operations: Analyze All (run analysis on selected pages), Export Selected (export to PDF/CSV), Apply Fix (apply a fix to all selected items), and Delete. Actions are applied to all selected items simultaneously.',
+      },
+    ],
+  },
 ]
 
 /* ─── FAQ Data ────────────────────────────────────────────────── */

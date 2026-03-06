@@ -174,7 +174,97 @@
         "social": "Team",
         "competitors": "Competitors"
       }
+    },
+    "presets": {
+      "overview": "Overview",
+      "overviewDesc": "Stats, phase progress, recommendations & quick actions",
+      "seoFocus": "SEO Focus",
+      "seoFocusDesc": "SEO scores, technical issues & competitor comparison",
+      "contentFocus": "Content Focus",
+      "contentFocusDesc": "Content quality, decay alerts & writer tools",
+      "competitiveIntel": "Competitive Intel",
+      "competitiveIntelDesc": "Competitor tracking, citations & content gaps"
     }
+  },
+  "tour": {
+    "skip": "Skip tour",
+    "next": "Next",
+    "prev": "Back",
+    "finish": "Finish",
+    "sidebar": {
+      "title": "Navigation Sidebar",
+      "body": "Access all dashboard views from here — checklist, analyzer, content tools, SEO, competitors, and more."
+    },
+    "projectSelector": {
+      "title": "Project Selector",
+      "body": "Switch between your projects or create new ones. Each project tracks a separate website."
+    },
+    "dashboardStats": {
+      "title": "Key Metrics",
+      "body": "See your citations, prompts, active AI engines, and AEO score at a glance."
+    },
+    "quickWin": {
+      "title": "Quick Win",
+      "body": "Your highest-impact next action. Follow these recommendations to improve your score fast."
+    },
+    "recommendations": {
+      "title": "Smart Recommendations",
+      "body": "AI-powered suggestions tailored to your project, competitors, and scores."
+    }
+  },
+  "gettingStarted": {
+    "title": "Getting Started",
+    "progress": "Progress",
+    "createProject": "Create a project",
+    "runAnalysis": "Run your first analysis",
+    "checkChecklist": "Review the AEO checklist",
+    "connectGsc": "Connect Google Search Console",
+    "inviteTeam": "Invite a team member",
+    "setupMonitoring": "Set up monitoring",
+    "allDone": "All done! You're all set up.",
+    "dismiss": "Dismiss checklist"
+  },
+  "inlineEditor": {
+    "clickToEdit": "Click to edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "undo": "Undo",
+    "redo": "Redo"
+  },
+  "templates": {
+    "title": "Templates",
+    "search": "Search templates...",
+    "allCategories": "All",
+    "content": "Content",
+    "schema": "Schema",
+    "analysis": "Analysis",
+    "custom": "My Templates",
+    "noResults": "No templates found.",
+    "blogPost": "Blog Post",
+    "blogPostDesc": "Structured blog post optimized for AI citations with FAQ section and structured data.",
+    "faqPage": "FAQ Page",
+    "faqPageDesc": "FAQ page with automatic FAQPage schema markup generation.",
+    "productPage": "Product Page",
+    "productPageDesc": "Product landing page with Product schema and review snippets.",
+    "landingPage": "Landing Page",
+    "landingPageDesc": "Conversion-optimized landing page with hero, features, social proof, and CTA.",
+    "organizationSchema": "Organization Schema",
+    "orgSchemaDesc": "Organization structured data for brand knowledge panel.",
+    "articleSchema": "Article Schema",
+    "articleSchemaDesc": "Article structured data for news and blog posts.",
+    "howToSchema": "HowTo Schema",
+    "howToSchemaDesc": "HowTo structured data for step-by-step guides.",
+    "fullAnalysis": "Full SEO + AEO Analysis",
+    "fullAnalysisDesc": "Complete analysis covering all SEO and AEO dimensions.",
+    "quickAudit": "Quick Audit",
+    "quickAuditDesc": "Fast technical and content check for quick wins."
+  },
+  "batch": {
+    "toolbar": "Batch actions",
+    "selected": "{{count}} of {{total}} selected",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all",
+    "clear": "Clear selection"
   },
   "analyzer": {
     "title": "Analyzer",

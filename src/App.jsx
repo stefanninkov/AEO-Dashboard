@@ -55,6 +55,8 @@ const CsvExportDialog = lazy(() => import('./components/CsvExportDialog'))
 const CommandPalette = lazy(() => import('./components/CommandPalette'))
 const KeyboardShortcutsModal = lazy(() => import('./components/KeyboardShortcutsModal'))
 const HelpWidget = lazy(() => import('./components/HelpWidget'))
+const ProductTour = lazy(() => import('./components/onboarding/ProductTour'))
+const GettingStartedChecklist = lazy(() => import('./components/onboarding/GettingStartedChecklist'))
 
 /* ── Suspense Fallback — picks the right skeleton per view ── */
 function ViewSkeleton({ activeView }) {
@@ -935,6 +937,28 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
           isClosing={modals.state.shortcuts === 'closing'}
           onClose={() => modals.close('shortcuts')}
           onExited={() => modals.onExited('shortcuts')}
+        />
+      )}
+
+      {/* Product Tour — shown after onboarding quiz + tutorial are done */}
+      {!splashVisible && !showQuiz && !showOnboarding && (() => {
+        const tourDone = localStorage.getItem('aeo-product-tour-completed') === 'true'
+        if (tourDone) return null
+        return (
+          <ProductTour
+            onComplete={() => {}}
+            onSkip={() => {}}
+          />
+        )
+      })()}
+
+      {/* Getting Started Checklist — persistent floating widget */}
+      {!splashVisible && !showQuiz && !showOnboarding && (
+        <GettingStartedChecklist
+          activeProject={activeProject}
+          projects={projects}
+          setActiveView={setActiveView}
+          onNewProject={() => setNewProjectModalOpen(true)}
         />
       )}
 

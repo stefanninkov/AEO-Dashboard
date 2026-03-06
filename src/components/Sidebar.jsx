@@ -133,7 +133,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
       </div>
 
       {/* Nav Groups */}
-      <nav>
+      <nav data-tour="sidebar">
         {navGroups.map((group, gi) => {
           const isCollapsed = !!collapsed[gi]
           const hasActiveChild = group.items.some(item => activeView === item.id)

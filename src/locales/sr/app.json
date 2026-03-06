@@ -174,7 +174,97 @@
         "social": "Tim",
         "competitors": "Konkurenti"
       }
+    },
+    "presets": {
+      "overview": "Pregled",
+      "overviewDesc": "Statistike, napredak faza, preporuke i brze akcije",
+      "seoFocus": "SEO fokus",
+      "seoFocusDesc": "SEO rezultati, tehnički problemi i poređenje konkurenata",
+      "contentFocus": "Fokus na sadržaj",
+      "contentFocusDesc": "Kvalitet sadržaja, upozorenja o zastarelosti i alati za pisanje",
+      "competitiveIntel": "Konkurentski intel",
+      "competitiveIntelDesc": "Praćenje konkurenata, citati i praznine u sadržaju"
     }
+  },
+  "tour": {
+    "skip": "Preskoči turu",
+    "next": "Sledeće",
+    "prev": "Nazad",
+    "finish": "Završi",
+    "sidebar": {
+      "title": "Navigaciona traka",
+      "body": "Pristupite svim prikazima kontrolne table odavde — čeklista, analizator, alati za sadržaj, SEO, konkurenti i više."
+    },
+    "projectSelector": {
+      "title": "Izbor projekta",
+      "body": "Prebacujte se između projekata ili kreirajte nove. Svaki projekat prati poseban sajt."
+    },
+    "dashboardStats": {
+      "title": "Ključni pokazatelji",
+      "body": "Pogledajte vaše citate, promptove, aktivne AI motore i AEO rezultat na prvi pogled."
+    },
+    "quickWin": {
+      "title": "Brza pobeda",
+      "body": "Vaša najvažnija sledeća akcija. Pratite ove preporuke da brzo poboljšate rezultat."
+    },
+    "recommendations": {
+      "title": "Pametne preporuke",
+      "body": "AI preporuke prilagođene vašem projektu, konkurentima i rezultatima."
+    }
+  },
+  "gettingStarted": {
+    "title": "Početak rada",
+    "progress": "Napredak",
+    "createProject": "Kreirajte projekat",
+    "runAnalysis": "Pokrenite prvu analizu",
+    "checkChecklist": "Pregledajte AEO čeklistu",
+    "connectGsc": "Povežite Google Search Console",
+    "inviteTeam": "Pozovite člana tima",
+    "setupMonitoring": "Podesite monitoring",
+    "allDone": "Sve gotovo! Potpuno ste postavljeni.",
+    "dismiss": "Sakrij čeklistu"
+  },
+  "inlineEditor": {
+    "clickToEdit": "Kliknite za uređivanje",
+    "save": "Sačuvaj",
+    "cancel": "Otkaži",
+    "undo": "Poništi",
+    "redo": "Ponovi"
+  },
+  "templates": {
+    "title": "Šabloni",
+    "search": "Pretražite šablone...",
+    "allCategories": "Svi",
+    "content": "Sadržaj",
+    "schema": "Šema",
+    "analysis": "Analiza",
+    "custom": "Moji šabloni",
+    "noResults": "Nisu pronađeni šabloni.",
+    "blogPost": "Blog post",
+    "blogPostDesc": "Strukturirani blog post optimizovan za AI citate sa FAQ sekcijom i strukturiranim podacima.",
+    "faqPage": "FAQ stranica",
+    "faqPageDesc": "FAQ stranica sa automatskim generisanjem FAQPage šeme.",
+    "productPage": "Stranica proizvoda",
+    "productPageDesc": "Lendinga stranica proizvoda sa Product šemom i recenzijama.",
+    "landingPage": "Lendinga stranica",
+    "landingPageDesc": "Lendinga stranica optimizovana za konverziju sa hero sekcijom, funkcijama i CTA-om.",
+    "organizationSchema": "Organizaciona šema",
+    "orgSchemaDesc": "Strukturirani podaci organizacije za knowledge panel brenda.",
+    "articleSchema": "Šema članka",
+    "articleSchemaDesc": "Strukturirani podaci članka za vesti i blog postove.",
+    "howToSchema": "HowTo šema",
+    "howToSchemaDesc": "HowTo strukturirani podaci za vodiče korak po korak.",
+    "fullAnalysis": "Kompletna SEO + AEO analiza",
+    "fullAnalysisDesc": "Kompletna analiza svih SEO i AEO dimenzija.",
+    "quickAudit": "Brzi audit",
+    "quickAuditDesc": "Brza tehnička i sadržajna provera za brze pobede."
+  },
+  "batch": {
+    "toolbar": "Grupne akcije",
+    "selected": "{{count}} od {{total}} izabrano",
+    "selectAll": "Izaberi sve",
+    "deselectAll": "Poništi sve",
+    "clear": "Obriši izbor"
   },
   "analyzer": {
     "title": "AEO analizator",
