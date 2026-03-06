@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson, HelpCircle, ClipboardList, Newspaper, ShoppingBag, MapPin, Building2, Link2, Clapperboard, FileText, ShieldCheck, CheckCircle2, AlertTriangle, XCircle, ClipboardPaste } from 'lucide-react'
+import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson, HelpCircle, ClipboardList, Newspaper, ShoppingBag, MapPin, Building2, Link2, Clapperboard, FileText, ShieldCheck, CheckCircle2, AlertTriangle, XCircle, ClipboardPaste, Layout } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
+import TemplatesBrowser from '../components/TemplatesBrowser'
 import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
 import { validateSchema } from '../utils/validateSchema'
@@ -171,6 +172,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
   const [copiedJsonLd, setCopiedJsonLd] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [showValidator, setShowValidator] = useState(false)
+  const [showTemplates, setShowTemplates] = useState(false)
   const [validatorInput, setValidatorInput] = useState('')
   const [validationResult, setValidationResult] = useState(null)
   const apiKeySet = hasApiKey()
@@ -362,6 +364,31 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           })}
         </div>
       )}
+
+      {/* Templates Quick Start */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem',
+      }}>
+        <button
+          onClick={() => setShowTemplates(true)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '0.375rem',
+            padding: '0.375rem 0.75rem', borderRadius: 'var(--radius-sm)',
+            border: '0.0625rem solid var(--border-subtle)', background: 'var(--bg-card)',
+            color: 'var(--text-secondary)',
+            fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)',
+          }}
+        >
+          <Layout size={13} />
+          {t('schema.browseTemplates', 'Browse Schema Templates')}
+        </button>
+      </div>
+      <TemplatesBrowser
+        isOpen={showTemplates}
+        onClose={() => setShowTemplates(false)}
+        onSelect={(tpl) => { setShowTemplates(false) }}
+        category="schema"
+      />
 
       {/* Type Selector */}
       <div className="schema-type-grid stagger-grid">

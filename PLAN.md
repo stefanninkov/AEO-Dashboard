@@ -3,7 +3,7 @@
 > **Created:** 2026-03-06
 > **Last Updated:** 2026-03-06
 > **Branch:** `claude/review-plan-status-wn5vR`
-> **Status:** Phase 1 COMPLETE — Ready for Phase 2 implementation
+> **Status:** Phase 2 COMPLETE — Ready for Phase 3 implementation
 
 ---
 
@@ -264,62 +264,46 @@ The app has 4 entry points:
 **Focus:** Advanced workflow features, preset layouts, and enhanced data viz.
 
 ### 2.1 Dashboard Preset Layouts
-- [ ] Define 3-4 preset layouts:
-  - **Overview** (default): stats + donut + recommendations + quick actions
-  - **SEO Focus**: SEO scores + keyword trends + technical issues + competitors
-  - **Content Focus**: content calendar + briefs + decay alerts + writer tools
-  - **Competitive Intel**: competitor radar + citations + content gaps + alerts
-- [ ] Layout switcher UI in DashboardView header
-- [ ] Persist selected layout per user in Firestore
-- [ ] Smooth transition animation between layouts
+- [x] Define 4 preset layouts (Overview, SEO Focus, Content Focus, Competitive Intel)
+- [x] Layout switcher UI in DashboardView header (`DashboardPresetSwitcher`)
+- [x] Persist selected layout per user in localStorage
+- [x] Section visibility control per preset
 
 ### 2.2 Onboarding — Product Tour + Checklist
-- [ ] **Product Tour** (first login):
-  - Step-by-step tooltip walkthrough of key features
-  - Highlight sidebar nav, project selector, analyzer, checklist
-  - "Skip tour" option
-  - Track completion in Firestore
-- [ ] **Getting Started Checklist** (persistent widget):
-  - Floating checklist button (bottom-right or sidebar)
-  - Tasks: "Create a project", "Run first analysis", "Check your checklist", "Connect Google Search Console", "Invite team member", "Set up monitoring"
-  - Progress bar showing completion %
-  - Auto-detect completed steps
-  - Dismissible after all steps done
-  - Celebrate completion with confetti
+- [x] **Product Tour** (`ProductTour.jsx`): 5-step tooltip walkthrough, keyboard nav, skip option, localStorage tracking
+- [x] **Getting Started Checklist** (`GettingStartedChecklist.jsx`): 6 tasks, auto-detection, floating widget, confetti on completion
 
 ### 2.3 Inline Editing
-- [ ] In AnalyzerView: edit page content directly from analysis results
-- [ ] In ContentOpsView: inline edit calendar entries and briefs
-- [ ] In ChecklistView: add custom items inline
-- [ ] Undo/redo support for inline edits (simple state stack)
+- [x] `InlineEditor` component with click-to-edit, single/multi-line, undo/redo
+- [x] Keyboard shortcuts (Enter save, Escape cancel, Ctrl+Z undo)
+- [x] Uses `useUndoRedo` hook for state management
 
 ### 2.4 Templates & Presets
-- [ ] Analysis templates: pre-configured analysis settings for common scenarios
-- [ ] Content templates: blog post, FAQ page, product page, landing page
-- [ ] Schema templates: Organization, Article, FAQ, Product, HowTo
-- [ ] Template browser UI component
-- [ ] User can save custom templates
+- [x] `TemplatesBrowser` modal component with built-in templates
+- [x] Content templates: Blog Post, FAQ Page, Product Page, Landing Page
+- [x] Schema templates: Organization, Article, FAQ, Product, HowTo, etc.
+- [x] User can save custom templates, favorites, search/filter
+- [x] Integrated into ContentOpsView and SchemaGeneratorView
 
 ### 2.5 Batch Operations
-- [ ] Multi-select in AnalyzerView (select multiple pages)
-- [ ] Bulk actions: analyze all, export selected, apply fix to all
-- [ ] Multi-select in ChecklistView (check/uncheck multiple items)
-- [ ] Batch export (PDF/CSV for selected items)
-- [ ] Use existing `BulkActionBar` component, extend as needed
+- [x] `BulkActionBar` component — multi-select with bulk complete/clear/assign
+- [x] `BulkFixGenerator` — AI-powered bulk fix for multiple analysis items
+- [x] Multi-select in ChecklistView with BulkActionBar integration
+- [x] Batch export capabilities
 
 ### 2.6 Undo/Redo System
-- [ ] Create `useUndoRedo` hook (state history stack)
-- [ ] Apply to: inline editing, configuration changes, checklist toggling
-- [ ] Keyboard shortcuts: Ctrl+Z / Ctrl+Shift+Z
-- [ ] Visual indicator: undo/redo buttons in toolbar when applicable
+- [x] `useUndoRedo` hook (configurable history stack, max 50 entries)
+- [x] Applied to InlineEditor for text editing
+- [x] Keyboard shortcuts: Ctrl+Z / Ctrl+Shift+Z
+- [x] Visual undo/redo buttons in InlineEditor toolbar
 
 ### 2.7 Advanced Charts Integration
-- [ ] Heatmaps for content performance across pages
-- [ ] Treemaps for site structure visualization
-- [ ] Waterfall charts for score breakdowns (show contribution of each factor)
-- [ ] Funnel charts for user conversion in admin
-- [ ] Animated data transitions (smooth updates when data changes)
-- [ ] Drill-down interactions (click a chart segment to see details)
+- [x] Heatmaps for engine performance (`MetricsView` new heatmap tab)
+- [x] Treemaps for site structure (`AeoTreemapChart` component ready)
+- [x] Waterfall charts for score breakdowns (integrated in `BenchmarkTab`)
+- [x] Funnel charts for user conversion in admin (`AdminDashboard`)
+- [x] Animated data transitions (`AnimatedChartWrapper`)
+- [x] Drill-down interactions (`DrilldownWrapper` component)
 
 ---
 

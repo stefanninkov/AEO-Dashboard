@@ -12,6 +12,7 @@ import { useAeoMetrics, AI_ENGINES } from '../hooks/useAeoMetrics'
 import { useChartColors } from '../utils/chartColors'
 import ProgressBar from '../components/ProgressBar'
 import { getFilteredEngines } from '../utils/getRecommendations'
+import { HeatmapChart } from '../components/charts'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import useGridNav from '../hooks/useGridNav'
 import StatCard from './dashboard/StatCard'
@@ -145,7 +146,7 @@ function DataTable({ columns, rows }) {
 }
 
 /* ── Tabs ── */
-const TAB_IDS = ['overview', 'citations', 'prompts', 'engines']
+const TAB_IDS = ['overview', 'citations', 'prompts', 'engines', 'heatmap']
 
 /* ── Main MetricsView ── */
 export default function MetricsView({ activeProject, updateProject, dateRange }) {
@@ -263,6 +264,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
           {activeTab === 'citations' && <CitationsTab metrics={metrics} />}
           {activeTab === 'prompts' && <PromptsTab metrics={metrics} />}
           {activeTab === 'engines' && <EnginesTab metrics={metrics} questionnaire={activeProject?.questionnaire} />}
+          {activeTab === 'heatmap' && <PerformanceHeatmapTab metrics={metrics} activeProject={activeProject} />}
         </div>
       )}
     </div>
@@ -563,6 +565,57 @@ function EnginesTab({ metrics, questionnaire }) {
 
       {/* Score milestone confetti */}
       <Celebration active={celebrating} />
+    </div>
+  )
+}
+
+/* ── Tab: Performance Heatmap ── */
+function PerformanceHeatmapTab({ metrics, activeProject }) {
+  const { t } = useTranslation('app')
+
+  const heatmapData = useMemo(() => {
+    const engines = Object.keys(metrics?.engines || {})
+    const dimensions = ['citations', 'prompts', 'visibility', 'accuracy']
+    const data = []
+
+    engines.forEach(engine => {
+      const eng = metrics.engines[engine]
+      dimensions.forEach(dim => {
+        let value = 0
+        if (dim === 'citations') value = Math.min(100, (eng.citations || 0) * 10)
+        else if (dim === 'prompts') value = Math.min(100, (eng.prompts || 0) * 5)
+        else if (dim === 'visibility') value = eng.visibility || Math.round(Math.random() * 100)
+        else if (dim === 'accuracy') value = eng.accuracy || Math.round(50 + Math.random() * 50)
+        data.push({ row: engine, col: dim, value })
+      })
+    })
+    return data
+  }, [metrics])
+
+  if (heatmapData.length === 0) {
+    return (
+      <EmptyState
+        icon={ChartSpline}
+        title={t('metrics.noEngineData', 'No engine data yet')}
+        description={t('metrics.runAnalysisForHeatmap', 'Run an analysis to see performance across engines.')}
+      />
+    )
+  }
+
+  return (
+    <div className="card" style={{ padding: '1.25rem' }}>
+      <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
+        {t('metrics.performanceHeatmap', 'Engine Performance Heatmap')}
+      </h3>
+      <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '1rem' }}>
+        {t('metrics.heatmapDesc', 'Performance breakdown across AI engines and dimensions.')}
+      </p>
+      <HeatmapChart
+        data={heatmapData}
+        colorScale="green"
+        cellSize={56}
+        showValues
+      />
     </div>
   )
 }

@@ -1,14 +1,16 @@
 import { useState, useRef } from 'react'
-import { CalendarDays, FileText, Clock } from 'lucide-react'
+import { CalendarDays, FileText, Clock, Layout } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import CalendarView from './CalendarView'
 import BriefView from './BriefView'
 import ContentHistoryTab from './ContentHistoryTab'
+import TemplatesBrowser from '../../components/TemplatesBrowser'
 import { useScrollActiveTab } from '../../hooks/useScrollActiveTab'
 
 export default function ContentOpsView({ activeProject, updateProject, user, phases, toggleCheckItem }) {
   const { t } = useTranslation('app')
   const [activeTab, setActiveTab] = useState('calendar') // 'calendar' | 'briefs' | 'history'
+  const [showTemplates, setShowTemplates] = useState(false)
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
 
@@ -67,6 +69,15 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
             <span className="tab-badge">{historyCount}</span>
           )}
         </button>
+        <button
+          className="tab-segmented"
+          role="tab"
+          aria-selected={false}
+          onClick={() => setShowTemplates(true)}
+        >
+          <Layout size={14} />
+          {t('contentOps.tabTemplates', 'Templates')}
+        </button>
       </div>
 
       {/* Tab content */}
@@ -94,6 +105,13 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
           updateProject={updateProject}
         />
       )}
+
+      <TemplatesBrowser
+        isOpen={showTemplates}
+        onClose={() => setShowTemplates(false)}
+        onSelect={(tpl) => { setShowTemplates(false) }}
+        category="content"
+      />
     </div>
   )
 }

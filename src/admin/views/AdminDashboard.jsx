@@ -10,6 +10,7 @@ import {
 import { useAdminStats } from '../hooks/useAdminStats'
 import { useWaitlistStats } from '../hooks/useWaitlistStats'
 import NudgeEmailDialog from '../components/NudgeEmailDialog'
+import { AeoFunnelChart } from '../../components/charts'
 
 /* ── Helpers ── */
 function timeAgo(dateInput) {
@@ -1196,6 +1197,27 @@ export default function AdminDashboard({ user, onNavigate, tasksHook }) {
             )}
           </div>
         </div>
+      </div>
+
+      {/* ── User Conversion Funnel ── */}
+      <div className="card" style={{ padding: '1.25rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', fontWeight: 700,
+          color: 'var(--text-disabled)', textTransform: 'uppercase',
+          letterSpacing: '0.04rem', marginBottom: '1rem',
+        }}>
+          User Conversion Funnel
+        </div>
+        <AeoFunnelChart
+          data={[
+            { name: 'Waitlist Signups', value: stats.waitlistTotal || 0 },
+            { name: 'Registered Users', value: stats.totalUsers || 0 },
+            { name: 'Active Users', value: stats.activeUsers?.length || 0 },
+            { name: 'Active This Week', value: stats.activeThisWeek || 0 },
+            { name: 'Thriving Projects', value: stats.thrivingProjects?.length || 0 },
+          ]}
+          height={220}
+        />
       </div>
 
       {/* ── Waitlist + Feedback Summaries ── */}
