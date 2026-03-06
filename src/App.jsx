@@ -609,6 +609,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             phases={phases}
             userName={user?.displayName}
             currentUserUid={user?.uid}
+            updateProject={updateProject}
           />
         )
       case 'checklist':

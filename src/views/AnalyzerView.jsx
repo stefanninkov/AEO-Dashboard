@@ -23,6 +23,7 @@ import { fetchPageHtml, parsePageData } from '../utils/htmlCrawler'
 import { checkRobotsTxt, AI_CRAWLERS } from '../utils/robotsChecker'
 import { checkSitemap } from '../utils/sitemapChecker'
 import { scorePage } from '../utils/deterministicScorer'
+import { useScoreHistory } from '../hooks/useScoreHistory'
 
 /* ── Deterministic Score Badge ── */
 function ScoreBadge({ score, size = 'lg' }) {
@@ -147,6 +148,9 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
   const [results, setResults] = useState(activeProject?.analyzerResults || null)
   const [apiKey, setApiKey] = useState(() => getApiKey() || '')
   const [showApiKey, setShowApiKey] = useState(false)
+
+  // Score history — auto-record scores after analysis
+  const { addSnapshot: addScoreSnapshot } = useScoreHistory({ activeProject, updateProject })
 
   // Deterministic state
   const [deterministicScore, setDeterministicScore] = useState(activeProject?.deterministicScore || null)
@@ -321,6 +325,18 @@ Provide a specific, implementable fix with code that can be directly copied and 
         sitemapData: sitemap,
         url: targetUrl,
       })
+
+      // Auto-record score snapshot for history timeline
+      const scoreSnapshot = {
+        overall: score.overallScore,
+        ...Object.fromEntries(
+          Object.entries(score.categories || {}).map(([name, cat]) => [
+            name.toLowerCase().replace(/\s+/g, '_'),
+            Math.round((cat.score / cat.maxScore) * 100),
+          ])
+        ),
+      }
+      addScoreSnapshot(scoreSnapshot, 'analyzer')
 
       logAndDispatch('analyze', { url: targetUrl, score: score.overallScore, mode: 'deterministic' }, user)
     } catch (err) {

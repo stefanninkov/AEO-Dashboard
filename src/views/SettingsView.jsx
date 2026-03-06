@@ -15,6 +15,7 @@ import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import SettingsTabs from './settings/SettingsTabs'
 import UserSettingsSection from './settings/UserSettingsSection'
 import ApiUsageSection from './settings/ApiUsageSection'
+import SeoApiKeysSection from './settings/SeoApiKeysSection'
 import IntegrationsSection from './settings/IntegrationsSection'
 import ProjectsOverviewSection from './settings/ProjectsOverviewSection'
 import ProjectGeneralSection from './settings/ProjectGeneralSection'
@@ -113,7 +114,12 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
       {/* Tab content */}
       {activeTab === 'profile' && <UserSettingsSection user={user} updateUserProfile={updateUserProfile} />}
-      {activeTab === 'api-usage' && <ApiUsageSection />}
+      {activeTab === 'api-usage' && (
+        <>
+          <ApiUsageSection />
+          <SeoApiKeysSection />
+        </>
+      )}
       {activeTab === 'integrations' && <IntegrationsSection user={user} />}
 
       {/* Projects tab — overview grid OR project drill-down */}
