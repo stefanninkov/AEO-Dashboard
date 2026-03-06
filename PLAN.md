@@ -3,7 +3,7 @@
 > **Created:** 2026-03-06
 > **Last Updated:** 2026-03-06
 > **Branch:** `claude/review-plan-status-wn5vR`
-> **Status:** ALL 4 PHASES COMPLETE
+> **Status:** ALL 4 PHASES COMPLETE (with remaining future enhancements noted)
 
 ---
 
@@ -277,18 +277,20 @@ The app has 4 entry points:
 - [x] `InlineEditor` component with click-to-edit, single/multi-line, undo/redo
 - [x] Keyboard shortcuts (Enter save, Escape cancel, Ctrl+Z undo)
 - [x] Uses `useUndoRedo` hook for state management
+- [x] Integrated into BriefView for inline title editing
 
 ### 2.4 Templates & Presets
 - [x] `TemplatesBrowser` modal component with built-in templates
 - [x] Content templates: Blog Post, FAQ Page, Product Page, Landing Page
 - [x] Schema templates: Organization, Article, FAQ, Product, HowTo, etc.
 - [x] User can save custom templates, favorites, search/filter
-- [x] Integrated into ContentOpsView and SchemaGeneratorView
+- [x] Integrated into ContentOpsView and SchemaGeneratorView (onSelect populates form fields)
 
 ### 2.5 Batch Operations
 - [x] `BulkActionBar` component — multi-select with bulk complete/clear/assign
 - [x] `BulkFixGenerator` — AI-powered bulk fix for multiple analysis items
 - [x] Multi-select in ChecklistView with BulkActionBar integration
+- [x] Multi-select in PageAnalysisTable with bulk re-analyze/remove
 - [x] Batch export capabilities
 
 ### 2.6 Undo/Redo System
@@ -299,7 +301,7 @@ The app has 4 entry points:
 
 ### 2.7 Advanced Charts Integration
 - [x] Heatmaps for engine performance (`MetricsView` new heatmap tab)
-- [x] Treemaps for site structure (`AeoTreemapChart` component ready)
+- [x] Treemaps for site structure (`AeoTreemapChart` integrated in SeoView > Structure tab)
 - [x] Waterfall charts for score breakdowns (integrated in `BenchmarkTab`)
 - [x] Funnel charts for user conversion in admin (`AdminDashboard`)
 - [x] Animated data transitions (`AnimatedChartWrapper`)
@@ -312,11 +314,15 @@ The app has 4 entry points:
 **Focus:** Landing page redesign, waitlist conversion, UX polish, PWA.
 
 ### 3.1 Landing Page Full Redesign
-- [x] Full landing page with hero, features, pricing, testimonials, FAQ sections (935 lines)
+- [x] Full landing page with hero, features, pricing, testimonials, FAQ sections (1100+ lines)
 - [x] Responsive design with mobile menu support
 - [x] Dark theme with smooth scroll animations
 - [x] Intersection observer scroll effects
 - [x] Dedicated `LandingPage.css` stylesheet
+- [x] **Case studies section** with 3 success stories (metrics, quotes, industry)
+- [x] **Video demo section** with play button overlay and description
+- [x] **Feature comparison table** (AEO Dashboard vs Manual Tools vs Traditional Platforms)
+- [x] **Social proof section** with trusted-by logos and live user count
 - [ ] Firestore collections for dynamic data (future: `lp_testimonials`, `lp_case_studies`)
 - [ ] A/B testing support (future enhancement)
 
@@ -332,6 +338,17 @@ The app has 4 entry points:
 - [x] Counter-up animation showing waitlist count
 - [x] Lead tracking and conversion metrics
 - [x] Better mobile experience (responsive CSS)
+- [x] **Urgency/scarcity elements:**
+  - Countdown timer ("Early access closes in X days")
+  - "X spots remaining" messaging
+  - Queue position display ("You're #Y in line")
+  - Recent signups ticker ("Alex from Berlin just joined 2m ago")
+- [x] **Referral dashboard UI** (`ReferralDashboard.jsx`):
+  - Stats grid (people referred, current tier)
+  - Tier progress bar with next reward
+  - All 4 tiers displayed with earned/locked state
+  - Referral link with copy button
+  - Share buttons (Twitter/X, LinkedIn)
 
 ### 3.3 UX Polish — Page Transitions & Animations
 - [x] Smooth view transitions (15+ CSS @keyframes animations)
@@ -354,6 +371,11 @@ The app has 4 entry points:
   - `StreakIndicator.jsx` — fire streak display
   - `PointsCounter.jsx` — animated XP counter
 - [x] Integrated into Settings > Achievements tab
+- [x] **`useGamification` hook** — persistent gamification state via localStorage
+  - `trackAction(type)` function wired to actual user events
+  - Integrated into AnalyzerView, ChecklistView, ContentWriterView, SchemaGeneratorView
+  - Automatic streak calculation and badge checking
+  - Action-specific counter tracking (analyses, schemas, briefs, etc.)
 - [x] Micro-animations: fade-in-up, number counting transitions, card entrance
 
 ### 3.5 Progressive Web App (PWA)
@@ -395,8 +417,16 @@ The app has 4 entry points:
   - Data tests: aeo-checklist
   - **NEW:** gamification.test.js (23 tests), referralSystem.test.js (12 tests)
 - [x] Test setup: `src/test/setup.js` with localStorage mock, jest-dom matchers
-- [ ] E2E tests (Playwright) — future enhancement
-- [ ] CI/CD GitHub Actions — future enhancement
+- [x] **E2E tests** (Playwright):
+  - `playwright.config.js` configured with Chromium, web server auto-start
+  - `e2e/waitlist.spec.js` — hero, navigation, scorecard quiz, FAQ, theme toggle
+  - `e2e/landing.spec.js` — page load, features, pricing, FAQ accordion
+  - `e2e/dashboard.spec.js` — load, sidebar navigation, hash routing, settings
+  - `e2e/admin.spec.js` — admin panel load, navigation
+- [x] **CI/CD GitHub Actions** (`.github/workflows/ci.yml`):
+  - Lint & test job: npm ci, vitest run, vite build
+  - E2E job: Playwright with artifact upload
+  - Deploy job: auto-deploy to GitHub Pages on main branch push
 
 ### 4.4 Final Polish & Performance
 - [x] Performance: 7 manual vendor chunks (react, firebase, recharts, lucide, zustand, i18n, jspdf)

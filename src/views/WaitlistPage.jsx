@@ -7,6 +7,7 @@ import { Check, Share2, Copy, Sparkles, Blocks, BarChart4, FileEdit, Cog, Trophy
 import WaitlistScorecard from '../components/WaitlistScorecard'
 import { MAX_TOTAL_SCORE } from '../utils/scorecardScoring'
 import { generateReferralCode, buildReferralLink, getReferralFromUrl, getCurrentTier, getNextTier, REFERRAL_TIERS } from '../utils/referralSystem'
+import ReferralDashboard from '../components/ReferralDashboard'
 import './WaitlistPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -40,6 +41,23 @@ const FOOTER_HREFS = [
     { href: '#faq' },
   ],
 ]
+
+const TOTAL_SPOTS = 500
+
+const RECENT_SIGNUP_META = [
+  { minutesAgo: 2 },
+  { minutesAgo: 5 },
+  { minutesAgo: 8 },
+  { minutesAgo: 12 },
+  { minutesAgo: 18 },
+  { minutesAgo: 23 },
+  { minutesAgo: 27 },
+  { minutesAgo: 34 },
+  { minutesAgo: 41 },
+  { minutesAgo: 55 },
+]
+
+const COUNTDOWN_TARGET = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
 
 const BASE_PATH = import.meta.env.BASE_URL || '/AEO-Dashboard/'
 const SITE_URL = `https://stefanninkov.github.io${BASE_PATH}`
@@ -83,6 +101,40 @@ export default function WaitlistPage() {
     raf = requestAnimationFrame(step)
     return () => cancelAnimationFrame(raf)
   }, [targetCount])
+
+  // ── Countdown timer state ──
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+
+  useEffect(() => {
+    const tick = () => {
+      const now = Date.now()
+      const diff = Math.max(0, COUNTDOWN_TARGET - now)
+      setCountdown({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      })
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  // ── Recent signups ticker ──
+  const [tickerIndex, setTickerIndex] = useState(0)
+  const [tickerVisible, setTickerVisible] = useState(true)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTickerVisible(false)
+      setTimeout(() => {
+        setTickerIndex((prev) => (prev + 1) % RECENT_SIGNUP_META.length)
+        setTickerVisible(true)
+      }, 400)
+    }, 4000)
+    return () => clearInterval(id)
+  }, [])
 
   // ── Translated data arrays (rebuilt when language changes) ──
 
@@ -174,6 +226,18 @@ export default function WaitlistPage() {
       description: t(`audience.cards.${i}.description`),
     })),
   [t])
+
+  const RECENT_SIGNUPS = useMemo(() =>
+    RECENT_SIGNUP_META.map((meta, i) => ({
+      name: t(`urgency.recentSignups.entries.${i}.name`),
+      location: t(`urgency.recentSignups.entries.${i}.location`),
+      minutesAgo: meta.minutesAgo,
+    })),
+  [t])
+
+  // Derived urgency values
+  const spotsRemaining = Math.max(0, TOTAL_SPOTS - count)
+  const queuePosition = count
 
   // JSON-LD schema
   const schemaData = useMemo(() => ({
@@ -416,6 +480,39 @@ export default function WaitlistPage() {
               {t('hero.subtitle')}
             </p>
 
+            {/* ── Countdown Timer ── */}
+            <div className="wl-countdown">
+              <span className="wl-countdown-label">{t('urgency.countdown.prefix')}</span>
+              <div className="wl-countdown-units">
+                <div className="wl-countdown-unit">
+                  <span className="wl-countdown-value">{countdown.days}</span>
+                  <span className="wl-countdown-suffix">{t('urgency.countdown.days')}</span>
+                </div>
+                <span className="wl-countdown-sep">:</span>
+                <div className="wl-countdown-unit">
+                  <span className="wl-countdown-value">{String(countdown.hours).padStart(2, '0')}</span>
+                  <span className="wl-countdown-suffix">{t('urgency.countdown.hours')}</span>
+                </div>
+                <span className="wl-countdown-sep">:</span>
+                <div className="wl-countdown-unit">
+                  <span className="wl-countdown-value">{String(countdown.minutes).padStart(2, '0')}</span>
+                  <span className="wl-countdown-suffix">{t('urgency.countdown.minutes')}</span>
+                </div>
+                <span className="wl-countdown-sep">:</span>
+                <div className="wl-countdown-unit">
+                  <span className="wl-countdown-value">{String(countdown.seconds).padStart(2, '0')}</span>
+                  <span className="wl-countdown-suffix">{t('urgency.countdown.seconds')}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Spots Remaining ── */}
+            {spotsRemaining > 0 && (
+              <p className="wl-spots-remaining">
+                {t('urgency.spotsRemaining', { spots: spotsRemaining })}
+              </p>
+            )}
+
             {completedResults ? (
               <div className="wl-sc-success-inline">
                 <p className="wl-sc-success-title">
@@ -440,9 +537,21 @@ export default function WaitlistPage() {
                     {copied ? t('scorecard.results.copied') : t('scorecard.results.copyLink')}
                   </button>
                 </div>
+                <p className="wl-queue-position">
+                  {t('urgency.queuePosition', { position: queuePosition })}
+                </p>
                 <p className="wl-sc-success-timeline" style={{ fontSize: '0.8125rem', color: 'var(--wl-text-secondary)', marginTop: '1rem', textAlign: 'center' }}>
                   {t('scorecard.successState.timeline')}
                 </p>
+
+                {/* Referral Dashboard */}
+                {referralCode && (
+                  <ReferralDashboard
+                    referralCode={referralCode}
+                    referralCount={parseInt(localStorage.getItem('aeo-referral-count') || '0', 10)}
+                    baseUrl={SITE_URL}
+                  />
+                )}
               </div>
             ) : (
               <>
@@ -821,6 +930,9 @@ export default function WaitlistPage() {
             <p className="wl-success-position">
               {t('success.position', { count: count.toLocaleString() })}
             </p>
+            <p className="wl-queue-position">
+              {t('urgency.queuePosition', { position: queuePosition })}
+            </p>
 
             <div className="wl-share-row">
               <button className="wl-share-btn" onClick={shareTwitter}>
@@ -844,6 +956,20 @@ export default function WaitlistPage() {
               {t('success.close')}
             </button>
           </div>
+        </div>
+      )}
+
+      {/* ═══════════ RECENT SIGNUPS TICKER ═══════════ */}
+      {!submitted && !completedResults && RECENT_SIGNUPS.length > 0 && (
+        <div className={`wl-ticker ${tickerVisible ? 'wl-ticker-visible' : ''}`}>
+          <span className="wl-ticker-dot" />
+          <span className="wl-ticker-text">
+            {RECENT_SIGNUPS[tickerIndex].name} {t('urgency.recentSignups.justJoined')}{' '}
+            {t('urgency.recentSignups.timeAgo', { minutes: RECENT_SIGNUPS[tickerIndex].minutesAgo })}
+          </span>
+          <span className="wl-ticker-location">
+            {RECENT_SIGNUPS[tickerIndex].location}
+          </span>
         </div>
       )}
 

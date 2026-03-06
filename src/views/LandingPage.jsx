@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useTheme } from '../contexts/ThemeContext'
-import { SearchCheck, BotMessageSquare, TrendingDown, BarChart4, FileEdit, Blocks, Radar, Link2, Smartphone, Mail, Globe2, Sun, Moon } from 'lucide-react'
+import { SearchCheck, BotMessageSquare, TrendingDown, BarChart4, FileEdit, Blocks, Radar, Link2, Smartphone, Mail, Globe2, Sun, Moon, Play, Building2, Rocket, ShoppingBag, Server, Newspaper, Users, CheckCircle2, XCircle, MinusCircle } from 'lucide-react'
 import './LandingPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -82,6 +82,17 @@ const TESTING_ENGINE_META = [
 
 const MOCKUP_SIDEBAR_ACTIVE = [true, false, false, false, false, false]
 
+const SOCIAL_PROOF_ICONS = [Rocket, Building2, ShoppingBag, Server, Newspaper, Users]
+const SOCIAL_PROOF_LIVE_USER_BASE = 148
+
+const CASE_STUDY_META = [
+  { accentColor: '#2563EB' },
+  { accentColor: '#10B981' },
+  { accentColor: '#F59E0B' },
+]
+
+const COMPARISON_FEATURE_COUNT = 8
+
 const BASE_URL = 'https://stefanninkov.github.io/AEO-Dashboard/'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -94,6 +105,8 @@ export default function LandingPage() {
   const [navSolid, setNavSolid] = useState(false)
   const [pricingPeriod, setPricingPeriod] = useState('quarterly')
   const [openFaq, setOpenFaq] = useState(null)
+
+  const [liveUserCount, setLiveUserCount] = useState(SOCIAL_PROOF_LIVE_USER_BASE)
 
   const { resolvedTheme, toggleTheme } = useTheme()
   const rootRef = useRef(null)
@@ -218,6 +231,35 @@ export default function LandingPage() {
     MOCKUP_SIDEBAR_ACTIVE.map((active, i) => ({
       label: t(`mockup.sidebarItems.${i}`),
       active,
+    })),
+  [t])
+
+  const SOCIAL_PROOF_COMPANIES = useMemo(() =>
+    SOCIAL_PROOF_ICONS.map((Icon, i) => ({
+      Icon,
+      name: t(`socialProof.companies.${i}`),
+    })),
+  [t])
+
+  const CASE_STUDIES = useMemo(() =>
+    CASE_STUDY_META.map((meta, i) => ({
+      ...meta,
+      company: t(`caseStudies.${i}.company`),
+      industry: t(`caseStudies.${i}.industry`),
+      metric: t(`caseStudies.${i}.metric`),
+      metricLabel: t(`caseStudies.${i}.metricLabel`),
+      quote: t(`caseStudies.${i}.quote`),
+      author: t(`caseStudies.${i}.author`),
+      role: t(`caseStudies.${i}.role`),
+    })),
+  [t])
+
+  const COMPARISON_FEATURES = useMemo(() =>
+    Array.from({ length: COMPARISON_FEATURE_COUNT }, (_, i) => ({
+      feature: t(`comparisonTable.features.${i}.feature`),
+      aeoDashboard: t(`comparisonTable.features.${i}.aeoDashboard`),
+      manualTools: t(`comparisonTable.features.${i}.manualTools`),
+      traditionalPlatforms: t(`comparisonTable.features.${i}.traditionalPlatforms`),
     })),
   [t])
 
@@ -473,6 +515,17 @@ export default function LandingPage() {
     }
   }, [schemaData])
 
+  /* --- Effect: Live user count simulation --- */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveUserCount((prev) => {
+        const delta = Math.floor(Math.random() * 5) - 2
+        return Math.max(SOCIAL_PROOF_LIVE_USER_BASE - 20, Math.min(SOCIAL_PROOF_LIVE_USER_BASE + 30, prev + delta))
+      })
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
+
   /* --- Smooth scroll handler --- */
   function scrollToSection(e, href) {
     e.preventDefault()
@@ -613,6 +666,25 @@ export default function LandingPage() {
           ))}
         </section>
 
+        {/* ═══════════ 3.5. SOCIAL PROOF ═══════════ */}
+        <section className="lp-social-proof" aria-label="Social proof" data-animate>
+          <div className="lp-social-proof-inner">
+            <p className="lp-social-proof-headline">{t('socialProof.trustedBy')}</p>
+            <div className="lp-social-proof-logos">
+              {SOCIAL_PROOF_COMPANIES.map((company, i) => (
+                <div key={i} className="lp-social-proof-logo-item">
+                  <company.Icon size={20} />
+                  <span>{company.name}</span>
+                </div>
+              ))}
+            </div>
+            <div className="lp-social-proof-live">
+              <span className="lp-social-proof-live-dot" />
+              <span>{t('socialProof.liveUsers', { count: liveUserCount })}</span>
+            </div>
+          </div>
+        </section>
+
         {/* ═══════════ 4. PROBLEM ═══════════ */}
         <section id="problem" className="lp-section" aria-label="The problem" data-animate>
           <div className="lp-section-center">
@@ -716,6 +788,36 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ═══════════ 7.5. CASE STUDIES ═══════════ */}
+        <section id="case-studies" className="lp-section" aria-label="Case studies" data-animate>
+          <div className="lp-section-center">
+            <span className="lp-section-label">{t('caseStudies.sectionLabel')}</span>
+            <h2 className="lp-section-title">{t('caseStudies.title')}</h2>
+            <p className="lp-section-subtitle">{t('caseStudies.subtitle')}</p>
+          </div>
+          <div className="lp-case-studies-grid">
+            {CASE_STUDIES.map((cs, i) => (
+              <article key={i} className="lp-case-study-card" data-animate>
+                <div className="lp-case-study-header">
+                  <span className="lp-case-study-industry">{cs.industry}</span>
+                  <h3 className="lp-case-study-company">{cs.company}</h3>
+                </div>
+                <div className="lp-case-study-metric" style={{ color: cs.accentColor }}>
+                  <span className="lp-case-study-metric-value">{cs.metric}</span>
+                  <span className="lp-case-study-metric-label">{cs.metricLabel}</span>
+                </div>
+                <blockquote className="lp-case-study-quote">
+                  &ldquo;{cs.quote}&rdquo;
+                </blockquote>
+                <div className="lp-case-study-author">
+                  <span className="lp-case-study-author-name">{cs.author}</span>
+                  <span className="lp-case-study-author-role">{cs.role}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
         {/* ═══════════ 8. AI COST HIGHLIGHT ═══════════ */}
         <section id="ai-cost" className="lp-section" aria-label="AI costs" data-animate>
           <div className="lp-section-center">
@@ -772,6 +874,70 @@ export default function LandingPage() {
           <p className="lp-answer-paragraph" style={{ maxWidth: '48rem', margin: '2rem auto 0' }}>
             <strong>Getting cited by ChatGPT requires a combination of structured data, authoritative content, and technical accessibility.</strong> Implement comprehensive schema markup, format content as direct answers to common questions, build entity authority through consistent and accurate information, and ensure AI crawlers can freely access your pages. The AEO Dashboard automates this process with its 99-point checklist and AI-powered analysis tools.
           </p>
+        </section>
+
+        {/* ═══════════ 9.5. COMPARISON TABLE ═══════════ */}
+        <section id="comparison" className="lp-section" aria-label="Feature comparison" data-animate>
+          <div className="lp-section-center">
+            <span className="lp-section-label">{t('comparisonTable.sectionLabel')}</span>
+            <h2 className="lp-section-title">{t('comparisonTable.title')}</h2>
+            <p className="lp-section-subtitle">{t('comparisonTable.subtitle')}</p>
+          </div>
+          <div className="lp-comparison-wrapper">
+            <table className="lp-comparison-table lp-comparison-table-full">
+              <thead>
+                <tr>
+                  <th scope="col">{t('comparisonTable.colFeature')}</th>
+                  <th scope="col" className="lp-comparison-highlight">{t('comparisonTable.colAeoDashboard')}</th>
+                  <th scope="col">{t('comparisonTable.colManualTools')}</th>
+                  <th scope="col">{t('comparisonTable.colTraditionalPlatforms')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {COMPARISON_FEATURES.map((row, i) => (
+                  <tr key={i}>
+                    <td className="lp-comparison-feature-name">{row.feature}</td>
+                    <td className="lp-comparison-highlight">
+                      <CheckCircle2 size={14} className="lp-comparison-icon-check" />
+                      {row.aeoDashboard}
+                    </td>
+                    <td>
+                      {row.manualTools === 'Not available'
+                        ? <><XCircle size={14} className="lp-comparison-icon-x" />{row.manualTools}</>
+                        : <><MinusCircle size={14} className="lp-comparison-icon-minus" />{row.manualTools}</>
+                      }
+                    </td>
+                    <td>
+                      {row.traditionalPlatforms === 'Not available'
+                        ? <><XCircle size={14} className="lp-comparison-icon-x" />{row.traditionalPlatforms}</>
+                        : <><MinusCircle size={14} className="lp-comparison-icon-minus" />{row.traditionalPlatforms}</>
+                      }
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* ═══════════ 9.75. VIDEO DEMO ═══════════ */}
+        <section id="demo" className="lp-section" aria-label="Product demo" data-animate>
+          <div className="lp-section-center">
+            <span className="lp-section-label">{t('videoDemo.sectionLabel')}</span>
+            <h2 className="lp-section-title">{t('videoDemo.title')}</h2>
+            <p className="lp-section-subtitle">{t('videoDemo.subtitle')}</p>
+          </div>
+          <div className="lp-video-demo-container" data-animate>
+            <div className="lp-video-demo-player">
+              <div className="lp-video-demo-placeholder">
+                <div className="lp-video-demo-play-btn" role="button" tabIndex={0} aria-label={t('videoDemo.playButton')}>
+                  <Play size={32} />
+                </div>
+                <span className="lp-video-demo-duration">{t('videoDemo.duration')}</span>
+              </div>
+            </div>
+            <p className="lp-video-demo-caption">{t('videoDemo.caption')}</p>
+          </div>
         </section>
 
         {/* ═══════════ 9. PRICING ═══════════ */}

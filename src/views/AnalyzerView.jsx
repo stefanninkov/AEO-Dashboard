@@ -26,6 +26,7 @@ import { checkRobotsTxt, AI_CRAWLERS } from '../utils/robotsChecker'
 import { checkSitemap } from '../utils/sitemapChecker'
 import { scorePage } from '../utils/deterministicScorer'
 import { useScoreHistory } from '../hooks/useScoreHistory'
+import { useGamification } from '../hooks/useGamification'
 
 /* ── Deterministic Score Badge ── */
 function ScoreBadge({ score, size = 'lg' }) {
@@ -153,6 +154,7 @@ export default function AnalyzerView({ activeProject, updateProject, user }) {
 
   // Score history — auto-record scores after analysis
   const { addSnapshot: addScoreSnapshot } = useScoreHistory({ activeProject, updateProject })
+  const { trackAction } = useGamification()
 
   // Analyzer recommendations — score-based
   const { scoreRecommendations } = useRecommendations({ activeProject, phases: null, setActiveView: () => {} })
@@ -345,6 +347,7 @@ Provide a specific, implementable fix with code that can be directly copied and 
       addScoreSnapshot(scoreSnapshot, 'analyzer')
 
       logAndDispatch('analyze', { url: targetUrl, score: score.overallScore, mode: 'deterministic' }, user)
+      trackAction('analyzePage')
     } catch (err) {
       logger.error('Deterministic analysis error:', err)
       setError(err.message)
@@ -420,6 +423,7 @@ Return ONLY valid JSON:
         setResults(parsed)
         updateProject(activeProject.id, { analyzerResults: parsed, url })
         logAndDispatch('analyze', { url, score: parsed.overallScore, mode: 'ai' }, user)
+        trackAction('analyzePage')
       } else {
         setError(t('analyzer.parseErrorAccess'))
       }
@@ -549,6 +553,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
         setResults(parsed)
         updateProject(activeProject.id, { analyzerResults: parsed })
         logAndDispatch('analyze', { url, score: parsed.overallScore }, user)
+        trackAction('analyzePage')
       } else {
         setError(t('analyzer.parseError'))
       }

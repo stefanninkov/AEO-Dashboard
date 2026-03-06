@@ -7,6 +7,7 @@ import VerifyDialog from '../components/VerifyDialog'
 import { getPhasePriority, getFirstPriorityPhase, INDUSTRY_LABELS, REGION_LABELS, COUNTRY_LABELS, AUDIENCE_LABELS, GOAL_LABELS, CMS_LABELS } from '../utils/getRecommendations'
 import { prioritizeChecklist } from '../utils/checklistPrioritizer'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
+import { useGamification } from '../hooks/useGamification'
 import { fireWebhooks } from '../utils/webhookDispatcher'
 import ChecklistStats from './checklist/ChecklistStats'
 import PlaybookBanner from './checklist/PlaybookBanner'
@@ -58,6 +59,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
   const members = activeProject?.members || []
 
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
+  const { trackAction } = useGamification()
 
   // Ref for stable access in undo closures
   const activeProjectRef = useRef(activeProject)
@@ -112,6 +114,7 @@ export default function ChecklistView({ phases, activeProject, toggleCheckItem, 
     updateProject(projectId, { verifications: newVerifications })
     toggleCheckItem(itemId)
     logAndDispatch('check', { taskId: itemId, taskText: itemText.slice(0, 80), phase: phaseNumber }, user)
+    trackAction('completeCheckItem')
 
     // Phase completion detection — fire synthetic event if phase is now 100%
     const phase = phases.find(p => p.number === phaseNumber)

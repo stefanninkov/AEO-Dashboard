@@ -369,6 +369,81 @@
     }
   },
 
+  "socialProof": {
+    "trustedBy": "Trusted by 2,500+ SEO professionals worldwide",
+    "liveUsers": "{{count}} users optimizing right now",
+    "companies": {
+      "0": "Tech Startups",
+      "1": "Digital Agencies",
+      "2": "E-Commerce Brands",
+      "3": "SaaS Companies",
+      "4": "Media Publishers",
+      "5": "Enterprise Teams"
+    }
+  },
+
+  "caseStudies": {
+    "sectionLabel": "Success Stories",
+    "title": "Real Results from Real Teams",
+    "subtitle": "See how agencies and SEO teams are using AEO Dashboard to dominate AI search results.",
+    "0": {
+      "company": "BrightPath Digital",
+      "industry": "Digital Agency",
+      "metric": "312%",
+      "metricLabel": "Increase in AI Citations",
+      "quote": "Within 6 weeks of implementing the AEO checklist, our client portfolio went from near-zero AI visibility to being cited in over 300 ChatGPT and Perplexity responses per month.",
+      "author": "Laura Nguyen",
+      "role": "Director of SEO Strategy"
+    },
+    "1": {
+      "company": "CloudStack SaaS",
+      "industry": "B2B SaaS",
+      "metric": "47%",
+      "metricLabel": "Reduction in CAC",
+      "quote": "AI-driven organic traffic from Perplexity and Google AI Overviews cut our customer acquisition cost nearly in half. The multi-engine testing lab was the game-changer for us.",
+      "author": "David Kim",
+      "role": "VP of Growth"
+    },
+    "2": {
+      "company": "UrbanNest Realty",
+      "industry": "E-Commerce / Real Estate",
+      "metric": "5.2x",
+      "metricLabel": "ROI in 90 Days",
+      "quote": "The schema generator and AI content writer saved our team 30+ hours per week. We achieved a 5.2x return on our AEO Dashboard investment within the first quarter.",
+      "author": "Priya Sharma",
+      "role": "Head of Digital Marketing"
+    }
+  },
+
+  "comparisonTable": {
+    "sectionLabel": "How We Compare",
+    "title": "AEO Dashboard vs The Alternatives",
+    "subtitle": "See why AEO Dashboard is the purpose-built solution for AI search optimization.",
+    "colFeature": "Feature",
+    "colAeoDashboard": "AEO Dashboard",
+    "colManualTools": "Manual SEO Tools",
+    "colTraditionalPlatforms": "Traditional SEO Platforms",
+    "features": {
+      "0": { "feature": "AI Citation Tracking", "aeoDashboard": "Real-time multi-engine", "manualTools": "Not available", "traditionalPlatforms": "Limited or none" },
+      "1": { "feature": "99-Point AEO Checklist", "aeoDashboard": "Built-in, guided", "manualTools": "DIY spreadsheets", "traditionalPlatforms": "Not available" },
+      "2": { "feature": "Multi-Engine Testing", "aeoDashboard": "ChatGPT, Perplexity, Gemini, Claude", "manualTools": "Manual copy-paste", "traditionalPlatforms": "Google only" },
+      "3": { "feature": "Schema Markup Generator", "aeoDashboard": "Visual, no-code builder", "manualTools": "Hand-coded JSON-LD", "traditionalPlatforms": "Basic templates" },
+      "4": { "feature": "AI Content Optimization", "aeoDashboard": "AI-powered writer + scorer", "manualTools": "Manual rewriting", "traditionalPlatforms": "Keyword-focused only" },
+      "5": { "feature": "Client Portals & Reports", "aeoDashboard": "Branded, shareable", "manualTools": "Manual PDF exports", "traditionalPlatforms": "Generic dashboards" },
+      "6": { "feature": "AI Crawler Accessibility Audit", "aeoDashboard": "10 crawlers checked", "manualTools": "Robots.txt only", "traditionalPlatforms": "Googlebot only" },
+      "7": { "feature": "Setup Time", "aeoDashboard": "Under 5 minutes", "manualTools": "Hours to days", "traditionalPlatforms": "30+ minutes" }
+    }
+  },
+
+  "videoDemo": {
+    "sectionLabel": "See It in Action",
+    "title": "Watch AEO Dashboard in Action",
+    "subtitle": "See how easy it is to audit, optimize, and monitor your AI search visibility in under 3 minutes.",
+    "playButton": "Watch the Demo",
+    "duration": "2:47",
+    "caption": "A quick walkthrough of the AEO Dashboard — from site audit to AI citation tracking."
+  },
+
   "schema": {
     "orgDescription": "The complete toolkit for Answer Engine Optimization. Optimize your website to be cited by ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot.",
     "webPageName": "AEO Dashboard - Optimize Your Website for AI Search Engines",

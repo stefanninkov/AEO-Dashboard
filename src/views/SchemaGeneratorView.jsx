@@ -8,6 +8,7 @@ import { hasApiKey } from '../utils/aiProvider'
 import { validateSchema } from '../utils/validateSchema'
 import { getAnalyzerIndustryContext, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, ENGINE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
+import { useGamification } from '../hooks/useGamification'
 import logger from '../utils/logger'
 
 // ─── Prompt functions (kept at module scope — sent to AI API, not translated) ──
@@ -162,6 +163,7 @@ const TYPE_KEY_MAP = {
 export default function SchemaGeneratorView({ activeProject, updateProject, user }) {
   const { t } = useTranslation('app')
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
+  const { trackAction } = useGamification()
   const [topic, setTopic] = useState('')
   const [pageUrl, setPageUrl] = useState('')
   const [selectedType, setSelectedType] = useState('faqPage')
@@ -236,6 +238,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
 
         // Log activity
         logAndDispatch('schemaGenerate', { type: selectedType, topic: topic.slice(0, 60) }, user)
+        trackAction('generateSchema')
       } else {
         setError(t('schema.parseError'))
       }
@@ -386,7 +389,20 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       <TemplatesBrowser
         isOpen={showTemplates}
         onClose={() => setShowTemplates(false)}
-        onSelect={(tpl) => { setShowTemplates(false) }}
+        onSelect={(tpl) => {
+          setShowTemplates(false)
+          // Populate form from selected template
+          if (tpl?.fields) {
+            if (tpl.fields.type) {
+              const matchId = SCHEMA_TYPE_META.find(m => m.schemaType === tpl.fields.type)?.id
+              if (matchId) setSelectedType(matchId)
+            }
+            if (tpl.fields.title || tpl.fields.name || tpl.fields.headline || tpl.fields.productName) {
+              setTopic(tpl.fields.title || tpl.fields.name || tpl.fields.headline || tpl.fields.productName || '')
+            }
+            if (tpl.fields.url) setPageUrl(tpl.fields.url)
+          }
+        }}
         category="schema"
       />
 

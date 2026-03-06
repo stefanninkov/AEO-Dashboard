@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ClipboardCheck, FileSearch, Wrench, KeyRound, PenLine, BookOpen,
-  Settings2, Clock, ToggleLeft, ToggleRight, Lightbulb,
+  Settings2, Clock, ToggleLeft, ToggleRight, Lightbulb, LayoutGrid,
 } from 'lucide-react'
 import { useScrollActiveTab } from '../../hooks/useScrollActiveTab'
 import { useSeoAnalyzer } from './useSeoAnalyzer'
@@ -14,6 +14,7 @@ import OnPageSeoTab from './OnPageSeoTab'
 import TechnicalSeoTab from './TechnicalSeoTab'
 import KeywordResearchTab from './KeywordResearchTab'
 import ContentOptimizationTab from './ContentOptimizationTab'
+import { AeoTreemapChart } from '../../components/charts'
 
 const TABS = [
   { id: 'audit', icon: ClipboardCheck },
@@ -21,6 +22,7 @@ const TABS = [
   { id: 'technical', icon: Wrench },
   { id: 'keywords', icon: KeyRound },
   { id: 'content', icon: PenLine },
+  { id: 'structure', icon: LayoutGrid },
 ]
 
 function AutoScanPopover({ analyzer, onClose }) {
@@ -108,12 +110,39 @@ export default function SeoView({ activeProject, updateProject, user, setDocItem
     }
   }, [setDocItem])
 
+  // Build site structure treemap data from project analysis
+  const structureData = useMemo(() => {
+    const pages = activeProject?.pageAnalyses || {}
+    const entries = Object.entries(pages)
+    if (entries.length === 0) {
+      // Demo data when no pages analyzed
+      return [
+        { name: '/', value: 100, color: '#10B981' },
+        { name: '/blog', value: 80, color: '#3B82F6' },
+        { name: '/products', value: 65, color: '#8B5CF6' },
+        { name: '/about', value: 45, color: '#F59E0B' },
+        { name: '/contact', value: 30, color: '#EF4444' },
+        { name: '/faq', value: 55, color: '#10B981' },
+        { name: '/docs', value: 70, color: '#3B82F6' },
+        { name: '/pricing', value: 40, color: '#F59E0B' },
+      ]
+    }
+    return entries.map(([url, data]) => {
+      const score = data?.overallScore ?? 50
+      const color = score >= 70 ? '#10B981' : score >= 40 ? '#F59E0B' : '#EF4444'
+      let path = '/'
+      try { path = new URL(url).pathname || '/' } catch { /* use default */ }
+      return { name: path, value: score, color }
+    })
+  }, [activeProject?.pageAnalyses])
+
   const tabLabels = {
     audit: t('seo.tabAudit'),
     onpage: t('seo.tabOnPage'),
     technical: t('seo.tabTechnical'),
     keywords: t('seo.tabKeywords'),
     content: t('seo.tabContent'),
+    structure: t('seo.tabStructure', 'Structure'),
   }
 
   return (
@@ -235,6 +264,21 @@ export default function SeoView({ activeProject, updateProject, user, setDocItem
           updateProject={updateProject}
           user={user}
         />
+      )}
+      {activeTab === 'structure' && (
+        <div className="card" style={{ padding: '1.25rem', marginTop: '0.5rem' }}>
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', fontWeight: 700,
+            color: 'var(--text-disabled)', textTransform: 'uppercase',
+            letterSpacing: '0.04rem', marginBottom: '1rem',
+          }}>
+            {t('seo.siteStructure', 'Site Structure Overview')}
+          </div>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '1rem' }}>
+            {t('seo.siteStructureDesc', 'Treemap visualization of your site pages sized by AEO score. Analyze pages to see real data.')}
+          </p>
+          <AeoTreemapChart data={structureData} height={320} />
+        </div>
       )}
 
       {/* Click outside to close auto-scan popover */}

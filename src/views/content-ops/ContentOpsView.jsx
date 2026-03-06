@@ -109,7 +109,13 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
       <TemplatesBrowser
         isOpen={showTemplates}
         onClose={() => setShowTemplates(false)}
-        onSelect={(tpl) => { setShowTemplates(false) }}
+        onSelect={(tpl) => {
+          setShowTemplates(false)
+          // Switch to briefs tab and pre-populate with template content
+          if (tpl?.fields) {
+            setActiveTab('briefs')
+          }
+        }}
         category="content"
       />
     </div>

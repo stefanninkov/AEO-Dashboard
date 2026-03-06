@@ -23,6 +23,7 @@ import LevelProgress from '../components/gamification/LevelProgress'
 import StreakIndicator from '../components/gamification/StreakIndicator'
 import PointsCounter from '../components/gamification/PointsCounter'
 import { getDefaultStats } from '../utils/gamification'
+import { useGamification } from '../hooks/useGamification'
 import ProjectGeneralSection from './settings/ProjectGeneralSection'
 import ProjectIntegrationsSection from './settings/ProjectIntegrationsSection'
 import ProjectWebhooksSection from './settings/ProjectWebhooksSection'
@@ -77,6 +78,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
   const [selectedProjectForSettings, setSelectedProjectForSettings] = useState(activeProject || null)
   const [activeProjectSubTab, setActiveProjectSubTab] = useState('general')
   const google = useGoogleIntegration(user)
+  const { stats: gamificationStats } = useGamification()
 
   // Keep selectedProject in sync with live projects array (Firestore updates)
   const resolvedProject = useMemo(() => {
@@ -245,7 +247,7 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
 
       {/* Achievements tab */}
       {activeTab === 'achievements' && (() => {
-        const stats = user?.gamification || getDefaultStats()
+        const stats = gamificationStats
         return (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {/* Level + Points + Streak row */}

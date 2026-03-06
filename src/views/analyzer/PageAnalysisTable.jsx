@@ -73,6 +73,32 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
   const [sort, setSort] = useState({ key: 'overallScore', dir: 'asc' })
   const [searchFilter, setSearchFilter] = useState('')
   const [showTop, setShowTop] = useState(25)
+  const [selectedPages, setSelectedPages] = useState(new Set())
+
+  const toggleSelect = (url, e) => {
+    e.stopPropagation()
+    setSelectedPages(prev => {
+      const next = new Set(prev)
+      if (next.has(url)) next.delete(url)
+      else next.add(url)
+      return next
+    })
+  }
+
+  const toggleSelectAll = () => {
+    if (selectedPages.size === filteredRows.length) setSelectedPages(new Set())
+    else setSelectedPages(new Set(filteredRows.map(p => p.url)))
+  }
+
+  const handleBulkReanalyze = () => {
+    selectedPages.forEach(url => onReanalyze(url))
+    setSelectedPages(new Set())
+  }
+
+  const handleBulkRemove = () => {
+    selectedPages.forEach(url => onRemove(url))
+    setSelectedPages(new Set())
+  }
 
   const handleSort = (key) => {
     setSort(prev => ({
@@ -118,10 +144,45 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
 
   if (pages.length === 0) return null
 
-  const gridTemplate = '1fr 3.5rem 3rem 3rem 3rem 3rem 4.5rem 3.5rem'
+  const gridTemplate = '1.5rem 1fr 3.5rem 3rem 3rem 3rem 3rem 4.5rem 3.5rem'
 
   return (
     <div className="card">
+      {/* Bulk Action Bar */}
+      {selectedPages.size > 0 && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 1rem',
+          background: 'color-mix(in srgb, var(--accent) 8%, transparent)',
+          borderBottom: '0.0625rem solid var(--accent)',
+        }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--accent)' }}>
+            {selectedPages.size} selected
+          </span>
+          <button
+            className="btn-ghost"
+            style={{ fontSize: '0.6875rem', padding: '0.25rem 0.5rem' }}
+            onClick={handleBulkReanalyze}
+            disabled={analyzing}
+          >
+            <RefreshCw size={11} /> Re-analyze
+          </button>
+          <button
+            className="btn-ghost"
+            style={{ fontSize: '0.6875rem', padding: '0.25rem 0.5rem', color: 'var(--color-error)' }}
+            onClick={handleBulkRemove}
+          >
+            <Trash2 size={11} /> Remove
+          </button>
+          <button
+            className="btn-ghost"
+            style={{ fontSize: '0.6875rem', padding: '0.25rem 0.5rem', marginLeft: 'auto' }}
+            onClick={() => setSelectedPages(new Set())}
+          >
+            Clear
+          </button>
+        </div>
+      )}
+
       {/* Toolbar */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1rem',
@@ -156,6 +217,13 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
         gap: '0.375rem', padding: '0.5rem 1rem', alignItems: 'center',
         background: 'var(--hover-bg)', borderBottom: '0.0625rem solid var(--border-subtle)',
       }}>
+        <input
+          type="checkbox"
+          checked={filteredRows.length > 0 && selectedPages.size === filteredRows.length}
+          onChange={toggleSelectAll}
+          style={{ width: '0.875rem', height: '0.875rem', cursor: 'pointer', accentColor: 'var(--accent)' }}
+          aria-label="Select all pages"
+        />
         <SortHeader label="Page" sortKey="url" currentSort={sort} onSort={handleSort} />
         <SortHeader label="Score" sortKey="overallScore" currentSort={sort} onSort={handleSort} />
         <SortHeader label="Schema" sortKey="schemaScore" currentSort={sort} onSort={handleSort} />
@@ -182,6 +250,16 @@ export default function PageAnalysisTable({ pages, onSelectPage, onReanalyze, on
           }}
           className="page-table-row"
         >
+          {/* Checkbox */}
+          <input
+            type="checkbox"
+            checked={selectedPages.has(page.url)}
+            onChange={(e) => toggleSelect(page.url, e)}
+            onClick={e => e.stopPropagation()}
+            style={{ width: '0.875rem', height: '0.875rem', cursor: 'pointer', accentColor: 'var(--accent)' }}
+            aria-label={`Select ${shortPageUrl(page.url)}`}
+          />
+
           {/* URL */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', minWidth: 0 }}>
             <span style={{

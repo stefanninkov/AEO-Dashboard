@@ -6,6 +6,7 @@ import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
 import { getAnalyzerIndustryContext, AUDIENCE_LABELS, INDUSTRY_LABELS, LANGUAGE_LABELS } from '../utils/getRecommendations'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
+import { useGamification } from '../hooks/useGamification'
 import logger from '../utils/logger'
 
 function buildContentTypes(t) {
@@ -209,6 +210,7 @@ function buildToneOptions(t) {
 export default function ContentWriterView({ activeProject, updateProject, user }) {
   const { t } = useTranslation('app')
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
+  const { trackAction } = useGamification()
   const [topic, setTopic] = useState('')
   const [selectedType, setSelectedType] = useState('faq')
   const [tone, setTone] = useState('professional')
@@ -275,6 +277,7 @@ Return ONLY valid JSON matching the requested format.`,
 
         // Log activity
         logAndDispatch('contentWrite', { type: selectedType, topic: topic.slice(0, 60) }, user)
+        trackAction('createBrief')
       } else {
         setError(t('writer.parseError'))
       }

@@ -217,6 +217,14 @@ Return ONLY valid JSON.`,
     if (selectedBriefId === id) setSelectedBriefId(null)
   }, [activeProject, updateProject, selectedBriefId])
 
+  const updateBrief = useCallback((id, changes) => {
+    const updated = (activeProject?.contentBriefs || []).map(b => {
+      if (b.id !== id) return b
+      return { ...b, brief: { ...b.brief, ...changes } }
+    })
+    updateProject(activeProject.id, { contentBriefs: updated })
+  }, [activeProject, updateProject])
+
   const getBriefForPage = useCallback((url) => {
     return briefs.find(b => b.pageUrl === url) || null
   }, [briefs])
@@ -284,6 +292,7 @@ Return ONLY valid JSON.`,
 
     generateBrief,
     removeBrief,
+    updateBrief,
     getBriefForPage,
     briefToMarkdown,
   }

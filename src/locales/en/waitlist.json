@@ -616,5 +616,33 @@
       "sharePrompt": "Share your score with your team:",
       "timeline": "We'll review your score and reach out to top scorers with early access."
     }
+  },
+
+  "urgency": {
+    "countdown": {
+      "prefix": "Early access closes in",
+      "days": "d",
+      "hours": "h",
+      "minutes": "m",
+      "seconds": "s"
+    },
+    "spotsRemaining": "Only {{spots}} spots remaining",
+    "queuePosition": "You're #{{position}} in line",
+    "recentSignups": {
+      "entries": {
+        "0": { "name": "Alex", "location": "Berlin" },
+        "1": { "name": "Sarah", "location": "NYC" },
+        "2": { "name": "James", "location": "London" },
+        "3": { "name": "Maria", "location": "Barcelona" },
+        "4": { "name": "Yuki", "location": "Tokyo" },
+        "5": { "name": "Priya", "location": "Mumbai" },
+        "6": { "name": "Lucas", "location": "São Paulo" },
+        "7": { "name": "Emma", "location": "Sydney" },
+        "8": { "name": "Ahmed", "location": "Dubai" },
+        "9": { "name": "Sophie", "location": "Paris" }
+      },
+      "justJoined": "just joined",
+      "timeAgo": "{{minutes}} min ago"
+    }
   }
 }

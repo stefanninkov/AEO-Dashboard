@@ -8,6 +8,7 @@ import {
 import useContentBrief from './useContentBrief'
 import { safeHref } from '../../utils/sanitizeUrl'
 import EmptyState from '../../components/EmptyState'
+import InlineEditor from '../../components/InlineEditor'
 
 /* ── Skeleton loader ── */
 function BriefSkeleton() {
@@ -60,7 +61,7 @@ function BriefSection({ icon: Icon, title, children, color }) {
 }
 
 /* ── Brief Display ── */
-function BriefDisplay({ briefEntry, onCopy, onRemove }) {
+function BriefDisplay({ briefEntry, onCopy, onRemove, onUpdateTitle }) {
   const [copied, setCopied] = useState(false)
   const b = briefEntry.brief
 
@@ -86,7 +87,11 @@ function BriefDisplay({ briefEntry, onCopy, onRemove }) {
               fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700,
               color: 'var(--text-primary)', margin: 0,
             }}>
-              {b.title || briefEntry.targetQuery}
+              <InlineEditor
+                value={b.title || briefEntry.targetQuery}
+                onSave={(val) => onUpdateTitle?.(briefEntry.id, val)}
+                placeholder="Brief title..."
+              />
             </h3>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.375rem', flexWrap: 'wrap' }}>
               {b.targetWordCount && (
@@ -362,6 +367,9 @@ export default function BriefView({ activeProject, updateProject, user }) {
               briefEntry={brief.selectedBrief}
               onCopy={handleCopy}
               onRemove={brief.removeBrief}
+              onUpdateTitle={(id, newTitle) => {
+                brief.updateBrief?.(id, { title: newTitle })
+              }}
             />
           </div>
         )}
