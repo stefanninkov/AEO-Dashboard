@@ -186,18 +186,18 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.monitor}
         onToggle={() => toggleSection('monitor')}
       >
-        <div className="space-y-4">
+        <div className="space-y-5">
           {/* Run button + status */}
           <div className="mon-run-row flex items-center justify-between gap-4">
             <div className="flex-1">
-              <p className="text-sm text-text-secondary">
+              <p className="text-sm text-text-secondary mb-1">
                 {t('testing.autoMonitorDesc')}
               </p>
               {!activeProject?.url && (
-                <p className="text-xs text-warning mt-1">{t('testing.setUrlWarning')}</p>
+                <p className="text-xs text-warning mt-2">{t('testing.setUrlWarning')}</p>
               )}
               {!activeProject?.queryTracker?.length && (
-                <p className="text-xs text-warning mt-1">{t('testing.addQueriesWarning')}</p>
+                <p className="text-xs text-warning mt-2">{t('testing.addQueriesWarning')}</p>
               )}
             </div>
             <button
@@ -304,7 +304,7 @@ export default function TestingView({ activeProject, updateProject }) {
 
           {/* Empty state */}
           {monitorHistory.length === 0 && !autoMonitoring && (
-            <div className="flex flex-col items-center justify-center py-8 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
+            <div className="flex flex-col items-center justify-center py-10 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <Activity size={20} className="text-text-tertiary" />
               </div>
@@ -327,7 +327,7 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.weekly}
         onToggle={() => toggleSection('weekly')}
       >
-        <div className="space-y-2">
+        <div className="space-y-3">
           {WEEKLY_TASKS.map(task => (
             <label key={task.id} className="flex items-center gap-3 py-2 px-1 cursor-pointer group testing-routine-item">
               <input
@@ -359,7 +359,7 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.monthly}
         onToggle={() => toggleSection('monthly')}
       >
-        <div className="space-y-2">
+        <div className="space-y-3">
           {MONTHLY_TASKS.map(task => (
             <label key={task.id} className="flex items-center gap-3 py-2 px-1 cursor-pointer group testing-routine-item">
               <input
@@ -391,7 +391,7 @@ export default function TestingView({ activeProject, updateProject }) {
         onToggle={() => toggleSection('tracker')}
       >
         {/* Add Query */}
-        <div className="flex gap-2 mb-4 testing-query-input-row">
+        <div className="flex gap-2 mb-5 testing-query-input-row">
           <input
             type="text"
             placeholder={t('testing.addQueryPlaceholder')}
@@ -475,7 +475,7 @@ export default function TestingView({ activeProject, updateProject }) {
           </div>
         ) : (
           /* Empty state */
-          <div className="flex flex-col items-center justify-center py-10 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
+          <div className="flex flex-col items-center justify-center py-12 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
               <SearchCheck size={20} className="text-text-tertiary" />
             </div>
