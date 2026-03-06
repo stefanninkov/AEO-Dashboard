@@ -4,7 +4,7 @@
  * Tabs: Profile | API & Usage | Integrations | Projects
  */
 import { useRef } from 'react'
-import { UserRound, KeyRound, Unplug, FolderKanban } from 'lucide-react'
+import { UserRound, KeyRound, Unplug, FolderKanban, Trophy } from 'lucide-react'
 import { useScrollActiveTab } from '../../hooks/useScrollActiveTab'
 
 const TABS = [
@@ -12,6 +12,7 @@ const TABS = [
   { id: 'api-usage', label: 'API & Usage', icon: KeyRound },
   { id: 'integrations', label: 'Integrations', icon: Unplug },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
+  { id: 'achievements', label: 'Achievements', icon: Trophy },
 ]
 
 export default function SettingsTabs({ activeTab, onTabChange }) {

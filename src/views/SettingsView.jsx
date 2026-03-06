@@ -18,6 +18,11 @@ import ApiUsageSection from './settings/ApiUsageSection'
 import SeoApiKeysSection from './settings/SeoApiKeysSection'
 import IntegrationsSection from './settings/IntegrationsSection'
 import ProjectsOverviewSection from './settings/ProjectsOverviewSection'
+import BadgeDisplay from '../components/gamification/BadgeDisplay'
+import LevelProgress from '../components/gamification/LevelProgress'
+import StreakIndicator from '../components/gamification/StreakIndicator'
+import PointsCounter from '../components/gamification/PointsCounter'
+import { getDefaultStats } from '../utils/gamification'
 import ProjectGeneralSection from './settings/ProjectGeneralSection'
 import ProjectIntegrationsSection from './settings/ProjectIntegrationsSection'
 import ProjectWebhooksSection from './settings/ProjectWebhooksSection'
@@ -237,6 +242,25 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           )}
         </>
       )}
+
+      {/* Achievements tab */}
+      {activeTab === 'achievements' && (() => {
+        const stats = user?.gamification || getDefaultStats()
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {/* Level + Points + Streak row */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))', gap: '0.75rem' }}>
+              <LevelProgress points={stats.totalPoints || 0} />
+              <PointsCounter points={stats.totalPoints || 0} />
+              <StreakIndicator currentStreak={stats.currentStreak || 0} longestStreak={stats.longestStreak || 0} />
+            </div>
+            {/* Badges */}
+            <div className="card" style={{ padding: '1.25rem' }}>
+              <BadgeDisplay stats={stats} />
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }

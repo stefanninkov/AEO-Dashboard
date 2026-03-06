@@ -6,6 +6,7 @@ import { useTheme } from '../contexts/ThemeContext'
 import { Check, Share2, Copy, Sparkles, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar, Sun, Moon } from 'lucide-react'
 import WaitlistScorecard from '../components/WaitlistScorecard'
 import { MAX_TOTAL_SCORE } from '../utils/scorecardScoring'
+import { generateReferralCode, buildReferralLink, getReferralFromUrl, getCurrentTier, getNextTier, REFERRAL_TIERS } from '../utils/referralSystem'
 import './WaitlistPage.css'
 
 /* ═══════════════════════════════════════════════════════════════
@@ -279,11 +280,25 @@ export default function WaitlistPage() {
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
+  // Referral system — generate unique referral link after signup
+  const referralCode = useMemo(() => {
+    if (!submitted) return null
+    const email = localStorage.getItem('aeo-waitlist-email')
+    return email ? generateReferralCode(email) : null
+  }, [submitted])
+  const referralLink = useMemo(() => referralCode ? buildReferralLink(referralCode, SITE_URL) : SITE_URL, [referralCode])
+
+  // Check if user came via referral
+  useEffect(() => {
+    const ref = getReferralFromUrl()
+    if (ref) localStorage.setItem('aeo-referred-by', ref)
+  }, [])
+
   // Share handlers
   const shareText = completedResults
     ? `I scored ${completedResults.totalScore}/${MAX_TOTAL_SCORE} on the AEO Readiness Assessment! How AI-ready is YOUR website?`
     : t('success.shareText')
-  const shareUrl = SITE_URL
+  const shareUrl = referralLink || SITE_URL
 
   const shareTwitter = () => {
     window.open(
