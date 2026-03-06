@@ -13,6 +13,7 @@ import {
 import { db } from '../firebase'
 import { useLocalStorage } from './useLocalStorage'
 import logger from '../utils/logger'
+import { syncProjectStore } from '../stores/useProjectStore'
 
 /*
  * Dev mode detection — matches useAuth.js
@@ -417,8 +418,8 @@ function useFirestoreProjectsImpl(user) {
 // isFirebaseConfigured is a module-level constant (never changes at runtime),
 // so this conditional hook call is safe and won't violate Rules of Hooks.
 export function useFirestoreProjects(user) {
-  if (isFirebaseConfigured) {
-    return useFirestoreProjectsImpl(user)
-  }
-  return useLocalProjects(user)
+  const result = isFirebaseConfigured ? useFirestoreProjectsImpl(user) : useLocalProjects(user)
+  // Sync project state into Zustand store so new components can access it
+  syncProjectStore(result.projects, result.activeProjectId, result.loading, result.firestoreError)
+  return result
 }

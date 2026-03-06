@@ -11,6 +11,7 @@ import {
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore'
 import { auth, googleProvider, db } from '../firebase'
 import { initSecureStorage, clearSecureStorage } from '../utils/secureStorage'
+import { syncAuthStore } from '../stores/useAuthStore'
 
 /*
  * Dev mode detection
@@ -358,10 +359,10 @@ function useFirebaseAuth() {
 
 /* ── Export: auto-select based on config ── */
 export function useAuth() {
-  if (isFirebaseConfigured) {
-    return useFirebaseAuth()
-  }
-  return useLocalAuth()
+  const result = isFirebaseConfigured ? useFirebaseAuth() : useLocalAuth()
+  // Sync auth state into Zustand store so new components can access it
+  syncAuthStore(result.user, result.loading, result.error)
+  return result
 }
 
 function getErrorMessage(code) {

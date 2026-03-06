@@ -2,6 +2,8 @@ import { useState, useRef, useMemo, useCallback, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing, Activity, TrendingUp, TrendingDown, Shield, Bot, CheckCircle2, XCircle, MinusCircle } from 'lucide-react'
 import { getSmartRecommendations, getQuickWin, getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
+import { useScoreHistory } from '../hooks/useScoreHistory'
+import { ScoreHistoryChart } from '../components/charts'
 import ActivityTimeline from '../components/ActivityTimeline'
 import {
   LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer,
@@ -120,6 +122,30 @@ function CompetitorAlertDigest({ alerts = [], setActiveView, t }) {
   )
 }
 
+/* ── Score History Section ── */
+function ScoreHistorySection({ activeProject, updateProject, t }) {
+  const { trendData } = useScoreHistory({ activeProject, updateProject })
+
+  return (
+    <div className="card card-lg">
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: 'var(--space-3)',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
+          textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
+          display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
+        }}>
+          <TrendingUp size={13} style={{ color: 'var(--color-phase-4)' }} />
+          {t('dashboard.scoreHistory', 'Score History')}
+        </div>
+      </div>
+      <ScoreHistoryChart data={trendData} height={260} />
+    </div>
+  )
+}
+
 function DashboardEmptyState({ message, onAction, t }) {
   return (
     <div className="card card-xl" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 'var(--space-3)' }}>
@@ -132,7 +158,7 @@ function DashboardEmptyState({ message, onAction, t }) {
   )
 }
 
-export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid }) {
+export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid, updateProject }) {
   const { t } = useTranslation('app')
   const [subTab, setSubTab] = useState('overview')
   const subTabsRef = useRef(null)
@@ -396,6 +422,11 @@ export default function DashboardView({ projects, activeProject, setActiveProjec
 
           {/* Quick Win — #1 highest-impact action */}
           <QuickWinCard quickWin={quickWin} />
+
+          {/* Score History Timeline */}
+          {activeProject && (
+            <ScoreHistorySection activeProject={activeProject} updateProject={updateProject} t={t} />
+          )}
 
           {/* Donut Chart — Phase Progress */}
           {activeProject && phases && (

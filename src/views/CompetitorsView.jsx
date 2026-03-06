@@ -1,16 +1,17 @@
 import { useState, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Users, Activity, PieChart, Dna, Target } from 'lucide-react'
+import { Users, Activity, PieChart, Dna, Target, BarChart3 } from 'lucide-react'
 import CompetitorsOverviewTab from './competitors/CompetitorsOverviewTab'
 import CompetitorMonitoringTab from './competitors/CompetitorMonitoringTab'
 import CitationShareTab from './competitors/CitationShareTab'
 import CitationDNATab from './competitors/CitationDNATab'
 import ContentGapsTab from './competitors/ContentGapsTab'
+import BenchmarkTab from './competitors/BenchmarkTab'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 
 export default function CompetitorsView({ activeProject, updateProject, user }) {
   const { t } = useTranslation('app')
-  const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'monitoring' | 'citation' | 'dna'
+  const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'benchmark' | 'monitoring' | 'citation' | 'dna' | 'gaps'
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
 
@@ -49,6 +50,16 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
         >
           <Users size={14} />
           {t('competitors.tabOverview')}
+        </button>
+        <button
+          className="tab-segmented"
+          role="tab"
+          aria-selected={activeTab === 'benchmark'}
+          data-active={activeTab === 'benchmark' || undefined}
+          onClick={() => setActiveTab('benchmark')}
+        >
+          <BarChart3 size={14} />
+          {t('competitors.tabBenchmark', 'Benchmark')}
         </button>
         <button
           className="tab-segmented"
@@ -101,6 +112,12 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           activeProject={activeProject}
           updateProject={updateProject}
           user={user}
+        />
+      )}
+
+      {activeTab === 'benchmark' && (
+        <BenchmarkTab
+          activeProject={activeProject}
         />
       )}
 
