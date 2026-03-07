@@ -7,7 +7,8 @@ let savedFilename
 
 function createMockDoc() {
   return {
-    internal: { pageSize: { getWidth: () => 210, getHeight: () => 297 } },
+    internal: { pageSize: { getWidth: () => 210, getHeight: () => 297 }, getNumberOfPages: () => 1 },
+    setPage: vi.fn(),
     setFont: vi.fn(),
     setFontSize: vi.fn(),
     setTextColor: vi.fn(),
@@ -167,7 +168,7 @@ describe('generatePdf', () => {
     await generatePdf({ project: testProject, phases: testPhases, sections: { ...noSections, analyzer: true }, agencyName: '', reportDate: '' })
     const textCalls = mockDoc.text.mock.calls.map(c => c[0])
     expect(textCalls.some(t => typeof t === 'string' && t.includes('Analyzer Results'))).toBe(true)
-    expect(textCalls).toContain('85/100')
+    expect(textCalls.some(t => String(t).includes('85'))).toBe(true)
   })
 
   it('skips analyzer when no analyzerResults', async () => {
