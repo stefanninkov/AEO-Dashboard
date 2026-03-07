@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { X, Mail, Send, Copy, Check, Loader2 } from 'lucide-react'
 import { generateEmailBody } from '../utils/generateReport'
 import { sendEmail, isEmailConfigured } from '../utils/emailService'
@@ -7,15 +6,14 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 import { useToast } from './Toast'
 
 export default function EmailReportDialog({ metrics, projectName, dateRange, onClose, isClosing, onExited }) {
-  const { t } = useTranslation('app')
-  const [email, setEmail] = useState('')
+const [email, setEmail] = useState('')
   const [copied, setCopied] = useState(false)
   const [sending, setSending] = useState(false)
   const trapRef = useFocusTrap(!isClosing)
   const { addToast } = useToast()
 
   const body = generateEmailBody(metrics, projectName, dateRange)
-  const subject = t('emailReport.subject', { project: projectName })
+  const subject = `AEO Metrics Report - ${projectName}`
 
   const emailConfigured = isEmailConfigured()
 
@@ -26,14 +24,14 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
       // Fallback to mailto if EmailJS is not configured
       const mailtoUrl = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
       window.open(mailtoUrl, '_blank')
-      addToast('info', t('emailReport.openedClient'))
+      addToast('info', 'Opened email client — configure EmailJS in Settings for direct send')
       return
     }
 
     setSending(true)
     try {
       await sendEmail(email.trim(), subject, body)
-      addToast('success', t('emailReport.sentTo', { email: email.trim() }))
+      addToast('success', `Report sent to ${email.trim()}`)
       onClose()
     } catch (err) {
       addToast('error', err.message || 'Failed to send email')
@@ -98,11 +96,11 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
             <Mail size={16} className="text-phase-1" />
           </div>
           <div className="email-modal-header-text">
-            <h3 id="email-report-title" className="email-modal-title">{t('emailReport.title')}</h3>
+            <h3 id="email-report-title" className="email-modal-title">{'Email Report'}</h3>
             <p className="email-modal-subtitle">
               {emailConfigured
-                ? t('emailReport.subtitle')
-                : t('emailReport.subtitleNoEmailJs')}
+                ? 'Send a metrics summary to your client or team'
+                : 'EmailJS not configured — will open email client instead'}
             </p>
           </div>
         </div>
@@ -123,19 +121,19 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
               color: 'var(--color-phase-1)',
               lineHeight: 1.5,
             }}>
-              {t('emailReport.configureEmailJs')}
+              {'Configure EmailJS in Settings to send emails directly from the app. Otherwise, clicking Send will open your email client.'}
             </div>
           )}
 
           {/* Email Input */}
           <div>
             <label htmlFor="recipient-email" className="email-modal-label">
-              {t('emailReport.recipientEmail')}
+              {'Recipient Email'}
             </label>
             <input
               id="recipient-email"
               type="email"
-              placeholder={t('emailReport.emailPlaceholder')}
+              placeholder={'name@example.com'}
               value={email}
               onChange={e => setEmail(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && email.trim() && !sending && handleSendEmail()}
@@ -149,11 +147,11 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
           <div>
             <div className="email-modal-preview-header">
               <label className="email-modal-label">
-                {t('emailReport.reportPreview')}
+                {'Report Preview'}
               </label>
               <button onClick={handleCopyBody} className="email-modal-copy-btn">
                 {copied ? <Check size={12} className="text-success" /> : <Copy size={12} />}
-                {copied ? t('emailReport.copied') : t('emailReport.copy')}
+                {copied ? 'Copied!' : 'Copy'}
               </button>
             </div>
             <div className="email-modal-preview-box">
@@ -176,10 +174,10 @@ export default function EmailReportDialog({ metrics, projectName, dateRange, onC
               ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />
               : <Send size={14} />
             }
-            {sending ? t('emailReport.sending') : emailConfigured ? t('emailReport.send') : t('emailReport.openClient')}
+            {sending ? 'Sending…' : emailConfigured ? 'Send Email' : 'Open Email Client'}
           </button>
           <button onClick={onClose} className="email-modal-cancel-btn" disabled={sending}>
-            {t('emailReport.cancel')}
+            {'Cancel'}
           </button>
         </div>
       </div>

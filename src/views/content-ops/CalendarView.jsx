@@ -3,7 +3,6 @@ import {
   ChevronLeft, ChevronRight, Plus, Calendar as CalendarIcon,
   CheckCircle2, Clock, AlertTriangle, LayoutGrid, List,
 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import useContentCalendar, {
   STATUS_COLORS, getWeekStart, getWeekDays, getMonthDays,
   formatDateKey, isToday, isOverdue,
@@ -13,7 +12,7 @@ import StatCard from '../dashboard/StatCard'
 import EmptyState from '../../components/EmptyState'
 
 /* ── Entry Card (rendered inside day cells) ── */
-function EntryCard({ entry, compact, onClick, members, t }) {
+function EntryCard({ entry, compact, onClick, members }) {
   const statusColor = STATUS_COLORS[entry.status] || 'var(--text-tertiary)'
   const overdue = isOverdue(entry)
   const assignee = members?.find(m => m.uid === entry.assignedTo)
@@ -54,7 +53,7 @@ function EntryCard({ entry, compact, onClick, members, t }) {
             color: statusColor,
             fontFamily: 'var(--font-heading)',
           }}>
-            {t('contentOps.status.' + entry.status)}
+            {entry.status === 'in-progress' ? 'In Progress' : entry.status === 'review' ? 'Review' : entry.status === 'published' ? 'Published' : entry.status === 'scheduled' ? 'Scheduled' : entry.status}
           </span>
           {entry.checklistItemId && (
             <CheckCircle2 size={10} style={{ color: 'var(--text-tertiary)' }} />
@@ -80,24 +79,23 @@ function EntryCard({ entry, compact, onClick, members, t }) {
 
 /* ── Main Calendar View ── */
 export default function CalendarView({ activeProject, updateProject, user, phases, toggleCheckItem }) {
-  const { t } = useTranslation('app')
-  const cal = useContentCalendar({ activeProject, updateProject, user, toggleCheckItem })
+const cal = useContentCalendar({ activeProject, updateProject, user, toggleCheckItem })
   const [showForm, setShowForm] = useState(false)
 
   const members = activeProject?.members || []
   const briefs = activeProject?.contentBriefs || []
 
   const dayNames = useMemo(() => [
-    t('contentOps.days.mon'), t('contentOps.days.tue'), t('contentOps.days.wed'),
-    t('contentOps.days.thu'), t('contentOps.days.fri'), t('contentOps.days.sat'), t('contentOps.days.sun'),
-  ], [t])
+    'Mon', 'Tue', 'Wed',
+    'Thu', 'Fri', 'Sat', 'Sun',
+  ], [])
 
   const monthNames = useMemo(() => [
-    t('contentOps.months.january'), t('contentOps.months.february'), t('contentOps.months.march'),
-    t('contentOps.months.april'), t('contentOps.months.may'), t('contentOps.months.june'),
-    t('contentOps.months.july'), t('contentOps.months.august'), t('contentOps.months.september'),
-    t('contentOps.months.october'), t('contentOps.months.november'), t('contentOps.months.december'),
-  ], [t])
+    'January', 'February', 'March',
+    'April', 'May', 'June',
+    'July', 'August', 'September',
+    'October', 'November', 'December',
+  ], [])
 
   /* ── Week data ── */
   const weekStart = useMemo(() => getWeekStart(cal.viewDate), [cal.viewDate])
@@ -148,9 +146,9 @@ export default function CalendarView({ activeProject, updateProject, user, phase
   const monthLabel = `${monthNames[cal.viewDate.getMonth()]} ${cal.viewDate.getFullYear()}`
 
   const viewModes = useMemo(() => [
-    { id: 'week', icon: List, label: t('contentOps.week') },
-    { id: 'month', icon: LayoutGrid, label: t('contentOps.month') },
-  ], [t])
+    { id: 'week', icon: List, label: 'Week' },
+    { id: 'month', icon: LayoutGrid, label: 'Month' },
+  ], [])
 
   /* nav buttons use .btn-icon class */
 
@@ -158,12 +156,12 @@ export default function CalendarView({ activeProject, updateProject, user, phase
     <div>
       {/* Stats row */}
       <div className="stagger-grid" style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-        <StatCard label={t('contentOps.statTotal')} value={cal.stats.total} />
-        <StatCard label={t('contentOps.status.scheduled')} value={cal.stats.scheduled} iconColor="var(--color-phase-1)" />
-        <StatCard label={t('contentOps.status.in-progress')} value={cal.stats.inProgress} iconColor="var(--color-phase-2)" />
-        <StatCard label={t('contentOps.status.published')} value={cal.stats.published} iconColor="var(--color-phase-3)" />
+        <StatCard label={'Total'} value={cal.stats.total} />
+        <StatCard label={'Scheduled'} value={cal.stats.scheduled} iconColor="var(--color-phase-1)" />
+        <StatCard label={'In Progress'} value={cal.stats.inProgress} iconColor="var(--color-phase-2)" />
+        <StatCard label={'Published'} value={cal.stats.published} iconColor="var(--color-phase-3)" />
         {cal.stats.overdue > 0 && (
-          <StatCard label={t('contentOps.overdue')} value={cal.stats.overdue} iconColor="#EF4444" />
+          <StatCard label={'Overdue'} value={cal.stats.overdue} iconColor="#EF4444" />
         )}
       </div>
 
@@ -177,7 +175,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
             <ChevronLeft size={14} />
           </button>
           <button onClick={cal.goToToday} className="btn-ghost btn-sm">
-            {t('contentOps.today')}
+            {'Today'}
           </button>
           <button onClick={cal.calendarMode === 'week' ? cal.goToNextWeek : cal.goToNextMonth} className="btn-icon" style={{ border: '0.0625rem solid var(--border-subtle)' }}>
             <ChevronRight size={14} />
@@ -210,7 +208,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
             onClick={() => handleDayClick(new Date())}
             className="btn-primary btn-sm"
           >
-            <Plus size={14} /> {t('contentOps.addEntry')}
+            <Plus size={14} /> {'Add Entry'}
           </button>
         </div>
       </div>
@@ -274,7 +272,6 @@ export default function CalendarView({ activeProject, updateProject, user, phase
                       compact={false}
                       onClick={handleEntryClick}
                       members={members}
-                      t={t}
                     />
                   ))}
                 </div>
@@ -346,7 +343,6 @@ export default function CalendarView({ activeProject, updateProject, user, phase
                           compact
                           onClick={handleEntryClick}
                           members={members}
-                          t={t}
                         />
                       ))}
                       {dayEntries.length > 2 && (
@@ -354,7 +350,7 @@ export default function CalendarView({ activeProject, updateProject, user, phase
                           fontSize: '0.5625rem', color: 'var(--text-tertiary)',
                           textAlign: 'center', fontWeight: 600,
                         }}>
-                          {t('contentOps.moreEntries', { count: dayEntries.length - 2 })}
+                          {`+${dayEntries.length - 2} more`}
                         </div>
                       )}
                     </div>
@@ -370,9 +366,9 @@ export default function CalendarView({ activeProject, updateProject, user, phase
       {cal.entries.length === 0 && (
         <EmptyState
           icon={CalendarIcon}
-          title={t('contentOps.emptyTitle')}
-          description={t('contentOps.emptyDesc')}
-          action={{ label: t('contentOps.addEntry'), onClick: () => setShowForm(true) }}
+          title={'No content scheduled yet'}
+          description={'Click any day or the "Add Entry" button to schedule content work. Link entries to checklist tasks to auto-complete them when published.'}
+          action={{ label: 'Add Entry', onClick: () => setShowForm(true) }}
         />
       )}
 

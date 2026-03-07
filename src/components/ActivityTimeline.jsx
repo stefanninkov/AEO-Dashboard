@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   CheckCircle2, XCircle, StickyNote, Zap, Download,
   UserPlus, UserMinus, Clock, MessageSquare, Shield,
@@ -76,8 +75,8 @@ function getDateLabel(dateStr, t) {
   const entryDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
   const diffDays = Math.floor((today - entryDate) / (1000 * 60 * 60 * 24))
 
-  if (diffDays === 0) return t('time.today')
-  if (diffDays === 1) return t('time.yesterday')
+  if (diffDays === 0) return 'Today'
+  if (diffDays === 1) return 'Yesterday'
   return date.toLocaleDateString('en', { month: 'short', day: 'numeric' })
 }
 
@@ -89,21 +88,21 @@ function getRelativeTime(dateStr, t) {
   const diffHours = Math.floor(diffMs / 3600000)
   const diffDays = Math.floor(diffMs / 86400000)
 
-  if (diffMins < 1) return t('time.justNow')
-  if (diffMins < 60) return t('time.minutesAgo', { count: diffMins })
-  if (diffHours < 24) return t('time.hoursAgo', { count: diffHours })
-  if (diffDays < 7) return t('time.daysAgo', { count: diffDays })
+  if (diffMins < 1) return 'Just now'
+  if (diffMins < 60) return `${diffMins}m ago`
+  if (diffHours < 24) return `${diffHours}h ago`
+  if (diffDays < 7) return `${diffDays}d ago`
   return new Date(dateStr).toLocaleDateString('en', { month: 'short', day: 'numeric' })
 }
 
 function getAuthorLabel(activity, currentUserUid, t) {
   if (!activity.authorUid && !activity.authorName) return null
-  if (activity.authorUid === currentUserUid) return t('activity.you')
-  return activity.authorName || t('activity.someone')
+  if (activity.authorUid === currentUserUid) return 'You'
+  return activity.authorName || 'Someone'
 }
 
 function getDescription(activity, currentUserUid, t) {
-  const label = t(TYPE_I18N_KEYS[activity.type] || `activity.type${activity.type}`, { defaultValue: activity.type })
+  const label = activity.type
   const author = getAuthorLabel(activity, currentUserUid, t)
   const prefix = author ? `${author} — ` : ''
 
@@ -166,17 +165,16 @@ function getAvatarColor(uid) {
 }
 
 export default function ActivityTimeline({ activities = [], maxVisible = 10, currentUserUid }) {
-  const { t } = useTranslation()
   const [visibleCount, setVisibleCount] = useState(maxVisible)
   const [filterGroup, setFilterGroup] = useState('all')
   const [filterUser, setFilterUser] = useState('all')
 
   const FILTER_GROUPS = useMemo(() => ({
-    all: { label: t('activity.filterAll') },
-    tasks: { label: t('activity.filterTasks'), types: ['check', 'uncheck', 'note', 'task_assign', 'task_unassign', 'comment'] },
-    team: { label: t('activity.filterTeam'), types: ['member_add', 'member_remove', 'role_change'] },
-    tools: { label: t('activity.filterTools'), types: ['analyze', 'export', 'monitor', 'contentWrite', 'schemaGenerate', 'generateFix', 'competitor_add', 'competitor_remove'] },
-  }), [t])
+    all: { label: 'All' },
+    tasks: { label: 'Tasks', types: ['check', 'uncheck', 'note', 'task_assign', 'task_unassign', 'comment'] },
+    team: { label: 'Team', types: ['member_add', 'member_remove', 'role_change'] },
+    tools: { label: 'Tools', types: ['analyze', 'export', 'monitor', 'contentWrite', 'schemaGenerate', 'generateFix', 'competitor_add', 'competitor_remove'] },
+  }), [])
 
   // Collect unique authors for user filter
   const authors = useMemo(() => {
@@ -221,14 +219,14 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
     })
 
     return groups
-  }, [visibleActivities, t])
+  }, [visibleActivities])
 
   if (activities.length === 0) {
     return (
       <div className="activity-empty">
         <Clock size={20} style={{ color: 'var(--text-disabled)', marginBottom: '0.5rem' }} />
-        <p>{t('activity.noActivity')}</p>
-        <p className="activity-empty-sub">{t('activity.startChecking')}</p>
+        <p>{'No activity yet'}</p>
+        <p className="activity-empty-sub">{'Start checking off tasks to see your progress here.'}</p>
       </div>
     )
   }
@@ -254,10 +252,10 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
               value={filterUser}
               onChange={e => { setFilterUser(e.target.value); setVisibleCount(maxVisible) }}
             >
-              <option value="all">{t('activity.allMembers')}</option>
+              <option value="all">{'All members'}</option>
               {authors.map(([uid, name]) => (
                 <option key={uid} value={uid}>
-                  {uid === currentUserUid ? t('activity.you') : name}
+                  {uid === currentUserUid ? 'You' : name}
                 </option>
               ))}
             </select>
@@ -268,7 +266,7 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
       {filteredActivities.length === 0 ? (
         <div className="activity-empty" style={{ padding: '1rem 0' }}>
           <Filter size={16} style={{ color: 'var(--text-disabled)', marginBottom: '0.375rem' }} />
-          <p>{t('activity.noMatchingActivity')}</p>
+          <p>{'No matching activity'}</p>
         </div>
       ) : (
         <>
@@ -319,7 +317,7 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
               className="activity-show-more"
               onClick={() => setVisibleCount(prev => prev + 10)}
             >
-              {t('actions.showMore', { count: filteredActivities.length - visibleCount })}
+              {`Show more (${filteredActivities.length - visibleCount} remaining)`}
             </button>
           )}
         </>

@@ -17,9 +17,9 @@ export const WEBHOOK_EVENT_GROUPS = {
 // Flat lookup: eventType → group key(s)
 const TYPE_TO_GROUPS = {}
 for (const [groupKey, group] of Object.entries(WEBHOOK_EVENT_GROUPS)) {
-  for (const t of group.types) {
-    if (!TYPE_TO_GROUPS[t]) TYPE_TO_GROUPS[t] = []
-    TYPE_TO_GROUPS[t].push(groupKey)
+  for (const type of group.types) {
+    if (!TYPE_TO_GROUPS[type]) TYPE_TO_GROUPS[type] = []
+    TYPE_TO_GROUPS[type].push(groupKey)
   }
 }
 

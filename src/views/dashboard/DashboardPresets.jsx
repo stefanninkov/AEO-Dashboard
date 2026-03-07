@@ -1,5 +1,4 @@
 import { useState, useCallback, memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { LayoutGrid, Search, FileText, Swords, ChevronDown } from 'lucide-react'
 
 export const PRESET_IDS = {
@@ -75,8 +74,7 @@ export function isSectionVisible(presetId, sectionName) {
 
 /** Dropdown layout switcher for the dashboard header */
 const DashboardPresetSwitcher = memo(function DashboardPresetSwitcher({ activePreset, onSelect }) {
-  const { t } = useTranslation('app')
-  const [open, setOpen] = useState(false)
+const [open, setOpen] = useState(false)
   const current = getPresetById(activePreset)
   const Icon = current.icon
 
@@ -102,7 +100,7 @@ const DashboardPresetSwitcher = memo(function DashboardPresetSwitcher({ activePr
         aria-haspopup="listbox"
       >
         <Icon size={14} style={{ color: 'var(--accent)' }} />
-        <span>{t(current.i18nKey, current.fallbackLabel)}</span>
+        <span>{current.fallbackLabel}</span>
         <ChevronDown size={12} style={{
           color: 'var(--text-tertiary)',
           transition: 'transform 0.2s',
@@ -159,13 +157,13 @@ const DashboardPresetSwitcher = memo(function DashboardPresetSwitcher({ activePr
                       fontSize: 'var(--text-xs)', fontWeight: 600,
                       color: isActive ? 'var(--accent)' : 'var(--text-primary)',
                     }}>
-                      {t(preset.i18nKey, preset.fallbackLabel)}
+                      {preset.fallbackLabel}
                     </div>
                     <div style={{
                       fontSize: 'var(--text-2xs)', color: 'var(--text-tertiary)',
                       marginTop: '2px', lineHeight: 1.3,
                     }}>
-                      {t(preset.description, preset.fallbackDesc)}
+                      {preset.fallbackDesc}
                     </div>
                   </div>
                 </button>

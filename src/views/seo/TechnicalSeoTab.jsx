@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   CheckCircle2, XCircle, MinusCircle, ExternalLink, Wrench,
   Globe, Loader2, Shield, Server, Zap, ChevronDown, ChevronUp, Lightbulb,
@@ -271,7 +270,6 @@ function ServerDataSection({ serverData, url }) {
 
 /* ── Core Web Vitals via PageSpeed Insights API ── */
 function CoreWebVitals({ url }) {
-  const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -426,14 +424,14 @@ function CoreWebVitals({ url }) {
               </p>
             </div>
             <button onClick={fetchCWV} className="btn-secondary" style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}>
-              {t('actions.retry')} {retryCount > 0 ? `(attempt ${retryCount + 1})` : ''}
+              {'Retry'} {retryCount > 0 ? `(attempt ${retryCount + 1})` : ''}
             </button>
           </>
         ) : (
           <>
             <p style={{ fontSize: '0.8125rem', color: 'var(--color-error)', marginBottom: '0.75rem' }}>{error}</p>
             <button onClick={fetchCWV} className="btn-secondary" style={{ padding: '0.375rem 0.75rem', fontSize: '0.75rem' }}>
-              {t('actions.retry')}
+              {'Retry'}
             </button>
           </>
         )}
@@ -582,17 +580,16 @@ function MetricRow({ metric, metricColor }) {
 }
 
 export default function TechnicalSeoTab({ analyzer }) {
-  const { t } = useTranslation('app')
-  const { lastScan } = analyzer
+const { lastScan } = analyzer
 
   if (!lastScan) {
     return (
       <div style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--text-tertiary)' }}>
         <Wrench size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-          {t('seo.noScans')}
+          {'No SEO scans yet'}
         </h3>
-        <p style={{ fontSize: '0.875rem' }}>{t('seo.runAuditFirst')}</p>
+        <p style={{ fontSize: '0.875rem' }}>{'Run an SEO audit first from the SEO Audit tab.'}</p>
       </div>
     )
   }
@@ -615,7 +612,7 @@ export default function TechnicalSeoTab({ analyzer }) {
       }}>
         <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Shield size={16} style={{ color: 'var(--accent)' }} />
-          {t('seo.technical.urlTechnical')}
+          {'URL & Technical SEO'}
         </h3>
         {urlTechChecks.map((check, i) => <CheckRow key={i} check={check} />)}
       </div>
@@ -627,7 +624,7 @@ export default function TechnicalSeoTab({ analyzer }) {
       }}>
         <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Globe size={16} style={{ color: 'var(--accent)' }} />
-          {t('seo.technical.socialSharing')}
+          {'Social & Sharing Meta'}
         </h3>
         {socialChecks.map((check, i) => <CheckRow key={i} check={check} />)}
       </div>
@@ -647,10 +644,10 @@ export default function TechnicalSeoTab({ analyzer }) {
         }}>
           <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <ExternalLink size={16} style={{ color: 'var(--accent)' }} />
-            {t('seo.coveredInAeo')}
+            {'Also Covered in AEO Analyzer'}
           </h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
-            {t('seo.coveredInAeoDesc')}
+            {'These checks are scored in detail in the Analyzer tab. Shown here for reference.'}
           </p>
           {[...aeoTechChecks, ...aeoDiscoverChecks].map((check, i) => <CheckRow key={i} check={check} />)}
         </div>

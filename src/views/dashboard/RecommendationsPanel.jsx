@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { ArrowRight, Lightbulb, AlertTriangle, TrendingUp, CheckCircle2 } from 'lucide-react'
 
 const CATEGORY_COLORS = {
@@ -20,18 +19,16 @@ function PriorityIcon({ priority }) {
 }
 
 export default function RecommendationsPanel({ recommendations, contextLine }) {
-  const { t } = useTranslation('app')
-
-  const CATEGORY_META = useMemo(() => ({
-    getting_started: { label: t('dashboard.recommendations.setup'), color: CATEGORY_COLORS.getting_started },
-    checklist: { label: t('dashboard.recommendations.checklist'), color: CATEGORY_COLORS.checklist },
-    metrics: { label: t('dashboard.recommendations.metrics'), color: CATEGORY_COLORS.metrics },
-    content: { label: t('dashboard.recommendations.content'), color: CATEGORY_COLORS.content },
-    monitoring: { label: t('dashboard.recommendations.monitoring'), color: CATEGORY_COLORS.monitoring },
-    competitors: { label: t('dashboard.recommendations.competitors'), color: CATEGORY_COLORS.competitors },
-    analysis: { label: t('dashboard.recommendations.analysis'), color: CATEGORY_COLORS.analysis },
-    schema: { label: t('dashboard.recommendations.schema'), color: CATEGORY_COLORS.schema },
-  }), [t])
+const CATEGORY_META = useMemo(() => ({
+    getting_started: { label: 'Setup', color: CATEGORY_COLORS.getting_started },
+    checklist: { label: 'Checklist', color: CATEGORY_COLORS.checklist },
+    metrics: { label: 'Metrics', color: CATEGORY_COLORS.metrics },
+    content: { label: 'Content', color: CATEGORY_COLORS.content },
+    monitoring: { label: 'Monitoring', color: CATEGORY_COLORS.monitoring },
+    competitors: { label: 'Competitors', color: CATEGORY_COLORS.competitors },
+    analysis: { label: 'Analysis', color: CATEGORY_COLORS.analysis },
+    schema: { label: 'Schema', color: CATEGORY_COLORS.schema },
+  }), [])
 
   if (!recommendations || recommendations.length === 0) return null
 
@@ -40,18 +37,18 @@ export default function RecommendationsPanel({ recommendations, contextLine }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: contextLine ? '0.25rem' : '0.875rem' }}>
         <Lightbulb size={16} style={{ color: 'var(--color-phase-5)' }} />
         <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', flex: 1 }}>
-          {t('dashboard.recommendations.title')}
+          {'Smart Recommendations'}
         </h3>
         <span style={{
           fontSize: '0.6875rem', color: 'var(--text-tertiary)',
           fontFamily: 'var(--font-heading)', fontWeight: 500,
         }}>
-          {t('dashboard.recommendations.suggestionCount', { count: recommendations.length })}
+          {`${recommendations.length} suggestions`}
         </span>
       </div>
       {contextLine && (
         <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem', paddingLeft: '1.5rem' }}>
-          {t('dashboard.recommendations.tailoredFor', { context: contextLine })}
+          {`Tailored for ${contextLine}`}
         </p>
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -89,7 +86,7 @@ export default function RecommendationsPanel({ recommendations, contextLine }) {
                       padding: '0.0625rem 0.375rem', borderRadius: '0.25rem',
                       background: 'rgba(239,68,68,0.1)',
                     }}>
-                      {t('dashboard.recommendations.highPriority')}
+                      {'High Priority'}
                     </span>
                   )}
                 </div>

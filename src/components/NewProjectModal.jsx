@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
 import { X, Plus, Rocket, AlertCircle, Loader2 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
 /**
@@ -73,8 +72,7 @@ async function checkUrlReachable(urlStr) {
 }
 
 export default function NewProjectModal({ onClose, onCreate, required }) {
-  const { t } = useTranslation('app')
-  const [name, setName] = useState('')
+const [name, setName] = useState('')
   const [url, setUrl] = useState('')
   const [urlError, setUrlError] = useState('')
   const [urlTouched, setUrlTouched] = useState(false)
@@ -84,17 +82,17 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
   const validateUrl = useCallback((value) => {
     const trimmed = value.trim()
     if (!trimmed) {
-      setUrlError(t('newProject.urlRequired'))
+      setUrlError('Website URL is required')
       return false
     }
     const normalized = normalizeUrl(trimmed)
     if (!isValidUrl(normalized)) {
-      setUrlError(t('newProject.invalidUrl'))
+      setUrlError('Please enter a valid URL (e.g., https://example.com)')
       return false
     }
     setUrlError('')
     return true
-  }, [t])
+  }, [])
 
   const handleUrlChange = (e) => {
     const val = e.target.value
@@ -118,7 +116,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
     const finalUrl = normalizeUrl(url)
     if (!finalUrl || !validateUrl(finalUrl)) {
       setUrlTouched(true)
-      if (!finalUrl) setUrlError(t('newProject.urlRequired'))
+      if (!finalUrl) setUrlError('Website URL is required')
       return
     }
 
@@ -128,7 +126,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
     setChecking(false)
 
     if (!reachable) {
-      setUrlError(t('newProject.urlUnreachable'))
+      setUrlError('This website doesn\'t seem to exist. Please check the URL and try again.')
       return
     }
 
@@ -151,7 +149,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: required ? 8 : 24 }}>
           <h2 id="new-project-title" style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, color: 'var(--text-primary)' }}>
-            {required ? t('newProject.createFirst') : t('newProject.title')}
+            {required ? 'Create Your First Project' : 'New Project'}
           </h2>
           {!required && (
             <button
@@ -169,7 +167,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
 
         {required && (
           <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 24, lineHeight: 1.5 }}>
-            {t('newProject.helpText')}
+            {'Each project tracks a website\'s AEO optimization progress, metrics, and competitive analysis.'}
           </p>
         )}
 
@@ -177,12 +175,12 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
             <label htmlFor="project-name" style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
-              {t('newProject.projectName')}
+              {'Project Name'}
             </label>
             <input
               id="project-name"
               type="text"
-              placeholder={t('newProject.namePlaceholder')}
+              placeholder={'My Website'}
               value={name}
               onChange={e => setName(e.target.value)}
               className="input-field"
@@ -192,12 +190,12 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
 
           <div>
             <label htmlFor="project-url" style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
-              {t('newProject.websiteUrl')} <span style={{ fontWeight: 400, color: 'var(--color-error)', fontSize: 10 }}>*</span>
+              {'Website URL'} <span style={{ fontWeight: 400, color: 'var(--color-error)', fontSize: 10 }}>*</span>
             </label>
             <input
               id="project-url"
               type="text"
-              placeholder={t('newProject.urlPlaceholder')}
+              placeholder={'https://example.com'}
               value={url}
               onChange={handleUrlChange}
               onBlur={handleUrlBlur}
@@ -227,7 +225,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
               ) : (
                 <Plus size={14} />
               )}
-              {checking ? t('newProject.checkingUrl') : required ? t('newProject.getStarted') : t('newProject.createProject')}
+              {checking ? 'Verifying...' : required ? 'Get Started' : 'Create Project'}
             </button>
             {!required && (
               <button
@@ -235,7 +233,7 @@ export default function NewProjectModal({ onClose, onCreate, required }) {
                 onClick={onClose}
                 className="btn-secondary"
               >
-                {t('newProject.cancel')}
+                {'Cancel'}
               </button>
             )}
           </div>

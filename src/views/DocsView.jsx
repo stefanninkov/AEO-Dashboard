@@ -1,5 +1,4 @@
 import { useState, useRef, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   SearchCheck, BookOpen, ChevronRight, ChevronDown, Gauge,
   Users, Sparkles, PenTool, CalendarDays, Code2, Activity,
@@ -514,8 +513,7 @@ export const FAQ_ITEMS = [
 
 /* ─── Component ───────────────────────────────────────────────── */
 export default function DocsView({ phases, setDocItem, setActiveView }) {
-  const { t } = useTranslation('docs')
-  const [activeTab, setActiveTab] = useState('guide')
+const [activeTab, setActiveTab] = useState('guide')
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
   const [searchQuery, setSearchQuery] = useState('')
@@ -527,19 +525,19 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
   /* ─── Translated section data ──────────────────────────────── */
   const translatedSections = useMemo(() => APP_SECTIONS.map(section => ({
     ...section,
-    title: t(`sections.${section.id}.title`),
-    description: t(`sections.${section.id}.description`),
+    title: 'Title',
+    description: 'Description',
     items: section.items.map((item, idx) => ({
       ...item,
-      title: t(`sections.${section.id}.items.${idx}.title`),
-      body: t(`sections.${section.id}.items.${idx}.body`),
+      title: 'Title',
+      body: 'Body',
     })),
-  })), [t])
+  })), [])
 
   const translatedFaq = useMemo(() => FAQ_ITEMS.map((item, idx) => ({
-    q: t(`faq.${idx}.q`),
-    a: t(`faq.${idx}.a`),
-  })), [t])
+    q: 'Q',
+    a: 'A',
+  })), [])
 
   const toggleSection = (id) => {
     setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }))
@@ -611,18 +609,18 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
   }, [debouncedSearch, activeTab, translatedFaq])
 
   const TABS = useMemo(() => [
-    { id: 'guide', label: t('tabs.guide'), icon: Lightbulb },
-    { id: 'reference', label: t('tabs.reference'), icon: BookOpen },
-    { id: 'faq', label: t('tabs.faq'), icon: HelpCircle },
-  ], [t])
+    { id: 'guide', label: 'App Guide', icon: Lightbulb },
+    { id: 'reference', label: 'AEO Reference', icon: BookOpen },
+    { id: 'faq', label: 'FAQ', icon: HelpCircle },
+  ], [])
 
   return (
     <div className="view-wrapper">
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('title')}</h2>
-          <p className="view-subtitle">{t('subtitle')}</p>
+          <h2 className="view-title">{'Documentation & Help'}</h2>
+          <p className="view-subtitle">{'Learn how to use each tool and understand AEO best practices.'}</p>
         </div>
       </div>
 
@@ -653,9 +651,9 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
         <input
           type="text"
           placeholder={
-            activeTab === 'guide' ? t('searchFeatures') :
-            activeTab === 'faq' ? t('searchQuestions') :
-            t('searchPlaceholder')
+            activeTab === 'guide' ? 'Search features...' :
+            activeTab === 'faq' ? 'Search questions...' :
+            'Search documentation...'
           }
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
@@ -727,7 +725,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        {t('open')} <ArrowRight size={10} />
+                        {'Open'} <ArrowRight size={10} />
                       </span>
                     )}
                     <ChevronDown
@@ -786,8 +784,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <SearchCheck size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('noMatchingFeatures')}</h3>
-              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{t('tryDifferentSearch')}</p>
+              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{'No matching features found'}</h3>
+              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{'Try a different search term.'}</p>
             </div>
           )}
         </div>
@@ -803,7 +801,7 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               className={`docs-filter-pill${!selectedPhase ? ' active' : ''}`}
               style={!selectedPhase ? { backgroundColor: 'var(--accent)' } : undefined}
             >
-              {t('allPhases')}
+              {'All Phases'}
             </button>
             {phases.map(phase => (
               <button
@@ -812,14 +810,14 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
                 className={`docs-filter-pill${selectedPhase === phase.id ? ' active' : ''}`}
                 style={selectedPhase === phase.id ? { backgroundColor: phase.color } : undefined}
               >
-                {phase.Icon && <phase.Icon size={13} style={{ marginRight: '0.25rem' }} />} {t('phase')} {phase.number}
+                {phase.Icon && <phase.Icon size={13} style={{ marginRight: '0.25rem' }} />} {'Phase'} {phase.number}
               </button>
             ))}
           </div>
 
           {/* Doc count */}
           <p className="docs-count">
-            {t('showingDocs', { shown: filteredDocs.length, total: allDocs.length })}
+            {`Showing ${filteredDocs.length} of ${allDocs.length} documents`}
           </p>
 
           {/* Doc List - grouped by phase */}
@@ -827,8 +825,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
             <div key={phase.id} className="docs-phase-group">
               <div className="docs-phase-header">
                 <span className="docs-phase-icon" style={{ color: phase.color, display: 'inline-flex' }}>{phase.Icon ? <phase.Icon size={16} /> : null}</span>
-                <span className="docs-phase-label">{t('phase')} {phase.number}: {phase.title}</span>
-                <span className="docs-phase-count">{phase.docs.length} {phase.docs.length === 1 ? t('doc') : t('docs')}</span>
+                <span className="docs-phase-label">{'Phase'} {phase.number}: {phase.title}</span>
+                <span className="docs-phase-count">{phase.docs.length} {phase.docs.length === 1 ? 'doc' : 'docs'}</span>
               </div>
               {phase.docs.map(doc => (
                 <button
@@ -862,8 +860,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <BookOpen size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('noResults')}</h3>
-              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{t('noResultsDesc')}</p>
+              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{'No matching results'}</h3>
+              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{'Try adjusting your search or phase filter to find what you\'re looking for.'}</p>
             </div>
           )}
         </>
@@ -933,8 +931,8 @@ export default function DocsView({ phases, setDocItem, setActiveView }) {
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <HelpCircle size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{t('noMatchingQuestions')}</h3>
-              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{t('tryDifferentSearch')}</p>
+              <h3 className="font-heading text-[0.8125rem] font-bold mb-1 text-text-primary">{'No matching questions'}</h3>
+              <p className="text-[0.75rem] text-text-tertiary text-center max-w-xs">{'Try a different search term.'}</p>
             </div>
           )}
         </div>

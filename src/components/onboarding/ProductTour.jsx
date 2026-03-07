@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { X, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react'
 
 const TOUR_STEPS = [
@@ -66,8 +65,7 @@ function getTooltipStyle(position, rect) {
 }
 
 const ProductTour = memo(function ProductTour({ onComplete, onSkip }) {
-  const { t } = useTranslation('app')
-  const [step, setStep] = useState(0)
+const [step, setStep] = useState(0)
   const [targetRect, setTargetRect] = useState(null)
   const tooltipRef = useRef(null)
 
@@ -139,7 +137,7 @@ const ProductTour = memo(function ProductTour({ onComplete, onSkip }) {
         <div
           ref={tooltipRef}
           role="dialog"
-          aria-label={t(currentStep.i18nTitle, currentStep.fallbackTitle)}
+          aria-label={currentStep.fallbackTitle}
           style={{
             ...getTooltipStyle(currentStep.position, targetRect),
             width: '18rem', maxWidth: 'calc(100vw - 2rem)',
@@ -161,14 +159,14 @@ const ProductTour = memo(function ProductTour({ onComplete, onSkip }) {
                 fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 color: 'var(--text-primary)',
               }}>
-                {t(currentStep.i18nTitle, currentStep.fallbackTitle)}
+                {currentStep.fallbackTitle}
               </span>
             </div>
             <button
               onClick={handleSkip}
               className="btn-ghost"
               style={{ padding: '2px', borderRadius: 'var(--radius-sm)' }}
-              aria-label={t('tour.skip', 'Skip tour')}
+              aria-label={'Skip tour'}
             >
               <X size={14} />
             </button>
@@ -178,7 +176,7 @@ const ProductTour = memo(function ProductTour({ onComplete, onSkip }) {
             fontSize: 'var(--text-xs)', color: 'var(--text-secondary)',
             lineHeight: 1.5, marginBottom: 'var(--space-4)',
           }}>
-            {t(currentStep.i18nBody, currentStep.fallbackBody)}
+            {currentStep.fallbackBody}
           </p>
 
           {/* Progress dots + nav */}
@@ -203,11 +201,11 @@ const ProductTour = memo(function ProductTour({ onComplete, onSkip }) {
               {step > 0 && (
                 <button onClick={handlePrev} className="btn-ghost btn-sm" style={{ fontSize: 'var(--text-xs)' }}>
                   <ChevronLeft size={12} />
-                  {t('tour.prev', 'Back')}
+                  {'Back'}
                 </button>
               )}
               <button onClick={handleNext} className="btn-primary btn-sm" style={{ fontSize: 'var(--text-xs)' }}>
-                {step === TOUR_STEPS.length - 1 ? t('tour.finish', 'Finish') : t('tour.next', 'Next')}
+                {step === TOUR_STEPS.length - 1 ? 'Finish' : 'Next'}
                 {step < TOUR_STEPS.length - 1 && <ChevronRight size={12} />}
               </button>
             </div>

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   FileText, MessageSquare, Globe, Target, TrendingUp, TrendingDown, Minus,
   Loader2, AlertCircle, RefreshCw, ChartSpline
@@ -150,8 +149,7 @@ const TAB_IDS = ['overview', 'citations', 'prompts', 'engines', 'heatmap']
 
 /* ── Main MetricsView ── */
 export default function MetricsView({ activeProject, updateProject, dateRange }) {
-  const { t } = useTranslation('app')
-  const { engineColors: themeEngineColors } = useChartColors()
+const { engineColors: themeEngineColors } = useChartColors()
   const [activeTab, setActiveTab] = useState('overview')
   const tabsRef = useRef(null)
   const metricsGridRef = useRef(null)
@@ -190,8 +188,8 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
     return (
       <EmptyState
         icon={ChartSpline}
-        title={t('metrics.noProjectSelected')}
-        description={t('metrics.noProjectSelectedDesc')}
+        title={'No Project Selected'}
+        description={'Select a project to view its AEO metrics.'}
       />
     )
   }
@@ -201,9 +199,9 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('metrics.title')}</h2>
+          <h2 className="view-title">{'Metrics & Analytics'}</h2>
           <p className="view-subtitle">
-            {activeProject.name} — {activeProject.url || t('metrics.noUrlSet')}
+            {activeProject.name} — {activeProject.url || 'No URL set'}
           </p>
         </div>
         <div className="view-header-actions">
@@ -213,7 +211,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
             className="metrics-run-btn"
           >
             {refreshing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-            {refreshing ? t('metrics.analyzing') : t('metrics.runAnalysis')}
+            {refreshing ? 'Analyzing...' : 'Run Analysis'}
           </button>
         </div>
       </div>
@@ -240,7 +238,7 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
             onClick={() => setActiveTab(id)}
             className="tab-segmented"
           >
-            {t(`metrics.tabs.${id}`)}
+            {'${id}'}
           </button>
         ))}
       </div>
@@ -250,12 +248,12 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
         <>
           <EmptyState
             icon={ChartSpline}
-            title={t('metrics.noData')}
-            description={t('metrics.clickRunAnalysis')}
-            action={{ label: t('metrics.runAnalysis'), onClick: fetchMetrics }}
+            title={'No metrics data yet. Complete checklist items and run analyses to generate metrics.'}
+            description={'Click "Run Analysis" to fetch real-time AEO metrics for your project using AI-powered analysis.'}
+            action={{ label: 'Run Analysis', onClick: fetchMetrics }}
           />
           {!activeProject.url && (
-            <p className="text-xs text-warning" style={{ textAlign: 'center', marginTop: 'var(--space-2)' }}>{t('metrics.setUrlFirst')}</p>
+            <p className="text-xs text-warning" style={{ textAlign: 'center', marginTop: 'var(--space-2)' }}>{'Set a project URL first in the project settings.'}</p>
           )}
         </>
       ) : metrics && (
@@ -273,34 +271,33 @@ export default function MetricsView({ activeProject, updateProject, dateRange })
 
 /* ── Tab: Overview ── */
 function OverviewTab({ metrics, rangeMetrics }) {
-  const { t } = useTranslation('app')
-  const citationChange = metrics.citations?.change || 0
+const citationChange = metrics.citations?.change || 0
 
   return (
     <div className="space-y-6">
       {/* Metric Cards */}
-      <div ref={metricsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-grid" role="grid" aria-label={t('metrics.title')}>
+      <div ref={metricsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-grid" role="grid" aria-label={'Metrics & Analytics'}>
         <StatCard
-          label={t('metrics.totalAiCitations')}
+          label={'Total AI Citations'}
           value={metrics.citations?.total?.toLocaleString() || '0'}
           trend={citationChange || undefined}
           icon={<FileText size={18} />}
           iconColor="var(--color-phase-2)"
         />
         <StatCard
-          label={t('metrics.queriesTracked')}
+          label={'Queries Tracked'}
           value={metrics.prompts?.total?.toLocaleString() || '0'}
           icon={<MessageSquare size={18} />}
           iconColor="var(--color-phase-1)"
         />
         <StatCard
-          label={t('metrics.aiEnginesLabel')}
+          label={'AI Engines'}
           value={metrics.citations?.byEngine?.filter(e => e.citations > 0).length || '0'}
           icon={<Globe size={18} />}
           iconColor="var(--color-phase-3)"
         />
         <StatCard
-          label={t('metrics.aeoScoreLabel')}
+          label={'AEO Score'}
           value={`${metrics.overallScore || 0}/100`}
           icon={<Target size={18} />}
           iconColor="var(--color-phase-5)"
@@ -311,7 +308,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Citations by Engine */}
         <div className="metrics-chart-card">
-          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.citationsByEngine')}</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{'Citations by AI Engine'}</h3>
           {metrics.citations?.byEngine?.length > 0 ? (
             <BarChart
               data={metrics.citations.byEngine.map(e => ({
@@ -322,13 +319,13 @@ function OverviewTab({ metrics, rangeMetrics }) {
               height={200}
             />
           ) : (
-            <p className="text-sm text-text-tertiary py-8 text-center">{t('metrics.noCitationData')}</p>
+            <p className="text-sm text-text-tertiary py-8 text-center">{'No citation data available'}</p>
           )}
         </div>
 
         {/* AEO Score Gauge */}
         <div className="metrics-chart-card">
-          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.overallScore')}</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{'Overall Score'}</h3>
           <div className="flex flex-col items-center justify-center py-4">
             <div className="relative w-40 h-40">
               <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
@@ -344,11 +341,11 @@ function OverviewTab({ metrics, rangeMetrics }) {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="font-heading text-3xl font-bold">{metrics.overallScore || 0}</span>
-                <span className="text-xs text-text-tertiary">{t('metrics.outOf100')}</span>
+                <span className="text-xs text-text-tertiary">{'out of 100'}</span>
               </div>
             </div>
             <p className="text-sm text-text-tertiary mt-3">
-              {metrics.overallScore >= 70 ? t('metrics.scoreStrong') : metrics.overallScore >= 40 ? t('metrics.scoreModerate') : t('metrics.scoreLow')}
+              {metrics.overallScore >= 70 ? 'Strong AEO presence' : metrics.overallScore >= 40 ? 'Moderate — room for improvement' : 'Low visibility — optimize your content'}
             </p>
           </div>
         </div>
@@ -357,18 +354,18 @@ function OverviewTab({ metrics, rangeMetrics }) {
       {/* Page Performance Table */}
       {metrics.pages?.length > 0 && (
         <div className="metrics-chart-card">
-          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.pagePerformance')}</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{'Page Performance'}</h3>
           <DataTable
             columns={[
-              { key: 'pageTitle', label: t('metrics.colPage'), render: (row) => (
+              { key: 'pageTitle', label: 'Page', render: (row) => (
                 <div>
                   <p className="font-medium">{row.pageTitle}</p>
                   <p className="text-xs text-phase-3">{row.pageUrl}</p>
                 </div>
               )},
-              { key: 'citations', label: t('metrics.colCitations'), align: 'right' },
-              { key: 'aiIndexing', label: t('metrics.colAiIndexing'), align: 'right' },
-              { key: 'botReferralPercent', label: t('metrics.colBotReferral'), align: 'right', render: (row) => `${row.botReferralPercent || 0}%` },
+              { key: 'citations', label: 'Citations', align: 'right' },
+              { key: 'aiIndexing', label: 'AI Indexing', align: 'right' },
+              { key: 'botReferralPercent', label: 'Bot Referral %', align: 'right', render: (row) => `${row.botReferralPercent || 0}%` },
             ]}
             rows={metrics.pages}
           />
@@ -378,7 +375,7 @@ function OverviewTab({ metrics, rangeMetrics }) {
       {/* History trend */}
       {rangeMetrics.length > 1 && (
         <div className="metrics-chart-card">
-          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.trend')}</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{'Trend'}</h3>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={rangeMetrics.slice(-14).map(m => ({
               date: new Date(m.timestamp).toLocaleDateString('en', { month: 'short', day: 'numeric' }),
@@ -399,25 +396,24 @@ function OverviewTab({ metrics, rangeMetrics }) {
 
 /* ── Tab: Citations ── */
 function CitationsTab({ metrics }) {
-  const { t } = useTranslation('app')
-  return (
+return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-grid">
         <StatCard
-          label={t('metrics.totalCitationsLabel')}
+          label={'Total Citations'}
           value={metrics.citations?.total?.toLocaleString() || '0'}
           trend={metrics.citations?.change || undefined}
           icon={<FileText size={18} />}
           iconColor="var(--color-phase-2)"
         />
         <StatCard
-          label={t('metrics.citationRateLabel')}
+          label={'Citation Rate'}
           value={`${metrics.citations?.rate || 0}%`}
           icon={<TrendingUp size={18} />}
           iconColor="var(--color-phase-4)"
         />
         <StatCard
-          label={t('metrics.uniqueSources')}
+          label={'Unique Sources'}
           value={metrics.citations?.uniqueSources || '0'}
           icon={<Globe size={18} />}
           iconColor="var(--color-phase-3)"
@@ -426,7 +422,7 @@ function CitationsTab({ metrics }) {
 
       {/* Engine breakdown */}
       <div className="metrics-chart-card">
-        <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.citationsByEngine')}</h3>
+        <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{'Citations by AI Engine'}</h3>
         <div className="space-y-3">
           {metrics.citations?.byEngine?.sort((a, b) => b.citations - a.citations).map((engine, i) => (
             <HorizontalBar
@@ -444,13 +440,13 @@ function CitationsTab({ metrics }) {
       {/* Page table */}
       {metrics.pages?.length > 0 && (
         <div className="metrics-chart-card">
-          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.pageCitations')}</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{'Page Citations'}</h3>
           <DataTable
             columns={[
-              { key: 'pageTitle', label: t('metrics.colPage') },
-              { key: 'pageUrl', label: t('metrics.colUrl'), render: (row) => <span className="text-phase-3">{row.pageUrl}</span> },
-              { key: 'citations', label: t('metrics.colCitations'), align: 'right' },
-              { key: 'aiIndexing', label: t('metrics.colAiScore'), align: 'right' },
+              { key: 'pageTitle', label: 'Page' },
+              { key: 'pageUrl', label: 'URL', render: (row) => <span className="text-phase-3">{row.pageUrl}</span> },
+              { key: 'citations', label: 'Citations', align: 'right' },
+              { key: 'aiIndexing', label: 'AI Score', align: 'right' },
             ]}
             rows={metrics.pages}
           />
@@ -462,24 +458,23 @@ function CitationsTab({ metrics }) {
 
 /* ── Tab: Prompts ── */
 function PromptsTab({ metrics }) {
-  const { t } = useTranslation('app')
-  return (
+return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-grid">
         <StatCard
-          label={t('metrics.totalPrompts')}
+          label={'Total Prompts'}
           value={metrics.prompts?.total || '0'}
           icon={<MessageSquare size={18} />}
           iconColor="var(--color-phase-1)"
         />
         <StatCard
-          label={t('metrics.avgPromptLength')}
-          value={t('metrics.wordsCount', { count: metrics.prompts?.avgLength || 0 })}
+          label={'Avg Prompt Length'}
+          value={`${metrics.prompts?.avgLength || 0} words`}
           icon={<FileText size={18} />}
           iconColor="var(--color-phase-5)"
         />
         <StatCard
-          label={t('metrics.categories')}
+          label={'Categories'}
           value={metrics.prompts?.byCategory?.length || '0'}
           icon={<Target size={18} />}
           iconColor="var(--color-phase-4)"
@@ -488,7 +483,7 @@ function PromptsTab({ metrics }) {
 
       {metrics.prompts?.byCategory?.length > 0 && (
         <div className="metrics-chart-card">
-          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{t('metrics.queryCategories')}</h3>
+          <h3 className="font-heading text-[0.8125rem] font-bold mb-4 text-text-primary">{'Query Categories'}</h3>
           <div className="space-y-3">
             {metrics.prompts.byCategory.sort((a, b) => b.volume - a.volume).map((cat, i) => (
               <HorizontalBar
@@ -506,7 +501,7 @@ function PromptsTab({ metrics }) {
       {(!metrics.prompts?.byCategory?.length) && (
         <div className="metrics-chart-card text-center" style={{ padding: '2rem' }}>
           <MessageSquare size={32} className="text-text-tertiary mx-auto mb-3" />
-          <p className="text-sm text-text-tertiary">{t('metrics.addQueriesToSee')}</p>
+          <p className="text-sm text-text-tertiary">{'Add queries to your Query Tracker in the Testing tab to see prompt analytics.'}</p>
         </div>
       )}
     </div>
@@ -515,8 +510,7 @@ function PromptsTab({ metrics }) {
 
 /* ── Tab: AI Engines ── */
 function EnginesTab({ metrics, questionnaire }) {
-  const { t } = useTranslation('app')
-  const engines = metrics.citations?.byEngine?.filter(e => e.citations > 0) || []
+const engines = metrics.citations?.byEngine?.filter(e => e.citations > 0) || []
   const totalCitations = engines.reduce((s, e) => s + e.citations, 0)
   const filteredEngines = getFilteredEngines(questionnaire, AI_ENGINES)
 
@@ -524,7 +518,7 @@ function EnginesTab({ metrics, questionnaire }) {
     <div className="space-y-6">
       {/* Pie chart + legend */}
       <div className="metrics-chart-card">
-        <h3 className="font-heading text-sm font-bold mb-6">{t('metrics.marketShareByEngine')}</h3>
+        <h3 className="font-heading text-sm font-bold mb-6">{'Market Share by AI Engine'}</h3>
         {engines.length > 0 ? (
           <PieChart
             data={engines.map(e => ({
@@ -535,7 +529,7 @@ function EnginesTab({ metrics, questionnaire }) {
             size={180}
           />
         ) : (
-          <p className="text-sm text-text-tertiary text-center py-8">{t('metrics.runForDistribution')}</p>
+          <p className="text-sm text-text-tertiary text-center py-8">{'Run an analysis to see engine distribution.'}</p>
         )}
       </div>
 
@@ -551,12 +545,12 @@ function EnginesTab({ metrics, questionnaire }) {
                 </div>
                 <div>
                   <p className="text-sm font-medium">{engine.name}</p>
-                  <p className="text-xs text-text-tertiary">{t('metrics.sharePercent', { value: data?.share || 0 })}</p>
+                  <p className="text-xs text-text-tertiary">{`${data?.share || 0}% share`}</p>
                 </div>
               </div>
               <p className="font-heading text-xl font-bold">
                 {data?.citations || 0}
-                <span className="text-xs text-text-tertiary font-normal ml-1">{t('metrics.citationsLabel')}</span>
+                <span className="text-xs text-text-tertiary font-normal ml-1">{'citations'}</span>
               </p>
             </div>
           )
@@ -571,9 +565,7 @@ function EnginesTab({ metrics, questionnaire }) {
 
 /* ── Tab: Performance Heatmap ── */
 function PerformanceHeatmapTab({ metrics, activeProject }) {
-  const { t } = useTranslation('app')
-
-  const heatmapData = useMemo(() => {
+const heatmapData = useMemo(() => {
     const engines = Object.keys(metrics?.engines || {})
     const dimensions = ['citations', 'prompts', 'visibility', 'accuracy']
     const data = []
@@ -596,8 +588,8 @@ function PerformanceHeatmapTab({ metrics, activeProject }) {
     return (
       <EmptyState
         icon={ChartSpline}
-        title={t('metrics.noEngineData', 'No engine data yet')}
-        description={t('metrics.runAnalysisForHeatmap', 'Run an analysis to see performance across engines.')}
+        title={'No engine data yet'}
+        description={'Run an analysis to see performance across engines.'}
       />
     )
   }
@@ -605,10 +597,10 @@ function PerformanceHeatmapTab({ metrics, activeProject }) {
   return (
     <div className="card" style={{ padding: '1.25rem' }}>
       <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
-        {t('metrics.performanceHeatmap', 'Engine Performance Heatmap')}
+        {'Engine Performance Heatmap'}
       </h3>
       <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '1rem' }}>
-        {t('metrics.heatmapDesc', 'Performance breakdown across AI engines and dimensions.')}
+        {'Performance breakdown across AI engines and dimensions.'}
       </p>
       <HeatmapChart
         data={heatmapData}

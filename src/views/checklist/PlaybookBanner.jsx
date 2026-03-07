@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { BookOpen, ChevronDown, Star, Lightbulb } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { getPlaybook } from '../../data/industryPlaybooks'
 
 const INDUSTRY_NAMES = {
@@ -18,8 +17,7 @@ const INDUSTRY_NAMES = {
 }
 
 export default function PlaybookBanner({ industry, phases, checked }) {
-  const { t } = useTranslation('app')
-  const [expanded, setExpanded] = useState(false)
+const [expanded, setExpanded] = useState(false)
 
   const playbook = getPlaybook(industry)
   if (!playbook || !industry) return null
@@ -61,14 +59,14 @@ export default function PlaybookBanner({ industry, phases, checked }) {
               fontFamily: 'var(--font-heading)', fontSize: '0.8125rem',
               fontWeight: 700, color: 'var(--text-primary)',
             }}>
-              {t('checklist.playbook.title', { industry: industryName })}
+              {`${industryName} Playbook`}
             </span>
             <span style={{
               fontSize: '0.625rem', padding: '0.125rem 0.375rem',
               borderRadius: '6.1875rem', background: 'var(--color-phase-1)' + '15',
               color: 'var(--color-phase-1)', fontWeight: 600,
             }}>
-              {t('checklist.playbook.focusCount', { count: playbook.focusPhases.length })}
+              {`${playbook.focusPhases.length} focus phases`}
             </span>
           </div>
           {playbook.description && (
@@ -102,7 +100,7 @@ export default function PlaybookBanner({ industry, phases, checked }) {
               marginBottom: '0.375rem',
               paddingTop: '0.75rem',
             }}>
-              {t('checklist.playbook.focusPhases')}
+              {'Focus Phase Progress'}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {focusProgress.map(fp => (
@@ -160,7 +158,7 @@ export default function PlaybookBanner({ industry, phases, checked }) {
               letterSpacing: '0.0625rem', color: 'var(--text-tertiary)',
               marginBottom: '0.375rem',
             }}>
-              {t('checklist.playbook.tips')}
+              {'Industry Tips'}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               {playbook.tips.map((tipObj, idx) => {

@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useTheme } from '../contexts/ThemeContext'
 import { SearchCheck, BotMessageSquare, TrendingDown, BarChart4, FileEdit, Blocks, Radar, Link2, Smartphone, Mail, Globe2, Sun, Moon, Play, Building2, Rocket, ShoppingBag, Server, Newspaper, Users, CheckCircle2, XCircle, MinusCircle } from 'lucide-react'
 import './LandingPage.css'
@@ -100,8 +98,7 @@ const BASE_URL = 'https://stefanninkov.github.io/AEO-Dashboard/'
    ═══════════════════════════════════════════════════════════════ */
 
 export default function LandingPage() {
-  const { t } = useTranslation('landing')
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [navSolid, setNavSolid] = useState(false)
   const [pricingPeriod, setPricingPeriod] = useState('quarterly')
   const [openFaq, setOpenFaq] = useState(null)
@@ -115,153 +112,141 @@ export default function LandingPage() {
 
   const NAV_LINKS = useMemo(() =>
     NAV_LINK_HREFS.map((href, i) => ({
-      label: t(`nav.links.${i}.label`),
+      label: ['Features', 'How it Works', 'Pricing', 'FAQ'][i] || '',
       href,
-    })),
-  [t])
+    })), [])
 
-  const PLATFORMS = useMemo(() => t('platforms.names', { returnObjects: true }), [t])
+  const PLATFORMS = useMemo(() => 'ChatGPT,Perplexity,Google AI,Bing Copilot,Claude', [])
 
-  const PROBLEMS = useMemo(() =>
-    PROBLEM_META.map((meta, i) => ({
-      ...meta,
-      title: t(`problems.${i}.title`),
-      description: t(`problems.${i}.description`),
-    })),
-  [t])
+  const PROBLEMS = useMemo(() => [
+      { ...PROBLEM_META[0], title: 'AI Search Is Replacing Google', description: 'Over 40% of Gen Z uses TikTok and ChatGPT instead of Google. Traditional SEO alone no longer guarantees visibility.' },
+      { ...PROBLEM_META[1], title: 'AI Answers Cite Few Sources', description: 'ChatGPT and Perplexity only cite 3-5 sources per answer. If you\'re not optimized, your clients are invisible to AI.' },
+      { ...PROBLEM_META[2], title: 'Zero-Click Is the New Normal', description: 'AI Overviews and direct answers mean users never visit your site. You need to be THE answer, not just a result.' }
+    ], [])
 
-  const AEO_VS_SEO = useMemo(() =>
-    Array.from({ length: 6 }, (_, i) => ({
-      aspect: t(`aeoVsSeo.${i}.aspect`),
-      seo: t(`aeoVsSeo.${i}.seo`),
-      aeo: t(`aeoVsSeo.${i}.aeo`),
-    })),
-  [t])
+  const AEO_VS_SEO = useMemo(() => [
+      { aspect: 'Primary Goal', seo: 'Rank in search results', aeo: 'Be cited in AI answers' },
+      { aspect: 'Key Metric', seo: 'Position & click-through rate', aeo: 'Citation frequency & accuracy' },
+      { aspect: 'Content Format', seo: 'Keywords & backlinks', aeo: 'Structured data & direct answers' },
+      { aspect: 'Target System', seo: 'Google, Bing crawlers', aeo: 'LLMs, RAG pipelines, AI agents' },
+      { aspect: 'Optimization', seo: 'Meta tags & page speed', aeo: 'Schema markup & entity clarity' },
+      { aspect: 'Time Horizon', seo: 'Weeks to months', aeo: 'Days to weeks (re-indexed by AI)' }
+    ], [])
 
-  const PILLARS = useMemo(() =>
-    Array.from({ length: 7 }, (_, i) => t(`pillars.${i}`)),
-  [t])
+  const PILLARS = useMemo(() => [
+      'Structured Data & Schema Markup',
+      'Direct Answer Formatting',
+      'Entity Authority & E-E-A-T',
+      'Multi-Platform Optimization',
+      'AI Crawler Accessibility',
+      'Content Freshness & Accuracy',
+      'Citation Signal Building'
+    ], [])
 
-  const FEATURES_BIG = useMemo(() =>
-    FEATURE_BIG_META.map((meta, i) => ({
-      ...meta,
-      badge: t(`features.big.${i}.badge`),
-      title: t(`features.big.${i}.title`),
-      description: t(`features.big.${i}.description`),
-      answerParagraph: i === 0 ? t(`features.big.${i}.answerParagraph`) : undefined,
-    })),
-  [t])
+  const FEATURES_BIG = useMemo(() => [
+      { ...FEATURE_BIG_META[0], badge: 'Core Feature', title: '99-Point AEO Checklist', description: 'A comprehensive, phase-by-phase checklist covering every aspect of Answer Engine Optimization. From schema markup to content structure, entity optimization to AI crawler access — track every task across 7 phases with built-in progress analytics.', answerParagraph: 'An AEO checklist is a structured task list that guides website owners through every optimization needed to appear in AI-generated answers. It covers schema markup implementation, content restructuring for direct answers, entity authority building, and technical configurations that help AI crawlers understand and cite your content.' },
+      { ...FEATURE_BIG_META[1], badge: 'Deterministic + AI', title: 'Real-Time Site Analyzer', description: 'Enter any URL for an instant 100-point AEO readiness score — no API key needed. The deterministic engine crawls your HTML, checks 10 AI crawlers in robots.txt, analyzes your sitemap, and scores across 5 categories. Optionally layer on AI analysis for deeper recommendations.' },
+      { ...FEATURE_BIG_META[2], badge: 'Multi-Engine', title: 'AI Search Testing Lab', description: 'Test how your content appears across ChatGPT, Perplexity, Claude, and Gemini simultaneously. See which AI engines cite your site, compare responses, and identify gaps in your AI visibility across every major platform.' }
+    ], [])
 
-  const FEATURES_GRID = useMemo(() =>
-    FEATURE_GRID_ICONS.map((Icon, i) => ({
-      Icon,
-      title: t(`features.grid.${i}.title`),
-      description: t(`features.grid.${i}.description`),
-    })),
-  [t])
+  const FEATURES_GRID = useMemo(() => [
+      { Icon: FEATURE_GRID_ICONS[0], title: 'Dashboard Analytics', description: 'AEO health score, phase radar, velocity tracking, and trend analysis.' },
+      { Icon: FEATURE_GRID_ICONS[1], title: 'AI Content Writer', description: 'Generate AEO-optimized content with schema markup built in.' },
+      { Icon: FEATURE_GRID_ICONS[2], title: 'Schema Generator', description: 'Point-and-click schema markup builder for FAQ, HowTo, and more.' },
+      { Icon: FEATURE_GRID_ICONS[3], title: 'Auto-Monitoring', description: 'Track AI citation changes and get alerts when visibility shifts.' },
+      { Icon: FEATURE_GRID_ICONS[4], title: 'Client Portal', description: 'Share branded, read-only dashboards with clients via secure links.' },
+      { Icon: FEATURE_GRID_ICONS[5], title: 'PWA & Offline', description: 'Install as a native app. Works offline with full functionality.' },
+      { Icon: FEATURE_GRID_ICONS[6], title: 'Email Digests', description: 'Weekly progress reports delivered straight to your inbox.' },
+      { Icon: FEATURE_GRID_ICONS[7], title: 'Webflow Integration', description: 'Deep CMS integration for headless Webflow site optimization.' }
+    ], [])
 
-  const STEPS = useMemo(() =>
-    Array.from({ length: 3 }, (_, i) => ({
-      title: t(`steps.${i}.title`),
-      description: t(`steps.${i}.description`),
-    })),
-  [t])
+  const STEPS = useMemo(() => [
+      { title: 'Audit Your Site', description: 'Run the real-time analyzer on any URL. Get an instant 100-point AEO score checking schema, AI crawlers, content structure, and technical signals — no API key required.' },
+      { title: 'Optimize with the Checklist', description: 'Work through the 99-point checklist across 7 phases. Each task includes guidance on implementation, and your progress syncs across devices in real-time.' },
+      { title: 'Test & Monitor', description: 'Test your content across ChatGPT, Perplexity, Claude, and Gemini. Monitor citation changes over time and prove ROI to your clients with branded reports.' }
+    ], [])
 
-  const PRICING = useMemo(() =>
-    PRICING_META.map((meta, i) => ({
-      ...meta,
-      name: t(`pricing.${i}.name`),
-      description: t(`pricing.${i}.description`),
-      cta: t(`pricing.${i}.cta`),
-      features: Array.from({ length: PRICING_FEATURE_COUNTS[i] }, (_, fi) =>
-        t(`pricing.${i}.features.${fi}`)
-      ),
-    })),
-  [t])
+  const PRICING = useMemo(() => [
+      { ...PRICING_META[0], name: 'Starter', description: 'For individuals starting with AEO', cta: 'Start 14-Day Free Trial', features: ['1 project', 'Phase 1-2 checklist', '5 analyzer scans/mo', 'Basic schema generator', 'Dashboard analytics', 'Email digest (weekly)'] },
+      { ...PRICING_META[1], name: 'Professional', description: 'For agencies & SEO professionals', cta: 'Start 14-Day Free Trial', features: ['10 projects', 'All 7 checklist phases', 'Unlimited analyzer scans', 'AI content writer', 'Multi-engine testing lab', 'Schema generator (all types)', 'Client portal (shareable)', 'Auto-monitoring & alerts', 'CSV & PDF exports', 'Priority support'] },
+      { ...PRICING_META[2], name: 'Enterprise', description: 'For teams & large agencies', cta: 'Start 14-Day Free Trial', features: ['Unlimited projects', 'Everything in Professional', 'White-label client portal', 'API access', 'Auto-monitoring & alerts', 'Team collaboration & roles', 'Custom onboarding', 'Dedicated account manager'] }
+    ], [])
 
-  const TESTIMONIALS = useMemo(() =>
-    TESTIMONIAL_AVATARS.map((avatar, i) => ({
-      avatar,
-      text: t(`testimonials.${i}.text`),
-      name: t(`testimonials.${i}.name`),
-      role: t(`testimonials.${i}.role`),
-    })),
-  [t])
+  const TESTIMONIALS = useMemo(() => [
+      { avatar: TESTIMONIAL_AVATARS[0], text: 'We went from zero AI citations to appearing in 60% of relevant ChatGPT answers within 3 weeks. The checklist alone is worth 10x the price.', name: 'Sarah Chen', role: 'Head of SEO, DigitalFirst Agency' },
+      { avatar: TESTIMONIAL_AVATARS[1], text: 'The client portal changed our workflow completely. Clients can see their AEO progress in real-time without us creating manual reports every week.', name: 'Marcus Rodriguez', role: 'Founder, SearchWave Marketing' },
+      { avatar: TESTIMONIAL_AVATARS[2], text: 'Finally, a tool that treats AI search as a first-class channel. The multi-engine testing lab showed us exactly where we were missing citations.', name: 'Emily Park', role: 'SEO Director, GrowthLab' },
+      { avatar: TESTIMONIAL_AVATARS[3], text: 'The schema generator alone saved us 20+ hours per client. Combined with the analyzer, it\'s the most complete AEO toolkit available.', name: 'James Mitchell', role: 'Technical SEO Lead, Apex Digital' }
+    ], [])
 
-  const FAQ_ITEMS = useMemo(() =>
-    Array.from({ length: 8 }, (_, i) => ({
-      question: t(`faq.${i}.question`),
-      answer: t(`faq.${i}.answer`),
-    })),
-  [t])
+  const FAQ_ITEMS = useMemo(() => [
+      { question: 'What is Answer Engine Optimization (AEO)?', answer: 'Answer Engine Optimization is the practice of optimizing website content to be cited by AI-powered answer engines like ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Unlike traditional SEO which targets search rankings, AEO focuses on structured data, direct answer formatting, and entity authority to ensure AI systems reference your content. AEO encompasses GEO (Generative Engine Optimization), a research-validated approach from Princeton and Georgia Tech that provides experimentally proven techniques for maximizing AI citation probability.' },
+      { question: 'How is AEO different from traditional SEO?', answer: 'While SEO optimizes for search engine rankings and click-through rates, AEO optimizes for AI citation and inclusion in generated answers. AEO emphasizes schema markup, concise answer formatting, entity clarity, and E-E-A-T signals that help large language models identify and cite authoritative sources.' },
+      { question: 'Which AI platforms does AEO Dashboard support?', answer: 'AEO Dashboard supports testing and optimization across ChatGPT, Perplexity, Google AI Overviews (Gemini), Bing Copilot, Claude, and other major AI answer engines. The multi-engine testing lab lets you compare how your content appears across all platforms simultaneously.' },
+      { question: 'How long does it take to see results from AEO?', answer: 'Most users see measurable improvements in AI citations within 2-4 weeks of implementing the checklist recommendations. Schema markup changes are typically picked up by AI crawlers within days, while content structure improvements may take 1-2 weeks to be reflected in AI-generated answers.' },
+      { question: 'Can I use AEO Dashboard for client work?', answer: 'Absolutely. AEO Dashboard is built for agencies and SEO professionals managing multiple clients. The Professional plan includes client portals with branded, shareable dashboards, and the Enterprise plan offers white-label capabilities for a fully branded experience.' },
+      { question: 'What does the 99-point checklist cover?', answer: 'The checklist spans 7 phases of AEO optimization: technical foundation, schema markup, content structure, entity optimization, multi-platform targeting, AI crawler access, and ongoing monitoring. It integrates GEO (Generative Engine Optimization) techniques throughout — research-validated methods for maximizing AI citation probability. Each task includes implementation guidance and tracks completion across your entire team.' },
+      { question: 'Do I need technical skills to use AEO Dashboard?', answer: 'No. AEO Dashboard is designed for both technical and non-technical users. The checklist provides step-by-step guidance, the AI content writer generates optimized content automatically, and the schema generator creates markup through a visual interface — no coding required.' },
+      { question: 'Is there a free trial available?', answer: 'Yes! All plans include a 14-day free trial with full access to every feature. Start risk-free — no credit card required during the trial period.' }
+    ], [])
 
-  const FOOTER_LINKS = useMemo(() =>
-    FOOTER_LINK_HREFS.map((linkHrefs, i) => ({
-      title: t(`footer.columns.${i}.title`),
-      links: linkHrefs.map((lh, li) => ({
-        label: t(`footer.columns.${i}.links.${li}.label`),
-        href: lh.href,
-      })),
-    })),
-  [t])
+  const FOOTER_LINKS = useMemo(() => [
+      { title: 'Product', links: [{ label: 'Features', href: FOOTER_LINK_HREFS[0]?.[0]?.href || '#' }, { label: 'Pricing', href: FOOTER_LINK_HREFS[0]?.[1]?.href || '#' }, { label: 'Checklist', href: FOOTER_LINK_HREFS[0]?.[2]?.href || '#' }, { label: 'Analyzer', href: FOOTER_LINK_HREFS[0]?.[3]?.href || '#' }] },
+      { title: 'Resources', links: [{ label: 'What is AEO?', href: FOOTER_LINK_HREFS[1]?.[0]?.href || '#' }, { label: 'FAQ', href: FOOTER_LINK_HREFS[1]?.[1]?.href || '#' }, { label: 'Documentation', href: FOOTER_LINK_HREFS[1]?.[2]?.href || '#' }, { label: 'API Reference', href: FOOTER_LINK_HREFS[1]?.[3]?.href || '#' }] },
+      { title: 'Company', links: [{ label: 'About', href: FOOTER_LINK_HREFS[2]?.[0]?.href || '#' }, { label: 'Blog', href: FOOTER_LINK_HREFS[2]?.[1]?.href || '#' }, { label: 'Contact', href: FOOTER_LINK_HREFS[2]?.[2]?.href || '#' }, { label: 'Privacy Policy', href: FOOTER_LINK_HREFS[2]?.[3]?.href || '#' }] }
+    ], [])
 
   const CHECKLIST_ITEMS = useMemo(() =>
     CHECKLIST_ITEM_META.map((meta, i) => ({
       ...meta,
-      label: t(`mockup.checklist.items.${i}`),
-    })),
-  [t])
+      label: meta.fallbackLabel || meta.label || '',
+    })), [])
 
   const ANALYZER_METRICS = useMemo(() =>
     ANALYZER_METRIC_META.map((meta, i) => ({
       ...meta,
-      label: t(`mockup.analyzer.metrics.${i}`),
-    })),
-  [t])
+      label: meta.fallbackLabel || meta.label || '',
+    })), [])
 
   const TESTING_ENGINES = useMemo(() =>
-    TESTING_ENGINE_META.map((meta, i) => ({
+    TESTING_ENGINE_META.map(meta => ({
       ...meta,
-      name: t(`mockup.testing.engines.${i}.name`),
-      status: t(`mockup.testing.engines.${i}.status`),
-    })),
-  [t])
+      name: meta.fallbackName || meta.name || '',
+      status: meta.fallbackStatus || meta.status || '',
+    })), [])
 
   const MOCKUP_SIDEBAR_ITEMS = useMemo(() =>
     MOCKUP_SIDEBAR_ACTIVE.map((active, i) => ({
-      label: t(`mockup.sidebarItems.${i}`),
+      label: meta.fallbackLabel || meta.label || '',
       active,
-    })),
-  [t])
+    })), [])
 
   const SOCIAL_PROOF_COMPANIES = useMemo(() =>
     SOCIAL_PROOF_ICONS.map((Icon, i) => ({
       Icon,
-      name: t(`socialProof.companies.${i}`),
-    })),
-  [t])
+      name: ['TechCorp', 'MediaHub', 'DataSync', 'CloudBase', 'NetFlow'][i] || '',
+    })), [])
 
   const CASE_STUDIES = useMemo(() =>
-    CASE_STUDY_META.map((meta, i) => ({
+    CASE_STUDY_META.map(meta => ({
       ...meta,
-      company: t(`caseStudies.${i}.company`),
-      industry: t(`caseStudies.${i}.industry`),
-      metric: t(`caseStudies.${i}.metric`),
-      metricLabel: t(`caseStudies.${i}.metricLabel`),
-      quote: t(`caseStudies.${i}.quote`),
-      author: t(`caseStudies.${i}.author`),
-      role: t(`caseStudies.${i}.role`),
-    })),
-  [t])
+      company: meta.fallbackCompany || meta.company || '',
+      industry: meta.fallbackIndustry || meta.industry || '',
+      metric: meta.fallbackMetric || meta.metric || '',
+      metricLabel: meta.fallbackMetricLabel || meta.metricLabel || '',
+      quote: meta.fallbackQuote || meta.quote || '',
+      author: meta.fallbackAuthor || meta.author || '',
+      role: meta.fallbackRole || meta.role || '',
+    })), [])
 
-  const COMPARISON_FEATURES = useMemo(() =>
-    Array.from({ length: COMPARISON_FEATURE_COUNT }, (_, i) => ({
-      feature: t(`comparisonTable.features.${i}.feature`),
-      aeoDashboard: t(`comparisonTable.features.${i}.aeoDashboard`),
-      manualTools: t(`comparisonTable.features.${i}.manualTools`),
-      traditionalPlatforms: t(`comparisonTable.features.${i}.traditionalPlatforms`),
-    })),
-  [t])
+  const COMPARISON_FEATURES = useMemo(() => [
+      { feature: 'AEO Checklist', aeoDashboard: '99 points', manualTools: 'DIY research', traditionalPlatforms: 'Not available' },
+      { feature: 'Site Analyzer', aeoDashboard: 'Real-time', manualTools: 'Manual audit', traditionalPlatforms: 'SEO only' },
+      { feature: 'AI Testing', aeoDashboard: 'Multi-engine', manualTools: 'Manual queries', traditionalPlatforms: 'Not available' },
+      { feature: 'Schema Generator', aeoDashboard: 'All types', manualTools: 'Hand-coded', traditionalPlatforms: 'Basic' },
+      { feature: 'Client Portal', aeoDashboard: 'Branded', manualTools: 'Not available', traditionalPlatforms: 'Generic' },
+      { feature: 'Monitoring', aeoDashboard: 'Auto alerts', manualTools: 'Manual', traditionalPlatforms: 'SEO metrics only' },
+    ], [])
 
   /* --- Feature Mockup Renderer --- */
 
@@ -270,8 +255,8 @@ export default function LandingPage() {
       return (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '0.0625rem solid var(--lp-border)' }}>
-            <span style={{ fontFamily: 'var(--lp-font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--lp-text-primary)' }}>{t('mockup.checklist.phaseTitle')}</span>
-            <span style={{ fontSize: '0.625rem', padding: '0.2rem 0.625rem', backgroundColor: 'rgba(16,185,129,0.15)', color: '#10B981', borderRadius: '6.25rem', fontWeight: 600 }}>{t('mockup.checklist.completeBadge')}</span>
+            <span style={{ fontFamily: 'var(--lp-font-heading)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--lp-text-primary)' }}>{'Phase 2: Schema Markup'}</span>
+            <span style={{ fontSize: '0.625rem', padding: '0.2rem 0.625rem', backgroundColor: 'rgba(16,185,129,0.15)', color: '#10B981', borderRadius: '6.25rem', fontWeight: 600 }}>{'50% Complete'}</span>
           </div>
           {CHECKLIST_ITEMS.map((item, i) => (
             <div key={i} className="lp-feature-visual-row">
@@ -326,7 +311,7 @@ export default function LandingPage() {
               position: 'relative',
             }}>
               <span style={{ fontFamily: 'var(--lp-font-heading)', fontSize: '1.75rem', fontWeight: 700, color: 'var(--lp-text-primary)' }}>72</span>
-              <span style={{ fontSize: '0.625rem', color: 'var(--lp-text-tertiary)', marginTop: '-0.25rem' }}>{t('mockup.analyzer.scoreLabel')}</span>
+              <span style={{ fontSize: '0.625rem', color: 'var(--lp-text-tertiary)', marginTop: '-0.25rem' }}>{'AEO Score'}</span>
             </div>
           </div>
           {ANALYZER_METRICS.map((m, i) => (
@@ -386,14 +371,14 @@ export default function LandingPage() {
         '@type': 'Organization',
         name: 'AEO Dashboard',
         url: BASE_URL,
-        description: t('schema.orgDescription'),
+        description: 'The complete toolkit for Answer Engine Optimization. Optimize your website to be cited by ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot.',
         logo: `${BASE_URL}logo.png`,
       },
       {
         '@type': 'WebPage',
-        name: t('schema.webPageName'),
+        name: 'AEO Dashboard - Optimize Your Website for AI Search Engines',
         url: BASE_URL,
-        description: t('schema.webPageDescription'),
+        description: 'Get your clients cited by ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. The complete AEO toolkit with a 99-point checklist, AI-powered analyzer, and client-ready reports.',
         speakable: {
           '@type': 'SpeakableSpecification',
           cssSelector: ['#hero', '#what-is-aeo', '#how-it-works', '#faq'],
@@ -405,7 +390,7 @@ export default function LandingPage() {
         url: BASE_URL,
         applicationCategory: 'BusinessApplication',
         operatingSystem: 'Web',
-        description: t('schema.appDescription'),
+        description: 'Answer Engine Optimization platform for agencies and SEO professionals.',
         offers: PRICING.map((tier) => ({
           '@type': 'Offer',
           name: tier.name,
@@ -427,8 +412,8 @@ export default function LandingPage() {
       },
       {
         '@type': 'HowTo',
-        name: t('schema.howToName'),
-        description: t('schema.howToDescription'),
+        name: 'How to Optimize for AI Search Engines',
+        description: 'A three-step process to optimize your website for AI answer engines using AEO Dashboard.',
         step: STEPS.map((s, i) => ({
           '@type': 'HowToStep',
           position: i + 1,
@@ -442,19 +427,19 @@ export default function LandingPage() {
           {
             '@type': 'ListItem',
             position: 1,
-            name: t('schema.breadcrumbHome'),
+            name: 'Home',
             item: BASE_URL,
           },
           {
             '@type': 'ListItem',
             position: 2,
-            name: t('schema.breadcrumbApp'),
+            name: 'AEO Dashboard',
             item: `${BASE_URL}app`,
           },
         ],
       },
     ],
-  }), [t, PRICING, FAQ_ITEMS, STEPS])
+  }), [PRICING, FAQ_ITEMS, STEPS])
 
   /* --- Effect: scroll listener on .lp-root container --- */
   useEffect(() => {
@@ -555,7 +540,6 @@ export default function LandingPage() {
                 {link.label}
               </a>
             ))}
-            <LanguageSwitcher variant="landing" />
             <button
               className="lp-theme-toggle"
               onClick={toggleTheme}
@@ -563,13 +547,13 @@ export default function LandingPage() {
             >
               {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
-            <a href="/AEO-Dashboard/app" className="lp-nav-cta">{t('nav.cta')}</a>
+            <a href="/AEO-Dashboard/app" className="lp-nav-cta">{'Get Started'}</a>
           </div>
 
           <button
             className={`lp-nav-hamburger ${mobileMenuOpen ? 'lp-open' : ''}`}
             onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label={mobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
             <span />
             <span />
@@ -590,7 +574,6 @@ export default function LandingPage() {
             {link.label}
           </a>
         ))}
-        <LanguageSwitcher variant="landing" />
         <button
           className="lp-theme-toggle"
           onClick={toggleTheme}
@@ -598,7 +581,7 @@ export default function LandingPage() {
         >
           {resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
-        <a href="/AEO-Dashboard/app" className="lp-nav-cta">{t('nav.cta')}</a>
+        <a href="/AEO-Dashboard/app" className="lp-nav-cta">{'Get Started'}</a>
       </div>
 
       <main>
@@ -606,14 +589,14 @@ export default function LandingPage() {
         {/* ═══════════ 2. HERO ═══════════ */}
         <section id="hero" className="lp-hero" aria-label="Hero">
           <div className="lp-hero-inner">
-            <div className="lp-badge">{t('hero.badge')}</div>
-            <h1>{t('hero.headingBefore')}<span>{t('hero.headingAccent')}</span></h1>
+            <div className="lp-badge">{'Built for Agencies & SEO Teams'}</div>
+            <h1>{'Optimize Your Website for '}<span>{'AI Search Engines'}</span></h1>
             <p className="lp-hero-sub">
-              {t('hero.subtitle')}
+              {'Get your clients cited by ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. The complete AEO toolkit with a 99-point checklist, AI-powered analyzer, and client-ready reports.'}
             </p>
             <div className="lp-hero-ctas">
-              <a href="/AEO-Dashboard/app" className="lp-btn-primary">{t('hero.ctaPrimary')}</a>
-              <a href="#features" className="lp-btn-secondary" onClick={(e) => scrollToSection(e, '#features')}>{t('hero.ctaSecondary')}</a>
+              <a href="/AEO-Dashboard/app" className="lp-btn-primary">{'Start 14-Day Free Trial'}</a>
+              <a href="#features" className="lp-btn-secondary" onClick={(e) => scrollToSection(e, '#features')}>{'See Features'}</a>
             </div>
 
             {/* CSS-only dashboard mockup */}
@@ -621,7 +604,7 @@ export default function LandingPage() {
               <div className="lp-mockup-inner">
                 <div className="lp-mockup-sidebar">
                   <div className="lp-mockup-sidebar-logo">
-                    <span style={{ color: 'var(--lp-accent)' }}>AEO</span> {t('mockup.sidebarLogo')}
+                    <span style={{ color: 'var(--lp-accent)' }}>AEO</span> {'Dash'}
                   </div>
                   {MOCKUP_SIDEBAR_ITEMS.map((item, i) => (
                     <div key={i} className={`lp-mockup-sidebar-item ${item.active ? 'lp-active' : ''}`}>
@@ -632,14 +615,14 @@ export default function LandingPage() {
                 </div>
                 <div className="lp-mockup-main">
                   <div className="lp-mockup-header">
-                    <div className="lp-mockup-header-title">{t('mockup.headerTitle')}</div>
-                    <div className="lp-mockup-header-badge">{t('mockup.headerBadge')}</div>
+                    <div className="lp-mockup-header-title">{'AEO Dashboard'}</div>
+                    <div className="lp-mockup-header-badge">{'On Track'}</div>
                   </div>
                   <div className="lp-mockup-stats">
                     {[
-                      { label: t('mockup.stats.0.label'), value: t('mockup.stats.0.value'), colorClass: 'lp-orange' },
-                      { label: t('mockup.stats.1.label'), value: t('mockup.stats.1.value'), colorClass: '' },
-                      { label: t('mockup.stats.2.label'), value: t('mockup.stats.2.value'), colorClass: 'lp-green' },
+                      { label: 'AEO Score', value: '78', colorClass: 'lp-orange' },
+                      { label: 'Tasks Done', value: '61/99', colorClass: '' },
+                      { label: 'AI Citations', value: '12', colorClass: 'lp-green' },
                     ].map((stat, i) => (
                       <div key={i} className="lp-mockup-stat-card">
                         <div className="lp-mockup-stat-label">{stat.label}</div>
@@ -660,7 +643,7 @@ export default function LandingPage() {
 
         {/* ═══════════ 3. PLATFORMS ═══════════ */}
         <section className="lp-platforms" aria-label="Supported AI platforms" data-animate>
-          <div className="lp-platform-item" style={{ color: 'var(--lp-text-tertiary)', fontSize: '0.8125rem', fontWeight: 400 }}>{t('platforms.subtitle')}</div>
+          <div className="lp-platform-item" style={{ color: 'var(--lp-text-tertiary)', fontSize: '0.8125rem', fontWeight: 400 }}>{'Optimize for every major AI platform'}</div>
           {PLATFORMS.map((p) => (
             <div key={p} className="lp-platform-item">{p}</div>
           ))}
@@ -669,7 +652,7 @@ export default function LandingPage() {
         {/* ═══════════ 3.5. SOCIAL PROOF ═══════════ */}
         <section className="lp-social-proof" aria-label="Social proof" data-animate>
           <div className="lp-social-proof-inner">
-            <p className="lp-social-proof-headline">{t('socialProof.trustedBy')}</p>
+            <p className="lp-social-proof-headline">{'Trusted by 2,500+ SEO professionals worldwide'}</p>
             <div className="lp-social-proof-logos">
               {SOCIAL_PROOF_COMPANIES.map((company, i) => (
                 <div key={i} className="lp-social-proof-logo-item">
@@ -680,7 +663,7 @@ export default function LandingPage() {
             </div>
             <div className="lp-social-proof-live">
               <span className="lp-social-proof-live-dot" />
-              <span>{t('socialProof.liveUsers', { count: liveUserCount })}</span>
+              <span>{`${liveUserCount} users optimizing right now`}</span>
             </div>
           </div>
         </section>
@@ -688,9 +671,9 @@ export default function LandingPage() {
         {/* ═══════════ 4. PROBLEM ═══════════ */}
         <section id="problem" className="lp-section" aria-label="The problem" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('problems.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('problems.title')}</h2>
-            <p className="lp-section-subtitle">{t('problems.subtitle')}</p>
+            <span className="lp-section-label">{'The Problem'}</span>
+            <h2 className="lp-section-title">{'Your Clients Are Invisible to AI'}</h2>
+            <p className="lp-section-subtitle">{'Traditional SEO isn’t enough anymore. AI answer engines are changing how people find information — and most websites aren’t optimized for it.'}</p>
           </div>
           <div className="lp-problem-grid">
             {PROBLEMS.map((p, i) => (
@@ -708,24 +691,24 @@ export default function LandingPage() {
         {/* ═══════════ 5. WHAT IS AEO ═══════════ */}
         <section id="what-is-aeo" className="lp-section" aria-label="What is AEO" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('education.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('education.title')}</h2>
+            <span className="lp-section-label">{'Education'}</span>
+            <h2 className="lp-section-title">{'What is Answer Engine Optimization?'}</h2>
           </div>
           <div className="lp-aeo-content">
             <p className="lp-answer-paragraph">
               <strong>Answer Engine Optimization (AEO) is the practice of optimizing website content to be selected, cited, and surfaced by AI-powered answer engines.</strong> Unlike traditional SEO that targets search engine result pages, AEO focuses on making your content the preferred source that large language models like ChatGPT, Perplexity, and Google Gemini reference when generating answers to user queries.
             </p>
 
-            <h3>{t('education.comparisonHeading')}</h3>
+            <h3>{'AEO vs Traditional SEO'}</h3>
             <p className="lp-answer-paragraph">
               <strong>While SEO and AEO share common foundations, they differ in target systems, success metrics, and optimization techniques.</strong> SEO optimizes for crawlers and ranking algorithms; AEO optimizes for language models and retrieval-augmented generation (RAG) pipelines. The most effective digital strategies now combine both approaches to maximize visibility across traditional and AI-powered search.
             </p>
             <table className="lp-comparison-table">
               <thead>
                 <tr>
-                  <th scope="col">{t('aeoVsSeo.colAspect')}</th>
-                  <th scope="col">{t('aeoVsSeo.colSeo')}</th>
-                  <th scope="col">{t('aeoVsSeo.colAeo')}</th>
+                  <th scope="col">{'Aspect'}</th>
+                  <th scope="col">{'Traditional SEO'}</th>
+                  <th scope="col">{'AEO'}</th>
                 </tr>
               </thead>
               <tbody>
@@ -739,7 +722,7 @@ export default function LandingPage() {
               </tbody>
             </table>
 
-            <h3>{t('education.pillarsHeading')}</h3>
+            <h3>{'The 7 Pillars of AEO'}</h3>
             <ol className="lp-pillars-list">
               {PILLARS.map((p, i) => (
                 <li key={i}>{p}</li>
@@ -751,9 +734,9 @@ export default function LandingPage() {
         {/* ═══════════ 6. FEATURES (Big alternating rows) ═══════════ */}
         <section id="features" className="lp-section" aria-label="Key features">
           <div className="lp-section-center" data-animate>
-            <span className="lp-section-label">{t('features.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('features.title')}</h2>
-            <p className="lp-section-subtitle">{t('features.subtitle')}</p>
+            <span className="lp-section-label">{'Features'}</span>
+            <h2 className="lp-section-title">{'Everything You Need for AEO'}</h2>
+            <p className="lp-section-subtitle">{'A complete toolkit to optimize, test, and monitor your AI search visibility.'}</p>
           </div>
           {FEATURES_BIG.map((f, i) => (
             <article key={i} className={`lp-feature-row ${i % 2 === 1 ? 'lp-feature-row-reverse' : ''}`} data-animate>
@@ -775,7 +758,7 @@ export default function LandingPage() {
         {/* ═══════════ 7. FEATURES GRID ═══════════ */}
         <section id="features-grid" className="lp-section" aria-label="Additional features" data-animate>
           <div className="lp-section-center">
-            <h2 className="lp-section-title">{t('features.gridTitle')}</h2>
+            <h2 className="lp-section-title">{'And So Much More'}</h2>
           </div>
           <div className="lp-features-grid">
             {FEATURES_GRID.map((f, i) => (
@@ -791,9 +774,9 @@ export default function LandingPage() {
         {/* ═══════════ 7.5. CASE STUDIES ═══════════ */}
         <section id="case-studies" className="lp-section" aria-label="Case studies" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('caseStudies.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('caseStudies.title')}</h2>
-            <p className="lp-section-subtitle">{t('caseStudies.subtitle')}</p>
+            <span className="lp-section-label">{'Success Stories'}</span>
+            <h2 className="lp-section-title">{'Real Results from Real Teams'}</h2>
+            <p className="lp-section-subtitle">{'See how agencies and SEO teams are using AEO Dashboard to dominate AI search results.'}</p>
           </div>
           <div className="lp-case-studies-grid">
             {CASE_STUDIES.map((cs, i) => (
@@ -821,32 +804,32 @@ export default function LandingPage() {
         {/* ═══════════ 8. AI COST HIGHLIGHT ═══════════ */}
         <section id="ai-cost" className="lp-section" aria-label="AI costs" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('aiCost.label')}</span>
-            <h2 className="lp-section-title">{t('aiCost.title')}</h2>
-            <p className="lp-section-subtitle">{t('aiCost.subtitle')}</p>
+            <span className="lp-section-label">{'AI Costs'}</span>
+            <h2 className="lp-section-title">{'AI-Powered for Under $3'}</h2>
+            <p className="lp-section-subtitle">{'Connect your own API key — no markup, no hidden fees. Full project optimization costs less than a cup of coffee.'}</p>
           </div>
 
           <div className="lp-cost-highlight">
-            <div className="lp-cost-price">{t('aiCost.price')}</div>
-            <p className="lp-cost-price-label">{t('aiCost.priceLabel')}</p>
-            <p className="lp-cost-description">{t('aiCost.description')}</p>
+            <div className="lp-cost-price">{'$2–3'}</div>
+            <p className="lp-cost-price-label">{'Total for a full project'}</p>
+            <p className="lp-cost-description">{'Complete all 99 checklist items using every AI feature — Content Writer, Analyzer, Schema Generator, and more — for approximately $2–3 in total API costs.'}</p>
           </div>
 
           <div className="lp-cost-grid">
             <div className="lp-cost-card">
-              <div className="lp-cost-card-value">{t('aiCost.cards.0.value')}</div>
-              <div className="lp-cost-card-label">{t('aiCost.cards.0.label')}</div>
-              <p className="lp-cost-card-desc">{t('aiCost.cards.0.description')}</p>
+              <div className="lp-cost-card-value">{'$0.01–0.05'}</div>
+              <div className="lp-cost-card-label">{'Per AI feature use'}</div>
+              <p className="lp-cost-card-desc">{'Each AI action costs pennies — from content scoring to schema generation.'}</p>
             </div>
             <div className="lp-cost-card">
-              <div className="lp-cost-card-value">{t('aiCost.cards.1.value')}</div>
-              <div className="lp-cost-card-label">{t('aiCost.cards.1.label')}</div>
-              <p className="lp-cost-card-desc">{t('aiCost.cards.1.description')}</p>
+              <div className="lp-cost-card-value">{'~$2–3'}</div>
+              <div className="lp-cost-card-label">{'Full project completion'}</div>
+              <p className="lp-cost-card-desc">{'Run every AI feature across all 99 checklist items for one website.'}</p>
             </div>
             <div className="lp-cost-card">
-              <div className="lp-cost-card-value">{t('aiCost.cards.2.value')}</div>
-              <div className="lp-cost-card-label">{t('aiCost.cards.2.label')}</div>
-              <p className="lp-cost-card-desc">{t('aiCost.cards.2.description')}</p>
+              <div className="lp-cost-card-value">{'~$0.30–0.50'}</div>
+              <div className="lp-cost-card-label">{'Ongoing monthly cost'}</div>
+              <p className="lp-cost-card-desc">{'Monitoring, rescoring, and occasional AI usage after initial setup.'}</p>
             </div>
           </div>
         </section>
@@ -854,8 +837,8 @@ export default function LandingPage() {
         {/* ═══════════ 9. HOW IT WORKS ═══════════ */}
         <section id="how-it-works" className="lp-section" aria-label="How it works" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('steps.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('steps.title')}</h2>
+            <span className="lp-section-label">{'How It Works'}</span>
+            <h2 className="lp-section-title">{'Three Steps to AI Visibility'}</h2>
             <p className="lp-section-subtitle">
               <strong>To optimize for AI search engines, start by auditing your current visibility, then systematically implement AEO best practices, and continuously test across multiple AI platforms.</strong> The AEO Dashboard guides you through each step with actionable tools and real-time feedback.
             </p>
@@ -879,18 +862,18 @@ export default function LandingPage() {
         {/* ═══════════ 9.5. COMPARISON TABLE ═══════════ */}
         <section id="comparison" className="lp-section" aria-label="Feature comparison" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('comparisonTable.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('comparisonTable.title')}</h2>
-            <p className="lp-section-subtitle">{t('comparisonTable.subtitle')}</p>
+            <span className="lp-section-label">{'How We Compare'}</span>
+            <h2 className="lp-section-title">{'AEO Dashboard vs The Alternatives'}</h2>
+            <p className="lp-section-subtitle">{'See why AEO Dashboard is the purpose-built solution for AI search optimization.'}</p>
           </div>
           <div className="lp-comparison-wrapper">
             <table className="lp-comparison-table lp-comparison-table-full">
               <thead>
                 <tr>
-                  <th scope="col">{t('comparisonTable.colFeature')}</th>
-                  <th scope="col" className="lp-comparison-highlight">{t('comparisonTable.colAeoDashboard')}</th>
-                  <th scope="col">{t('comparisonTable.colManualTools')}</th>
-                  <th scope="col">{t('comparisonTable.colTraditionalPlatforms')}</th>
+                  <th scope="col">{'Feature'}</th>
+                  <th scope="col" className="lp-comparison-highlight">{'AEO Dashboard'}</th>
+                  <th scope="col">{'Manual SEO Tools'}</th>
+                  <th scope="col">{'Traditional SEO Platforms'}</th>
                 </tr>
               </thead>
               <tbody>
@@ -923,29 +906,29 @@ export default function LandingPage() {
         {/* ═══════════ 9.75. VIDEO DEMO ═══════════ */}
         <section id="demo" className="lp-section" aria-label="Product demo" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('videoDemo.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('videoDemo.title')}</h2>
-            <p className="lp-section-subtitle">{t('videoDemo.subtitle')}</p>
+            <span className="lp-section-label">{'See It in Action'}</span>
+            <h2 className="lp-section-title">{'Watch AEO Dashboard in Action'}</h2>
+            <p className="lp-section-subtitle">{'See how easy it is to audit, optimize, and monitor your AI search visibility in under 3 minutes.'}</p>
           </div>
           <div className="lp-video-demo-container" data-animate>
             <div className="lp-video-demo-player">
               <div className="lp-video-demo-placeholder">
-                <div className="lp-video-demo-play-btn" role="button" tabIndex={0} aria-label={t('videoDemo.playButton')}>
+                <div className="lp-video-demo-play-btn" role="button" tabIndex={0} aria-label={'Watch the Demo'}>
                   <Play size={32} />
                 </div>
-                <span className="lp-video-demo-duration">{t('videoDemo.duration')}</span>
+                <span className="lp-video-demo-duration">{'2:47'}</span>
               </div>
             </div>
-            <p className="lp-video-demo-caption">{t('videoDemo.caption')}</p>
+            <p className="lp-video-demo-caption">{'A quick walkthrough of the AEO Dashboard — from site audit to AI citation tracking.'}</p>
           </div>
         </section>
 
         {/* ═══════════ 9. PRICING ═══════════ */}
         <section id="pricing" className="lp-section" aria-label="Pricing" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('pricing.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('pricing.title')}</h2>
-            <p className="lp-section-subtitle">{t('pricing.subtitle')}</p>
+            <span className="lp-section-label">{'Pricing'}</span>
+            <h2 className="lp-section-title">{'Simple, Transparent Pricing'}</h2>
+            <p className="lp-section-subtitle">{'14-day free trial on every plan. No credit card required. No hidden fees.'}</p>
           </div>
           <div className="lp-pricing-toggle-wrapper">
             <div className="lp-pricing-toggle">
@@ -953,32 +936,32 @@ export default function LandingPage() {
                 className={`lp-pricing-toggle-btn ${pricingPeriod === 'monthly' ? 'lp-active' : ''}`}
                 onClick={() => setPricingPeriod('monthly')}
               >
-                {t('pricing.toggleMonthly')}
+                {'Monthly'}
               </button>
               <button
                 className={`lp-pricing-toggle-btn ${pricingPeriod === 'quarterly' ? 'lp-active' : ''}`}
                 onClick={() => setPricingPeriod('quarterly')}
               >
-                {t('pricing.toggleQuarterly')} <span style={{ fontSize: '0.6875rem', marginLeft: '0.375rem', opacity: 0.9 }}>{t('pricing.toggleQuarterlySave')}</span>
+                {'Quarterly'} <span style={{ fontSize: '0.6875rem', marginLeft: '0.375rem', opacity: 0.9 }}>{'Save 15%'}</span>
               </button>
               <button
                 className={`lp-pricing-toggle-btn ${pricingPeriod === 'yearly' ? 'lp-active' : ''}`}
                 onClick={() => setPricingPeriod('yearly')}
               >
-                {t('pricing.toggleAnnual')} <span style={{ fontSize: '0.6875rem', marginLeft: '0.375rem', opacity: 0.9 }}>{t('pricing.toggleAnnualSave')}</span>
+                {'Annual'} <span style={{ fontSize: '0.6875rem', marginLeft: '0.375rem', opacity: 0.9 }}>{'Save 20%'}</span>
               </button>
             </div>
           </div>
           <div className="lp-pricing-grid">
             {PRICING.map((tier, i) => (
               <article key={i} className={`lp-pricing-card ${tier.featured ? 'lp-pricing-card-featured' : ''}`} data-animate>
-                {tier.featured && <div className="lp-pricing-popular-badge">{t('pricing.mostPopular')}</div>}
+                {tier.featured && <div className="lp-pricing-popular-badge">{'Most Popular'}</div>}
                 <h3>{tier.name}</h3>
                 <p className="lp-pricing-card-desc">{tier.description}</p>
                 <div className="lp-pricing-price">
                   ${pricingPeriod === 'yearly' ? tier.yearlyPrice : pricingPeriod === 'quarterly' ? tier.quarterlyPrice : tier.monthlyPrice}
                   <span>
-                    {pricingPeriod === 'yearly' ? t('pricing.billedYearly') : pricingPeriod === 'quarterly' ? t('pricing.billedQuarterly') : t('pricing.billedMonthly')}
+                    {pricingPeriod === 'yearly' ? '/mo, billed yearly' : pricingPeriod === 'quarterly' ? '/mo, billed quarterly' : '/month'}
                   </span>
                 </div>
                 <div className="lp-pricing-divider" />
@@ -994,16 +977,16 @@ export default function LandingPage() {
             ))}
           </div>
           <div className="lp-whitelabel-callout" data-animate>
-            <h3>{t('pricing.whiteLabel.title')}</h3>
-            <p>{t('pricing.whiteLabel.description')}</p>
+            <h3>{'Need White-Label?'}</h3>
+            <p>{'Enterprise plan includes full white-label capabilities. Brand the client portal with your agency’s logo, colors, and domain.'}</p>
           </div>
         </section>
 
         {/* ═══════════ 10. TESTIMONIALS ═══════════ */}
         <section id="testimonials" className="lp-section" aria-label="Testimonials" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('testimonials.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('testimonials.title')}</h2>
+            <span className="lp-section-label">{'Testimonials'}</span>
+            <h2 className="lp-section-title">{'Loved by SEO Professionals'}</h2>
           </div>
           <div className="lp-testimonials-grid">
             {TESTIMONIALS.map((testimonial, i) => (
@@ -1029,8 +1012,8 @@ export default function LandingPage() {
         {/* ═══════════ 11. FAQ ═══════════ */}
         <section id="faq" className="lp-section" aria-label="Frequently asked questions" data-animate>
           <div className="lp-section-center">
-            <span className="lp-section-label">{t('faq.sectionLabel')}</span>
-            <h2 className="lp-section-title">{t('faq.title')}</h2>
+            <span className="lp-section-label">{'FAQ'}</span>
+            <h2 className="lp-section-title">{'Frequently Asked Questions'}</h2>
           </div>
           <div className="lp-faq-list">
             {FAQ_ITEMS.map((item, i) => (
@@ -1056,9 +1039,9 @@ export default function LandingPage() {
         {/* ═══════════ 12. FINAL CTA ═══════════ */}
         <section id="cta" className="lp-section" aria-label="Get started" data-animate>
           <div className="lp-final-cta">
-            <h2>{t('cta.title')}</h2>
-            <p>{t('cta.description')}</p>
-            <a href="/AEO-Dashboard/app" className="lp-btn-primary">{t('cta.button')}</a>
+            <h2>{'Ready to Dominate AI Search?'}</h2>
+            <p>{'Join hundreds of agencies using AEO Dashboard to get their clients cited by AI. Start your 14-day free trial — no credit card required.'}</p>
+            <a href="/AEO-Dashboard/app" className="lp-btn-primary">{'Start Free Trial'}</a>
           </div>
         </section>
 
@@ -1071,7 +1054,7 @@ export default function LandingPage() {
             <a href="/AEO-Dashboard/" className="lp-footer-brand-logo">
               <span className="lp-nav-logo-accent">AEO</span>&nbsp;Dashboard
             </a>
-            <p>{t('footer.brandDescription')}</p>
+            <p>{'The complete toolkit for Answer Engine Optimization.'}</p>
           </div>
           {FOOTER_LINKS.map((col, i) => (
             <div key={i} className="lp-footer-col">
@@ -1092,7 +1075,7 @@ export default function LandingPage() {
           ))}
         </div>
         <div className="lp-footer-bottom">
-          <p className="lp-footer-copyright">{t('footer.copyright', { year: new Date().getFullYear() })}</p>
+          <p className="lp-footer-copyright">{`© ${new Date().getFullYear()} AEO Dashboard. All rights reserved.`}</p>
         </div>
       </footer>
 

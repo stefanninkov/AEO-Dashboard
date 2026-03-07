@@ -5,7 +5,6 @@
  * top priorities, CTA button, share row, and counter.
  */
 import { useState, useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Share2, Copy, Check } from 'lucide-react'
 import {
   CATEGORIES, MAX_TOTAL_SCORE, getScoreTier,
@@ -91,8 +90,7 @@ function priorityIcon(score, maxScore) {
 export default function ScorecardResults({
   totalScore, categoryScores, tier, priorities, count, docId, onConvert, onClose, onUpdateWebsite,
 }) {
-  const { t } = useTranslation('waitlist')
-  const [converted, setConverted] = useState(false)
+const [converted, setConverted] = useState(false)
   const [copied, setCopied] = useState(false)
   const [websiteUrl, setWebsiteUrl] = useState('')
   const [websiteSaved, setWebsiteSaved] = useState(false)
@@ -149,24 +147,24 @@ export default function ScorecardResults({
           className="wl-sc-tier-badge"
           style={{ background: tierData.bgColor, color: tierData.color }}
         >
-          {t(`scorecard.tiers.${tier}.label`)}
+          {'Label'}
         </span>
       </div>
 
       {/* Tier Description */}
       <p className="wl-sc-tier-desc">
-        {t(`scorecard.tiers.${tier}.desc`)}
+        {'Desc'}
       </p>
 
       {/* Optional Website URL */}
       {onUpdateWebsite && !websiteSaved && (
         <div className="wl-sc-website-prompt">
-          <label className="wl-sc-website-label">{t('scorecard.results.websitePrompt', { defaultValue: 'Want a site-specific report? Add your URL:' })}</label>
+          <label className="wl-sc-website-label">{'Want a site-specific report? Add your URL:'}</label>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <input
               type="url"
               className="wl-sc-input"
-              placeholder={t('scorecard.results.websitePlaceholder', { defaultValue: 'https://yourwebsite.com' })}
+              placeholder={'https://yourwebsite.com'}
               value={websiteUrl}
               onChange={(e) => setWebsiteUrl(e.target.value)}
               style={{ flex: 1 }}
@@ -192,12 +190,12 @@ export default function ScorecardResults({
       )}
 
       {/* Category Breakdown */}
-      <h3 className="wl-sc-section-heading">{t('scorecard.results.breakdown')}</h3>
+      <h3 className="wl-sc-section-heading">{'Breakdown by Category'}</h3>
       <div className="wl-sc-bars">
         {CATEGORIES.map((cat, i) => (
           <CategoryBar
             key={cat.id}
-            label={t(`scorecard.categories.${cat.id}`)}
+            label={'Id}'}
             score={categoryScores[cat.id] || 0}
             maxScore={cat.maxScore}
             color={cat.color}
@@ -209,7 +207,7 @@ export default function ScorecardResults({
       {/* Top Priorities */}
       {priorities.length > 0 && (
         <>
-          <h3 className="wl-sc-section-heading">{t('scorecard.results.priorities')}</h3>
+          <h3 className="wl-sc-section-heading">{'Your Top Priorities'}</h3>
           <div className="wl-sc-priorities">
             {priorities.map((p) => {
               const catScore = categoryScores[p.categoryId] || 0
@@ -218,8 +216,8 @@ export default function ScorecardResults({
                 <div key={p.id} className="wl-sc-priority-card">
                   <span className="wl-sc-priority-icon">{priorityIcon(catScore, catMax)}</span>
                   <div className="wl-sc-priority-text">
-                    <strong>{t(`scorecard.priorities.${p.id}.title`)}</strong>
-                    <span>{t(`scorecard.priorities.${p.id}.desc`)}</span>
+                    <strong>{'Title'}</strong>
+                    <span>{'Desc'}</span>
                   </div>
                 </div>
               )
@@ -230,24 +228,24 @@ export default function ScorecardResults({
 
       {/* CTA */}
       <div className="wl-sc-cta-section">
-        <p className="wl-sc-cta-title">{t('scorecard.results.ctaTitle')}</p>
+        <p className="wl-sc-cta-title">{'AEO Dashboard fixes all of this — automatically.'}</p>
         <button
           className={`wl-submit-btn wl-sc-cta-btn ${converted ? 'wl-sc-cta-done' : ''}`}
           onClick={handleConvert}
           disabled={converted}
         >
-          {converted ? t('scorecard.results.ctaDone') : t('scorecard.results.ctaButton')}
+          {converted ? '✓ You\'re on the list!' : 'Get Early Access'}
         </button>
       </div>
 
       {/* What Happens Next */}
       <div className="wl-sc-next-steps">
-        <h3 className="wl-sc-section-heading">{t('scorecard.results.whatHappensNext.title')}</h3>
+        <h3 className="wl-sc-section-heading">{'What Happens Next'}</h3>
         <div className="wl-sc-steps-grid">
           {[1, 2, 3].map(i => (
             <div key={i} className="wl-sc-step-card">
               <span className="wl-sc-step-number">{i}</span>
-              <span className="wl-sc-step-text">{t(`scorecard.results.whatHappensNext.step${i}`)}</span>
+              <span className="wl-sc-step-text">{'Step${i}'}</span>
             </div>
           ))}
         </div>
@@ -257,21 +255,21 @@ export default function ScorecardResults({
       <div className="wl-sc-share-row">
         <button className="wl-share-btn" onClick={shareTwitter}>
           <Share2 size={14} />
-          {t('scorecard.results.shareX')}
+          {'Share on X'}
         </button>
         <button className="wl-share-btn" onClick={shareLinkedIn}>
           <Share2 size={14} />
-          {t('scorecard.results.shareLI')}
+          {'Share on LinkedIn'}
         </button>
         <button className="wl-share-btn" onClick={copyLink}>
           {copied ? <Check size={14} /> : <Copy size={14} />}
-          {copied ? t('scorecard.results.copied') : t('scorecard.results.copyLink')}
+          {copied ? 'Copied!' : 'Copy Link'}
         </button>
       </div>
 
       {/* Counter */}
       <p className="wl-sc-results-counter">
-        {t('scorecard.results.counter', { count: count.toLocaleString() })}
+        {`${count.toLocaleString()} professionals have checked their score`}
       </p>
     </div>
   )

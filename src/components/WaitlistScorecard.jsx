@@ -7,7 +7,6 @@
  *   15 = Results
  */
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { X, Loader2, ArrowLeft } from 'lucide-react'
 import {
   QUIZ_FLOW, SCORED_QUESTIONS, QUALIFYING_QUESTIONS,
@@ -21,8 +20,7 @@ const TOTAL_QUESTION_STEPS = QUIZ_FLOW.length   // 14
 const TOTAL_STEPS = TOTAL_QUESTION_STEPS + 1     // 15 (capture excluded from progress)
 
 export default function WaitlistScorecard({ onClose, onComplete }) {
-  const { t } = useTranslation('waitlist')
-  const {
+const {
     count, createLead, completeScorecard, trackAbandonment, markConverted, updateWebsiteUrl,
   } = useWaitlist()
 
@@ -73,9 +71,9 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
       goToStep(1)
     } catch (err) {
       if (err.message === 'already_signed_up') {
-        setError(t('scorecard.capture.duplicate'))
+        setError('This email is already on our list!')
       } else {
-        setError(t('scorecard.capture.duplicate'))
+        setError('This email is already on our list!')
       }
     } finally {
       setIsSubmitting(false)
@@ -149,7 +147,7 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
 
   // ── Skip / Close with abandonment tracking ──
   const handleSkip = async () => {
-    const confirmed = window.confirm(t('scorecard.skipConfirm'))
+    const confirmed = window.confirm('Save partial data and close?')
     if (!confirmed) return
     if (docId && step > 0 && step <= TOTAL_QUESTION_STEPS) {
       await trackAbandonment(docId, step - 1)
@@ -159,7 +157,7 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
 
   const handleClose = async () => {
     if (step > 0 && step <= TOTAL_QUESTION_STEPS) {
-      const confirmed = window.confirm(t('scorecard.closeConfirm'))
+      const confirmed = window.confirm('Your progress will be saved. Close?')
       if (!confirmed) return
       if (docId) await trackAbandonment(docId, step - 1)
     }
@@ -182,19 +180,19 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
     if (type === 'scored') {
       const q = SCORED_QUESTIONS.find(sq => sq.id === id)
       if (!q) return null
-      questionText = t(`scorecard.questions.${id}.text`)
+      questionText = 'Text'
       options = q.options.map((opt, i) => ({
         value: opt.value,
-        label: t(`scorecard.questions.${id}.options.${i}`),
+        label: '${i}',
       }))
-      categoryLabel = t(`scorecard.categories.${q.category}`)
+      categoryLabel = 'Category}'
     } else {
       const q = QUALIFYING_QUESTIONS.find(qq => qq.id === id)
       if (!q) return null
-      questionText = t(`scorecard.qualifying.${id}.text`)
+      questionText = 'Text'
       options = q.options.map((opt, i) => ({
         value: opt.value,
-        label: t(`scorecard.qualifying.${id}.options.${i}`),
+        label: '${i}',
       }))
       categoryLabel = null
     }
@@ -206,7 +204,7 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
         {/* Step + category labels */}
         <div className="wl-sc-step-meta">
           <span className="wl-sc-step-label">
-            {t('scorecard.progress', { current: step, total: TOTAL_QUESTION_STEPS })}
+            {`Step ${step} of ${TOTAL_QUESTION_STEPS}`}
           </span>
           {categoryLabel && (
             <span className="wl-sc-category">{categoryLabel}</span>
@@ -217,8 +215,8 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
         <h2 className="wl-sc-question">{questionText}</h2>
 
         {/* Hint (for technical questions) */}
-        {type === 'scored' && t(`scorecard.questions.${id}.hint`, { defaultValue: '' }) && (
-          <p className="wl-sc-hint">{t(`scorecard.questions.${id}.hint`)}</p>
+        {type === 'scored' && 'Hint' && (
+          <p className="wl-sc-hint">{'Hint'}</p>
         )}
 
         {/* Options */}
@@ -241,11 +239,11 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
           {step > 1 ? (
             <button className="wl-sc-back-btn" onClick={handleBack}>
               <ArrowLeft size={14} />
-              {t('scorecard.back')}
+              {'Back'}
             </button>
           ) : <span />}
           <button className="wl-sc-skip-link" onClick={handleSkip}>
-            {t('scorecard.skip')}
+            {'Skip assessment'}
           </button>
         </div>
       </div>
@@ -279,15 +277,15 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
         {/* ── Step 0: Capture ── */}
         {step === 0 && (
           <div className={`wl-sc-capture ${animClass}`}>
-            <h1 className="wl-sc-capture-title">{t('scorecard.capture.title')}</h1>
-            <p className="wl-sc-capture-subtitle">{t('scorecard.capture.subtitle')}</p>
-            <p className="wl-sc-capture-time">{t('scorecard.capture.timeNote')}</p>
+            <h1 className="wl-sc-capture-title">{'How AI-Ready Is Your Website?'}</h1>
+            <p className="wl-sc-capture-subtitle">{'Answer 14 quick questions. Get your personalized AEO Readiness Score instantly.'}</p>
+            <p className="wl-sc-capture-time">{'Takes less than 2 minutes'}</p>
 
             <form className="wl-sc-capture-form" onSubmit={handleCapture}>
               <input
                 type="text"
                 className="wl-sc-input"
-                placeholder={t('scorecard.capture.name')}
+                placeholder={'Your name'}
                 value={contactInfo.name}
                 onChange={(e) => setContactInfo(prev => ({ ...prev, name: e.target.value }))}
                 required
@@ -296,7 +294,7 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
               <input
                 type="email"
                 className="wl-sc-input"
-                placeholder={t('scorecard.capture.email')}
+                placeholder={'Your email'}
                 value={contactInfo.email}
                 onChange={(e) => setContactInfo(prev => ({ ...prev, email: e.target.value }))}
                 required
@@ -310,10 +308,10 @@ export default function WaitlistScorecard({ onClose, onComplete }) {
               >
                 {isSubmitting
                   ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
-                  : t('scorecard.capture.start')}
+                  : 'Start Assessment →'}
               </button>
 
-              <p className="wl-sc-consent">{t('scorecard.capture.consent')}</p>
+              <p className="wl-sc-consent">{'By starting, you join our early access list. No spam, ever.'}</p>
             </form>
           </div>
         )}

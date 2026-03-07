@@ -1,5 +1,4 @@
 import { memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { DataConfidenceLabel } from '../../components/DataConfidenceLabel'
 
@@ -18,8 +17,7 @@ import { DataConfidenceLabel } from '../../components/DataConfidenceLabel'
  * @param {'measured'|'estimated'|'mixed'} [confidence] - Data confidence indicator
  */
 export default memo(function StatCard({ label, value, trend, icon, iconColor, subValue, layout = 'vertical', className = '', confidence }) {
-  const { t } = useTranslation('app')
-  const isHorizontal = layout === 'horizontal'
+const isHorizontal = layout === 'horizontal'
 
   return (
     <div className={`stat-card ${className}`}>
@@ -42,7 +40,7 @@ export default memo(function StatCard({ label, value, trend, icon, iconColor, su
             )}
           </div>
           {trend !== null && trend !== undefined && (
-            <TrendBadge trend={trend} t={t} />
+            <TrendBadge trend={trend} />
           )}
         </div>
       ) : (
@@ -61,7 +59,7 @@ export default memo(function StatCard({ label, value, trend, icon, iconColor, su
           </div>
           <div className="stat-card-value">{value}</div>
           {trend !== null && trend !== undefined && (
-            <TrendBadge trend={trend} t={t} />
+            <TrendBadge trend={trend} />
           )}
         </>
       )}
@@ -69,7 +67,7 @@ export default memo(function StatCard({ label, value, trend, icon, iconColor, su
   )
 })
 
-function TrendBadge({ trend, t }) {
+function TrendBadge({ trend }) {
   return (
     <div className={`stat-card-trend ${trend > 0 ? 'up' : trend < 0 ? 'down' : ''}`}>
       {trend > 0 ? (
@@ -82,7 +80,7 @@ function TrendBadge({ trend, t }) {
       <span style={{
         color: trend > 0 ? undefined : trend < 0 ? undefined : 'var(--text-tertiary)',
       }}>
-        {trend > 0 ? '+' : ''}{trend}% {t('dashboard.statCard.vsLastPeriod')}
+        {trend > 0 ? '+' : ''}{trend}% {'vs last period'}
       </span>
     </div>
   )

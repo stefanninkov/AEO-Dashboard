@@ -8,7 +8,6 @@ import {
   Layers, ShoppingCart, Heart, Landmark, Scale, Home,
   GraduationCap, Megaphone, Store, Newspaper, Briefcase,
 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import {
   INDUSTRY_IDS, REGION_IDS, AUDIENCE_IDS, GOAL_IDS,
   ENGINE_IDS, ENGINE_COLORS, CONTENT_IDS, MATURITY_IDS, CMS_IDS,
@@ -24,8 +23,7 @@ const INDUSTRY_ICON_MAP = {
 }
 
 export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) {
-  const { t } = useTranslation('app')
-  const trapRef = useFocusTrap(true)
+const trapRef = useFocusTrap(true)
   const [countrySearch, setCountrySearch] = useState('')
 
   const [answers, setAnswers] = useState({
@@ -88,36 +86,36 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
 
   /* Translated option arrays */
   const INDUSTRY_OPTIONS = useMemo(() => INDUSTRY_IDS.map(id => ({
-    value: id, icon: INDUSTRY_ICON_MAP[id], label: t(`labels.industry.${id}`),
-  })), [t])
+    value: id, icon: INDUSTRY_ICON_MAP[id], label: '${id}',
+  })), [])
 
   const REGION_OPTIONS = useMemo(() => REGION_IDS.map(id => ({
-    value: id, label: t(`labels.region.${id}`),
-  })), [t])
+    value: id, label: '${id}',
+  })), [])
 
   const AUDIENCE_OPTIONS = useMemo(() => AUDIENCE_IDS.map(id => ({
-    value: id, label: t(`questionnaire.audience.${id}.label`), desc: t(`questionnaire.audience.${id}.desc`),
-  })), [t])
+    value: id, label: 'Label', desc: 'Desc',
+  })), [])
 
   const GOAL_OPTIONS = useMemo(() => GOAL_IDS.map(id => ({
-    value: id, label: t(`questionnaire.goal.${id}.label`),
-  })), [t])
+    value: id, label: 'Label',
+  })), [])
 
   const ENGINE_OPTIONS = useMemo(() => ENGINE_IDS.map(id => ({
-    value: id, color: ENGINE_COLORS[id], label: t(`labels.engine.${id}`),
-  })), [t])
+    value: id, color: ENGINE_COLORS[id], label: '${id}',
+  })), [])
 
   const CONTENT_OPTIONS = useMemo(() => CONTENT_IDS.map(id => ({
-    value: id, label: t(`questionnaire.content.${id}.label`),
-  })), [t])
+    value: id, label: 'Label',
+  })), [])
 
   const MATURITY_OPTIONS = useMemo(() => MATURITY_IDS.map(id => ({
-    value: id, label: t(`questionnaire.maturity.${id}.label`),
-  })), [t])
+    value: id, label: 'Label',
+  })), [])
 
   const CMS_OPTIONS = useMemo(() => CMS_IDS.map(id => ({
-    value: id, label: t(`labels.cms.${id}`),
-  })), [t])
+    value: id, label: '${id}',
+  })), [])
 
   const countryOptions = useMemo(() => {
     if (!answers.region || answers.region === 'global') return []
@@ -204,7 +202,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
             fontFamily: 'var(--font-heading)', fontSize: 15, fontWeight: 700,
             color: 'var(--text-primary)', margin: 0,
           }}>
-            {t('projectGeneral.editProfile', 'Edit Project Profile')}
+            {'Edit Project Profile'}
           </h3>
           <button
             onClick={onCancel}
@@ -223,7 +221,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
         <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem 1.5rem' }}>
 
           {/* ── Industry ── */}
-          {sectionLabel(t('projectGeneral.industry'))}
+          {sectionLabel('Industry')}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 16 }}>
             {INDUSTRY_OPTIONS.map(opt => {
               const Icon = opt.icon
@@ -251,7 +249,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           {answers.industry === 'other' && (
             <input
               type="text"
-              placeholder={t('questionnaire.step0.industryOtherPlaceholder')}
+              placeholder={'Describe your industry...'}
               value={answers.industryOther}
               onChange={e => update('industryOther', e.target.value)}
               className="input-field"
@@ -260,7 +258,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           )}
 
           {/* ── Region ── */}
-          {sectionLabel(t('projectGeneral.region'))}
+          {sectionLabel('Region')}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
             {REGION_OPTIONS.map(opt => chipButton(
               opt.value, opt.label,
@@ -298,7 +296,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
                 <SearchCheck size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }} />
                 <input
                   type="text"
-                  placeholder={t('questionnaire.step0.searchCountries')}
+                  placeholder={'Search countries...'}
                   value={countrySearch}
                   onChange={e => setCountrySearch(e.target.value)}
                   className="input-field"
@@ -327,7 +325,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           )}
 
           {/* ── Audience ── */}
-          {sectionLabel(t('projectGeneral.audience'))}
+          {sectionLabel('Audience')}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
             {AUDIENCE_OPTIONS.map(opt => chipButton(
               opt.value, opt.label,
@@ -338,7 +336,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           </div>
 
           {/* ── Primary Goal ── */}
-          {sectionLabel(t('projectGeneral.primaryGoal'))}
+          {sectionLabel('Primary Goal')}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
             {GOAL_OPTIONS.map(opt => chipButton(
               opt.value, opt.label,
@@ -349,7 +347,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           </div>
 
           {/* ── Target Engines ── */}
-          {sectionLabel(t('projectGeneral.targetEngines'))}
+          {sectionLabel('Target Engines')}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
             {ENGINE_OPTIONS.map(opt => {
               const isSelected = answers.targetEngines.includes(opt.value)
@@ -380,7 +378,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           </div>
 
           {/* ── Content Type ── */}
-          {sectionLabel(t('projectGeneral.contentType'))}
+          {sectionLabel('Content Type')}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
             {CONTENT_OPTIONS.map(opt => chipButton(
               opt.value, opt.label,
@@ -391,7 +389,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           </div>
 
           {/* ── Maturity ── */}
-          {sectionLabel(t('projectGeneral.aeoMaturity'))}
+          {sectionLabel('AEO Maturity')}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
             {MATURITY_OPTIONS.map(opt => chipButton(
               opt.value, opt.label,
@@ -402,12 +400,12 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           </div>
 
           {/* ── Schema ── */}
-          {sectionLabel(t('questionnaire.step5.schemaLabel'))}
+          {sectionLabel('Do you have schema markup on your site?')}
           <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
             {[
-              { value: 'yes', label: t('questionnaire.step5.schemaYes') },
-              { value: 'no', label: t('questionnaire.step5.schemaNo') },
-              { value: 'unknown', label: t('questionnaire.step5.schemaDontKnow') },
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
+              { value: 'unknown', label: 'Don\'t Know' },
             ].map(opt => chipButton(
               opt.value, opt.label,
               answers.hasSchema === opt.value,
@@ -417,13 +415,13 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           </div>
 
           {/* ── Update Cadence ── */}
-          {sectionLabel(t('questionnaire.step5.cadenceLabel'))}
+          {sectionLabel('How often do you update content?')}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
             {[
-              { value: 'weekly', label: t('questionnaire.step5.cadenceWeekly') },
-              { value: 'monthly', label: t('questionnaire.step5.cadenceMonthly') },
-              { value: 'rarely', label: t('questionnaire.step5.cadenceRarely') },
-              { value: 'never', label: t('questionnaire.step5.cadenceNever') },
+              { value: 'weekly', label: 'Weekly' },
+              { value: 'monthly', label: 'Monthly' },
+              { value: 'rarely', label: 'Rarely' },
+              { value: 'never', label: 'Never' },
             ].map(opt => chipButton(
               opt.value, opt.label,
               answers.updateCadence === opt.value,
@@ -433,7 +431,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           </div>
 
           {/* ── Languages ── */}
-          {sectionLabel(<><Globe size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />{t('projectGeneral.languages')}</>)}
+          {sectionLabel(<><Globe size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />{'Languages'}</>)}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
             {LANGUAGE_OPTIONS.map(opt => chipButton(
               opt.value, opt.label,
@@ -444,29 +442,29 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
           </div>
 
           {/* ── Business Description ── */}
-          {sectionLabel(t('projectGeneral.description'))}
+          {sectionLabel('Description')}
           <textarea
             value={answers.businessDescription}
             onChange={e => update('businessDescription', e.target.value)}
-            placeholder={t('questionnaire.step4.businessDescPlaceholder')}
+            placeholder={'Briefly describe what your business does and who you serve. E.g.: We\'re a cloud hosting company serving small businesses across Europe, offering managed hosting and API integrations.'}
             className="input-field"
             rows={3}
             style={{ width: '100%', resize: 'vertical', fontSize: 12, lineHeight: 1.5, marginBottom: 14 }}
           />
 
           {/* ── Top Services ── */}
-          {sectionLabel(t('projectGeneral.services'))}
+          {sectionLabel('Services')}
           <input
             type="text"
             value={answers.topServices}
             onChange={e => update('topServices', e.target.value)}
-            placeholder={t('questionnaire.step4.servicesPlaceholder')}
+            placeholder={'e.g., cloud hosting, API integrations, consulting services'}
             className="input-field"
             style={{ width: '100%', marginBottom: 14, fontSize: 12 }}
           />
 
           {/* ── CMS ── */}
-          {sectionLabel(<><Monitor size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />{t('projectGeneral.cmsPlatform')}</>)}
+          {sectionLabel(<><Monitor size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />{'CMS / Platform'}</>)}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
             {CMS_OPTIONS.map(opt => chipButton(
               opt.value, opt.label,
@@ -494,7 +492,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
               cursor: 'pointer', fontFamily: 'var(--font-body)',
             }}
           >
-            {t('projectGeneral.cancel', 'Cancel')}
+            {'Cancel'}
           </button>
           <button
             onClick={handleSave}
@@ -502,7 +500,7 @@ export default function ProjectProfileForm({ questionnaire, onSave, onCancel }) 
             style={{ padding: '0.5rem 1.125rem', fontSize: 12 }}
           >
             <Save size={13} />
-            {t('projectGeneral.saveProfile', 'Save Profile')}
+            {'Save Profile'}
           </button>
         </div>
       </div>

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { hasApiKey } from '../utils/aiProvider'
-import { useTranslation } from 'react-i18next'
 import {
   Activity, Clock, Play, CheckCircle2, XCircle, AlertCircle,
   Loader2, TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp,
@@ -30,39 +29,38 @@ function getIntervalMs(intervalValue) {
 
 function getIntervalLabel(intervalValue, t) {
   const meta = INTERVAL_META.find(o => o.value === intervalValue)
-  return meta ? t(meta.i18nKey) : t('monitoring.interval.weekly')
+  return meta ? meta.fallbackLabel || meta.label || 'Weekly' : 'Weekly'
 }
 
 // ─── Time Helpers ────────────────────────────────────────────
 function timeAgo(dateStr, t) {
-  if (!dateStr) return t('monitoring.timeAgo.never')
+  if (!dateStr) return 'Never'
   const diff = Date.now() - new Date(dateStr).getTime()
   const mins = Math.floor(diff / 60000)
-  if (mins < 1) return t('monitoring.timeAgo.justNow')
-  if (mins < 60) return t('monitoring.timeAgo.minsAgo', { count: mins })
+  if (mins < 1) return 'Just now'
+  if (mins < 60) return `${mins}m ago`
   const hours = Math.floor(mins / 60)
-  if (hours < 24) return t('monitoring.timeAgo.hoursAgo', { count: hours })
+  if (hours < 24) return `${hours}h ago`
   const days = Math.floor(hours / 24)
-  if (days < 7) return t('monitoring.timeAgo.daysAgo', { count: days })
+  if (days < 7) return `${days}d ago`
   return new Date(dateStr).toLocaleDateString()
 }
 
-function getNextRunDate(lastRun, interval, t) {
-  if (!lastRun) return t('monitoring.nextRun.pending')
+function getNextRunDate(lastRun, interval) {
+  if (!lastRun) return 'Now (pending)'
   const next = new Date(lastRun).getTime() + getIntervalMs(interval)
-  if (next <= Date.now()) return t('monitoring.nextRun.overdue')
+  if (next <= Date.now()) return 'Overdue — will run soon'
   const diff = next - Date.now()
   const hours = Math.floor(diff / 3600000)
-  if (hours < 1) return t('monitoring.nextRun.lessThanHour')
-  if (hours < 24) return t('monitoring.nextRun.inHours', { count: hours })
+  if (hours < 1) return 'Less than 1 hour'
+  if (hours < 24) return `In ${hours} hour${hours > 1 ? 's' : ''}`
   const days = Math.floor(hours / 24)
-  return t('monitoring.nextRun.inDays', { count: days })
+  return `In ${days} day${days > 1 ? 's' : ''}`
 }
 
 // ─── Main Component ──────────────────────────────────────────
 export default function MonitoringView({ activeProject, updateProject, user }) {
-  const { t } = useTranslation('app')
-  const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({ activeProject, updateProject })
+const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({ activeProject, updateProject })
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const [activeTab, setActiveTab] = useState('monitoring') // 'monitoring' | 'decay'
   const [expandedRun, setExpandedRun] = useState(null)
@@ -126,12 +124,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       if (Math.abs(delta) >= threshold) {
         setNotification({
           type: delta > 0 ? 'positive' : 'negative',
-          message: t('monitoring.scoreChanged', {
-            direction: delta > 0 ? t('monitoring.scoreIncreased') : t('monitoring.scoreDecreased'),
-            delta: Math.abs(delta),
-            from: prevScore,
-            to: lastResult.overallScore,
-          }),
+          message: `Citation score ${delta > 0 ? 'increased' : 'decreased'} by ${Math.abs(delta)}% (${prevScore}% → ${lastResult.overallScore}%)`,
         })
         setTimeout(() => setNotification(null), 8000)
       }
@@ -229,33 +222,33 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('monitoring.title')}</h2>
-          <p className="view-subtitle">{t('monitoring.subtitle')}</p>
+          <h2 className="view-title">{'Citation Monitoring'}</h2>
+          <p className="view-subtitle">{'Track your brand mentions across AI engines'}</p>
         </div>
         <div className="view-header-actions">
           <button
             className={`mon-schedule-badge ${settings.monitoringEnabled ? 'mon-schedule-active' : ''}`}
             onClick={toggleMonitoring}
-            title={settings.monitoringEnabled ? t('monitoring.disableSchedule') : t('monitoring.enableSchedule')}
+            title={settings.monitoringEnabled ? 'Disable scheduled monitoring' : 'Enable scheduled monitoring'}
           >
             {settings.monitoringEnabled ? <Bell size={14} /> : <BellOff size={14} />}
-            {settings.monitoringEnabled ? t('monitoring.autoOn', { interval: getIntervalLabel(settings.monitoringInterval, t) }) : t('monitoring.autoOff')}
+            {settings.monitoringEnabled ? `Auto: ${getIntervalLabel(settings.monitoringInterval)}` : 'Auto: Off'}
           </button>
           <button
             className="mon-run-btn"
             onClick={handleRunMonitor}
             disabled={monitoring || !hasUrl || !queryCount}
-            title={!hasUrl ? t('monitoring.setUrlFirst') : !queryCount ? t('monitoring.addQueriesFirst') : t('monitoring.runCheckNow')}
+            title={!hasUrl ? 'Set a project URL first' : !queryCount ? 'Add queries in Testing view first' : 'Run check now'}
           >
             {monitoring ? (
               <>
                 <Loader2 size={16} className="mon-spinner" />
-                {t('monitoring.checking')} ({progress.current}/{progress.total})
+                {'Checking...'} ({progress.current}/{progress.total})
               </>
             ) : (
               <>
                 <Play size={16} />
-                {t('monitoring.runAll')}
+                {'Run All Checks'}
               </>
             )}
           </button>
@@ -270,7 +263,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
           onClick={() => setActiveTab('monitoring')}
         >
           <Activity size={14} />
-          <span>{t('monitoring.tabMonitoring')}</span>
+          <span>{'Monitoring'}</span>
         </button>
         <button
           className="tab-segmented"
@@ -278,7 +271,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
           onClick={() => setActiveTab('decay')}
         >
           <TrendingDown size={14} />
-          <span>{t('monitoring.tabDecay')}</span>
+          <span>{'Content Decay'}</span>
         </button>
       </div>
 
@@ -300,7 +293,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
       {/* Progress bar */}
       {monitoring && (
-        <ProgressBar current={progress.current} total={progress.total} stage={t('monitoring.checkingProgress', { current: progress.current, total: progress.total })} color="var(--color-phase-3)" />
+        <ProgressBar current={progress.current} total={progress.total} stage={`Checking query ${progress.current} of ${progress.total}`} color="var(--color-phase-3)" />
       )}
 
       {/* Prerequisites Warning */}
@@ -308,8 +301,8 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
         <div className="mon-warning">
           <AlertCircle size={16} />
           <div>
-            {!hasUrl && <p>{t('monitoring.setUrlWarning')}</p>}
-            {!queryCount && <p>{t('monitoring.addQueriesWarning')}</p>}
+            {!hasUrl && <p>{'Set a project URL in Settings to enable monitoring.'}</p>}
+            {!queryCount && <p>{'Add queries in the Testing view\'s Query Tracker to start monitoring.'}</p>}
           </div>
         </div>
       )}
@@ -318,7 +311,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       <div className="stagger-grid mon-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(14rem, 1fr))', gap: 'var(--space-4)' }}>
         {/* Current Score */}
         <StatCard
-          label={t('monitoring.citationScore')}
+          label={'Citation Score'}
           value={latestRun ? `${latestRun.overallScore}%` : '—'}
           trend={scoreDelta}
           icon={<Activity size={18} />}
@@ -327,9 +320,9 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
         {/* Queries Cited */}
         <StatCard
-          label={t('monitoring.queriesCited')}
+          label={'Queries Cited'}
           value={latestRun ? `${latestRun.queriesCited}/${latestRun.queriesChecked}` : '—'}
-          subValue={latestRun ? t('monitoring.hitRate', { value: latestRun.queriesChecked > 0 ? Math.round((latestRun.queriesCited / latestRun.queriesChecked) * 100) : 0 }) : t('monitoring.noDataYet')}
+          subValue={latestRun ? `${latestRun.queriesChecked > 0 ? Math.round((latestRun.queriesCited / latestRun.queriesChecked) * 100) : 0}% hit rate` : 'No data yet'}
           icon={<CheckCircle2 size={18} />}
           iconColor="var(--color-phase-4)"
           layout="horizontal"
@@ -337,11 +330,11 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
         {/* Last Run */}
         <StatCard
-          label={t('monitoring.lastCheck')}
+          label={'Last Check'}
           value={timeAgo(activeProject?.lastMonitorRun, t)}
           subValue={activeProject?.lastMonitorRun
             ? new Date(activeProject.lastMonitorRun).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-            : t('monitoring.neverRun')}
+            : 'Never run'}
           icon={<Clock size={18} />}
           iconColor="var(--color-phase-5)"
           layout="horizontal"
@@ -349,11 +342,11 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
         {/* Next Run */}
         <StatCard
-          label={t('monitoring.nextScheduled')}
+          label={'Next Scheduled'}
           value={settings.monitoringEnabled
-            ? getNextRunDate(activeProject?.lastMonitorRun, settings.monitoringInterval, t)
-            : t('monitoring.disabled')}
-          subValue={settings.monitoringEnabled ? t('monitoring.intervalLabel', { interval: getIntervalLabel(settings.monitoringInterval, t) }) : t('monitoring.enableInSettings')}
+            ? getNextRunDate(activeProject?.lastMonitorRun, settings.monitoringInterval)
+            : 'Disabled'}
+          subValue={settings.monitoringEnabled ? `Interval: ${getIntervalLabel(settings.monitoringInterval)}` : 'Enable in settings below'}
           icon={<Calendar size={18} />}
           iconColor="var(--color-phase-6)"
           layout="horizontal"
@@ -366,9 +359,9 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
           <div className="mon-trend-header">
             <h3 className="mon-section-title">
               <ChartColumnIncreasing size={16} />
-              {t('monitoring.scoreTrend')}
+              {'Score Trend'}
             </h3>
-            <span className="mon-trend-range">{t('monitoring.checksCount', { count: monitorHistory.length })}</span>
+            <span className="mon-trend-range">{`${monitorHistory.length} checks`}</span>
           </div>
           <div className="mon-trend-chart">
             <svg viewBox={`0 0 ${sparklineData.width} ${sparklineData.height}`} className="mon-sparkline">
@@ -403,13 +396,13 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       <div className="mon-settings-card">
         <h3 className="mon-section-title">
           <SlidersHorizontal size={16} />
-          {t('monitoring.scheduleSettings')}
+          {'Schedule Settings'}
         </h3>
         <div className="mon-settings-grid">
           <div className="mon-setting-row">
             <div className="mon-setting-info">
-              <span className="mon-setting-label">{t('monitoring.autoMonitoring')}</span>
-              <span className="mon-setting-desc">{t('monitoring.autoMonitoringDesc')}</span>
+              <span className="mon-setting-label">{'Auto-Monitoring'}</span>
+              <span className="mon-setting-desc">{'Automatically check citation score on a schedule'}</span>
             </div>
             <button
               className={`mon-toggle ${settings.monitoringEnabled ? 'mon-toggle-on' : ''}`}
@@ -423,8 +416,8 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
 
           <div className="mon-setting-row">
             <div className="mon-setting-info">
-              <span className="mon-setting-label">{t('monitoring.checkInterval')}</span>
-              <span className="mon-setting-desc">{t('monitoring.checkIntervalDesc')}</span>
+              <span className="mon-setting-label">{'Check Interval'}</span>
+              <span className="mon-setting-desc">{'How often to run automated checks'}</span>
             </div>
             <select
               className="mon-select"
@@ -432,15 +425,15 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
               onChange={e => setInterval_(e.target.value)}
             >
               {INTERVAL_META.map(opt => (
-                <option key={opt.value} value={opt.value}>{t(opt.i18nKey)}</option>
+                <option key={opt.value} value={opt.value}>{opt.fallbackLabel || opt.label || opt.value}</option>
               ))}
             </select>
           </div>
 
           <div className="mon-setting-row">
             <div className="mon-setting-info">
-              <span className="mon-setting-label">{t('monitoring.scoreChangeAlerts')}</span>
-              <span className="mon-setting-desc">{t('monitoring.scoreChangeAlertsDesc', { threshold: settings.notifyThreshold || 10 })}</span>
+              <span className="mon-setting-label">{'Score Change Alerts'}</span>
+              <span className="mon-setting-desc">{`Notify when score changes by ≥${settings.notifyThreshold || 10}%`}</span>
             </div>
             <button
               className={`mon-toggle ${settings.notifyOnScoreChange ? 'mon-toggle-on' : ''}`}
@@ -459,7 +452,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
         <div className="mon-results-card">
           <h3 className="mon-section-title">
             <Sparkles size={16} />
-            {t('monitoring.latestResults')}
+            {'Latest Results'}
           </h3>
           <div className="mon-results-list">
             {Object.entries(latestRun.results).map(([id, r]) => (
@@ -472,7 +465,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
                   <span className="mon-result-excerpt">{r.excerpt}</span>
                 </div>
                 <span className={`mon-result-badge ${r.cited ? 'mon-badge-cited' : 'mon-badge-not-cited'}`}>
-                  {r.cited ? t('monitoring.cited') : t('monitoring.notCited')}
+                  {r.cited ? 'Cited' : 'Not Cited'}
                 </span>
               </div>
             ))}
@@ -486,9 +479,9 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
           <div className="mon-history-header">
             <h3 className="mon-section-title">
               <Calendar size={16} />
-              {t('monitoring.checkHistory')}
+              {'Check History'}
             </h3>
-            <span className="mon-history-count">{t('monitoring.totalChecks', { count: monitorHistory.length })}</span>
+            <span className="mon-history-count">{`${monitorHistory.length} total checks`}</span>
           </div>
           <div className="mon-history-list">
             {displayHistory.map((run, i) => {
@@ -510,7 +503,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
                       {run.overallScore}%
                     </span>
                     <span className="mon-history-queries">
-                      {t('monitoring.queriesCitedOf', { cited: run.queriesCited, checked: run.queriesChecked })}
+                      {`${run.queriesCited}/${run.queriesChecked} cited`}
                     </span>
                     {delta !== null && (
                       <span className={`mon-history-delta ${delta > 0 ? 'mon-delta-up' : delta < 0 ? 'mon-delta-down' : 'mon-delta-flat'}`}>
@@ -540,7 +533,7 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
           </div>
           {monitorHistory.length > 10 && (
             <button className="mon-show-more" onClick={() => setShowAllHistory(!showAllHistory)}>
-              {showAllHistory ? t('monitoring.showLess') : t('monitoring.showAllChecks', { count: monitorHistory.length })}
+              {showAllHistory ? 'Show less' : `Show all ${monitorHistory.length} checks`}
               {showAllHistory ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </button>
           )}
@@ -551,9 +544,9 @@ export default function MonitoringView({ activeProject, updateProject, user }) {
       {!latestRun && !monitoring && !error && hasUrl && queryCount > 0 && (
         <EmptyState
           icon={Activity}
-          title={t('monitoring.noQueries')}
-          description={t('monitoring.noQueriesDesc')}
-          action={{ label: t('monitoring.runAll'), onClick: handleRunMonitor }}
+          title={'No monitoring data yet'}
+          description={'Run your first check to see how often your site is cited by AI answer engines for your tracked queries.'}
+          action={{ label: 'Run All Checks', onClick: handleRunMonitor }}
         />
       )}
 

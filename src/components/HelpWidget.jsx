@@ -1,19 +1,17 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { MessageCircle, X, Bot, MessageSquare } from 'lucide-react'
 import FeedbackTab from './help/FeedbackTab'
 import HelpChatTab from './help/HelpChatTab'
 
 export default function HelpWidget({ user, activeView, activeProject, setActiveView }) {
-  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('feedback')
   const panelRef = useRef(null)
   const btnRef = useRef(null)
 
   const TABS = [
-    { id: 'feedback', label: t('help.feedback'), icon: MessageSquare },
-    { id: 'help', label: t('help.help'), icon: Bot },
+    { id: 'feedback', label: 'Feedback', icon: MessageSquare },
+    { id: 'help', label: 'Help', icon: Bot },
   ]
 
   // Close on escape
@@ -65,7 +63,7 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
           boxShadow: '0 0.25rem 1rem rgba(0,0,0,0.2)',
           transition: 'all 200ms ease',
         }}
-        aria-label={open ? t('help.closeWidget') : t('help.openWidget')}
+        aria-label={open ? 'Close help widget' : 'Open help widget'}
       >
         {open ? <X size={20} /> : <MessageCircle size={20} />}
       </button>

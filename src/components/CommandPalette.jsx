@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import {
   SearchCheck, Gauge, Users, Sparkles,
@@ -70,7 +69,6 @@ export default function CommandPalette({
   onExport,
   setDocItem,
 }) {
-  const { t } = useTranslation()
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebounce(query, 100)
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -88,7 +86,7 @@ export default function CommandPalette({
       items.push({
         id: `nav-${nav.id}`,
         type: 'Navigation',
-        label: t(nav.i18nKey),
+        label: nav.fallbackLabel || nav.label,
         icon: NAV_ICONS[nav.id],
         shortcut: nav.shortcut,
         action: () => setActiveView(nav.id),
@@ -100,21 +98,21 @@ export default function CommandPalette({
       {
         id: 'action-new-project',
         type: 'Action',
-        label: t('actions.createNewProject'),
+        label: 'Create New Project',
         icon: Plus,
         action: () => onNewProject(),
       },
       {
         id: 'action-analyzer',
         type: 'Action',
-        label: t('actions.runAnalyzer'),
+        label: 'Run Analyzer',
         icon: Sparkles,
         action: () => setActiveView('analyzer'),
       },
       {
         id: 'action-export',
         type: 'Action',
-        label: t('actions.exportReport'),
+        label: 'Export Report',
         icon: Download,
         action: () => onExport(),
       },
@@ -128,7 +126,7 @@ export default function CommandPalette({
       {
         id: 'action-toggle-theme',
         type: 'Action',
-        label: theme === 'dark' ? t('commandPalette.switchToLightMode') : theme === 'light' ? t('commandPalette.switchToAutoMode') : t('commandPalette.switchToDarkMode'),
+        label: theme === 'dark' ? 'Switch to Light Mode' : theme === 'light' ? 'Switch to Auto Mode' : 'Switch to Dark Mode',
         icon: theme === 'dark' ? Sun : theme === 'light' ? Sun : Moon,
         action: () => toggleTheme(),
       },
@@ -192,7 +190,7 @@ export default function CommandPalette({
     }
 
     return items
-  }, [phases, activeProject, projects, theme, t, setActiveView, onNewProject, onExport, toggleTheme, setDocItem, setActiveProjectId])
+  }, [phases, activeProject, projects, theme, setActiveView, onNewProject, onExport, toggleTheme, setDocItem, setActiveProjectId])
 
   // Filter results based on debounced query
   const filteredResults = useMemo(() => {
@@ -296,7 +294,7 @@ export default function CommandPalette({
         className="cmd-palette-panel"
         role="dialog"
         aria-modal="true"
-        aria-label={t('commandPalette.placeholder')}
+        aria-label={'Type a command or search...'}
         onClick={e => e.stopPropagation()}
         style={{
           animation: isClosing
@@ -311,7 +309,7 @@ export default function CommandPalette({
           <input
             ref={inputRef}
             type="text"
-            placeholder={t('commandPalette.placeholder')}
+            placeholder={'Type a command or search...'}
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -381,12 +379,12 @@ export default function CommandPalette({
                           fontSize: '0.6875rem',
                           color: item.checked ? 'var(--color-success)' : 'var(--text-disabled)',
                         }}>
-                          {item.checked ? t('status.done') : t('status.todo')}
+                          {item.checked ? 'Done' : 'Todo'}
                         </span>
                       )}
                       {item.isActive && (
                         <span style={{ fontSize: '0.6875rem', color: 'var(--color-phase-1)' }}>
-                          {t('status.active')}
+                          {'Active'}
                         </span>
                       )}
                     </div>
@@ -396,24 +394,24 @@ export default function CommandPalette({
             ))
           ) : (
             <div className="cmd-palette-empty">
-              {t('commandPalette.noResults', { query })}
+              {`No results for "${query}"`}
             </div>
           )}
         </div>
         <div className="sr-only" aria-live="polite">
-          {debouncedQuery.trim() ? t('topbar.resultsFound', { count: filteredResults.length }) : ''}
+          {debouncedQuery.trim() ? `${filteredResults.length} results found` : ''}
         </div>
 
         {/* Footer with keyboard hints */}
         <div className="cmd-palette-footer">
           <span className="cmd-palette-footer-hint">
-            <CornerDownLeft size={12} /> {t('actions.select')}
+            <CornerDownLeft size={12} /> {'Select'}
           </span>
           <span className="cmd-palette-footer-hint">
-            <span style={{ fontSize: '0.6875rem' }}>&uarr;&darr;</span> {t('actions.navigate')}
+            <span style={{ fontSize: '0.6875rem' }}>&uarr;&darr;</span> {'Navigate'}
           </span>
           <span className="cmd-palette-footer-hint">
-            <kbd className="cmd-palette-kbd-sm">ESC</kbd> {t('actions.close')}
+            <kbd className="cmd-palette-kbd-sm">ESC</kbd> {'Close'}
           </span>
         </div>
       </div>

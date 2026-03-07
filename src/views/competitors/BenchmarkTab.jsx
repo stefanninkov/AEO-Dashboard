@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { BarChart3, TrendingUp, TrendingDown, Minus, AlertCircle } from 'lucide-react'
 import { AeoRadarChart, WaterfallChart } from '../../components/charts'
 import { useChartColors } from '../../utils/chartColors'
@@ -9,8 +8,7 @@ import { CATEGORY_LABELS } from './CompetitorsOverviewTab'
  * BenchmarkTab — Side-by-side competitor comparison with radar charts and gap analysis.
  */
 export default function BenchmarkTab({ activeProject }) {
-  const { t } = useTranslation('app')
-  const { phaseColorArray, scoreColors, isLight } = useChartColors()
+const { phaseColorArray, scoreColors, isLight } = useChartColors()
   const [selectedCompetitor, setSelectedCompetitor] = useState(null)
 
   const competitors = activeProject?.competitors || []
@@ -93,7 +91,7 @@ export default function BenchmarkTab({ activeProject }) {
       <div className="card card-lg" style={{ textAlign: 'center', padding: '3rem' }}>
         <AlertCircle size={32} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.75rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>
-          {t('competitors.needTwoForBenchmark', 'Add your site and at least one competitor, then run an analysis to see benchmarks.')}
+          {'Add your site and at least one competitor, then run an analysis to see benchmarks.'}
         </p>
       </div>
     )
@@ -104,7 +102,7 @@ export default function BenchmarkTab({ activeProject }) {
       <div className="card card-lg" style={{ textAlign: 'center', padding: '3rem' }}>
         <BarChart3 size={32} style={{ color: 'var(--text-disabled)', margin: '0 auto 0.75rem' }} />
         <p style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>
-          {t('competitors.runAnalysisForBenchmark', 'Run a competitor analysis first to see benchmark comparisons.')}
+          {'Run a competitor analysis first to see benchmark comparisons.'}
         </p>
       </div>
     )
@@ -118,7 +116,7 @@ export default function BenchmarkTab({ activeProject }) {
           fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700,
           marginBottom: '1rem', color: 'var(--text-primary)',
         }}>
-          {t('competitors.overallBenchmark', 'Overall AEO Benchmark')}
+          {'Overall AEO Benchmark'}
         </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {benchmarkScores.map((item) => (
@@ -161,7 +159,7 @@ export default function BenchmarkTab({ activeProject }) {
           fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700,
           marginBottom: '1rem', color: 'var(--text-primary)',
         }}>
-          {t('competitors.radarComparison', 'Category Comparison')}
+          {'Category Comparison'}
         </h3>
         <AeoRadarChart
           data={radarData}
@@ -182,7 +180,7 @@ export default function BenchmarkTab({ activeProject }) {
             fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700,
             color: 'var(--text-primary)',
           }}>
-            {t('competitors.gapAnalysis', 'Gap Analysis')}
+            {'Gap Analysis'}
           </h3>
           {competitors.filter((c) => !c.isOwn).length > 1 && (
             <select
@@ -205,7 +203,7 @@ export default function BenchmarkTab({ activeProject }) {
           )}
         </div>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
-          {t('competitors.gapDescription', 'Positive values = you\'re ahead. Negative values = competitor leads.')}
+          {'Positive values = you\'re ahead. Negative values = competitor leads.'}
         </p>
         <WaterfallChart
           data={gapData}

@@ -1,11 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { CheckCircle2, XCircle, UserPlus, X, ChevronUp } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-
 /* ── Assign Dropdown (opens upward) ── */
 function AssignDropdown({ members, onAssign }) {
-  const { t } = useTranslation('app')
-  const [open, setOpen] = useState(false)
+const [open, setOpen] = useState(false)
   const ref = useRef(null)
 
   useEffect(() => {
@@ -25,10 +22,10 @@ function AssignDropdown({ members, onAssign }) {
         onClick={() => setOpen(!open)}
         className="btn-ghost btn-sm"
         style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
-        title={t('bulk.assignSelected')}
+        title={'Assign selected to team member'}
       >
         <UserPlus size={13} />
-        <span>{t('bulk.assign')}</span>
+        <span>{'Assign'}</span>
         <ChevronUp size={10} style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }} />
       </button>
       {open && (
@@ -44,7 +41,7 @@ function AssignDropdown({ members, onAssign }) {
             textTransform: 'uppercase', letterSpacing: '0.0313rem',
             color: 'var(--text-tertiary)', borderBottom: '0.0625rem solid var(--border-subtle)',
           }}>
-            {t('bulk.assignTo')}
+            {'Assign to'}
           </div>
           {members.map(m => (
             <button
@@ -60,7 +57,7 @@ function AssignDropdown({ members, onAssign }) {
               onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
               onMouseLeave={e => e.currentTarget.style.background = 'none'}
             >
-              {m.displayName || m.email || t('bulk.teamMember')}
+              {m.displayName || m.email || 'Team Member'}
             </button>
           ))}
         </div>
@@ -77,8 +74,7 @@ export default function BulkActionBar({
   onClearSelection,
   members,
 }) {
-  const { t } = useTranslation('app')
-  return (
+return (
     <div
       className="fade-in-up"
       style={{
@@ -102,7 +98,7 @@ export default function BulkActionBar({
         fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700,
         color: 'var(--color-phase-1)', whiteSpace: 'nowrap',
       }}>
-        {t('bulk.selected', { count: selectedCount })}
+        {`${selectedCount} selected`}
       </span>
 
       {/* Divider */}
@@ -113,10 +109,10 @@ export default function BulkActionBar({
         onClick={onCheckAll}
         className="btn-ghost btn-sm"
         style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
-        title={t('bulk.markComplete')}
+        title={'Mark selected as complete'}
       >
         <CheckCircle2 size={13} style={{ color: 'var(--color-success)' }} />
-        <span>{t('bulk.complete')}</span>
+        <span>{'Complete'}</span>
       </button>
 
       {/* Clear */}
@@ -124,10 +120,10 @@ export default function BulkActionBar({
         onClick={onUncheckAll}
         className="btn-ghost btn-sm"
         style={{ background: 'var(--hover-bg)', border: '0.0625rem solid var(--border-subtle)' }}
-        title={t('bulk.clearSelected')}
+        title={'Clear selected'}
       >
         <XCircle size={13} style={{ color: 'var(--color-error)' }} />
-        <span>{t('bulk.clear')}</span>
+        <span>{'Clear'}</span>
       </button>
 
       {/* Assign */}
@@ -138,8 +134,8 @@ export default function BulkActionBar({
         onClick={onClearSelection}
         className="btn-icon"
         style={{ width: '1.5rem', height: '1.5rem', border: '0.0625rem solid var(--border-subtle)' }}
-        title={t('bulk.exitSelection')}
-        aria-label={t('bulk.exitSelection')}
+        title={'Exit selection mode'}
+        aria-label={'Exit selection mode'}
       >
         <X size={12} />
       </button>

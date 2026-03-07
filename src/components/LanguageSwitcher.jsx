@@ -5,12 +5,10 @@
  *   variant  'app' (dashboard TopBar) | 'landing' (landing/waitlist nav)
  */
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Globe, Check } from 'lucide-react'
 import { SUPPORTED_LANGUAGES, loadLanguage } from '../i18n'
 
 export default function LanguageSwitcher({ variant = 'app' }) {
-  const { i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
 

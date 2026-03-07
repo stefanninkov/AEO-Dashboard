@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   Search, Zap, Diamond, Trophy, Code2, PenTool,
   Flame, CalendarDays, Sparkles, Handshake, Link, Compass,
@@ -18,9 +17,7 @@ function BadgeIcon({ name, size = 20, style }) {
 }
 
 export default function BadgeDisplay({ stats, compact = false }) {
-  const { t } = useTranslation('app')
-
-  const earned = useMemo(() => getEarnedBadges(stats || {}), [stats])
+const earned = useMemo(() => getEarnedBadges(stats || {}), [stats])
   const earnedIds = useMemo(() => new Set(earned.map(b => b.id)), [earned])
 
   if (compact) {
@@ -55,7 +52,7 @@ export default function BadgeDisplay({ stats, compact = false }) {
             fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase',
             letterSpacing: '0.04rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem',
           }}>
-            {t('gamification.earnedBadges', 'Earned Badges')} ({earned.length})
+            {'Earned Badges'} ({earned.length})
           </h4>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(8rem, 1fr))', gap: '0.5rem' }}>
             {earned.map(badge => (
@@ -85,7 +82,7 @@ export default function BadgeDisplay({ stats, compact = false }) {
           fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase',
           letterSpacing: '0.04rem', color: 'var(--text-disabled)', marginBottom: '0.5rem',
         }}>
-          {t('gamification.lockedBadges', 'Locked')} ({BADGES.length - earned.length})
+          {'Locked'} ({BADGES.length - earned.length})
         </h4>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(8rem, 1fr))', gap: '0.5rem' }}>
           {BADGES.filter(b => !earnedIds.has(b.id)).map(badge => (

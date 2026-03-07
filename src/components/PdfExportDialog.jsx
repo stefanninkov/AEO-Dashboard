@@ -1,6 +1,5 @@
 import { useState, useMemo, useRef } from 'react'
 import { X, FileText, Download, Upload, Trash2, Info } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { useToast } from './Toast'
 import { generatePdf } from '../utils/generatePdf'
 import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
@@ -8,24 +7,23 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 import logger from '../utils/logger'
 
 export default function PdfExportDialog({ activeProject, phases, updateProject, user, onClose, isClosing, onExited }) {
-  const { t } = useTranslation('app')
-  const { addToast } = useToast()
+const { addToast } = useToast()
   const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const trapRef = useFocusTrap(!isClosing)
   const logoInputRef = useRef(null)
 
   const SECTIONS = useMemo(() => [
-    { key: 'summary', label: t('pdfExport.sections.summary'), desc: t('pdfExport.sections.summaryDesc'), default: true },
-    { key: 'phases', label: t('pdfExport.sections.phases'), desc: t('pdfExport.sections.phasesDesc'), default: true },
-    { key: 'completed', label: t('pdfExport.sections.completed'), desc: t('pdfExport.sections.completedDesc'), default: true },
-    { key: 'remaining', label: t('pdfExport.sections.remaining'), desc: t('pdfExport.sections.remainingDesc'), default: true },
-    { key: 'notes', label: t('pdfExport.sections.notes'), desc: t('pdfExport.sections.notesDesc'), default: false },
-    { key: 'analyzer', label: t('pdfExport.sections.analyzer'), desc: t('pdfExport.sections.analyzerDesc'), default: false },
-    { key: 'competitors', label: t('pdfExport.sections.competitors'), desc: t('pdfExport.sections.competitorsDesc'), default: false },
-    { key: 'metrics', label: t('pdfExport.sections.metrics'), desc: t('pdfExport.sections.metricsDesc'), default: false },
-    { key: 'contentCalendar', label: t('pdfExport.sections.contentCalendar'), desc: t('pdfExport.sections.contentCalendarDesc'), default: false },
-    { key: 'seo', label: t('pdfExport.sections.seo', 'SEO Analysis'), desc: t('pdfExport.sections.seoDesc', 'SEO & AEO scores, category breakdown, and top issues'), default: false },
-  ], [t])
+    { key: 'summary', label: 'Executive Summary', desc: 'Overall score, progress, and key metrics', default: true },
+    { key: 'phases', label: 'Phase-by-phase breakdown', desc: 'Detailed view of each implementation phase', default: true },
+    { key: 'completed', label: 'Completed tasks list', desc: 'All tasks marked as done', default: true },
+    { key: 'remaining', label: 'Remaining tasks', desc: 'Tasks still to be completed', default: true },
+    { key: 'notes', label: 'Task notes', desc: 'Notes attached to checklist items', default: false },
+    { key: 'analyzer', label: 'Analyzer results', desc: 'Site analysis and recommendations', default: false },
+    { key: 'competitors', label: 'Competitor Analysis', desc: 'Rankings, scores, and strategic insights', default: false },
+    { key: 'metrics', label: 'Performance Metrics', desc: 'Score and citation history over time', default: false },
+    { key: 'contentCalendar', label: 'Content Calendar', desc: 'Scheduled content and publication status', default: false },
+    { key: 'seo', label: 'SEO Analysis', desc: 'SEO & AEO scores, category breakdown, and top issues', default: false },
+  ], [])
 
   const [agencyName, setAgencyName] = useState('')
   const [reportDate, setReportDate] = useState(
@@ -101,7 +99,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
         logoDataUrl,
         accentColor,
       })
-      addToast('success', t('pdfExport.success'))
+      addToast('success', 'Report generated and downloaded!')
       // Log export activity
       if (updateProject && activeProject?.id) {
         logAndDispatch('export', { filename: `AEO-Report-${(activeProject.name || 'Project').replace(/[^a-zA-Z0-9]/g, '-')}` }, user)
@@ -109,7 +107,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
       onClose()
     } catch (err) {
       logger.error('PDF generation error:', err)
-      addToast('error', err?.message || t('pdfExport.error'))
+      addToast('error', err?.message || 'Failed to generate report. Please try again.')
     } finally {
       setGenerating(false)
     }
@@ -155,8 +153,8 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
             <FileText size={16} style={{ color: 'var(--color-phase-3)' }} />
           </div>
           <div className="email-modal-header-text">
-            <h3 id="pdf-export-title" className="email-modal-title">{t('pdfExport.title')}</h3>
-            <p className="email-modal-subtitle">{t('pdfExport.subtitle')}</p>
+            <h3 id="pdf-export-title" className="email-modal-title">{'Export Report'}</h3>
+            <p className="email-modal-subtitle">{'Generate a PDF report for your client'}</p>
           </div>
         </div>
 
@@ -167,11 +165,11 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
         <div className="email-modal-body">
           {/* Project Info */}
           <div style={{ padding: '0.75rem', background: 'var(--bg-page)', borderRadius: '0.5rem', border: '0.0625rem solid var(--border-subtle)' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)', marginBottom: '0.375rem' }}>{t('pdfExport.project')}</div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)', marginBottom: '0.375rem' }}>{'Project'}</div>
             <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{activeProject?.name || 'Untitled'}</div>
             {activeProject?.url && <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>{activeProject.url}</div>}
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem' }}>
-              {totalDone}/{totalItems} {t('pdfExport.tasksComplete')} ({overallPercent}%)
+              {totalDone}/{totalItems} {'tasks complete'} ({overallPercent}%)
             </div>
           </div>
 
@@ -185,10 +183,10 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
               <Info size={16} style={{ color: 'var(--color-phase-5)', flexShrink: 0, marginTop: '0.0625rem' }} />
               <div>
                 <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.125rem' }}>
-                  {t('pdfExport.noDataTitle')}
+                  {'No progress data yet'}
                 </div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                  {t('pdfExport.noDataDesc')}
+                  {'Start completing checklist items, run the site analyzer, or add competitors to generate a meaningful report. You can still export a blank template.'}
                 </div>
               </div>
             </div>
@@ -197,8 +195,8 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
           {/* Sections */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <label className="email-modal-label">{t('pdfExport.includeInReport')}</label>
-              <button onClick={selectAll} className="checklist-bulk-link">{t('pdfExport.selectAll')}</button>
+              <label className="email-modal-label">{'Include in Report'}</label>
+              <button onClick={selectAll} className="checklist-bulk-link">{'Select all'}</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               {SECTIONS.map(section => {
@@ -236,11 +234,11 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
 
           {/* Branding */}
           <div>
-            <label htmlFor="agency-name" className="email-modal-label">{t('pdfExport.agencyName')}</label>
+            <label htmlFor="agency-name" className="email-modal-label">{'Agency Name'}</label>
             <input
               id="agency-name"
               type="text"
-              placeholder={t('pdfExport.agencyPlaceholder')}
+              placeholder={'Your Agency Name'}
               value={agencyName}
               onChange={e => setAgencyName(e.target.value)}
               className="email-modal-input"
@@ -249,7 +247,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
 
           {/* Logo Upload */}
           <div>
-            <label className="email-modal-label">{t('pdfExport.logoUpload')}</label>
+            <label className="email-modal-label">{'Logo'}</label>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
               {logoDataUrl ? (
                 <>
@@ -263,7 +261,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
                     className="checklist-bulk-link"
                     style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: 'var(--text-tertiary)' }}
                   >
-                    <Trash2 size={12} /> {t('pdfExport.logoRemove')}
+                    <Trash2 size={12} /> {'Remove'}
                   </button>
                 </>
               ) : (
@@ -272,7 +270,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
                   className="checklist-bulk-link"
                   style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', padding: '0.375rem 0.625rem', border: '0.0625rem dashed var(--border-subtle)', borderRadius: '0.375rem' }}
                 >
-                  <Upload size={12} /> {t('pdfExport.logoUploadHint')}
+                  <Upload size={12} /> {'PNG or JPEG, max 500 KB'}
                 </button>
               )}
               <input
@@ -287,7 +285,7 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
 
           {/* Accent Color */}
           <div>
-            <label htmlFor="accent-color" className="email-modal-label">{t('pdfExport.accentColor')}</label>
+            <label htmlFor="accent-color" className="email-modal-label">{'Accent Color'}</label>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
               <input
                 id="accent-color"
@@ -296,12 +294,12 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
                 onChange={e => setAccentColor(e.target.value)}
                 style={{ width: 32, height: 32, padding: 0, border: '0.0625rem solid var(--border-subtle)', borderRadius: '0.375rem', cursor: 'pointer', background: 'transparent' }}
               />
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('pdfExport.accentColorHint')}</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{'Custom brand color for the report'}</span>
             </div>
           </div>
 
           <div>
-            <label htmlFor="report-date" className="email-modal-label">{t('pdfExport.reportDate')}</label>
+            <label htmlFor="report-date" className="email-modal-label">{'Report Date'}</label>
             <input
               id="report-date"
               type="text"
@@ -321,10 +319,10 @@ export default function PdfExportDialog({ activeProject, phases, updateProject, 
             style={{ flex: 1 }}
           >
             <Download size={14} />
-            {generating ? t('pdfExport.generating') : t('pdfExport.generate')}
+            {generating ? 'Generating...' : 'Generate PDF'}
           </button>
           <button onClick={onClose} className="email-modal-cancel-btn">
-            {t('pdfExport.cancel')}
+            {'Cancel'}
           </button>
         </div>
       </div>

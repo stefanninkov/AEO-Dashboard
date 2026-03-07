@@ -2,7 +2,6 @@
  * ProjectWebhooksSection — Webhooks & Integrations management.
  */
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Zap, Plus, Plug, Save, Send, Loader2, Trash2 } from 'lucide-react'
 import { useWebhooks } from '../../hooks/useWebhooks'
 import { WEBHOOK_EVENT_GROUPS } from '../../utils/webhookDispatcher'
@@ -13,8 +12,7 @@ import {
 import EmptyState from '../../components/EmptyState'
 
 export default function ProjectWebhooksSection({ activeProject, updateProject }) {
-  const { t } = useTranslation('app')
-  const { addToast } = useToast()
+const { addToast } = useToast()
   const { webhooks, testing: webhookTesting, testResult, addWebhook, updateWebhook, removeWebhook, toggleWebhook, testWebhook } = useWebhooks({ activeProject, updateProject })
 
   const [webhookFormOpen, setWebhookFormOpen] = useState(false)
@@ -27,17 +25,17 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
 
   return (
     <div className="card" style={{ marginBottom: '1rem' }}>
-      <div style={sectionTitleStyle}><Zap size={15} /> {t('webhooks.title')}</div>
+      <div style={sectionTitleStyle}><Zap size={15} /> {'Webhooks & Integrations'}</div>
 
       {/* Info banner */}
       <div style={{ padding: '0.875rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: '0 0 0.625rem', lineHeight: 1.5 }}>
-          {t('webhooks.description')}
+          {'Send automated notifications to external tools when events happen in your project.'}
         </p>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', padding: '0.5rem 0.75rem', background: 'rgba(14, 165, 233, 0.06)', borderRadius: '0.5rem', border: '0.0625rem solid rgba(14, 165, 233, 0.12)', fontSize: '0.6875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
           <Plug size={13} style={{ flexShrink: 0, marginTop: '0.125rem', color: 'var(--color-phase-3)' }} />
           <span>
-            {t('webhooks.compatibilityInfo')}
+            {'Works with Slack, Discord, Zapier, Make, n8n, and any CORS-friendly webhook endpoint. For Jira, Asana, or other APIs, use Zapier or Make as a bridge.'}
           </span>
         </div>
       </div>
@@ -46,7 +44,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
       {!webhookFormOpen && !editingWebhookId && (
         <div style={settingsRowStyle}>
           <button className="btn-primary btn-sm" onClick={() => { setWebhookFormOpen(true); setWebhookName(''); setWebhookUrl(''); setWebhookFormat('json'); setWebhookEvents([]) }}>
-            <Plus size={13} /> {t('webhooks.addWebhook')}
+            <Plus size={13} /> {'Add Webhook'}
           </button>
         </div>
       )}
@@ -56,30 +54,30 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
         <div style={{ padding: '0.875rem 1.25rem', borderBottom: '0.0625rem solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
           <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: '10rem' }}>
-              <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>{t('webhooks.name')}</label>
+              <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>{'Name'}</label>
               <input className="input-field" value={webhookName} onChange={(e) => setWebhookName(e.target.value)} placeholder="e.g. Slack — Phase Alerts" aria-label="Webhook name" style={{ fontSize: '0.8125rem' }} />
             </div>
             <div style={{ flex: 2, minWidth: '14rem' }}>
-              <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>{t('webhooks.webhookUrl')}</label>
+              <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>{'Webhook URL'}</label>
               <input className="input-field" value={webhookUrl} onChange={(e) => setWebhookUrl(e.target.value)} placeholder="https://hooks.slack.com/services/..." aria-label="Webhook URL" style={{ fontSize: '0.8125rem' }} />
             </div>
             <div style={{ minWidth: '7rem' }}>
-              <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>{t('webhooks.format')}</label>
+              <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>{'Format'}</label>
               <select className="input-field input-sm" value={webhookFormat} onChange={(e) => setWebhookFormat(e.target.value)} aria-label="Webhook format">
-                <option value="json">{t('webhooks.formatJson')}</option>
-                <option value="slack">{t('webhooks.formatSlack')}</option>
-                <option value="discord">{t('webhooks.formatDiscord')}</option>
+                <option value="json">{'JSON'}</option>
+                <option value="slack">{'Slack'}</option>
+                <option value="discord">{'Discord'}</option>
               </select>
             </div>
           </div>
 
           {/* Event checkboxes */}
           <div>
-            <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.375rem' }}>{t('webhooks.events')}</label>
+            <label style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, display: 'block', marginBottom: '0.375rem' }}>{'Events'}</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', background: webhookEvents.includes('*') ? 'rgba(37, 99, 235, 0.1)' : 'var(--hover-bg)', border: `0.0625rem solid ${webhookEvents.includes('*') ? 'var(--accent)' : 'var(--border-subtle)'}` }}>
                 <input type="checkbox" checked={webhookEvents.includes('*')} onChange={(e) => setWebhookEvents(e.target.checked ? ['*'] : [])} style={{ accentColor: 'var(--accent)' }} />
-                {t('webhooks.allEvents')}
+                {'All Events'}
               </label>
               {!webhookEvents.includes('*') && Object.entries(WEBHOOK_EVENT_GROUPS).map(([key, group]) => (
                 <label key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', background: webhookEvents.includes(key) ? 'rgba(14, 165, 233, 0.08)' : 'var(--hover-bg)', border: `0.0625rem solid ${webhookEvents.includes(key) ? 'var(--color-phase-3)' : 'var(--border-subtle)'}` }}>
@@ -101,12 +99,12 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
                   addWebhook({ name: webhookName.trim(), url: webhookUrl.trim(), format: webhookFormat, events: webhookEvents })
                   setWebhookFormOpen(false)
                 }
-                addToast('success', editingWebhookId ? t('webhooks.webhookUpdated') : t('webhooks.webhookAdded'))
+                addToast('success', editingWebhookId ? 'Webhook updated' : 'Webhook added')
               }}>
-              <Save size={13} /> {editingWebhookId ? t('webhooks.update') : t('webhooks.save')}
+              <Save size={13} /> {editingWebhookId ? 'Update' : 'Save'}
             </button>
             <button className="btn-secondary btn-sm" onClick={() => { setWebhookFormOpen(false); setEditingWebhookId(null) }}>
-              {t('webhooks.cancel')}
+              {'Cancel'}
             </button>
           </div>
         </div>
@@ -121,7 +119,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
 
             {/* Name + URL */}
             <div style={{ flex: 1, minWidth: '8rem' }}>
-              <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: webhook.enabled ? 'var(--text-primary)' : 'var(--text-tertiary)' }}>{webhook.name || t('webhooks.untitled')}</span>
+              <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: webhook.enabled ? 'var(--text-primary)' : 'var(--text-tertiary)' }}>{webhook.name || 'Untitled'}</span>
               <div style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', fontFamily: 'var(--font-heading)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '18rem' }}>{webhook.url}</div>
             </div>
 
@@ -130,31 +128,31 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
 
             {/* Event count badge */}
             <span style={{ fontSize: '0.625rem', fontWeight: 600, fontFamily: 'var(--font-heading)', padding: '0.125rem 0.375rem', borderRadius: '0.625rem', background: 'rgba(14, 165, 233, 0.08)', color: 'var(--color-phase-3)' }}>
-              {webhook.events.includes('*') ? t('webhooks.allEventsLabel') : t('webhooks.eventCount', { count: webhook.events.length })}
+              {webhook.events.includes('*') ? 'All events' : 'Event Count'}
             </span>
 
             {/* Toggle */}
-            <ToggleSwitch checked={webhook.enabled} onChange={() => toggleWebhook(webhook.id)} label={`Toggle webhook ${webhook.name || t('webhooks.untitled')}`} />
+            <ToggleSwitch checked={webhook.enabled} onChange={() => toggleWebhook(webhook.id)} label={`Toggle webhook ${webhook.name || 'Untitled'}`} />
 
             {/* Test */}
-            <button className="btn-secondary" style={{ fontSize: '0.6875rem', padding: '0.25rem 0.5rem' }} disabled={webhookTesting === webhook.id} onClick={() => testWebhook(webhook.id)} aria-label={`Test webhook ${webhook.name || t('webhooks.untitled')}`}>
-              {webhookTesting === webhook.id ? <Loader2 size={11} className="spin" /> : <Send size={11} />} {t('webhooks.test')}
+            <button className="btn-secondary" style={{ fontSize: '0.6875rem', padding: '0.25rem 0.5rem' }} disabled={webhookTesting === webhook.id} onClick={() => testWebhook(webhook.id)} aria-label={`Test webhook ${webhook.name || 'Untitled'}`}>
+              {webhookTesting === webhook.id ? <Loader2 size={11} className="spin" /> : <Send size={11} />} {'Test'}
             </button>
 
             {/* Edit */}
-            <button className="btn-secondary" style={{ fontSize: '0.6875rem', padding: '0.25rem 0.5rem' }} aria-label={`Edit webhook ${webhook.name || t('webhooks.untitled')}`}
+            <button className="btn-secondary" style={{ fontSize: '0.6875rem', padding: '0.25rem 0.5rem' }} aria-label={`Edit webhook ${webhook.name || 'Untitled'}`}
               onClick={() => { setEditingWebhookId(webhook.id); setWebhookFormOpen(false); setWebhookName(webhook.name); setWebhookUrl(webhook.url); setWebhookFormat(webhook.format || 'json'); setWebhookEvents(webhook.events || []) }}>
-              {t('webhooks.edit')}
+              {'Edit'}
             </button>
 
             {/* Delete */}
             <button style={{ padding: '0.25rem', borderRadius: '0.375rem', border: 'none', background: 'none', cursor: 'pointer', display: 'flex', color: deleteWebhookConfirm === webhook.id ? 'var(--color-error)' : 'var(--text-tertiary)', transition: 'color 100ms' }}
-              aria-label={deleteWebhookConfirm === webhook.id ? 'Confirm delete webhook' : `Delete webhook ${webhook.name || t('webhooks.untitled')}`}
+              aria-label={deleteWebhookConfirm === webhook.id ? 'Confirm delete webhook' : `Delete webhook ${webhook.name || 'Untitled'}`}
               onClick={() => {
-                if (deleteWebhookConfirm === webhook.id) { removeWebhook(webhook.id); setDeleteWebhookConfirm(null); addToast('success', t('webhooks.webhookRemoved')) }
+                if (deleteWebhookConfirm === webhook.id) { removeWebhook(webhook.id); setDeleteWebhookConfirm(null); addToast('success', 'Webhook removed') }
                 else { setDeleteWebhookConfirm(webhook.id); setTimeout(() => setDeleteWebhookConfirm(null), 3000) }
               }}
-              title={deleteWebhookConfirm === webhook.id ? t('webhooks.clickToConfirm') : t('webhooks.removeWebhook')}>
+              title={deleteWebhookConfirm === webhook.id ? 'Click again to confirm' : 'Remove webhook'}>
               <Trash2 size={13} />
             </button>
           </div>
@@ -170,7 +168,7 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
             {webhook.lastError && <span style={{ fontSize: '0.625rem', color: 'var(--color-error)' }}>{webhook.lastError}</span>}
             {testResult?.webhookId === webhook.id && (
               <span style={{ fontSize: '0.625rem', fontWeight: 600, color: testResult.success ? 'var(--color-success)' : 'var(--color-error)' }}>
-                {testResult.success ? t('webhooks.testSuccess') : t('webhooks.testFailed', { error: testResult.error })}
+                {testResult.success ? 'Test sent successfully!' : `Test failed: ${testResult.error}`}
               </span>
             )}
           </div>
@@ -182,8 +180,8 @@ export default function ProjectWebhooksSection({ activeProject, updateProject })
         <EmptyState
           compact
           icon={Zap}
-          title={t('webhooks.title')}
-          description={t('webhooks.emptyState')}
+          title={'Webhooks & Integrations'}
+          description={'No webhooks configured. Connect to Slack, Discord, Zapier, or any webhook endpoint.'}
         />
       )}
     </div>

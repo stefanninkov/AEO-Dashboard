@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   TrendingUp, TrendingDown, Activity, Sparkles, PenTool, Code2, Eye,
   ChartColumnIncreasing, Users, CheckCircle2, Clock, ArrowUpRight, Shield, Minus,
@@ -74,8 +73,7 @@ function SectionHeader({ icon: Icon, label, color }) {
 
 /* ── Main Component ── */
 export default function AnalyticsPanel({ activeProject, phases }) {
-  const { t } = useTranslation('app')
-  const { phaseColors, getScore: getThemeScoreColor } = useChartColors()
+const { phaseColors, getScore: getThemeScoreColor } = useChartColors()
   const checked = activeProject?.checked || {}
   const metricsHistory = activeProject?.metricsHistory || []
   const monitorHistory = activeProject?.monitorHistory || []
@@ -167,15 +165,15 @@ export default function AnalyticsPanel({ activeProject, phases }) {
   /* ── Feature usage stats ── */
   const featureUsage = useMemo(() => {
     const features = [
-      { name: t('dashboard.analyticsPanel.featureAnalyzer'), used: !!analyzerResults, count: analyzerResults ? 1 : 0, icon: Sparkles, color: phaseColors[1] },
-      { name: t('dashboard.analyticsPanel.featureWriter'), used: contentHistory.length > 0, count: contentHistory.length, icon: PenTool, color: phaseColors[3] },
-      { name: t('dashboard.analyticsPanel.featureSchema'), used: schemaHistory.length > 0, count: schemaHistory.length, icon: Code2, color: phaseColors[4] },
-      { name: t('dashboard.analyticsPanel.featureMonitoring'), used: monitorHistory.length > 0, count: monitorHistory.length, icon: Eye, color: phaseColors[6] },
-      { name: t('dashboard.analyticsPanel.featureMetrics'), used: metricsHistory.length > 0, count: metricsHistory.length, icon: ChartColumnIncreasing, color: phaseColors[2] },
-      { name: t('dashboard.analyticsPanel.featureCompetitors'), used: competitors.length > 0, count: competitors.length, icon: Users, color: phaseColors[5] },
+      { name: 'Analyzer', used: !!analyzerResults, count: analyzerResults ? 1 : 0, icon: Sparkles, color: phaseColors[1] },
+      { name: 'Writer', used: contentHistory.length > 0, count: contentHistory.length, icon: PenTool, color: phaseColors[3] },
+      { name: 'Schema', used: schemaHistory.length > 0, count: schemaHistory.length, icon: Code2, color: phaseColors[4] },
+      { name: 'Monitoring', used: monitorHistory.length > 0, count: monitorHistory.length, icon: Eye, color: phaseColors[6] },
+      { name: 'Metrics', used: metricsHistory.length > 0, count: metricsHistory.length, icon: ChartColumnIncreasing, color: phaseColors[2] },
+      { name: 'Competitors', used: competitors.length > 0, count: competitors.length, icon: Users, color: phaseColors[5] },
     ]
     return features
-  }, [analyzerResults, contentHistory, schemaHistory, monitorHistory, metricsHistory, competitors, phaseColors, t])
+  }, [analyzerResults, contentHistory, schemaHistory, monitorHistory, metricsHistory, competitors, phaseColors])
 
   const featuresUsed = featureUsage.filter(f => f.used).length
   const totalFeatures = featureUsage.length
@@ -240,7 +238,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* AEO Health Score — Radial Gauge */}
         <div className="card card-lg" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <SectionHeader icon={Shield} label={t('dashboard.analyticsPanel.healthScore')} color={healthColor} />
+          <SectionHeader icon={Shield} label={'AEO Health Score'} color={healthColor} />
           <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <ResponsiveContainer width={180} height={180}>
               <RadialBarChart
@@ -263,7 +261,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
               {healthScore}
             </div>
             <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
-              {t('dashboard.analyticsPanel.outOf100')}
+              {'out of 100'}
             </div>
           </div>
           <div style={{
@@ -272,21 +270,21 @@ export default function AnalyticsPanel({ activeProject, phases }) {
             background: 'var(--hover-bg)', width: '100%', justifyContent: 'center',
           }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{t('dashboard.analyticsPanel.checklist')}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{'Checklist'}</div>
               <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>
                 {checklistStats.pct}%
               </div>
             </div>
             <div style={{ width: '0.0625rem', background: 'var(--border-subtle)' }} />
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{t('dashboard.analyticsPanel.features')}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{'Features'}</div>
               <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>
                 {featuresUsed}/{totalFeatures}
               </div>
             </div>
             <div style={{ width: '0.0625rem', background: 'var(--border-subtle)' }} />
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{t('dashboard.analyticsPanel.days')}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{'Days'}</div>
               <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>
                 {projectAge}
               </div>
@@ -296,7 +294,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Score Trend Sparkline */}
         <div className="card card-lg">
-          <SectionHeader icon={TrendingUp} label={t('dashboard.analyticsPanel.scoreTrend')} color={phaseColors[2]} />
+          <SectionHeader icon={TrendingUp} label={'AEO Score Trend'} color={phaseColors[2]} />
           {scoreTrend.length > 1 ? (
             <>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.75rem' }}>
@@ -342,8 +340,8 @@ export default function AnalyticsPanel({ activeProject, phases }) {
           ) : (
             <EmptyState
               icon={ChartColumnIncreasing}
-              title={t('dashboard.analyticsPanel.noTrendData')}
-              description={t('dashboard.analyticsPanel.noTrendDataDesc')}
+              title={'No trend data'}
+              description={'Run 2+ metrics analyses to see score trends'}
               color="var(--color-phase-1)"
               compact
             />
@@ -354,32 +352,32 @@ export default function AnalyticsPanel({ activeProject, phases }) {
       {/* ═══ ROW 2: Mini Stats Strip ═══ */}
       <div className="resp-grid-4 stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-3)' }}>
         <MiniStat
-          label={t('dashboard.analyticsPanel.checklist')}
+          label={'Checklist'}
           value={`${checklistStats.done}/${checklistStats.total}`}
           icon={CheckCircle2}
           color={phaseColors[4]}
           sub={`${checklistStats.pct}%`}
         />
         <MiniStat
-          label={t('dashboard.analyticsPanel.contentPieces')}
+          label={'Content Pieces'}
           value={contentCount + schemaCount}
           icon={PenTool}
           color={phaseColors[3]}
-          sub={t('dashboard.analyticsPanel.contentPiecesSub', { articles: contentCount, schemas: schemaCount })}
+          sub={`${contentCount} articles, ${schemaCount} schemas`}
         />
         <MiniStat
-          label={t('dashboard.analyticsPanel.aiEngines')}
+          label={'AI Engines'}
           value={`${engineCoverage.citing}/${engineCoverage.total || '—'}`}
           icon={Activity}
           color={phaseColors[6]}
-          sub={t('dashboard.analyticsPanel.citingYou')}
+          sub={'citing you'}
         />
         <MiniStat
-          label={t('dashboard.analyticsPanel.projectAge')}
+          label={'Project Age'}
           value={`${projectAge}d`}
           icon={Clock}
           color={phaseColors[5]}
-          sub={t('dashboard.analyticsPanel.actionsCount', { count: activityLog.length })}
+          sub={`${activityLog.length} actions`}
         />
       </div>
 
@@ -388,7 +386,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Feature Usage */}
         <div className="card card-lg">
-          <SectionHeader icon={Sparkles} label={t('dashboard.analyticsPanel.featureUsage')} color={phaseColors[1]} />
+          <SectionHeader icon={Sparkles} label={'Feature Usage'} color={phaseColors[1]} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {featureUsage.map(feat => {
               const Icon = feat.icon
@@ -420,14 +418,14 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                       fontSize: '0.75rem', fontWeight: 600, color: feat.color,
                       fontFamily: 'var(--font-heading)',
                     }}>
-                      {t('dashboard.analyticsPanel.runCount', { count: feat.count })}
+                      {`${feat.count} runs`}
                     </span>
                   ) : (
                     <span style={{
                       fontSize: '0.6875rem', color: 'var(--text-disabled)',
                       fontStyle: 'italic',
                     }}>
-                      {t('dashboard.analyticsPanel.notUsedYet')}
+                      {'Not used yet'}
                     </span>
                   )}
                 </div>
@@ -438,7 +436,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
           {/* Progress bar */}
           <div style={{ marginTop: '0.75rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.375rem' }}>
-              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{t('dashboard.analyticsPanel.featureAdoption')}</span>
+              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{'Feature adoption'}</span>
               <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-primary)', fontFamily: 'var(--font-heading)' }}>
                 {featuresUsed}/{totalFeatures}
               </span>
@@ -455,7 +453,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Phase Radar Chart */}
         <div className="card card-lg">
-          <SectionHeader icon={Activity} label={t('dashboard.analyticsPanel.phaseRadar')} color={phaseColors[3]} />
+          <SectionHeader icon={Activity} label={'Phase Completion Radar'} color={phaseColors[3]} />
           {radarData.length > 0 ? (
             <ResponsiveContainer width="100%" height={260}>
               <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="75%">
@@ -478,8 +476,8 @@ export default function AnalyticsPanel({ activeProject, phases }) {
           ) : (
             <EmptyState
               icon={Shield}
-              title={t('dashboard.analyticsPanel.noPhaseData')}
-              description={t('dashboard.analyticsPanel.noPhaseDataDesc')}
+              title={'No phase data'}
+              description={'Complete checklist items to see phase coverage'}
               color="var(--color-phase-2)"
               compact
             />
@@ -492,11 +490,11 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Project Velocity */}
         <div className="card card-lg">
-          <SectionHeader icon={ArrowUpRight} label={t('dashboard.analyticsPanel.projectVelocity')} color={phaseColors[4]} />
+          <SectionHeader icon={ArrowUpRight} label={'Project Velocity'} color={phaseColors[4]} />
           {velocity.length > 0 ? (
             <>
               <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
-                {t('dashboard.analyticsPanel.tasksPerWeek')}
+                {'Checklist tasks completed per week'}
               </p>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={velocity}>
@@ -519,7 +517,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
             }}>
               <CheckCircle2 size={28} style={{ color: 'var(--text-disabled)' }} />
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                {t('dashboard.analyticsPanel.completeForVelocity')}
+                {'Complete checklist tasks to see your velocity'}
               </p>
             </div>
           )}
@@ -527,7 +525,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
         {/* Engine Coverage */}
         <div className="card card-lg">
-          <SectionHeader icon={Activity} label={t('dashboard.analyticsPanel.engineCoverage')} color={phaseColors[6]} />
+          <SectionHeader icon={Activity} label={'AI Engine Coverage'} color={phaseColors[6]} />
           {engineCoverage.total > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.25rem' }}>
@@ -538,7 +536,7 @@ export default function AnalyticsPanel({ activeProject, phases }) {
                   {engineCoverage.citing}
                 </span>
                 <span style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>
-                  {t('dashboard.analyticsPanel.ofEnginesCiting', { total: engineCoverage.total })}
+                  {`of ${engineCoverage.total} engines citing you`}
                 </span>
               </div>
               {engineCoverage.engines.map((engine, i) => {
@@ -579,8 +577,8 @@ export default function AnalyticsPanel({ activeProject, phases }) {
           ) : (
             <EmptyState
               icon={Activity}
-              title={t('dashboard.analyticsPanel.noEngineData')}
-              description={t('dashboard.analyticsPanel.noEngineDataDesc')}
+              title={'No engine data'}
+              description={'Run a metrics analysis to see engine coverage'}
               color="var(--color-phase-3)"
               compact
             />
@@ -590,70 +588,70 @@ export default function AnalyticsPanel({ activeProject, phases }) {
 
       {/* ═══ ROW 5: Insights Summary ═══ */}
       <div className="card card-lg">
-        <SectionHeader icon={ChartColumnIncreasing} label={t('dashboard.analyticsPanel.keyInsights')} color={phaseColors[5]} />
+        <SectionHeader icon={ChartColumnIncreasing} label={'Key Insights'} color={phaseColors[5]} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', gap: '0.75rem' }}>
           {/* Dynamic insights based on data */}
           {checklistStats.pct === 100 && (
             <InsightCard
               type="success"
-              text={t('dashboard.analyticsPanel.insightChecklistComplete')}
-              detail={t('dashboard.analyticsPanel.insightChecklistCompleteDesc')}
+              text={'Checklist complete!'}
+              detail={'All optimization tasks are done. Focus on monitoring and metrics.'}
             />
           )}
           {checklistStats.pct > 0 && checklistStats.pct < 100 && (
             <InsightCard
               type="info"
-              text={t('dashboard.analyticsPanel.insightTasksRemaining', { count: checklistStats.total - checklistStats.done })}
-              detail={t('dashboard.analyticsPanel.insightTasksRemainingDesc', { pct: checklistStats.pct, done: checklistStats.done, total: checklistStats.total })}
+              text={`${checklistStats.total - checklistStats.done} tasks remaining`}
+              detail={`${checklistStats.pct}% complete — ${checklistStats.done} of ${checklistStats.total} tasks done.`}
             />
           )}
           {scoreDelta !== null && scoreDelta > 0 && (
             <InsightCard
               type="success"
-              text={t('dashboard.analyticsPanel.insightScoreUp', { delta: scoreDelta })}
-              detail={t('dashboard.analyticsPanel.insightScoreUpDesc')}
+              text={`Score up ${scoreDelta} points`}
+              detail={'Your AEO score is improving. Keep up the momentum.'}
             />
           )}
           {scoreDelta !== null && scoreDelta < 0 && (
             <InsightCard
               type="warning"
-              text={t('dashboard.analyticsPanel.insightScoreDown', { delta: Math.abs(scoreDelta) })}
-              detail={t('dashboard.analyticsPanel.insightScoreDownDesc')}
+              text={`Score dropped ${Math.abs(scoreDelta)} points`}
+              detail={'Review recent changes and check for content or technical issues.'}
             />
           )}
           {engineCoverage.total > 0 && engineCoverage.citing < engineCoverage.total && (
             <InsightCard
               type="info"
-              text={t('dashboard.analyticsPanel.insightEnginesNotCiting', { count: engineCoverage.total - engineCoverage.citing })}
-              detail={t('dashboard.analyticsPanel.insightEnginesNotCitingDesc')}
+              text={`${engineCoverage.total - engineCoverage.citing} engines not citing you`}
+              detail={'Expand your content and schema to increase coverage across all AI engines.'}
             />
           )}
           {contentCount === 0 && schemaCount === 0 && (
             <InsightCard
               type="info"
-              text={t('dashboard.analyticsPanel.insightNoContent')}
-              detail={t('dashboard.analyticsPanel.insightNoContentDesc')}
+              text={'No content generated yet'}
+              detail={'Use the Content Writer and Schema Generator to create AI-optimized content.'}
             />
           )}
           {competitors.length === 0 && (
             <InsightCard
               type="info"
-              text={t('dashboard.analyticsPanel.insightNoCompetitors')}
-              detail={t('dashboard.analyticsPanel.insightNoCompetitorsDesc')}
+              text={'No competitors tracked'}
+              detail={'Add competitors to see how your AEO stacks up against the competition.'}
             />
           )}
           {projectAge > 30 && metricsHistory.length < 2 && (
             <InsightCard
               type="warning"
-              text={t('dashboard.analyticsPanel.insightLowMetrics')}
-              detail={t('dashboard.analyticsPanel.insightLowMetricsDesc', { age: projectAge, count: metricsHistory.length })}
+              text={'Low metrics frequency'}
+              detail={`Project is ${projectAge} days old with only ${metricsHistory.length} metrics runs. Run analyses regularly.`}
             />
           )}
           {featuresUsed === totalFeatures && (
             <InsightCard
               type="success"
-              text={t('dashboard.analyticsPanel.insightFullAdoption')}
-              detail={t('dashboard.analyticsPanel.insightFullAdoptionDesc')}
+              text={'Full feature adoption!'}
+              detail={'You\'re using all available features. Keep monitoring for continued improvement.'}
             />
           )}
         </div>

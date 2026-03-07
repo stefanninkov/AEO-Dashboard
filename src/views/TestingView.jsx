@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   Clock, Calendar, Plus, Trash2, ExternalLink,
   CheckCircle2, XCircle, MinusCircle, ChevronDown, SearchCheck,
@@ -33,23 +32,21 @@ const STATUS_META = [
 ]
 
 export default function TestingView({ activeProject, updateProject }) {
-  const { t } = useTranslation('app')
-
-  const WEEKLY_TASKS = useMemo(() => WEEKLY_TASK_IDS.map(id => ({
+const WEEKLY_TASKS = useMemo(() => WEEKLY_TASK_IDS.map(id => ({
     id,
-    text: t(`testing.weeklyTasks.${id}`),
-    time: t(`testing.weeklyTime.${id}`),
-  })), [t])
+    text: '${id}',
+    time: '${id}',
+  })), [])
 
   const MONTHLY_TASKS = useMemo(() => MONTHLY_TASK_IDS.map(id => ({
     id,
-    text: t(`testing.monthlyTasks.${id}`),
-  })), [t])
+    text: '${id}',
+  })), [])
 
   const STATUS_OPTIONS = useMemo(() => STATUS_META.map(s => ({
     ...s,
-    label: t(s.i18nKey),
-  })), [t])
+    label: s.fallbackLabel || s.label,
+  })), [])
 
   const [newQuery, setNewQuery] = useState('')
   const [expandedSections, setExpandedSections] = useState({ monitor: true, weekly: true, monthly: false, tracker: true, links: false, timeline: false })
@@ -161,16 +158,16 @@ export default function TestingView({ activeProject, updateProject }) {
     <div className="view-wrapper">
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('testing.title')}</h2>
-          <p className="view-subtitle">{t('testing.subtitle')}</p>
+          <h2 className="view-title">{'AI Engine Testing'}</h2>
+          <p className="view-subtitle">{'Test how AI engines respond to queries about your brand'}</p>
         </div>
       </div>
 
       {/* AEO Visibility Score */}
       <StatCard
-        label={t('testing.visibilityScore')}
+        label={'AEO Visibility Score'}
         value={`${visibilityScore}%`}
-        subValue={t('testing.visibilityNote', { queries: queryTracker.length, platforms: PLATFORMS.length })}
+        subValue={`Based on ${queryTracker.length} tracked queries across ${PLATFORMS.length} platforms`}
         icon={<Activity size={18} />}
         iconColor={visibilityScore >= 70 ? 'var(--color-success)' : visibilityScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)'}
         layout="horizontal"
@@ -178,10 +175,10 @@ export default function TestingView({ activeProject, updateProject }) {
 
       {/* Auto Monitor */}
       <CollapsibleSection
-        title={t('testing.autoMonitor')}
+        title={'Auto Monitor'}
         subtitle={lastRun
-          ? t('testing.lastRun', { date: `${new Date(lastRun).toLocaleDateString()} ${new Date(lastRun).toLocaleTimeString()}` })
-          : t('testing.neverRun')}
+          ? `Last run: ${new Date(lastRun).toLocaleDateString()} ${new Date(lastRun).toLocaleTimeString()}`
+          : 'Never run'}
         icon={<Activity size={16} className="text-phase-4" />}
         expanded={expandedSections.monitor}
         onToggle={() => toggleSection('monitor')}
@@ -191,13 +188,13 @@ export default function TestingView({ activeProject, updateProject }) {
           <div className="mon-run-row flex items-center justify-between gap-4">
             <div className="flex-1">
               <p className="text-sm text-text-secondary mb-1">
-                {t('testing.autoMonitorDesc')}
+                {'Checks your tracked queries against AI search results to see if your brand is being cited.'}
               </p>
               {!activeProject?.url && (
-                <p className="text-xs text-warning mt-2">{t('testing.setUrlWarning')}</p>
+                <p className="text-xs text-warning mt-2">{'Set a project URL to enable monitoring.'}</p>
               )}
               {!activeProject?.queryTracker?.length && (
-                <p className="text-xs text-warning mt-2">{t('testing.addQueriesWarning')}</p>
+                <p className="text-xs text-warning mt-2">{'Add queries in the tracker below first.'}</p>
               )}
             </div>
             <button
@@ -213,7 +210,7 @@ export default function TestingView({ activeProject, updateProject }) {
               ) : (
                 <>
                   <Zap size={16} />
-                  {t('testing.runCheckNow')}
+                  {'Run Check Now'}
                 </>
               )}
             </button>
@@ -236,14 +233,14 @@ export default function TestingView({ activeProject, updateProject }) {
                   style={{ width: `${monitorProgress.total > 0 ? (monitorProgress.current / monitorProgress.total) * 100 : 0}%` }}
                 />
               </div>
-              <p className="text-xs text-text-tertiary">{t('testing.checkingQuery', { current: monitorProgress.current, total: monitorProgress.total })}</p>
+              <p className="text-xs text-text-tertiary">{`Checking query ${monitorProgress.current} of ${monitorProgress.total}...`}</p>
             </div>
           )}
 
           {/* Score Trend Chart */}
           {monitorHistory.length > 0 && (
             <div>
-              <h4 className="font-heading text-xs font-bold text-text-tertiary mb-3">{t('testing.citationScoreHistory')}</h4>
+              <h4 className="font-heading text-xs font-bold text-text-tertiary mb-3">{'CITATION SCORE HISTORY'}</h4>
               <div className="flex items-end gap-1 h-24">
                 {monitorHistory.slice(-30).map((entry, idx, arr) => (
                   <div
@@ -273,7 +270,7 @@ export default function TestingView({ activeProject, updateProject }) {
           {monitorHistory.length > 0 && (
             <div>
               <h4 className="font-heading text-xs font-bold text-text-tertiary mb-3">
-                {t('testing.latestResults', { score: monitorHistory[monitorHistory.length - 1].overallScore })}
+                {`LATEST RESULTS — ${monitorHistory[monitorHistory.length - 1].overallScore}% cited`}
               </h4>
               <div className="space-y-2">
                 {Object.values(monitorHistory[monitorHistory.length - 1].results).map((result, idx) => (
@@ -294,7 +291,7 @@ export default function TestingView({ activeProject, updateProject }) {
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${
                       result.cited ? 'bg-success/10 text-success' : 'bg-error/10 text-error'
                     }`}>
-                      {result.cited ? t('testing.cited') : t('testing.notCited')}
+                      {result.cited ? 'Cited' : 'Not Cited'}
                     </span>
                   </div>
                 ))}
@@ -308,11 +305,11 @@ export default function TestingView({ activeProject, updateProject }) {
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
                 <Activity size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-sm font-bold mb-1">{t('testing.noMonitoringData')}</h3>
+              <h3 className="font-heading text-sm font-bold mb-1">{'No monitoring data yet'}</h3>
               <p className="text-xs text-text-tertiary text-center max-w-xs">
                 {activeProject?.queryTracker?.length > 0
-                  ? t('testing.noMonitoringRunPrompt')
-                  : t('testing.noMonitoringAddPrompt')}
+                  ? 'Click "Run Check Now" to see how your brand appears in AI search results.'
+                  : 'Add queries to the tracker below, then run your first monitoring check.'}
               </p>
             </div>
           )}
@@ -321,8 +318,8 @@ export default function TestingView({ activeProject, updateProject }) {
 
       {/* Weekly Routine */}
       <CollapsibleSection
-        title={t('testing.weeklyRoutine')}
-        subtitle={t('testing.weeklySubtitle')}
+        title={'Weekly Routine'}
+        subtitle={'~30 min per week'}
         icon={<Clock size={16} className="text-phase-3" />}
         expanded={expandedSections.weekly}
         onToggle={() => toggleSection('weekly')}
@@ -353,8 +350,8 @@ export default function TestingView({ activeProject, updateProject }) {
 
       {/* Monthly Routine */}
       <CollapsibleSection
-        title={t('testing.monthlyRoutine')}
-        subtitle={t('testing.monthlySubtitle')}
+        title={'Monthly Routine'}
+        subtitle={'Expanded analysis'}
         icon={<Calendar size={16} className="text-phase-5" />}
         expanded={expandedSections.monthly}
         onToggle={() => toggleSection('monthly')}
@@ -384,8 +381,8 @@ export default function TestingView({ activeProject, updateProject }) {
 
       {/* Query Tracker */}
       <CollapsibleSection
-        title={t('testing.queryTracker')}
-        subtitle={t('testing.queriesTracked', { count: queryTracker.length })}
+        title={'Query Tracker'}
+        subtitle={`${queryTracker.length} queries tracked`}
         icon={<CheckCircle2 size={16} className="text-phase-6" />}
         expanded={expandedSections.tracker}
         onToggle={() => toggleSection('tracker')}
@@ -394,11 +391,11 @@ export default function TestingView({ activeProject, updateProject }) {
         <div className="flex gap-2 mb-5 testing-query-input-row">
           <input
             type="text"
-            placeholder={t('testing.addQueryPlaceholder')}
+            placeholder={'Add a target query...'}
             value={newQuery}
             onChange={e => setNewQuery(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && addQuery()}
-            aria-label={t('testing.addQuery')}
+            aria-label={'Add query'}
             className="flex-1 rounded-lg px-3 py-2 text-[0.8125rem] text-text-primary placeholder-text-disabled outline-none transition-colors duration-150"
             style={{ background: 'var(--bg-input)', border: '0.0625rem solid var(--border-subtle)' }}
           />
@@ -406,7 +403,7 @@ export default function TestingView({ activeProject, updateProject }) {
             onClick={addQuery}
             disabled={!newQuery.trim()}
             className="px-3 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:hover:scale-100"
-            aria-label={t('testing.addQuery')}
+            aria-label={'Add query'}
           >
             <Plus size={16} />
           </button>
@@ -417,11 +414,11 @@ export default function TestingView({ activeProject, updateProject }) {
             <table className="w-full text-sm">
               <thead className="sticky top-0 z-10" style={{ background: 'var(--bg-card)' }}>
                 <tr style={{ borderBottom: '0.0625rem solid var(--border-subtle)' }}>
-                  <th scope="col" className="text-left py-2 px-2 text-xs text-text-tertiary font-heading min-w-[11.25rem]">{t('testing.queryColumn')}</th>
+                  <th scope="col" className="text-left py-2 px-2 text-xs text-text-tertiary font-heading min-w-[11.25rem]">{'Query'}</th>
                   {PLATFORMS.map(p => (
                     <th scope="col" key={p} className="text-center py-2 px-2 text-xs text-text-tertiary font-heading whitespace-nowrap min-w-[5.625rem]">{p}</th>
                   ))}
-                  <th scope="col" className="text-center py-2 px-2 text-xs text-text-tertiary font-heading min-w-[5rem]">{t('testing.lastCheckColumn')}</th>
+                  <th scope="col" className="text-center py-2 px-2 text-xs text-text-tertiary font-heading min-w-[5rem]">{'Last Check'}</th>
                   <th scope="col" className="w-8"></th>
                 </tr>
               </thead>
@@ -432,7 +429,7 @@ export default function TestingView({ activeProject, updateProject }) {
                       <p className="text-text-primary text-sm">{query.query}</p>
                       <input
                         type="text"
-                        placeholder={t('testing.notesPlaceholder')}
+                        placeholder={'Notes...'}
                         value={query.notes || ''}
                         onChange={e => updateQueryNotes(query.id, e.target.value)}
                         aria-label={`Notes for "${query.query}"`}
@@ -463,7 +460,7 @@ export default function TestingView({ activeProject, updateProject }) {
                       <button
                         onClick={() => deleteQuery(query.id)}
                         className="p-1 text-text-tertiary hover:text-error rounded transition-all duration-150"
-                        aria-label={t('testing.deleteQuery')}
+                        aria-label={'Delete query'}
                       >
                         <Trash2 size={12} />
                       </button>
@@ -479,16 +476,16 @@ export default function TestingView({ activeProject, updateProject }) {
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
               <SearchCheck size={20} className="text-text-tertiary" />
             </div>
-            <h3 className="font-heading text-sm font-bold mb-1">{t('testing.noQueriesYet')}</h3>
-            <p className="text-xs text-text-tertiary text-center max-w-xs">{t('testing.noQueriesDesc')}</p>
+            <h3 className="font-heading text-sm font-bold mb-1">{'No queries tracked yet'}</h3>
+            <p className="text-xs text-text-tertiary text-center max-w-xs">{'Add your target queries above to start tracking AEO visibility across all AI platforms.'}</p>
           </div>
         )}
       </CollapsibleSection>
 
       {/* Quick Links */}
       <CollapsibleSection
-        title={t('testing.quickLinks')}
-        subtitle={t('testing.quickLinksSubtitle')}
+        title={'Quick Links'}
+        subtitle={'Testing tools'}
         icon={<ExternalLink size={16} className="text-phase-4" />}
         expanded={expandedSections.links}
         onToggle={() => toggleSection('links')}
@@ -517,26 +514,26 @@ export default function TestingView({ activeProject, updateProject }) {
 
       {/* Timeline Expectations */}
       <CollapsibleSection
-        title={t('testing.timelineExpectations')}
-        subtitle={t('testing.timelineSubtitle')}
+        title={'Timeline Expectations'}
+        subtitle={'When to expect results'}
         icon={<Clock size={16} className="text-phase-7" />}
         expanded={expandedSections.timeline}
         onToggle={() => toggleSection('timeline')}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <TimelineItem
-            period={t('testing.timeline.fast')}
-            description={t('testing.timeline.fastDesc')}
+            period={'2-4 weeks'}
+            description={'Specific, low-competition queries where you have strong, well-structured content with proper schema markup.'}
             color="var(--color-success)"
           />
           <TimelineItem
-            period={t('testing.timeline.medium')}
-            description={t('testing.timeline.mediumDesc')}
+            period={'2-3 months'}
+            description={'Broader queries with good content, comprehensive schema, and growing authority signals.'}
             color="var(--color-warning)"
           />
           <TimelineItem
-            period={t('testing.timeline.slow')}
-            description={t('testing.timeline.slowDesc')}
+            period={'6+ months'}
+            description={'Competitive queries in crowded niches. Requires sustained effort on content quality, authority building, and continuous optimization.'}
             color="var(--color-error)"
           />
         </div>

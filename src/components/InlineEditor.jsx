@@ -1,5 +1,4 @@
 import { useState, useRef, useCallback, useEffect, memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Pencil, Check, X, Undo2, Redo2 } from 'lucide-react'
 import useUndoRedo from '../hooks/useUndoRedo'
 
@@ -18,8 +17,7 @@ const InlineEditor = memo(function InlineEditor({
   value, onSave, as = 'span', placeholder = 'Click to edit...',
   multiline = false, maxLength, style: customStyle,
 }) {
-  const { t } = useTranslation('app')
-  const [editing, setEditing] = useState(false)
+const [editing, setEditing] = useState(false)
   const { state: editValue, setState: setEditValue, undo, redo, canUndo, canRedo, reset } = useUndoRedo(value)
   const inputRef = useRef(null)
 
@@ -93,7 +91,7 @@ const InlineEditor = memo(function InlineEditor({
         }}
         onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--hover-bg)' }}
         onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
-        aria-label={t('inlineEditor.clickToEdit', 'Click to edit')}
+        aria-label={'Click to edit'}
       >
         {value || <span style={{ color: 'var(--text-disabled)' }}>{placeholder}</span>}
         <Pencil size={11} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
@@ -132,7 +130,7 @@ const InlineEditor = memo(function InlineEditor({
             onMouseDown={(e) => e.preventDefault()}
             className="btn-ghost"
             style={{ padding: '2px' }}
-            aria-label={t('inlineEditor.undo', 'Undo')}
+            aria-label={'Undo'}
           >
             <Undo2 size={12} />
           </button>
@@ -143,7 +141,7 @@ const InlineEditor = memo(function InlineEditor({
             onMouseDown={(e) => e.preventDefault()}
             className="btn-ghost"
             style={{ padding: '2px' }}
-            aria-label={t('inlineEditor.redo', 'Redo')}
+            aria-label={'Redo'}
           >
             <Redo2 size={12} />
           </button>
@@ -153,7 +151,7 @@ const InlineEditor = memo(function InlineEditor({
           onMouseDown={(e) => e.preventDefault()}
           className="btn-ghost"
           style={{ padding: '2px', color: 'var(--color-success)' }}
-          aria-label={t('inlineEditor.save', 'Save')}
+          aria-label={'Save'}
         >
           <Check size={14} />
         </button>
@@ -162,7 +160,7 @@ const InlineEditor = memo(function InlineEditor({
           onMouseDown={(e) => e.preventDefault()}
           className="btn-ghost"
           style={{ padding: '2px', color: 'var(--color-error)' }}
-          aria-label={t('inlineEditor.cancel', 'Cancel')}
+          aria-label={'Cancel'}
         >
           <X size={14} />
         </button>

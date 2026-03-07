@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   Globe, Link2, Loader2, AlertCircle, Sparkles, SearchCheck, FileText, BarChart3,
   Shield, Bot, Map, CheckCircle2, XCircle, MinusCircle, ChevronDown, ChevronUp,
@@ -137,8 +136,7 @@ function DetSection({ title, icon, children, defaultOpen = true }) {
 /* ══════════════════════════════════════════════════════════════ */
 
 export default function AnalyzerView({ activeProject, updateProject, user }) {
-  const { t } = useTranslation('app')
-  const [activeTab, setActiveTab] = useState('site') // 'site' | 'pages' | 'health'
+const [activeTab, setActiveTab] = useState('site') // 'site' | 'pages' | 'health'
   const topTabsRef = useRef(null)
   useScrollActiveTab(topTabsRef, activeTab)
   const [mode, setMode] = useState('url') // 'webflow' | 'url'
@@ -425,7 +423,7 @@ Return ONLY valid JSON:
         logAndDispatch('analyze', { url, score: parsed.overallScore, mode: 'ai' }, user)
         trackAction('analyzePage')
       } else {
-        setError(t('analyzer.parseErrorAccess'))
+        setError('Could not parse analysis results. The AI may not have been able to access the site.')
       }
     } catch (err) {
       logger.error('AI Analyzer error:', err)
@@ -439,7 +437,7 @@ Return ONLY valid JSON:
   const fetchWebflowSites = async () => {
     if (!hasApiKey()) {
       setShowApiKey(true)
-      setError(t('analyzer.enterApiKeyFirst'))
+      setError('Please enter your Anthropic API key to use the analyzer.')
       return
     }
     setWebflowLoading(true)
@@ -466,7 +464,7 @@ Return ONLY valid JSON:
         }
       } catch {
         setWebflowSites([])
-        setError(t('analyzer.webflowParseError'))
+        setError('Could not parse Webflow sites. You may need to authenticate with Webflow first.')
       }
     } catch (err) {
       logger.error('Webflow fetch error:', err)
@@ -479,7 +477,7 @@ Return ONLY valid JSON:
   const analyzeWebflowSite = async (site) => {
     if (!hasApiKey()) {
       setShowApiKey(true)
-      setError(t('analyzer.enterApiKeyFirst'))
+      setError('Please enter your Anthropic API key to use the analyzer.')
       return
     }
     setSelectedSite(site)
@@ -555,7 +553,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
         logAndDispatch('analyze', { url, score: parsed.overallScore }, user)
         trackAction('analyzePage')
       } else {
-        setError(t('analyzer.parseError'))
+        setError('Could not parse analysis results.')
       }
     } catch (err) {
       logger.error('Webflow analysis error:', err)
@@ -574,8 +572,8 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('analyzer.title')}</h2>
-          <p className="view-subtitle">{t('analyzer.subtitle')}</p>
+          <h2 className="view-title">{'Analyzer'}</h2>
+          <p className="view-subtitle">{'Analyze your website or individual pages for AEO readiness.'}</p>
         </div>
       </div>
 
@@ -589,7 +587,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
           onClick={() => setActiveTab('site')}
         >
           <Globe size={14} />
-          {t('analyzer.siteAnalysis')}
+          {'Site Analysis'}
         </button>
         <button
           className="tab-segmented"
@@ -599,7 +597,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
           onClick={() => setActiveTab('pages')}
         >
           <FileText size={14} />
-          {t('analyzer.pageAnalysis')}
+          {'Page Analysis'}
           {pageCount > 0 && (
             <span className="tab-badge">{pageCount}</span>
           )}
@@ -613,7 +611,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
             onClick={() => setActiveTab('health')}
           >
             <BarChart3 size={14} />
-            {t('analyzer.health.tab')}
+            {'Health'}
           </button>
         )}
       </div>
@@ -629,7 +627,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
               className="tab-segmented"
             >
               <Globe size={14} />
-              {t('analyzer.urlScan')}
+              {'URL Scan'}
             </button>
             <button
               data-active={mode === 'webflow' || undefined}
@@ -637,7 +635,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
               className="tab-segmented"
             >
               <Link2 size={14} />
-              {t('analyzer.webflowConnect')}
+              {'Webflow Connect'}
             </button>
           </div>
 
@@ -659,7 +657,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
                   className="metrics-run-btn"
                 >
                   {loading ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
-                  {loading ? t('analyzer.analyzing') : 'Scan Site'}
+                  {loading ? 'Analyzing...' : 'Scan Site'}
                 </button>
               </div>
 
@@ -879,10 +877,10 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
                   {showApiKey && (
                     <div className="card fade-in-up" style={{ padding: '1rem 1.25rem' }}>
                       <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
-                        {t('analyzer.apiKeyRequired')}
+                        {'API Key Required'}
                       </h4>
                       <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
-                        {t('analyzer.enterApiKey')}
+                        {'Enter your Anthropic API key to use the analyzer:'}
                       </p>
                       <div className="analyzer-url-row">
                         <input
@@ -896,11 +894,11 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
                           onClick={() => saveApiKey(apiKey)}
                           className="metrics-run-btn"
                         >
-                          {t('analyzer.save')}
+                          {'Save'}
                         </button>
                       </div>
                       <p style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', marginTop: '0.375rem' }}>
-                        {t('analyzer.keyStoredLocally')}
+                        {'Key is stored locally in your browser only.'}
                       </p>
                     </div>
                   )}
@@ -945,30 +943,30 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
               {!hasApiKey() && (
                 <div style={{ marginBottom: '0.75rem' }}>
                   <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
-                    {t('analyzer.apiKeyRequired')}
+                    {'API Key Required'}
                   </h4>
                   <div className="analyzer-url-row">
                     <input type="password" placeholder="sk-ant-..." value={apiKey} onChange={e => setApiKey(e.target.value)} className="analyzer-url-input" />
-                    <button onClick={() => saveApiKey(apiKey)} className="metrics-run-btn">{t('analyzer.save')}</button>
+                    <button onClick={() => saveApiKey(apiKey)} className="metrics-run-btn">{'Save'}</button>
                   </div>
                 </div>
               )}
 
               <div className="flex items-center justify-between">
-                <p className="text-[0.8125rem] text-text-secondary">{t('analyzer.webflowConnectDesc')}</p>
+                <p className="text-[0.8125rem] text-text-secondary">{'Connect to Webflow to analyze your sites directly.'}</p>
                 <button
                   onClick={fetchWebflowSites}
                   disabled={webflowLoading}
                   className="px-4 py-2 bg-accent text-white rounded-lg text-[0.8125rem] font-medium hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 flex items-center gap-2"
                 >
                   {webflowLoading ? <Loader2 size={14} className="animate-spin" /> : <Link2 size={14} />}
-                  {webflowSites.length > 0 ? t('analyzer.refreshSites') : t('analyzer.loadSites')}
+                  {webflowSites.length > 0 ? 'Refresh Sites' : 'Load Sites'}
                 </button>
               </div>
 
               {webflowSites.length > 0 && (
                 <div className="space-y-2">
-                  <p className="text-[0.625rem] text-text-tertiary font-heading uppercase tracking-[0.0625rem]">{t('analyzer.selectSite')}</p>
+                  <p className="text-[0.625rem] text-text-tertiary font-heading uppercase tracking-[0.0625rem]">{'Select a site'}</p>
                   {webflowSites.map((site, idx) => (
                     <button
                       key={idx}
@@ -1007,7 +1005,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
             <div className="analyzer-error bg-error/10 border border-error/30 rounded-xl p-4 flex items-start gap-3 fade-in-up">
               <AlertCircle size={18} className="text-error flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-medium text-error">{t('analyzer.analysisError')}</p>
+                <p className="text-sm font-medium text-error">{'Analysis Error'}</p>
                 <p className="text-xs text-text-secondary mt-1">{error}</p>
               </div>
             </div>
@@ -1019,7 +1017,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
               <div className="analyzer-empty-icon">
                 <SearchCheck size={28} className="text-text-tertiary" />
               </div>
-              <h3 className="analyzer-empty-title">{t('analyzer.readyToAnalyze')}</h3>
+              <h3 className="analyzer-empty-title">{'Ready to analyze'}</h3>
               <p className="analyzer-empty-text">
                 Enter a URL to get an instant AEO readiness score. No API key needed — deterministic analysis based on real page data.
               </p>

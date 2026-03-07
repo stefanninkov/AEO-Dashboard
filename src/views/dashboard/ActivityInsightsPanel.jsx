@@ -8,7 +8,6 @@
  *  4. 30-day velocity sparkline
  */
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   PieChart, Pie, Cell, ResponsiveContainer,
   AreaChart, Area, XAxis, YAxis, Tooltip,
@@ -163,9 +162,6 @@ const sectionLabel = {
 }
 
 export default function ActivityInsightsPanel({ activities = [], t: tOverride }) {
-  const { t: tLocal } = useTranslation('app')
-  const t = tOverride || tLocal
-
   const heatmap = useMemo(() => getHeatmapData(activities), [activities])
   const typeBreakdown = useMemo(() => getTypeBreakdown(activities), [activities])
   const memberStats = useMemo(() => getMemberStats(activities), [activities])
@@ -186,7 +182,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
         <div style={sectionLabel}>
           <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             <Users size={13} />
-            {t('dashboard.activityInsights.title')}
+            {'Team Activity'}
           </span>
         </div>
         <div style={{
@@ -194,14 +190,14 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
           display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
         }}>
           <Zap size={11} style={{ color: 'var(--color-phase-4)' }} />
-          {totalThisWeek} {t('dashboard.activityInsights.thisWeek')}
+          {totalThisWeek} {'this week'}
         </div>
       </div>
 
       {/* ── Heatmap ── */}
       <div style={{ marginBottom: 'var(--space-5)' }}>
         <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)', marginBottom: 'var(--space-2)' }}>
-          {t('dashboard.activityInsights.last12Weeks')}
+          {'Last 12 weeks'}
         </div>
         <div style={{
           display: 'grid',
@@ -227,7 +223,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
           display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
           marginTop: 'var(--space-2)', justifyContent: 'flex-end',
         }}>
-          <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)' }}>{t('dashboard.activityInsights.less')}</span>
+          <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)' }}>{'Less'}</span>
           {[0, 0.25, 0.5, 0.75, 1].map((intensity, i) => (
             <div key={i} style={{
               width: '0.625rem', height: '0.625rem', borderRadius: '0.125rem',
@@ -235,7 +231,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
                 `rgba(16, 185, 129, ${intensity < 0.5 ? intensity * 1.6 : intensity < 0.75 ? 0.65 : 0.9})`,
             }} />
           ))}
-          <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)' }}>{t('dashboard.activityInsights.more')}</span>
+          <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)' }}>{'More'}</span>
         </div>
       </div>
 
@@ -244,7 +240,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
         {/* Activity by type */}
         <div>
           <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)', marginBottom: 'var(--space-2)' }}>
-            {t('dashboard.activityInsights.byType')}
+            {'Activity by type'}
           </div>
           {typeBreakdown.length > 0 ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
@@ -267,7 +263,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
                     <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--text-2xs)' }}>
                       <Icon size={10} style={{ color: item.color, flexShrink: 0 }} />
                       <span style={{ color: 'var(--text-secondary)' }}>
-                        {t(`dashboard.activityInsights.types.${item.name}`)}
+                        {'Name}'}
                       </span>
                       <span style={{ color: 'var(--text-disabled)', marginLeft: 'auto', fontFamily: 'var(--font-mono)' }}>{item.value}</span>
                     </div>
@@ -277,7 +273,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
             </div>
           ) : (
             <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-disabled)' }}>
-              {t('dashboard.activityInsights.noData')}
+              {'No activity data yet'}
             </div>
           )}
         </div>
@@ -285,7 +281,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
         {/* Top contributors */}
         <div>
           <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)', marginBottom: 'var(--space-2)' }}>
-            {t('dashboard.activityInsights.topContributors')}
+            {'Top contributors'}
           </div>
           {memberStats.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
@@ -330,7 +326,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--text-xs)', color: 'var(--text-disabled)' }}>
               <UserPlus size={12} />
-              {t('dashboard.activityInsights.noMembers')}
+              {'Invite team members to see contributions'}
             </div>
           )}
         </div>
@@ -339,7 +335,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
       {/* ── Velocity sparkline ── */}
       <div>
         <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)', marginBottom: 'var(--space-2)' }}>
-          {t('dashboard.activityInsights.velocity')}
+          {'30-day velocity'}
         </div>
         <div style={{ height: '4rem' }}>
           <ResponsiveContainer width="100%" height="100%">

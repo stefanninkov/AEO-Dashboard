@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { PenTool, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, HelpCircle, ClipboardList, Scale, ShoppingBag, BookText, Lightbulb, Star } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
 import { callAI } from '../utils/apiClient'
@@ -9,13 +8,13 @@ import { useActivityWithWebhooks } from '../hooks/useActivityWithWebhooks'
 import { useGamification } from '../hooks/useGamification'
 import logger from '../utils/logger'
 
-function buildContentTypes(t) {
+function buildContentTypes() {
   return [
     {
       id: 'faq',
-      label: t('writer.types.faq'),
+      label: 'FAQ Section',
       Icon: HelpCircle,
-      description: t('writer.typeDescriptions.faq'),
+      description: 'Generate AEO-optimized Q&A pairs with schema-ready structure',
       prompt: (topic, context, tone) => `Generate an AEO-optimized FAQ section about "${topic}".
 ${context}
 
@@ -43,9 +42,9 @@ Return as JSON:
     },
     {
       id: 'howto',
-      label: t('writer.types.howTo'),
+      label: 'How-To Guide',
       Icon: ClipboardList,
-      description: t('writer.typeDescriptions.howTo'),
+      description: 'Step-by-step guides structured for AI citation',
       prompt: (topic, context, tone) => `Create an AEO-optimized how-to guide about "${topic}".
 ${context}
 
@@ -78,9 +77,9 @@ Return as JSON:
     },
     {
       id: 'comparison',
-      label: t('writer.types.comparison'),
+      label: 'Comparison Article',
       Icon: Scale,
-      description: t('writer.typeDescriptions.comparison'),
+      description: 'Structured comparison content for decision-making queries',
       prompt: (topic, context, tone) => `Write an AEO-optimized comparison article about "${topic}".
 ${context}
 
@@ -116,9 +115,9 @@ Return as JSON:
     },
     {
       id: 'product',
-      label: t('writer.types.product'),
+      label: 'Product Description',
       Icon: ShoppingBag,
-      description: t('writer.typeDescriptions.product'),
+      description: 'AEO-ready product/service descriptions with schema hints',
       prompt: (topic, context, tone) => `Write an AEO-optimized product/service description for "${topic}".
 ${context}
 
@@ -159,9 +158,9 @@ Return as JSON:
     },
     {
       id: 'definition',
-      label: t('writer.types.definition'),
+      label: 'Definition Article',
       Icon: BookText,
-      description: t('writer.typeDescriptions.definition'),
+      description: 'Authoritative "What is X" content for featured snippets',
       prompt: (topic, context, tone) => `Write an AEO-optimized definition article about "${topic}".
 ${context}
 
@@ -198,18 +197,17 @@ Return as JSON:
   ]
 }
 
-function buildToneOptions(t) {
+function buildToneOptions() {
   return [
-    { id: 'professional', label: t('writer.tones.professional') },
-    { id: 'conversational', label: t('writer.tones.conversational') },
-    { id: 'technical', label: t('writer.tones.technical') },
-    { id: 'friendly', label: t('writer.tones.friendly') },
+    { id: 'professional', label: 'Professional' },
+    { id: 'conversational', label: 'Conversational' },
+    { id: 'technical', label: 'Technical' },
+    { id: 'friendly', label: 'Friendly' },
   ]
 }
 
 export default function ContentWriterView({ activeProject, updateProject, user }) {
-  const { t } = useTranslation('app')
-  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
+const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const { trackAction } = useGamification()
   const [topic, setTopic] = useState('')
   const [selectedType, setSelectedType] = useState('faq')
@@ -221,15 +219,15 @@ export default function ContentWriterView({ activeProject, updateProject, user }
   const [showHistory, setShowHistory] = useState(false)
   const apiKeySet = hasApiKey()
 
-  const CONTENT_TYPES = useMemo(() => buildContentTypes(t), [t])
-  const TONE_OPTIONS = useMemo(() => buildToneOptions(t), [t])
+  const CONTENT_TYPES = useMemo(() => buildContentTypes(), [])
+  const TONE_OPTIONS = useMemo(() => buildToneOptions(), [])
 
   const history = activeProject?.contentHistory || []
 
   const generate = async () => {
     if (!topic.trim() || loading) return
     if (!hasApiKey()) {
-      setError(t('writer.apiKeyError'))
+      setError('Please set your Anthropic API key in the Analyzer view first.')
       return
     }
 
@@ -279,7 +277,7 @@ Return ONLY valid JSON matching the requested format.`,
         logAndDispatch('contentWrite', { type: selectedType, topic: topic.slice(0, 60) }, user)
         trackAction('createBrief')
       } else {
-        setError(t('writer.parseError'))
+        setError('Could not parse the generated content. Please try again.')
       }
     } catch (err) {
       logger.error('Content writer error:', err)
@@ -331,27 +329,27 @@ Return ONLY valid JSON matching the requested format.`,
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('writer.title')}</h2>
+          <h2 className="view-title">{'Content Writer'}</h2>
           <p className="view-subtitle">
             {activeProject?.questionnaire?.completedAt ? (() => {
               const q = activeProject.questionnaire
               const audience = AUDIENCE_LABELS[q.audience] || null
               const industry = INDUSTRY_LABELS[q.industry] || q.industry
               const langNames = q.languages?.length > 0 ? q.languages.map(l => LANGUAGE_LABELS[l] || l).join(', ') : null
-              let subtitle = t('writer.generate')
+              let subtitle = 'Generate'
               if (audience) {
-                subtitle = t('writer.generateForAudience', { audience })
+                subtitle = `Generate content for ${audience} audiences`
               } else {
-                subtitle = t('writer.subtitle')
+                subtitle = 'Generate AEO-optimized content for your website'
               }
               if (langNames && langNames !== 'English') {
-                subtitle += t('writer.inLanguage', { languages: langNames })
+                subtitle += ` in ${langNames}`
               }
               if (industry) {
-                subtitle += t('writer.industryFocus', { industry })
+                subtitle += ` — ${industry} focus`
               }
               return subtitle
-            })() : t('writer.defaultCiteContent')}
+            })() : 'Generate AEO-optimized content that AI assistants love to cite.'}
           </p>
         </div>
       </div>
@@ -375,16 +373,16 @@ Return ONLY valid JSON matching the requested format.`,
       <div className="cw-form-card">
         <div className="cw-form-row">
           <div className="cw-form-field" style={{ flex: 1 }}>
-            <label htmlFor="cw-topic" className="cw-label">{t('writer.topicLabel')}</label>
+            <label htmlFor="cw-topic" className="cw-label">{'Topic or Subject'}</label>
             <input
               id="cw-topic"
               type="text"
               placeholder={
-                selectedType === 'faq' ? t('writer.placeholders.faq')
-                : selectedType === 'howto' ? t('writer.placeholders.howTo')
-                : selectedType === 'comparison' ? t('writer.placeholders.comparison')
-                : selectedType === 'product' ? t('writer.placeholders.product')
-                : t('writer.placeholders.definition')
+                selectedType === 'faq' ? 'e.g., AEO best practices for e-commerce'
+                : selectedType === 'howto' ? 'e.g., How to implement FAQ schema markup'
+                : selectedType === 'comparison' ? 'e.g., React vs Vue for SEO-heavy sites'
+                : selectedType === 'product' ? 'e.g., AEO Dashboard - AI-powered optimization tool'
+                : 'e.g., Answer Engine Optimization'
               }
               value={topic}
               onChange={e => setTopic(e.target.value)}
@@ -393,7 +391,7 @@ Return ONLY valid JSON matching the requested format.`,
             />
           </div>
           <div className="cw-form-field">
-            <label htmlFor="cw-tone" className="cw-label">{t('writer.tone')}</label>
+            <label htmlFor="cw-tone" className="cw-label">{'Tone'}</label>
             <select
               id="cw-tone"
               value={tone}
@@ -414,7 +412,7 @@ Return ONLY valid JSON matching the requested format.`,
             className="metrics-run-btn"
           >
             {loading ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-            {t('writer.generateContent')}
+            {'Generate Content'}
           </button>
 
           {history.length > 0 && (
@@ -423,14 +421,14 @@ Return ONLY valid JSON matching the requested format.`,
               className="cw-history-toggle"
             >
               <Clock size={14} />
-              {t('writer.historyCount', { count: history.length })}
+              {`History (${history.length})`}
               {showHistory ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             </button>
           )}
         </div>
 
         {!apiKeySet && (
-          <p className="text-[0.6875rem] text-warning mt-2">{t('writer.apiKeyMissing')}</p>
+          <p className="text-[0.6875rem] text-warning mt-2">{'Set your API key in the Analyzer view to use the content writer.'}</p>
         )}
       </div>
 
@@ -439,7 +437,7 @@ Return ONLY valid JSON matching the requested format.`,
         <div className="bg-error/10 border border-error/30 rounded-xl p-4 flex items-start gap-3 fade-in-up">
           <AlertCircle size={18} className="text-error flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-error">{t('writer.generationError')}</p>
+            <p className="text-sm font-medium text-error">{'Generation Error'}</p>
             <p className="text-xs text-text-secondary mt-1">{error}</p>
           </div>
         </div>
@@ -448,7 +446,7 @@ Return ONLY valid JSON matching the requested format.`,
       {/* History Panel */}
       {showHistory && history.length > 0 && (
         <div className="cw-history-panel fade-in-up">
-          <p className="cw-section-title">{t('writer.recentGenerations')}</p>
+          <p className="cw-section-title">{'Recent Generations'}</p>
           {history.map(entry => {
             const typeInfo = CONTENT_TYPES.find(ct => ct.id === entry.type)
             return (
@@ -465,8 +463,8 @@ Return ONLY valid JSON matching the requested format.`,
                 <button
                   onClick={() => deleteHistoryItem(entry.id)}
                   className="cw-history-delete"
-                  title={t('writer.delete')}
-                  aria-label={t('writer.deleteHistoryItem')}
+                  title={'Delete'}
+                  aria-label={'Delete history item'}
                 >
                   <Trash2 size={12} />
                 </button>
@@ -481,8 +479,8 @@ Return ONLY valid JSON matching the requested format.`,
         <div className="cw-loading-card fade-in-up">
           <Loader2 size={24} className="animate-spin" style={{ color: 'var(--color-phase-2)' }} />
           <div>
-            <p className="text-sm font-medium text-text-primary">{t('writer.generatingType', { type: CONTENT_TYPES.find(ct => ct.id === selectedType)?.label })}</p>
-            <p className="text-xs text-text-tertiary mt-0.5">{t('writer.generatingTime')}</p>
+            <p className="text-sm font-medium text-text-primary">{`Generating ${CONTENT_TYPES.find(ct => ct.id === selectedType)?.label}...`}</p>
+            <p className="text-xs text-text-tertiary mt-0.5">{'This typically takes 5-15 seconds'}</p>
           </div>
         </div>
       )}
@@ -498,18 +496,18 @@ Return ONLY valid JSON matching the requested format.`,
             <button
               onClick={() => copyContent(contentToMarkdown(result))}
               className="cw-copy-all-btn"
-              title={t('writer.copyAsMarkdown')}
-              aria-label={t('writer.copyContentAsMarkdown')}
+              title={'Copy as Markdown'}
+              aria-label={'Copy content as Markdown'}
             >
               {copied ? <Check size={14} /> : <Copy size={14} />}
-              {copied ? t('writer.copied') : t('writer.copyMarkdown')}
+              {copied ? 'Copied!' : 'Copy Markdown'}
             </button>
           </div>
           {renderContent(result)}
           {result.content.schemaNote && (
             <div className="cw-schema-note">
               <Sparkles size={12} style={{ color: 'var(--color-phase-3)', flexShrink: 0 }} />
-              <span><strong>{t('writer.schemaTip')}</strong> {result.content.schemaNote}</span>
+              <span><strong>{'Schema Tip:'}</strong> {result.content.schemaNote}</span>
             </div>
           )}
         </div>
@@ -519,8 +517,8 @@ Return ONLY valid JSON matching the requested format.`,
       {!result && !loading && !error && (
         <EmptyState
           icon={PenTool}
-          title={t('writer.readyToWrite')}
-          description={t('writer.readyToWriteDesc')}
+          title={'Ready to write'}
+          description={'Choose a content type, enter your topic, and let AI generate AEO-optimized content.'}
         />
       )}
     </div>

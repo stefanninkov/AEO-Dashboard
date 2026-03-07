@@ -1,5 +1,4 @@
 import { useState, useRef, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Users, Activity, PieChart, Dna, Target, BarChart3 } from 'lucide-react'
 import CompetitorsOverviewTab from './competitors/CompetitorsOverviewTab'
 import CompetitorMonitoringTab from './competitors/CompetitorMonitoringTab'
@@ -10,8 +9,7 @@ import BenchmarkTab from './competitors/BenchmarkTab'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 
 export default function CompetitorsView({ activeProject, updateProject, user }) {
-  const { t } = useTranslation('app')
-  const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'benchmark' | 'monitoring' | 'citation' | 'dna' | 'gaps'
+const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'benchmark' | 'monitoring' | 'citation' | 'dna' | 'gaps'
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
 
@@ -23,8 +21,8 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
     return (
       <div className="flex flex-col items-center justify-center py-24 fade-in-up">
         <Users size={48} style={{ color: 'var(--text-tertiary)', marginBottom: '1rem' }} />
-        <h3 className="view-title" style={{ marginBottom: 'var(--space-2)' }}>{t('competitors.noProjectSelected')}</h3>
-        <p className="view-subtitle">{t('competitors.noProjectSelectedDesc')}</p>
+        <h3 className="view-title" style={{ marginBottom: 'var(--space-2)' }}>{'No Project Selected'}</h3>
+        <p className="view-subtitle">{'Select a project to view competitor insights.'}</p>
       </div>
     )
   }
@@ -34,8 +32,8 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('competitors.title')}</h2>
-          <p className="view-subtitle">{t('competitors.subtitle')}</p>
+          <h2 className="view-title">{'Competitor Analysis'}</h2>
+          <p className="view-subtitle">{'Track and compare competitors\' AEO performance'}</p>
         </div>
       </div>
 
@@ -49,7 +47,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           onClick={() => setActiveTab('overview')}
         >
           <Users size={14} />
-          {t('competitors.tabOverview')}
+          {'Overview'}
         </button>
         <button
           className="tab-segmented"
@@ -59,7 +57,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           onClick={() => setActiveTab('benchmark')}
         >
           <BarChart3 size={14} />
-          {t('competitors.tabBenchmark', 'Benchmark')}
+          {'Benchmark'}
         </button>
         <button
           className="tab-segmented"
@@ -69,7 +67,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           onClick={() => setActiveTab('monitoring')}
         >
           <Activity size={14} />
-          {t('competitors.tabMonitoring')}
+          {'Monitoring'}
           {undismissedAlertCount > 0 && (
             <span className="tab-badge tab-badge-alert">{undismissedAlertCount}</span>
           )}
@@ -82,7 +80,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           onClick={() => setActiveTab('citation')}
         >
           <PieChart size={14} />
-          {t('competitors.tabCitationShare')}
+          {'Citation Share'}
         </button>
         <button
           className="tab-segmented"
@@ -92,7 +90,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           onClick={() => setActiveTab('dna')}
         >
           <Dna size={14} />
-          {t('competitors.tabCitationDNA')}
+          {'Citation DNA'}
         </button>
         <button
           className="tab-segmented"
@@ -102,7 +100,7 @@ export default function CompetitorsView({ activeProject, updateProject, user }) 
           onClick={() => setActiveTab('gaps')}
         >
           <Target size={14} />
-          {t('competitors.tabContentGaps')}
+          {'Content Gaps'}
         </button>
       </div>
 

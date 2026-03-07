@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo, memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   X, FileText, Code2, HelpCircle, Package, PenTool, Layout,
   BookOpen, Search, Star, StarOff, Plus, Copy,
@@ -155,8 +154,7 @@ function saveCustomTemplates(templates) {
 const TemplatesBrowser = memo(function TemplatesBrowser({
   isOpen, onClose, onSelect, category: initialCategory,
 }) {
-  const { t } = useTranslation('app')
-  const [activeCategory, setActiveCategory] = useState(initialCategory || 'all')
+const [activeCategory, setActiveCategory] = useState(initialCategory || 'all')
   const [search, setSearch] = useState('')
   const [favorites, setFavorites] = useState(() => {
     try { return JSON.parse(localStorage.getItem('aeo-template-favorites') || '[]') } catch { return [] }
@@ -172,14 +170,14 @@ const TemplatesBrowser = memo(function TemplatesBrowser({
     return allTemplates.filter(tpl => {
       if (activeCategory !== 'all' && tpl.category !== activeCategory) return false
       if (search) {
-        const name = t(tpl.i18nKey, tpl.fallbackName).toLowerCase()
-        const desc = t(tpl.description, tpl.fallbackDesc || '').toLowerCase()
+        const name = tpl.fallbackName.toLowerCase()
+        const desc = (tpl.fallbackDesc || '').toLowerCase()
         const q = search.toLowerCase()
         return name.includes(q) || desc.includes(q)
       }
       return true
     })
-  }, [allTemplates, activeCategory, search, t])
+  }, [allTemplates, activeCategory, search])
 
   const toggleFavorite = useCallback((id) => {
     setFavorites(prev => {
@@ -215,7 +213,7 @@ const TemplatesBrowser = memo(function TemplatesBrowser({
       {/* Modal */}
       <div
         role="dialog"
-        aria-label={t('templates.title', 'Templates')}
+        aria-label={'Templates'}
         style={{
           position: 'fixed', top: '50%', left: '50%',
           transform: 'translate(-50%, -50%)',
@@ -237,7 +235,7 @@ const TemplatesBrowser = memo(function TemplatesBrowser({
             fontFamily: 'var(--font-heading)', fontSize: 'var(--text-lg)', fontWeight: 700,
             color: 'var(--text-primary)', margin: 0,
           }}>
-            {t('templates.title', 'Templates')}
+            {'Templates'}
           </h2>
           <button onClick={onClose} className="btn-ghost" style={{ padding: '4px' }}>
             <X size={18} />
@@ -258,7 +256,7 @@ const TemplatesBrowser = memo(function TemplatesBrowser({
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={t('templates.search', 'Search templates...')}
+              placeholder={'Search templates...'}
               style={{
                 background: 'transparent', border: 'none', outline: 'none',
                 fontSize: 'var(--text-sm)', color: 'var(--text-primary)',
@@ -276,7 +274,7 @@ const TemplatesBrowser = memo(function TemplatesBrowser({
                 data-active={activeCategory === cat.id || undefined}
                 style={{ fontSize: 'var(--text-2xs)', padding: '4px 10px' }}
               >
-                {t(cat.i18nKey, cat.fallback)}
+                {cat.fallback}
               </button>
             ))}
           </div>
@@ -339,14 +337,14 @@ const TemplatesBrowser = memo(function TemplatesBrowser({
                   <span style={{
                     fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)',
                   }}>
-                    {t(tpl.i18nKey, tpl.fallbackName)}
+                    {tpl.fallbackName}
                   </span>
                 </div>
                 <p style={{
                   fontSize: 'var(--text-2xs)', color: 'var(--text-tertiary)',
                   lineHeight: 1.4, margin: 0,
                 }}>
-                  {t(tpl.description, tpl.fallbackDesc || '')}
+                  {(tpl.fallbackDesc || '')}
                 </p>
                 <div style={{
                   marginTop: 'var(--space-2)', display: 'flex', gap: 'var(--space-1)',
@@ -368,7 +366,7 @@ const TemplatesBrowser = memo(function TemplatesBrowser({
               gridColumn: '1 / -1', textAlign: 'center', padding: 'var(--space-8)',
               color: 'var(--text-tertiary)', fontSize: 'var(--text-sm)',
             }}>
-              {t('templates.noResults', 'No templates found.')}
+              {'No templates found.'}
             </div>
           )}
         </div>

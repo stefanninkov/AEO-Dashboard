@@ -26,11 +26,11 @@ function resolveCountries(questionnaire) {
  * e.g.: "E-Commerce · Germany, Europe · B2C · German, English"
  * Accepts optional `t` function from react-i18next for translations; falls back to static labels.
  */
-export function getProjectContextLine(questionnaire, t) {
+export function getProjectContextLine(questionnaire) {
   if (!questionnaire?.completedAt) return ''
-  const il = t ? (k => t(`labels.industry.${k}`, k)) : (k => INDUSTRY_LABELS[k] || k)
-  const rl = t ? (k => t(`labels.region.${k}`, k)) : (k => REGION_LABELS[k] || k)
-  const al = t ? (k => t(`labels.audience.${k}`, k)) : (k => AUDIENCE_LABELS[k] || k)
+  const il = (k => INDUSTRY_LABELS[k] || k)
+  const rl = (k => REGION_LABELS[k] || k)
+  const al = (k => AUDIENCE_LABELS[k] || k)
   const parts = []
   if (questionnaire.industry) parts.push(il(questionnaire.industry))
   const countries = resolveCountries(questionnaire)
@@ -234,7 +234,7 @@ const CATEGORIES = {
 
 /* ── Smart Recommendations Engine ── */
 export function getSmartRecommendations(project, phases, setActiveView) {
-  if (!project) return []
+  if (!project || !phases) return []
 
   const recs = []
   const q = project.questionnaire || {}

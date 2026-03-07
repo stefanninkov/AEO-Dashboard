@@ -152,8 +152,8 @@ export default function AdminActivity({ user }) {
             }}
           >
             <option value="all">All Types</option>
-            {activityTypes.map(t => (
-              <option key={t} value={t}>{ACTIVITY_LABELS[t] || t}</option>
+            {activityTypes.map(type => (
+              <option key={type} value={type}>{ACTIVITY_LABELS[type] || type}</option>
             ))}
           </select>
         </div>

@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   Loader2, AlertCircle, ExternalLink, Shield, Sparkles, TrendingUp,
   TrendingDown, Minus, CheckCircle2, XCircle, ChartColumnIncreasing, Clock
@@ -11,8 +10,7 @@ import { useChecklistTranslation } from '../hooks/useChecklistTranslation'
 
 // ─── Portal View (standalone, no auth) ───────────────────────
 export default function PortalView({ shareToken }) {
-  const { t } = useTranslation('app')
-  const phases = useChecklistTranslation(rawPhases)
+const phases = useChecklistTranslation(rawPhases)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -35,7 +33,7 @@ export default function PortalView({ shareToken }) {
     return (
       <div className="portal-loading">
         <Loader2 size={32} className="portal-spinner" />
-        <p>{t('portal.loading')}</p>
+        <p>{'Loading shared report…'}</p>
       </div>
     )
   }
@@ -45,7 +43,7 @@ export default function PortalView({ shareToken }) {
       <div className="portal-loading">
         <div className="portal-error-card">
           <AlertCircle size={48} strokeWidth={1.5} />
-          <h2>{t('portal.invalidLink')}</h2>
+          <h2>{'Link Invalid or Expired'}</h2>
           <p>{error}</p>
         </div>
       </div>
@@ -61,11 +59,11 @@ export default function PortalView({ shareToken }) {
         <div className="portal-banner-inner">
           <div className="portal-banner-left">
             <Shield size={16} />
-            <span>{t('portal.readOnly')}</span>
+            <span>{'Read-Only Client Portal'}</span>
           </div>
           <div className="portal-banner-right">
             <Sparkles size={14} />
-            <span>{t('common:sidebar.appName')}</span>
+            <span>{'app Name'}</span>
           </div>
         </div>
       </div>
@@ -83,7 +81,7 @@ export default function PortalView({ shareToken }) {
           )}
           <p className="portal-shared-on">
             <Clock size={13} />
-            {t('portal.sharedOn', { date: new Date(data.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) })}
+            {`Shared on ${new Date(data.createdAt).toLocaleDateString('en-US')}`}
           </p>
         </div>
 
@@ -102,7 +100,7 @@ export default function PortalView({ shareToken }) {
 
       {/* Footer */}
       <div className="portal-footer">
-        <p>{t('portal.poweredBy')}</p>
+        <p>{'Powered by AEO Dashboard — Answer Engine Optimization'}</p>
       </div>
     </div>
   )
@@ -110,8 +108,7 @@ export default function PortalView({ shareToken }) {
 
 // ─── Stats Cards ─────────────────────────────────────────────
 function PortalStats({ project }) {
-  const { t } = useTranslation('app')
-  const latestMetrics = project.metricsHistory?.length > 0 ? project.metricsHistory[project.metricsHistory.length - 1] : null
+const latestMetrics = project.metricsHistory?.length > 0 ? project.metricsHistory[project.metricsHistory.length - 1] : null
   const latestMonitor = project.monitorHistory?.length > 0 ? project.monitorHistory[project.monitorHistory.length - 1] : null
 
   // Calculate checklist completion
@@ -124,31 +121,31 @@ function PortalStats({ project }) {
   return (
     <div className="portal-stats-grid">
       <div className="portal-stat-card">
-        <div className="portal-stat-label">{t('portal.aeoScore')}</div>
+        <div className="portal-stat-label">{'AEO Score'}</div>
         <div className="portal-stat-value">
           {latestMetrics?.overallScore ?? project.analyzerResults?.overallScore ?? '—'}
           {(latestMetrics?.overallScore || project.analyzerResults?.overallScore) && <span className="portal-stat-unit">%</span>}
         </div>
       </div>
       <div className="portal-stat-card">
-        <div className="portal-stat-label">{t('portal.checklistProgress')}</div>
+        <div className="portal-stat-label">{'Checklist Progress'}</div>
         <div className="portal-stat-value">
           {checklistPercent}<span className="portal-stat-unit">%</span>
         </div>
-        <div className="portal-stat-sub">{t('portal.itemsCount', { checked: checkedItems, total: totalItems })}</div>
+        <div className="portal-stat-sub">{`${checkedItems}/${totalItems} items`}</div>
       </div>
       <div className="portal-stat-card">
-        <div className="portal-stat-label">{t('portal.citationScore')}</div>
+        <div className="portal-stat-label">{'Citation Score'}</div>
         <div className="portal-stat-value">
           {latestMonitor ? `${latestMonitor.overallScore}` : '—'}
           {latestMonitor && <span className="portal-stat-unit">%</span>}
         </div>
         <div className="portal-stat-sub">
-          {latestMonitor ? t('portal.queriesCited', { cited: latestMonitor.queriesCited, checked: latestMonitor.queriesChecked }) : 'No data'}
+          {latestMonitor ? `${latestMonitor.queriesCited}/${latestMonitor.queriesChecked} queries cited` : 'No data'}
         </div>
       </div>
       <div className="portal-stat-card">
-        <div className="portal-stat-label">{t('portal.monitorChecks')}</div>
+        <div className="portal-stat-label">{'Monitor Checks'}</div>
         <div className="portal-stat-value">{project.monitorHistory?.length || 0}</div>
         <div className="portal-stat-sub">
           {latestMonitor ? `Last: ${new Date(latestMonitor.date).toLocaleDateString()}` : 'No checks yet'}
@@ -160,8 +157,7 @@ function PortalStats({ project }) {
 
 // ─── Phase Progress ──────────────────────────────────────────
 function PortalPhaseProgress({ project }) {
-  const { t } = useTranslation('app')
-  const phaseData = useMemo(() => {
+const phaseData = useMemo(() => {
     return phases.map(phase => {
       let total = 0
       let checked = 0
@@ -179,7 +175,7 @@ function PortalPhaseProgress({ project }) {
     <div className="portal-section">
       <h2 className="portal-section-title">
         <ChartColumnIncreasing size={18} />
-        {t('portal.implementation')}
+        {'AEO Implementation Progress'}
       </h2>
       <div className="portal-phases">
         {phaseData.map(phase => (
@@ -209,12 +205,11 @@ function PortalPhaseProgress({ project }) {
 
 // ─── Analyzer Results ────────────────────────────────────────
 function PortalAnalyzerResults({ results }) {
-  const { t } = useTranslation('app')
-  return (
+return (
     <div className="portal-section">
       <h2 className="portal-section-title">
         <Sparkles size={18} />
-        {t('portal.siteAnalysis')}
+        {'Site Analysis'}
       </h2>
       <div className="portal-analyzer-header">
         <div className="portal-analyzer-score" style={{ color: results.overallScore >= 70 ? 'var(--color-success)' : results.overallScore >= 40 ? 'var(--color-warning)' : 'var(--color-error)' }}>
@@ -236,7 +231,7 @@ function PortalAnalyzerResults({ results }) {
                   <XCircle size={15} className="portal-status-fail" />
                 )}
                 <span className="portal-analyzer-item-name">{item.name}</span>
-                <span className={`portal-analyzer-badge portal-badge-${item.status}`}>{t(`portal.${item.status}`)}</span>
+                <span className={`portal-analyzer-badge portal-badge-${item.status}`}>{'Status}'}</span>
               </div>
             ))}
           </div>
@@ -248,8 +243,7 @@ function PortalAnalyzerResults({ results }) {
 
 // ─── Monitor History ─────────────────────────────────────────
 function PortalMonitorHistory({ history }) {
-  const { t } = useTranslation('app')
-  const last10 = history.slice(-10)
+const last10 = history.slice(-10)
   const latest = history[history.length - 1]
   const previous = history.length > 1 ? history[history.length - 2] : null
   const delta = previous ? latest.overallScore - previous.overallScore : null
@@ -258,7 +252,7 @@ function PortalMonitorHistory({ history }) {
     <div className="portal-section">
       <h2 className="portal-section-title">
         <TrendingUp size={18} />
-        {t('portal.citationMonitoring')}
+        {'Citation Monitoring'}
       </h2>
       <div className="portal-monitor-summary">
         <div className="portal-monitor-score">
@@ -271,7 +265,7 @@ function PortalMonitorHistory({ history }) {
           )}
         </div>
         <span className="portal-monitor-sub">
-          {t('portal.queriesCited', { cited: latest.queriesCited, checked: latest.queriesChecked })}
+          {`${latest.queriesCited}/${latest.queriesChecked} queries cited`}
         </span>
       </div>
 

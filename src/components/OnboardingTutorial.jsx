@@ -3,7 +3,6 @@ import {
   Sparkles, ArrowRight, ArrowLeft, Compass, CheckSquare, Gauge, Rocket,
   ChartColumnIncreasing, BookOpen, FlaskConical, SlidersHorizontal, PenTool, Code2, Activity,
 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
 /* Non-translatable step metadata — icons, targets, views stay module-scope */
@@ -25,8 +24,7 @@ const STEP_META = [
 ]
 
 export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }) {
-  const { t } = useTranslation('app')
-  const [step, setStep] = useState(0)
+const [step, setStep] = useState(0)
   const [animating, setAnimating] = useState(false)
   const prevHighlightRef = useRef(null)
   const trapRef = useFocusTrap(true)
@@ -36,12 +34,12 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
     return {
       ...meta,
       icon: <Icon size={24} />,
-      title: t(`onboarding.steps.${meta.id}.title`),
-      description: t(`onboarding.steps.${meta.id}.desc`),
-      section: t(`onboarding.sections.${meta.sectionKey}`),
-      cta: meta.hasCta ? t(`onboarding.steps.${meta.id}.cta`) : undefined,
+      title: 'Title',
+      description: 'Desc',
+      section: 'Section Key}',
+      cta: meta.hasCta ? 'Cta' : undefined,
     }
-  }), [t])
+  }), [])
 
   const currentStep = STEPS[step]
 
@@ -231,7 +229,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
                   cursor: 'pointer', fontFamily: 'var(--font-body)',
                 }}
               >
-                {t('onboarding.skipTour')}
+                {'Skip tour'}
               </button>
             )}
             {step > 0 && (
@@ -246,7 +244,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
                 }}
               >
                 <ArrowLeft size={13} />
-                {t('onboarding.back')}
+                {'Back'}
               </button>
             )}
             {currentStep.cta ? (
@@ -264,7 +262,7 @@ export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }
                 className="btn-primary"
                 style={{ padding: '0.4375rem 1rem', fontSize: 12 }}
               >
-                {step === STEPS.length - 1 ? t('onboarding.finish') : t('onboarding.next')}
+                {step === STEPS.length - 1 ? 'Finish' : 'Next'}
                 <ArrowRight size={13} style={{ marginLeft: 4 }} />
               </button>
             )}

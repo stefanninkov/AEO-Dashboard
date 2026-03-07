@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo, memo, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   CheckCircle2, Circle, ChevronDown, ChevronUp, X,
   FolderPlus, SearchCheck, ListChecks, Globe, Users, Activity,
@@ -81,8 +80,7 @@ function detectCompletedSteps(activeProject, projects) {
 const GettingStartedChecklist = memo(function GettingStartedChecklist({
   activeProject, projects, setActiveView, onNewProject,
 }) {
-  const { t } = useTranslation('app')
-  const [expanded, setExpanded] = useState(false)
+const [expanded, setExpanded] = useState(false)
   const [manualChecked, setManualChecked] = useState(() => loadCheckedSteps())
   const [dismissed, setDismissed] = useState(() => {
     try { return localStorage.getItem(DISMISSED_KEY) === 'true' } catch { return false }
@@ -163,10 +161,10 @@ const GettingStartedChecklist = memo(function GettingStartedChecklist({
           }}
           onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)' }}
           onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
-          aria-label={t('gettingStarted.title', 'Getting Started')}
+          aria-label={'Getting Started'}
         >
           {celebrating ? <PartyPopper size={16} /> : <Sparkles size={16} />}
-          {t('gettingStarted.title', 'Getting Started')}
+          {'Getting Started'}
           <span style={{
             background: 'rgba(255,255,255,0.25)', padding: '1px 6px',
             borderRadius: 'var(--radius-full)', fontSize: 'var(--text-2xs)',
@@ -201,7 +199,7 @@ const GettingStartedChecklist = memo(function GettingStartedChecklist({
                 fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)',
                 fontWeight: 700, color: 'var(--text-primary)',
               }}>
-                {t('gettingStarted.title', 'Getting Started')}
+                {'Getting Started'}
               </span>
             </div>
             <div style={{ display: 'flex', gap: 'var(--space-1)' }}>
@@ -232,7 +230,7 @@ const GettingStartedChecklist = memo(function GettingStartedChecklist({
               display: 'flex', justifyContent: 'space-between', fontSize: 'var(--text-2xs)',
               color: 'var(--text-tertiary)', marginBottom: 'var(--space-1)',
             }}>
-              <span>{t('gettingStarted.progress', 'Progress')}</span>
+              <span>{'Progress'}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{progressPct}%</span>
             </div>
             <div style={{
@@ -292,7 +290,7 @@ const GettingStartedChecklist = memo(function GettingStartedChecklist({
                     }}
                   >
                     <StepIcon size={13} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
-                    {t(step.i18nKey, step.fallbackLabel)}
+                    {step.fallbackLabel}
                   </button>
                 </div>
               )
@@ -307,14 +305,14 @@ const GettingStartedChecklist = memo(function GettingStartedChecklist({
               textAlign: 'center',
             }}>
               <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-success)', fontWeight: 600 }}>
-                {t('gettingStarted.allDone', 'All done! You\'re all set up.')}
+                {'All done! You\'re all set up.'}
               </p>
               <button
                 onClick={handleDismiss}
                 className="btn-ghost btn-sm"
                 style={{ fontSize: 'var(--text-2xs)', marginTop: 'var(--space-1)' }}
               >
-                {t('gettingStarted.dismiss', 'Dismiss checklist')}
+                {'Dismiss checklist'}
               </button>
             </div>
           )}

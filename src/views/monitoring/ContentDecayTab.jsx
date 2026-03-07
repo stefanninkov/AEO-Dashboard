@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   TrendingDown, AlertTriangle, AlertCircle, MinusCircle,
   CheckCircle2, XCircle, Sparkles, Loader2, ChevronDown, ChevronUp,
@@ -54,8 +53,7 @@ function TimelineDots({ timeline }) {
 }
 
 export default function ContentDecayTab({ activeProject }) {
-  const { t } = useTranslation('app')
-  const { decays, summary, generating, suggestions, error, getTimeline, generateSuggestions, hasData } = useContentDecay(activeProject)
+const { decays, summary, generating, suggestions, error, getTimeline, generateSuggestions, hasData } = useContentDecay(activeProject)
   const [selectedIds, setSelectedIds] = useState(new Set())
   const [expandedQuery, setExpandedQuery] = useState(null)
   const [filter, setFilter] = useState('all') // all | lost | declining | dip
@@ -99,8 +97,8 @@ export default function ContentDecayTab({ activeProject }) {
     return (
       <EmptyState
         icon={TrendingDown}
-        title={t('monitoring.decay.emptyTitle')}
-        description={t('monitoring.decay.emptyDesc')}
+        title={'Not enough data yet'}
+        description={'Run at least 2 monitoring checks to detect content decay patterns.'}
       />
     )
   }
@@ -110,8 +108,8 @@ export default function ContentDecayTab({ activeProject }) {
     return (
       <EmptyState
         icon={CheckCircle2}
-        title={t('monitoring.decay.healthyTitle')}
-        description={t('monitoring.decay.healthyDesc')}
+        title={'No content decay detected'}
+        description={'All previously cited queries are still getting citations.'}
         color="var(--color-success)"
       />
     )
@@ -126,7 +124,7 @@ export default function ContentDecayTab({ activeProject }) {
       }} className="stagger-grid">
         <div className="card" style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
           <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.03125rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem' }}>
-            {t('monitoring.decay.totalDecaying')}
+            {'Total Decaying'}
           </div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 700, color: summary.total > 0 ? 'var(--color-warning)' : 'var(--text-primary)' }}>
             {summary.total}
@@ -134,7 +132,7 @@ export default function ContentDecayTab({ activeProject }) {
         </div>
         <div className="card" style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
           <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.03125rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem' }}>
-            {t('monitoring.decay.lost')}
+            {'Lost'}
           </div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 700, color: summary.lost > 0 ? 'var(--color-error)' : 'var(--text-disabled)' }}>
             {summary.lost}
@@ -142,7 +140,7 @@ export default function ContentDecayTab({ activeProject }) {
         </div>
         <div className="card" style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
           <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.03125rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem' }}>
-            {t('monitoring.decay.declining')}
+            {'Declining'}
           </div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 700, color: summary.declining > 0 ? 'var(--color-warning)' : 'var(--text-disabled)' }}>
             {summary.declining}
@@ -150,7 +148,7 @@ export default function ContentDecayTab({ activeProject }) {
         </div>
         <div className="card" style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
           <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.03125rem', color: 'var(--text-tertiary)', marginBottom: '0.25rem' }}>
-            {t('monitoring.decay.dips')}
+            {'Dips'}
           </div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 700, color: summary.dip > 0 ? 'var(--text-tertiary)' : 'var(--text-disabled)' }}>
             {summary.dip}
@@ -171,7 +169,7 @@ export default function ContentDecayTab({ activeProject }) {
               className={filter === f ? 'btn-primary btn-sm' : 'btn-ghost btn-sm'}
               style={{ fontSize: '0.6875rem' }}
             >
-              {f === 'all' ? t('monitoring.decay.filterAll') : t(`monitoring.decay.filter_${f}`)}
+              {f === 'all' ? 'All' : 'Filter_${f}'}
               {f !== 'all' && (
                 <span style={{
                   marginLeft: '0.25rem', fontSize: '0.5625rem',
@@ -193,9 +191,9 @@ export default function ContentDecayTab({ activeProject }) {
               style={{ background: 'var(--color-phase-5)' }}
             >
               {generating ? (
-                <><Loader2 size={13} className="mon-spinner" /> {t('monitoring.decay.generating')}</>
+                <><Loader2 size={13} className="mon-spinner" /> {'Analyzing...'}</>
               ) : (
-                <><Sparkles size={13} /> {t('monitoring.decay.getSuggestions', { count: selectedIds.size })}</>
+                <><Sparkles size={13} /> {`Get Suggestions (${selectedIds.size})`}</>
               )}
             </button>
           )}
@@ -224,7 +222,7 @@ export default function ContentDecayTab({ activeProject }) {
             {selectedIds.size === filtered.length && filtered.length > 0 && <Check size={10} style={{ color: '#fff' }} />}
           </button>
           <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600 }}>
-            {t('monitoring.decay.queryCount', { count: filtered.length })}
+            {`${filtered.length} queries`}
           </span>
         </div>
 
@@ -278,7 +276,7 @@ export default function ContentDecayTab({ activeProject }) {
                     <span style={{
                       fontSize: '0.625rem', color: 'var(--text-tertiary)',
                     }}>
-                      {t('monitoring.decay.citedRate', { rate: decay.citedRate })}
+                      {`${decay.citedRate}% cited`}
                     </span>
                     <TimelineDots timeline={timeline} />
                   </div>
@@ -301,7 +299,7 @@ export default function ContentDecayTab({ activeProject }) {
                   <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                     <div>
                       <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.03125rem' }}>
-                        {t('monitoring.decay.checks')}
+                        {'Cited / Checks'}
                       </div>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                         {decay.citedCount}/{decay.totalChecks}
@@ -309,7 +307,7 @@ export default function ContentDecayTab({ activeProject }) {
                     </div>
                     <div>
                       <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.03125rem' }}>
-                        {t('monitoring.decay.lastCited')}
+                        {'Last Cited'}
                       </div>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                         {decay.lastCitedDate ? new Date(decay.lastCitedDate).toLocaleDateString() : '—'}
@@ -317,7 +315,7 @@ export default function ContentDecayTab({ activeProject }) {
                     </div>
                     <div>
                       <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.03125rem' }}>
-                        {t('monitoring.decay.firstSeen')}
+                        {'First Seen'}
                       </div>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                         {new Date(decay.firstSeenDate).toLocaleDateString()}
@@ -341,7 +339,7 @@ export default function ContentDecayTab({ activeProject }) {
                   {/* Full timeline */}
                   <div>
                     <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-disabled)', letterSpacing: '0.03125rem', marginBottom: '0.25rem' }}>
-                      {t('monitoring.decay.timeline')}
+                      {'Check Timeline'}
                     </div>
                     <div style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
                       {timeline.map((point, i) => (
@@ -394,7 +392,7 @@ export default function ContentDecayTab({ activeProject }) {
               fontFamily: 'var(--font-heading)', fontSize: '0.8125rem',
               fontWeight: 700, color: 'var(--text-primary)',
             }}>
-              {t('monitoring.decay.suggestionsTitle')}
+              {'Remediation Suggestions'}
             </span>
           </div>
           {suggestions.map((s, idx) => (
@@ -429,7 +427,7 @@ export default function ContentDecayTab({ activeProject }) {
                 </div>
               </div>
               <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                <strong style={{ color: 'var(--text-primary)' }}>{t('monitoring.decay.action')}:</strong> {s.action}
+                <strong style={{ color: 'var(--text-primary)' }}>{'Action'}:</strong> {s.action}
               </p>
               {s.reason && (
                 <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', lineHeight: 1.4, fontStyle: 'italic' }}>

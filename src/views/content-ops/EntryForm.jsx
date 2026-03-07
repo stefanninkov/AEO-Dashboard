@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
 import { X, Trash2, Link2, CheckSquare, Calendar as CalendarIcon, Lightbulb, Check } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { STATUS_OPTIONS, formatDateKey } from './useContentCalendar'
 import { generateLinkedTasks } from '../../utils/calendarBridge'
 
@@ -35,8 +34,7 @@ export default function EntryForm({
   onDelete,
   onClose,
 }) {
-  const { t } = useTranslation('app')
-  const isEditing = !!entry
+const isEditing = !!entry
 
   const [title, setTitle] = useState(entry?.title || '')
   const [scheduledDate, setScheduledDate] = useState(
@@ -149,7 +147,7 @@ export default function EntryForm({
               fontWeight: 700,
               color: 'var(--text-primary)',
             }}>
-              {isEditing ? t('contentOps.form.editEntry') : t('contentOps.form.newEntry')}
+              {isEditing ? 'Edit Entry' : 'New Calendar Entry'}
             </span>
           </div>
           <button onClick={onClose} className="btn-icon">
@@ -168,11 +166,11 @@ export default function EntryForm({
         }}>
           {/* Title */}
           <div>
-            <label style={labelStyle}>{t('contentOps.form.titleLabel')}</label>
+            <label style={labelStyle}>{'Title *'}</label>
             <input
               value={title}
               onChange={e => setTitle(e.target.value)}
-              placeholder={t('contentOps.form.titlePlaceholder')}
+              placeholder={'e.g. Rewrite /services answer paragraphs'}
               className="input-field"
               style={{ width: '100%' }}
               autoFocus
@@ -181,7 +179,7 @@ export default function EntryForm({
 
           {/* Date */}
           <div>
-            <label style={labelStyle}>{t('contentOps.form.scheduledDate')}</label>
+            <label style={labelStyle}>{'Scheduled Date'}</label>
             <input
               type="date"
               value={scheduledDate}
@@ -195,7 +193,7 @@ export default function EntryForm({
           <div>
             <label style={labelStyle}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <CheckSquare size={11} /> {t('contentOps.form.linkedTask')}
+                <CheckSquare size={11} /> {'Linked Checklist Task'}
               </span>
             </label>
             <select
@@ -204,10 +202,10 @@ export default function EntryForm({
               className="input-field"
               style={{ width: '100%', cursor: 'pointer' }}
             >
-              <option value="">{t('contentOps.form.none')}</option>
+              <option value="">{'None'}</option>
               {/* Group by phase */}
               {phases?.map(phase => (
-                <optgroup key={phase.id} label={`${t('contentOps.form.phase')} ${phase.number}: ${phase.title}`}>
+                <optgroup key={phase.id} label={`${'Phase'} ${phase.number}: ${phase.title}`}>
                   {phase.categories.flatMap(cat =>
                     cat.items.map(item => (
                       <option key={item.id} value={item.id}>
@@ -225,7 +223,7 @@ export default function EntryForm({
             <div>
               <label style={labelStyle}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  <Lightbulb size={11} /> {t('contentOps.linkedTasks.suggested')}
+                  <Lightbulb size={11} /> {'Suggested AEO Tasks'}
                 </span>
               </label>
               <div style={{
@@ -285,7 +283,7 @@ export default function EntryForm({
           <div>
             <label style={labelStyle}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <Link2 size={11} /> {t('contentOps.form.pageUrl')}
+                <Link2 size={11} /> {'Page URL'}
               </span>
             </label>
             <input
@@ -300,14 +298,14 @@ export default function EntryForm({
           {/* Assignee */}
           {members?.length > 0 && (
             <div>
-              <label style={labelStyle}>{t('contentOps.form.assignedTo')}</label>
+              <label style={labelStyle}>{'Assigned To'}</label>
               <select
                 value={assignedTo}
                 onChange={e => setAssignedTo(e.target.value)}
                 className="input-field"
                 style={{ width: '100%', cursor: 'pointer' }}
               >
-                <option value="">{t('contentOps.form.unassigned')}</option>
+                <option value="">{'Unassigned'}</option>
                 {members.map(m => (
                   <option key={m.uid} value={m.uid}>
                     {m.displayName || m.email}
@@ -319,7 +317,7 @@ export default function EntryForm({
 
           {/* Status */}
           <div>
-            <label style={labelStyle}>{t('contentOps.form.status')}</label>
+            <label style={labelStyle}>{'Status'}</label>
             <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
               {STATUS_OPTIONS.map(opt => (
                 <button
@@ -338,7 +336,7 @@ export default function EntryForm({
                     transition: 'all 150ms',
                   }}
                 >
-                  {t('contentOps.status.' + opt.value)}
+                  {opt.value === 'in-progress' ? 'In Progress' : opt.value === 'review' ? 'Review' : opt.value === 'published' ? 'Published' : opt.value === 'scheduled' ? 'Scheduled' : opt.value}
                 </button>
               ))}
             </div>
@@ -347,14 +345,14 @@ export default function EntryForm({
           {/* Linked brief */}
           {briefs?.length > 0 && (
             <div>
-              <label style={labelStyle}>{t('contentOps.form.linkedBrief')}</label>
+              <label style={labelStyle}>{'Linked Content Brief'}</label>
               <select
                 value={briefId}
                 onChange={e => setBriefId(e.target.value)}
                 className="input-field"
                 style={{ width: '100%', cursor: 'pointer' }}
               >
-                <option value="">{t('contentOps.form.none')}</option>
+                <option value="">{'None'}</option>
                 {briefs.map(b => (
                   <option key={b.id} value={b.id}>
                     {b.targetQuery} ({new Date(b.createdAt).toLocaleDateString()})
@@ -366,11 +364,11 @@ export default function EntryForm({
 
           {/* Notes */}
           <div>
-            <label style={labelStyle}>{t('contentOps.form.notes')}</label>
+            <label style={labelStyle}>{'Notes'}</label>
             <textarea
               value={notes}
               onChange={e => setNotes(e.target.value)}
-              placeholder={t('contentOps.form.notesPlaceholder')}
+              placeholder={'Additional notes...'}
               rows={3}
               className="input-field"
               style={{ width: '100%', resize: 'vertical', minHeight: '4rem' }}
@@ -392,20 +390,20 @@ export default function EntryForm({
               onClick={() => { onDelete(entry.id); onClose() }}
               className="btn-danger btn-sm"
             >
-              <Trash2 size={13} /> {t('contentOps.form.delete')}
+              <Trash2 size={13} /> {'Delete'}
             </button>
           ) : <div />}
 
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button onClick={onClose} className="btn-secondary btn-sm">
-              {t('contentOps.form.cancel')}
+              {'Cancel'}
             </button>
             <button
               onClick={handleSave}
               disabled={!title.trim()}
               className="btn-primary btn-sm"
             >
-              {isEditing ? t('contentOps.form.saveChanges') : t('contentOps.form.addEntry')}
+              {isEditing ? 'Save Changes' : 'Add Entry'}
             </button>
           </div>
         </div>

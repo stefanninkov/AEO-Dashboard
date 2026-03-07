@@ -1,5 +1,4 @@
 import { memo, useMemo, useState, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   LayoutGrid, ListChecks, Swords, ScanSearch, NotebookPen,
   CalendarCog, Braces, Radar, ChartSpline, SearchCode,
@@ -84,7 +83,6 @@ function getInitialCollapsed() {
 
 export default memo(function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar, onlineMembers }) {
   const { theme, toggleTheme } = useTheme()
-  const { t } = useTranslation()
   const [collapsed, setCollapsed] = useState(getInitialCollapsed)
 
   const toggleGroup = useCallback((groupIndex) => {
@@ -97,14 +95,13 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
 
   const navGroups = useMemo(() =>
     NAV_GROUPS.map(group => ({
-      label: t(group.i18nKey),
+      label: group.fallbackLabel || group.label,
       items: group.items.map(id => ({
         id,
-        label: t(NAV_I18N_KEYS[id]),
+        label: id,
         icon: NAV_ICONS[id],
       })),
-    })),
-  [t])
+    })), [])
 
   const handleNav = (viewId) => {
     setActiveView(viewId)
@@ -117,7 +114,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
       {/* Logo */}
       <div className="sidebar-logo">
         <Sparkles size={20} className="text-phase-1" style={{ flexShrink: 0 }} />
-        <span className="sidebar-logo-text">{t('sidebar.appName')}</span>
+        <span className="sidebar-logo-text">{'AEO Dashboard'}</span>
       </div>
 
       {/* New Project Button */}
@@ -128,7 +125,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
           style={{ width: '100%', padding: '0.5625rem 1rem', fontSize: '0.8125rem' }}
         >
           <Plus size={14} />
-          {t('actions.newProject')}
+          {'New Project'}
         </button>
       </div>
 
@@ -200,7 +197,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
       </nav>
 
       {/* Settings — separate from groups */}
-      <div className="sidebar-section-label">{t('sections.tools')}</div>
+      <div className="sidebar-section-label">{'Tools'}</div>
       <button
         onClick={() => handleNav('settings')}
         className={`sidebar-nav-item ${activeView === 'settings' ? 'active' : ''}`}
@@ -208,7 +205,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
         aria-current={activeView === 'settings' ? 'page' : undefined}
       >
         <SlidersHorizontal size={16} strokeWidth={activeView === 'settings' ? 2 : 1.5} />
-        {t('nav.settings')}
+        {'Settings'}
       </button>
 
       {/* Theme Toggle */}
@@ -220,7 +217,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
         aria-label={`Dark mode: ${theme === 'dark' ? 'on' : 'off'}`}
       >
         {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-        {theme === 'dark' ? t('sidebar.lightMode') : t('sidebar.darkMode')}
+        {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
       </button>
 
       {/* Online Members */}
@@ -255,7 +252,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p className="sidebar-user-name">
-            {user?.displayName || t('sidebar.user')}
+            {user?.displayName || 'User'}
           </p>
           <p className="sidebar-user-email">
             {user?.email || ''}
@@ -265,16 +262,16 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
           <button
             onClick={() => { handleNav('settings'); }}
             className="icon-btn"
-            title={t('nav.settings')}
-            aria-label={t('nav.settings')}
+            title={'Settings'}
+            aria-label={'Settings'}
           >
             <SlidersHorizontal size={14} />
           </button>
           <button
             onClick={onSignOut}
             className="icon-btn"
-            title={t('auth.signOut')}
-            aria-label={t('auth.signOut')}
+            title={'Sign out'}
+            aria-label={'Sign out'}
           >
             <LogOut size={14} />
           </button>

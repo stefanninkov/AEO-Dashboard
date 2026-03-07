@@ -1,11 +1,9 @@
 import { X, ArrowRight, ExternalLink } from 'lucide-react'
 import { safeHref } from '../utils/sanitizeUrl'
-import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
 export default function DocOverlay({ item, onClose, onExited, isClosing, phases, setActiveView }) {
-  const { t } = useTranslation('app')
-  const trapRef = useFocusTrap(!!item && !isClosing)
+const trapRef = useFocusTrap(!!item && !isClosing)
 
   if (!item && !isClosing) return null
 
@@ -78,7 +76,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
                 className="text-xs font-heading font-bold px-2 py-0.5 rounded"
                 style={{ color: phaseColor, backgroundColor: phaseColor + '15' }}
               >
-                {t('docOverlay.phase', { number: phaseNumber })}
+                {`Phase ${phaseNumber}`}
               </span>
               <span className="text-xs text-text-tertiary">{categoryName}</span>
             </div>
@@ -132,7 +130,7 @@ export default function DocOverlay({ item, onClose, onExited, isClosing, phases,
         {/* Footer — task reference + action button */}
         <div className="flex-shrink-0" style={{ padding: '1rem 1.75rem', borderTop: '0.0625rem solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
           <p className="text-xs text-text-tertiary" style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {t('docOverlay.task')} {item?.text}
+            {'Task:'} {item?.text}
           </p>
           {item?.action?.view && setActiveView && (
             <button

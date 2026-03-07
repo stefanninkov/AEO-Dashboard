@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import { Flame } from 'lucide-react'
 
 /**
@@ -10,9 +9,7 @@ import { Flame } from 'lucide-react'
  *   compact: boolean
  */
 export default function StreakIndicator({ currentStreak = 0, longestStreak = 0, compact = false }) {
-  const { t } = useTranslation('app')
-
-  const streakColor = currentStreak >= 7
+const streakColor = currentStreak >= 7
     ? 'var(--color-error)'
     : currentStreak >= 3
       ? 'var(--color-warning)'
@@ -42,10 +39,10 @@ export default function StreakIndicator({ currentStreak = 0, longestStreak = 0, 
       <Flame size={20} style={{ color: streakColor }} />
       <div>
         <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          {currentStreak} {t('gamification.dayStreak', 'day streak')}
+          {currentStreak} {'day streak'}
         </div>
         <div style={{ fontSize: '0.625rem', color: 'var(--text-disabled)' }}>
-          {t('gamification.bestStreak', 'Best')}: {longestStreak} {t('gamification.days', 'days')}
+          {'Best'}: {longestStreak} {'days'}
         </div>
       </div>
     </div>

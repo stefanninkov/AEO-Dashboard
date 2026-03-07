@@ -3,7 +3,6 @@
  *
  * Radar chart "DNA fingerprint", winning pattern cards, replication suggestions.
  */
-import { useTranslation } from 'react-i18next'
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
   ResponsiveContainer,
@@ -27,19 +26,18 @@ const IMPACT_ICONS = {
 }
 
 export default function CitationDNATab({ activeProject }) {
-  const { t } = useTranslation('app')
-  const {
+const {
     analyzing, dnaProfile, patterns, suggestions,
     error, hasData, excerptCount, runAnalysis,
   } = useCitationDNA(activeProject)
 
   const radarData = dnaProfile ? [
-    { dimension: t('competitors.citationDNA.factualDensity'), value: dnaProfile.factualDensity, fullMark: 100 },
-    { dimension: t('competitors.citationDNA.structureClarity'), value: dnaProfile.structureClarity, fullMark: 100 },
-    { dimension: t('competitors.citationDNA.authoritySignals'), value: dnaProfile.authoritySignals, fullMark: 100 },
-    { dimension: t('competitors.citationDNA.freshness'), value: dnaProfile.freshness, fullMark: 100 },
-    { dimension: t('competitors.citationDNA.schemaPresence'), value: dnaProfile.schemaPresence, fullMark: 100 },
-    { dimension: t('competitors.citationDNA.conversationalFit'), value: dnaProfile.conversationalFit, fullMark: 100 },
+    { dimension: 'Factual Density', value: dnaProfile.factualDensity, fullMark: 100 },
+    { dimension: 'Structure Clarity', value: dnaProfile.structureClarity, fullMark: 100 },
+    { dimension: 'Authority Signals', value: dnaProfile.authoritySignals, fullMark: 100 },
+    { dimension: 'Freshness', value: dnaProfile.freshness, fullMark: 100 },
+    { dimension: 'Schema Presence', value: dnaProfile.schemaPresence, fullMark: 100 },
+    { dimension: 'Conversational Fit', value: dnaProfile.conversationalFit, fullMark: 100 },
   ] : []
 
   return (
@@ -57,14 +55,14 @@ export default function CitationDNATab({ activeProject }) {
               marginBottom: 'var(--space-1)',
             }}>
               <Dna size={15} style={{ color: 'var(--color-phase-6)' }} />
-              {t('competitors.citationDNA.title')}
+              {'Citation DNA'}
             </div>
             <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', lineHeight: 1.5 }}>
-              {t('competitors.citationDNA.subtitle')}
+              {'Reverse-engineer why your content gets cited by AI engines. Analyzes citation excerpts and page data to produce a unique fingerprint.'}
             </p>
             {hasData && (
               <p style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)', marginTop: 'var(--space-1)' }}>
-                {t('competitors.citationDNA.excerptCount', { count: excerptCount })}
+                {`${excerptCount} citation excerpts found`}
               </p>
             )}
           </div>
@@ -75,8 +73,8 @@ export default function CitationDNATab({ activeProject }) {
             style={!hasData ? { opacity: 0.5 } : undefined}
           >
             {analyzing
-              ? <><Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> {t('competitors.citationDNA.analyzing')}</>
-              : <><Sparkles size={13} /> {t('competitors.citationDNA.runAnalysis')}</>
+              ? <><Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> {'Analyzing...'}</>
+              : <><Sparkles size={13} /> {'Run DNA Analysis'}</>
             }
           </button>
         </div>
@@ -90,7 +88,7 @@ export default function CitationDNATab({ activeProject }) {
             fontSize: 'var(--text-xs)', color: 'var(--accent)',
           }}>
             <AlertTriangle size={13} />
-            {t('competitors.citationDNA.noData')}
+            {'Run Citation Share or Monitoring checks first to generate citation data for analysis.'}
           </div>
         )}
 
@@ -116,7 +114,7 @@ export default function CitationDNATab({ activeProject }) {
             marginBottom: 'var(--space-3)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
           }}>
             <Shield size={13} style={{ color: 'var(--color-phase-6)' }} />
-            {t('competitors.citationDNA.fingerprint')}
+            {'DNA Fingerprint'}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)', alignItems: 'center' }}>
@@ -188,7 +186,7 @@ export default function CitationDNATab({ activeProject }) {
             marginBottom: 'var(--space-3)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
           }}>
             <Sparkles size={13} style={{ color: 'var(--color-phase-4)' }} />
-            {t('competitors.citationDNA.winningPatterns')}
+            {'Winning Patterns'}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
@@ -235,7 +233,7 @@ export default function CitationDNATab({ activeProject }) {
             marginBottom: 'var(--space-3)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
           }}>
             <TrendingUp size={13} style={{ color: 'var(--color-phase-1)' }} />
-            {t('competitors.citationDNA.suggestions')}
+            {'Improvement Suggestions'}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>

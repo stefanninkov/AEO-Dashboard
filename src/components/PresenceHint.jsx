@@ -5,7 +5,6 @@
  * Also shows "Name edited this Xm ago" when recent activity matches the current view.
  */
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Eye, Edit3 } from 'lucide-react'
 
 const VIEW_ACTIVITY_MAP = {
@@ -38,9 +37,7 @@ function getRecentEditor(activityLog, activeView, currentUid) {
 }
 
 export default function PresenceHint({ onlineMembers = [], activeView, currentUid, activityLog = [] }) {
-  const { t } = useTranslation('app')
-
-  const viewers = useMemo(() => {
+const viewers = useMemo(() => {
     return onlineMembers.filter(m =>
       m.uid !== currentUid && m.activeView === activeView
     )
@@ -88,8 +85,8 @@ export default function PresenceHint({ onlineMembers = [], activeView, currentUi
             <Eye size={10} style={{ color: 'var(--color-phase-4)', flexShrink: 0 }} />
             <span>
               {viewers.length === 1
-                ? t('presence.viewingSingle', { name: viewers[0].displayName })
-                : t('presence.viewingMultiple', { count: viewers.length })
+                ? `${viewers[0].displayName} is also viewing this page`
+                : `${viewers.length} others are also viewing this page`
               }
             </span>
             <span style={{
@@ -109,8 +106,8 @@ export default function PresenceHint({ onlineMembers = [], activeView, currentUi
           <Edit3 size={10} style={{ color: 'var(--color-phase-5)', flexShrink: 0 }} />
           <span>
             {recentEditor.mins < 1
-              ? t('presence.editedJustNow', { name: recentEditor.name })
-              : t('presence.editedAgo', { name: recentEditor.name, mins: recentEditor.mins })
+              ? `${recentEditor.name} edited this just now`
+              : `${recentEditor.name} edited this ${recentEditor.mins}m ago`
             }
           </span>
         </div>

@@ -5,7 +5,6 @@
  * authority, and natural language. Uses the same callAI pipeline as other tools.
  */
 import { useState, useCallback, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   Star, Loader2, AlertCircle, Copy, Check,
   MessageSquare, Layers, BookOpen, Shield, Sparkles, Globe, FileText,
@@ -74,8 +73,7 @@ function parseJSON(text) {
 }
 
 export default function ContentScorerView({ activeProject }) {
-  const { t } = useTranslation('app')
-  const [scorerMode, setScorerMode] = useState('text') // 'text' | 'url'
+const [scorerMode, setScorerMode] = useState('text') // 'text' | 'url'
   const modeTabsRef = useRef(null)
   useScrollActiveTab(modeTabsRef, scorerMode)
   const [text, setText] = useState('')
@@ -88,7 +86,7 @@ export default function ContentScorerView({ activeProject }) {
   const scoreContent = useCallback(async () => {
     if (!text.trim() || loading) return
     if (!hasApiKey()) {
-      setError(t('scorer.noApiKey'))
+      setError('Please set your API key in Settings first.')
       return
     }
 
@@ -134,19 +132,19 @@ Return JSON:
       if (parsed?.overallScore !== undefined) {
         setResult(parsed)
       } else {
-        setError(t('scorer.parseError'))
+        setError('Could not parse the scoring results. Please try again.')
       }
     } catch (err) {
-      setError(err.message || t('scorer.genericError'))
+      setError(err.message || 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
-  }, [text, loading, activeProject, t])
+  }, [text, loading, activeProject])
 
   const scoreUrl = useCallback(async () => {
     if (!urlInput.trim() || loading) return
     if (!hasApiKey()) {
-      setError(t('scorer.noApiKey'))
+      setError('Please set your API key in Settings first.')
       return
     }
 
@@ -209,14 +207,14 @@ Return JSON:
       if (parsed?.overallScore !== undefined) {
         setResult(parsed)
       } else {
-        setError(t('scorer.parseError'))
+        setError('Could not parse the scoring results. Please try again.')
       }
     } catch (err) {
-      setError(err.message || t('scorer.genericError'))
+      setError(err.message || 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
-  }, [urlInput, loading, activeProject, t])
+  }, [urlInput, loading, activeProject])
 
   const handleCopy = () => {
     if (!result) return
@@ -234,8 +232,8 @@ Return JSON:
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('scorer.title')}</h2>
-          <p className="view-subtitle">{t('scorer.subtitle')}</p>
+          <h2 className="view-title">{'Content Scorer'}</h2>
+          <p className="view-subtitle">{'Paste text content and get an AI Answerability Score across 5 dimensions.'}</p>
         </div>
       </div>
 
@@ -268,12 +266,12 @@ Return JSON:
                 fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
                 textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
               }}>
-                {t('scorer.pasteContent')}
+                {'Paste Your Content'}
               </div>
               <textarea
                 value={text}
                 onChange={e => setText(e.target.value)}
-                placeholder={t('scorer.placeholder')}
+                placeholder={'Paste your article, page copy, or any text content here to score its AI answerability...'}
                 className="input-field"
                 style={{
                   width: '100%', minHeight: '14rem', resize: 'vertical',
@@ -282,7 +280,7 @@ Return JSON:
               />
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)' }}>
-                  {text.length.toLocaleString()} {t('scorer.chars')}
+                  {text.length.toLocaleString()} {'characters'}
                 </span>
                 <button
                   onClick={scoreContent}
@@ -291,9 +289,9 @@ Return JSON:
                   style={{ minWidth: '7rem' }}
                 >
                   {loading ? (
-                    <><Loader2 size={13} className="spin" /> {t('scorer.scoring')}</>
+                    <><Loader2 size={13} className="spin" /> {'Scoring…'}</>
                   ) : (
-                    <><Star size={13} /> {t('scorer.scoreBtn')}</>
+                    <><Star size={13} /> {'Score Content'}</>
                   )}
                 </button>
               </div>
@@ -326,7 +324,7 @@ Return JSON:
                   style={{ minWidth: '7rem' }}
                 >
                   {loading ? (
-                    <><Loader2 size={13} className="spin" /> {t('scorer.scoring')}</>
+                    <><Loader2 size={13} className="spin" /> {'Scoring…'}</>
                   ) : (
                     <><Globe size={13} /> Score URL</>
                   )}
@@ -359,10 +357,10 @@ Return JSON:
                   fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
                   textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
                 }}>
-                  {t('scorer.answerabilityScore')}
+                  {'Answerability Score'}
                 </span>
                 <button onClick={handleCopy} className="btn-ghost btn-sm" style={{ fontSize: 'var(--text-2xs)' }}>
-                  {copied ? <><Check size={11} /> {t('scorer.copied')}</> : <><Copy size={11} /> {t('scorer.copy')}</>}
+                  {copied ? <><Check size={11} /> {'Copied!'}</> : <><Copy size={11} /> {'Copy'}</>}
                 </button>
               </div>
               <ScoreRing score={result.overallScore} />
@@ -375,7 +373,7 @@ Return JSON:
                 textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
                 marginBottom: 'var(--space-3)',
               }}>
-                {t('scorer.breakdown')}
+                {'Dimension Breakdown'}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
                 {DIMENSIONS.map(dim => {
@@ -394,7 +392,7 @@ Return JSON:
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.125rem' }}>
                           <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>
-                            {t(`scorer.dim.${dim.key}`)}
+                            {'Key}'}
                           </span>
                           <span style={{
                             fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 'var(--text-xs)',
@@ -430,7 +428,7 @@ Return JSON:
                   textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
                   marginBottom: 'var(--space-3)',
                 }}>
-                  {t('scorer.improvements')}
+                  {'Suggested Improvements'}
                 </div>
                 <ul style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', margin: 0, paddingLeft: '1rem' }}>
                   {result.improvements.map((imp, i) => (
@@ -450,7 +448,7 @@ Return JSON:
                   textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
                   marginBottom: 'var(--space-2)',
                 }}>
-                  {t('scorer.citationExample')}
+                  {'AI Citation Example'}
                 </div>
                 <div style={{
                   padding: 'var(--space-3)', background: 'var(--hover-bg)', borderRadius: 'var(--radius-md)',

@@ -1,7 +1,6 @@
 import { Component } from 'react'
 import { AlertTriangle, RefreshCw } from 'lucide-react'
 import logger from '../utils/logger'
-import i18n from '../i18n'
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
@@ -24,7 +23,6 @@ export default class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      const t = i18n.t.bind(i18n)
       return (
         <div
           style={{
@@ -61,7 +59,7 @@ export default class ErrorBoundary extends Component {
               marginBottom: '0.5rem',
             }}
           >
-            {t('errorBoundary.title')}
+            {'Something went wrong'}
           </h2>
 
           <p
@@ -73,7 +71,7 @@ export default class ErrorBoundary extends Component {
               marginBottom: '1.5rem',
             }}
           >
-            {t('errorBoundary.description')}
+            {'An unexpected error occurred. Try refreshing the view or navigating to a different section.'}
           </p>
 
           <button
@@ -82,7 +80,7 @@ export default class ErrorBoundary extends Component {
             style={{ padding: '0.625rem 1.25rem', fontSize: '0.8125rem' }}
           >
             <RefreshCw size={14} />
-            {t('actions.tryAgain')}
+            {'Try Again'}
           </button>
 
           {/* Error details */}
@@ -103,7 +101,7 @@ export default class ErrorBoundary extends Component {
                   marginBottom: '0.5rem',
                 }}
               >
-                {t('errorBoundary.devDetails')}
+                {'Error details (dev only)'}
               </summary>
               <pre
                 style={{

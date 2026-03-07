@@ -5,7 +5,6 @@
  * and "Generate Roadmap" to create content calendar entries.
  */
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   AlertTriangle, Loader2, Sparkles, Check, Calendar,
   ChevronDown, ChevronUp, Target,
@@ -26,8 +25,7 @@ const PRIORITY_COLORS = {
 }
 
 export default function ContentGapsTab({ activeProject, updateProject }) {
-  const { t } = useTranslation('app')
-  const { addToast } = useToast()
+const { addToast } = useToast()
   const { gaps, generating, roadmap, error, generateRoadmap } = useContentGaps(activeProject)
 
   const [selected, setSelected] = useState(new Set())
@@ -71,7 +69,7 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
     }
     calendar.push(newEntry)
     updateProject(activeProject.id, { contentCalendar: calendar })
-    addToast('success', t('competitors.contentGaps.addedToCalendar'))
+    addToast('success', 'Added to content calendar')
   }
 
   return (
@@ -89,10 +87,10 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
               marginBottom: 'var(--space-1)',
             }}>
               <Target size={15} style={{ color: 'var(--color-phase-1)' }} />
-              {t('competitors.contentGaps.title')}
+              {'Content Gaps'}
             </div>
             <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', lineHeight: 1.5 }}>
-              {t('competitors.contentGaps.subtitle')}
+              {'Queries where competitors are cited by AI engines but you aren\'t. Select gaps and generate a content roadmap.'}
             </p>
           </div>
           {gaps.length > 0 && selected.size > 0 && (
@@ -102,8 +100,8 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
               disabled={generating}
             >
               {generating
-                ? <><Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> {t('competitors.contentGaps.generating')}</>
-                : <><Sparkles size={13} /> {t('competitors.contentGaps.generateRoadmap', { count: selected.size })}</>
+                ? <><Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> {'Generating...'}</>
+                : <><Sparkles size={13} /> {`Generate Roadmap (${selected.size})`}</>
               }
             </button>
           )}
@@ -118,7 +116,7 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
             fontSize: 'var(--text-xs)', color: 'var(--accent)',
           }}>
             <AlertTriangle size={13} />
-            {t('competitors.contentGaps.noData')}
+            {'Run a Citation Share check first to identify content gaps against competitors.'}
           </div>
         )}
 
@@ -159,8 +157,8 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
             >
               {selected.size === gaps.length && <Check size={9} style={{ color: '#fff' }} />}
             </button>
-            <span>{t('competitors.contentGaps.query')}</span>
-            <span>{t('competitors.contentGaps.competitorsCited')}</span>
+            <span>{'Query'}</span>
+            <span>{'Cited By'}</span>
           </div>
 
           {/* Rows */}
@@ -219,7 +217,7 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
               display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
             }}>
               <Calendar size={13} style={{ color: 'var(--color-phase-3)' }} />
-              {t('competitors.contentGaps.roadmap')}
+              {'Content Roadmap'}
             </div>
             <button className="btn-ghost btn-sm" onClick={() => setShowRoadmap(p => !p)}>
               {showRoadmap ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
@@ -289,7 +287,7 @@ export default function ContentGapsTab({ activeProject, updateProject }) {
                   style={{ flexShrink: 0 }}
                 >
                   <Calendar size={11} />
-                  {t('competitors.contentGaps.addToCalendar')}
+                  {'Add'}
                 </button>
               </div>
             ))}

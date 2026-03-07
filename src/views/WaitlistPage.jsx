@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useWaitlist } from '../hooks/useWaitlist'
 import { useTheme } from '../contexts/ThemeContext'
 import { Check, Share2, Copy, Sparkles, Blocks, BarChart4, FileEdit, Cog, Trophy, FlaskConical, TrendingUp, CheckCircle2, SearchCheck, NotebookPen, Radar, Sun, Moon } from 'lucide-react'
@@ -67,8 +65,7 @@ const SITE_URL = `https://stefanninkov.github.io${BASE_PATH}`
    ═══════════════════════════════════════════════════════════════ */
 
 export default function WaitlistPage() {
-  const { t } = useTranslation('waitlist')
-  const [navSolid, setNavSolid] = useState(false)
+const [navSolid, setNavSolid] = useState(false)
   const [copied, setCopied] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState(null)
@@ -138,102 +135,115 @@ export default function WaitlistPage() {
 
   // ── Translated data arrays (rebuilt when language changes) ──
 
-  const NAV_LINKS = useMemo(() =>
-    NAV_HREFS.map((item, i) => ({
-      label: t(`nav.links.${i}`),
-      href: item.href,
-    })),
-  [t])
+  const NAV_LINKS = useMemo(() => [
+      { label: 'What is AEO?', href: NAV_HREFS[0]?.href || '#' },
+      { label: 'Phases', href: NAV_HREFS[1]?.href || '#' },
+      { label: 'Features', href: NAV_HREFS[2]?.href || '#' },
+      { label: 'FAQ', href: NAV_HREFS[3]?.href || '#' }
+    ], [])
 
-  const AEO_VS_SEO = useMemo(() =>
-    Array.from({ length: 6 }, (_, i) => ({
-      aspect: t(`aeoVsSeo.rows.${i}.aspect`),
-      seo: t(`aeoVsSeo.rows.${i}.seo`),
-      aeo: t(`aeoVsSeo.rows.${i}.aeo`),
-    })),
-  [t])
+  const AEO_VS_SEO = useMemo(() => [
+      { aspect: 'Primary Goal', seo: 'Rank in search results', aeo: 'Be cited in AI answers' },
+      { aspect: 'Key Metric', seo: 'Position & click-through rate', aeo: 'Citation frequency & accuracy' },
+      { aspect: 'Content Format', seo: 'Keywords & backlinks', aeo: 'Structured data & direct answers' },
+      { aspect: 'Target System', seo: 'Google, Bing crawlers', aeo: 'LLMs, RAG pipelines, AI agents' },
+      { aspect: 'Optimization', seo: 'Meta tags & page speed', aeo: 'Schema markup & entity clarity' },
+      { aspect: 'Time Horizon', seo: 'Weeks to months', aeo: 'Days to weeks (re-indexed by AI)' }
+    ], [])
 
-  const PHASES = useMemo(() =>
-    PHASE_META.map((meta, i) => ({
-      ...meta,
-      title: t(`phases.${i}.title`),
-      timeline: t(`phases.${i}.timeline`),
-      description: t(`phases.${i}.description`),
-      visibility: t(`phases.${i}.visibility`),
-    })),
-  [t])
+  const PHASES = useMemo(() => [
+      { ...PHASE_META[0], title: 'Foundation & Audit', timeline: 'Week 1-2', description: 'Audit existing content and technical infrastructure. Map questions, analyze competitors, and establish your AEO baseline.', visibility: 'Know where you stand — baseline metrics and content gaps identified' },
+      { ...PHASE_META[1], title: 'Structured Data & Schema', timeline: 'Week 2-4', description: 'Implement FAQ, HowTo, Article, Product, and Organization schema markup to make your content machine-readable.', visibility: 'AI engines can now read and understand your content structure' },
+      { ...PHASE_META[2], title: 'Content Optimization', timeline: 'Week 3-8', description: 'Restructure content with answer paragraphs, heading hierarchy, comparison tables, and topic clusters.', visibility: 'Your content becomes the best possible answer for AI queries' },
+      { ...PHASE_META[3], title: 'Technical AEO', timeline: 'Week 4-6', description: 'Configure AI bot access, semantic HTML, RSS feeds, internal linking, and meta optimization.', visibility: 'AI crawlers can access and extract your content efficiently' },
+      { ...PHASE_META[4], title: 'Authority & Trust', timeline: 'Week 6-12+', description: 'Build E-E-A-T signals, authority backlinks, Google Business Profile, and citation networks.', visibility: 'AI engines trust your content as a credible, authoritative source' },
+      { ...PHASE_META[5], title: 'Testing & Validation', timeline: 'Week 6-8', description: 'Test across ChatGPT, Perplexity, Google AI, and Bing Copilot. Validate schema and crawlability.', visibility: 'Verify you appear across all major AI platforms' },
+      { ...PHASE_META[6], title: 'Monitor & Iterate', timeline: 'Week 8+', description: 'Track AI citations, A/B test answer formats, benchmark competitors, and re-optimize monthly.', visibility: 'Continuous improvement — stay visible as AI engines evolve weekly' }
+    ], [])
 
-  const PILLARS = useMemo(() =>
-    Array.from({ length: 7 }, (_, i) => t(`pillars.${i}`)),
-  [t])
+  const PILLARS = useMemo(() => [
+      'Structured Data & Schema Markup',
+      'Direct Answer Formatting',
+      'Entity Authority & E-E-A-T',
+      'Multi-Platform Optimization',
+      'AI Crawler Accessibility',
+      'Content Freshness & Accuracy',
+      'Citation Signal Building'
+    ], [])
 
-  const FEATURES_OVERVIEW = useMemo(() =>
-    Array.from({ length: 6 }, (_, i) => ({
-      Icon: FEATURE_ICONS[i],
-      title: t(`features.${i}.title`),
-      description: t(`features.${i}.description`),
-    })),
-  [t])
+  const FEATURES_OVERVIEW = useMemo(() => [
+      { Icon: FEATURE_ICONS[0], title: '99-Point AEO Checklist', description: 'Phase-by-phase tasks covering every aspect of AEO — from schema markup to content structure to AI crawler access.' },
+      { Icon: FEATURE_ICONS[1], title: 'Real-Time Site Analyzer', description: 'Enter any URL for an instant 100-point AEO readiness score — no API key needed. Checks schema, AI crawler access, content structure, and more.' },
+      { Icon: FEATURE_ICONS[2], title: 'Multi-Engine Testing Lab', description: 'Test how your content appears across ChatGPT, Perplexity, Claude, and Gemini simultaneously.' },
+      { Icon: FEATURE_ICONS[3], title: 'AI Content Writer', description: 'Generate AEO-optimized content with structured data and direct answer formatting built in.' },
+      { Icon: FEATURE_ICONS[4], title: 'Schema Generator', description: 'Point-and-click markup builder for FAQ, HowTo, Article, and more — no coding required.' },
+      { Icon: FEATURE_ICONS[5], title: 'Monitoring & Alerts', description: 'Track AI citation changes over time and get alerts when your visibility shifts.' }
+    ], [])
 
-  const FAQ_ITEMS = useMemo(() =>
-    Array.from({ length: 10 }, (_, i) => ({
-      question: t(`faq.${i}.question`),
-      answer: t(`faq.${i}.answer`),
-    })),
-  [t])
+  const FAQ_ITEMS = useMemo(() => [
+      { question: 'What is Answer Engine Optimization (AEO)?', answer: 'AEO helps your website get quoted by AI tools. ChatGPT, Perplexity, and Gemini read the web for answers. AEO makes sure they find and cite your site.' },
+      { question: 'How is AEO different from traditional SEO?', answer: 'SEO helps you rank on Google. AEO helps AI tools quote you. Both matter, but AEO targets how AI picks its sources.' },
+      { question: 'Who is AEO Dashboard built for?', answer: 'Agencies, SEO pros, and marketers. Whether you run one site or a hundred, the tool scales with you.' },
+      { question: 'When will AEO Dashboard launch?', answer: 'We\'re in the final build phase. Join the list to hear first. A small group gets early access before launch.' },
+      { question: 'What features does AEO Dashboard include?', answer: 'A 99-point checklist. A site scanner. A test lab for AI tools. A content writer, markup builder, and alerts when things change.' },
+      { question: 'Do I need technical knowledge to use AEO Dashboard?', answer: 'No. The tool walks you through each step. No coding needed. Each task tells you what to do and why.' },
+      { question: 'How does the 99-Point AEO Checklist work?', answer: 'It breaks AEO into 7 steps. Each step has clear tasks with guides. You check them off, and the tool tracks your score.' },
+      { question: 'What AI engines does AEO Dashboard support?', answer: 'ChatGPT, Google AI, Gemini, Perplexity, Bing Copilot, and Claude. The test lab checks all of them at once.' },
+      { question: 'Is AEO Dashboard free?', answer: 'Early users get full access at no cost. After launch, there will be free and paid plans. Join the list to lock in your spot.' },
+      { question: 'Can I use AEO Dashboard for multiple websites?', answer: 'Yes. You can add many sites to one account. Each site gets its own checklist, scores, and alerts.' }
+    ], [])
 
-  const FOOTER_LINKS = useMemo(() =>
-    FOOTER_HREFS.map((col, ci) => ({
-      title: t(`footer.columns.${ci}.title`),
-      links: col.map((link, li) => ({
-        label: t(`footer.columns.${ci}.links.${li}`),
-        href: link.href,
-      })),
-    })),
-  [t])
+  const FOOTER_LINKS = useMemo(() => [
+      { title: 'Product', links: [{ label: 'What is AEO?', href: FOOTER_HREFS[0]?.[0]?.href || '#' }, { label: 'Phases', href: FOOTER_HREFS[0]?.[1]?.href || '#' }, { label: 'Features', href: FOOTER_HREFS[0]?.[2]?.href || '#' }, { label: 'FAQ', href: FOOTER_HREFS[0]?.[3]?.href || '#' }] }
+    ], [])
 
-  const EARLY_ACCESS_BENEFITS = useMemo(() =>
-    Array.from({ length: 4 }, (_, i) => t(`earlyAccess.benefits.${i}`)),
-  [t])
+  const EARLY_ACCESS_BENEFITS = useMemo(() => [
+      'Full platform access before launch',
+      'Direct line to the founding team',
+      'Help shape the product with feedback',
+      'Free access during the early period'
+    ], [])
 
-  const WHY_NOW_STATS = useMemo(() =>
-    Array.from({ length: 3 }, (_, i) => ({
-      value: t(`whyNow.stats.${i}.value`),
-      label: t(`whyNow.stats.${i}.label`),
-      description: t(`whyNow.stats.${i}.description`),
-    })),
-  [t])
+  const WHY_NOW_STATS = useMemo(() => [
+      { value: '40%', label: 'of searches use AI', description: 'Nearly half of all searches now go through AI tools like ChatGPT and Perplexity.' },
+      { value: '58%', label: 'of marketers lack an AEO plan', description: 'Most marketing teams have not started optimizing for AI search. Early movers have a clear advantage.' },
+      { value: '3x', label: 'more trust from AI citations', description: 'People trust answers from AI more than ads. Being cited builds instant trust.' }
+    ], [])
 
-  const HOW_IT_WORKS_STEPS = useMemo(() =>
-    Array.from({ length: 4 }, (_, i) => ({
-      number: i + 1,
-      title: t(`howItWorks.steps.${i}.title`),
-      description: t(`howItWorks.steps.${i}.description`),
-    })),
-  [t])
+  const HOW_IT_WORKS_STEPS = useMemo(() => [
+      { number: 1, title: 'Check Your Score', description: 'Take the free 2-minute quiz. Answer 14 questions about your website.' },
+      { number: 2, title: 'See What\'s Broken', description: 'Get your AEO Readiness Score instantly. See your weakest areas and top 3 priorities.' },
+      { number: 3, title: 'Join the Waitlist', description: 'Enter your email to save your results and join the early access list.' },
+      { number: 4, title: 'Get Early Access', description: 'When we launch, early access members get the full platform first — with tools to fix every gap we found.' }
+    ], [])
 
-  const WAITLIST_NOW = useMemo(() =>
-    Array.from({ length: 4 }, (_, i) => t(`waitlistExplainer.now.${i}`)),
-  [t])
+  const WAITLIST_NOW = useMemo(() => [
+      'Full platform access before launch',
+      'Direct line to the founding team',
+      'Help shape the product with feedback',
+      'Free access during the early period'
+    ], [])
 
-  const WAITLIST_LAUNCH = useMemo(() =>
-    Array.from({ length: 5 }, (_, i) => t(`waitlistExplainer.atLaunch.${i}`)),
-  [t])
+  const WAITLIST_LAUNCH = useMemo(() => [
+      '99-Point AEO Checklist',
+      'Real-Time Site Analyzer',
+      'Multi-Engine Testing Lab',
+      'AI Content Writer',
+      'Schema Generator'
+    ], [])
 
-  const AUDIENCE_CARDS = useMemo(() =>
-    Array.from({ length: 3 }, (_, i) => ({
-      title: t(`audience.cards.${i}.title`),
-      description: t(`audience.cards.${i}.description`),
-    })),
-  [t])
+  const AUDIENCE_CARDS = useMemo(() => [
+      { title: 'Agency Owners', description: 'Offer AEO as a new service. Manage many client sites from one place. Stand out from other agencies.' },
+      { title: 'SEO Professionals', description: 'Add AEO to your skill set. Use tools built for the way AI picks sources. Stay ahead of the curve.' },
+      { title: 'In-House Marketers', description: 'Make your site visible to AI without a big team. Follow clear steps. See results in weeks.' }
+    ], [])
 
   const RECENT_SIGNUPS = useMemo(() =>
     RECENT_SIGNUP_META.map((meta, i) => ({
-      name: t(`urgency.recentSignups.entries.${i}.name`),
-      location: t(`urgency.recentSignups.entries.${i}.location`),
+      name: 'Name',
+      location: 'Location',
       minutesAgo: meta.minutesAgo,
-    })),
-  [t])
+    })), [])
 
   // Derived urgency values
   const spotsRemaining = Math.max(0, TOTAL_SPOTS - count)
@@ -361,7 +371,7 @@ export default function WaitlistPage() {
   // Share handlers
   const shareText = completedResults
     ? `I scored ${completedResults.totalScore}/${MAX_TOTAL_SCORE} on the AEO Readiness Assessment! How AI-ready is YOUR website?`
-    : t('success.shareText')
+    : 'I just joined the waitlist for AEO Dashboard — the first platform built for Answer Engine Optimization. Get early access:'
   const shareUrl = referralLink || SITE_URL
 
   const shareTwitter = () => {
@@ -406,7 +416,6 @@ export default function WaitlistPage() {
                 {link.label}
               </a>
             ))}
-            <LanguageSwitcher variant="landing" />
             <button
               className="wl-theme-toggle"
               onClick={toggleTheme}
@@ -418,14 +427,14 @@ export default function WaitlistPage() {
               className="wl-nav-cta"
               onClick={() => setShowScorecard(true)}
             >
-              {t('nav.cta')}
+              {'Check Your Score'}
             </button>
           </div>
 
           <button
             className={`wl-nav-hamburger ${mobileMenuOpen ? 'wl-open' : ''}`}
             onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label={mobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
             <span />
             <span />
@@ -446,7 +455,6 @@ export default function WaitlistPage() {
             {link.label}
           </a>
         ))}
-        <LanguageSwitcher variant="landing" />
         <button
           className="wl-theme-toggle"
           onClick={toggleTheme}
@@ -458,7 +466,7 @@ export default function WaitlistPage() {
           className="wl-nav-cta"
           onClick={() => { setMobileMenuOpen(false); setShowScorecard(true); }}
         >
-          {t('nav.cta')}
+          {'Check Your Score'}
         </button>
       </div>
 
@@ -469,39 +477,39 @@ export default function WaitlistPage() {
           <div className="wl-hero-inner">
             <div className="wl-badge">
               <Sparkles size={14} />
-              {t('hero.badge')}
+              {'Early Access Waitlist — Limited Spots'}
             </div>
 
             <h1>
-              {t('hero.headingPrefix')}<span>{t('hero.headingAccent')}</span>
+              {'AI Answers Questions. '}<span>{'Is It Quoting You?'}</span>
             </h1>
 
             <p className="wl-hero-sub">
-              {t('hero.subtitle')}
+              {'Check your AEO score for free. The full platform is coming soon — join the waitlist to get early access.'}
             </p>
 
             {/* ── Countdown Timer ── */}
             <div className="wl-countdown">
-              <span className="wl-countdown-label">{t('urgency.countdown.prefix')}</span>
+              <span className="wl-countdown-label">{'Early access closes in'}</span>
               <div className="wl-countdown-units">
                 <div className="wl-countdown-unit">
                   <span className="wl-countdown-value">{countdown.days}</span>
-                  <span className="wl-countdown-suffix">{t('urgency.countdown.days')}</span>
+                  <span className="wl-countdown-suffix">{'d'}</span>
                 </div>
                 <span className="wl-countdown-sep">:</span>
                 <div className="wl-countdown-unit">
                   <span className="wl-countdown-value">{String(countdown.hours).padStart(2, '0')}</span>
-                  <span className="wl-countdown-suffix">{t('urgency.countdown.hours')}</span>
+                  <span className="wl-countdown-suffix">{'h'}</span>
                 </div>
                 <span className="wl-countdown-sep">:</span>
                 <div className="wl-countdown-unit">
                   <span className="wl-countdown-value">{String(countdown.minutes).padStart(2, '0')}</span>
-                  <span className="wl-countdown-suffix">{t('urgency.countdown.minutes')}</span>
+                  <span className="wl-countdown-suffix">{'m'}</span>
                 </div>
                 <span className="wl-countdown-sep">:</span>
                 <div className="wl-countdown-unit">
                   <span className="wl-countdown-value">{String(countdown.seconds).padStart(2, '0')}</span>
-                  <span className="wl-countdown-suffix">{t('urgency.countdown.seconds')}</span>
+                  <span className="wl-countdown-suffix">{'s'}</span>
                 </div>
               </div>
             </div>
@@ -509,39 +517,35 @@ export default function WaitlistPage() {
             {/* ── Spots Remaining ── */}
             {spotsRemaining > 0 && (
               <p className="wl-spots-remaining">
-                {t('urgency.spotsRemaining', { spots: spotsRemaining })}
+                {`Only ${spotsRemaining} spots remaining`}
               </p>
             )}
 
             {completedResults ? (
               <div className="wl-sc-success-inline">
                 <p className="wl-sc-success-title">
-                  {t('scorecard.successState.title', {
-                    score: completedResults.totalScore,
-                    max: MAX_TOTAL_SCORE,
-                    tier: t(`scorecard.tiers.${completedResults.tier}.label`),
-                  })}
+{`Your AEO Score: ${completedResults.totalScore}/${MAX_TOTAL_SCORE}`}
                 </p>
-                <p className="wl-sc-success-subtitle">{t('scorecard.successState.sharePrompt')}</p>
+                <p className="wl-sc-success-subtitle">{'Share your score with your team:'}</p>
                 <div className="wl-sc-share-row" style={{ marginTop: '0.75rem' }}>
                   <button className="wl-share-btn" onClick={shareTwitter}>
                     <Share2 size={14} />
-                    {t('scorecard.results.shareX')}
+                    {'Share on X'}
                   </button>
                   <button className="wl-share-btn" onClick={shareLinkedIn}>
                     <Share2 size={14} />
-                    {t('scorecard.results.shareLI')}
+                    {'Share on LinkedIn'}
                   </button>
                   <button className="wl-share-btn" onClick={copyLink}>
                     {copied ? <Check size={14} /> : <Copy size={14} />}
-                    {copied ? t('scorecard.results.copied') : t('scorecard.results.copyLink')}
+                    {copied ? 'Copied!' : 'Copy Link'}
                   </button>
                 </div>
                 <p className="wl-queue-position">
-                  {t('urgency.queuePosition', { position: queuePosition })}
+                  {`You're #${queuePosition} in line`}
                 </p>
                 <p className="wl-sc-success-timeline" style={{ fontSize: '0.8125rem', color: 'var(--wl-text-secondary)', marginTop: '1rem', textAlign: 'center' }}>
-                  {t('scorecard.successState.timeline')}
+                  {'We\'ll review your score and reach out to top scorers with early access.'}
                 </p>
 
                 {/* Referral Dashboard */}
@@ -559,11 +563,11 @@ export default function WaitlistPage() {
                   className="wl-submit-btn wl-sc-hero-btn"
                   onClick={() => setShowScorecard(true)}
                 >
-                  {t('scorecard.heroButton')}
+                  {'Get Your Free Score →'}
                 </button>
-                <p className="wl-hero-note">{t('scorecard.heroNote')}</p>
+                <p className="wl-hero-note">{'Free • 2 minutes • Instant results'}</p>
                 <p className="wl-hero-counter" style={{ marginTop: '1.5rem' }}>
-                  <strong>{displayCount}</strong> {t('scorecard.counterSuffix')}
+                  <strong>{displayCount}</strong> {'professionals have checked their score'}
                 </p>
               </>
             )}
@@ -575,9 +579,9 @@ export default function WaitlistPage() {
         <section id="why-now" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('whyNow.label')}</span>
-              <h2 className="wl-section-title">{t('whyNow.title')}</h2>
-              <p className="wl-section-subtitle wl-centered">{t('whyNow.subtitle')}</p>
+              <span className="wl-section-label">{'Why Now'}</span>
+              <h2 className="wl-section-title">{'Why AEO Matters Right Now'}</h2>
+              <p className="wl-section-subtitle wl-centered">{'AI is changing how people find answers. These numbers show why you need to act today.'}</p>
             </div>
             <div className="wl-why-now-grid">
               {WHY_NOW_STATS.map((stat, i) => (
@@ -595,21 +599,21 @@ export default function WaitlistPage() {
         <section id="what-is-aeo" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('education.label')}</span>
-              <h2 className="wl-section-title">{t('education.title')}</h2>
+              <span className="wl-section-label">{'Education'}</span>
+              <h2 className="wl-section-title">{'What is Answer Engine Optimization?'}</h2>
             </div>
             <div className="wl-aeo-content">
               <p className="wl-answer-paragraph">
-                <strong>{t('education.descriptionBold')}</strong>{t('education.descriptionRest')}
+                <strong>{'AI search engines pick websites to quote.'}</strong>{' AEO helps them pick yours. It\'s the new way to show up when AI gives answers.'}
               </p>
 
-              <h3>{t('education.comparisonTitle')}</h3>
+              <h3>{'AEO vs Traditional SEO'}</h3>
               <table className="wl-comparison-table">
                 <thead>
                   <tr>
-                    <th scope="col">{t('aeoVsSeo.columns.aspect')}</th>
-                    <th scope="col">{t('aeoVsSeo.columns.seo')}</th>
-                    <th scope="col">{t('aeoVsSeo.columns.aeo')}</th>
+                    <th scope="col">{'Aspect'}</th>
+                    <th scope="col">{'Traditional SEO'}</th>
+                    <th scope="col">{'AEO'}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -623,7 +627,7 @@ export default function WaitlistPage() {
                 </tbody>
               </table>
 
-              <h3>{t('education.pillarsTitle')}</h3>
+              <h3>{'The 7 Pillars of AEO'}</h3>
               <ol className="wl-pillars-list">
                 {PILLARS.map((p, i) => <li key={i}>{p}</li>)}
               </ol>
@@ -636,9 +640,9 @@ export default function WaitlistPage() {
         <section id="how-it-works" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('howItWorks.label')}</span>
-              <h2 className="wl-section-title">{t('howItWorks.title')}</h2>
-              <p className="wl-section-subtitle wl-centered">{t('howItWorks.subtitle')}</p>
+              <span className="wl-section-label">{'How It Works'}</span>
+              <h2 className="wl-section-title">{'Four Steps to AI Visibility'}</h2>
+              <p className="wl-section-subtitle wl-centered">{'Start with a free score. Join the waitlist. Get early access when we launch.'}</p>
             </div>
             <div className="wl-how-steps">
               {HOW_IT_WORKS_STEPS.map((step, i) => (
@@ -654,7 +658,7 @@ export default function WaitlistPage() {
                 className="wl-submit-btn wl-sc-hero-btn"
                 onClick={() => setShowScorecard(true)}
               >
-                {t('howItWorks.cta')}
+                {'Get Your Free Score →'}
               </button>
             </div>
           </div>
@@ -664,13 +668,13 @@ export default function WaitlistPage() {
         <section id="join-waitlist" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('waitlistExplainer.label')}</span>
-              <h2 className="wl-section-title">{t('waitlistExplainer.title')}</h2>
-              <p className="wl-section-subtitle wl-centered">{t('waitlistExplainer.subtitle')}</p>
+              <span className="wl-section-label">{'Waitlist'}</span>
+              <h2 className="wl-section-title">{'The Full Platform Is Coming Soon'}</h2>
+              <p className="wl-section-subtitle wl-centered">{'AEO Dashboard is in the final stages of development. Take the free score quiz to join the waitlist — we’ll let you in first when we launch.'}</p>
             </div>
             <div className="wl-waitlist-columns">
               <div className="wl-waitlist-col">
-                <h3 className="wl-waitlist-col-heading">{t('waitlistExplainer.now.heading')}</h3>
+                <h3 className="wl-waitlist-col-heading">{'What You Get Now'}</h3>
                 <ul className="wl-waitlist-list">
                   {WAITLIST_NOW.map((item, i) => (
                     <li key={i} className="wl-waitlist-item">
@@ -683,7 +687,7 @@ export default function WaitlistPage() {
                 </ul>
               </div>
               <div className="wl-waitlist-col">
-                <h3 className="wl-waitlist-col-heading">{t('waitlistExplainer.atLaunch.heading')}</h3>
+                <h3 className="wl-waitlist-col-heading">{'What You Get at Launch'}</h3>
                 <ul className="wl-waitlist-list">
                   {WAITLIST_LAUNCH.map((item, i) => (
                     <li key={i} className="wl-waitlist-item">
@@ -701,9 +705,9 @@ export default function WaitlistPage() {
                 className="wl-submit-btn wl-sc-hero-btn"
                 onClick={() => setShowScorecard(true)}
               >
-                {t('waitlistExplainer.cta')}
+                {'Check Your Score & Join Waitlist →'}
               </button>
-              <p className="wl-waitlist-note">{t('waitlistExplainer.note')}</p>
+              <p className="wl-waitlist-note">{'Free forever during early access. No credit card needed.'}</p>
             </div>
           </div>
         </section>
@@ -712,9 +716,9 @@ export default function WaitlistPage() {
         <section id="phases" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('phases.sectionLabel')}</span>
-              <h2 className="wl-section-title">{t('phases.sectionTitle')}</h2>
-              <p className="wl-section-subtitle wl-centered">{t('phases.sectionSubtitle')}</p>
+              <span className="wl-section-label">{'The Journey'}</span>
+              <h2 className="wl-section-title">{'Your Path to AI Visibility'}</h2>
+              <p className="wl-section-subtitle wl-centered">{'7 phases that take you from invisible to cited. Each phase builds on the last — here’s what to expect.'}</p>
             </div>
             <div className="wl-phases">
               {PHASES.map((phase) => (
@@ -741,7 +745,7 @@ export default function WaitlistPage() {
               ))}
             </div>
             <p className="wl-phases-footer" data-animate>
-              {t('phases.footerPrefix')}<strong>{t('phases.footerBold')}</strong>{t('phases.footerSuffix')}
+              {'The '}<strong>{'99-point checklist'}</strong>{' guides you through every task in every phase.'}
             </p>
           </div>
         </section>
@@ -750,9 +754,9 @@ export default function WaitlistPage() {
         <section id="features" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('features.sectionLabel')}</span>
-              <h2 className="wl-section-title">{t('features.sectionTitle')}</h2>
-              <p className="wl-section-subtitle wl-centered">{t('features.sectionSubtitle')}</p>
+              <span className="wl-section-label">{'What You Get'}</span>
+              <h2 className="wl-section-title">{'Built for AEO from the Ground Up'}</h2>
+              <p className="wl-section-subtitle wl-centered">{'Find what\'s broken. Fix it. Track the results. One tool.'}</p>
             </div>
             <div className="wl-features-grid">
               {FEATURES_OVERVIEW.map((f, i) => (
@@ -770,9 +774,9 @@ export default function WaitlistPage() {
         <section id="who-its-for" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('audience.label')}</span>
-              <h2 className="wl-section-title">{t('audience.title')}</h2>
-              <p className="wl-section-subtitle wl-centered">{t('audience.subtitle')}</p>
+              <span className="wl-section-label">{'Who It\'s For'}</span>
+              <h2 className="wl-section-title">{'Built for People Who Care About Traffic'}</h2>
+              <p className="wl-section-subtitle wl-centered">{'If you rely on search traffic, AEO is your next move.'}</p>
             </div>
             <div className="wl-audience-grid">
               {AUDIENCE_CARDS.map((card, i) => (
@@ -789,32 +793,32 @@ export default function WaitlistPage() {
         <section id="ai-cost" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('aiCost.label')}</span>
-              <h2 className="wl-section-title">{t('aiCost.title')}</h2>
-              <p className="wl-section-subtitle wl-centered">{t('aiCost.subtitle')}</p>
+              <span className="wl-section-label">{'AI Costs'}</span>
+              <h2 className="wl-section-title">{'AI-Powered for Under $3'}</h2>
+              <p className="wl-section-subtitle wl-centered">{'Connect your own API key — no markup, no hidden fees. Full project optimization costs less than a cup of coffee.'}</p>
             </div>
 
             <div className="wl-cost-highlight">
-              <div className="wl-cost-price">{t('aiCost.price')}</div>
-              <p className="wl-cost-price-label">{t('aiCost.priceLabel')}</p>
-              <p className="wl-cost-description">{t('aiCost.description')}</p>
+              <div className="wl-cost-price">{'$2–3'}</div>
+              <p className="wl-cost-price-label">{'Total for a full project'}</p>
+              <p className="wl-cost-description">{'Complete all 99 checklist items using every AI feature — Content Writer, Analyzer, Schema Generator, and more — for approximately $2–3 in total API costs.'}</p>
             </div>
 
             <div className="wl-cost-grid">
               <div className="wl-cost-card">
-                <div className="wl-cost-card-value">{t('aiCost.cards.0.value')}</div>
-                <div className="wl-cost-card-label">{t('aiCost.cards.0.label')}</div>
-                <p className="wl-cost-card-desc">{t('aiCost.cards.0.description')}</p>
+                <div className="wl-cost-card-value">{'$0.01–0.05'}</div>
+                <div className="wl-cost-card-label">{'Per AI feature use'}</div>
+                <p className="wl-cost-card-desc">{'Each AI action costs pennies — from content scoring to schema generation.'}</p>
               </div>
               <div className="wl-cost-card">
-                <div className="wl-cost-card-value">{t('aiCost.cards.1.value')}</div>
-                <div className="wl-cost-card-label">{t('aiCost.cards.1.label')}</div>
-                <p className="wl-cost-card-desc">{t('aiCost.cards.1.description')}</p>
+                <div className="wl-cost-card-value">{'~$2–3'}</div>
+                <div className="wl-cost-card-label">{'Full project completion'}</div>
+                <p className="wl-cost-card-desc">{'Run every AI feature across all 99 checklist items for one website.'}</p>
               </div>
               <div className="wl-cost-card">
-                <div className="wl-cost-card-value">{t('aiCost.cards.2.value')}</div>
-                <div className="wl-cost-card-label">{t('aiCost.cards.2.label')}</div>
-                <p className="wl-cost-card-desc">{t('aiCost.cards.2.description')}</p>
+                <div className="wl-cost-card-value">{'~$0.30–0.50'}</div>
+                <div className="wl-cost-card-label">{'Ongoing monthly cost'}</div>
+                <p className="wl-cost-card-desc">{'Monitoring, rescoring, and occasional AI usage after initial setup.'}</p>
               </div>
             </div>
           </div>
@@ -824,8 +828,8 @@ export default function WaitlistPage() {
         <section id="faq" className="wl-section" data-animate>
           <div className="wl-section-inner">
             <div className="wl-section-center">
-              <span className="wl-section-label">{t('faq.sectionLabel')}</span>
-              <h2 className="wl-section-title">{t('faq.sectionTitle')}</h2>
+              <span className="wl-section-label">{'FAQ'}</span>
+              <h2 className="wl-section-title">{'Frequently Asked Questions'}</h2>
             </div>
             <div className="wl-faq-list">
               {FAQ_ITEMS.map((item, i) => (
@@ -851,9 +855,9 @@ export default function WaitlistPage() {
 
         {/* ═══════════ EARLY ACCESS ═══════════ */}
         <section className="wl-early-access" data-animate>
-          <h2>{t('earlyAccess.title')}</h2>
+          <h2>{'Want Early Access?'}</h2>
           <p>
-            {t('earlyAccess.description')}
+            {'Before we launch, we’re giving a select group of early supporters access to the full platform. Join the waitlist for a chance to be one of the first to try AEO Dashboard — and help shape the product with your feedback.'}
           </p>
 
           <div className="wl-early-benefits">
@@ -871,11 +875,11 @@ export default function WaitlistPage() {
             className="wl-submit-btn wl-sc-hero-btn"
             onClick={() => setShowScorecard(true)}
           >
-            {t('scorecard.heroButton')}
+            {'Get Your Free Score →'}
           </button>
 
           <p className="wl-early-note" style={{ marginTop: '1.5rem' }}>
-            {t('earlyAccess.notePre')}<strong>{t('earlyAccess.noteHighlight')}</strong>{t('earlyAccess.notePost')}
+            {'We’ll select ~'}<strong>{'10'}</strong>{' early access users from the waitlist and reach out personally.'}
           </p>
         </section>
 
@@ -888,7 +892,7 @@ export default function WaitlistPage() {
             <span className="wl-footer-brand-logo">
               <span className="wl-nav-logo-accent">AEO</span>&nbsp;Dashboard
             </span>
-            <p>{t('footer.brandDescription')}</p>
+            <p>{'The complete toolkit for Answer Engine Optimization.'}</p>
           </div>
           {FOOTER_LINKS.map((col, i) => (
             <div key={i} className="wl-footer-col">
@@ -909,7 +913,7 @@ export default function WaitlistPage() {
           ))}
         </div>
         <div className="wl-footer-bottom">
-          <p>{t('footer.copyright', { year: new Date().getFullYear() })}</p>
+          <p>{`© ${new Date().getFullYear()} AEO Dashboard. All rights reserved.`}</p>
         </div>
       </footer>
 
@@ -921,31 +925,31 @@ export default function WaitlistPage() {
             <div className="wl-success-icon">
               <Check size={32} style={{ color: '#10B981' }} />
             </div>
-            <h2>{alreadySignedUp ? t('success.titleExisting') : t('success.titleNew')}</h2>
+            <h2>{alreadySignedUp ? 'Already submitted!' : 'You\'re being considered!'}</h2>
             <p>
               {alreadySignedUp
-                ? t('success.messageExisting')
-                : t('success.messageNew')}
+                ? 'We already have your email. You\'ll hear from us about early access.'
+                : 'We\'ll review your submission and notify you about early access.'}
             </p>
             <p className="wl-success-position">
-              {t('success.position', { count: count.toLocaleString() })}
+              {`#${count.toLocaleString()} on the waitlist`}
             </p>
             <p className="wl-queue-position">
-              {t('urgency.queuePosition', { position: queuePosition })}
+              {`You're #${queuePosition} in line`}
             </p>
 
             <div className="wl-share-row">
               <button className="wl-share-btn" onClick={shareTwitter}>
                 <Share2 size={14} />
-                {t('success.shareOnX')}
+                {'Share on X'}
               </button>
               <button className="wl-share-btn" onClick={shareLinkedIn}>
                 <Share2 size={14} />
-                {t('success.shareOnLinkedIn')}
+                {'LinkedIn'}
               </button>
               <button className="wl-share-btn" onClick={copyLink}>
                 <Copy size={14} />
-                {copied ? t('success.copied') : t('success.copyLink')}
+                {copied ? 'Copied!' : 'Copy Link'}
               </button>
             </div>
 
@@ -953,7 +957,7 @@ export default function WaitlistPage() {
               className="wl-success-dismiss"
               onClick={() => window.location.reload()}
             >
-              {t('success.close')}
+              {'Close'}
             </button>
           </div>
         </div>
@@ -964,8 +968,8 @@ export default function WaitlistPage() {
         <div className={`wl-ticker ${tickerVisible ? 'wl-ticker-visible' : ''}`}>
           <span className="wl-ticker-dot" />
           <span className="wl-ticker-text">
-            {RECENT_SIGNUPS[tickerIndex].name} {t('urgency.recentSignups.justJoined')}{' '}
-            {t('urgency.recentSignups.timeAgo', { minutes: RECENT_SIGNUPS[tickerIndex].minutesAgo })}
+            {RECENT_SIGNUPS[tickerIndex].name} {'just joined'}{' '}
+            {`${RECENT_SIGNUPS[tickerIndex].minutesAgo} min ago`}
           </span>
           <span className="wl-ticker-location">
             {RECENT_SIGNUPS[tickerIndex].location}

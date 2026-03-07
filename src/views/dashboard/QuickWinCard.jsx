@@ -5,13 +5,10 @@
  * Visually distinct from RecommendationsPanel — uses gradient accent border,
  * larger typography, and impact/effort badges to convey urgency.
  */
-import { useTranslation } from 'react-i18next'
 import { Zap, ArrowRight, Clock, TrendingUp } from 'lucide-react'
 
 export default function QuickWinCard({ quickWin }) {
-  const { t } = useTranslation('app')
-
-  if (!quickWin) return null
+if (!quickWin) return null
 
   return (
     <div
@@ -27,7 +24,7 @@ export default function QuickWinCard({ quickWin }) {
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); quickWin.action() } }}
       role="button"
       tabIndex={0}
-      aria-label={`${t('dashboard.quickWin.label')}: ${quickWin.text}`}
+      aria-label={`${'Quick Win'}: ${quickWin.text}`}
     >
       {/* Icon */}
       <div className="quick-win-icon" style={{
@@ -49,7 +46,7 @@ export default function QuickWinCard({ quickWin }) {
             fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
             textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--color-phase-1)',
           }}>
-            {t('dashboard.quickWin.label')}
+            {'Quick Win'}
           </span>
           {quickWin.impact && (
             <span style={{
@@ -61,7 +58,7 @@ export default function QuickWinCard({ quickWin }) {
               background: quickWin.impact === 'high' ? 'rgba(16,185,129,0.1)' : 'var(--hover-bg)',
             }}>
               <TrendingUp size={8} />
-              {t(`dashboard.quickWin.impact.${quickWin.impact}`)}
+              {'Impact}'}
             </span>
           )}
           {quickWin.effort && (
@@ -73,7 +70,7 @@ export default function QuickWinCard({ quickWin }) {
               background: 'var(--hover-bg)',
             }}>
               <Clock size={8} />
-              {t(`dashboard.quickWin.effort.${quickWin.effort}`)}
+              {'Effort}'}
             </span>
           )}
         </div>

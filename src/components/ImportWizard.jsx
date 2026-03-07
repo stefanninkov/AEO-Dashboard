@@ -4,7 +4,6 @@
  * Steps: 1) Select type → 2) Upload file → 3) Map columns → 4) Preview/validate → 5) Confirm
  */
 import { useState, useCallback, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   X, Upload, FileSpreadsheet, ArrowRight, ArrowLeft,
   CheckCircle2, AlertCircle, Table2, Users, Calendar, Search,
@@ -21,8 +20,7 @@ const IMPORT_TYPES = [
 const STEPS = ['type', 'upload', 'map', 'preview', 'done']
 
 export default function ImportWizard({ onComplete, onClose }) {
-  const { t } = useTranslation('app')
-  const fileInputRef = useRef(null)
+const fileInputRef = useRef(null)
   const [step, setStep] = useState(0) // index into STEPS
   const [importType, setImportType] = useState(null)
   const [fileName, setFileName] = useState('')
@@ -156,7 +154,7 @@ export default function ImportWizard({ onComplete, onClose }) {
               fontFamily: 'var(--font-heading)', fontSize: '0.875rem',
               fontWeight: 700, color: 'var(--text-primary)',
             }}>
-              {t('import.title')}
+              {'Bulk Data Import'}
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -186,7 +184,7 @@ export default function ImportWizard({ onComplete, onClose }) {
           {stepName === 'type' && (
             <>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                {t('import.selectType')}
+                {'What would you like to import?'}
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {IMPORT_TYPES.map(({ key, icon: Icon, color }) => (
@@ -222,10 +220,10 @@ export default function ImportWizard({ onComplete, onClose }) {
                         fontFamily: 'var(--font-heading)', fontSize: '0.8125rem',
                         fontWeight: 700, color: 'var(--text-primary)',
                       }}>
-                        {t(`import.type_${key}`)}
+                        {'Type_${key}'}
                       </div>
                       <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
-                        {t(`import.type_${key}_desc`)}
+                        {'Type_${key}_desc'}
                       </div>
                     </div>
                     <ArrowRight size={14} style={{ marginLeft: 'auto', color: 'var(--text-disabled)' }} />
@@ -239,7 +237,7 @@ export default function ImportWizard({ onComplete, onClose }) {
           {stepName === 'upload' && (
             <>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                {t('import.uploadDesc', { type: t(`import.type_${importType}`) })}
+                {'Upload a CSV or JSON file with your data.'}
               </p>
 
               <input
@@ -266,7 +264,7 @@ export default function ImportWizard({ onComplete, onClose }) {
               >
                 <FileSpreadsheet size={32} style={{ color: 'var(--text-tertiary)' }} />
                 <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                  {t('import.dropOrClick')}
+                  {'Click to select a file'}
                 </span>
                 <span style={{ fontSize: '0.6875rem', color: 'var(--text-disabled)' }}>
                   CSV, JSON
@@ -291,14 +289,14 @@ export default function ImportWizard({ onComplete, onClose }) {
             <>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                  {t('import.mapColumns')}
+                  {'Map your file columns to the required fields.'}
                 </p>
                 <span style={{
                   fontSize: '0.625rem', color: 'var(--text-tertiary)',
                   padding: '0.125rem 0.5rem', borderRadius: '6.1875rem',
                   background: 'var(--hover-bg)',
                 }}>
-                  {parsed.rows.length} {t('import.rows')} · {parsed.format.toUpperCase()}
+                  {parsed.rows.length} {'rows'} · {parsed.format.toUpperCase()}
                 </span>
               </div>
 
@@ -315,7 +313,7 @@ export default function ImportWizard({ onComplete, onClose }) {
                       className="input-field"
                       style={{ width: '100%' }}
                     >
-                      <option value="">{t('import.selectColumn')}</option>
+                      <option value="">{'Select column...'}</option>
                       {parsed.headers.map(h => (
                         <option key={h} value={h}>{h}</option>
                       ))}
@@ -333,7 +331,7 @@ export default function ImportWizard({ onComplete, onClose }) {
                       className="input-field"
                       style={{ width: '100%' }}
                     >
-                      <option value="">{t('import.skipColumn')}</option>
+                      <option value="">{'Skip (optional)'}</option>
                       {parsed.headers.map(h => (
                         <option key={h} value={h}>{h}</option>
                       ))}
@@ -345,7 +343,7 @@ export default function ImportWizard({ onComplete, onClose }) {
               {/* Preview first 3 rows */}
               {parsed.rows.length > 0 && (
                 <div>
-                  <div style={labelStyle}>{t('import.dataPreview')}</div>
+                  <div style={labelStyle}>{'Data Preview'}</div>
                   <div style={{
                     borderRadius: 'var(--radius-md)',
                     border: '0.0625rem solid var(--border-subtle)',
@@ -401,7 +399,7 @@ export default function ImportWizard({ onComplete, onClose }) {
               }}>
                 <div className="card" style={{ padding: '0.75rem 1rem', flex: 1, minWidth: '8rem', textAlign: 'center' }}>
                   <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: '0.25rem' }}>
-                    {t('import.validRows')}
+                    {'Valid Rows'}
                   </div>
                   <div style={{
                     fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 700,
@@ -412,7 +410,7 @@ export default function ImportWizard({ onComplete, onClose }) {
                 </div>
                 <div className="card" style={{ padding: '0.75rem 1rem', flex: 1, minWidth: '8rem', textAlign: 'center' }}>
                   <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: '0.25rem' }}>
-                    {t('import.errorRows')}
+                    {'Errors'}
                   </div>
                   <div style={{
                     fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 700,
@@ -426,7 +424,7 @@ export default function ImportWizard({ onComplete, onClose }) {
               {/* Errors list */}
               {result.errors.length > 0 && (
                 <div>
-                  <div style={labelStyle}>{t('import.errors')}</div>
+                  <div style={labelStyle}>{'Validation Errors'}</div>
                   <div style={{
                     maxHeight: '8rem', overflow: 'auto',
                     borderRadius: 'var(--radius-md)',
@@ -441,14 +439,14 @@ export default function ImportWizard({ onComplete, onClose }) {
                       }}>
                         <AlertCircle size={11} style={{ color: 'var(--color-error)', flexShrink: 0 }} />
                         <span style={{ color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
-                          {t('import.row')} {err.row}
+                          {'Row'} {err.row}
                         </span>
                         <span style={{ color: 'var(--text-secondary)' }}>{err.message}</span>
                       </div>
                     ))}
                     {result.errors.length > 20 && (
                       <div style={{ padding: '0.375rem 0.75rem', fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
-                        +{result.errors.length - 20} {t('import.moreErrors')}
+                        +{result.errors.length - 20} {'more errors'}
                       </div>
                     )}
                   </div>
@@ -458,7 +456,7 @@ export default function ImportWizard({ onComplete, onClose }) {
               {/* Valid rows preview */}
               {result.valid.length > 0 && (
                 <div>
-                  <div style={labelStyle}>{t('import.previewValid')}</div>
+                  <div style={labelStyle}>{'Preview (first 5 rows)'}</div>
                   <div style={{
                     borderRadius: 'var(--radius-md)',
                     border: '0.0625rem solid var(--border-subtle)',
@@ -503,7 +501,7 @@ export default function ImportWizard({ onComplete, onClose }) {
                   </div>
                   {result.valid.length > 5 && (
                     <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.25rem' }}>
-                      {t('import.andMore', { count: result.valid.length - 5 })}
+                      {`+${result.valid.length - 5} more rows`}
                     </div>
                   )}
                 </div>
@@ -528,10 +526,10 @@ export default function ImportWizard({ onComplete, onClose }) {
                 fontFamily: 'var(--font-heading)', fontSize: '0.875rem',
                 fontWeight: 700, color: 'var(--color-success)',
               }}>
-                {t('import.success')}
+                {'Import Complete'}
               </h3>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                {t('import.importedCount', { count: importResult.count, type: t(`import.type_${importType}`) })}
+                {`${importResult.count} items imported successfully.`}
               </p>
             </div>
           )}
@@ -547,19 +545,19 @@ export default function ImportWizard({ onComplete, onClose }) {
           <div>
             {step > 0 && step < 4 && (
               <button onClick={handleBack} className="btn-ghost btn-sm">
-                <ArrowLeft size={13} /> {t('import.back')}
+                <ArrowLeft size={13} /> {'Back'}
               </button>
             )}
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             {stepName === 'done' ? (
               <button onClick={onClose} className="btn-primary btn-sm">
-                {t('import.close')}
+                {'Done'}
               </button>
             ) : (
               <>
                 <button onClick={onClose} className="btn-secondary btn-sm">
-                  {t('import.cancel')}
+                  {'Cancel'}
                 </button>
                 {stepName === 'map' && (
                   <button
@@ -567,7 +565,7 @@ export default function ImportWizard({ onComplete, onClose }) {
                     disabled={!canProceedToPreview()}
                     className="btn-primary btn-sm"
                   >
-                    {t('import.preview')} <ArrowRight size={13} />
+                    {'Preview'} <ArrowRight size={13} />
                   </button>
                 )}
                 {stepName === 'preview' && result?.valid.length > 0 && (
@@ -577,9 +575,9 @@ export default function ImportWizard({ onComplete, onClose }) {
                     className="btn-primary btn-sm"
                   >
                     {importing ? (
-                      <><Loader2 size={13} className="mon-spinner" /> {t('import.importing')}</>
+                      <><Loader2 size={13} className="mon-spinner" /> {'Importing...'}</>
                     ) : (
-                      <><Check size={13} /> {t('import.confirmImport', { count: result.valid.length })}</>
+                      <><Check size={13} /> {`Import ${result.valid.length} rows`}</>
                     )}
                   </button>
                 )}

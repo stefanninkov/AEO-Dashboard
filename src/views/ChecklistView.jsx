@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { SearchCheck, CheckCircle2, Lightbulb, ChevronDown, AlertTriangle } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
 import VerifyDialog from '../components/VerifyDialog'
@@ -20,15 +19,13 @@ const PRINCIPLE_COUNT = 7
 const PHASE_COUNT = 7
 
 export default function ChecklistView({ phases, activeProject, toggleCheckItem, setActiveView, setDocItem, updateProject, user, onlineMembers, addNotification }) {
-  const { t } = useTranslation('checklist')
-  const keyPrinciples = useMemo(() =>
-    Array.from({ length: PRINCIPLE_COUNT }, (_, i) => t(`principles.${i}`)),
-  [t])
+const keyPrinciples = useMemo(() =>
+    Array.from({ length: PRINCIPLE_COUNT }, (_, i) => '${i}'), [])
   const deliverables = useMemo(() => {
     const d = {}
-    for (let i = 1; i <= PHASE_COUNT; i++) d[i] = t(`deliverables.${i}`)
+    for (let i = 1; i <= PHASE_COUNT; i++) d[i] = '${i}'
     return d
-  }, [t])
+  }, [])
 
   const firstPriority = getFirstPriorityPhase(activeProject?.questionnaire)
   const [principlesOpen, setPrinciplesOpen] = useState(false)

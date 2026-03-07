@@ -1,5 +1,4 @@
 import { memo, useCallback, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   X, CheckSquare, Square, Trash2, Download, FileDown, Play, Copy,
 } from 'lucide-react'
@@ -18,14 +17,12 @@ const BatchActionBar = memo(function BatchActionBar({
   selectedCount, totalCount, onSelectAll, onClearSelection,
   actions = [], allSelected = false,
 }) {
-  const { t } = useTranslation('app')
-
-  if (selectedCount === 0) return null
+if (selectedCount === 0) return null
 
   return (
     <div
       role="toolbar"
-      aria-label={t('batch.toolbar', 'Batch actions')}
+      aria-label={'Batch actions'}
       style={{
         position: 'fixed', bottom: 'var(--space-6)', left: '50%',
         transform: 'translateX(-50%)',
@@ -43,7 +40,7 @@ const BatchActionBar = memo(function BatchActionBar({
           onClick={onSelectAll}
           className="btn-ghost"
           style={{ padding: '2px' }}
-          aria-label={allSelected ? t('batch.deselectAll', 'Deselect all') : t('batch.selectAll', 'Select all')}
+          aria-label={allSelected ? 'Deselect all' : 'Select all'}
         >
           {allSelected ? <CheckSquare size={16} /> : <Square size={16} />}
         </button>
@@ -51,7 +48,7 @@ const BatchActionBar = memo(function BatchActionBar({
           fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--accent)',
           fontFamily: 'var(--font-heading)',
         }}>
-          {t('batch.selected', { count: selectedCount, total: totalCount }, `${selectedCount} of ${totalCount} selected`)}
+          {`${selectedCount} of ${totalCount} selected`}
         </span>
       </div>
 
@@ -92,7 +89,7 @@ const BatchActionBar = memo(function BatchActionBar({
         onClick={onClearSelection}
         className="btn-ghost"
         style={{ padding: '4px' }}
-        aria-label={t('batch.clear', 'Clear selection')}
+        aria-label={'Clear selection'}
       >
         <X size={16} />
       </button>

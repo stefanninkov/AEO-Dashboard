@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson, HelpCircle, ClipboardList, Newspaper, ShoppingBag, MapPin, Building2, Link2, Clapperboard, FileText, ShieldCheck, CheckCircle2, AlertTriangle, XCircle, ClipboardPaste, Layout } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
 import TemplatesBrowser from '../components/TemplatesBrowser'
@@ -137,32 +136,19 @@ Return JSON in this exact format:
 
 // ─── Schema type metadata (static, not translated) ──
 const SCHEMA_TYPE_META = [
-  { id: 'faqPage',       Icon: HelpCircle,    schemaType: 'FAQPage' },
-  { id: 'howTo',         Icon: ClipboardList,  schemaType: 'HowTo' },
-  { id: 'article',       Icon: Newspaper,      schemaType: 'Article' },
-  { id: 'product',       Icon: ShoppingBag,    schemaType: 'Product' },
-  { id: 'localBusiness', Icon: MapPin,         schemaType: 'LocalBusiness' },
-  { id: 'organization',  Icon: Building2,      schemaType: 'Organization' },
-  { id: 'breadcrumb',    Icon: Link2,          schemaType: 'BreadcrumbList' },
-  { id: 'video',         Icon: Clapperboard,   schemaType: 'VideoObject' },
+  { id: 'faqPage',       Icon: HelpCircle,    schemaType: 'FAQPage',        label: 'FAQ Page' },
+  { id: 'howTo',         Icon: ClipboardList,  schemaType: 'HowTo',          label: 'How-To' },
+  { id: 'article',       Icon: Newspaper,      schemaType: 'Article',        label: 'Article' },
+  { id: 'product',       Icon: ShoppingBag,    schemaType: 'Product',        label: 'Product' },
+  { id: 'localBusiness', Icon: MapPin,         schemaType: 'LocalBusiness',  label: 'Local Business' },
+  { id: 'organization',  Icon: Building2,      schemaType: 'Organization',   label: 'Organization' },
+  { id: 'breadcrumb',    Icon: Link2,          schemaType: 'BreadcrumbList', label: 'Breadcrumb' },
+  { id: 'video',         Icon: Clapperboard,   schemaType: 'VideoObject',    label: 'Video' },
 ]
-
-// Map type ids to i18n keys
-const TYPE_KEY_MAP = {
-  faqPage: 'faq',
-  howTo: 'howTo',
-  article: 'article',
-  product: 'product',
-  localBusiness: 'localBusiness',
-  organization: 'organization',
-  breadcrumb: 'breadcrumb',
-  video: 'video',
-}
 
 // ─── Main Component ──────────────────────────────────────────
 export default function SchemaGeneratorView({ activeProject, updateProject, user }) {
-  const { t } = useTranslation('app')
-  const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
+const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProject })
   const { trackAction } = useGamification()
   const [topic, setTopic] = useState('')
   const [pageUrl, setPageUrl] = useState('')
@@ -179,16 +165,10 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
   const [validationResult, setValidationResult] = useState(null)
   const apiKeySet = hasApiKey()
 
-  // ── Translated SCHEMA_TYPES ──
-  const SCHEMA_TYPES = useMemo(() =>
-    SCHEMA_TYPE_META.map(meta => ({
-      ...meta,
-      label: t(`schema.types.${TYPE_KEY_MAP[meta.id]}`),
-      description: t(`schema.descriptions.${TYPE_KEY_MAP[meta.id]}`),
-      prompt: SCHEMA_PROMPTS[meta.id],
-    })),
-    [t]
-  )
+  const SCHEMA_TYPES = SCHEMA_TYPE_META.map(meta => ({
+    ...meta,
+    prompt: SCHEMA_PROMPTS[meta.id],
+  }))
 
   const history = activeProject?.schemaHistory || []
 
@@ -196,7 +176,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
   const generate = async () => {
     if (!topic.trim() || loading) return
     if (!hasApiKey()) {
-      setError(t('schema.apiKeyMissing'))
+      setError('Please set your Anthropic API key in the Analyzer view first.')
       return
     }
 
@@ -240,7 +220,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
         logAndDispatch('schemaGenerate', { type: selectedType, topic: topic.slice(0, 60) }, user)
         trackAction('generateSchema')
       } else {
-        setError(t('schema.parseError'))
+        setError('Could not parse the generated schema. Please try again.')
       }
     } catch (err) {
       logger.error('Schema generator error:', err)
@@ -306,7 +286,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('schema.markupGenerator')}</h2>
+          <h2 className="view-title">{'Schema Markup Generator'}</h2>
           <p className="view-subtitle">
             {activeProject?.questionnaire?.completedAt ? (() => {
               const q = activeProject.questionnaire
@@ -318,11 +298,11 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
               const engines = q.targetEngines?.includes('all') ? 'all AI engines' : q.targetEngines?.length > 0
                 ? q.targetEngines.map(e => ENGINE_LABELS[e] || e).join(', ')
                 : null
-              let subtitle = t('schema.generateForIndustry', { industry })
-              if (location) subtitle += t('schema.inLocation', { location })
-              if (engines) subtitle += t('schema.optimizedFor', { engines })
+              let subtitle = `Generate schemas for your ${industry} business`
+              if (location) subtitle += ` in ${location}`
+              if (engines) subtitle += ` — optimized for ${engines}`
               return subtitle
-            })() : t('schema.defaultSubtitle')}
+            })() : 'Generate JSON-LD structured data optimized for AI answer engines'}
           </p>
         </div>
         {history.length > 0 && (
@@ -332,7 +312,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
               onClick={() => setShowHistory(!showHistory)}
             >
               <Clock size={16} />
-              {t('schema.historyCount', { count: history.length })}
+              {`History (${history.length})`}
               {showHistory ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </button>
           </div>
@@ -358,7 +338,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
                 <button
                   className="schema-history-delete"
                   onClick={() => deleteHistoryItem(entry.id)}
-                  aria-label={t('schema.deleteHistoryItem')}
+                  aria-label={'Delete history item'}
                 >
                   <Trash2 size={14} />
                 </button>
@@ -383,7 +363,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           }}
         >
           <Layout size={13} />
-          {t('schema.browseTemplates', 'Browse Schema Templates')}
+          {'Browse Schema Templates'}
         </button>
       </div>
       <TemplatesBrowser
@@ -425,7 +405,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       <div className="schema-form-card">
         <div className="schema-form-row">
           <div className="schema-form-field schema-form-field-wide">
-            <label className="schema-label">{t('schema.topicLabel')}</label>
+            <label className="schema-label">{'Topic / Subject *'}</label>
             <input
               type="text"
               className="schema-input"
@@ -440,7 +420,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             />
           </div>
           <div className="schema-form-field">
-            <label className="schema-label">{t('schema.pageUrlLabel')}</label>
+            <label className="schema-label">{'Page URL (optional)'}</label>
             <input
               type="url"
               className="schema-input"
@@ -458,12 +438,12 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           {loading ? (
             <>
               <Loader2 size={18} className="schema-spinner" />
-              {t('schema.generatingSchema')}
+              {'Generating Schema…'}
             </>
           ) : (
             <>
               <Sparkles size={18} />
-              {t('schema.generateMarkup')}
+              {'Generate Schema Markup'}
             </>
           )}
         </button>
@@ -481,8 +461,8 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       {loading && (
         <div className="schema-loading-card">
           <Loader2 size={32} className="schema-spinner" />
-          <p>{t('schema.generatingType', { type: SCHEMA_TYPES.find(st => st.id === selectedType)?.schemaType })}</p>
-          <span className="schema-loading-sub">{t('schema.loadingHint')}</span>
+          <p>{`Generating ${SCHEMA_TYPES.find(st => st.id === selectedType)?.schemaType} structured data…`}</p>
+          <span className="schema-loading-sub">{'This usually takes 10-15 seconds'}</span>
         </div>
       )}
 
@@ -501,11 +481,11 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             <div className="schema-result-actions">
               <button className="schema-copy-btn schema-copy-script" onClick={copyJsonLd}>
                 {copiedJsonLd ? <Check size={16} /> : <Copy size={16} />}
-                {copiedJsonLd ? t('schema.copied') : t('schema.copyScriptTag')}
+                {copiedJsonLd ? 'Copied!' : 'Copy <script> Tag'}
               </button>
               <button className="schema-copy-btn" onClick={copyRawJson}>
                 {copied ? <Check size={16} /> : <Copy size={16} />}
-                {copied ? t('schema.copied') : t('schema.copyJson')}
+                {copied ? 'Copied!' : 'Copy JSON'}
               </button>
             </div>
           </div>
@@ -514,7 +494,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           <div className="schema-code-section">
             <div className="schema-code-label">
               <Code2 size={14} />
-              {t('schema.jsonLdMarkup')}
+              {'JSON-LD Markup'}
             </div>
             <pre className="schema-code-block">
               <code>{`<script type="application/ld+json">\n${JSON.stringify(result.content.jsonLd, null, 2)}\n</script>`}</code>
@@ -526,7 +506,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             <div className="schema-impl-section">
               <h3 className="schema-section-title">
                 <Plus size={16} />
-                {t('schema.implementationGuide')}
+                {'Implementation Guide'}
               </h3>
               <div className="schema-impl-content">
                 {result.content.implementation.split('\n').map((line, i) => (
@@ -541,7 +521,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
             <div className="schema-seo-section">
               <h3 className="schema-section-title">
                 <Sparkles size={16} />
-                {t('schema.aeoImpactNotes')}
+                {'AEO Impact Notes'}
               </h3>
               <p className="schema-seo-content">{result.content.seoNotes}</p>
             </div>
@@ -554,14 +534,13 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
               onClick={() => { validateCurrentResult(); setShowValidator(true) }}
             >
               <ShieldCheck size={16} />
-              {t('schema.validator.validate')}
+              {'Validate Schema'}
             </button>
 
             {validationResult && showValidator && (
               <SchemaValidationResults
                 result={validationResult}
                 onClose={clearValidation}
-                t={t}
               />
             )}
           </div>
@@ -570,7 +549,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           <div className="schema-validation-note">
             <AlertCircle size={16} />
             <span>
-              {t('schema.validator.externalHint')}{' '}
+              {'For production, also test with'}{' '}
               <a href="https://validator.schema.org/" target="_blank" rel="noopener noreferrer">
                 validator.schema.org
               </a>
@@ -590,7 +569,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
           onClick={() => { setShowValidator(!showValidator); setValidationResult(null) }}
         >
           <ShieldCheck size={16} />
-          {t('schema.validator.pasteValidate')}
+          {'Paste & Validate JSON-LD'}
           {showValidator ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
 
@@ -600,7 +579,13 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
               className="schema-validator-textarea"
               value={validatorInput}
               onChange={e => setValidatorInput(e.target.value)}
-              placeholder={t('schema.validator.pastePlaceholder')}
+              placeholder={`Paste your JSON-LD structured data here…
+
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  ...
+}`}
               rows={8}
             />
             <div className="schema-validator-paste-actions">
@@ -610,14 +595,14 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
                 disabled={!validatorInput.trim()}
               >
                 <ShieldCheck size={14} />
-                {t('schema.validator.runValidation')}
+                {'Run Validation'}
               </button>
               {validatorInput && (
                 <button
                   className="btn-secondary btn-sm"
                   onClick={() => { setValidatorInput(''); setValidationResult(null) }}
                 >
-                  {t('schema.validator.clear')}
+                  {'Clear'}
                 </button>
               )}
             </div>
@@ -626,7 +611,6 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
               <SchemaValidationResults
                 result={validationResult}
                 onClose={() => setValidationResult(null)}
-                t={t}
               />
             )}
           </div>
@@ -637,8 +621,8 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
       {!result && !loading && !error && (
         <EmptyState
           icon={Code2}
-          title={t('schema.emptyTitle')}
-          description={t('schema.emptyDesc')}
+          title={'Generate Schema Markup'}
+          description={'Select a schema type, enter your topic, and generate valid JSON-LD structured data optimized for AI answer engines.'}
         />
       )}
     </div>
@@ -646,7 +630,7 @@ export default function SchemaGeneratorView({ activeProject, updateProject, user
 }
 
 // ─── Validation Results Panel ────────────────────────────────────
-function SchemaValidationResults({ result, onClose, t }) {
+function SchemaValidationResults({ result, onClose }) {
   const passes = result.results.filter(r => r.level === 'pass')
   const warnings = result.results.filter(r => r.level === 'warning')
   const errors = result.results.filter(r => r.level === 'error')
@@ -662,7 +646,7 @@ function SchemaValidationResults({ result, onClose, t }) {
       <div className="schema-validation-header">
         <div className="schema-validation-title">
           <ShieldCheck size={18} />
-          <span>{t('schema.validator.results')}</span>
+          <span>{'Validation Results'}</span>
         </div>
         <button className="btn-icon" onClick={onClose} style={{ width: '1.5rem', height: '1.5rem' }}>
           <XCircle size={14} />
@@ -672,16 +656,16 @@ function SchemaValidationResults({ result, onClose, t }) {
       {/* Summary badges */}
       <div className="schema-validation-summary">
         <span className="schema-vbadge schema-vbadge-pass">
-          <CheckCircle2 size={12} /> {passes.length} {t('schema.validator.passed')}
+          <CheckCircle2 size={12} /> {passes.length} {'passed'}
         </span>
         <span className="schema-vbadge schema-vbadge-warning">
-          <AlertTriangle size={12} /> {warnings.length} {t('schema.validator.warnings')}
+          <AlertTriangle size={12} /> {warnings.length} {'warnings'}
         </span>
         <span className="schema-vbadge schema-vbadge-error">
-          <XCircle size={12} /> {errors.length} {t('schema.validator.errors')}
+          <XCircle size={12} /> {errors.length} {'errors'}
         </span>
         <span className={`schema-vbadge ${result.valid ? 'schema-vbadge-valid' : 'schema-vbadge-invalid'}`}>
-          {result.valid ? t('schema.validator.validSchema') : t('schema.validator.invalidSchema')}
+          {result.valid ? 'Valid Schema' : 'Has Errors'}
         </span>
       </div>
 

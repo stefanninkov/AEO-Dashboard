@@ -3,7 +3,6 @@ import {
   ArrowRight, ArrowLeft, Rocket, X, Check,
   Briefcase, Users, Target, BookOpen, Share2,
 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import {
   ROLE_IDS, TEAM_SIZE_IDS, USER_GOAL_IDS,
   FAMILIARITY_IDS, REFERRAL_IDS,
@@ -16,8 +15,7 @@ const TOTAL_STEPS = 5
 const STEP_ICONS = [Briefcase, Users, Target, BookOpen, Share2]
 
 export default function OnboardingQuiz({ onComplete, onSkip }) {
-  const { t } = useTranslation('app')
-  const [step, setStep] = useState(0)
+const [step, setStep] = useState(0)
   const [animating, setAnimating] = useState(false)
   const trapRef = useFocusTrap(true)
 
@@ -35,24 +33,24 @@ export default function OnboardingQuiz({ onComplete, onSkip }) {
 
   /* Build translated option arrays */
   const ROLE_OPTIONS = useMemo(() => ROLE_IDS.map(id => ({
-    value: id, label: t(`onboardingQuiz.steps.role.options.${id}`),
-  })), [t])
+    value: id, label: '${id}',
+  })), [])
 
   const TEAM_SIZE_OPTIONS = useMemo(() => TEAM_SIZE_IDS.map(id => ({
-    value: id, label: t(`onboardingQuiz.steps.teamSize.options.${id}`),
-  })), [t])
+    value: id, label: '${id}',
+  })), [])
 
   const GOAL_OPTIONS = useMemo(() => USER_GOAL_IDS.map(id => ({
-    value: id, label: t(`onboardingQuiz.steps.primaryGoal.options.${id}`),
-  })), [t])
+    value: id, label: '${id}',
+  })), [])
 
   const FAMILIARITY_OPTIONS = useMemo(() => FAMILIARITY_IDS.map(id => ({
-    value: id, label: t(`onboardingQuiz.steps.aeoFamiliarity.options.${id}`),
-  })), [t])
+    value: id, label: '${id}',
+  })), [])
 
   const REFERRAL_OPTIONS = useMemo(() => REFERRAL_IDS.map(id => ({
-    value: id, label: t(`onboardingQuiz.steps.referralSource.options.${id}`),
-  })), [t])
+    value: id, label: '${id}',
+  })), [])
 
   const STEP_KEYS = ['role', 'teamSize', 'primaryGoal', 'aeoFamiliarity', 'referralSource']
   const STEP_OPTIONS = [ROLE_OPTIONS, TEAM_SIZE_OPTIONS, GOAL_OPTIONS, FAMILIARITY_OPTIONS, REFERRAL_OPTIONS]
@@ -170,7 +168,7 @@ export default function OnboardingQuiz({ onComplete, onSkip }) {
               padding: '0.125rem 0.5rem', borderRadius: 4,
               background: 'var(--accent-subtle)',
             }}>
-              {t('onboardingQuiz.stepOf', { current: step + 1, total: TOTAL_STEPS })}
+              {`${step + 1} of ${TOTAL_STEPS}`}
             </span>
             <button
               onClick={onSkip}
@@ -184,7 +182,7 @@ export default function OnboardingQuiz({ onComplete, onSkip }) {
               }}
               aria-label="Skip quiz"
             >
-              {t('onboardingQuiz.skip')}
+              {'Skip for now'}
               <X size={12} />
             </button>
           </div>
@@ -206,13 +204,13 @@ export default function OnboardingQuiz({ onComplete, onSkip }) {
                 color: 'var(--text-primary)', margin: 0,
               }}
             >
-              {t(`onboardingQuiz.steps.${currentKey}.title`)}
+              {'Title'}
             </h3>
           </div>
 
           {step === 0 && (
             <p style={{ fontSize: 12, color: 'var(--text-tertiary)', marginBottom: 20, marginLeft: 42 }}>
-              {t('onboardingQuiz.subtitle')}
+              {'Help us personalize your experience — takes 30 seconds'}
             </p>
           )}
           {step > 0 && <div style={{ height: 14 }} />}
@@ -293,7 +291,7 @@ export default function OnboardingQuiz({ onComplete, onSkip }) {
                 }}
               >
                 <ArrowLeft size={13} />
-                {t('onboardingQuiz.back')}
+                {'Back'}
               </button>
             )}
             <button
@@ -308,11 +306,11 @@ export default function OnboardingQuiz({ onComplete, onSkip }) {
               {step === TOTAL_STEPS - 1 ? (
                 <>
                   <Rocket size={13} />
-                  {t('onboardingQuiz.finish')}
+                  {'Get Started'}
                 </>
               ) : (
                 <>
-                  {t('onboardingQuiz.next')}
+                  {'Continue'}
                   <ArrowRight size={13} />
                 </>
               )}

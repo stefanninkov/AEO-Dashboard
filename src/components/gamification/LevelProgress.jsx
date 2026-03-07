@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { getLevel, getNextLevel, getLevelProgress } from '../../utils/gamification'
 
 /**
@@ -10,9 +9,7 @@ import { getLevel, getNextLevel, getLevelProgress } from '../../utils/gamificati
  *   compact: boolean (minimal display)
  */
 export default function LevelProgress({ points = 0, compact = false }) {
-  const { t } = useTranslation('app')
-
-  const level = useMemo(() => getLevel(points), [points])
+const level = useMemo(() => getLevel(points), [points])
   const nextLevel = useMemo(() => getNextLevel(points), [points])
   const progress = useMemo(() => getLevelProgress(points), [points])
 
@@ -54,17 +51,17 @@ export default function LevelProgress({ points = 0, compact = false }) {
           </div>
           <div>
             <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              {t('gamification.level', 'Level')} {level.level}: {level.name}
+              {'Level'} {level.level}: {level.name}
             </div>
             <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
-              {points} {t('gamification.totalXP', 'total XP')}
+              {points} {'total XP'}
             </div>
           </div>
         </div>
         {nextLevel && (
           <div style={{ fontSize: '0.625rem', color: 'var(--text-disabled)', textAlign: 'right' }}>
-            {t('gamification.nextLevel', 'Next')}: {nextLevel.name}
-            <br />{nextLevel.minPoints - points} XP {t('gamification.remaining', 'to go')}
+            {'Next'}: {nextLevel.name}
+            <br />{nextLevel.minPoints - points} XP {'to go'}
           </div>
         )}
       </div>
