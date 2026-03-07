@@ -6,7 +6,6 @@
  * preview snippets, expand/copy, and delete.
  */
 import { useState, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   HelpCircle, ClipboardList, Scale, ShoppingBag, BookText,
   Newspaper, MapPin, Building2, Link2, Clapperboard,
@@ -71,8 +70,7 @@ function getFullContent(entry) {
 }
 
 export default function ContentHistoryTab({ activeProject, updateProject }) {
-  const { t } = useTranslation('app')
-  const { addToast } = useToast()
+const { addToast } = useToast()
 
   const [filter, setFilter] = useState('all') // 'all' | 'content' | 'schema'
   const [typeFilter, setTypeFilter] = useState('all')
@@ -107,7 +105,7 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
     navigator.clipboard.writeText(text)
     setCopiedId(entry.id)
     setTimeout(() => setCopiedId(null), 2000)
-    addToast('success', t('contentOps.history.copied'))
+    addToast('success', 'Content copied to clipboard')
   }
 
   const handleDelete = (entry) => {
@@ -136,9 +134,9 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
 
           <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
             {[
-              { id: 'all', label: t('contentOps.history.all'), count: allEntries.length },
-              { id: 'content', label: t('contentOps.history.contentOnly'), count: contentCount },
-              { id: 'schema', label: t('contentOps.history.schemaOnly'), count: schemaCount },
+              { id: 'all', label: 'All', count: allEntries.length },
+              { id: 'content', label: 'Content', count: contentCount },
+              { id: 'schema', label: 'Schema', count: schemaCount },
             ].map(f => (
               <button
                 key={f.id}
@@ -163,7 +161,7 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
               style={{ marginLeft: 'auto', width: 'auto' }}
               aria-label="Filter by type"
             >
-              <option value="all">{t('contentOps.history.allTypes')}</option>
+              <option value="all">{'All types'}</option>
               {availableTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
               ))}
@@ -181,14 +179,14 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
           <Clock size={24} style={{ color: 'var(--text-disabled)', marginBottom: 'var(--space-3)' }} />
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', marginBottom: 'var(--space-2)' }}>
             {allEntries.length === 0
-              ? t('contentOps.history.emptyTitle')
-              : t('contentOps.history.noMatch')
+              ? 'No content history yet'
+              : 'No matching entries'
             }
           </p>
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-disabled)' }}>
             {allEntries.length === 0
-              ? t('contentOps.history.emptyDesc')
-              : t('contentOps.history.adjustFilters')
+              ? 'Content you generate with the Writer or Schema Generator will appear here.'
+              : 'Try adjusting your filters to see more results.'
             }
           </p>
         </div>
@@ -234,7 +232,7 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
                     fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)',
                     whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                   }}>
-                    {entry.topic || entry.content?.name || t('contentOps.history.untitled')}
+                    {entry.topic || entry.content?.name || 'Untitled'}
                   </div>
                   <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--text-disabled)', display: 'flex', gap: 'var(--space-2)', marginTop: '0.125rem' }}>
                     <span style={{
@@ -256,8 +254,8 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
                     className="btn-icon"
                     style={{ width: '1.5rem', height: '1.5rem' }}
                     onClick={e => { e.stopPropagation(); handleCopy(entry) }}
-                    title={t('contentOps.history.copy')}
-                    aria-label={t('contentOps.history.copy')}
+                    title={'Copy'}
+                    aria-label={'Copy'}
                   >
                     {isCopied ? <Check size={12} style={{ color: 'var(--color-success)' }} /> : <Copy size={12} />}
                   </button>
@@ -265,8 +263,8 @@ export default function ContentHistoryTab({ activeProject, updateProject }) {
                     className="btn-icon"
                     style={{ width: '1.5rem', height: '1.5rem' }}
                     onClick={e => { e.stopPropagation(); handleDelete(entry) }}
-                    title={t('contentOps.history.delete')}
-                    aria-label={t('contentOps.history.delete')}
+                    title={'Delete'}
+                    aria-label={'Delete'}
                   >
                     <Trash2 size={12} />
                   </button>

@@ -3,7 +3,6 @@
  */
 import { useState } from 'react'
 import { Plug, Loader2, RefreshCw, Unplug } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { useGoogleIntegration } from '../../hooks/useGoogleIntegration'
 import { isGoogleOAuthConfigured } from '../../utils/googleAuth'
 import { useToast } from '../../components/Toast'
@@ -13,19 +12,18 @@ import {
 import EmptyState from '../../components/EmptyState'
 
 export default function IntegrationsSection({ user }) {
-  const { t } = useTranslation('app')
-  const { addToast } = useToast()
+const { addToast } = useToast()
   const google = useGoogleIntegration(user)
 
   return (
     <>
       {/* ── Google Integration ── */}
       <div className="card" style={{ marginBottom: '1rem' }}>
-        <div style={sectionTitleStyle}><Plug size={15} /> {t('userSettings.googleIntegration')}</div>
+        <div style={sectionTitleStyle}><Plug size={15} /> {'Google Integration'}</div>
 
         <div className="settings-desc" style={{ padding: '0 1.25rem 0.5rem' }}>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
-            {t('userSettings.googleIntegrationDesc')}
+            {'Connect your Google account to pull real data from Google Search Console and Google Analytics 4 into the dashboard.'}
           </p>
         </div>
 
@@ -36,7 +34,7 @@ export default function IntegrationsSection({ user }) {
               background: 'rgba(245,158,11,0.08)', border: '0.0625rem solid rgba(245,158,11,0.15)',
               fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: 1.6,
             }}>
-              <strong style={{ color: 'var(--text-secondary)' }}>{t('userSettings.setupRequired')}</strong>
+              <strong style={{ color: 'var(--text-secondary)' }}>{'Setup Required'}</strong>
               <ol style={{ margin: '0.5rem 0 0', paddingLeft: '1.25rem' }}>
                 <li style={{ marginBottom: '0.25rem' }}>
                   Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-phase-1)', textDecoration: 'underline' }}>Google Cloud Console</a>
@@ -59,27 +57,27 @@ export default function IntegrationsSection({ user }) {
         ) : (
           <>
             <div className="settings-row-inline" style={settingsRowStyle}>
-              <span style={labelStyle}>{t('userSettings.status')}</span>
+              <span style={labelStyle}>{'Status'}</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 {google.isLoading ? (
                   <>
                     <Loader2 size={13} style={{ color: 'var(--text-tertiary)', animation: 'spin 1s linear infinite' }} />
-                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>{t('userSettings.checking')}</span>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>{'Checking...'}</span>
                   </>
                 ) : google.isConnected ? (
                   <>
                     <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: 'var(--color-success)', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.8125rem', color: 'var(--color-success)' }}>{t('userSettings.connectedStatus')}</span>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--color-success)' }}>{'Connected'}</span>
                   </>
                 ) : google.isExpired ? (
                   <>
                     <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: 'var(--color-warning)', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.8125rem', color: 'var(--color-warning)' }}>{t('userSettings.expired')}</span>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--color-warning)' }}>{'Expired — reconnect needed'}</span>
                   </>
                 ) : (
                   <>
                     <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: 'var(--text-disabled)', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>{t('userSettings.notConnected')}</span>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>{'Not connected'}</span>
                   </>
                 )}
               </div>
@@ -87,14 +85,14 @@ export default function IntegrationsSection({ user }) {
 
             {google.connectedEmail && (
               <div className="settings-row-inline" style={settingsRowStyle}>
-                <span style={labelStyle}>{t('userSettings.account')}</span>
+                <span style={labelStyle}>{'Account'}</span>
                 <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>{google.connectedEmail}</span>
               </div>
             )}
 
             {google.connectedAt && google.isConnected && (
               <div className="settings-row-inline" style={settingsRowStyle}>
-                <span style={labelStyle}>{t('userSettings.connectedLabel')}</span>
+                <span style={labelStyle}>{'Connected'}</span>
                 <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
                   {new Date(google.connectedAt).toLocaleDateString(undefined, {
                     month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit',
@@ -104,16 +102,16 @@ export default function IntegrationsSection({ user }) {
             )}
 
             <div className="settings-row-inline" style={settingsRowStyle}>
-              <span style={labelStyle}>{t('userSettings.scopes')}</span>
+              <span style={labelStyle}>{'Scopes'}</span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
                 <span style={{
                   fontSize: '0.6875rem', padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
                   background: 'rgba(59,130,246,0.1)', color: '#3B82F6', fontWeight: 500,
-                }}>{t('userSettings.searchConsoleRead')}</span>
+                }}>{'Search Console (read)'}</span>
                 <span style={{
                   fontSize: '0.6875rem', padding: '0.1875rem 0.5rem', borderRadius: '0.375rem',
                   background: 'rgba(16,185,129,0.1)', color: '#10B981', fontWeight: 500,
-                }}>{t('userSettings.analytics4Read')}</span>
+                }}>{'Analytics 4 (read)'}</span>
               </div>
             </div>
 
@@ -140,7 +138,7 @@ export default function IntegrationsSection({ user }) {
                       addToast('success', 'Google account disconnected')
                     }}
                   >
-                    <Unplug size={13} /> {t('userSettings.disconnect')}
+                    <Unplug size={13} /> {'Disconnect'}
                   </button>
                 ) : google.isExpired ? (
                   <button
@@ -152,7 +150,7 @@ export default function IntegrationsSection({ user }) {
                     disabled={google.connecting}
                   >
                     {google.connecting ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> : <RefreshCw size={13} />}
-                    {google.connecting ? t('userSettings.reconnecting') : t('userSettings.reconnect')}
+                    {google.connecting ? 'Reconnecting...' : 'Reconnect'}
                   </button>
                 ) : (
                   <button
@@ -161,7 +159,7 @@ export default function IntegrationsSection({ user }) {
                     disabled={google.connecting}
                   >
                     {google.connecting ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> : <Plug size={13} />}
-                    {google.connecting ? t('userSettings.connecting') : t('userSettings.connectGoogleAccount')}
+                    {google.connecting ? 'Connecting...' : 'Connect Google Account'}
                   </button>
                 )}
               </div>

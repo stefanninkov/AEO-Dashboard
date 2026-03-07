@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react'
 import { CalendarDays, FileText, Clock, Layout } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import CalendarView from './CalendarView'
 import BriefView from './BriefView'
 import ContentHistoryTab from './ContentHistoryTab'
@@ -8,8 +7,7 @@ import TemplatesBrowser from '../../components/TemplatesBrowser'
 import { useScrollActiveTab } from '../../hooks/useScrollActiveTab'
 
 export default function ContentOpsView({ activeProject, updateProject, user, phases, toggleCheckItem }) {
-  const { t } = useTranslation('app')
-  const [activeTab, setActiveTab] = useState('calendar') // 'calendar' | 'briefs' | 'history'
+const [activeTab, setActiveTab] = useState('calendar') // 'calendar' | 'briefs' | 'history'
   const [showTemplates, setShowTemplates] = useState(false)
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
@@ -23,8 +21,8 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
       {/* Header */}
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('contentOps.title')}</h2>
-          <p className="view-subtitle">{t('contentOps.subtitle')}</p>
+          <h2 className="view-title">{'Content Operations'}</h2>
+          <p className="view-subtitle">{'Schedule content work tied to your AEO checklist and generate AI-powered content briefs.'}</p>
         </div>
       </div>
 
@@ -38,7 +36,7 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
           onClick={() => setActiveTab('calendar')}
         >
           <CalendarDays size={14} />
-          {t('contentOps.tabCalendar')}
+          {'Calendar'}
           {calendarCount > 0 && (
             <span className="tab-badge">{calendarCount}</span>
           )}
@@ -51,7 +49,7 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
           onClick={() => setActiveTab('briefs')}
         >
           <FileText size={14} />
-          {t('contentOps.tabBriefs')}
+          {'Briefs'}
           {briefCount > 0 && (
             <span className="tab-badge">{briefCount}</span>
           )}
@@ -64,7 +62,7 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
           onClick={() => setActiveTab('history')}
         >
           <Clock size={14} />
-          {t('contentOps.tabHistory')}
+          {'History'}
           {historyCount > 0 && (
             <span className="tab-badge">{historyCount}</span>
           )}
@@ -76,7 +74,7 @@ export default function ContentOpsView({ activeProject, updateProject, user, pha
           onClick={() => setShowTemplates(true)}
         >
           <Layout size={14} />
-          {t('contentOps.tabTemplates', 'Templates')}
+          {'Templates'}
         </button>
       </div>
 

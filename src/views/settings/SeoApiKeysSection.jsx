@@ -3,7 +3,6 @@
  */
 import { useState, useCallback } from 'react'
 import { Key, Eye, EyeOff, Save, Check, ExternalLink, Shield } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { useSeoStore } from '../../stores/useSeoStore'
 import { sectionTitleStyle, settingsRowStyle, lastRowStyle, labelStyle } from './SettingsShared'
 
@@ -37,8 +36,7 @@ function flash(setter) {
 }
 
 export default function SeoApiKeysSection() {
-  const { t } = useTranslation('app')
-  const apiKeys = useSeoStore((s) => s.apiKeys)
+const apiKeys = useSeoStore((s) => s.apiKeys)
   const setApiKey = useSeoStore((s) => s.setApiKey)
   const useProxy = useSeoStore((s) => s.useProxy)
   const setUseProxy = useSeoStore((s) => s.setUseProxy)
@@ -68,7 +66,7 @@ export default function SeoApiKeysSection() {
     <div className="card fade-in-up" style={{ overflow: 'hidden' }}>
       <div style={sectionTitleStyle}>
         <Key size={14} style={{ color: 'var(--color-phase-3)' }} />
-        {t('settings.seoApiKeys', 'SEO API Keys')}
+        {'SEO API Keys'}
         {configuredCount > 0 && (
           <span style={{
             marginLeft: 'auto', fontSize: '0.6875rem',
@@ -80,7 +78,7 @@ export default function SeoApiKeysSection() {
       </div>
 
       <div style={{ padding: '0.75rem 1.25rem', fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: 1.6 }}>
-        {t('settings.seoApiKeysDesc', 'Connect SEO data providers for real keyword, backlink, and domain authority data. Without API keys, AI-powered estimates are used instead.')}
+        {'Connect SEO data providers for real keyword, backlink, and domain authority data. Without API keys, AI-powered estimates are used instead.'}
       </div>
 
       {SEO_PROVIDERS.map((provider, i) => {
@@ -159,10 +157,10 @@ export default function SeoApiKeysSection() {
         <Shield size={14} style={{ color: 'var(--text-tertiary)' }} />
         <div style={{ flex: 1 }}>
           <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-primary)' }}>
-            {t('settings.useBackendProxy', 'Use Backend Proxy')}
+            {'Use Backend Proxy'}
           </span>
           <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', margin: '0.125rem 0 0' }}>
-            {t('settings.proxyDesc', 'Route API calls through a backend proxy for security. Requires server setup.')}
+            {'Route API calls through a backend proxy for security. Requires server setup.'}
           </p>
         </div>
         <button

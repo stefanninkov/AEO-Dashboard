@@ -7,7 +7,6 @@
  * - Category health overview (pass/fail rates across all pages)
  */
 import { useState, useMemo, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   FileText, AlertTriangle, CheckCircle2, TrendingUp, ArrowUpDown,
   ExternalLink, BarChart3, Shield, BookOpen, Code2,
@@ -30,9 +29,9 @@ function getScoreColor(score) {
 }
 
 function getScoreLabel(score, t) {
-  if (score >= 70) return t('analyzer.health.strong')
-  if (score >= 40) return t('analyzer.health.moderate')
-  return t('analyzer.health.weak')
+  if (score >= 70) return 'Strong'
+  if (score >= 40) return 'Moderate'
+  return 'Weak'
 }
 
 function getCategoryScore(category) {
@@ -42,8 +41,7 @@ function getCategoryScore(category) {
 }
 
 export default function PageHealthTab({ activeProject }) {
-  const { t } = useTranslation('app')
-  const [sortBy, setSortBy] = useState('score') // 'score' | 'date' | 'name'
+const [sortBy, setSortBy] = useState('score') // 'score' | 'date' | 'name'
   const [sortDir, setSortDir] = useState('asc') // 'asc' | 'desc'
   const healthGridRef = useRef(null)
   useGridNav(healthGridRef)
@@ -116,10 +114,10 @@ export default function PageHealthTab({ activeProject }) {
       <div className="card card-xl" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-3)', textAlign: 'center' }}>
         <BarChart3 size={32} style={{ color: 'var(--text-disabled)' }} />
         <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--text-primary)' }}>
-          {t('analyzer.health.noPages')}
+          {'No Pages Analyzed Yet'}
         </h3>
         <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', maxWidth: '20rem' }}>
-          {t('analyzer.health.noPagesDesc')}
+          {'Analyze individual pages in the Page Analysis tab to see their health overview here.'}
         </p>
       </div>
     )
@@ -128,19 +126,19 @@ export default function PageHealthTab({ activeProject }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
       {/* Summary Cards */}
-      <div ref={healthGridRef} className="stats-grid-4 stagger-grid" role="grid" aria-label={t('analyzer.health.categoryHealth')}>
+      <div ref={healthGridRef} className="stats-grid-4 stagger-grid" role="grid" aria-label={'Category Health Across All Pages'}>
         <StatCard
           layout="horizontal"
           icon={<FileText size={14} />}
           iconColor="var(--color-phase-3)"
-          label={t('analyzer.health.pagesAnalyzed')}
+          label={'Pages Analyzed'}
           value={stats.count}
         />
         <StatCard
           layout="horizontal"
           icon={<BarChart3 size={14} />}
           iconColor={getScoreColor(stats.avg)}
-          label={t('analyzer.health.avgScore')}
+          label={'Avg Score'}
           value={stats.avg}
           subValue="/100"
         />
@@ -148,15 +146,15 @@ export default function PageHealthTab({ activeProject }) {
           layout="horizontal"
           icon={<AlertTriangle size={14} />}
           iconColor="var(--color-error)"
-          label={t('analyzer.health.needsWork')}
+          label={'Needs Work'}
           value={stats.needsWork}
-          subValue={t('analyzer.health.pagesBelow50')}
+          subValue={'pages < 50'}
         />
         <StatCard
           layout="horizontal"
           icon={<CheckCircle2 size={14} />}
           iconColor="var(--color-success)"
-          label={t('analyzer.health.topScore')}
+          label={'Top Score'}
           value={stats.topScore}
           subValue="/100"
         />
@@ -170,7 +168,7 @@ export default function PageHealthTab({ activeProject }) {
             textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
             marginBottom: 'var(--space-3)',
           }}>
-            {t('analyzer.health.categoryHealth')}
+            {'Category Health Across All Pages'}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, 1fr))', gap: 'var(--space-3)' }}>
             {categoryHealth.map(cat => {
@@ -233,7 +231,7 @@ export default function PageHealthTab({ activeProject }) {
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  {t('analyzer.health.page')}
+                  {'Page'}
                   <ArrowUpDown size={10} style={{ opacity: sortBy === 'name' ? 1 : 0.3 }} />
                 </span>
               </th>
@@ -247,7 +245,7 @@ export default function PageHealthTab({ activeProject }) {
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem' }}>
-                  {t('analyzer.health.score')}
+                  {'Score'}
                   <ArrowUpDown size={10} style={{ opacity: sortBy === 'score' ? 1 : 0.3 }} />
                 </span>
               </th>
@@ -256,7 +254,7 @@ export default function PageHealthTab({ activeProject }) {
                 fontSize: 'var(--text-2xs)', fontWeight: 700, textTransform: 'uppercase',
                 letterSpacing: '0.0469rem', color: 'var(--text-tertiary)', width: '5rem',
               }}>
-                {t('analyzer.health.status')}
+                {'Status'}
               </th>
               <th
                 onClick={() => toggleSort('date')}
@@ -268,7 +266,7 @@ export default function PageHealthTab({ activeProject }) {
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '0.25rem' }}>
-                  {t('analyzer.health.analyzed')}
+                  {'Analyzed'}
                   <ArrowUpDown size={10} style={{ opacity: sortBy === 'date' ? 1 : 0.3 }} />
                 </span>
               </th>

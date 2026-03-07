@@ -1,12 +1,10 @@
 import { useState, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { PenLine, Loader2, AlertCircle, Settings, Sparkles, Copy, CheckCircle2 } from 'lucide-react'
 import { callAI } from '../../utils/apiClient'
 import { hasApiKey } from '../../utils/aiProvider'
 
 export default function ContentOptimizationTab({ analyzer, activeProject, updateProject, user }) {
-  const { t } = useTranslation('app')
-  const [loading, setLoading] = useState(false)
+const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [results, setResults] = useState(null)
   const [copiedField, setCopiedField] = useState(null)
@@ -113,7 +111,7 @@ Be specific and actionable. Return ONLY the JSON.`
       <div style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--text-tertiary)' }}>
         <Settings size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-          {t('seo.content.requiresApiKey')}
+          {'Content optimization requires an API key. Set one in Settings.'}
         </h3>
       </div>
     )
@@ -124,9 +122,9 @@ Be specific and actionable. Return ONLY the JSON.`
       <div style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--text-tertiary)' }}>
         <PenLine size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-          {t('seo.noScans')}
+          {'No SEO scans yet'}
         </h3>
-        <p style={{ fontSize: '0.875rem' }}>{t('seo.runAuditFirst')}</p>
+        <p style={{ fontSize: '0.875rem' }}>{'Run an SEO audit first from the SEO Audit tab.'}</p>
       </div>
     )
   }
@@ -139,10 +137,10 @@ Be specific and actionable. Return ONLY the JSON.`
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-            {t('seo.content.title')}
+            {'Content Optimization'}
           </h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
-            {t('seo.content.subtitle')}
+            {'AI-powered suggestions to improve your content for search engines'}
           </p>
         </div>
         <button
@@ -152,7 +150,7 @@ Be specific and actionable. Return ONLY the JSON.`
           style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-          {t('seo.content.optimize')}
+          {'Optimize Content'}
         </button>
       </div>
 
@@ -177,7 +175,7 @@ Be specific and actionable. Return ONLY the JSON.`
               border: '0.0625rem solid color-mix(in srgb, var(--accent) 15%, transparent)',
               borderRadius: 'var(--radius-lg)', fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.6,
             }}>
-              <strong style={{ color: 'var(--text-primary)' }}>{t('seo.content.strategy')}:</strong>{' '}
+              <strong style={{ color: 'var(--text-primary)' }}>{'Strategy'}:</strong>{' '}
               {data.summary}
             </div>
           )}
@@ -185,7 +183,7 @@ Be specific and actionable. Return ONLY the JSON.`
           {/* Title Suggestions */}
           {data.titleSuggestions?.length > 0 && (
             <SuggestionCard
-              title={t('seo.content.titleSuggestions')}
+              title={'Title Tag Suggestions'}
               items={data.titleSuggestions}
               renderItem={(item, i) => (
                 <div key={i} style={{ padding: '0.75rem 0', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
@@ -214,7 +212,7 @@ Be specific and actionable. Return ONLY the JSON.`
           {/* Meta Description Suggestions */}
           {data.metaDescSuggestions?.length > 0 && (
             <SuggestionCard
-              title={t('seo.content.metaDescSuggestions')}
+              title={'Meta Description Suggestions'}
               items={data.metaDescSuggestions}
               renderItem={(item, i) => (
                 <div key={i} style={{ padding: '0.75rem 0', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
@@ -243,7 +241,7 @@ Be specific and actionable. Return ONLY the JSON.`
           {/* Content Gaps */}
           {data.contentGaps?.length > 0 && (
             <SuggestionCard
-              title={t('seo.content.gapAnalysis')}
+              title={'Content Gap Analysis'}
               items={data.contentGaps}
               renderItem={(item, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.5rem 0', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
@@ -260,7 +258,7 @@ Be specific and actionable. Return ONLY the JSON.`
           {/* Internal Linking */}
           {data.internalLinking?.length > 0 && (
             <SuggestionCard
-              title={t('seo.content.linkingSuggestions')}
+              title={'Internal Linking Opportunities'}
               items={data.internalLinking}
               renderItem={(item, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.5rem 0', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
@@ -274,7 +272,7 @@ Be specific and actionable. Return ONLY the JSON.`
           {/* Readability Tips */}
           {data.readabilityTips?.length > 0 && (
             <SuggestionCard
-              title={t('seo.content.readability')}
+              title={'Readability Improvements'}
               items={data.readabilityTips}
               renderItem={(item, i) => (
                 <div key={i} style={{ padding: '0.5rem 0', borderBottom: '0.0625rem solid var(--border-subtle)' }}>

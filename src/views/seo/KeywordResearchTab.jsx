@@ -1,12 +1,10 @@
 import { useState, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { KeyRound, Loader2, AlertCircle, Settings, Sparkles, Copy, CheckCircle2 } from 'lucide-react'
 import { callAI } from '../../utils/apiClient'
 import { hasApiKey } from '../../utils/aiProvider'
 
 export default function KeywordResearchTab({ analyzer, activeProject, updateProject, user }) {
-  const { t } = useTranslation('app')
-  const [loading, setLoading] = useState(false)
+const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [results, setResults] = useState(null)
   const [copiedIdx, setCopiedIdx] = useState(null)
@@ -108,7 +106,7 @@ Return ONLY the JSON, no markdown.`
       <div style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--text-tertiary)' }}>
         <Settings size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-          {t('seo.keywords.requiresApiKey')}
+          {'Keyword research requires an API key. Set one in Settings.'}
         </h3>
       </div>
     )
@@ -120,9 +118,9 @@ Return ONLY the JSON, no markdown.`
       <div style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--text-tertiary)' }}>
         <KeyRound size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-          {t('seo.keywords.noKeywords')}
+          {'No keyword research yet'}
         </h3>
-        <p style={{ fontSize: '0.875rem' }}>{t('seo.keywords.noKeywordsDesc')}</p>
+        <p style={{ fontSize: '0.875rem' }}>{'Scan a page first, then use AI to find keyword opportunities.'}</p>
       </div>
     )
   }
@@ -142,10 +140,10 @@ Return ONLY the JSON, no markdown.`
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-            {t('seo.keywords.title')}
+            {'Keyword Research'}
           </h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
-            {t('seo.keywords.subtitle')}
+            {'AI-powered keyword suggestions based on your content'}
           </p>
         </div>
         <button
@@ -155,7 +153,7 @@ Return ONLY the JSON, no markdown.`
           style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-          {t('seo.keywords.extractKeywords')}
+          {'Extract Keywords'}
         </button>
       </div>
 
@@ -181,7 +179,7 @@ Return ONLY the JSON, no markdown.`
               borderRadius: 'var(--radius-lg)', display: 'flex', alignItems: 'center', gap: '0.75rem',
             }}>
               <KeyRound size={16} style={{ color: 'var(--accent)' }} />
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('seo.keywords.primaryKeyword')}:</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{'Primary Keyword'}:</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--accent)' }}>
                 {data.primaryKeyword}
               </span>
@@ -195,7 +193,7 @@ Return ONLY the JSON, no markdown.`
               borderRadius: 'var(--radius-lg)', overflow: 'auto',
             }}>
               <h4 style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-                {t('seo.keywords.suggestions')} ({data.keywords.length})
+                {'Keyword Suggestions'} ({data.keywords.length})
               </h4>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                 <thead>
@@ -248,7 +246,7 @@ Return ONLY the JSON, no markdown.`
               borderRadius: 'var(--radius-lg)',
             }}>
               <h4 style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-                {t('seo.keywords.clusters')}
+                {'Keyword Clusters'}
               </h4>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))', gap: '0.75rem' }}>
                 {data.clusters.map((cluster, i) => (
@@ -283,7 +281,7 @@ Return ONLY the JSON, no markdown.`
               borderRadius: 'var(--radius-lg)',
             }}>
               <h4 style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-                {t('seo.keywords.questions')}
+                {'Question Keywords'}
               </h4>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
                 {data.questions.map((q, i) => (
@@ -307,7 +305,7 @@ Return ONLY the JSON, no markdown.`
               borderRadius: 'var(--radius-lg)', fontSize: '0.8125rem', color: 'var(--text-secondary)',
               lineHeight: 1.6,
             }}>
-              <strong style={{ color: 'var(--text-primary)' }}>{t('seo.keywords.strategySuggestion')}:</strong>{' '}
+              <strong style={{ color: 'var(--text-primary)' }}>{'Strategy Suggestion'}:</strong>{' '}
               {data.suggestions}
             </div>
           )}

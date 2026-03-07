@@ -1,5 +1,4 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   ClipboardCheck, FileSearch, Wrench, KeyRound, PenLine, BookOpen,
   Settings2, Clock, ToggleLeft, ToggleRight, Lightbulb, LayoutGrid,
@@ -26,12 +25,11 @@ const TABS = [
 ]
 
 function AutoScanPopover({ analyzer, onClose }) {
-  const { t } = useTranslation('app')
-  const { autoScanEnabled, autoScanInterval, setAutoScan } = analyzer
+const { autoScanEnabled, autoScanInterval, setAutoScan } = analyzer
   const intervals = [
-    { key: '1d', label: t('seo.interval1d', 'Every day') },
-    { key: '3d', label: t('seo.interval3d', 'Every 3 days') },
-    { key: '7d', label: t('seo.interval7d', 'Every 7 days') },
+    { key: '1d', label: 'Every day' },
+    { key: '3d', label: 'Every 3 days' },
+    { key: '7d', label: 'Every 7 days' },
   ]
 
   return (
@@ -43,7 +41,7 @@ function AutoScanPopover({ analyzer, onClose }) {
     }}>
       <h4 style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.625rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
         <Clock size={12} style={{ color: 'var(--accent)' }} />
-        {t('seo.autoScan', 'Scheduled Re-scans')}
+        {'Scheduled Re-scans'}
       </h4>
 
       {/* Enable toggle */}
@@ -52,7 +50,7 @@ function AutoScanPopover({ analyzer, onClose }) {
         onClick={() => setAutoScan(!autoScanEnabled, autoScanInterval)}
       >
         <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)' }}>
-          {t('seo.autoScanEnabled', 'Auto-scan enabled')}
+          {'Auto-scan enabled'}
         </span>
         {autoScanEnabled
           ? <ToggleRight size={20} style={{ color: 'var(--accent)' }} />
@@ -64,7 +62,7 @@ function AutoScanPopover({ analyzer, onClose }) {
       {autoScanEnabled && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
           <span style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            {t('seo.autoScanInterval', 'Interval')}
+            {'Interval'}
           </span>
           {intervals.map(iv => (
             <button
@@ -88,8 +86,7 @@ function AutoScanPopover({ analyzer, onClose }) {
 }
 
 export default function SeoView({ activeProject, updateProject, user, setDocItem, setActiveView }) {
-  const { t } = useTranslation('app')
-  const [activeTab, setActiveTab] = useState('audit')
+const [activeTab, setActiveTab] = useState('audit')
   const [showAutoScan, setShowAutoScan] = useState(false)
   const [showRecs, setShowRecs] = useState(true)
   const tabsRef = useRef(null)
@@ -137,26 +134,26 @@ export default function SeoView({ activeProject, updateProject, user, setDocItem
   }, [activeProject?.pageAnalyses])
 
   const tabLabels = {
-    audit: t('seo.tabAudit'),
-    onpage: t('seo.tabOnPage'),
-    technical: t('seo.tabTechnical'),
-    keywords: t('seo.tabKeywords'),
-    content: t('seo.tabContent'),
-    structure: t('seo.tabStructure', 'Structure'),
+    audit: 'SEO Audit',
+    onpage: 'On-Page SEO',
+    technical: 'Technical SEO',
+    keywords: 'Keyword Research',
+    content: 'Content Optimization',
+    structure: 'Structure',
   }
 
   return (
     <div className="view-wrapper">
       <div className="view-header">
         <div className="view-header-text">
-          <h2 className="view-title">{t('seo.title')}</h2>
-          <p className="view-subtitle">{t('seo.subtitle')}</p>
+          <h2 className="view-title">{'SEO Optimization'}</h2>
+          <p className="view-subtitle">{'Comprehensive search engine optimization analysis for your project'}</p>
         </div>
         {/* Auto-scan settings gear */}
         <div style={{ position: 'relative' }}>
           <button
             onClick={() => setShowAutoScan(prev => !prev)}
-            title={t('seo.autoScan', 'Scheduled Re-scans')}
+            title={'Scheduled Re-scans'}
             style={{
               background: 'none', border: '0.0625rem solid var(--border-subtle)',
               borderRadius: 'var(--radius-sm)', padding: '0.375rem', cursor: 'pointer',
@@ -202,7 +199,7 @@ export default function SeoView({ activeProject, updateProject, user, setDocItem
           borderRadius: 'var(--radius-md)',
         }}>
           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
-            {t('seo.learnMoreHint')}
+            {'New to this section? Read the documentation to understand what each check means and how to improve.'}
           </span>
           <button
             onClick={() => openDoc(activeTab)}
@@ -215,7 +212,7 @@ export default function SeoView({ activeProject, updateProject, user, setDocItem
             }}
           >
             <BookOpen size={11} />
-            {t('seo.learnMore')}
+            {'Learn more'}
           </button>
         </div>
       )}
@@ -226,10 +223,10 @@ export default function SeoView({ activeProject, updateProject, user, setDocItem
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.625rem' }}>
             <Lightbulb size={14} style={{ color: 'var(--color-phase-5)' }} />
             <span style={{ fontSize: '0.8125rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', flex: 1 }}>
-              {t('seo.recommendations', 'SEO Recommendations')}
+              {'SEO Recommendations'}
             </span>
             <button onClick={() => setShowRecs(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
-              {t('common.dismiss', 'Dismiss')}
+              {'Dismiss'}
             </button>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
@@ -272,10 +269,10 @@ export default function SeoView({ activeProject, updateProject, user, setDocItem
             color: 'var(--text-disabled)', textTransform: 'uppercase',
             letterSpacing: '0.04rem', marginBottom: '1rem',
           }}>
-            {t('seo.siteStructure', 'Site Structure Overview')}
+            {'Site Structure Overview'}
           </div>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: '1rem' }}>
-            {t('seo.siteStructureDesc', 'Treemap visualization of your site pages sized by AEO score. Analyze pages to see real data.')}
+            {'Treemap visualization of your site pages sized by AEO score. Analyze pages to see real data.'}
           </p>
           <AeoTreemapChart data={structureData} height={320} />
         </div>

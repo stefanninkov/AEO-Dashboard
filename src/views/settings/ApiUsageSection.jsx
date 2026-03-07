@@ -3,7 +3,6 @@
  */
 import { useState, useCallback } from 'react'
 import { Key, Eye, EyeOff, Save, Check, AlertTriangle, ChartColumnIncreasing, Sparkles, Cpu, Trash2 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import {
   getActiveProvider, setActiveProvider, getProviderConfig, getAllProviders,
   getApiKey, setApiKey as setProviderApiKey, hasApiKey, getModel, setModel,
@@ -16,9 +15,7 @@ import {
 } from './SettingsShared'
 
 export default function ApiUsageSection() {
-  const { t } = useTranslation('app')
-
-  // Provider state
+// Provider state
   const [activeProviderId, setActiveProviderId] = useState(getActiveProvider)
   const providers = getAllProviders()
   const activeConfig = getProviderConfig(activeProviderId)

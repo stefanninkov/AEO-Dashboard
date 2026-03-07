@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   Globe, Loader2, AlertCircle, CheckCircle2, XCircle, MinusCircle,
   TrendingUp, Zap, ExternalLink, ChevronDown, ChevronUp, Lightbulb,
@@ -198,11 +197,10 @@ function FilterChip({ label, active, onClick }) {
 
 /* ── Scan Mode Tabs ── */
 function ScanModeTabs({ mode, onChange }) {
-  const { t } = useTranslation('app')
-  const modes = [
-    { key: 'single', label: t('seo.singleUrl', 'Single URL'), icon: Globe },
-    { key: 'bulk', label: t('seo.bulkUrls', 'Bulk Scan'), icon: List },
-    { key: 'sitemap', label: t('seo.sitemapScan', 'Sitemap'), icon: Map },
+const modes = [
+    { key: 'single', label: 'Single URL', icon: Globe },
+    { key: 'bulk', label: 'Bulk Scan', icon: List },
+    { key: 'sitemap', label: 'Sitemap', icon: Map },
   ]
   return (
     <div style={{ display: 'flex', gap: '0.25rem', padding: '0.25rem', background: 'var(--bg-page)', borderRadius: 'var(--radius-sm)', border: '0.0625rem solid var(--border-subtle)' }}>
@@ -233,8 +231,7 @@ function ScanModeTabs({ mode, onChange }) {
 
 /* ── Competitor Comparison Section ── */
 function CompetitorSection({ analyzer }) {
-  const { t } = useTranslation('app')
-  const [compUrl, setCompUrl] = useState('')
+const [compUrl, setCompUrl] = useState('')
   const { scanning, scanCompetitor, competitorScans, lastScan } = analyzer
 
   const handleScanCompetitor = async () => {
@@ -254,10 +251,10 @@ function CompetitorSection({ analyzer }) {
     }}>
       <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
         <Users size={16} style={{ color: 'var(--accent)' }} />
-        {t('seo.compare', 'Competitor Comparison')}
+        {'Competitor Comparison'}
       </h3>
       <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
-        {t('seo.compareDesc', 'Compare your SEO scores against competitors')}
+        {'Compare your SEO scores against competitors'}
       </p>
 
       {/* Input */}
@@ -267,7 +264,7 @@ function CompetitorSection({ analyzer }) {
           value={compUrl}
           onChange={e => setCompUrl(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleScanCompetitor()}
-          placeholder={t('seo.competitorUrl', 'Enter competitor URL...')}
+          placeholder={'Enter competitor URL...'}
           style={{
             flex: 1, padding: '0.5rem 0.75rem', background: 'var(--bg-page)', border: '0.0625rem solid var(--border-subtle)',
             borderRadius: 'var(--radius-sm)', fontSize: '0.8125rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)',
@@ -281,7 +278,7 @@ function CompetitorSection({ analyzer }) {
           style={{ padding: '0.5rem 0.75rem', fontSize: '0.75rem', whiteSpace: 'nowrap' }}
         >
           {scanning ? <Loader2 size={12} className="animate-spin" /> : <Zap size={12} />}
-          {t('seo.runAudit')}
+          {'Run SEO Audit'}
         </button>
       </div>
 
@@ -305,7 +302,7 @@ function CompetitorSection({ analyzer }) {
               {/* Your site row */}
               <tr style={{ borderBottom: '0.0625rem solid var(--border-subtle)', background: 'color-mix(in srgb, var(--accent) 4%, transparent)' }}>
                 <td style={{ padding: '0.5rem 0.75rem', color: 'var(--accent)', fontWeight: 600 }}>
-                  {t('seo.yourSite', 'Your Site')}
+                  {'Your Site'}
                 </td>
                 <td style={{ textAlign: 'center', padding: '0.5rem', fontWeight: 700, color: scoreColor(yourScore) }}>{yourScore}</td>
                 <td style={{ textAlign: 'center', padding: '0.5rem', fontWeight: 700, color: scoreColor(yourAeo) }}>{yourAeo}</td>
@@ -357,8 +354,7 @@ function CompetitorSection({ analyzer }) {
 }
 
 export default function SeoAuditTab({ analyzer, activeProject }) {
-  const { t } = useTranslation('app')
-  const [urlInput, setUrlInput] = useState(analyzer.lastScanUrl || activeProject?.url || '')
+const [urlInput, setUrlInput] = useState(analyzer.lastScanUrl || activeProject?.url || '')
   const [activeFilter, setActiveFilter] = useState('all')
   const [scanMode, setScanMode] = useState('single')
   const [bulkText, setBulkText] = useState('')
@@ -407,13 +403,13 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
 
   // Filter chips
   const FILTERS = [
-    { key: 'all', label: t('seo.filter.all', 'All') },
-    { key: 'failing', label: t('seo.filter.failing', 'Failing') },
-    { key: 'Keyword Optimization', label: t('seo.filter.keyword', 'Keywords') },
-    { key: 'Readability & UX', label: t('seo.filter.readability', 'Readability') },
-    { key: 'URL & Technical', label: t('seo.filter.technical', 'Technical') },
-    { key: 'Social & Sharing', label: t('seo.filter.social', 'Social') },
-    { key: 'Image Optimization', label: t('seo.filter.images', 'Images') },
+    { key: 'all', label: 'All' },
+    { key: 'failing', label: 'Failing' },
+    { key: 'Keyword Optimization', label: 'Keywords' },
+    { key: 'Readability & UX', label: 'Readability' },
+    { key: 'URL & Technical', label: 'Technical' },
+    { key: 'Social & Sharing', label: 'Social' },
+    { key: 'Image Optimization', label: 'Images' },
   ]
 
   // Filtered checks
@@ -466,7 +462,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
             value={urlInput}
             onChange={e => setUrlInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleScan()}
-            placeholder={t('seo.scanUrl')}
+            placeholder={'Enter URL to analyze...'}
             style={{
               flex: 1, background: 'none', border: 'none', outline: 'none',
               fontSize: '0.875rem', color: 'var(--text-primary)',
@@ -480,7 +476,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
             style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '0.375rem' }}
           >
             {scanning ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
-            {scanning ? t('seo.scanning') : t('seo.runAudit')}
+            {scanning ? 'Scanning...' : 'Run SEO Audit'}
           </button>
         </div>
       )}
@@ -493,15 +489,15 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
         }}>
           <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <List size={16} style={{ color: 'var(--accent)' }} />
-            {t('seo.bulkScan', 'Bulk URL Scan')}
+            {'Bulk URL Scan'}
           </h3>
           <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
-            {t('seo.bulkScanDesc', 'Enter up to 10 URLs (one per line) to scan them all sequentially.')}
+            {'Enter up to 10 URLs (one per line) to scan them all sequentially.'}
           </p>
           <textarea
             value={bulkText}
             onChange={e => setBulkText(e.target.value)}
-            placeholder={t('seo.bulkPlaceholder', 'https://example.com\nhttps://example.com/about\nhttps://example.com/blog')}
+            placeholder={'https://example.com\nhttps://example.com/about\nhttps://example.com/blog'}
             rows={5}
             style={{
               width: '100%', padding: '0.75rem', background: 'var(--bg-page)', border: '0.0625rem solid var(--border-subtle)',
@@ -517,11 +513,11 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
               style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}
             >
               {scanning ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
-              {t('seo.scanAll', 'Scan All')}
+              {'Scan All'}
             </button>
             {bulkProgress && scanning && (
               <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                {t('seo.scanProgress', 'Scanning {{current}}/{{total}}...').replace('{{current}}', bulkProgress.current).replace('{{total}}', bulkProgress.total)}
+                {'Scanning {{current}}/{{total}}...'.replace('{{current}}', bulkProgress.current).replace('{{total}}', bulkProgress.total)}
               </span>
             )}
           </div>
@@ -583,7 +579,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
         }}>
           <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Map size={16} style={{ color: 'var(--accent)' }} />
-            {t('seo.sitemapAudit', 'Sitemap Audit')}
+            {'Sitemap Audit'}
           </h3>
           <p style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
             Scans up to 20 pages from your sitemap for a site-wide SEO health overview.
@@ -607,7 +603,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
               style={{ padding: '0.5rem 1rem', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '0.375rem', whiteSpace: 'nowrap' }}
             >
               {scanning ? <Loader2 size={14} className="animate-spin" /> : <Map size={14} />}
-              {scanning ? t('seo.scanning') : 'Scan Sitemap'}
+              {scanning ? 'Scanning...' : 'Scan Sitemap'}
             </button>
           </div>
 
@@ -615,7 +611,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
           {bulkProgress && scanning && (
             <div style={{ marginTop: '0.75rem' }}>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                {t('seo.sitemapProgress', 'Auditing page {{current}}/{{total}}...').replace('{{current}}', bulkProgress.current).replace('{{total}}', bulkProgress.total)}
+                {'Auditing page {{current}}/{{total}}...'.replace('{{current}}', bulkProgress.current).replace('{{total}}', bulkProgress.total)}
               </span>
               <div style={{ height: '0.375rem', background: 'var(--border-subtle)', borderRadius: '0.25rem', overflow: 'hidden', marginTop: '0.375rem' }}>
                 <div style={{
@@ -635,7 +631,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
                   border: '0.0625rem solid var(--border-subtle)', textAlign: 'center', flex: 1, minWidth: '5rem',
                 }}>
                   <div style={{ fontSize: '1.25rem', fontWeight: 700, color: scoreColor(sitemapAudit.avgSeoScore) }}>{sitemapAudit.avgSeoScore}</div>
-                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>{t('seo.avgScore', 'Avg SEO Score')}</div>
+                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>{'Avg SEO Score'}</div>
                 </div>
                 <div style={{
                   padding: '0.625rem 1rem', background: 'var(--bg-page)', borderRadius: 'var(--radius-sm)',
@@ -656,7 +652,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
               {/* Worst & Best pages */}
               {sitemapAudit.worst?.length > 0 && (
                 <>
-                  <h4 style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-error)', marginBottom: '0.375rem' }}>{t('seo.worstPages', 'Worst Pages')}</h4>
+                  <h4 style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-error)', marginBottom: '0.375rem' }}>{'Worst Pages'}</h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginBottom: '0.75rem' }}>
                     {sitemapAudit.worst.map((p, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.6875rem' }}>
@@ -669,7 +665,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
               )}
               {sitemapAudit.best?.length > 0 && (
                 <>
-                  <h4 style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-success)', marginBottom: '0.375rem' }}>{t('seo.bestPages', 'Best Pages')}</h4>
+                  <h4 style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-success)', marginBottom: '0.375rem' }}>{'Best Pages'}</h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                     {sitemapAudit.best.map((p, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.6875rem' }}>
@@ -706,10 +702,10 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
         }}>
           <Globe size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
           <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-            {t('seo.noScans')}
+            {'No SEO scans yet'}
           </h3>
           <p style={{ fontSize: '0.875rem', maxWidth: '24rem', margin: '0 auto' }}>
-            {t('seo.noScansDesc')}
+            {'Enter a URL to run a comprehensive SEO audit and get actionable recommendations.'}
           </p>
         </div>
       )}
@@ -727,7 +723,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
                 <Heart size={16} style={{ color: scoreColor(healthScore) }} />
                 <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                  {t('seo.siteHealth', 'Site Health')}
+                  {'Site Health'}
                 </span>
                 <span style={{
                   fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700,
@@ -742,7 +738,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
             {/* Score Rings Row */}
             <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', alignItems: 'flex-end' }}>
               <div style={{ position: 'relative' }}>
-                <ScoreRing score={seoScore.overallScore} label={t('seo.seoScore')} />
+                <ScoreRing score={seoScore.overallScore} label={'SEO Score'} />
                 {/* Delta Badge */}
                 {delta != null && delta !== 0 && (
                   <span style={{
@@ -759,14 +755,14 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
                   </span>
                 )}
               </div>
-              {aeoScore && <ScoreRing score={aeoScore.overallScore} label={t('seo.aeoScore')} size="sm" />}
+              {aeoScore && <ScoreRing score={aeoScore.overallScore} label={'AEO Score'} size="sm" />}
               <div style={{ flex: 1, maxWidth: '20rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
                   <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>{lastScan.url}</span>
                   <button
                     onClick={handleRecheck}
                     disabled={!!recheckingId}
-                    title={t('seo.recheck', 'Re-check')}
+                    title={'Re-check'}
                     style={{ background: 'none', border: 'none', cursor: recheckingId ? 'wait' : 'pointer', color: 'var(--text-tertiary)', padding: '0.125rem', display: 'inline-flex' }}
                   >
                     <RefreshCw size={11} className={recheckingId ? 'animate-spin' : ''} />
@@ -778,15 +774,15 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
                 <div style={{ display: 'flex', gap: '1rem', marginTop: '0.75rem' }}>
                   <span style={{ fontSize: '0.75rem' }}>
                     <span style={{ color: 'var(--color-success)', fontWeight: 600 }}>{seoScore.checks.filter(c => c.status === 'pass').length}</span>
-                    <span style={{ color: 'var(--text-tertiary)' }}> {t('seo.passed')}</span>
+                    <span style={{ color: 'var(--text-tertiary)' }}> {'passed'}</span>
                   </span>
                   <span style={{ fontSize: '0.75rem' }}>
                     <span style={{ color: 'var(--color-warning)', fontWeight: 600 }}>{seoScore.checks.filter(c => c.status === 'partial').length}</span>
-                    <span style={{ color: 'var(--text-tertiary)' }}> {t('seo.partial')}</span>
+                    <span style={{ color: 'var(--text-tertiary)' }}> {'partial'}</span>
                   </span>
                   <span style={{ fontSize: '0.75rem' }}>
                     <span style={{ color: 'var(--color-error)', fontWeight: 600 }}>{seoScore.checks.filter(c => c.status === 'fail').length}</span>
-                    <span style={{ color: 'var(--text-tertiary)' }}> {t('seo.failed')}</span>
+                    <span style={{ color: 'var(--text-tertiary)' }}> {'failed'}</span>
                   </span>
                 </div>
               </div>
@@ -799,7 +795,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
             borderRadius: 'var(--radius-lg)', display: 'flex', flexDirection: 'column', gap: '0.625rem',
           }}>
             <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-              {t('seo.categoryBreakdown')}
+              {'Category Breakdown'}
             </h3>
             {Object.entries(seoScore.categories).map(([name, cat]) => (
               <CategoryBar key={name} name={name} score={cat.score} maxScore={cat.maxScore} />
@@ -816,10 +812,10 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
               <ExternalLink size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />
               <div style={{ flex: 1 }}>
                 <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
-                  {t('seo.aeoReference')}
+                  {'AEO Analyzer Score'}
                 </span>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginLeft: '0.5rem' }}>
-                  {t('seo.aeoReferenceDesc')}
+                  {'Title, meta, headings, schema, robots.txt, sitemap, and links are scored in the AEO Analyzer.'}
                 </span>
               </div>
               <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--accent)', fontSize: '0.875rem' }}>
@@ -843,7 +839,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
               borderRadius: 'var(--radius-lg)',
             }}>
               <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-                {activeFilter === 'failing' ? t('seo.filter.failing', 'Failing Checks') : activeFilter} ({filteredChecks.length})
+                {activeFilter === 'failing' ? 'Failing Checks' : activeFilter} ({filteredChecks.length})
               </h3>
               {filteredChecks.map((check, i) => (
                 <CheckRow key={i} check={check} onRecheck={handleRecheck} rechecking={!!recheckingId} />
@@ -867,7 +863,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
                 }}>
                   <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <AlertCircle size={16} style={{ color: 'var(--color-error)' }} />
-                    {t('seo.priorityIssues')} ({priorityIssues.length})
+                    {'Priority Issues'} ({priorityIssues.length})
                   </h3>
                   {priorityIssues.map((check, i) => (
                     <CheckRow key={i} check={check} onRecheck={handleRecheck} rechecking={!!recheckingId} />
@@ -882,7 +878,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
                 }}>
                   <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <TrendingUp size={16} style={{ color: 'var(--color-warning)' }} />
-                    {t('seo.quickWins')} ({quickWins.length})
+                    {'Quick Wins'} ({quickWins.length})
                   </h3>
                   {quickWins.map((check, i) => (
                     <CheckRow key={i} check={check} onRecheck={handleRecheck} rechecking={!!recheckingId} />
@@ -902,7 +898,7 @@ export default function SeoAuditTab({ analyzer, activeProject }) {
               borderRadius: 'var(--radius-lg)',
             }}>
               <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '1rem' }}>
-                {t('seo.scoreHistory')}
+                {'Score History'}
               </h3>
               <ResponsiveContainer width="100%" height={180}>
                 <AreaChart data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>

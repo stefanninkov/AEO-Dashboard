@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   CheckCircle2, XCircle, MinusCircle, ExternalLink, FileSearch,
   ChevronDown, ChevronUp, Lightbulb, Copy, Check, Sparkles, Loader2,
@@ -36,8 +35,7 @@ function CopyButton({ text }) {
 
 /* ── Check Item Row with expandable fix guidance + AI fix ── */
 function CheckRow({ check, pageUrl }) {
-  const { t } = useTranslation('app')
-  const [expanded, setExpanded] = useState(false)
+const [expanded, setExpanded] = useState(false)
   const [aiFix, setAiFix] = useState(null)
   const [generating, setGenerating] = useState(false)
   const icon = check.status === 'pass' ? <CheckCircle2 size={14} /> : check.status === 'fail' ? <XCircle size={14} /> : <MinusCircle size={14} />
@@ -92,7 +90,7 @@ function CheckRow({ check, pageUrl }) {
                 <button
                   onClick={generateAiFix}
                   disabled={generating}
-                  title={t('seo.generateFix', 'Generate AI Fix')}
+                  title={'Generate AI Fix'}
                   style={{
                     background: 'none', border: '0.0625rem solid color-mix(in srgb, var(--accent) 30%, transparent)',
                     borderRadius: 'var(--radius-sm)', padding: '0.125rem 0.375rem', cursor: generating ? 'wait' : 'pointer',
@@ -202,17 +200,16 @@ function CategorySection({ title, checks, pageUrl }) {
 }
 
 export default function OnPageSeoTab({ analyzer, activeProject }) {
-  const { t } = useTranslation('app')
-  const { lastScan } = analyzer
+const { lastScan } = analyzer
 
   if (!lastScan) {
     return (
       <div style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--text-tertiary)' }}>
         <FileSearch size={48} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-          {t('seo.noScans')}
+          {'No SEO scans yet'}
         </h3>
-        <p style={{ fontSize: '0.875rem' }}>{t('seo.runAuditFirst')}</p>
+        <p style={{ fontSize: '0.875rem' }}>{'Run an SEO audit first from the SEO Audit tab.'}</p>
       </div>
     )
   }
@@ -236,7 +233,7 @@ export default function OnPageSeoTab({ analyzer, activeProject }) {
         borderRadius: 'var(--radius-md)', fontSize: '0.8125rem', color: 'var(--text-secondary)',
       }}>
         <ExternalLink size={14} style={{ color: 'var(--accent)', flexShrink: 0 }} />
-        {t('seo.aeoNote')}
+        {'Title, meta description, headings, schema markup, and link analysis are covered in the AEO Analyzer tab.'}
       </div>
 
       {/* AI Fix hint */}
@@ -248,7 +245,7 @@ export default function OnPageSeoTab({ analyzer, activeProject }) {
           borderRadius: 'var(--radius-md)', fontSize: '0.75rem', color: 'var(--text-tertiary)',
         }}>
           <Sparkles size={12} style={{ color: 'var(--accent)' }} />
-          {t('seo.aiFixHint', 'Click the "AI Fix" button on any failing check to generate a specific code fix using AI.')}
+          {'Click the "AI Fix" button on any failing check to generate a specific code fix using AI.'}
         </div>
       )}
 
@@ -259,7 +256,7 @@ export default function OnPageSeoTab({ analyzer, activeProject }) {
           border: '0.0625rem solid var(--border-subtle)', borderRadius: 'var(--radius-md)',
           display: 'flex', alignItems: 'center', gap: '0.75rem',
         }}>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{t('seo.targetKeyword')}:</span>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{'Target Keyword'}:</span>
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', fontWeight: 600,
             color: 'var(--accent)', background: 'color-mix(in srgb, var(--accent) 10%, transparent)',
@@ -268,14 +265,14 @@ export default function OnPageSeoTab({ analyzer, activeProject }) {
             {seoScore.targetKeyword}
           </span>
           <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
-            ({t('seo.autoDetected')})
+            ({'auto-detected from title + H1'})
           </span>
         </div>
       )}
 
-      <CategorySection title={t('seo.onPage.keywordOptimization')} checks={keywordChecks} pageUrl={pageUrl} />
-      <CategorySection title={t('seo.onPage.readability')} checks={readabilityChecks} pageUrl={pageUrl} />
-      <CategorySection title={t('seo.onPage.imageOptimization')} checks={imageChecks} pageUrl={pageUrl} />
+      <CategorySection title={'Keyword Optimization'} checks={keywordChecks} pageUrl={pageUrl} />
+      <CategorySection title={'Readability & UX'} checks={readabilityChecks} pageUrl={pageUrl} />
+      <CategorySection title={'Image Optimization'} checks={imageChecks} pageUrl={pageUrl} />
     </div>
   )
 }
