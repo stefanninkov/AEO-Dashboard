@@ -46,34 +46,42 @@ export default function AeoFunnelChart({
 
   return (
     <div style={{ height: Math.max(height, svgHeight) }}>
-      <div className="flex flex-col gap-1" style={{ height: '100%' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', height: '100%' }}>
         {stages.map((stage, i) => {
-          const widthPercent = 30 + stage.ratio * 70 // Min 30% width
+          const widthPercent = 30 + stage.ratio * 70
           return (
             <div
               key={i}
-              className="flex items-center gap-3 group"
-              style={{ cursor: onStageClick ? 'pointer' : 'default' }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '0.75rem',
+                cursor: onStageClick ? 'pointer' : 'default',
+              }}
               onClick={() => onStageClick?.(stage, i)}
             >
               {/* Funnel bar */}
-              <div className="flex-1 relative" style={{ height: stageHeight - 4 }}>
+              <div style={{ flex: 1, position: 'relative', height: stageHeight - 4 }}>
                 <div
-                  className="absolute inset-y-0 left-1/2 rounded-lg transition-all duration-300 group-hover:opacity-100"
                   style={{
+                    position: 'absolute', top: 0, bottom: 0, left: '50%',
                     width: `${widthPercent}%`,
                     transform: 'translateX(-50%)',
+                    borderRadius: '0.5rem',
                     background: stage.color,
                     opacity: 0.85,
+                    transition: 'all 300ms',
                   }}
                 />
-                <div className="absolute inset-0 flex items-center justify-center z-10">
-                  <span
-                    className="font-semibold text-sm"
-                    style={{ color: '#ffffff', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
-                  >
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  zIndex: 1,
+                }}>
+                  <span style={{
+                    fontWeight: 600, fontSize: '0.8125rem',
+                    color: '#ffffff', textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+                  }}>
                     {stage.name}
-                    <span className="ml-2 font-normal opacity-90">
+                    <span style={{ marginLeft: '0.5rem', fontWeight: 400, opacity: 0.9 }}>
                       {typeof stage.value === 'number'
                         ? stage.value.toLocaleString()
                         : stage.value}
@@ -83,10 +91,10 @@ export default function AeoFunnelChart({
               </div>
 
               {/* Stats */}
-              <div
-                className="flex flex-col items-end text-xs shrink-0"
-                style={{ width: 80 }}
-              >
+              <div style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'flex-end',
+                fontSize: '0.75rem', flexShrink: 0, width: 80,
+              }}>
                 {showPercentages && (
                   <span style={{ color: isLight ? '#374151' : '#d1d5db', fontWeight: 600 }}>
                     {stage.conversionFromTop}%

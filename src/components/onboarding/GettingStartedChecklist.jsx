@@ -142,7 +142,7 @@ const GettingStartedChecklist = memo(function GettingStartedChecklist({
   return (
     <div
       style={{
-        position: 'fixed', bottom: 'var(--space-4)', right: 'var(--space-4)',
+        position: 'fixed', bottom: 84, right: 'var(--space-4)',
         zIndex: 'var(--z-toast)', maxWidth: '20rem', width: '100%',
       }}
     >

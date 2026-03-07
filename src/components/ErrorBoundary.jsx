@@ -85,8 +85,8 @@ export default class ErrorBoundary extends Component {
             {t('actions.tryAgain')}
           </button>
 
-          {/* Dev-only error details */}
-          {import.meta.env.DEV && this.state.error && (
+          {/* Error details */}
+          {this.state.error && (
             <details
               style={{
                 marginTop: '2rem',

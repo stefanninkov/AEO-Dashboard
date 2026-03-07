@@ -77,7 +77,7 @@ export default function AeoTreemapChart({
     <ResponsiveContainer width="100%" height={height}>
       <Treemap
         data={coloredData}
-        dataKey="size"
+        dataKey="value"
         nameKey="name"
         stroke="none"
         animationDuration={400}
