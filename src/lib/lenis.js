@@ -2,10 +2,11 @@ import Lenis from 'lenis'
 import { gsap, ScrollTrigger } from './gsap'
 
 let lenisInstance = null
+let tickerCallback = null
 
 export function createLenis(wrapper) {
   if (lenisInstance) {
-    lenisInstance.destroy()
+    destroyLenis()
   }
 
   lenisInstance = new Lenis({
@@ -19,17 +20,21 @@ export function createLenis(wrapper) {
   // Sync Lenis with GSAP's ticker
   lenisInstance.on('scroll', ScrollTrigger.update)
 
-  gsap.ticker.add((time) => {
+  tickerCallback = (time) => {
     lenisInstance?.raf(time * 1000)
-  })
+  }
+  gsap.ticker.add(tickerCallback)
   gsap.ticker.lagSmoothing(0)
 
   return lenisInstance
 }
 
 export function destroyLenis() {
+  if (tickerCallback) {
+    gsap.ticker.remove(tickerCallback)
+    tickerCallback = null
+  }
   if (lenisInstance) {
-    gsap.ticker.remove(lenisInstance.raf)
     lenisInstance.destroy()
     lenisInstance = null
   }
