@@ -522,22 +522,10 @@ const [activeTab, setActiveTab] = useState('guide')
   const [expandedSections, setExpandedSections] = useState({})
   const [expandedFaq, setExpandedFaq] = useState({})
 
-  /* ─── Translated section data ──────────────────────────────── */
-  const translatedSections = useMemo(() => APP_SECTIONS.map(section => ({
-    ...section,
-    title: 'Title',
-    description: 'Description',
-    items: section.items.map((item, idx) => ({
-      ...item,
-      title: 'Title',
-      body: 'Body',
-    })),
-  })), [])
+  /* ─── Section data ──────────────────────────────── */
+  const translatedSections = APP_SECTIONS
 
-  const translatedFaq = useMemo(() => FAQ_ITEMS.map((item, idx) => ({
-    q: 'Q',
-    a: 'A',
-  })), [])
+  const translatedFaq = FAQ_ITEMS
 
   const toggleSection = (id) => {
     setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }))
