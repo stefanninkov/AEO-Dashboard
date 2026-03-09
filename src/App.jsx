@@ -8,6 +8,7 @@ import { usePresence } from './hooks/usePresence'
 import { useNotifications } from './hooks/useNotifications'
 import { useNotificationCenter } from './hooks/useNotificationCenter'
 import { useOnboarding } from './hooks/useOnboarding'
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 import { usePortfolio } from './hooks/usePortfolio'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
@@ -21,6 +22,8 @@ import ConnectionBanner from './components/ConnectionBanner'
 import ToastManager from './components/ToastManager'
 import OnboardingWizard from './components/OnboardingWizard'
 import FeatureTour from './components/FeatureTour'
+import KeyboardCheatsheet from './components/KeyboardCheatsheet'
+import SkipToContent from './components/SkipToContent'
 import PresenceHint from './components/PresenceHint'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
@@ -432,6 +435,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
 
   const notifCenter = useNotificationCenter({ activeProject, user, updateProject })
   const onboarding = useOnboarding({ user })
+  const keyboard = useKeyboardShortcuts({ setActiveView, handlers: {} })
 
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
@@ -888,7 +892,9 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             onOpenActivityFeed={() => setActivityFeedOpen(true)}
           />
 
+          <SkipToContent />
           <ConnectionBanner error={firestoreError} />
+          <KeyboardCheatsheet open={keyboard.cheatsheetOpen} onClose={() => keyboard.setCheatsheetOpen(false)} groupedShortcuts={keyboard.groupedShortcuts} />
           <ToastManager toasts={notifCenter.toasts} dismissToast={notifCenter.dismissToast} />
           <OnboardingWizard
             isOpen={onboarding.isWizardOpen}
