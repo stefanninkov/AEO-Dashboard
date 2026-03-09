@@ -336,7 +336,7 @@ export function AiChatButton({ onClick, hasMessages = false }) {
       aria-label="Open AI Chat"
       title="AI Chat Assistant"
       style={{
-        width: '3rem', height: '3rem', borderRadius: '50%',
+        width: '2.25rem', height: '2.25rem', borderRadius: '50%',
         background: 'var(--accent)', border: 'none', cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         boxShadow: 'var(--shadow-lg)',
@@ -345,7 +345,7 @@ export function AiChatButton({ onClick, hasMessages = false }) {
       onMouseEnter={e => { e.target.style.transform = 'scale(1.08)'; e.target.style.boxShadow = 'var(--shadow-xl)' }}
       onMouseLeave={e => { e.target.style.transform = 'scale(1)'; e.target.style.boxShadow = 'var(--shadow-lg)' }}
     >
-      <MessageSquare size={20} style={{ color: '#fff' }} />
+      <MessageSquare size={16} style={{ color: '#fff' }} />
       {hasMessages && (
         <div style={{
           position: 'absolute', top: -2, right: -2,

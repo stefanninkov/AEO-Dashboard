@@ -50,8 +50,8 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
         onClick={() => setOpen(prev => !prev)}
         className="help-widget-btn"
         style={{
-          width: 48, height: 48,
-          borderRadius: 14,
+          width: 36, height: 36,
+          borderRadius: 10,
           border: 'none',
           background: open ? 'var(--text-secondary)' : 'var(--color-phase-1)',
           color: '#fff',
@@ -63,7 +63,7 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
         }}
         aria-label={open ? 'Close help widget' : 'Open help widget'}
       >
-        {open ? <X size={20} /> : <MessageCircle size={20} />}
+        {open ? <X size={16} /> : <MessageCircle size={16} />}
       </button>
 
       {/* Panel */}
