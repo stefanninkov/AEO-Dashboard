@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
+import { gsap } from '../lib/gsap'
 import { SearchCheck, CheckCircle2, Lightbulb, ChevronDown, AlertTriangle } from 'lucide-react'
 import { useToast } from '../components/Toast'
 import { useDebounce } from '../hooks/useDebounce'
@@ -48,6 +49,19 @@ const keyPrinciples = useMemo(() =>
   const { addToast } = useToast()
   const [celebratingPhase, setCelebratingPhase] = useState(null)
   const prevPhaseProgressRef = useRef({})
+  const phaseCardsRef = useRef(null)
+
+  // GSAP: stagger phase cards entrance
+  useEffect(() => {
+    const el = phaseCardsRef.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const cards = el.children
+    if (!cards.length) return
+    gsap.fromTo(cards,
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, stagger: 0.06, duration: 0.4, ease: 'power2.out', clearProps: 'transform' }
+    )
+  }, [activeProject?.id])
   const activeProjectIdRef = useRef(activeProject?.id)
 
   const checked = activeProject?.checked || {}
@@ -588,6 +602,7 @@ const keyPrinciples = useMemo(() =>
       )}
 
       {/* Phase Cards */}
+      <div ref={phaseCardsRef}>
       {filteredPhases.map(phase => (
         <PhaseCard
           key={phase.id}
@@ -628,6 +643,7 @@ const keyPrinciples = useMemo(() =>
           onSelectItem={toggleSelectItem}
         />
       ))}
+      </div>
 
       {/* Confetti celebration on phase completion */}
       <Celebration active={!!celebratingPhase} />

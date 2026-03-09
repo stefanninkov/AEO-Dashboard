@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'aeo-v3'
+const CACHE_VERSION = 'aeo-v4'
 const STATIC_CACHE = CACHE_VERSION + '-static'
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime'
 
@@ -47,7 +47,7 @@ self.addEventListener('fetch', function (event) {
   // Skip non-GET
   if (request.method !== 'GET') return
 
-  // ── Vite hashed assets (immutable) — cache-first, never re-fetch ──
+  // ── Vite hashed assets (immutable) — cache-first with network fallback ──
   // These have content-hash filenames; new builds produce new filenames
   if (url.origin === location.origin && url.pathname.indexOf('/assets/') !== -1) {
     event.respondWith(
@@ -59,6 +59,9 @@ self.addEventListener('fetch', function (event) {
               cache.put(request, response.clone())
             }
             return response
+          }).catch(function () {
+            // Asset not available — return a minimal error so the app can reload
+            return new Response('', { status: 503, statusText: 'Offline' })
           })
         })
       })

@@ -34,6 +34,7 @@ import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, Te
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
 import useHashRouter from './hooks/useHashRouter'
 import useModalManager from './hooks/useModalManager'
+import { usePageTransition } from './hooks/usePageTransition'
 
 // Lazy-loaded: LoginPage (only needed before auth) + aeo-checklist data (large string payload)
 const LoginPage = lazy(() => import('./components/LoginPage'))
@@ -320,6 +321,7 @@ function DashboardApp() {
 
 function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const { activeView, setActiveView } = useHashRouter()
+  const viewTransitionRef = usePageTransition(activeView)
   const [docItem, setDocItem] = useState(null)
   const [overlayClosing, setOverlayClosing] = useState(false)
   const [splashVisible, setSplashVisible] = useState(true)
@@ -967,7 +969,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             <div className="content-wrapper">
               <ErrorBoundary key={activeView}>
                 <Suspense fallback={<ViewSkeleton activeView={activeView} />}>
-                  <div className="view-enter">
+                  <div ref={viewTransitionRef} className="view-enter" key={activeView}>
                     {renderView()}
                   </div>
                 </Suspense>

@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
+import { gsap } from '../lib/gsap'
 import {
   Globe, Link2, Loader2, AlertCircle, Sparkles, SearchCheck, FileText, BarChart3,
   Shield, Bot, Map, CheckCircle2, XCircle, MinusCircle, ChevronDown, ChevronUp,

@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react'
+import { useState, useRef, useEffect, useMemo, useCallback, memo, useLayoutEffect } from 'react'
+import { gsap } from '../lib/gsap'
 import { useDebounce } from '../hooks/useDebounce'
 import {
   SearchCheck, ChevronDown, Plus, Trash2, Pencil, Check, X,
@@ -292,6 +293,9 @@ export default memo(function TopBar({
     }
   }, [filteredResults, selectedIndex, handleSelectResult])
 
+  const progressFillRef = useRef(null)
+  const phaseBadgesRef = useRef(null)
+
   // Compute overall progress
   const { totalItems, checkedItems, pct, phaseStats } = useMemo(() => {
     if (!phases || !activeProject) return { totalItems: 0, checkedItems: 0, pct: 0, phaseStats: [] }
@@ -308,6 +312,23 @@ export default memo(function TopBar({
     })
     return { totalItems: total, checkedItems: checked, pct: total > 0 ? Math.round((checked / total) * 100) : 0, phaseStats: stats }
   }, [phases, activeProject])
+
+  // Animate progress bar width with GSAP
+  useEffect(() => {
+    const el = progressFillRef.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    gsap.to(el, { width: `${pct}%`, duration: 0.6, ease: 'power2.out' })
+  }, [pct])
+
+  // Stagger phase badges on mount
+  useEffect(() => {
+    const el = phaseBadgesRef.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    gsap.fromTo(el.children,
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1, stagger: 0.04, duration: 0.3, ease: 'power2.out', clearProps: 'transform' }
+    )
+  }, [activeProject?.id])
 
   return (
     <div className="top-bar">
@@ -607,7 +628,7 @@ export default memo(function TopBar({
             {pct}%
           </span>
           <div className="progress-track">
-            <div className="progress-fill" style={{ width: `${pct}%` }} />
+            <div ref={progressFillRef} className="progress-fill" style={{ width: 0 }} />
           </div>
           <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', flexShrink: 0, fontFamily: 'var(--font-mono)' }}>
             {checkedItems}/{totalItems}
@@ -617,7 +638,7 @@ export default memo(function TopBar({
 
       {/* ── Row 3: Phase badges ── */}
       {activeProject && (
-        <div className="phase-badges-row">
+        <div ref={phaseBadgesRef} className="phase-badges-row">
           {phaseStats.map(ps => {
             const phasePct = ps.total > 0 ? Math.round((ps.checked / ps.total) * 100) : 0
             const isComplete = phasePct === 100

@@ -1,6 +1,7 @@
-import { memo } from 'react'
+import { memo, useRef, useCallback } from 'react'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { DataConfidenceLabel } from '../../components/DataConfidenceLabel'
+import { gsap } from '../../lib/gsap'
 
 /**
  * Unified stat card — used across Dashboard, Metrics, GSC, GA4, AeoImpact.
@@ -18,9 +19,18 @@ import { DataConfidenceLabel } from '../../components/DataConfidenceLabel'
  */
 export default memo(function StatCard({ label, value, trend, icon, iconColor, subValue, layout = 'vertical', className = '', confidence }) {
 const isHorizontal = layout === 'horizontal'
+  const cardRef = useRef(null)
+
+  const onEnter = useCallback(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    gsap.to(cardRef.current, { scale: 1.02, duration: 0.2, ease: 'power2.out' })
+  }, [])
+  const onLeave = useCallback(() => {
+    gsap.to(cardRef.current, { scale: 1, duration: 0.2, ease: 'power2.out' })
+  }, [])
 
   return (
-    <div className={`stat-card ${className}`}>
+    <div ref={cardRef} className={`stat-card ${className}`} onMouseEnter={onEnter} onMouseLeave={onLeave}>
       {isHorizontal ? (
         /* ── Horizontal: icon left, content right ── */
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>

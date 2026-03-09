@@ -1,4 +1,5 @@
-import { useState, useRef, useMemo, useCallback, memo } from 'react'
+import { useState, useRef, useMemo, useCallback, memo, useEffect } from 'react'
+import { gsap } from '../lib/gsap'
 import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing, Activity, TrendingUp, TrendingDown, Shield, Bot, CheckCircle2, XCircle, MinusCircle } from 'lucide-react'
 import { getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
 import { useRecommendations } from '../hooks/useRecommendations'
@@ -281,6 +282,18 @@ const [subTab, setSubTab] = useState('overview')
   })
 
   const emptyStateAction = useCallback(() => setActiveView('metrics'), [setActiveView])
+
+  // GSAP: stagger stat cards on mount / project change
+  useEffect(() => {
+    const grid = statsGridRef.current
+    if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const cards = grid.querySelectorAll('.stat-card')
+    if (!cards.length) return
+    gsap.fromTo(cards,
+      { opacity: 0, y: 20, scale: 0.96 },
+      { opacity: 1, y: 0, scale: 1, stagger: 0.08, duration: 0.45, ease: 'power2.out', clearProps: 'transform' }
+    )
+  }, [activeProject?.id, subTab])
 
   return (
     <div className="view-wrapper">
