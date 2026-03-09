@@ -12,9 +12,11 @@ export function createLenis(wrapper) {
   lenisInstance = new Lenis({
     wrapper,
     content: wrapper,
-    lerp: 0.08,
+    lerp: 0.1,
     smoothWheel: true,
-    wheelMultiplier: 0.8,
+    wheelMultiplier: 1,
+    touchMultiplier: 1.5,
+    syncTouch: true,
   })
 
   // Tell ScrollTrigger how to read/set scroll position on the Lenis wrapper

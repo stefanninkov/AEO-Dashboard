@@ -1,6 +1,39 @@
-import { useRef } from 'react'
+import { useRef, useCallback } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from '../../lib/gsap'
+
+function StaggerButton({ href, className, children }) {
+  const btnRef = useRef(null)
+  const letters = children.split('').map((char, i) => (
+    <span
+      key={i}
+      className="lp-btn__letter"
+      style={{ animationDelay: `${i * 0.02}s` }}
+    >
+      {char === ' ' ? '\u00A0' : char}
+    </span>
+  ))
+
+  const handleMouseEnter = useCallback(() => {
+    const el = btnRef.current
+    if (!el) return
+    const spans = el.querySelectorAll('.lp-btn__letter')
+    spans.forEach((span, i) => {
+      gsap.fromTo(span,
+        { y: 0 },
+        { y: -3, duration: 0.15, delay: i * 0.02, ease: 'power2.out',
+          onComplete: () => gsap.to(span, { y: 0, duration: 0.25, ease: 'power2.inOut' })
+        }
+      )
+    })
+  }, [])
+
+  return (
+    <a ref={btnRef} href={href} className={className} onMouseEnter={handleMouseEnter}>
+      {letters}
+    </a>
+  )
+}
 
 export default function FinalCta() {
   const sectionRef = useRef(null)
@@ -27,9 +60,9 @@ export default function FinalCta() {
         Join 2,500+ SEO professionals already using AEO Dashboard. Start your free 14-day trial — no credit card required.
       </p>
       <div className="lp-final-cta__actions">
-        <a href="/AEO-Dashboard/app" className="lp-btn lp-btn--primary lp-btn--lg">
+        <StaggerButton href="/AEO-Dashboard/app" className="lp-btn lp-btn--primary lp-btn--lg">
           Start 14-Day Free Trial
-        </a>
+        </StaggerButton>
       </div>
     </section>
   )

@@ -20,9 +20,18 @@ export default function LandingNav() {
   const mobileRef = useRef(null)
 
   useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 60)
+    // Lenis uses .lp-root as the scroll container, so listen on both window and the root
+    const root = document.querySelector('.lp-root')
+    const onScroll = () => {
+      const scrollTop = root ? root.scrollTop : window.scrollY
+      setSolid(scrollTop > 60)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    if (root) root.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (root) root.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   useGSAP(() => {
@@ -71,6 +80,7 @@ export default function LandingNav() {
                 key={link.href}
                 href={link.href}
                 className="lp-nav__link"
+                data-text={link.label}
                 onClick={(e) => scrollTo(e, link.href)}
               >
                 {link.label}

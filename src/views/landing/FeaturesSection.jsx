@@ -115,43 +115,42 @@ const MOCKUPS = { checklist: ChecklistMockup, analyzer: AnalyzerMockup, testing:
 
 export default function FeaturesSection() {
   const sectionRef = useRef(null)
-  const panelsRef = useRef(null)
 
   useGSAP(() => {
     const section = sectionRef.current
-    const panels = panelsRef.current
-    if (!section || !panels) return
+    if (!section) return
 
-    const featureEls = panels.querySelectorAll('.lp-feat__panel')
-
-    // Pin the section and crossfade features
-    if (featureEls.length > 1) {
-      // Set all panels except first to invisible
-      gsap.set(Array.from(featureEls).slice(1), { opacity: 0, y: 40 })
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${featureEls.length * 100}%`,
-          pin: true,
-          scrub: 0.8,
-          anticipatePin: 1,
-        },
-      })
-
-      for (let i = 0; i < featureEls.length - 1; i++) {
-        tl.to(featureEls[i], { opacity: 0, y: -30, duration: 0.4 })
-          .fromTo(featureEls[i + 1],
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.4 },
-            '-=0.2'
-          )
-        if (i < featureEls.length - 2) {
-          tl.to({}, { duration: 0.3 }) // pause between features
-        }
+    // Header reveal
+    gsap.fromTo(section.querySelector('.lp-section__header'),
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0, duration: 0.8,
+        scrollTrigger: { trigger: section, start: 'top 75%', once: true },
       }
-    }
+    )
+
+    // Each feature card reveals on scroll individually
+    const cards = section.querySelectorAll('.lp-feat__card')
+    cards.forEach((card, i) => {
+      const textSide = card.querySelector('.lp-feat__text')
+      const visualSide = card.querySelector('.lp-feat__visual')
+
+      gsap.fromTo(textSide,
+        { opacity: 0, x: -40 },
+        {
+          opacity: 1, x: 0, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: card, start: 'top 80%', once: true },
+        }
+      )
+
+      gsap.fromTo(visualSide,
+        { opacity: 0, x: 40, scale: 0.95 },
+        {
+          opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: card, start: 'top 75%', once: true },
+        }
+      )
+    })
   }, { scope: sectionRef })
 
   return (
@@ -164,11 +163,11 @@ export default function FeaturesSection() {
         </p>
       </div>
 
-      <div ref={panelsRef} className="lp-feat__panels">
+      <div className="lp-feat__cards">
         {FEATURES.map((feature, i) => {
           const MockupComponent = MOCKUPS[feature.mockupType]
           return (
-            <div key={i} className="lp-feat__panel">
+            <div key={i} className="lp-feat__card">
               <div className="lp-feat__text">
                 <span className="lp-feat__badge">{feature.badge}</span>
                 <h3 className="lp-feat__title">{feature.title}</h3>

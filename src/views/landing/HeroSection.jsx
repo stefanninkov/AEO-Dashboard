@@ -1,7 +1,40 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from '../../lib/gsap'
 import { getLenis } from '../../lib/lenis'
+
+function StaggerButton({ href, className, children, onClick }) {
+  const btnRef = useRef(null)
+  const letters = children.split('').map((char, i) => (
+    <span
+      key={i}
+      className="lp-btn__letter"
+      style={{ animationDelay: `${i * 0.02}s` }}
+    >
+      {char === ' ' ? '\u00A0' : char}
+    </span>
+  ))
+
+  const handleMouseEnter = useCallback(() => {
+    const el = btnRef.current
+    if (!el) return
+    const spans = el.querySelectorAll('.lp-btn__letter')
+    spans.forEach((span, i) => {
+      gsap.fromTo(span,
+        { y: 0 },
+        { y: -3, duration: 0.15, delay: i * 0.02, ease: 'power2.out',
+          onComplete: () => gsap.to(span, { y: 0, duration: 0.25, ease: 'power2.inOut' })
+        }
+      )
+    })
+  }, [])
+
+  return (
+    <a ref={btnRef} href={href} className={className} onClick={onClick} onMouseEnter={handleMouseEnter}>
+      {letters}
+    </a>
+  )
+}
 
 export default function HeroSection() {
   const sectionRef = useRef(null)
@@ -20,28 +53,31 @@ export default function HeroSection() {
       { opacity: 1, y: 0, scale: 1, duration: 0.6 }
     )
 
-    // Headline: split into words and stagger
+    // Headline: split into words and stagger (preserve gradient via inherit)
     const headline = headlineRef.current
     if (headline) {
       const text = headline.textContent
-      headline.textContent = ''
+      headline.innerHTML = ''
       const words = text.split(' ')
-      words.forEach((word, i) => {
+      words.forEach((word) => {
         const span = document.createElement('span')
         span.textContent = word + ' '
-        span.style.display = 'inline-block'
-        span.style.opacity = '0'
-        span.style.transform = 'translateY(40px) rotateX(15deg)'
         span.className = 'hero-word'
         headline.appendChild(span)
+      })
+
+      gsap.set(headline.querySelectorAll('.hero-word'), {
+        opacity: 0,
+        y: 40,
+        rotateX: 15,
       })
 
       tl.to(headline.querySelectorAll('.hero-word'), {
         opacity: 1,
         y: 0,
         rotateX: 0,
-        stagger: 0.04,
-        duration: 0.7,
+        stagger: 0.06,
+        duration: 0.8,
         ease: 'power3.out',
       }, '-=0.3')
     }
@@ -50,7 +86,7 @@ export default function HeroSection() {
     tl.fromTo(subRef.current,
       { opacity: 0, y: 24 },
       { opacity: 1, y: 0, duration: 0.7 },
-      '-=0.4'
+      '-=0.5'
     )
 
     // CTA buttons
@@ -96,12 +132,12 @@ export default function HeroSection() {
         </p>
 
         <div ref={ctaRef} className="lp-hero__ctas">
-          <a href="/AEO-Dashboard/app" className="lp-btn lp-btn--primary">
+          <StaggerButton href="/AEO-Dashboard/app" className="lp-btn lp-btn--primary">
             Start 14-Day Free Trial
-          </a>
-          <a href="#features" className="lp-btn lp-btn--secondary" onClick={scrollToFeatures}>
+          </StaggerButton>
+          <StaggerButton href="#features" className="lp-btn lp-btn--secondary" onClick={scrollToFeatures}>
             See Features
-          </a>
+          </StaggerButton>
         </div>
       </div>
 
