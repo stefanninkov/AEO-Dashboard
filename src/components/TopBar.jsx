@@ -6,7 +6,7 @@ import {
   Gauge, Users, Sparkles, ChartColumnIncreasing, BookOpen, FlaskConical,
   SlidersHorizontal, Sun, Moon, Download, FileText, CornerDownLeft,
   PenTool, CalendarDays, Code2, Activity, Layers,
-  Briefcase, GitCompareArrows, BarChart3, LayoutGrid,
+  Briefcase, GitCompareArrows, BarChart3, LayoutGrid, Shield,
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
 import { ActivityFeedButton } from './GlobalActivityFeed'
@@ -34,6 +34,7 @@ const NAV_ICONS = {
   portfolio: Briefcase,
   comparison: GitCompareArrows,
   executive: FileText,
+  compliance: Shield,
 }
 
 const NAV_KEYS = [
@@ -56,6 +57,7 @@ const NAV_KEYS = [
   { id: 'portfolio', i18nKey: 'nav.portfolio' },
   { id: 'comparison', i18nKey: 'nav.comparison' },
   { id: 'executive', i18nKey: 'nav.executive' },
+  { id: 'compliance', i18nKey: 'nav.compliance' },
   { id: 'settings', i18nKey: 'nav.settings' },
 ]
 
