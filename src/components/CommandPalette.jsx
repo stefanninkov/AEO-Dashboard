@@ -29,22 +29,22 @@ const NAV_ICONS = {
 }
 
 const NAV_KEYS = [
-  { id: 'dashboard', i18nKey: 'nav.dashboard', shortcut: '1' },
-  { id: 'checklist', i18nKey: 'nav.checklist', shortcut: '2' },
-  { id: 'competitors', i18nKey: 'nav.competitors', shortcut: '3' },
-  { id: 'analyzer', i18nKey: 'nav.analyzer', shortcut: '4' },
-  { id: 'writer', i18nKey: 'nav.writer', shortcut: '5' },
-  { id: 'content-ops', i18nKey: 'nav.contentOps', shortcut: '6' },
-  { id: 'schema', i18nKey: 'nav.schema', shortcut: '7' },
-  { id: 'monitoring', i18nKey: 'nav.monitoring', shortcut: '8' },
-  { id: 'metrics', i18nKey: 'nav.metrics', shortcut: '9' },
-  { id: 'gsc', i18nKey: 'nav.searchConsole' },
-  { id: 'ga4', i18nKey: 'nav.aiTraffic' },
-  { id: 'aeo-impact', i18nKey: 'nav.aeoImpact' },
-  { id: 'docs', i18nKey: 'nav.docs' },
-  { id: 'testing', i18nKey: 'nav.testing' },
-  { id: 'seo', i18nKey: 'nav.seo' },
-  { id: 'settings', i18nKey: 'nav.settings' },
+  { id: 'dashboard', label: 'Dashboard', shortcut: '1' },
+  { id: 'checklist', label: 'Checklist', shortcut: '2' },
+  { id: 'competitors', label: 'Competitors', shortcut: '3' },
+  { id: 'analyzer', label: 'Analyzer', shortcut: '4' },
+  { id: 'writer', label: 'Writer', shortcut: '5' },
+  { id: 'content-ops', label: 'Content Ops', shortcut: '6' },
+  { id: 'schema', label: 'Schema', shortcut: '7' },
+  { id: 'monitoring', label: 'Monitoring', shortcut: '8' },
+  { id: 'metrics', label: 'Metrics', shortcut: '9' },
+  { id: 'gsc', label: 'Search Console' },
+  { id: 'ga4', label: 'AI Traffic' },
+  { id: 'aeo-impact', label: 'AEO Impact' },
+  { id: 'docs', label: 'Docs' },
+  { id: 'testing', label: 'Testing' },
+  { id: 'seo', label: 'SEO' },
+  { id: 'settings', label: 'Settings' },
 ]
 
 const TYPE_COLORS = {
@@ -86,7 +86,7 @@ export default function CommandPalette({
       items.push({
         id: `nav-${nav.id}`,
         type: 'Navigation',
-        label: nav.fallbackLabel || nav.label,
+        label: nav.label,
         icon: NAV_ICONS[nav.id],
         shortcut: nav.shortcut,
         action: () => setActiveView(nav.id),

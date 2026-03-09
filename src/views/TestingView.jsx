@@ -25,10 +25,10 @@ const QUICK_LINKS = [
 ]
 
 const STATUS_META = [
-  { value: 'not_checked', i18nKey: 'testing.status.notChecked', color: 'text-text-tertiary' },
-  { value: 'cited', i18nKey: 'testing.status.cited', color: 'text-success' },
-  { value: 'partial', i18nKey: 'testing.status.partial', color: 'text-warning' },
-  { value: 'not_cited', i18nKey: 'testing.status.notCited', color: 'text-error' },
+  { value: 'not_checked', label: 'Not Checked', color: 'text-text-tertiary' },
+  { value: 'cited', label: 'Cited', color: 'text-success' },
+  { value: 'partial', label: 'Partial', color: 'text-warning' },
+  { value: 'not_cited', label: 'Not Cited', color: 'text-error' },
 ]
 
 export default function TestingView({ activeProject, updateProject }) {
@@ -45,7 +45,7 @@ const WEEKLY_TASKS = useMemo(() => WEEKLY_TASK_IDS.map(id => ({
 
   const STATUS_OPTIONS = useMemo(() => STATUS_META.map(s => ({
     ...s,
-    label: s.fallbackLabel || s.label,
+    label: s.label,
   })), [])
 
   const [newQuery, setNewQuery] = useState('')

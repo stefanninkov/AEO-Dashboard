@@ -18,11 +18,11 @@ import AiInsightCard from '../components/AiInsightCard'
 
 // ─── Interval Config ─────────────────────────────────────────
 const INTERVAL_META = [
-  { value: '1d', i18nKey: 'monitoring.interval.daily', ms: 24 * 60 * 60 * 1000 },
-  { value: '3d', i18nKey: 'monitoring.interval.every3days', ms: 3 * 24 * 60 * 60 * 1000 },
-  { value: '7d', i18nKey: 'monitoring.interval.weekly', ms: 7 * 24 * 60 * 60 * 1000 },
-  { value: '14d', i18nKey: 'monitoring.interval.biweekly', ms: 14 * 24 * 60 * 60 * 1000 },
-  { value: '30d', i18nKey: 'monitoring.interval.monthly', ms: 30 * 24 * 60 * 60 * 1000 },
+  { value: '1d', label: 'Daily', ms: 24 * 60 * 60 * 1000 },
+  { value: '3d', label: 'Every 3 Days', ms: 3 * 24 * 60 * 60 * 1000 },
+  { value: '7d', label: 'Weekly', ms: 7 * 24 * 60 * 60 * 1000 },
+  { value: '14d', label: 'Biweekly', ms: 14 * 24 * 60 * 60 * 1000 },
+  { value: '30d', label: 'Monthly', ms: 30 * 24 * 60 * 60 * 1000 },
 ]
 
 function getIntervalMs(intervalValue) {
@@ -31,7 +31,7 @@ function getIntervalMs(intervalValue) {
 
 function getIntervalLabel(intervalValue, t) {
   const meta = INTERVAL_META.find(o => o.value === intervalValue)
-  return meta ? meta.fallbackLabel || meta.label || 'Weekly' : 'Weekly'
+  return meta ? meta.label : 'Weekly'
 }
 
 // ─── Time Helpers ────────────────────────────────────────────
@@ -458,7 +458,7 @@ const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({
               onChange={e => setInterval_(e.target.value)}
             >
               {INTERVAL_META.map(opt => (
-                <option key={opt.value} value={opt.value}>{opt.fallbackLabel || opt.label || opt.value}</option>
+                <option key={opt.value} value={opt.value}>{opt.label || opt.value}</option>
               ))}
             </select>
           </div>

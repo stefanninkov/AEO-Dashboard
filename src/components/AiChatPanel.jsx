@@ -336,7 +336,7 @@ export function AiChatButton({ onClick, hasMessages = false }) {
       aria-label="Open AI Chat"
       title="AI Chat Assistant"
       style={{
-        position: 'fixed', bottom: '5rem', right: 'var(--space-4)', zIndex: 900,
+        position: 'fixed', bottom: 'var(--space-4)', right: 'var(--space-4)', zIndex: 900,
         width: '3rem', height: '3rem', borderRadius: '50%',
         background: 'var(--accent)', border: 'none', cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',

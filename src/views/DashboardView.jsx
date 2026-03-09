@@ -25,11 +25,11 @@ import { useAiInsight } from '../hooks/useAiInsight'
 import AiInsightCard from '../components/AiInsightCard'
 
 const SUB_TAB_KEYS = [
-  { id: 'overview', i18nKey: 'dashboard.overview' },
-  { id: 'analytics', i18nKey: 'dashboard.analytics' },
-  { id: 'citations', i18nKey: 'dashboard.citations' },
-  { id: 'prompts', i18nKey: 'dashboard.prompts' },
-  { id: 'chatbots', i18nKey: 'dashboard.chatbots' },
+  { id: 'overview', label: 'Overview' },
+  { id: 'analytics', label: 'Analytics' },
+  { id: 'citations', label: 'Citations' },
+  { id: 'prompts', label: 'Prompts' },
+  { id: 'chatbots', label: 'Chatbots' },
 ]
 
 const ENGINE_COLORS = PHASE_COLOR_ARRAY
@@ -326,7 +326,7 @@ const [subTab, setSubTab] = useState('overview')
               data-active={subTab === tab.id || undefined}
               onClick={() => setSubTab(tab.id)}
             >
-              {tab.fallbackLabel || tab.label}
+              {tab.label}
             </button>
           ))}
         </div>

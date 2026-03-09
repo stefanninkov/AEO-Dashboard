@@ -196,30 +196,43 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
       { title: 'Company', links: [{ label: 'About', href: FOOTER_LINK_HREFS[2]?.[0]?.href || '#' }, { label: 'Blog', href: FOOTER_LINK_HREFS[2]?.[1]?.href || '#' }, { label: 'Contact', href: FOOTER_LINK_HREFS[2]?.[2]?.href || '#' }, { label: 'Privacy Policy', href: FOOTER_LINK_HREFS[2]?.[3]?.href || '#' }] }
     ], [])
 
-  const CHECKLIST_ITEMS = useMemo(() =>
-    CHECKLIST_ITEM_META.map((meta, i) => ({
+  const CHECKLIST_ITEMS = useMemo(() => {
+    const labels = ['Implement FAQ Schema', 'Add HowTo Markup', 'Optimize Meta Descriptions', 'Structure Headings for AI', 'Add Speakable Schema', 'Configure AI Crawlers']
+    return CHECKLIST_ITEM_META.map((meta, i) => ({
       ...meta,
-      label: meta.fallbackLabel || meta.label || '',
-    })), [])
+      label: labels[i] || '',
+    }))
+  }, [])
 
-  const ANALYZER_METRICS = useMemo(() =>
-    ANALYZER_METRIC_META.map((meta, i) => ({
+  const ANALYZER_METRICS = useMemo(() => {
+    const labels = ['Schema Coverage', 'Content Structure', 'AI Crawlability', 'Entity Clarity', 'Technical Score']
+    return ANALYZER_METRIC_META.map((meta, i) => ({
       ...meta,
-      label: meta.fallbackLabel || meta.label || '',
-    })), [])
+      label: labels[i] || '',
+    }))
+  }, [])
 
-  const TESTING_ENGINES = useMemo(() =>
-    TESTING_ENGINE_META.map(meta => ({
+  const TESTING_ENGINES = useMemo(() => {
+    const engines = [
+      { name: 'ChatGPT', status: 'Cited' },
+      { name: 'Perplexity', status: 'Cited' },
+      { name: 'Gemini', status: 'Not Cited' },
+      { name: 'Claude', status: 'Partial' },
+    ]
+    return TESTING_ENGINE_META.map((meta, i) => ({
       ...meta,
-      name: meta.fallbackName || meta.name || '',
-      status: meta.fallbackStatus || meta.status || '',
-    })), [])
+      name: engines[i]?.name || '',
+      status: engines[i]?.status || '',
+    }))
+  }, [])
 
-  const MOCKUP_SIDEBAR_ITEMS = useMemo(() =>
-    MOCKUP_SIDEBAR_ACTIVE.map((active, i) => ({
-      label: meta.fallbackLabel || meta.label || '',
+  const MOCKUP_SIDEBAR_ITEMS = useMemo(() => {
+    const labels = ['Dashboard', 'Checklist', 'Analyzer', 'Writer', 'Schema', 'Monitoring']
+    return MOCKUP_SIDEBAR_ACTIVE.map((active, i) => ({
+      label: labels[i] || '',
       active,
-    })), [])
+    }))
+  }, [])
 
   const SOCIAL_PROOF_COMPANIES = useMemo(() =>
     SOCIAL_PROOF_ICONS.map((Icon, i) => ({

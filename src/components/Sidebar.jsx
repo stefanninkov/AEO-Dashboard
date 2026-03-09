@@ -49,22 +49,42 @@ const NAV_I18N_KEYS = {
   settings: 'nav.settings',
 }
 
+const NAV_LABELS = {
+  dashboard: 'Dashboard',
+  checklist: 'Checklist',
+  competitors: 'Competitors',
+  analyzer: 'Analyzer',
+  writer: 'Writer',
+  scorer: 'Scorer',
+  'content-ops': 'Content Ops',
+  schema: 'Schema',
+  seo: 'SEO',
+  monitoring: 'Monitoring',
+  metrics: 'Metrics',
+  gsc: 'Search Console',
+  ga4: 'AI Traffic',
+  'aeo-impact': 'AEO Impact',
+  docs: 'Docs',
+  testing: 'Testing',
+  settings: 'Settings',
+}
+
 /** Sidebar navigation groups — ordered top-to-bottom */
 const NAV_GROUPS = [
   {
-    i18nKey: 'sections.overview',
+    label: 'Overview',
     items: ['dashboard', 'checklist'],
   },
   {
-    i18nKey: 'sections.content',
+    label: 'Content',
     items: ['analyzer', 'writer', 'scorer', 'content-ops', 'schema', 'seo'],
   },
   {
-    i18nKey: 'sections.analytics',
+    label: 'Analytics',
     items: ['monitoring', 'metrics', 'gsc', 'ga4', 'aeo-impact'],
   },
   {
-    i18nKey: 'sections.reference',
+    label: 'Reference',
     items: ['competitors', 'docs', 'testing'],
   },
 ]
@@ -95,10 +115,10 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
 
   const navGroups = useMemo(() =>
     NAV_GROUPS.map(group => ({
-      label: group.fallbackLabel || group.label,
+      label: group.label,
       items: group.items.map(id => ({
         id,
-        label: id,
+        label: NAV_LABELS[id] || id,
         icon: NAV_ICONS[id],
       })),
     })), [])

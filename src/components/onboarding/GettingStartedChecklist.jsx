@@ -140,7 +140,7 @@ const [expanded, setExpanded] = useState(false)
   return (
     <div
       style={{
-        position: 'fixed', bottom: 84, right: 'var(--space-4)',
+        position: 'fixed', bottom: 'calc(var(--space-4) + 3rem + 0.75rem)', right: 'var(--space-4)',
         zIndex: 'var(--z-toast)', maxWidth: '20rem', width: '100%',
       }}
     >
