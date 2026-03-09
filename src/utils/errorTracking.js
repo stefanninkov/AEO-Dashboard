@@ -25,7 +25,9 @@ export async function initErrorTracking(config = {}) {
 
   try {
     // Dynamic import — only loads if @sentry/react is installed
-    const Sentry = await import('@sentry/react')
+    // Use variable to prevent Vite from statically analyzing and failing the build/test
+    const sentryModule = '@sentry/' + 'react'
+    const Sentry = await import(/* @vite-ignore */ sentryModule)
     Sentry.init({
       dsn: config.dsn || '',
       environment: config.environment || (import.meta.env.MODE === 'production' ? 'production' : 'development'),

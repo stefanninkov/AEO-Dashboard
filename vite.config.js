@@ -13,7 +13,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 550,
     rollupOptions: {
       // Exclude jsPDF optional deps we never use (saves ~382 kB / ~109 kB gzip)
-      external: ['canvg', 'html2canvas', 'dompurify', '@sentry/react'],
+      external: ['canvg', 'html2canvas', 'dompurify'],
       output: {
         manualChunks: {
           // React core — shared by everything, cached well
