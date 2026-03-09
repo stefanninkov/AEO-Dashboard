@@ -206,63 +206,45 @@
   text-decoration: none;
   border-radius: 6.25rem;
   padding: 0.75rem 1.75rem;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   border: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.lp-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.2) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-.lp-btn:hover::after {
-  opacity: 1;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 0.2s ease;
 }
 
 .lp-btn--primary {
   background: var(--lp-accent);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.15);
 }
 
 .lp-btn--primary:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 40px rgba(37, 99, 235, 0.45), 0 2px 12px rgba(37, 99, 235, 0.2);
-  background: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
 }
 
 .lp-btn--primary:active {
-  transform: translateY(-1px) scale(0.98);
-  box-shadow: 0 2px 12px rgba(37, 99, 235, 0.3);
-  transition-duration: 0.1s;
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.15);
+  transition-duration: 0.08s;
 }
 
 .lp-btn--secondary {
   background: transparent;
   color: var(--lp-text-primary);
   border: 1px solid var(--lp-border-strong);
-  backdrop-filter: blur(8px);
 }
 
 .lp-btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .lp-btn--secondary:active {
   transform: translateY(0);
-  transition-duration: 0.1s;
+  transition-duration: 0.08s;
 }
 
 .lp-btn--lg {

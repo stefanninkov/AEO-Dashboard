@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react'
 import { createLenis, destroyLenis } from '../lib/lenis'
 import { ScrollTrigger } from '../lib/gsap'
 import './LandingPage.css'
@@ -29,21 +29,29 @@ const BASE_URL = 'https://stefanninkov.github.io/AEO-Dashboard/'
 
 export default function LandingPage() {
   const rootRef = useRef(null)
+  const [lenisReady, setLenisReady] = useState(false)
 
   // Lenis smooth scroll — landing page only
-  useEffect(() => {
+  // useLayoutEffect runs before paint. We delay section rendering until Lenis is ready
+  // so that children's useGSAP hooks see the correct ScrollTrigger scroller defaults.
+  useLayoutEffect(() => {
     const root = rootRef.current
     if (!root) return
 
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+    if (prefersReducedMotion) {
+      setLenisReady(true)
+      return
+    }
 
-    const lenis = createLenis(root)
+    createLenis(root)
+    setLenisReady(true)
 
     return () => {
       destroyLenis()
       ScrollTrigger.getAll().forEach((t) => t.kill())
+      setLenisReady(false)
     }
   }, [])
 
@@ -95,30 +103,34 @@ export default function LandingPage() {
 
   return (
     <div ref={rootRef} className="lp-root">
-      <LandingNav />
+      {lenisReady && (
+        <>
+          <LandingNav />
 
-      <main>
-        <HeroSection />
-        <PlatformsBar />
-        <SocialProof />
-        <ProblemSection />
-        <WhatIsAeoSection />
-        <FeaturesSection />
-        <FeaturesGrid />
-        <InteractiveDemo />
-        <BeforeAfterShowcase />
-        <IntegrationLogos />
-        <CaseStudies />
-        <AiCostSection />
-        <HowItWorks />
-        <ComparisonTable />
-        <PricingSection />
-        <TestimonialsSection />
-        <FaqSection />
-        <FinalCta />
-      </main>
+          <main>
+            <HeroSection />
+            <PlatformsBar />
+            <SocialProof />
+            <ProblemSection />
+            <WhatIsAeoSection />
+            <FeaturesSection />
+            <FeaturesGrid />
+            <InteractiveDemo />
+            <BeforeAfterShowcase />
+            <IntegrationLogos />
+            <CaseStudies />
+            <AiCostSection />
+            <HowItWorks />
+            <ComparisonTable />
+            <PricingSection />
+            <TestimonialsSection />
+            <FaqSection />
+            <FinalCta />
+          </main>
 
-      <FooterSection />
+          <FooterSection />
+        </>
+      )}
     </div>
   )
 }
