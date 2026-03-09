@@ -7,6 +7,7 @@ import { usePermission } from './hooks/usePermission'
 import { usePresence } from './hooks/usePresence'
 import { useNotifications } from './hooks/useNotifications'
 import { useNotificationCenter } from './hooks/useNotificationCenter'
+import { useOnboarding } from './hooks/useOnboarding'
 import { usePortfolio } from './hooks/usePortfolio'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
@@ -18,6 +19,8 @@ import TopBar from './components/TopBar'
 import ErrorBoundary from './components/ErrorBoundary'
 import ConnectionBanner from './components/ConnectionBanner'
 import ToastManager from './components/ToastManager'
+import OnboardingWizard from './components/OnboardingWizard'
+import FeatureTour from './components/FeatureTour'
 import PresenceHint from './components/PresenceHint'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
@@ -428,6 +431,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const { notifications, unreadCount, addNotification, markRead, markAllRead, clearAll: clearNotifications } = useNotifications({ user, activeProject, updateProject })
 
   const notifCenter = useNotificationCenter({ activeProject, user, updateProject })
+  const onboarding = useOnboarding({ user })
 
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
@@ -886,6 +890,23 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
 
           <ConnectionBanner error={firestoreError} />
           <ToastManager toasts={notifCenter.toasts} dismissToast={notifCenter.dismissToast} />
+          <OnboardingWizard
+            isOpen={onboarding.isWizardOpen}
+            currentStep={onboarding.currentWizardStep}
+            wizardSteps={onboarding.wizardSteps}
+            completedSteps={onboarding.completedSteps}
+            wizardProgress={onboarding.wizardProgress}
+            nextStep={onboarding.nextStep}
+            skipWizard={onboarding.skipWizard}
+            onNavigate={setActiveView}
+          />
+          {onboarding.onboardingCompleted && onboarding.getTour(activeView) && (
+            <FeatureTour
+              steps={onboarding.getTour(activeView)}
+              onDismiss={() => onboarding.dismissTour(activeView)}
+              onFeatureSeen={onboarding.markFeatureSeen}
+            />
+          )}
           <PresenceHint
             onlineMembers={onlineMembers}
             activeView={activeView}
