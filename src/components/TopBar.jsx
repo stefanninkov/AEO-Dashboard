@@ -6,7 +6,7 @@ import {
   Gauge, Users, Sparkles, ChartColumnIncreasing, BookOpen, FlaskConical,
   SlidersHorizontal, Sun, Moon, Download, FileText, CornerDownLeft,
   PenTool, CalendarDays, Code2, Activity, Layers,
-  Briefcase, GitCompareArrows, BarChart3, LayoutGrid, Shield, Plug,
+  Briefcase, GitCompareArrows, BarChart3, LayoutGrid, Shield, Plug, HeartPulse,
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
 import { ActivityFeedButton } from './GlobalActivityFeed'
@@ -36,6 +36,7 @@ const NAV_ICONS = {
   executive: FileText,
   compliance: Shield,
   integrations: Plug,
+  health: HeartPulse,
 }
 
 const NAV_KEYS = [
@@ -60,6 +61,7 @@ const NAV_KEYS = [
   { id: 'executive', i18nKey: 'nav.executive' },
   { id: 'compliance', i18nKey: 'nav.compliance' },
   { id: 'integrations', i18nKey: 'nav.integrations' },
+  { id: 'health', i18nKey: 'nav.health' },
   { id: 'settings', i18nKey: 'nav.settings' },
 ]
 
