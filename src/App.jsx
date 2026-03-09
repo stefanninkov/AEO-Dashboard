@@ -9,6 +9,7 @@ import { useNotifications } from './hooks/useNotifications'
 import { useNotificationCenter } from './hooks/useNotificationCenter'
 import { useOnboarding } from './hooks/useOnboarding'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
+import { useSavedViews } from './hooks/useSavedViews'
 import { usePortfolio } from './hooks/usePortfolio'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
@@ -436,6 +437,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const notifCenter = useNotificationCenter({ activeProject, user, updateProject })
   const onboarding = useOnboarding({ user })
   const keyboard = useKeyboardShortcuts({ setActiveView, handlers: {} })
+  const savedViews = useSavedViews({ activeProject, updateProject, user })
 
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
