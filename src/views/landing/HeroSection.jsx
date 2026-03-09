@@ -26,11 +26,14 @@ export default function HeroSection() {
       const text = headline.textContent
       headline.innerHTML = ''
       const words = text.split(' ')
-      words.forEach((word) => {
+      words.forEach((word, i) => {
         const span = document.createElement('span')
-        span.textContent = word + ' '
+        span.textContent = word
         span.className = 'hero-word'
         headline.appendChild(span)
+        if (i < words.length - 1) {
+          headline.appendChild(document.createTextNode(' '))
+        }
       })
 
       gsap.set(headline.querySelectorAll('.hero-word'), {
