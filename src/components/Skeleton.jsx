@@ -187,7 +187,6 @@ export function DocsSkeleton() {
 export function TestingSkeleton() {
   return (
     <div className="view-wrapper">
-      {/* Score card */}
       <div className="card fade-in-up" style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
         <Skeleton width="4rem" height="4rem" borderRadius="50%" />
         <div style={{ flex: 1 }}>
@@ -195,8 +194,6 @@ export function TestingSkeleton() {
           <Skeleton width="16rem" height="0.625rem" />
         </div>
       </div>
-
-      {/* Section cards */}
       {[0, 1, 2].map(i => (
         <div key={i} className="card fade-in-up" style={{ padding: '1rem', animationDelay: `${150 + i * 80}ms` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
@@ -212,6 +209,217 @@ export function TestingSkeleton() {
           ))}
         </div>
       ))}
+    </div>
+  )
+}
+
+/* ── Competitors Skeleton ── */
+export function CompetitorsSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Skeleton width="10rem" height="1.25rem" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(16rem, 1fr))', gap: '1rem' }}>
+        {[0, 1, 2, 3].map(i => (
+          <div key={i} className="card fade-in-up" style={{ padding: '1rem', animationDelay: `${i * 80}ms` }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+              <Skeleton width="2rem" height="2rem" borderRadius="50%" />
+              <div style={{ flex: 1 }}>
+                <Skeleton width="8rem" height="0.75rem" />
+                <Skeleton width="12rem" height="0.5rem" style={{ marginTop: '0.25rem' }} />
+              </div>
+            </div>
+            <Skeleton width="100%" height="0.375rem" borderRadius="99rem" />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ── Analyzer Skeleton ── */
+export function AnalyzerSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Skeleton width="12rem" height="1.25rem" />
+      <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <Skeleton width="100%" height="2.5rem" />
+        <Skeleton width="6rem" height="2.5rem" />
+      </div>
+      <div className="card fade-in-up" style={{ padding: '1.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+          <Skeleton width="6rem" height="6rem" borderRadius="50%" />
+        </div>
+        <Skeleton width="60%" height="0.75rem" style={{ margin: '0 auto 0.5rem' }} />
+        <Skeleton width="40%" height="0.5rem" style={{ margin: '0 auto' }} />
+      </div>
+      {[0, 1, 2].map(i => (
+        <div key={i} className="card fade-in-up" style={{ padding: '1rem', animationDelay: `${100 + i * 60}ms` }}>
+          <Skeleton width="10rem" height="0.75rem" style={{ marginBottom: '0.5rem' }} />
+          <Skeleton width="100%" height="0.5rem" />
+          <Skeleton width="80%" height="0.5rem" style={{ marginTop: '0.25rem' }} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ── Content Ops Skeleton ── */
+export function ContentOpsSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Skeleton width="10rem" height="1.25rem" />
+        <Skeleton width="6rem" height="2rem" />
+      </div>
+      {[0, 1, 2, 3, 4].map(i => (
+        <div key={i} className="fade-in-up" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem', borderBottom: '0.0625rem solid var(--border-subtle)', animationDelay: `${i * 50}ms` }}>
+          <Skeleton width="1.5rem" height="1.5rem" borderRadius="0.25rem" />
+          <div style={{ flex: 1 }}>
+            <Skeleton width={`${50 + i * 5}%`} height="0.625rem" />
+            <Skeleton width="4rem" height="0.5rem" style={{ marginTop: '0.25rem' }} />
+          </div>
+          <Skeleton width="3rem" height="1.25rem" borderRadius="99rem" />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ── GSC / GA4 Skeleton ── */
+export function GscSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Skeleton width="12rem" height="1.25rem" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+        {[0, 1, 2, 3].map(i => (
+          <div key={i} className="card fade-in-up" style={{ padding: '1rem', animationDelay: `${i * 60}ms` }}>
+            <Skeleton width="4rem" height="0.5rem" style={{ marginBottom: '0.5rem' }} />
+            <Skeleton width="5rem" height="1.25rem" />
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ padding: '1rem' }}>
+        <Skeleton width="100%" height="12rem" />
+      </div>
+    </div>
+  )
+}
+
+/* ── Monitoring Skeleton ── */
+export function MonitoringSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Skeleton width="10rem" height="1.25rem" />
+        <Skeleton width="8rem" height="2rem" />
+      </div>
+      <div className="card" style={{ padding: '1.5rem' }}>
+        <Skeleton width="100%" height="14rem" />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        {[0, 1].map(i => (
+          <div key={i} className="card fade-in-up" style={{ padding: '1rem', animationDelay: `${i * 80}ms` }}>
+            <Skeleton width="6rem" height="0.75rem" style={{ marginBottom: '0.75rem' }} />
+            {[0, 1, 2].map(j => (
+              <SkeletonRow key={j} delay={100 + j * 50} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ── Settings Skeleton ── */
+export function SettingsSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Skeleton width="8rem" height="1.25rem" />
+      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+        {[0, 1, 2, 3].map(i => (
+          <Skeleton key={i} width="5rem" height="1.75rem" borderRadius="99rem" />
+        ))}
+      </div>
+      {[0, 1, 2, 3].map(i => (
+        <div key={i} className="card fade-in-up" style={{ padding: '1rem', animationDelay: `${i * 60}ms` }}>
+          <Skeleton width="8rem" height="0.75rem" style={{ marginBottom: '0.75rem' }} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Skeleton width="14rem" height="0.625rem" />
+            <Skeleton width="2.5rem" height="1.25rem" borderRadius="99rem" />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ── SEO Skeleton ── */
+export function SeoSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Skeleton width="8rem" height="1.25rem" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+        {[0, 1, 2].map(i => (
+          <div key={i} className="card fade-in-up" style={{ padding: '1rem', textAlign: 'center', animationDelay: `${i * 60}ms` }}>
+            <Skeleton width="3rem" height="3rem" borderRadius="50%" style={{ margin: '0 auto 0.5rem' }} />
+            <Skeleton width="5rem" height="0.75rem" style={{ margin: '0 auto 0.25rem' }} />
+            <Skeleton width="3rem" height="0.5rem" style={{ margin: '0 auto' }} />
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ padding: '1rem' }}>
+        {[0, 1, 2, 3, 4].map(i => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0', borderBottom: '0.0625rem solid var(--border-subtle)' }}>
+            <Skeleton width="1rem" height="1rem" borderRadius="0.25rem" />
+            <Skeleton width={`${40 + i * 8}%`} height="0.625rem" />
+            <Skeleton width="3rem" height="1rem" borderRadius="99rem" style={{ marginLeft: 'auto' }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ── AEO Impact Skeleton ── */
+export function AeoImpactSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Skeleton width="10rem" height="1.25rem" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(12rem, 1fr))', gap: '1rem' }}>
+        {[0, 1, 2, 3].map(i => (
+          <div key={i} className="card fade-in-up" style={{ padding: '1rem', animationDelay: `${i * 60}ms` }}>
+            <Skeleton width="6rem" height="0.5rem" style={{ marginBottom: '0.5rem' }} />
+            <Skeleton width="4rem" height="1.5rem" />
+            <Skeleton width="100%" height="0.25rem" borderRadius="99rem" style={{ marginTop: '0.5rem' }} />
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ padding: '1.5rem' }}>
+        <Skeleton width="100%" height="10rem" />
+      </div>
+    </div>
+  )
+}
+
+/* ── Portal Skeleton ── */
+export function PortalSkeleton() {
+  return (
+    <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <Skeleton width="2.5rem" height="2.5rem" borderRadius="50%" />
+        <div>
+          <Skeleton width="10rem" height="1rem" />
+          <Skeleton width="14rem" height="0.5rem" style={{ marginTop: '0.25rem' }} />
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: '0.5rem' }}>
+        {[0, 1, 2, 3, 4].map(i => (
+          <Skeleton key={i} width="5rem" height="1.75rem" borderRadius="99rem" />
+        ))}
+      </div>
+      <div className="card" style={{ padding: '1.5rem' }}>
+        <Skeleton width="100%" height="16rem" />
+      </div>
     </div>
   )
 }
