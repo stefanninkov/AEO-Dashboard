@@ -116,7 +116,7 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
       href,
     })), [])
 
-  const PLATFORMS = useMemo(() => 'ChatGPT,Perplexity,Google AI,Bing Copilot,Claude', [])
+  const PLATFORMS = useMemo(() => ['ChatGPT', 'Perplexity', 'Google AI', 'Bing Copilot', 'Claude'], [])
 
   const PROBLEMS = useMemo(() => [
       { ...PROBLEM_META[0], title: 'AI Search Is Replacing Google', description: 'Over 40% of Gen Z uses TikTok and ChatGPT instead of Google. Traditional SEO alone no longer guarantees visibility.' },
