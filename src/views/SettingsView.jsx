@@ -10,6 +10,7 @@
 import { useState, useRef, useMemo, useEffect } from 'react'
 import {
   ArrowLeft, ArrowRight, FolderCog, Unplug, UsersRound, Globe2, Webhook, HardDrive, Mail,
+  Workflow,
 } from 'lucide-react'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
 import SettingsTabs from './settings/SettingsTabs'
@@ -31,6 +32,7 @@ import ProjectTeamSection from './settings/ProjectTeamSection'
 import ProjectWebflowSection from './settings/ProjectWebflowSection'
 import ProjectDataSection from './settings/ProjectDataSection'
 import ProjectDigestSection from './settings/ProjectDigestSection'
+import AutomationRulesPanel from '../components/AutomationRulesPanel'
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 
 /* ── Project settings sub-tab definitions ── */
@@ -41,6 +43,7 @@ const PROJECT_SUB_TABS = [
   { id: 'webflow', label: 'Webflow', icon: Globe2 },
   { id: 'webhooks', label: 'Webhooks', icon: Webhook },
   { id: 'digest', label: 'Digest', icon: Mail },
+  { id: 'automations', label: 'Automations', icon: Workflow },
   { id: 'data', label: 'Data', icon: HardDrive },
 ]
 
@@ -67,6 +70,61 @@ function ProjectSettingsSubTabs({ activeSubTab, onSubTabChange }) {
         )
       })}
     </div>
+  )
+}
+
+/**
+ * ProjectAutomationsSection — Inline wrapper that provides useAutomations to AutomationRulesPanel.
+ */
+function ProjectAutomationsSection({ activeProject, updateProject, user }) {
+  const rules = activeProject?.automationRules || []
+  const enabledRules = rules.filter(r => r.enabled)
+  const stats = {
+    total: rules.length,
+    enabled: enabledRules.length,
+    disabled: rules.length - enabledRules.length,
+    totalTriggers: rules.reduce((sum, r) => sum + (r.triggerCount || 0), 0),
+  }
+
+  const createRule = (ruleData) => {
+    const rule = {
+      id: `rule-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      name: ruleData.name || 'Untitled Rule',
+      enabled: true,
+      trigger: ruleData.trigger,
+      conditions: ruleData.conditions || [],
+      actions: ruleData.actions || [],
+      createdAt: new Date().toISOString(),
+      lastTriggered: null,
+      triggerCount: 0,
+    }
+    updateProject(activeProject.id, { automationRules: [...rules, rule] })
+  }
+
+  const updateRule = (ruleId, changes) => {
+    updateProject(activeProject.id, {
+      automationRules: rules.map(r => r.id === ruleId ? { ...r, ...changes } : r),
+    })
+  }
+
+  const deleteRule = (ruleId) => {
+    updateProject(activeProject.id, { automationRules: rules.filter(r => r.id !== ruleId) })
+  }
+
+  const toggleRule = (ruleId) => {
+    const rule = rules.find(r => r.id === ruleId)
+    if (rule) updateRule(ruleId, { enabled: !rule.enabled })
+  }
+
+  return (
+    <AutomationRulesPanel
+      rules={rules}
+      stats={stats}
+      onCreate={createRule}
+      onUpdate={updateRule}
+      onDelete={deleteRule}
+      onToggle={toggleRule}
+    />
   )
 }
 
@@ -238,6 +296,9 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           )}
           {activeProjectSubTab === 'digest' && (
             <ProjectDigestSection activeProject={resolvedProject} updateProject={updateProject} user={user} />
+          )}
+          {activeProjectSubTab === 'automations' && (
+            <ProjectAutomationsSection activeProject={resolvedProject} updateProject={updateProject} user={user} />
           )}
           {activeProjectSubTab === 'data' && (
             <ProjectDataSection activeProject={resolvedProject} updateProject={updateProject} deleteProject={deleteProject} setActiveView={setActiveView} permission={permission} />
