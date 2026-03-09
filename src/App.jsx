@@ -50,6 +50,7 @@ const ExecutiveSummary = lazy(() => import('./views/ExecutiveSummary'))
 const AnalyticsView = lazy(() => import('./views/AnalyticsView'))
 const WidgetDashboard = lazy(() => import('./views/WidgetDashboard'))
 const ComplianceDashboard = lazy(() => import('./views/ComplianceDashboard'))
+const IntegrationsHub = lazy(() => import('./views/IntegrationsHub'))
 const MetricsView = lazy(() => import('./views/MetricsView'))
 const CompetitorsView = lazy(() => import('./views/CompetitorsView'))
 const SettingsView = lazy(() => import('./views/SettingsView'))
@@ -835,6 +836,14 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             updateProject={updateProject}
             user={user}
             projects={projects}
+          />
+        )
+      case 'integrations':
+        return (
+          <IntegrationsHub
+            activeProject={activeProject}
+            updateProject={updateProject}
+            user={user}
           />
         )
       default:
