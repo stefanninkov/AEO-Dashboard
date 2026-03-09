@@ -55,6 +55,8 @@ const CsvExportDialog = lazy(() => import('./components/CsvExportDialog'))
 const CommandPalette = lazy(() => import('./components/CommandPalette'))
 const KeyboardShortcutsModal = lazy(() => import('./components/KeyboardShortcutsModal'))
 const HelpWidget = lazy(() => import('./components/HelpWidget'))
+const AiChatPanel = lazy(() => import('./components/AiChatPanel'))
+import { AiChatButton } from './components/AiChatPanel'
 const ProductTour = lazy(() => import('./components/onboarding/ProductTour'))
 const GettingStartedChecklist = lazy(() => import('./components/onboarding/GettingStartedChecklist'))
 
@@ -304,6 +306,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const [questionnaireProjectId, setQuestionnaireProjectId] = useState(null)
   const [pendingProject, setPendingProject] = useState(null) // { name, url } — deferred creation
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [aiChatOpen, setAiChatOpen] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(() => {
     return localStorage.getItem('aeo-onboarding-completed') !== 'true'
   })
@@ -960,6 +963,18 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
           projects={projects}
           setActiveView={setActiveView}
           onNewProject={() => setNewProjectModalOpen(true)}
+        />
+      )}
+
+      {/* AI Chat Assistant */}
+      <AiChatButton onClick={() => setAiChatOpen(true)} />
+      {aiChatOpen && (
+        <AiChatPanel
+          isOpen={aiChatOpen}
+          onClose={() => setAiChatOpen(false)}
+          activeProject={activeProject}
+          activeView={activeView}
+          onOpenSettings={() => { setAiChatOpen(false); setActiveView('settings') }}
         />
       )}
 
