@@ -6,6 +6,7 @@ import { useFirestoreProjects } from './hooks/useFirestoreProjects'
 import { usePermission } from './hooks/usePermission'
 import { usePresence } from './hooks/usePresence'
 import { useNotifications } from './hooks/useNotifications'
+import { usePortfolio } from './hooks/usePortfolio'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
 import { useDigestScheduler } from './hooks/useDigestScheduler'
@@ -34,6 +35,9 @@ const SchemaGeneratorView = lazy(() => import('./views/SchemaGeneratorView'))
 const MonitoringView = lazy(() => import('./views/MonitoringView'))
 const DocsView = lazy(() => import('./views/DocsView'))
 const TestingView = lazy(() => import('./views/TestingView'))
+const PortfolioDashboard = lazy(() => import('./views/PortfolioDashboard'))
+const ProjectComparison = lazy(() => import('./views/ProjectComparison'))
+const ExecutiveSummary = lazy(() => import('./views/ExecutiveSummary'))
 const MetricsView = lazy(() => import('./views/MetricsView'))
 const CompetitorsView = lazy(() => import('./views/CompetitorsView'))
 const SettingsView = lazy(() => import('./views/SettingsView'))
@@ -420,6 +424,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
 
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
+  const { projectSummaries, portfolioStats, scoreDistribution } = usePortfolio({ projects, phases })
 
   // Auto-monitor
   const { shouldAutoRun, runMonitor } = useAutoMonitor({ activeProject, updateProject })
@@ -758,6 +763,32 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             permission={permission}
             projects={projects}
             updateUserProfile={updateUserProfile}
+          />
+        )
+      case 'portfolio':
+        return (
+          <PortfolioDashboard
+            projectSummaries={projectSummaries}
+            portfolioStats={portfolioStats}
+            scoreDistribution={scoreDistribution}
+            onSelectProject={(id) => { setActiveProjectId(id); setActiveView('dashboard') }}
+            setActiveView={setActiveView}
+          />
+        )
+      case 'comparison':
+        return (
+          <ProjectComparison
+            projectSummaries={projectSummaries}
+            onSelectProject={(id) => { setActiveProjectId(id); setActiveView('dashboard') }}
+          />
+        )
+      case 'executive':
+        return (
+          <ExecutiveSummary
+            projectSummaries={projectSummaries}
+            portfolioStats={portfolioStats}
+            userName={user?.displayName}
+            activeProject={activeProject}
           />
         )
       default:

@@ -6,6 +6,7 @@ import {
   Gauge, Users, Sparkles, ChartColumnIncreasing, BookOpen, FlaskConical,
   SlidersHorizontal, Sun, Moon, Download, FileText, CornerDownLeft,
   PenTool, CalendarDays, Code2, Activity, Layers,
+  Briefcase, GitCompareArrows,
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
 import { ActivityFeedButton } from './GlobalActivityFeed'
@@ -28,6 +29,9 @@ const NAV_ICONS = {
   docs: BookOpen,
   testing: FlaskConical,
   settings: SlidersHorizontal,
+  portfolio: Briefcase,
+  comparison: GitCompareArrows,
+  executive: FileText,
 }
 
 const NAV_KEYS = [
@@ -45,6 +49,9 @@ const NAV_KEYS = [
   { id: 'aeo-impact', i18nKey: 'nav.aeoImpact' },
   { id: 'docs', i18nKey: 'nav.docs' },
   { id: 'testing', i18nKey: 'nav.testing' },
+  { id: 'portfolio', i18nKey: 'nav.portfolio' },
+  { id: 'comparison', i18nKey: 'nav.comparison' },
+  { id: 'executive', i18nKey: 'nav.executive' },
   { id: 'settings', i18nKey: 'nav.settings' },
 ]
 
