@@ -371,17 +371,19 @@ const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProjec
         onClose={() => setShowTemplates(false)}
         onSelect={(tpl) => {
           setShowTemplates(false)
-          // Populate form from selected template
-          if (tpl?.fields) {
-            if (tpl.fields.type) {
-              const matchId = SCHEMA_TYPE_META.find(m => m.schemaType === tpl.fields.type)?.id
-              if (matchId) setSelectedType(matchId)
-            }
-            if (tpl.fields.title || tpl.fields.name || tpl.fields.headline || tpl.fields.productName) {
-              setTopic(tpl.fields.title || tpl.fields.name || tpl.fields.headline || tpl.fields.productName || '')
-            }
-            if (tpl.fields.url) setPageUrl(tpl.fields.url)
+          if (!tpl?.fields) return
+          const f = tpl.fields
+          // Match schema type from either 'type' or 'schemaType' field
+          const schemaKey = f.type || f.schemaType
+          if (schemaKey) {
+            const matchId = SCHEMA_TYPE_META.find(m => m.schemaType === schemaKey)?.id
+            if (matchId) setSelectedType(matchId)
           }
+          // Populate topic from whichever name field has a value
+          const topicVal = f.title || f.name || f.headline || f.productName
+          if (topicVal) setTopic(topicVal)
+          // Populate page URL
+          if (f.url) setPageUrl(f.url)
         }}
         category="schema"
       />

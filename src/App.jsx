@@ -1124,15 +1124,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         position: 'fixed', bottom: 'var(--space-4)', right: 'var(--space-4)',
         zIndex: 900, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem',
       }}>
-        {!splashVisible && !showQuiz && !showOnboarding && (
-          <GettingStartedChecklist
-            activeProject={activeProject}
-            projects={projects}
-            setActiveView={setActiveView}
-            onNewProject={() => setNewProjectModalOpen(true)}
-          />
-        )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem' }}>
           <AiChatButton onClick={() => setAiChatOpen(true)} />
           <HelpWidget
             user={user}
@@ -1141,6 +1133,14 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             setActiveView={setActiveView}
           />
         </div>
+        {!splashVisible && !showQuiz && !showOnboarding && (
+          <GettingStartedChecklist
+            activeProject={activeProject}
+            projects={projects}
+            setActiveView={setActiveView}
+            onNewProject={() => setNewProjectModalOpen(true)}
+          />
+        )}
       </div>
       </Suspense>
       {isMobile && (

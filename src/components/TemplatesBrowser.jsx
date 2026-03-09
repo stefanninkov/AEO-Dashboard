@@ -16,7 +16,8 @@ const BUILTIN_TEMPLATES = [
     description: 'templates.blogPostDesc',
     fallbackDesc: 'Structured blog post optimized for AI citations with FAQ section, key takeaways, and structured data.',
     fields: {
-      title: '', topic: '', targetKeywords: '', tone: 'informative',
+      schemaType: 'Article',
+      title: 'Blog Post', topic: '', targetKeywords: '', tone: 'informative',
       sections: ['Introduction', 'Key Points', 'Deep Dive', 'FAQ', 'Conclusion'],
       includeFaq: true, includeSchema: true,
     },
@@ -41,8 +42,9 @@ const BUILTIN_TEMPLATES = [
     fallbackName: 'Product Page',
     icon: 'Package',
     fields: {
-      productName: '', description: '', features: [], pricing: '',
-      includeSchema: true, schemaType: 'Product',
+      schemaType: 'Product',
+      productName: 'Product Page', description: '', features: [], pricing: '',
+      includeSchema: true,
     },
     description: 'templates.productPageDesc',
     fallbackDesc: 'Product landing page with Product schema and review snippets.',
@@ -54,7 +56,8 @@ const BUILTIN_TEMPLATES = [
     fallbackName: 'Landing Page',
     icon: 'Layout',
     fields: {
-      headline: '', subheadline: '', cta: '', features: [],
+      schemaType: 'Organization',
+      headline: 'Landing Page', subheadline: '', cta: '', features: [],
       testimonials: [], faq: [],
     },
     description: 'templates.landingPageDesc',
