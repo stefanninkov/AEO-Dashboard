@@ -1,40 +1,7 @@
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from '../../lib/gsap'
 import { getLenis } from '../../lib/lenis'
-
-function StaggerButton({ href, className, children, onClick }) {
-  const btnRef = useRef(null)
-  const letters = children.split('').map((char, i) => (
-    <span
-      key={i}
-      className="lp-btn__letter"
-      style={{ animationDelay: `${i * 0.02}s` }}
-    >
-      {char === ' ' ? '\u00A0' : char}
-    </span>
-  ))
-
-  const handleMouseEnter = useCallback(() => {
-    const el = btnRef.current
-    if (!el) return
-    const spans = el.querySelectorAll('.lp-btn__letter')
-    spans.forEach((span, i) => {
-      gsap.fromTo(span,
-        { y: 0 },
-        { y: -3, duration: 0.15, delay: i * 0.02, ease: 'power2.out',
-          onComplete: () => gsap.to(span, { y: 0, duration: 0.25, ease: 'power2.inOut' })
-        }
-      )
-    })
-  }, [])
-
-  return (
-    <a ref={btnRef} href={href} className={className} onClick={onClick} onMouseEnter={handleMouseEnter}>
-      {letters}
-    </a>
-  )
-}
 
 export default function HeroSection() {
   const sectionRef = useRef(null)
@@ -132,12 +99,14 @@ export default function HeroSection() {
         </p>
 
         <div ref={ctaRef} className="lp-hero__ctas">
-          <StaggerButton href="/AEO-Dashboard/app" className="lp-btn lp-btn--primary">
-            Start 14-Day Free Trial
-          </StaggerButton>
-          <StaggerButton href="#features" className="lp-btn lp-btn--secondary" onClick={scrollToFeatures}>
-            See Features
-          </StaggerButton>
+          <a href="/AEO-Dashboard/app" className="lp-btn lp-btn--primary">
+            <span className="lp-btn__text">Start 14-Day Free Trial</span>
+            <span className="lp-btn__text lp-btn__text--clone">Start 14-Day Free Trial</span>
+          </a>
+          <a href="#features" className="lp-btn lp-btn--secondary" onClick={scrollToFeatures}>
+            <span className="lp-btn__text">See Features</span>
+            <span className="lp-btn__text lp-btn__text--clone">See Features</span>
+          </a>
         </div>
       </div>
 

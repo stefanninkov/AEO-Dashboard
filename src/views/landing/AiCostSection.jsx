@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from '../../lib/gsap'
+import { PenTool, Code2, BarChart3, Search } from 'lucide-react'
 
 const COST_BREAKDOWN = [
-  { feature: 'Content Writer', perUse: '$0.01–0.03', usesPerProject: '~15', icon: '✍' },
-  { feature: 'Schema Generator', perUse: '$0.01–0.02', usesPerProject: '~10', icon: '⚙' },
-  { feature: 'AI Analyzer', perUse: '$0.02–0.05', usesPerProject: '~5', icon: '📊' },
-  { feature: 'Search Testing', perUse: '$0.03–0.05', usesPerProject: '~8', icon: '🔍' },
+  { feature: 'Content Writer', perUse: '$0.01–0.03', usesPerProject: '~15', Icon: PenTool },
+  { feature: 'Schema Generator', perUse: '$0.01–0.02', usesPerProject: '~10', Icon: Code2 },
+  { feature: 'AI Analyzer', perUse: '$0.02–0.05', usesPerProject: '~5', Icon: BarChart3 },
+  { feature: 'Search Testing', perUse: '$0.03–0.05', usesPerProject: '~8', Icon: Search },
 ]
 
 const COMPARISON = [
@@ -106,7 +107,7 @@ export default function AiCostSection() {
             {COST_BREAKDOWN.map((item, i) => (
               <div key={i} className="lp-cost__breakdown-row">
                 <span className="lp-cost__breakdown-feature">
-                  <span className="lp-cost__breakdown-icon">{item.icon}</span>
+                  <item.Icon size={16} className="lp-cost__breakdown-icon" />
                   {item.feature}
                 </span>
                 <span className="lp-cost__breakdown-price">{item.perUse}</span>
