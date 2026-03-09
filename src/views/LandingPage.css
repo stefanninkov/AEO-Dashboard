@@ -227,12 +227,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(100%);
+  transform: translateY(300%);
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .lp-btn:hover .lp-btn__text:not(.lp-btn__text--clone) {
-  transform: translateY(-100%);
+  transform: translateY(-300%);
 }
 
 .lp-btn:hover .lp-btn__text--clone {
