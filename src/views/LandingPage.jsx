@@ -240,17 +240,17 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
       name: ['TechCorp', 'MediaHub', 'DataSync', 'CloudBase', 'NetFlow'][i] || '',
     })), [])
 
-  const CASE_STUDIES = useMemo(() =>
-    CASE_STUDY_META.map(meta => ({
+  const CASE_STUDIES = useMemo(() => {
+    const studies = [
+      { company: 'DigitalFirst Agency', industry: 'Marketing Agency', metric: '+340%', metricLabel: 'AI Citations', quote: 'We went from zero AI citations to appearing in 60% of relevant ChatGPT answers within 3 weeks.', author: 'Sarah Chen', role: 'Head of SEO' },
+      { company: 'GrowthLab', industry: 'SaaS', metric: '+180%', metricLabel: 'Organic Traffic', quote: 'The multi-engine testing lab showed us exactly where we were missing citations across all AI platforms.', author: 'Emily Park', role: 'SEO Director' },
+      { company: 'Apex Digital', industry: 'E-Commerce', metric: '20hrs', metricLabel: 'Saved Per Client', quote: 'The schema generator alone saved us 20+ hours per client. The most complete AEO toolkit available.', author: 'James Mitchell', role: 'Technical SEO Lead' },
+    ]
+    return CASE_STUDY_META.map((meta, i) => ({
       ...meta,
-      company: meta.fallbackCompany || meta.company || '',
-      industry: meta.fallbackIndustry || meta.industry || '',
-      metric: meta.fallbackMetric || meta.metric || '',
-      metricLabel: meta.fallbackMetricLabel || meta.metricLabel || '',
-      quote: meta.fallbackQuote || meta.quote || '',
-      author: meta.fallbackAuthor || meta.author || '',
-      role: meta.fallbackRole || meta.role || '',
-    })), [])
+      ...studies[i],
+    }))
+  }, [])
 
   const COMPARISON_FEATURES = useMemo(() => [
       { feature: 'AEO Checklist', aeoDashboard: '99 points', manualTools: 'DIY research', traditionalPlatforms: 'Not available' },
