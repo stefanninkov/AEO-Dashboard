@@ -38,6 +38,8 @@ const TestingView = lazy(() => import('./views/TestingView'))
 const PortfolioDashboard = lazy(() => import('./views/PortfolioDashboard'))
 const ProjectComparison = lazy(() => import('./views/ProjectComparison'))
 const ExecutiveSummary = lazy(() => import('./views/ExecutiveSummary'))
+const AnalyticsView = lazy(() => import('./views/AnalyticsView'))
+const WidgetDashboard = lazy(() => import('./views/WidgetDashboard'))
 const MetricsView = lazy(() => import('./views/MetricsView'))
 const CompetitorsView = lazy(() => import('./views/CompetitorsView'))
 const SettingsView = lazy(() => import('./views/SettingsView'))
@@ -763,6 +765,26 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             permission={permission}
             projects={projects}
             updateUserProfile={updateUserProfile}
+          />
+        )
+      case 'analytics':
+        return (
+          <AnalyticsView
+            activeProject={activeProject}
+            projects={projects}
+            projectSummaries={projectSummaries}
+            portfolioStats={portfolioStats}
+            phases={phases}
+            setActiveView={setActiveView}
+            updateProject={updateProject}
+          />
+        )
+      case 'custom-dashboard':
+        return (
+          <WidgetDashboard
+            activeProject={activeProject}
+            phases={phases}
+            setActiveView={setActiveView}
           />
         )
       case 'portfolio':
