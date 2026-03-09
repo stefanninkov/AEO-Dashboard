@@ -7,8 +7,10 @@ import CitationDNATab from './competitors/CitationDNATab'
 import ContentGapsTab from './competitors/ContentGapsTab'
 import BenchmarkTab from './competitors/BenchmarkTab'
 import { useScrollActiveTab } from '../hooks/useScrollActiveTab'
+import { useAiInsight } from '../hooks/useAiInsight'
+import AiInsightCard from '../components/AiInsightCard'
 
-export default function CompetitorsView({ activeProject, updateProject, user }) {
+export default function CompetitorsView({ activeProject, updateProject, user, setActiveView }) {
 const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'benchmark' | 'monitoring' | 'citation' | 'dna' | 'gaps'
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
@@ -16,6 +18,31 @@ const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'benchmar
   const undismissedAlertCount = useMemo(() => {
     return (activeProject?.competitorAlerts || []).filter(a => !a.dismissed).length
   }, [activeProject?.competitorAlerts])
+
+  // AI Insight
+  const competitorsContext = useMemo(() => {
+    const competitors = activeProject?.competitors
+    if (!competitors || competitors.length === 0) return null
+    return {
+      yourScore: activeProject?.metricsHistory?.slice(-1)[0]?.overallScore || null,
+      competitors: competitors.slice(0, 5).map(c => ({
+        name: c.name || c.url,
+        score: c.score,
+        citations: c.citations,
+      })),
+      alertCount: undismissedAlertCount,
+      recentAlerts: (activeProject?.competitorAlerts || []).filter(a => !a.dismissed).slice(0, 3).map(a => ({
+        competitor: a.competitorName,
+        type: a.type,
+        delta: a.delta,
+      })),
+    }
+  }, [activeProject?.competitors, activeProject?.metricsHistory, activeProject?.competitorAlerts, undismissedAlertCount])
+
+  const { insight: compInsight, loading: compInsightLoading, error: compInsightError, generate: genCompInsight, hasApiKey: compHasKey } = useAiInsight({
+    viewId: 'competitors',
+    contextData: competitorsContext,
+  })
 
   if (!activeProject) {
     return (
@@ -36,6 +63,18 @@ const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'benchmar
           <p className="view-subtitle">{'Track and compare competitors\' AEO performance'}</p>
         </div>
       </div>
+
+      {/* AI Insight */}
+      {competitorsContext && (
+        <AiInsightCard
+          insight={compInsight}
+          loading={compInsightLoading}
+          error={compInsightError}
+          onRefresh={genCompInsight}
+          hasApiKey={compHasKey}
+          onOpenSettings={() => setActiveView?.('settings')}
+        />
+      )}
 
       {/* Tab row */}
       <div ref={tabsRef} className="scrollable-tabs tab-bar-segmented" role="tablist">

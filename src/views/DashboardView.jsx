@@ -21,6 +21,8 @@ import QuickWinCard from './dashboard/QuickWinCard'
 import ActivityInsightsPanel from './dashboard/ActivityInsightsPanel'
 import DashboardPresetSwitcher, { getStoredPreset, storePreset, isSectionVisible } from './dashboard/DashboardPresets'
 import useGridNav from '../hooks/useGridNav'
+import { useAiInsight } from '../hooks/useAiInsight'
+import AiInsightCard from '../components/AiInsightCard'
 
 const SUB_TAB_KEYS = [
   { id: 'overview', i18nKey: 'dashboard.overview' },
@@ -251,6 +253,33 @@ const [subTab, setSubTab] = useState('overview')
   // Smart Recommendations — enhanced with score + competitor gap analysis
   const { recommendations, quickWin } = useRecommendations({ activeProject, phases, setActiveView })
 
+  // AI Insight for dashboard overview
+  const dashboardContext = useMemo(() => {
+    if (!activeProject) return null
+    return {
+      aeoScore,
+      totalCitations,
+      totalPrompts,
+      activeEngines,
+      scoreTrend,
+      citationsTrend,
+      promptsTrend,
+      checklistProgress: phases?.map(p => {
+        let total = 0, checked = 0
+        p.categories?.forEach(c => c.items?.forEach(item => { total++; if (activeProject.checked?.[item.id]) checked++ }))
+        return { phase: p.title, percent: total > 0 ? Math.round((checked / total) * 100) : 0 }
+      }),
+      historyLength: metricsHistory.length,
+      deterministicScore: activeProject.deterministicScore?.overallScore || null,
+    }
+  }, [activeProject, aeoScore, totalCitations, totalPrompts, activeEngines, scoreTrend, citationsTrend, promptsTrend, phases, metricsHistory.length])
+
+  const { insight: dashboardInsight, loading: dashboardInsightLoading, error: dashboardInsightError, generate: generateDashboardInsight, hasApiKey: dashboardHasKey } = useAiInsight({
+    viewId: 'dashboard',
+    contextData: dashboardContext,
+    enabled: subTab === 'overview',
+  })
+
   const emptyStateAction = useCallback(() => setActiveView('metrics'), [setActiveView])
 
   return (
@@ -317,6 +346,18 @@ const [subTab, setSubTab] = useState('overview')
             <StatCard label={'Active AI Engines'} value={activeEngines} trend={null} icon={<Globe size={18} />} iconColor="var(--color-phase-3)" />
             <StatCard label={'AEO Score'} value={`${aeoScore}/100`} trend={scoreTrend} icon={<Target size={18} />} iconColor="var(--color-phase-5)" />
           </div>
+          )}
+
+          {/* AI Insight */}
+          {showSection('stats') && (
+            <AiInsightCard
+              insight={dashboardInsight}
+              loading={dashboardInsightLoading}
+              error={dashboardInsightError}
+              onRefresh={generateDashboardInsight}
+              hasApiKey={dashboardHasKey}
+              onOpenSettings={() => setActiveView('settings')}
+            />
           )}
 
           {/* Site Health + AI Crawler Access — from deterministic analysis */}

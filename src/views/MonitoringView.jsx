@@ -13,6 +13,8 @@ import StatCard from './dashboard/StatCard'
 import EmptyState from '../components/EmptyState'
 import ContentDecayTab from './monitoring/ContentDecayTab'
 import logger from '../utils/logger'
+import { useAiInsight } from '../hooks/useAiInsight'
+import AiInsightCard from '../components/AiInsightCard'
 
 // ─── Interval Config ─────────────────────────────────────────
 const INTERVAL_META = [
@@ -205,6 +207,26 @@ const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({
     return { points: points.join(' '), width, height }
   }, [monitorHistory])
 
+  // AI Insight
+  const monitoringContext = useMemo(() => {
+    if (!latestRun) return null
+    return {
+      currentScore: latestRun.overallScore,
+      scoreDelta,
+      queriesChecked: latestRun.queriesChecked,
+      queriesCited: latestRun.queriesCited,
+      historyLength: monitorHistory.length,
+      recentScores: monitorHistory.slice(-5).map(h => ({ date: h.timestamp, score: h.overallScore })),
+      monitoringEnabled: settings.monitoringEnabled,
+      interval: settings.monitoringInterval || '7d',
+    }
+  }, [latestRun, scoreDelta, monitorHistory, settings.monitoringEnabled, settings.monitoringInterval])
+
+  const { insight: monInsight, loading: monInsightLoading, error: monInsightError, generate: genMonInsight, hasApiKey: monHasKey } = useAiInsight({
+    viewId: 'monitoring',
+    contextData: monitoringContext,
+  })
+
   // ── History display ──
   const displayHistory = showAllHistory ? [...monitorHistory].reverse() : [...monitorHistory].reverse().slice(0, 10)
 
@@ -254,6 +276,17 @@ const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({
           </button>
         </div>
       </div>
+
+      {/* AI Insight */}
+      {monitoringContext && (
+        <AiInsightCard
+          insight={monInsight}
+          loading={monInsightLoading}
+          error={monInsightError}
+          onRefresh={genMonInsight}
+          hasApiKey={monHasKey}
+        />
+      )}
 
       {/* Tabs */}
       <div className="scrollable-tabs tab-bar-segmented">

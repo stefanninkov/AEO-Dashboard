@@ -21,6 +21,8 @@ import { formatSiteUrl } from '../utils/gscApi'
 import { NotConnectedState, NoPropertyState, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
 import { safeHref } from '../utils/sanitizeUrl'
 import StatCard from './dashboard/StatCard'
+import { useAiInsight } from '../hooks/useAiInsight'
+import AiInsightCard from '../components/AiInsightCard'
 
 /* ── Sortable Table Header ── */
 function SortHeader({ label, sortKey, currentSort, onSort }) {
@@ -152,6 +154,26 @@ const google = useGoogleIntegration(user)
     })
     return rows.slice(0, showTop)
   }, [pageData, searchFilter, sort, showTop])
+
+  // AI Insight
+  const gscContext = useMemo(() => {
+    if (!queryData) return null
+    return {
+      totalClicks: queryData.totalClicks,
+      totalImpressions: queryData.totalImpressions,
+      avgCtr: queryData.avgCtr,
+      avgPosition: queryData.avgPosition,
+      aeoQueryCount: queryData.aeoQueryCount,
+      aeoClickShare: queryData.aeoClickShare,
+      topQueries: queryData.rows?.slice(0, 5).map(r => ({ query: r.query, clicks: r.clicks, position: r.position?.toFixed(1) })),
+      dateRange: datePreset,
+    }
+  }, [queryData, datePreset])
+
+  const { insight: gscInsight, loading: gscInsightLoading, error: gscInsightError, generate: genGscInsight, hasApiKey: gscHasKey } = useAiInsight({
+    viewId: 'gsc',
+    contextData: gscContext,
+  })
 
   // ── Export to CSV ──
   const handleExportCsv = () => {
@@ -341,6 +363,18 @@ const google = useGoogleIntegration(user)
             iconColor="#F59E0B"
           />
         </div>
+      )}
+
+      {/* AI Insight */}
+      {queryData && (
+        <AiInsightCard
+          insight={gscInsight}
+          loading={gscInsightLoading}
+          error={gscInsightError}
+          onRefresh={genGscInsight}
+          hasApiKey={gscHasKey}
+          onOpenSettings={() => setActiveView('settings')}
+        />
       )}
 
       {/* Sparkline */}

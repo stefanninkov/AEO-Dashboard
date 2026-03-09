@@ -18,6 +18,8 @@ import StatCard from './dashboard/StatCard'
 import EmptyState from '../components/EmptyState'
 import Celebration from '../components/Celebration'
 import { useToast } from '../components/Toast'
+import { useAiInsight } from '../hooks/useAiInsight'
+import AiInsightCard from '../components/AiInsightCard'
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
@@ -183,6 +185,25 @@ const { engineColors: themeEngineColors } = useChartColors()
     }
   }, [metrics?.overallScore])
 
+  // AI Insight
+  const metricsContext = useMemo(() => {
+    if (!metrics) return null
+    return {
+      overallScore: metrics.overallScore,
+      citations: metrics.citations?.total,
+      prompts: metrics.prompts?.total,
+      citationChange: metrics.citations?.change,
+      topEngines: metrics.citations?.byEngine?.filter(e => e.citations > 0).slice(0, 3).map(e => ({ name: e.engine, citations: e.citations })),
+      historyLength: (activeProject?.metricsHistory || []).length,
+      scoreTrend: rangeMetrics?.scoreTrend,
+    }
+  }, [metrics, rangeMetrics, activeProject?.metricsHistory?.length])
+
+  const { insight: metricsInsight, loading: metricsInsightLoading, error: metricsInsightError, generate: genMetricsInsight, hasApiKey: metricsHasKey } = useAiInsight({
+    viewId: 'metrics',
+    contextData: metricsContext,
+  })
+
   // Empty state
   if (!activeProject) {
     return (
@@ -227,6 +248,18 @@ const { engineColors: themeEngineColors } = useChartColors()
           <AlertCircle size={14} className="flex-shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>
+      )}
+
+      {/* AI Insight */}
+      {metrics && (
+        <AiInsightCard
+          insight={metricsInsight}
+          loading={metricsInsightLoading}
+          error={metricsInsightError}
+          onRefresh={genMetricsInsight}
+          hasApiKey={metricsHasKey}
+          onOpenSettings={() => {}}
+        />
       )}
 
       {/* Tabs - Segmented Control */}

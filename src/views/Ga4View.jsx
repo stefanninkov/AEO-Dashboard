@@ -23,6 +23,8 @@ import { cacheKey, getCache, setCache } from '../utils/dataCache'
 import { NotConnectedState, NoPropertyState, TokenExpiredBanner, DataErrorBanner } from '../components/GoogleEmptyState'
 import StatCard from './dashboard/StatCard'
 import logger from '../utils/logger'
+import { useAiInsight } from '../hooks/useAiInsight'
+import AiInsightCard from '../components/AiInsightCard'
 
 /* ── AI Source Bar ── */
 function AiSourceBar({ source, sessions, maxSessions, totalAiSessions }) {
@@ -192,6 +194,24 @@ const google = useGoogleIntegration(user)
 
   const maxSourceSessions = aiSourceBreakdown.length > 0 ? aiSourceBreakdown[0].sessions : 1
 
+  // AI Insight
+  const ga4Context = useMemo(() => {
+    if (!trafficData) return null
+    return {
+      totalAiSessions: trafficData.totalAiSessions,
+      totalSessions: trafficData.totalSessions,
+      aiSharePercent: trafficData.totalSessions > 0 ? ((trafficData.totalAiSessions / trafficData.totalSessions) * 100).toFixed(1) : 0,
+      topSources: aiSourceBreakdown.slice(0, 5).map(s => ({ name: s.source.label, sessions: s.sessions })),
+      topLandingPages: landingPages?.slice(0, 3).map(p => ({ page: p.pagePath, sessions: p.aiSessions })),
+      dateRange: datePreset,
+    }
+  }, [trafficData, aiSourceBreakdown, landingPages, datePreset])
+
+  const { insight: ga4Insight, loading: ga4InsightLoading, error: ga4InsightError, generate: genGa4Insight, hasApiKey: ga4HasKey } = useAiInsight({
+    viewId: 'ga4',
+    contextData: ga4Context,
+  })
+
   // ── Empty states ──
   if (!google.isConnected && !google.isLoading) {
     return (
@@ -331,6 +351,16 @@ const google = useGoogleIntegration(user)
               iconColor={aiSourceBreakdown[0]?.source.color || '#6B7280'}
             />
           </div>
+
+          {/* AI Insight */}
+          <AiInsightCard
+            insight={ga4Insight}
+            loading={ga4InsightLoading}
+            error={ga4InsightError}
+            onRefresh={genGa4Insight}
+            hasApiKey={ga4HasKey}
+            onOpenSettings={() => setActiveView('settings')}
+          />
 
           {/* Two columns: AI Sources + Trend */}
           <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
