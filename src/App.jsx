@@ -6,6 +6,7 @@ import { useFirestoreProjects } from './hooks/useFirestoreProjects'
 import { usePermission } from './hooks/usePermission'
 import { usePresence } from './hooks/usePresence'
 import { useNotifications } from './hooks/useNotifications'
+import { useNotificationCenter } from './hooks/useNotificationCenter'
 import { usePortfolio } from './hooks/usePortfolio'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
@@ -16,6 +17,7 @@ import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import ErrorBoundary from './components/ErrorBoundary'
 import ConnectionBanner from './components/ConnectionBanner'
+import ToastManager from './components/ToastManager'
 import PresenceHint from './components/PresenceHint'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
@@ -424,6 +426,8 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const permission = usePermission({ user, activeProject })
   const { onlineMembers } = usePresence({ user, activeProject, activeView, updateProject })
   const { notifications, unreadCount, addNotification, markRead, markAllRead, clearAll: clearNotifications } = useNotifications({ user, activeProject, updateProject })
+
+  const notifCenter = useNotificationCenter({ activeProject, user, updateProject })
 
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
@@ -881,6 +885,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
           />
 
           <ConnectionBanner error={firestoreError} />
+          <ToastManager toasts={notifCenter.toasts} dismissToast={notifCenter.dismissToast} />
           <PresenceHint
             onlineMembers={onlineMembers}
             activeView={activeView}
