@@ -9,11 +9,11 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    sourcemap: false,
+    sourcemap: true,
     chunkSizeWarningLimit: 550,
     rollupOptions: {
       // Exclude jsPDF optional deps we never use (saves ~382 kB / ~109 kB gzip)
-      external: ['canvg', 'html2canvas', 'dompurify'],
+      external: ['canvg', 'html2canvas', 'dompurify', '@sentry/react'],
       output: {
         manualChunks: {
           // React core — shared by everything, cached well
