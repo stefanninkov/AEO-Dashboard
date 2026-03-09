@@ -50,8 +50,6 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
         onClick={() => setOpen(prev => !prev)}
         className="help-widget-btn"
         style={{
-          position: 'fixed',
-          bottom: 24, right: 24,
           width: 48, height: 48,
           borderRadius: 14,
           border: 'none',

@@ -1097,16 +1097,6 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         )
       })()}
 
-      {/* Getting Started Checklist — persistent floating widget */}
-      {!splashVisible && !showQuiz && !showOnboarding && (
-        <GettingStartedChecklist
-          activeProject={activeProject}
-          projects={projects}
-          setActiveView={setActiveView}
-          onNewProject={() => setNewProjectModalOpen(true)}
-        />
-      )}
-
       {/* Global Activity Feed */}
       {activityFeedOpen && (
         <GlobalActivityFeed
@@ -1117,8 +1107,6 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         />
       )}
 
-      {/* AI Chat Assistant */}
-      <AiChatButton onClick={() => setAiChatOpen(true)} />
       {aiChatOpen && (
         <AiChatPanel
           isOpen={aiChatOpen}
@@ -1129,13 +1117,29 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         />
       )}
 
-      {/* Help & Feedback Widget */}
-      <HelpWidget
-        user={user}
-        activeView={activeView}
-        activeProject={activeProject}
-        setActiveView={setActiveView}
-      />
+      {/* Floating bottom-right button stack */}
+      <div style={{
+        position: 'fixed', bottom: 'var(--space-4)', right: 'var(--space-4)',
+        zIndex: 900, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem',
+      }}>
+        {!splashVisible && !showQuiz && !showOnboarding && (
+          <GettingStartedChecklist
+            activeProject={activeProject}
+            projects={projects}
+            setActiveView={setActiveView}
+            onNewProject={() => setNewProjectModalOpen(true)}
+          />
+        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <AiChatButton onClick={() => setAiChatOpen(true)} />
+          <HelpWidget
+            user={user}
+            activeView={activeView}
+            activeProject={activeProject}
+            setActiveView={setActiveView}
+          />
+        </div>
+      </div>
       </Suspense>
       {isMobile && (
         <MobileTabBar
