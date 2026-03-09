@@ -13,6 +13,7 @@ import { useSavedViews } from './hooks/useSavedViews'
 import { useGlobalSearch } from './hooks/useGlobalSearch'
 import { usePortfolio } from './hooks/usePortfolio'
 import { useReducedMotion } from './hooks/useReducedMotion'
+import { useBreakpoint } from './hooks/useBreakpoint'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
 import { useDigestScheduler } from './hooks/useDigestScheduler'
 import { trackFeature, FEATURES } from './utils/featureTracker'
@@ -27,6 +28,7 @@ import FeatureTour from './components/FeatureTour'
 import KeyboardCheatsheet from './components/KeyboardCheatsheet'
 import SkipToContent from './components/SkipToContent'
 import GlobalSearchOverlay from './components/GlobalSearchOverlay'
+import MobileTabBar from './components/MobileTabBar'
 import PresenceHint from './components/PresenceHint'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
@@ -443,6 +445,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const keyboard = useKeyboardShortcuts({ setActiveView, handlers: {} })
   const savedViews = useSavedViews({ activeProject, updateProject, user })
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false)
+  const { isMobile, isMobileOrTablet } = useBreakpoint()
 
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
@@ -1134,6 +1137,13 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         setActiveView={setActiveView}
       />
       </Suspense>
+      {isMobile && (
+        <MobileTabBar
+          activeView={activeView}
+          setActiveView={setActiveView}
+          onToggleSidebar={() => setSidebarOpen(prev => !prev)}
+        />
+      )}
     </>
   )
 }
