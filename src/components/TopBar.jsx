@@ -8,6 +8,7 @@ import {
   PenTool, CalendarDays, Code2, Activity, Layers,
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
+import { ActivityFeedButton } from './GlobalActivityFeed'
 import { useTheme } from '../contexts/ThemeContext'
 import Sparkline from './Sparkline'
 
@@ -79,6 +80,7 @@ export default memo(function TopBar({
   onMarkAllRead,
   onClearNotifications,
   onOpenCommandPalette,
+  onOpenActivityFeed,
 }) {
   const { theme, toggleTheme } = useTheme()
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -567,6 +569,9 @@ export default memo(function TopBar({
           <button onClick={onEmail} className="icon-btn" title={'Email report'} aria-label={'Email report'}>
             <Mail size={14} />
           </button>
+          {onOpenActivityFeed && (
+            <ActivityFeedButton onClick={onOpenActivityFeed} />
+          )}
           <NotificationCenter
             notifications={notifications}
             unreadCount={unreadCount}

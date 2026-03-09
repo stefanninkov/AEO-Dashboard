@@ -57,6 +57,7 @@ const KeyboardShortcutsModal = lazy(() => import('./components/KeyboardShortcuts
 const HelpWidget = lazy(() => import('./components/HelpWidget'))
 const AiChatPanel = lazy(() => import('./components/AiChatPanel'))
 import { AiChatButton } from './components/AiChatPanel'
+const GlobalActivityFeed = lazy(() => import('./components/GlobalActivityFeed'))
 const ProductTour = lazy(() => import('./components/onboarding/ProductTour'))
 const GettingStartedChecklist = lazy(() => import('./components/onboarding/GettingStartedChecklist'))
 
@@ -307,6 +308,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const [pendingProject, setPendingProject] = useState(null) // { name, url } — deferred creation
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [aiChatOpen, setAiChatOpen] = useState(false)
+  const [activityFeedOpen, setActivityFeedOpen] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(() => {
     return localStorage.getItem('aeo-onboarding-completed') !== 'true'
   })
@@ -812,6 +814,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             onMarkRead={markRead}
             onMarkAllRead={markAllRead}
             onClearNotifications={clearNotifications}
+            onOpenActivityFeed={() => setActivityFeedOpen(true)}
           />
 
           <ConnectionBanner error={firestoreError} />
@@ -963,6 +966,16 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
           projects={projects}
           setActiveView={setActiveView}
           onNewProject={() => setNewProjectModalOpen(true)}
+        />
+      )}
+
+      {/* Global Activity Feed */}
+      {activityFeedOpen && (
+        <GlobalActivityFeed
+          isOpen={activityFeedOpen}
+          onClose={() => setActivityFeedOpen(false)}
+          activities={activeProject?.activityLog || []}
+          currentUserUid={user?.uid}
         />
       )}
 
