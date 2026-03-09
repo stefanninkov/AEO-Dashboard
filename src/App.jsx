@@ -10,6 +10,7 @@ import { useNotificationCenter } from './hooks/useNotificationCenter'
 import { useOnboarding } from './hooks/useOnboarding'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 import { useSavedViews } from './hooks/useSavedViews'
+import { useGlobalSearch } from './hooks/useGlobalSearch'
 import { usePortfolio } from './hooks/usePortfolio'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
@@ -25,6 +26,7 @@ import OnboardingWizard from './components/OnboardingWizard'
 import FeatureTour from './components/FeatureTour'
 import KeyboardCheatsheet from './components/KeyboardCheatsheet'
 import SkipToContent from './components/SkipToContent'
+import GlobalSearchOverlay from './components/GlobalSearchOverlay'
 import PresenceHint from './components/PresenceHint'
 import { DashboardSkeleton, ChecklistSkeleton, MetricsSkeleton, DocsSkeleton, TestingSkeleton } from './components/Skeleton'
 import { useChecklistTranslation } from './hooks/useChecklistTranslation'
@@ -440,10 +442,12 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const onboarding = useOnboarding({ user })
   const keyboard = useKeyboardShortcuts({ setActiveView, handlers: {} })
   const savedViews = useSavedViews({ activeProject, updateProject, user })
+  const [globalSearchOpen, setGlobalSearchOpen] = useState(false)
 
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
   const { projectSummaries, portfolioStats, scoreDistribution } = usePortfolio({ projects, phases })
+  const globalSearch = useGlobalSearch({ projects, activeProject, phases, savedViews: savedViews.views })
 
   // Auto-monitor
   const { shouldAutoRun, runMonitor } = useAutoMonitor({ activeProject, updateProject })
@@ -912,6 +916,23 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
           />
 
           <SkipToContent />
+          <GlobalSearchOverlay
+            open={globalSearchOpen}
+            onClose={() => setGlobalSearchOpen(false)}
+            query={globalSearch.query}
+            setQuery={globalSearch.setQuery}
+            category={globalSearch.category}
+            setCategory={globalSearch.setCategory}
+            categories={globalSearch.categories}
+            results={globalSearch.results}
+            groupedResults={globalSearch.groupedResults}
+            totalResults={globalSearch.totalResults}
+            onSelectResult={(item) => {
+              if (item.meta?.view) setActiveView(item.meta.view)
+              setGlobalSearchOpen(false)
+              globalSearch.clearSearch()
+            }}
+          />
           <ConnectionBanner error={firestoreError} />
           <KeyboardCheatsheet open={keyboard.cheatsheetOpen} onClose={() => keyboard.setCheatsheetOpen(false)} groupedShortcuts={keyboard.groupedShortcuts} />
           <ToastManager toasts={notifCenter.toasts} dismissToast={notifCenter.dismissToast} />
