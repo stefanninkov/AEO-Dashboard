@@ -77,7 +77,8 @@ Return ONLY valid JSON:
         const clean = result.text.replace(/```json\s?|```/g, '').trim()
         const jsonMatch = clean.match(/\{[\s\S]*\}/)
         if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0])
+          let parsed; try { parsed = JSON.parse(jsonMatch[0]) } catch { parsed = null }
+          if (!parsed) { results[q.id] = { query: q.query, cited: false, excerpt: 'Could not parse result' }; totalChecks++; continue }
           results[q.id] = {
             query: q.query,
             cited: !!parsed.cited,

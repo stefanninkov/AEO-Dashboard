@@ -223,7 +223,7 @@ async function callApi(prompt) {
   const clean = result.text.replace(/```json\s?|```/g, '').trim()
   const jsonMatch = clean.match(/\{[\s\S]*\}/)
   if (jsonMatch) {
-    return JSON.parse(jsonMatch[0])
+    try { return JSON.parse(jsonMatch[0]) } catch { return null }
   }
   return null
 }

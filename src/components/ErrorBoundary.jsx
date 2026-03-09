@@ -85,45 +85,6 @@ export default class ErrorBoundary extends Component {
             {'Try Again'}
           </button>
 
-          {/* Error details */}
-          {this.state.error && (
-            <details
-              style={{
-                marginTop: '2rem',
-                maxWidth: '40rem',
-                width: '100%',
-                textAlign: 'left',
-              }}
-            >
-              <summary
-                style={{
-                  fontSize: '0.75rem',
-                  color: 'var(--text-tertiary)',
-                  cursor: 'pointer',
-                  marginBottom: '0.5rem',
-                }}
-              >
-                {'Error details (dev only)'}
-              </summary>
-              <pre
-                style={{
-                  fontSize: '0.6875rem',
-                  color: 'var(--color-error)',
-                  background: 'var(--hover-bg)',
-                  padding: '1rem',
-                  borderRadius: '0.5rem',
-                  overflow: 'auto',
-                  maxHeight: '12rem',
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-word',
-                  border: '0.0625rem solid var(--border-subtle)',
-                }}
-              >
-                {this.state.error.toString()}
-                {this.state.errorInfo?.componentStack}
-              </pre>
-            </details>
-          )}
         </div>
       )
     }
