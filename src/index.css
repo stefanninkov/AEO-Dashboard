@@ -4820,6 +4820,10 @@ body {
   border-radius: 0.75rem;
   overflow: hidden;
 }
+.testing-section-collapsible {
+  display: grid;
+  transition: grid-template-rows 250ms ease-out;
+}
 
 .testing-section-header {
   display: flex;
