@@ -225,7 +225,7 @@ const [activeCategory, setActiveCategory] = useState(initialCategory || 'all')
           background: 'var(--bg-card)', border: '1px solid var(--border-default)',
           borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-xl)',
           zIndex: 'var(--z-modal)', display: 'flex', flexDirection: 'column',
-          animation: 'fade-in 0.2s ease-out',
+          animation: 'dialog-scale-in 0.2s ease-out',
           overflow: 'hidden',
         }}
       >
