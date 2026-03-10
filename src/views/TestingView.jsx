@@ -337,26 +337,28 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.weekly}
         onToggle={() => toggleSection('weekly')}
       >
-        <div className="space-y-3">
+        <div className="testing-routine-list">
           {WEEKLY_TASKS.map(task => (
-            <label key={task.id} className="flex items-center gap-3 py-2 px-1 cursor-pointer group testing-routine-item">
-              <input
-                type="checkbox"
-                checked={weeklyChecked[task.id] || false}
-                onChange={() => handleWeeklyToggle(task.id)}
-                className="sr-only"
-              />
-              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0 ${
-                weeklyChecked[task.id] ? 'border-phase-3 bg-phase-3' : ''
-              } ${bouncingId === task.id ? 'check-bounce' : ''}`}
-              style={!weeklyChecked[task.id] ? { borderColor: 'var(--border-default)' } : {}}>
+            <div
+              key={task.id}
+              className="testing-routine-item"
+              role="checkbox"
+              aria-checked={weeklyChecked[task.id] || false}
+              tabIndex={0}
+              onClick={() => handleWeeklyToggle(task.id)}
+              onKeyDown={e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); handleWeeklyToggle(task.id) } }}
+            >
+              <div
+                className={`testing-routine-checkbox ${weeklyChecked[task.id] ? 'checked' : ''} ${bouncingId === task.id ? 'check-bounce' : ''}`}
+                style={weeklyChecked[task.id] ? { borderColor: 'var(--color-phase-3)', background: 'var(--color-phase-3)' } : undefined}
+              >
                 {weeklyChecked[task.id] && <CheckCircle2 size={12} className="text-white" />}
               </div>
-              <span className={`text-sm flex-1 transition-all duration-200 ${weeklyChecked[task.id] ? 'text-text-tertiary line-through' : 'text-text-primary'}`}>
+              <span className={`testing-routine-text ${weeklyChecked[task.id] ? 'done' : ''}`}>
                 {task.text}
               </span>
-              <span className="text-xs text-text-tertiary">{task.time}</span>
-            </label>
+              <span className="testing-routine-time">{task.time}</span>
+            </div>
           ))}
         </div>
       </CollapsibleSection>
@@ -369,25 +371,27 @@ export default function TestingView({ activeProject, updateProject }) {
         expanded={expandedSections.monthly}
         onToggle={() => toggleSection('monthly')}
       >
-        <div className="space-y-3">
+        <div className="testing-routine-list">
           {MONTHLY_TASKS.map(task => (
-            <label key={task.id} className="flex items-center gap-3 py-2 px-1 cursor-pointer group testing-routine-item">
-              <input
-                type="checkbox"
-                checked={monthlyChecked[task.id] || false}
-                onChange={() => handleMonthlyToggle(task.id)}
-                className="sr-only"
-              />
-              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0 ${
-                monthlyChecked[task.id] ? 'border-phase-5 bg-phase-5' : ''
-              } ${bouncingId === task.id ? 'check-bounce' : ''}`}
-              style={!monthlyChecked[task.id] ? { borderColor: 'var(--border-default)' } : {}}>
+            <div
+              key={task.id}
+              className="testing-routine-item"
+              role="checkbox"
+              aria-checked={monthlyChecked[task.id] || false}
+              tabIndex={0}
+              onClick={() => handleMonthlyToggle(task.id)}
+              onKeyDown={e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); handleMonthlyToggle(task.id) } }}
+            >
+              <div
+                className={`testing-routine-checkbox ${monthlyChecked[task.id] ? 'checked' : ''} ${bouncingId === task.id ? 'check-bounce' : ''}`}
+                style={monthlyChecked[task.id] ? { borderColor: 'var(--color-phase-5)', background: 'var(--color-phase-5)' } : undefined}
+              >
                 {monthlyChecked[task.id] && <CheckCircle2 size={12} className="text-white" />}
               </div>
-              <span className={`text-sm flex-1 transition-all duration-200 ${monthlyChecked[task.id] ? 'text-text-tertiary line-through' : 'text-text-primary'}`}>
+              <span className={`testing-routine-text ${monthlyChecked[task.id] ? 'done' : ''}`}>
                 {task.text}
               </span>
-            </label>
+            </div>
           ))}
         </div>
       </CollapsibleSection>

@@ -396,9 +396,10 @@ body {
 
 .content-wrapper {
   width: 100%;
-  flex: 1 0 auto;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 /* ══════════════════════════════════════════════════
@@ -1295,7 +1296,7 @@ body {
   animation: shimmer 1.5s infinite;
   border-radius: 0.5rem;
 }
-.view-enter { flex: 1 0 auto; display: flex; flex-direction: column; }
+.view-enter { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .content-reveal { animation: content-reveal var(--duration-normal) ease-out both; }
 .check-bounce { animation: check-bounce var(--duration-normal) ease-out; }
 .fade-in-up { animation: fade-in-up var(--duration-slow) cubic-bezier(0.16, 1, 0.3, 1) both; }
@@ -4874,12 +4875,29 @@ body {
   border-top: 0.0625rem solid var(--border-subtle);
 }
 
+.testing-routine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .testing-routine-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 0.25rem;
   cursor: pointer;
+  border-radius: 0.5rem;
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.testing-routine-item:hover {
+  background: var(--hover-bg);
+}
+.testing-routine-item:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent-subtle);
 }
 
 .testing-routine-checkbox {
@@ -4902,7 +4920,7 @@ body {
   flex: 1;
   transition: all 200ms;
 }
-.testing-routine-text.checked {
+.testing-routine-text.done {
   color: var(--text-tertiary);
   text-decoration: line-through;
 }
@@ -6534,7 +6552,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  flex: 1 0 auto;
+  flex: 1;
+  min-height: 0;
 }
 .view-wrapper::after {
   content: '';
