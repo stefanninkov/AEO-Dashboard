@@ -263,7 +263,7 @@ export default function ActivityInsightsPanel({ activities = [], t: tOverride })
                     <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', fontSize: 'var(--text-2xs)' }}>
                       <Icon size={10} style={{ color: item.color, flexShrink: 0 }} />
                       <span style={{ color: 'var(--text-secondary)' }}>
-                        {'Name}'}
+                        {item.name}
                       </span>
                       <span style={{ color: 'var(--text-disabled)', marginLeft: 'auto', fontFamily: 'var(--font-mono)' }}>{item.value}</span>
                     </div>

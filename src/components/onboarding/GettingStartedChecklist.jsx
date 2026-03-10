@@ -149,7 +149,7 @@ const [expanded, setExpanded] = useState(false)
           onClick={() => setExpanded(true)}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            width: '2.75rem', height: '2.75rem',
+            width: '2.25rem', height: '2.25rem',
             background: 'var(--accent)', color: '#fff',
             border: 'none', borderRadius: '50%',
             cursor: 'pointer', boxShadow: 'var(--shadow-lg)',
@@ -160,12 +160,12 @@ const [expanded, setExpanded] = useState(false)
           onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
           aria-label={`Getting Started ${completedCount}/${totalSteps}`}
         >
-          {celebrating ? <PartyPopper size={18} /> : <Sparkles size={18} />}
+          {celebrating ? <PartyPopper size={16} /> : <Sparkles size={16} />}
           <span style={{
-            position: 'absolute', top: '-4px', right: '-4px',
-            background: '#fff', color: 'var(--accent)',
+            position: 'absolute', top: '-0.1875rem', right: '-0.1875rem',
+            background: 'var(--bg-card)', color: 'var(--accent)',
             fontSize: '0.5625rem', fontWeight: 700,
-            width: '1.25rem', height: '1.25rem',
+            width: '1rem', height: '1rem',
             borderRadius: '50%', display: 'flex',
             alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
