@@ -9,6 +9,7 @@ import { useScrollActiveTab } from '../../hooks/useScrollActiveTab'
 export default function ContentOpsView({ activeProject, updateProject, user, phases, toggleCheckItem }) {
 const [activeTab, setActiveTab] = useState('calendar') // 'calendar' | 'briefs' | 'history'
   const [showTemplates, setShowTemplates] = useState(false)
+  const [templateQuery, setTemplateQuery] = useState('')
   const tabsRef = useRef(null)
   useScrollActiveTab(tabsRef, activeTab)
 
@@ -94,6 +95,8 @@ const [activeTab, setActiveTab] = useState('calendar') // 'calendar' | 'briefs' 
           activeProject={activeProject}
           updateProject={updateProject}
           user={user}
+          initialQuery={templateQuery}
+          onConsumeQuery={() => setTemplateQuery('')}
         />
       )}
 
@@ -109,8 +112,9 @@ const [activeTab, setActiveTab] = useState('calendar') // 'calendar' | 'briefs' 
         onClose={() => setShowTemplates(false)}
         onSelect={(tpl) => {
           setShowTemplates(false)
-          // Switch to briefs tab and pre-populate with template content
           if (tpl?.fields) {
+            const q = tpl.fields.topic || tpl.fields.title || tpl.fields.headline || tpl.fields.productName || tpl.name || ''
+            setTemplateQuery(q)
             setActiveTab('briefs')
           }
         }}

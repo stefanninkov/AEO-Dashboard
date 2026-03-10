@@ -143,34 +143,35 @@ const [expanded, setExpanded] = useState(false)
         maxWidth: '20rem', width: '100%',
       }}
     >
-      {/* Collapsed: floating button */}
+      {/* Collapsed: floating bubble */}
       {!expanded && (
         <button
           onClick={() => setExpanded(true)}
           style={{
-            display: 'flex', alignItems: 'center', gap: 'var(--space-1)',
-            padding: '0.375rem 0.75rem',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: '2.75rem', height: '2.75rem',
             background: 'var(--accent)', color: '#fff',
-            border: 'none', borderRadius: 'var(--radius-full)',
+            border: 'none', borderRadius: '50%',
             cursor: 'pointer', boxShadow: 'var(--shadow-lg)',
-            fontSize: '0.6875rem', fontWeight: 600,
-            fontFamily: 'var(--font-heading)',
             transition: 'transform 0.2s, box-shadow 0.2s',
-            marginLeft: 'auto',
+            marginLeft: 'auto', position: 'relative',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)' }}
           onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
-          aria-label={'Getting Started'}
+          aria-label={`Getting Started ${completedCount}/${totalSteps}`}
         >
-          {celebrating ? <PartyPopper size={13} /> : <Sparkles size={13} />}
-          {'Getting Started'}
+          {celebrating ? <PartyPopper size={18} /> : <Sparkles size={18} />}
           <span style={{
-            background: 'rgba(255,255,255,0.25)', padding: '0px 5px',
-            borderRadius: 'var(--radius-full)', fontSize: '0.625rem',
+            position: 'absolute', top: '-4px', right: '-4px',
+            background: '#fff', color: 'var(--accent)',
+            fontSize: '0.5625rem', fontWeight: 700,
+            width: '1.25rem', height: '1.25rem',
+            borderRadius: '50%', display: 'flex',
+            alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
           }}>
-            {completedCount}/{totalSteps}
+            {completedCount}
           </span>
-          <ChevronUp size={12} />
         </button>
       )}
 

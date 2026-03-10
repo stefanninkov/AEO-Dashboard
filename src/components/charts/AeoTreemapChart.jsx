@@ -15,7 +15,7 @@ import { useChartColors } from '../../utils/chartColors'
  *   onItemClick: (item) => void
  */
 
-function CustomContent({ x, y, width, height, name, value, isLight }) {
+function CustomContent({ x, y, width, height, name, value, fill, isLight }) {
   if (width < 30 || height < 25) return null
 
   return (
@@ -27,6 +27,7 @@ function CustomContent({ x, y, width, height, name, value, isLight }) {
         height={height}
         rx={4}
         style={{
+          fill: fill || (isLight ? '#6366f1' : '#818cf8'),
           stroke: isLight ? '#ffffff' : '#111827',
           strokeWidth: 2,
         }}

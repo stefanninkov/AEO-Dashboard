@@ -271,7 +271,7 @@ const { engineColors: themeEngineColors } = useChartColors()
             onClick={() => setActiveTab(id)}
             className="tab-segmented"
           >
-            {'${id}'}
+            {id}
           </button>
         ))}
       </div>

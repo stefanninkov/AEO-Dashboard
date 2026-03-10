@@ -235,10 +235,16 @@ function BriefDisplay({ briefEntry, onCopy, onRemove, onUpdateTitle }) {
 }
 
 /* ── Main Brief View ── */
-export default function BriefView({ activeProject, updateProject, user }) {
+export default function BriefView({ activeProject, updateProject, user, initialQuery, onConsumeQuery }) {
   const brief = useContentBrief({ activeProject, updateProject, user })
   const [query, setQuery] = useState('')
   const [pageUrl, setPageUrl] = useState('')
+
+  // Pre-populate from template selection
+  if (initialQuery && query !== initialQuery) {
+    setQuery(initialQuery)
+    onConsumeQuery?.()
+  }
 
   const handleGenerate = async () => {
     if (!query.trim()) return
