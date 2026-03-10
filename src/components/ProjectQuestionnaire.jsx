@@ -8,7 +8,7 @@ import {
 import {
   INDUSTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS,
   GOAL_LABELS, MATURITY_LABELS, COUNTRY_OPTIONS, COUNTRY_LABELS,
-  LANGUAGE_LABELS, LANGUAGE_OPTIONS, CMS_LABELS,
+  LANGUAGE_LABELS, LANGUAGE_OPTIONS, CMS_LABELS, CONTENT_LABELS, ENGINE_LABELS,
   INDUSTRY_IDS, REGION_IDS, AUDIENCE_IDS, GOAL_IDS,
   ENGINE_IDS, ENGINE_COLORS, CONTENT_IDS, MATURITY_IDS, CMS_IDS,
 } from '../utils/fieldDefinitions'
@@ -34,35 +34,35 @@ const [step, setStep] = useState(0)
 
   /* Build translated option arrays */
   const INDUSTRY_OPTIONS = useMemo(() => INDUSTRY_META.map(m => ({
-    ...m, label: 'Value}',
+    ...m, label: INDUSTRY_LABELS[m.value] || m.value,
   })), [])
 
   const REGION_OPTIONS = useMemo(() => REGION_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: REGION_LABELS[id] || id,
   })), [])
 
   const AUDIENCE_OPTIONS = useMemo(() => AUDIENCE_IDS.map(id => ({
-    value: id, label: 'Label', desc: 'Desc',
+    value: id, label: AUDIENCE_LABELS[id] || id,
   })), [])
 
   const GOAL_OPTIONS = useMemo(() => GOAL_IDS.map(id => ({
-    value: id, label: 'Label', desc: 'Desc',
+    value: id, label: GOAL_LABELS[id] || id,
   })), [])
 
   const ENGINE_OPTIONS = useMemo(() => ENGINE_META.map(m => ({
-    ...m, label: 'Value}',
+    ...m, label: ENGINE_LABELS[m.value] || m.value,
   })), [])
 
   const CONTENT_OPTIONS = useMemo(() => CONTENT_IDS.map(id => ({
-    value: id, label: 'Label', desc: 'Desc',
+    value: id, label: CONTENT_LABELS[id] || id,
   })), [])
 
   const MATURITY_OPTIONS = useMemo(() => MATURITY_IDS.map(id => ({
-    value: id, label: 'Label', desc: 'Desc',
+    value: id, label: MATURITY_LABELS[id] || id,
   })), [])
 
   const CMS_OPTIONS = useMemo(() => CMS_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: CMS_LABELS[id] || id,
   })), [])
   const [answers, setAnswers] = useState({
     industry: initialData?.industry || null,

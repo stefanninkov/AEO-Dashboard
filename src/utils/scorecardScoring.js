@@ -11,10 +11,10 @@
 // ══════════════════════════════════════════════
 
 export const CATEGORIES = [
-  { id: 'contentStructure', color: 'var(--color-phase-1)', maxScore: 9 },
-  { id: 'technicalSchema', color: 'var(--color-phase-2)', maxScore: 9 },
-  { id: 'aiVisibility', color: 'var(--color-phase-3)', maxScore: 9 },
-  { id: 'strategyCompetition', color: 'var(--color-phase-5)', maxScore: 6 },
+  { id: 'contentStructure', label: 'Content & Structure', color: 'var(--color-phase-1)', maxScore: 9 },
+  { id: 'technicalSchema', label: 'Technical & Schema', color: 'var(--color-phase-2)', maxScore: 9 },
+  { id: 'aiVisibility', label: 'AI Visibility', color: 'var(--color-phase-3)', maxScore: 9 },
+  { id: 'strategyCompetition', label: 'Strategy & Competition', color: 'var(--color-phase-5)', maxScore: 6 },
 ]
 
 export const MAX_TOTAL_SCORE = 33
@@ -26,66 +26,66 @@ export const MAX_TOTAL_SCORE = 33
 
 export const SCORED_QUESTIONS = [
   // ─── Content & Structure (3 Qs, max 9 pts) ───
-  { id: 'q1', category: 'contentStructure', options: [
-    { value: 'yes_most', points: 3 },    // "Yes, on most pages"
-    { value: 'some', points: 2 },         // "On some pages"
-    { value: 'no', points: 0 },           // "No / Not sure"
+  { id: 'q1', category: 'contentStructure', text: 'Does your content include direct answer paragraphs for common questions?', options: [
+    { value: 'yes_most', points: 3, label: 'Yes, on most pages' },
+    { value: 'some', points: 2, label: 'On some pages' },
+    { value: 'no', points: 0, label: 'No / Not sure' },
   ]},
-  { id: 'q2', category: 'contentStructure', options: [
-    { value: 'weekly', points: 3 },       // "Weekly or more"
-    { value: 'monthly', points: 2 },      // "Monthly"
-    { value: 'rarely', points: 0 },       // "Rarely or never"
+  { id: 'q2', category: 'contentStructure', text: 'How often do you publish or update content?', options: [
+    { value: 'weekly', points: 3, label: 'Weekly or more' },
+    { value: 'monthly', points: 2, label: 'Monthly' },
+    { value: 'rarely', points: 0, label: 'Rarely or never' },
   ]},
-  { id: 'q3', category: 'contentStructure', options: [
-    { value: 'yes_specific', points: 3 }, // "Yes, we write for this specifically"
-    { value: 'naturally', points: 2 },    // "Some of our content does naturally"
-    { value: 'no', points: 0 },           // "We haven't thought about this"
+  { id: 'q3', category: 'contentStructure', text: 'Do you create content specifically to appear in AI answers?', options: [
+    { value: 'yes_specific', points: 3, label: 'Yes, we write for this specifically' },
+    { value: 'naturally', points: 2, label: 'Some of our content does naturally' },
+    { value: 'no', points: 0, label: 'We haven\'t thought about this' },
   ]},
 
   // ─── Technical & Schema (3 Qs, max 9 pts) ───
-  { id: 'q4', category: 'technicalSchema', options: [
-    { value: 'multiple', points: 3 },     // "Yes, multiple types (FAQ, Article, HowTo...)"
-    { value: 'basic', points: 2 },        // "Basic only (Organization, Breadcrumb)"
-    { value: 'none', points: 0 },         // "No / Don't know"
+  { id: 'q4', category: 'technicalSchema', text: 'Do you use structured data / schema markup on your site?', options: [
+    { value: 'multiple', points: 3, label: 'Yes, multiple types (FAQ, Article, HowTo...)' },
+    { value: 'basic', points: 2, label: 'Basic only (Organization, Breadcrumb)' },
+    { value: 'none', points: 0, label: 'No / Don\'t know' },
   ]},
-  { id: 'q5', category: 'technicalSchema', options: [
-    { value: 'all_allowed', points: 3 },  // "Yes, they're all allowed"
-    { value: 'some_checked', points: 2 }, // "I've checked some"
-    { value: 'no', points: 0 },           // "No / What's that?"
+  { id: 'q5', category: 'technicalSchema', text: 'Can AI crawlers (GPTBot, PerplexityBot, etc.) access your site?', options: [
+    { value: 'all_allowed', points: 3, label: 'Yes, they\'re all allowed' },
+    { value: 'some_checked', points: 2, label: 'I\'ve checked some' },
+    { value: 'no', points: 0, label: 'No / What\'s that?' },
   ]},
-  { id: 'q6', category: 'technicalSchema', options: [
-    { value: 'auto_updated', points: 3 },  // "Yes, auto-updated"
-    { value: 'exists_unsure', points: 2 }, // "Yes, but not sure about lastmod"
-    { value: 'no', points: 0 },            // "No / Don't know"
+  { id: 'q6', category: 'technicalSchema', text: 'Do you have an XML sitemap with accurate lastmod dates?', options: [
+    { value: 'auto_updated', points: 3, label: 'Yes, auto-updated' },
+    { value: 'exists_unsure', points: 2, label: 'Yes, but not sure about lastmod' },
+    { value: 'no', points: 0, label: 'No / Don\'t know' },
   ]},
 
   // ─── AI Visibility (3 Qs, max 9 pts) ───
-  { id: 'q7', category: 'aiVisibility', options: [
-    { value: 'regularly', points: 3 },    // "Yes, we monitor this regularly"
-    { value: 'few_times', points: 2 },    // "I've checked a few times"
-    { value: 'never', points: 0 },        // "Never"
+  { id: 'q7', category: 'aiVisibility', text: 'Do you check if your brand appears in AI engine responses?', options: [
+    { value: 'regularly', points: 3, label: 'Yes, we monitor this regularly' },
+    { value: 'few_times', points: 2, label: 'I\'ve checked a few times' },
+    { value: 'never', points: 0, label: 'Never' },
   ]},
-  { id: 'q8', category: 'aiVisibility', options: [
-    { value: 'track', points: 3 },        // "Yes, we track this"
-    { value: 'noticed', points: 2 },      // "I've noticed some"
-    { value: 'no_idea', points: 0 },      // "No idea"
+  { id: 'q8', category: 'aiVisibility', text: 'Do you track referral traffic from AI engines?', options: [
+    { value: 'track', points: 3, label: 'Yes, we track this' },
+    { value: 'noticed', points: 2, label: 'I\'ve noticed some' },
+    { value: 'no_idea', points: 0, label: 'No idea' },
   ]},
-  { id: 'q9', category: 'aiVisibility', options: [
-    { value: 'setup', points: 3 },        // "Yes, we have this set up"
-    { value: 'planning', points: 1 },     // "Planning to"
-    { value: 'no', points: 0 },           // "No"
+  { id: 'q9', category: 'aiVisibility', text: 'Have you set up llms.txt or similar AI-specific discoverability files?', options: [
+    { value: 'setup', points: 3, label: 'Yes, we have this set up' },
+    { value: 'planning', points: 1, label: 'Planning to' },
+    { value: 'no', points: 0, label: 'No' },
   ]},
 
   // ─── Strategy & Competition (2 Qs, max 6 pts) ───
-  { id: 'q10', category: 'strategyCompetition', options: [
-    { value: 'monitor', points: 3 },      // "Yes, we monitor this"
-    { value: 'checked', points: 2 },      // "I've checked a few"
-    { value: 'no', points: 0 },           // "No"
+  { id: 'q10', category: 'strategyCompetition', text: 'Do you know if your competitors appear in AI answers?', options: [
+    { value: 'monitor', points: 3, label: 'Yes, we monitor this' },
+    { value: 'checked', points: 2, label: 'I\'ve checked a few' },
+    { value: 'no', points: 0, label: 'No' },
   ]},
-  { id: 'q11', category: 'strategyCompetition', options: [
-    { value: 'roadmap', points: 3 },      // "Yes, it's part of our roadmap"
-    { value: 'exploring', points: 2 },    // "We're exploring it"
-    { value: 'seo_only', points: 0 },     // "No, SEO only"
+  { id: 'q11', category: 'strategyCompetition', text: 'Is Answer Engine Optimization part of your marketing strategy?', options: [
+    { value: 'roadmap', points: 3, label: 'Yes, it\'s part of our roadmap' },
+    { value: 'exploring', points: 2, label: 'We\'re exploring it' },
+    { value: 'seo_only', points: 0, label: 'No, SEO only' },
   ]},
 ]
 
@@ -94,24 +94,24 @@ export const SCORED_QUESTIONS = [
 // ══════════════════════════════════════════════
 
 export const QUALIFYING_QUESTIONS = [
-  { id: 'role', options: [
-    { value: 'agency_owner', leadPoints: 4 },    // "Agency owner / Partner"
-    { value: 'seo_director', leadPoints: 3 },     // "SEO Manager / Director at agency"
-    { value: 'inhouse', leadPoints: 2 },           // "In-house marketing / SEO"
-    { value: 'freelancer', leadPoints: 2 },        // "Freelance consultant"
-    { value: 'other', leadPoints: 0 },             // "Other / Just exploring"
+  { id: 'role', text: 'What best describes your role?', options: [
+    { value: 'agency_owner', leadPoints: 4, label: 'Agency owner / Partner' },
+    { value: 'seo_director', leadPoints: 3, label: 'SEO Manager / Director at agency' },
+    { value: 'inhouse', leadPoints: 2, label: 'In-house marketing / SEO' },
+    { value: 'freelancer', leadPoints: 2, label: 'Freelance consultant' },
+    { value: 'other', leadPoints: 0, label: 'Other / Just exploring' },
   ]},
-  { id: 'websiteCount', options: [
-    { value: '10+', leadPoints: 4 },              // "10+ client websites"
-    { value: '3-9', leadPoints: 3 },               // "3-9 websites"
-    { value: '1-2', leadPoints: 1 },               // "1-2 websites"
-    { value: 'own', leadPoints: 0 },               // "Just my own"
+  { id: 'websiteCount', text: 'How many websites do you manage?', options: [
+    { value: '10+', leadPoints: 4, label: '10+ client websites' },
+    { value: '3-9', leadPoints: 3, label: '3-9 websites' },
+    { value: '1-2', leadPoints: 1, label: '1-2 websites' },
+    { value: 'own', leadPoints: 0, label: 'Just my own' },
   ]},
-  { id: 'timeline', options: [
-    { value: 'immediately', leadPoints: 4 },      // "Immediately — this is urgent"
-    { value: '1-3months', leadPoints: 2 },         // "Within 1-3 months"
-    { value: 'exploring', leadPoints: 1 },         // "Exploring for the future"
-    { value: 'curious', leadPoints: 0 },           // "Just curious for now"
+  { id: 'timeline', text: 'When are you looking to implement AEO?', options: [
+    { value: 'immediately', leadPoints: 4, label: 'Immediately — this is urgent' },
+    { value: '1-3months', leadPoints: 2, label: 'Within 1-3 months' },
+    { value: 'exploring', leadPoints: 1, label: 'Exploring for the future' },
+    { value: 'curious', leadPoints: 0, label: 'Just curious for now' },
   ]},
 ]
 

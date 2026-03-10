@@ -9,8 +9,11 @@ import {
   GraduationCap, Megaphone, Store, Newspaper, Briefcase,
 } from 'lucide-react'
 import {
-  INDUSTRY_IDS, REGION_IDS, AUDIENCE_IDS, GOAL_IDS,
-  ENGINE_IDS, ENGINE_COLORS, CONTENT_IDS, MATURITY_IDS, CMS_IDS,
+  INDUSTRY_IDS, INDUSTRY_LABELS, REGION_IDS, REGION_LABELS,
+  AUDIENCE_IDS, AUDIENCE_LABELS, GOAL_IDS, GOAL_LABELS,
+  ENGINE_IDS, ENGINE_LABELS, ENGINE_COLORS,
+  CONTENT_IDS, CONTENT_LABELS, MATURITY_IDS, MATURITY_LABELS,
+  CMS_IDS, CMS_LABELS,
   COUNTRY_OPTIONS, COUNTRY_LABELS, LANGUAGE_OPTIONS,
 } from '../utils/fieldDefinitions'
 import { useFocusTrap } from '../hooks/useFocusTrap'
@@ -86,35 +89,35 @@ const trapRef = useFocusTrap(true)
 
   /* Translated option arrays */
   const INDUSTRY_OPTIONS = useMemo(() => INDUSTRY_IDS.map(id => ({
-    value: id, icon: INDUSTRY_ICON_MAP[id], label: '${id}',
+    value: id, icon: INDUSTRY_ICON_MAP[id], label: INDUSTRY_LABELS[id] || id,
   })), [])
 
   const REGION_OPTIONS = useMemo(() => REGION_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: REGION_LABELS[id] || id,
   })), [])
 
   const AUDIENCE_OPTIONS = useMemo(() => AUDIENCE_IDS.map(id => ({
-    value: id, label: 'Label', desc: 'Desc',
+    value: id, label: AUDIENCE_LABELS[id] || id,
   })), [])
 
   const GOAL_OPTIONS = useMemo(() => GOAL_IDS.map(id => ({
-    value: id, label: 'Label',
+    value: id, label: GOAL_LABELS[id] || id,
   })), [])
 
   const ENGINE_OPTIONS = useMemo(() => ENGINE_IDS.map(id => ({
-    value: id, color: ENGINE_COLORS[id], label: '${id}',
+    value: id, color: ENGINE_COLORS[id], label: ENGINE_LABELS[id] || id,
   })), [])
 
   const CONTENT_OPTIONS = useMemo(() => CONTENT_IDS.map(id => ({
-    value: id, label: 'Label',
+    value: id, label: CONTENT_LABELS[id] || id,
   })), [])
 
   const MATURITY_OPTIONS = useMemo(() => MATURITY_IDS.map(id => ({
-    value: id, label: 'Label',
+    value: id, label: MATURITY_LABELS[id] || id,
   })), [])
 
   const CMS_OPTIONS = useMemo(() => CMS_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: CMS_LABELS[id] || id,
   })), [])
 
   const countryOptions = useMemo(() => {

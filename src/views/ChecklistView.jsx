@@ -20,13 +20,22 @@ const PRINCIPLE_COUNT = 7
 const PHASE_COUNT = 7
 
 export default function ChecklistView({ phases, activeProject, toggleCheckItem, setActiveView, setDocItem, updateProject, user, onlineMembers, addNotification }) {
-const keyPrinciples = useMemo(() =>
-    Array.from({ length: PRINCIPLE_COUNT }, (_, i) => '${i}'), [])
-  const deliverables = useMemo(() => {
-    const d = {}
-    for (let i = 1; i <= PHASE_COUNT; i++) d[i] = '${i}'
-    return d
-  }, [])
+const keyPrinciples = useMemo(() => [
+    'Structure content as direct answers to user questions',
+    'Implement comprehensive schema markup across all pages',
+    'Build topical authority through content clusters',
+    'Ensure AI crawlers can access and parse your content',
+    'Monitor and optimize for AI engine citations continuously',
+  ], [])
+  const deliverables = useMemo(() => ({
+    1: 'Baseline audit report with content gap analysis',
+    2: 'Schema markup implemented on all key pages',
+    3: 'Optimized content with answer paragraphs and headings',
+    4: 'Technical AEO setup: bot access, RSS, semantic HTML',
+    5: 'E-E-A-T signals and authority backlinks established',
+    6: 'Cross-engine testing results validated',
+    7: 'Monitoring dashboard with monthly optimization cadence',
+  }), [])
 
   const firstPriority = getFirstPriorityPhase(activeProject?.questionnaire)
   const [principlesOpen, setPrinciplesOpen] = useState(false)

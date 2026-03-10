@@ -11,8 +11,19 @@ import StatCard from './dashboard/StatCard'
 
 const ALL_PLATFORMS = ['ChatGPT', 'Perplexity', 'Google AIO', 'Bing Copilot', 'Claude']
 
-const WEEKLY_TASK_IDS = ['w1', 'w2', 'w3', 'w4']
-const MONTHLY_TASK_IDS = ['m1', 'm2', 'm3', 'm4', 'm5']
+const WEEKLY_TASKS_DATA = [
+  { id: 'w1', text: 'Test top queries across AI engines', time: '~10 min' },
+  { id: 'w2', text: 'Check citation status for key pages', time: '~5 min' },
+  { id: 'w3', text: 'Review AI Traffic analytics', time: '~5 min' },
+  { id: 'w4', text: 'Verify schema markup is valid', time: '~10 min' },
+]
+const MONTHLY_TASKS_DATA = [
+  { id: 'm1', text: 'Run full competitor citation comparison' },
+  { id: 'm2', text: 'Audit content freshness and decay signals' },
+  { id: 'm3', text: 'Review and update structured data' },
+  { id: 'm4', text: 'Analyze prompt category trends' },
+  { id: 'm5', text: 'Update AEO strategy based on findings' },
+]
 
 const QUICK_LINKS = [
   { name: 'Google Rich Results Test', url: 'https://search.google.com/test/rich-results' },
@@ -32,16 +43,8 @@ const STATUS_META = [
 ]
 
 export default function TestingView({ activeProject, updateProject }) {
-const WEEKLY_TASKS = useMemo(() => WEEKLY_TASK_IDS.map(id => ({
-    id,
-    text: '${id}',
-    time: '${id}',
-  })), [])
-
-  const MONTHLY_TASKS = useMemo(() => MONTHLY_TASK_IDS.map(id => ({
-    id,
-    text: '${id}',
-  })), [])
+const WEEKLY_TASKS = WEEKLY_TASKS_DATA
+  const MONTHLY_TASKS = MONTHLY_TASKS_DATA
 
   const STATUS_OPTIONS = useMemo(() => STATUS_META.map(s => ({
     ...s,

@@ -4,8 +4,9 @@ import {
   Briefcase, Users, Target, BookOpen, Share2,
 } from 'lucide-react'
 import {
-  ROLE_IDS, TEAM_SIZE_IDS, USER_GOAL_IDS,
-  FAMILIARITY_IDS, REFERRAL_IDS,
+  ROLE_IDS, ROLE_LABELS, TEAM_SIZE_IDS, TEAM_SIZE_LABELS,
+  USER_GOAL_IDS, USER_GOAL_LABELS, FAMILIARITY_IDS, FAMILIARITY_LABELS,
+  REFERRAL_IDS, REFERRAL_LABELS,
 } from '../utils/fieldDefinitions'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
@@ -33,23 +34,23 @@ const [step, setStep] = useState(0)
 
   /* Build translated option arrays */
   const ROLE_OPTIONS = useMemo(() => ROLE_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: ROLE_LABELS[id] || id,
   })), [])
 
   const TEAM_SIZE_OPTIONS = useMemo(() => TEAM_SIZE_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: TEAM_SIZE_LABELS[id] || id,
   })), [])
 
   const GOAL_OPTIONS = useMemo(() => USER_GOAL_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: USER_GOAL_LABELS[id] || id,
   })), [])
 
   const FAMILIARITY_OPTIONS = useMemo(() => FAMILIARITY_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: FAMILIARITY_LABELS[id] || id,
   })), [])
 
   const REFERRAL_OPTIONS = useMemo(() => REFERRAL_IDS.map(id => ({
-    value: id, label: '${id}',
+    value: id, label: REFERRAL_LABELS[id] || id,
   })), [])
 
   const STEP_KEYS = ['role', 'teamSize', 'primaryGoal', 'aeoFamiliarity', 'referralSource']

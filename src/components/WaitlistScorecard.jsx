@@ -9,7 +9,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { X, Loader2, ArrowLeft } from 'lucide-react'
 import {
-  QUIZ_FLOW, SCORED_QUESTIONS, QUALIFYING_QUESTIONS,
+  QUIZ_FLOW, SCORED_QUESTIONS, QUALIFYING_QUESTIONS, CATEGORIES,
   computeScores, computeLeadScore, getScoreTier, getLeadTier,
   getTopPriorities, MAX_TOTAL_SCORE,
 } from '../utils/scorecardScoring'
@@ -180,19 +180,20 @@ const {
     if (type === 'scored') {
       const q = SCORED_QUESTIONS.find(sq => sq.id === id)
       if (!q) return null
-      questionText = 'Text'
-      options = q.options.map((opt, i) => ({
+      questionText = q.text || id
+      options = q.options.map((opt) => ({
         value: opt.value,
-        label: '${i}',
+        label: opt.label || opt.value,
       }))
-      categoryLabel = 'Category}'
+      const cat = CATEGORIES.find(c => c.id === q.category)
+      categoryLabel = cat?.label || q.category
     } else {
       const q = QUALIFYING_QUESTIONS.find(qq => qq.id === id)
       if (!q) return null
-      questionText = 'Text'
-      options = q.options.map((opt, i) => ({
+      questionText = q.text || id
+      options = q.options.map((opt) => ({
         value: opt.value,
-        label: '${i}',
+        label: opt.label || opt.value,
       }))
       categoryLabel = null
     }

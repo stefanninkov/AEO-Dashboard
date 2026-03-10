@@ -728,7 +728,12 @@ const [activeTab, setActiveTab] = useState('guide')
                 </button>
 
                 {/* Expanded content */}
-                {isExpanded && (
+                <div style={{
+                  display: 'grid',
+                  gridTemplateRows: isExpanded ? '1fr' : '0fr',
+                  transition: 'grid-template-rows var(--duration-normal) var(--ease-out)',
+                }}>
+                <div style={{ overflow: 'hidden' }}>
                   <div style={{
                     borderTop: '0.0625rem solid var(--border-subtle)',
                     padding: '0.75rem 1rem',
@@ -762,7 +767,8 @@ const [activeTab, setActiveTab] = useState('guide')
                       </div>
                     ))}
                   </div>
-                )}
+                </div>
+                </div>
               </div>
             )
           })}
