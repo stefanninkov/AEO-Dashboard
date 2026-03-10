@@ -13,6 +13,7 @@ import { useCitationShare } from '../../hooks/useCitationShare'
 import ProgressBar from '../../components/ProgressBar'
 import EmptyState from '../../components/EmptyState'
 import { PHASE_COLOR_ARRAY } from '../../utils/chartColors'
+import CollapsibleContent from '../../components/shared/CollapsibleContent'
 import { ENGINE_COLORS } from '../../utils/chartColors'
 import { ToggleSwitch } from '../../views/settings/SettingsShared'
 import logger from '../../utils/logger'
@@ -573,7 +574,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                     {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                   </button>
 
-                  {isExpanded && (
+                  <CollapsibleContent expanded={isExpanded}>
                     <div style={{
                       padding: '0.625rem 0.75rem',
                       border: '0.0625rem solid var(--border-subtle)', borderTop: 'none',
@@ -604,7 +605,7 @@ export default function CitationShareTab({ activeProject, updateProject, user })
                         )
                       })}
                     </div>
-                  )}
+                  </CollapsibleContent>
                 </div>
               )
             })}

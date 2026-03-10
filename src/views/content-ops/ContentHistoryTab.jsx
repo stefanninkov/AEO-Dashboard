@@ -12,6 +12,7 @@ import {
   Copy, Check, Trash2, ChevronDown, ChevronUp, Filter, Clock,
 } from 'lucide-react'
 import { useToast } from '../../components/Toast'
+import CollapsibleContent from '../../components/shared/CollapsibleContent'
 
 const CONTENT_ICONS = {
   faq: HelpCircle,
@@ -284,7 +285,7 @@ const { addToast } = useToast()
               )}
 
               {/* ── Expanded content ── */}
-              {isExpanded && (
+              <CollapsibleContent expanded={isExpanded}>
                 <div style={{
                   padding: 'var(--space-3) var(--space-5) var(--space-4)',
                   borderTop: '0.0625rem solid var(--border-subtle)',
@@ -301,7 +302,7 @@ const { addToast } = useToast()
                     {getFullContent(entry)}
                   </pre>
                 </div>
-              )}
+              </CollapsibleContent>
             </div>
           )
         })}

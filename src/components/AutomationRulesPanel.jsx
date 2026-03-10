@@ -4,6 +4,7 @@ import {
   ChevronRight, Zap, Bell, FileText, Copy, Activity,
 } from 'lucide-react'
 import { RULE_TEMPLATES } from '../hooks/useAutomations'
+import CollapsibleContent from './shared/CollapsibleContent'
 
 const TRIGGER_LABELS = {
   score_change: 'Score Change',
@@ -209,7 +210,7 @@ function AutomationRulesPanel({ rules = [], stats = {}, onCreate, onUpdate, onDe
                 </div>
 
                 {/* Expanded details */}
-                {isExpanded && (
+                <CollapsibleContent expanded={isExpanded}>
                   <div style={{
                     padding: '0 var(--space-3) var(--space-3)',
                     borderTop: '0.0625rem solid var(--border-subtle)',
@@ -264,7 +265,7 @@ function AutomationRulesPanel({ rules = [], stats = {}, onCreate, onUpdate, onDe
                       </div>
                     </div>
                   </div>
-                )}
+                </CollapsibleContent>
               </div>
             )
           })}

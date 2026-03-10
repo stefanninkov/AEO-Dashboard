@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useContentDecay } from '../../hooks/useContentDecay'
 import EmptyState from '../../components/EmptyState'
+import CollapsibleContent from '../../components/shared/CollapsibleContent'
 
 const SEVERITY_CONFIG = {
   lost: { icon: AlertTriangle, color: 'var(--color-error)', bg: 'rgba(239,68,68,0.08)', label: 'Lost' },
@@ -290,7 +291,7 @@ const { decays, summary, generating, suggestions, error, getTimeline, generateSu
               </div>
 
               {/* Expanded detail */}
-              {isExpanded && (
+              <CollapsibleContent expanded={isExpanded}>
                 <div style={{
                   padding: '0 1rem 0.75rem 2.75rem',
                   display: 'flex', flexDirection: 'column', gap: '0.5rem',
@@ -360,7 +361,7 @@ const { decays, summary, generating, suggestions, error, getTimeline, generateSu
                     </div>
                   </div>
                 </div>
-              )}
+              </CollapsibleContent>
             </div>
           )
         })}

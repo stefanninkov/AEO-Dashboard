@@ -1,4 +1,5 @@
 import { useState, useRef, useMemo } from 'react'
+import CollapsibleContent from '../components/shared/CollapsibleContent'
 import {
   SearchCheck, BookOpen, ChevronRight, ChevronDown, Gauge,
   Users, Sparkles, PenTool, CalendarDays, Code2, Activity,
@@ -728,12 +729,7 @@ const [activeTab, setActiveTab] = useState('guide')
                 </button>
 
                 {/* Expanded content */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateRows: isExpanded ? '1fr' : '0fr',
-                  transition: 'grid-template-rows var(--duration-normal) var(--ease-out)',
-                }}>
-                <div style={{ overflow: 'hidden' }}>
+                <CollapsibleContent expanded={isExpanded}>
                   <div style={{
                     borderTop: '0.0625rem solid var(--border-subtle)',
                     padding: '0.75rem 1rem',
@@ -767,8 +763,7 @@ const [activeTab, setActiveTab] = useState('guide')
                       </div>
                     ))}
                   </div>
-                </div>
-                </div>
+                </CollapsibleContent>
               </div>
             )
           })}
@@ -901,7 +896,7 @@ const [activeTab, setActiveTab] = useState('guide')
                     }}
                   />
                 </button>
-                {isOpen && (
+                <CollapsibleContent expanded={isOpen}>
                   <div className="faq-answer" style={{
                     borderTop: '0.0625rem solid var(--border-subtle)',
                     padding: '0.6875rem 1rem 0.6875rem 2.625rem',
@@ -915,7 +910,7 @@ const [activeTab, setActiveTab] = useState('guide')
                       {item.a}
                     </p>
                   </div>
-                )}
+                </CollapsibleContent>
               </div>
             )
           })}
