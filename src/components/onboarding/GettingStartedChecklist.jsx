@@ -148,12 +148,12 @@ const [expanded, setExpanded] = useState(false)
         <button
           onClick={() => setExpanded(true)}
           style={{
-            display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
-            padding: 'var(--space-3) var(--space-4)',
+            display: 'flex', alignItems: 'center', gap: 'var(--space-1)',
+            padding: '0.375rem 0.75rem',
             background: 'var(--accent)', color: '#fff',
             border: 'none', borderRadius: 'var(--radius-full)',
             cursor: 'pointer', boxShadow: 'var(--shadow-lg)',
-            fontSize: 'var(--text-xs)', fontWeight: 600,
+            fontSize: '0.6875rem', fontWeight: 600,
             fontFamily: 'var(--font-heading)',
             transition: 'transform 0.2s, box-shadow 0.2s',
             marginLeft: 'auto',
@@ -162,15 +162,15 @@ const [expanded, setExpanded] = useState(false)
           onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
           aria-label={'Getting Started'}
         >
-          {celebrating ? <PartyPopper size={16} /> : <Sparkles size={16} />}
+          {celebrating ? <PartyPopper size={13} /> : <Sparkles size={13} />}
           {'Getting Started'}
           <span style={{
-            background: 'rgba(255,255,255,0.25)', padding: '1px 6px',
-            borderRadius: 'var(--radius-full)', fontSize: 'var(--text-2xs)',
+            background: 'rgba(255,255,255,0.25)', padding: '0px 5px',
+            borderRadius: 'var(--radius-full)', fontSize: '0.625rem',
           }}>
             {completedCount}/{totalSteps}
           </span>
-          <ChevronUp size={14} />
+          <ChevronUp size={12} />
         </button>
       )}
 
