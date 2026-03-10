@@ -564,7 +564,7 @@ function CollapsibleSection({ title, subtitle, icon, expanded, onToggle, childre
         />
       </button>
       <CollapsibleContent expanded={expanded}>
-        <div className="testing-section-body">
+        <div className="testing-section-body" style={{ padding: '1rem 1.25rem' }}>
           {children}
         </div>
       </CollapsibleContent>
