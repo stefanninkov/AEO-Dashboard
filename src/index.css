@@ -396,10 +396,9 @@ body {
 
 .content-wrapper {
   width: 100%;
-  flex: 1;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  min-height: 0;
 }
 
 /* ══════════════════════════════════════════════════
@@ -1296,7 +1295,7 @@ body {
   animation: shimmer 1.5s infinite;
   border-radius: 0.5rem;
 }
-.view-enter { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.view-enter { flex: 1 0 auto; display: flex; flex-direction: column; }
 .content-reveal { animation: content-reveal var(--duration-normal) ease-out both; }
 .check-bounce { animation: check-bounce var(--duration-normal) ease-out; }
 .fade-in-up { animation: fade-in-up var(--duration-slow) cubic-bezier(0.16, 1, 0.3, 1) both; }
@@ -6535,8 +6534,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  flex: 1;
-  min-height: 0;
+  flex: 1 0 auto;
 }
 .view-wrapper::after {
   content: '';
