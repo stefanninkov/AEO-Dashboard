@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useAutoMonitor } from '../hooks/useAutoMonitor'
 import { getFilteredPlatforms } from '../utils/getRecommendations'
+import CollapsibleContent from '../components/shared/CollapsibleContent'
 import StatCard from './dashboard/StatCard'
 
 const ALL_PLATFORMS = ['ChatGPT', 'Perplexity', 'Google AIO', 'Bing Copilot', 'Claude']
@@ -565,16 +566,11 @@ function CollapsibleSection({ title, subtitle, icon, expanded, onToggle, childre
           className={`testing-section-chevron ${expanded ? 'expanded' : 'collapsed'}`}
         />
       </button>
-      <div
-        className="testing-section-collapsible"
-        style={{ gridTemplateRows: expanded ? '1fr' : '0fr' }}
-      >
-        <div style={{ overflow: 'hidden' }}>
-          <div className="testing-section-body">
-            {children}
-          </div>
+      <CollapsibleContent expanded={expanded}>
+        <div className="testing-section-body">
+          {children}
         </div>
-      </div>
+      </CollapsibleContent>
     </div>
   )
 }
