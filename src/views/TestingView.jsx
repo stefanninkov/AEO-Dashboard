@@ -72,13 +72,13 @@ export default function TestingView({ activeProject, updateProject }) {
   const [weeklyChecked, setWeeklyCheckedLocal] = useState(activeProject?.weeklyChecked || {})
   const [monthlyChecked, setMonthlyCheckedLocal] = useState(activeProject?.monthlyChecked || {})
 
-  // Sync from remote/project updates
+  // Sync from remote/project updates (only when project id changes)
+  const projectId = activeProject?.id
   useEffect(() => {
     setWeeklyCheckedLocal(activeProject?.weeklyChecked || {})
-  }, [activeProject?.weeklyChecked])
-  useEffect(() => {
     setMonthlyCheckedLocal(activeProject?.monthlyChecked || {})
-  }, [activeProject?.monthlyChecked])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId])
 
   const queryTracker = activeProject?.queryTracker || []
 
@@ -93,7 +93,9 @@ export default function TestingView({ activeProject, updateProject }) {
     }
     const next = { ...weeklyChecked, [taskId]: !weeklyChecked[taskId] }
     setWeeklyCheckedLocal(next)
-    updateProject(activeProject.id, { weeklyChecked: next })
+    // Defer project persistence to avoid render cascade
+    const id = activeProject.id
+    setTimeout(() => updateProject(id, { weeklyChecked: next }), 0)
   }
 
   const handleMonthlyToggle = (taskId) => {
@@ -103,7 +105,9 @@ export default function TestingView({ activeProject, updateProject }) {
     }
     const next = { ...monthlyChecked, [taskId]: !monthlyChecked[taskId] }
     setMonthlyCheckedLocal(next)
-    updateProject(activeProject.id, { monthlyChecked: next })
+    // Defer project persistence to avoid render cascade
+    const id = activeProject.id
+    setTimeout(() => updateProject(id, { monthlyChecked: next }), 0)
   }
 
   const addQuery = () => {
