@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import {
   Clock, Calendar, Plus, Trash2, ExternalLink,
   CheckCircle2, XCircle, MinusCircle, ChevronDown, SearchCheck,
@@ -43,7 +43,7 @@ const STATUS_META = [
 ]
 
 export default function TestingView({ activeProject, updateProject }) {
-const WEEKLY_TASKS = WEEKLY_TASKS_DATA
+  const WEEKLY_TASKS = WEEKLY_TASKS_DATA
   const MONTHLY_TASKS = MONTHLY_TASKS_DATA
 
   const STATUS_OPTIONS = useMemo(() => STATUS_META.map(s => ({
@@ -68,18 +68,17 @@ const WEEKLY_TASKS = WEEKLY_TASKS_DATA
   const monitorHistory = activeProject?.monitorHistory || []
   const lastRun = activeProject?.lastMonitorRun
 
-  // Per-project routine state
-  const weeklyChecked = activeProject?.weeklyChecked || {}
-  const monthlyChecked = activeProject?.monthlyChecked || {}
+  // Per-project routine state — optimistic local state synced from project
+  const [weeklyChecked, setWeeklyCheckedLocal] = useState(activeProject?.weeklyChecked || {})
+  const [monthlyChecked, setMonthlyCheckedLocal] = useState(activeProject?.monthlyChecked || {})
 
-  const setWeeklyChecked = (updater) => {
-    const next = typeof updater === 'function' ? updater(weeklyChecked) : updater
-    updateProject(activeProject.id, { weeklyChecked: next })
-  }
-  const setMonthlyChecked = (updater) => {
-    const next = typeof updater === 'function' ? updater(monthlyChecked) : updater
-    updateProject(activeProject.id, { monthlyChecked: next })
-  }
+  // Sync from remote/project updates
+  useEffect(() => {
+    setWeeklyCheckedLocal(activeProject?.weeklyChecked || {})
+  }, [activeProject?.weeklyChecked])
+  useEffect(() => {
+    setMonthlyCheckedLocal(activeProject?.monthlyChecked || {})
+  }, [activeProject?.monthlyChecked])
 
   const queryTracker = activeProject?.queryTracker || []
 
@@ -92,7 +91,9 @@ const WEEKLY_TASKS = WEEKLY_TASKS_DATA
       setBouncingId(taskId)
       setTimeout(() => setBouncingId(null), 350)
     }
-    setWeeklyChecked(prev => ({ ...prev, [taskId]: !prev[taskId] }))
+    const next = { ...weeklyChecked, [taskId]: !weeklyChecked[taskId] }
+    setWeeklyCheckedLocal(next)
+    updateProject(activeProject.id, { weeklyChecked: next })
   }
 
   const handleMonthlyToggle = (taskId) => {
@@ -100,7 +101,9 @@ const WEEKLY_TASKS = WEEKLY_TASKS_DATA
       setBouncingId(taskId)
       setTimeout(() => setBouncingId(null), 350)
     }
-    setMonthlyChecked(prev => ({ ...prev, [taskId]: !prev[taskId] }))
+    const next = { ...monthlyChecked, [taskId]: !monthlyChecked[taskId] }
+    setMonthlyCheckedLocal(next)
+    updateProject(activeProject.id, { monthlyChecked: next })
   }
 
   const addQuery = () => {
@@ -564,10 +567,7 @@ function CollapsibleSection({ title, subtitle, icon, expanded, onToggle, childre
         />
       </button>
       <CollapsibleContent expanded={expanded}>
-        <div style={{
-          padding: '1rem 1.25rem',
-          borderTop: '0.0625rem solid var(--border-subtle)',
-        }}>
+        <div className="testing-section-body">
           {children}
         </div>
       </CollapsibleContent>
