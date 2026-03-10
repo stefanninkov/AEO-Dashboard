@@ -1,26 +1,15 @@
 import AnimatedNumber from '../../components/AnimatedNumber'
+import StatCard from '../dashboard/StatCard'
 
 export default function ChecklistStats({ totalProgress, phaseCount }) {
   return (
     <>
       {/* Stats Grid — 4 columns */}
       <div className="checklist-stats-grid">
-        <div className="stat-card">
-          <div className="stat-card-label">Completed</div>
-          <div className="stat-card-value" style={{ color: 'var(--color-success)' }}><AnimatedNumber value={totalProgress.done} /></div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Remaining</div>
-          <div className="stat-card-value" style={{ color: 'var(--color-phase-1)' }}><AnimatedNumber value={totalProgress.total - totalProgress.done} /></div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Phases</div>
-          <div className="stat-card-value" style={{ color: 'var(--text-primary)' }}>{phaseCount}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-card-label">Total</div>
-          <div className="stat-card-value" style={{ color: 'var(--text-primary)' }}>{totalProgress.total}</div>
-        </div>
+        <StatCard label="Completed" value={<AnimatedNumber value={totalProgress.done} />} />
+        <StatCard label="Remaining" value={<AnimatedNumber value={totalProgress.total - totalProgress.done} />} />
+        <StatCard label="Phases" value={phaseCount} />
+        <StatCard label="Total" value={totalProgress.total} />
       </div>
 
       {/* Overall Progress */}

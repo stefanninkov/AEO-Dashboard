@@ -878,7 +878,7 @@ const [activeTab, setActiveTab] = useState('guide')
                     background: 'none', textAlign: 'left',
                   }}
                 >
-                  <HelpCircle size={14} style={{ color: '#6366f1', flexShrink: 0 }} />
+                  <HelpCircle size={14} style={{ color: 'var(--accent)', flexShrink: 0 }} />
                   <span style={{
                     flex: 1, fontSize: '0.75rem', fontWeight: 600,
                     color: 'var(--text-primary)',

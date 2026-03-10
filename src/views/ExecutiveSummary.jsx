@@ -1,6 +1,6 @@
 import { memo, useMemo, useRef } from 'react'
 import {
-  FileText, TrendingUp, TrendingDown, Minus, Globe, Zap,
+  TrendingUp, TrendingDown, Minus, Globe, Zap,
   CheckCircle2, AlertTriangle, Download, BarChart3, Users,
 } from 'lucide-react'
 import Sparkline from '../components/Sparkline'
@@ -84,34 +84,20 @@ function ExecutiveSummary({ projectSummaries = [], portfolioStats = {}, userName
   const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
   return (
-    <div ref={containerRef} style={{ padding: 'var(--space-6)', maxWidth: '52rem', margin: '0 auto' }}>
+    <div ref={containerRef} className="view-wrapper" style={{ maxWidth: '52rem' }}>
       {/* Report header */}
-      <div style={{
-        display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
-        marginBottom: 'var(--space-6)', paddingBottom: 'var(--space-4)',
-        borderBottom: '0.125rem solid var(--accent)',
-      }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-            <FileText size={20} style={{ color: 'var(--accent)' }} />
-            <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-              AEO Executive Summary
-            </h1>
-          </div>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', margin: 0 }}>
+      <div className="view-header" style={{ paddingBottom: 'var(--space-4)', borderBottom: '0.125rem solid var(--accent)' }}>
+        <div className="view-header-text">
+          <h1 className="view-title">AEO Executive Summary</h1>
+          <p className="view-subtitle">
             {today} {userName ? ` · Prepared by ${userName}` : ''}
           </p>
         </div>
-        <button
-          onClick={handlePrint}
-          className="btn-secondary"
-          style={{
-            display: 'flex', alignItems: 'center', gap: 'var(--space-1)',
-            padding: 'var(--space-2) var(--space-3)', fontSize: 'var(--text-xs)',
-          }}
-        >
-          <Download size={12} /> Export
-        </button>
+        <div className="view-header-actions">
+          <button onClick={handlePrint} className="btn-secondary btn-sm">
+            <Download size={12} /> Export
+          </button>
+        </div>
       </div>
 
       {/* Headline numbers */}

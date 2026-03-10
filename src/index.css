@@ -2229,7 +2229,7 @@ body {
 }
 
 .analyzer-api-card-accent {
-  border-color: color-mix(in srgb, var(--color-phase-5) 20%, var(--border-subtle));
+  border-color: color-mix(in srgb, var(--accent) 20%, var(--border-subtle));
 }
 
 .analyzer-api-title {
@@ -2339,7 +2339,7 @@ body {
 
 .analyzer-priorities-card {
   background: var(--bg-card);
-  border: 0.0625rem solid color-mix(in srgb, var(--color-phase-5) 30%, var(--border-subtle));
+  border: 0.0625rem solid color-mix(in srgb, var(--accent) 30%, var(--border-subtle));
   border-radius: 0.75rem;
   padding: 1.25rem;
 }
@@ -2356,16 +2356,16 @@ body {
   font-weight: 600;
   font-family: var(--font-body);
   cursor: pointer;
-  border: 0.0625rem solid color-mix(in srgb, var(--color-phase-3) 30%, var(--border-subtle));
-  background: color-mix(in srgb, var(--color-phase-3) 8%, var(--bg-card));
-  color: var(--color-phase-3);
+  border: 0.0625rem solid color-mix(in srgb, var(--accent) 30%, var(--border-subtle));
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  color: var(--accent);
   transition: all var(--duration-fast);
   white-space: nowrap;
   flex-shrink: 0;
 }
 .fix-generate-btn:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--color-phase-3) 15%, var(--bg-card));
-  border-color: color-mix(in srgb, var(--color-phase-3) 50%, var(--border-subtle));
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-card));
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border-subtle));
 }
 .fix-generate-btn:disabled {
   opacity: 0.4;
@@ -2619,7 +2619,7 @@ body {
   font-family: var(--font-body);
   cursor: pointer;
   border: none;
-  background: var(--color-phase-3);
+  background: var(--accent);
   color: #fff;
   transition: all var(--duration-fast);
 }
@@ -2671,7 +2671,7 @@ body {
 
 .bulk-fix-progress-fill {
   height: 100%;
-  background: var(--color-phase-3);
+  background: var(--accent);
   border-radius: 0.125rem;
   transition: width 300ms ease;
 }
@@ -2705,8 +2705,8 @@ body {
   background: var(--hover-bg);
 }
 .cw-type-card.active {
-  border-color: color-mix(in srgb, var(--color-phase-2) 50%, var(--border-subtle));
-  background: color-mix(in srgb, var(--color-phase-2) 6%, var(--bg-card));
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border-subtle));
+  background: color-mix(in srgb, var(--accent) 6%, var(--bg-card));
 }
 
 .cw-type-icon { font-size: 1.25rem; line-height: 1; }
@@ -2745,7 +2745,7 @@ body {
   transition: border-color var(--duration-fast);
   min-width: 8rem;
 }
-.cw-select:focus { border-color: var(--color-phase-2); }
+.cw-select:focus { border-color: var(--accent); }
 
 .cw-form-actions { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.75rem; }
 
@@ -3917,7 +3917,6 @@ body {
   border-radius: 50%;
   background: #fff;
   transition: transform var(--duration-fast) ease;
-  box-shadow: 0 0.0625rem 0.1875rem rgba(0,0,0,0.2);
 }
 .mon-toggle-on .mon-toggle-thumb { transform: translateX(1.125rem); }
 
@@ -4598,7 +4597,6 @@ body {
   border: 0.0625rem solid var(--border-subtle);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: var(--shadow-sm);
 }
 
 .metrics-progress-card {
@@ -6338,7 +6336,7 @@ body {
   color: var(--text-primary);
   background: var(--bg-card);
   font-weight: 600;
-  box-shadow: var(--shadow-sm);
+  border: 0.0625rem solid var(--border-subtle);
 }
 
 /* Tab badge — count indicator inside a tab button */

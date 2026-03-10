@@ -216,7 +216,7 @@ const modes = [
               display: 'flex', alignItems: 'center', gap: '0.25rem',
               background: mode === m.key ? 'var(--bg-card)' : 'transparent',
               color: mode === m.key ? 'var(--accent)' : 'var(--text-tertiary)',
-              boxShadow: mode === m.key ? 'var(--shadow-sm)' : 'none',
+              border: mode === m.key ? '0.0625rem solid var(--border-subtle)' : '0.0625rem solid transparent',
               transition: 'all 150ms ease',
             }}
           >

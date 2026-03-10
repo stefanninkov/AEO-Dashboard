@@ -166,10 +166,10 @@ function BriefDisplay({ briefEntry, onCopy, onRemove, onUpdateTitle }) {
 
       {/* Key Points */}
       {b.keyPoints?.length > 0 && (
-        <BriefSection icon={Lightbulb} title="Key Points to Cover" color="#10B981">
+        <BriefSection icon={Lightbulb} title="Key Points to Cover" color="var(--color-success)">
           {b.keyPoints.map((p, i) => (
             <div key={i} style={{ ...itemStyle, display: 'flex', gap: '0.5rem' }}>
-              <ChevronRight size={12} style={{ color: '#10B981', flexShrink: 0, marginTop: '0.25rem' }} />
+              <ChevronRight size={12} style={{ color: 'var(--color-success)', flexShrink: 0, marginTop: '0.25rem' }} />
               <span>{p}</span>
             </div>
           ))}
@@ -178,11 +178,11 @@ function BriefDisplay({ briefEntry, onCopy, onRemove, onUpdateTitle }) {
 
       {/* Competitors */}
       {b.competitorsToOutrank?.length > 0 && (
-        <BriefSection icon={Globe} title="Competitors to Outrank" color="#EF4444">
+        <BriefSection icon={Globe} title="Competitors to Outrank" color="var(--color-error)">
           {b.competitorsToOutrank.map((c, i) => (
             <div key={i} style={{ ...itemStyle, display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
               <a href={safeHref(c.url)} target="_blank" rel="noopener noreferrer" style={{
-                fontSize: '0.8125rem', color: 'var(--color-phase-1)',
+                fontSize: '0.8125rem', color: 'var(--accent)',
                 textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.25rem',
               }}>
                 {c.url} <ExternalLink size={10} />
@@ -197,10 +197,10 @@ function BriefDisplay({ briefEntry, onCopy, onRemove, onUpdateTitle }) {
 
       {/* Schema Recommendations */}
       {b.schemaRecommendations?.length > 0 && (
-        <BriefSection icon={Code2} title="Schema Recommendations" color="#14B8A6">
+        <BriefSection icon={Code2} title="Schema Recommendations" color="var(--color-success)">
           {b.schemaRecommendations.map((s, i) => (
             <div key={i} style={{ ...itemStyle, display: 'flex', gap: '0.5rem' }}>
-              <Code2 size={12} style={{ color: '#14B8A6', flexShrink: 0, marginTop: '0.25rem' }} />
+              <Code2 size={12} style={{ color: 'var(--color-success)', flexShrink: 0, marginTop: '0.25rem' }} />
               <span>{s}</span>
             </div>
           ))}
@@ -209,10 +209,10 @@ function BriefDisplay({ briefEntry, onCopy, onRemove, onUpdateTitle }) {
 
       {/* Internal Links */}
       {b.internalLinks?.length > 0 && (
-        <BriefSection icon={Link2} title="Internal Links" color="#8B5CF6">
+        <BriefSection icon={Link2} title="Internal Links" color="var(--accent)">
           {b.internalLinks.map((l, i) => (
             <div key={i} style={{ ...itemStyle, display: 'flex', gap: '0.5rem' }}>
-              <Link2 size={12} style={{ color: '#8B5CF6', flexShrink: 0, marginTop: '0.25rem' }} />
+              <Link2 size={12} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '0.25rem' }} />
               <span>"{l.text}" <span style={{ color: 'var(--text-tertiary)' }}> &rarr; {l.suggestedUrl}</span></span>
             </div>
           ))}
@@ -221,10 +221,10 @@ function BriefDisplay({ briefEntry, onCopy, onRemove, onUpdateTitle }) {
 
       {/* AEO Tips */}
       {b.aeoTips?.length > 0 && (
-        <BriefSection icon={Sparkles} title="AEO Optimization Tips" color="#2563EB">
+        <BriefSection icon={Sparkles} title="AEO Optimization Tips" color="var(--accent)">
           {b.aeoTips.map((t, i) => (
             <div key={i} style={{ ...itemStyle, display: 'flex', gap: '0.5rem' }}>
-              <Sparkles size={12} style={{ color: '#2563EB', flexShrink: 0, marginTop: '0.25rem' }} />
+              <Sparkles size={12} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '0.25rem' }} />
               <span>{t}</span>
             </div>
           ))}

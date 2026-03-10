@@ -495,7 +495,7 @@ export default function AdminWaitlist({ user, onNavigate, tasksHook }) {
               display: 'flex', alignItems: 'center', gap: '0.375rem',
               background: activeTab === tab.id ? 'var(--card-bg)' : 'transparent',
               color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-tertiary)',
-              boxShadow: activeTab === tab.id ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+              border: activeTab === tab.id ? '0.0625rem solid var(--border-subtle)' : '0.0625rem solid transparent',
             }}
           >
             {tab.label}

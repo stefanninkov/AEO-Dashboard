@@ -85,8 +85,8 @@ export function NoPropertyState({ setActiveView, preset = 'search', title, descr
 export function SetupRequiredState({ setActiveView, checks = [] }) {
   return (
     <div className="card" style={{ padding: '3rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-      <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: '1rem', background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Layers size={24} style={{ color: '#8B5CF6' }} />
+      <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: '1rem', background: 'color-mix(in srgb, var(--accent) 10%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Layers size={24} style={{ color: 'var(--accent)' }} />
       </div>
       <div>
         <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.375rem' }}>

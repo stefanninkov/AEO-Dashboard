@@ -70,7 +70,7 @@ function EntryCard({ entry, compact, onClick, members }) {
               {assignee.displayName?.split(' ')[0] || assignee.email?.split('@')[0]}
             </span>
           )}
-          {overdue && <AlertTriangle size={10} style={{ color: '#EF4444' }} />}
+          {overdue && <AlertTriangle size={10} style={{ color: 'var(--color-error)' }} />}
         </div>
       )}
     </div>

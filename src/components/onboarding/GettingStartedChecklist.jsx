@@ -152,7 +152,7 @@ const [expanded, setExpanded] = useState(false)
             width: '2.25rem', height: '2.25rem',
             background: 'var(--accent)', color: '#fff',
             border: 'none', borderRadius: '50%',
-            cursor: 'pointer', boxShadow: 'var(--shadow-lg)',
+            cursor: 'pointer', border: '0.125rem solid var(--border-subtle)',
             transition: 'transform 0.2s, box-shadow 0.2s',
             marginLeft: 'auto', position: 'relative',
           }}

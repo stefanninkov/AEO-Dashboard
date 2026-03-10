@@ -228,7 +228,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
               {resetSent ? (
                 <div className="text-center py-4">
                   <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(16, 185, 129, 0.1)' }}>
-                    <CheckCircle2 size={24} style={{ color: '#10B981' }} />
+                    <CheckCircle2 size={24} style={{ color: 'var(--color-success)' }} />
                   </div>
                   <p className="text-[0.9375rem] font-medium text-text-primary mb-2">{'Check your email'}</p>
                   <p className="text-[0.8125rem] text-text-tertiary mb-6">

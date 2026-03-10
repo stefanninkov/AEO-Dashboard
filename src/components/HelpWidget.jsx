@@ -58,7 +58,7 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer',
           zIndex: 150,
-          boxShadow: '0 0.25rem 1rem rgba(0,0,0,0.2)',
+          border: '0.125rem solid var(--border-subtle)',
           transition: 'all 200ms ease',
         }}
         aria-label={open ? 'Close help widget' : 'Open help widget'}

@@ -28,7 +28,7 @@ function NotificationPreferences({ prefs, updatePrefs }) {
     left: active ? '1rem' : '0.125rem',
     width: '0.875rem', height: '0.875rem', borderRadius: '50%',
     background: '#fff', transition: 'left 150ms',
-    boxShadow: '0 1px 2px rgba(0,0,0,0.15)',
+    border: '0.0625rem solid var(--border-subtle)',
   })
 
   const Toggle = ({ value, onChange }) => (

@@ -44,17 +44,14 @@ function ProjectComparison({ projectSummaries = [], onSelectProject }) {
   }, [compared])
 
   return (
-    <div style={{ padding: 'var(--space-6)', maxWidth: '76rem', margin: '0 auto' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-        <GitCompareArrows size={18} style={{ color: 'var(--accent)' }} />
-        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-          Compare Projects
-        </h1>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h1 className="view-title">Compare Projects</h1>
+          <p className="view-subtitle">Select up to 4 projects for side-by-side comparison</p>
+        </div>
       </div>
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', margin: '0 0 var(--space-4)' }}>
-        Select up to 4 projects for side-by-side comparison
-      </p>
 
       {/* Project selector */}
       <div style={{ position: 'relative', marginBottom: 'var(--space-6)' }}>

@@ -1,7 +1,7 @@
 import { memo, useState } from 'react'
 import {
-  Shield, ClipboardList, Database, Download, Trash2,
-  AlertTriangle, CheckCircle2, Clock, HardDrive, FileText, User,
+  ClipboardList, Database, Download, Trash2,
+  AlertTriangle, CheckCircle2, Clock, HardDrive, FileText, User, Shield,
 } from 'lucide-react'
 import { useAuditTrail } from '../hooks/useAuditTrail'
 import { useDataRetention } from '../hooks/useDataRetention'
@@ -25,17 +25,14 @@ function ComplianceDashboard({ activeProject, updateProject, user, projects = []
   ]
 
   return (
-    <div style={{ padding: 'var(--space-6)', maxWidth: '76rem', margin: '0 auto' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-        <Shield size={18} style={{ color: 'var(--accent)' }} />
-        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-          Compliance & Audit
-        </h1>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h1 className="view-title">Compliance & Audit</h1>
+          <p className="view-subtitle">Audit trail, data retention policies, and privacy controls</p>
+        </div>
       </div>
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', margin: '0 0 var(--space-4)' }}>
-        Audit trail, data retention policies, and privacy controls
-      </p>
 
       {/* Tabs */}
       <div style={{

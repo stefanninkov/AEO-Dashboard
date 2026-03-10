@@ -1,6 +1,6 @@
 import { memo, useState } from 'react'
 import {
-  BarChart3, Download, FileJson, FileSpreadsheet, FileText,
+  Download, FileJson, FileSpreadsheet, FileText,
   LayoutGrid, ChevronDown,
 } from 'lucide-react'
 import { useTrendAnalysis } from '../hooks/useTrendAnalysis'
@@ -56,17 +56,11 @@ function AnalyticsView({
   ]
 
   return (
-    <div style={{ padding: 'var(--space-6)', maxWidth: '76rem', margin: '0 auto' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: 'var(--space-4)', flexWrap: 'wrap', gap: 'var(--space-2)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <BarChart3 size={18} style={{ color: 'var(--accent)' }} />
-          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-            Analytics
-          </h1>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h1 className="view-title">Analytics</h1>
         </div>
         {setActiveView && (
           <button

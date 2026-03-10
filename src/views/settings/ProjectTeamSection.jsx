@@ -530,7 +530,7 @@ const [inviteOpen, setInviteOpen] = useState(false)
             }}>
               <Mail size={13} />
               {'Pending Invitations'}
-              <span className="tab-badge" style={{ background: 'rgba(245,158,11,0.1)', color: '#F59E0B' }}>
+              <span className="tab-badge" style={{ background: 'color-mix(in srgb, var(--color-warning) 10%, transparent)', color: 'var(--color-warning)' }}>
                 {invitations.length}
               </span>
             </div>

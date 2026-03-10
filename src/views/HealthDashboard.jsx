@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import {
-  HeartPulse, CheckCircle2, AlertTriangle, XCircle, Info,
+  CheckCircle2, AlertTriangle, XCircle, Info,
   Cpu, HardDrive, Globe, Clock, Users, Database, Layers,
 } from 'lucide-react'
 import { useHealthMonitor } from '../hooks/useHealthMonitor'
@@ -16,13 +16,12 @@ function HealthDashboard({ activeProject, projects = [] }) {
   const { perfMetrics, dataHealth, systemStatus, portfolioHealth } = useHealthMonitor({ activeProject, projects })
 
   return (
-    <div style={{ padding: 'var(--space-6)', maxWidth: '76rem', margin: '0 auto' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-        <HeartPulse size={18} style={{ color: systemStatus.color }} />
-        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-          System Health
-        </h1>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h1 className="view-title">System Health</h1>
+        </div>
         <span style={{
           fontSize: 'var(--text-2xs)', fontWeight: 600, color: systemStatus.color,
           background: `color-mix(in srgb, ${systemStatus.color} 10%, transparent)`,

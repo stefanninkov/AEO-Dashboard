@@ -1,6 +1,6 @@
 import { memo, useState } from 'react'
 import {
-  Briefcase, TrendingUp, TrendingDown, Minus, Globe, Zap,
+  TrendingUp, TrendingDown, Minus, Globe, Zap,
   BarChart3, Users, AlertTriangle, ArrowRight, CheckCircle2,
 } from 'lucide-react'
 import Sparkline from '../components/Sparkline'
@@ -32,18 +32,13 @@ function PortfolioDashboard({ projectSummaries = [], portfolioStats = {}, scoreD
   }
 
   return (
-    <div style={{ padding: 'var(--space-6)', maxWidth: '76rem', margin: '0 auto' }}>
+    <div className="view-wrapper">
       {/* Header */}
-      <div style={{ marginBottom: 'var(--space-6)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-          <Briefcase size={18} style={{ color: 'var(--accent)' }} />
-          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-            Portfolio Overview
-          </h1>
+      <div className="view-header">
+        <div className="view-header-text">
+          <h1 className="view-title">Portfolio Overview</h1>
+          <p className="view-subtitle">{portfolioStats.projectCount || 0} projects across your organization</p>
         </div>
-        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', margin: 0 }}>
-          {portfolioStats.projectCount || 0} projects across your organization
-        </p>
       </div>
 
       {/* Aggregate stat cards */}

@@ -503,7 +503,7 @@ const google = useGoogleIntegration(user)
                   display: 'flex', alignItems: 'center', gap: '0.375rem',
                 }}>
                   {row.isAeoQuery && activeTab !== 'aeo' && (
-                    <Zap size={11} style={{ color: '#F59E0B', flexShrink: 0 }} />
+                    <Zap size={11} style={{ color: 'var(--color-warning)', flexShrink: 0 }} />
                   )}
                   {row.query}
                 </div>

@@ -160,7 +160,7 @@ export default function ReferralDashboard({ referralCode, referralCount = 0, bas
               }}>
                 {tier.reward}
               </span>
-              {reached && <Check size={12} style={{ color: '#10B981', flexShrink: 0 }} />}
+              {reached && <Check size={12} style={{ color: 'var(--color-success)', flexShrink: 0 }} />}
             </div>
           )
         })}

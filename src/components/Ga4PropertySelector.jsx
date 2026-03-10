@@ -64,7 +64,7 @@ export default function Ga4PropertySelector({
           transition: 'border-color 150ms ease',
         }}
       >
-        <ChartColumnIncreasing size={compact ? 13 : 14} style={{ color: '#10B981', flexShrink: 0 }} />
+        <ChartColumnIncreasing size={compact ? 13 : 14} style={{ color: 'var(--color-success)', flexShrink: 0 }} />
         <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {loading ? 'Loading properties...' : selectedDisplay || 'Select a GA4 property'}
         </span>
@@ -195,7 +195,7 @@ export default function Ga4PropertySelector({
                       onMouseLeave={(e) => { e.currentTarget.style.background = isSelected ? 'rgba(16,185,129,0.06)' : 'transparent' }}
                     >
                       {isSelected ? (
-                        <Check size={13} style={{ color: '#10B981', flexShrink: 0 }} />
+                        <Check size={13} style={{ color: 'var(--color-success)', flexShrink: 0 }} />
                       ) : (
                         <ChartColumnIncreasing size={13} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
                       )}

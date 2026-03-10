@@ -1,6 +1,7 @@
 import { useState, useRef, useMemo, useCallback, memo, useEffect } from 'react'
 import { gsap } from '../lib/gsap'
 import { Plus, Sparkles, FileText, MessageSquare, Globe, Target, ChartColumnIncreasing, Activity, TrendingUp, TrendingDown, Shield, Bot, CheckCircle2, XCircle, MinusCircle } from 'lucide-react'
+import EmptyState from '../components/EmptyState'
 import { getProjectContextLine, INDUSTRY_LABELS, COUNTRY_LABELS, REGION_LABELS, AUDIENCE_LABELS, GOAL_LABELS } from '../utils/getRecommendations'
 import { useRecommendations } from '../hooks/useRecommendations'
 import { useScoreHistory } from '../hooks/useScoreHistory'
@@ -151,13 +152,13 @@ function ScoreHistorySection({ activeProject, updateProject }) {
 
 function DashboardEmptyState({ message, onAction }) {
   return (
-    <div className="card card-xl" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 'var(--space-3)' }}>
-      <ChartColumnIncreasing size={28} style={{ color: 'var(--text-disabled)' }} />
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', textAlign: 'center' }}>{message}</p>
-      <button onClick={onAction} className="btn-primary btn-sm" style={{ marginTop: 'var(--space-1)' }}>
-        {'Run Metrics Analysis'}
-      </button>
-    </div>
+    <EmptyState
+      icon={ChartColumnIncreasing}
+      title="No data yet"
+      description={message}
+      action={{ label: 'Run Metrics Analysis', onClick: onAction }}
+      compact
+    />
   )
 }
 
@@ -823,17 +824,12 @@ const [subTab, setSubTab] = useState('overview')
 
       {/* No project empty state */}
       {!activeProject && projects.length === 0 && (
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-12) var(--space-6)' }}>
-          <Sparkles size={32} className="text-phase-1" style={{ marginBottom: 'var(--space-4)' }} />
-          <h3 className="view-title" style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>{'No projects yet'}</h3>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', marginBottom: 'var(--space-5)', textAlign: 'center', maxWidth: '18.75rem' }}>
-            {'Create your first project to start tracking AEO progress.'}
-          </p>
-          <button onClick={onNewProject} className="btn-primary">
-            <Plus size={14} />
-            {'Create Project'}
-          </button>
-        </div>
+        <EmptyState
+          icon={Sparkles}
+          title="No projects yet"
+          description="Create your first project to start tracking AEO progress."
+          action={{ label: 'Create Project', onClick: onNewProject }}
+        />
       )}
     </div>
   )
