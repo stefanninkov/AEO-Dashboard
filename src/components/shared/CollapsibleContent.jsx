@@ -1,58 +1,50 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 export default function CollapsibleContent({ expanded, children }) {
   const contentRef = useRef(null)
+  const [height, setHeight] = useState(expanded ? 'auto' : 0)
+  const [overflow, setOverflow] = useState(expanded ? 'visible' : 'hidden')
   const reducedMotion = useReducedMotion()
-  const prevExpanded = useRef(expanded)
-  const [animState, setAnimState] = useState(expanded ? 'open' : 'closed')
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
-    // Skip if expanded hasn't actually changed
-    if (prevExpanded.current === expanded) return
-    prevExpanded.current = expanded
-
-    const el = contentRef.current
-    if (!el) return
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      if (expanded) {
+        setHeight('auto')
+        setOverflow('visible')
+      }
+      return
+    }
 
     if (expanded) {
-      // Measure the target height while collapsed
-      const h = el.scrollHeight
-      setAnimState('expanding')
-      el.style.height = h + 'px'
-      el.style.overflow = 'hidden'
-
+      const h = contentRef.current?.scrollHeight || 0
+      setHeight(h + 'px')
+      setOverflow('hidden')
       const timer = setTimeout(() => {
-        el.style.height = 'auto'
-        el.style.overflow = 'visible'
-        setAnimState('open')
-      }, reducedMotion ? 0 : 260)
+        setHeight('auto')
+        setOverflow('visible')
+      }, reducedMotion ? 0 : 250)
       return () => clearTimeout(timer)
     } else {
-      // Set explicit height first so CSS transition can animate from it
-      const h = el.scrollHeight
-      el.style.height = h + 'px'
-      el.style.overflow = 'hidden'
-      setAnimState('collapsing')
-
+      const h = contentRef.current?.scrollHeight || 0
+      setHeight(h + 'px')
+      setOverflow('hidden')
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          el.style.height = '0px'
+          setHeight('0')
         })
       })
     }
   }, [expanded, reducedMotion])
 
-  // Determine inline styles based on state
-  const isOpen = animState === 'open'
-  const isClosed = animState === 'closed'
-
   return (
     <div
       ref={contentRef}
       style={{
-        height: isClosed ? 0 : isOpen ? 'auto' : undefined,
-        overflow: isOpen ? 'visible' : 'hidden',
+        height: height === 'auto' ? 'auto' : height,
+        overflow,
         transition: reducedMotion ? 'none' : 'height 250ms ease-out',
       }}
     >

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import {
   Clock, Calendar, Plus, Trash2, ExternalLink,
   CheckCircle2, XCircle, MinusCircle, ChevronDown, SearchCheck,
@@ -68,17 +68,20 @@ export default function TestingView({ activeProject, updateProject }) {
   const monitorHistory = activeProject?.monitorHistory || []
   const lastRun = activeProject?.lastMonitorRun
 
-  // Per-project routine state — optimistic local state synced from project
-  const [weeklyChecked, setWeeklyCheckedLocal] = useState(activeProject?.weeklyChecked || {})
-  const [monthlyChecked, setMonthlyCheckedLocal] = useState(activeProject?.monthlyChecked || {})
+  // Per-project routine state — stored in localStorage per project, never touches updateProject
+  const storageKey = `aeo-routine-${activeProject?.id || 'default'}`
 
-  // Sync from remote/project updates (only when project id changes)
-  const projectId = activeProject?.id
-  useEffect(() => {
-    setWeeklyCheckedLocal(activeProject?.weeklyChecked || {})
-    setMonthlyCheckedLocal(activeProject?.monthlyChecked || {})
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId])
+  const readChecked = useCallback(() => {
+    try {
+      const raw = localStorage.getItem(storageKey)
+      return raw ? JSON.parse(raw) : { weekly: {}, monthly: {} }
+    } catch { return { weekly: {}, monthly: {} } }
+  }, [storageKey])
+
+  const [routineChecked, setRoutineChecked] = useState(readChecked)
+
+  const weeklyChecked = routineChecked.weekly
+  const monthlyChecked = routineChecked.monthly
 
   const queryTracker = activeProject?.queryTracker || []
 
@@ -91,11 +94,11 @@ export default function TestingView({ activeProject, updateProject }) {
       setBouncingId(taskId)
       setTimeout(() => setBouncingId(null), 350)
     }
-    const next = { ...weeklyChecked, [taskId]: !weeklyChecked[taskId] }
-    setWeeklyCheckedLocal(next)
-    // Defer project persistence to avoid render cascade
-    const id = activeProject.id
-    setTimeout(() => updateProject(id, { weeklyChecked: next }), 0)
+    setRoutineChecked(prev => {
+      const next = { ...prev, weekly: { ...prev.weekly, [taskId]: !prev.weekly[taskId] } }
+      try { localStorage.setItem(storageKey, JSON.stringify(next)) } catch {}
+      return next
+    })
   }
 
   const handleMonthlyToggle = (taskId) => {
@@ -103,11 +106,11 @@ export default function TestingView({ activeProject, updateProject }) {
       setBouncingId(taskId)
       setTimeout(() => setBouncingId(null), 350)
     }
-    const next = { ...monthlyChecked, [taskId]: !monthlyChecked[taskId] }
-    setMonthlyCheckedLocal(next)
-    // Defer project persistence to avoid render cascade
-    const id = activeProject.id
-    setTimeout(() => updateProject(id, { monthlyChecked: next }), 0)
+    setRoutineChecked(prev => {
+      const next = { ...prev, monthly: { ...prev.monthly, [taskId]: !prev.monthly[taskId] } }
+      try { localStorage.setItem(storageKey, JSON.stringify(next)) } catch {}
+      return next
+    })
   }
 
   const addQuery = () => {
