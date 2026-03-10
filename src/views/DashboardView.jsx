@@ -20,7 +20,6 @@ import AnalyticsPanel from './dashboard/AnalyticsPanel'
 import ProgressSummaryCard from './dashboard/ProgressSummaryCard'
 import QuickWinCard from './dashboard/QuickWinCard'
 import ActivityInsightsPanel from './dashboard/ActivityInsightsPanel'
-import DashboardPresetSwitcher, { getStoredPreset, storePreset, isSectionVisible } from './dashboard/DashboardPresets'
 import useGridNav from '../hooks/useGridNav'
 import { useAiInsight } from '../hooks/useAiInsight'
 import AiInsightCard from '../components/AiInsightCard'
@@ -164,18 +163,11 @@ function DashboardEmptyState({ message, onAction }) {
 
 export default function DashboardView({ projects, activeProject, setActiveProjectId, setActiveView, onNewProject, phases, userName, currentUserUid, updateProject }) {
 const [subTab, setSubTab] = useState('overview')
-  const [activePreset, setActivePreset] = useState(() => getStoredPreset())
   const subTabsRef = useRef(null)
   const statsGridRef = useRef(null)
   useScrollActiveTab(subTabsRef, subTab)
   useGridNav(statsGridRef)
 
-  const handlePresetChange = useCallback((presetId) => {
-    setActivePreset(presetId)
-    storePreset(presetId)
-  }, [])
-
-  const showSection = useCallback((name) => isSectionVisible(activePreset, name), [activePreset])
 
   const getPhaseProgress = useCallback((phase) => {
     if (!activeProject) return { total: 0, checked: 0, percent: 0 }
@@ -343,16 +335,13 @@ const [subTab, setSubTab] = useState('overview')
             </button>
           ))}
         </div>
-        {subTab === 'overview' && (
-          <DashboardPresetSwitcher activePreset={activePreset} onSelect={handlePresetChange} />
-        )}
       </div>
 
       {/* ═══ OVERVIEW TAB ═══ */}
       {subTab === 'overview' && (
         <>
           {/* 4 Stat Cards */}
-          {showSection('stats') && (
+          {(
           <div ref={statsGridRef} className="stats-grid-4 stagger-grid" role="grid" aria-label={'Overview'} data-tour="dashboard-stats">
             <StatCard label={'Total Citations'} value={totalCitations.toLocaleString()} trend={citationsTrend} icon={<FileText size={18} />} iconColor="var(--color-phase-2)" />
             <StatCard label={'Total Prompts'} value={totalPrompts.toLocaleString()} trend={promptsTrend} icon={<MessageSquare size={18} />} iconColor="var(--color-phase-1)" />
@@ -362,7 +351,7 @@ const [subTab, setSubTab] = useState('overview')
           )}
 
           {/* AI Insight */}
-          {showSection('stats') && (
+          {(
             <AiInsightCard
               insight={dashboardInsight}
               loading={dashboardInsightLoading}
@@ -374,7 +363,7 @@ const [subTab, setSubTab] = useState('overview')
           )}
 
           {/* Site Health + AI Crawler Access — from deterministic analysis */}
-          {showSection('siteHealth') && activeProject?.deterministicScore && (
+          {activeProject?.deterministicScore && (
             <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
               {/* Site Health Card */}
               <div className="card card-lg">
@@ -487,36 +476,36 @@ const [subTab, setSubTab] = useState('overview')
           )}
 
           {/* Quick Win — #1 highest-impact action */}
-          {showSection('quickWin') && (
+          {(
           <div data-tour="quick-win">
             <QuickWinCard quickWin={quickWin} />
           </div>
           )}
 
           {/* Score History Timeline */}
-          {showSection('scoreHistory') && activeProject && (
+          {activeProject && (
             <ScoreHistorySection activeProject={activeProject} updateProject={updateProject} />
           )}
 
           {/* Donut Chart — Phase Progress */}
-          {showSection('donut') && activeProject && phases && (
+          {activeProject && phases && (
             <PhaseDonut phases={phases} getPhaseProgress={getPhaseProgress} onNavigate={() => setActiveView('checklist')} />
           )}
 
           {/* Progress Summary — Milestones, Quick Wins, Timeline */}
-          {showSection('progress') && activeProject && phases && (
+          {activeProject && phases && (
             <ProgressSummaryCard activeProject={activeProject} phases={phases} setActiveView={setActiveView} />
           )}
 
           {/* Personalized Recommendations */}
-          {showSection('recommendations') && (
+          {(
           <div data-tour="recommendations">
             <RecommendationsPanel recommendations={recommendations} contextLine={activeProject?.questionnaire?.completedAt ? getProjectContextLine(activeProject.questionnaire) : null} />
           </div>
           )}
 
           {/* Charts Row */}
-          {showSection('charts') && latestMetrics && (
+          {latestMetrics && (
             <div className="resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
               <div className="card card-lg">
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>
@@ -575,7 +564,7 @@ const [subTab, setSubTab] = useState('overview')
           )}
 
           {/* Phase Progress Card */}
-          {showSection('phaseProgress') && activeProject && phases && (
+          {activeProject && phases && (
             <div className="phase-progress-card">
               <div className="phase-progress-card-header">{'Phase Progress'}</div>
               {phases.map(phase => {
@@ -596,7 +585,7 @@ const [subTab, setSubTab] = useState('overview')
           )}
 
           {/* Recent Activity */}
-          {showSection('activity') && <div className="card card-lg">
+          {<div className="card card-lg">
             <div style={{
               fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xs)', fontWeight: 700,
               textTransform: 'uppercase', letterSpacing: '0.0469rem', color: 'var(--text-tertiary)',
@@ -608,17 +597,17 @@ const [subTab, setSubTab] = useState('overview')
           </div>}
 
           {/* Team Activity Insights */}
-          {showSection('activityInsights') && (
+          {(
             <ActivityInsightsPanel activities={activeProject?.activityLog || []} />
           )}
 
           {/* Competitor Alert Digest */}
-          {showSection('competitorAlerts') && <CompetitorAlertDigest
+          {<CompetitorAlertDigest
             alerts={activeProject?.competitorAlerts}
             setActiveView={setActiveView}
           />}
 
-          {showSection('quickActions') && <QuickActions setActiveView={setActiveView} />}
+          {<QuickActions setActiveView={setActiveView} />}
         </>
       )}
 

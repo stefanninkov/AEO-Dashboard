@@ -602,7 +602,7 @@ const keyPrinciples = useMemo(() =>
       )}
 
       {/* Phase Cards */}
-      <div ref={phaseCardsRef}>
+      <div ref={phaseCardsRef} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       {filteredPhases.map(phase => (
         <PhaseCard
           key={phase.id}
