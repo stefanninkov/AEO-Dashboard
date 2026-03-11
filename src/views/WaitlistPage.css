@@ -8,7 +8,7 @@
 /* ========== ROOT / VARIABLES ========== */
 
 .wl-root {
-  --wl-font-heading: 'Plus Jakarta Sans', sans-serif;
+  --wl-font-heading: 'Sora', sans-serif;
   --wl-font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --wl-accent: #2563EB;
   --wl-accent-hover: #1D4ED8;
@@ -42,9 +42,15 @@
 }
 
 
-/* ========== SCROLL ANIMATIONS (disabled — all content visible on load) ========== */
+/* ========== SCROLL ANIMATIONS ========== */
 
 [data-animate] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-animate].wl-visible {
   opacity: 1;
   transform: none;
 }
@@ -113,7 +119,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1.25rem;
-  background: var(--wl-accent);
+  background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
   color: #fff;
   font-family: var(--wl-font-body);
   font-size: var(--text-base);
@@ -122,12 +128,13 @@
   border-radius: var(--wl-radius);
   cursor: pointer;
   text-decoration: none;
-  transition: background var(--wl-transition-fast), transform var(--wl-transition-fast);
+  transition: transform var(--wl-transition-fast), box-shadow var(--wl-transition-fast), filter var(--wl-transition-fast);
 }
 
 .wl-nav-cta:hover {
-  background: var(--wl-accent-hover);
+  filter: brightness(1.05);
   transform: translateY(-0.0625rem);
+  box-shadow: 0 0.25rem 1rem rgba(37, 99, 235, 0.35);
 }
 
 /* Hamburger */
@@ -216,8 +223,9 @@
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.035;
+  opacity: 0.055;
   background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.6) 0.0625rem, transparent 0.0625rem),
     repeating-linear-gradient(
       0deg,
       transparent, transparent 3.6875rem,
@@ -228,24 +236,32 @@
       transparent, transparent 3.6875rem,
       rgba(255, 255, 255, 0.5) 3.6875rem, rgba(255, 255, 255, 0.5) 3.75rem
     );
+  background-size: 3.75rem 3.75rem, 3.75rem 3.75rem, 3.75rem 3.75rem;
   pointer-events: none;
 }
 
-/* Orange radial glow */
+/* Primary radial glow — larger, more vivid */
 .wl-hero::after {
   content: '';
   position: absolute;
-  top: -20%;
+  top: -25%;
   left: 50%;
   transform: translateX(-50%);
-  width: 56.25rem;
-  height: 43.75rem;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(37, 99, 235, 0.12) 0%,
-    rgba(37, 99, 235, 0.04) 40%,
-    transparent 70%
-  );
+  width: 75rem;
+  height: 56.25rem;
+  background:
+    radial-gradient(
+      ellipse at 50% 40%,
+      rgba(37, 99, 235, 0.18) 0%,
+      rgba(79, 70, 229, 0.08) 30%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse at 65% 55%,
+      rgba(251, 146, 60, 0.06) 0%,
+      rgba(168, 85, 247, 0.04) 35%,
+      transparent 60%
+    );
   pointer-events: none;
   z-index: 0;
 }
@@ -271,12 +287,13 @@
   border: 0.0625rem solid rgba(37, 99, 235, 0.2);
   margin-bottom: 1.5rem;
   letter-spacing: 0.02em;
+  box-shadow: 0 0 1rem rgba(37, 99, 235, 0.15);
 }
 
 .wl-hero h1 {
   font-family: var(--wl-font-heading);
-  font-size: 3.25rem;
-  font-weight: 700;
+  font-size: 3.5rem;
+  font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.03em;
   margin-bottom: 1.25rem;
@@ -337,7 +354,7 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 0.875rem 2rem;
-  background-color: var(--wl-accent);
+  background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
   color: #fff;
   font-family: var(--wl-font-body);
   font-size: 1rem;
@@ -346,14 +363,41 @@
   border-radius: var(--wl-radius);
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color var(--wl-transition-fast), transform var(--wl-transition-fast),
-              box-shadow var(--wl-transition-fast);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--wl-transition-fast),
+              box-shadow var(--wl-transition-fast),
+              filter var(--wl-transition-fast);
+}
+
+/* Shimmer pseudo-element */
+.wl-submit-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+.wl-submit-btn:hover:not(:disabled)::after {
+  animation: wl-shimmer 0.8s ease forwards;
 }
 
 .wl-submit-btn:hover:not(:disabled) {
-  background-color: var(--wl-accent-hover);
   transform: translateY(-0.0625rem);
-  box-shadow: 0 0.25rem 0.75rem rgba(37, 99, 235, 0.3);
+  box-shadow: 0 0.5rem 2rem rgba(37, 99, 235, 0.4);
+  filter: brightness(1.05);
+}
+
+.wl-submit-btn:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: 0 0.25rem 1rem rgba(37, 99, 235, 0.3);
 }
 
 .wl-submit-btn:disabled {
@@ -386,6 +430,37 @@
 
 .wl-section {
   padding: var(--wl-section-padding);
+  position: relative;
+}
+
+/* Alternating subtle backgrounds for visual rhythm */
+.wl-section:nth-of-type(even) {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.015) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0.015) 100%
+  );
+}
+
+/* Decorative gradient top line on key sections */
+.wl-section:nth-of-type(even)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(80%, 50rem);
+  height: 0.0625rem;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(37, 99, 235, 0.2) 30%,
+    rgba(79, 70, 229, 0.15) 50%,
+    rgba(37, 99, 235, 0.2) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
 
 .wl-section-inner {
@@ -689,13 +764,14 @@
   background: var(--wl-bg-card);
   border: 0.0625rem solid var(--wl-border);
   border-radius: var(--wl-radius);
-  transition: border-color var(--wl-transition-fast), background var(--wl-transition-fast), transform var(--wl-transition-fast);
+  transition: border-color 0.25s ease, background var(--wl-transition-fast), transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .wl-feature-card:hover {
-  border-color: var(--wl-border-strong);
+  border-color: rgba(37, 99, 235, 0.3);
   background: var(--wl-bg-card-hover);
   transform: translateY(-0.125rem);
+  box-shadow: 0 0 1.5rem rgba(37, 99, 235, 0.08);
 }
 
 .wl-feature-icon {
@@ -776,12 +852,14 @@
   background: var(--wl-bg-card);
   border: 0.0625rem solid var(--wl-border);
   border-radius: var(--wl-radius);
-  transition: border-color var(--wl-transition-fast), background var(--wl-transition-fast);
+  transition: border-color 0.25s ease, background var(--wl-transition-fast), transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .wl-cost-card:hover {
-  border-color: var(--wl-border-strong);
+  border-color: rgba(37, 99, 235, 0.3);
   background: var(--wl-bg-card-hover);
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0 1.5rem rgba(37, 99, 235, 0.08);
 }
 
 .wl-cost-card-value {
@@ -876,6 +954,12 @@
   padding: 5rem 1.5rem;
   text-align: center;
   position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(37, 99, 235, 0.03) 0%,
+    rgba(79, 70, 229, 0.02) 50%,
+    transparent 100%
+  );
 }
 
 .wl-early-access::before {
@@ -884,12 +968,39 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 50rem;
-  height: 25rem;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(37, 99, 235, 0.08) 0%,
-    transparent 70%
+  width: 62.5rem;
+  height: 31.25rem;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(37, 99, 235, 0.1) 0%,
+      rgba(79, 70, 229, 0.04) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 30% 80%,
+      rgba(14, 165, 233, 0.04) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+
+/* Faint top border for early access */
+.wl-early-access::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90%, 56.25rem);
+  height: 0.0625rem;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(37, 99, 235, 0.2) 30%,
+    rgba(79, 70, 229, 0.15) 50%,
+    rgba(37, 99, 235, 0.2) 70%,
+    transparent 100%
   );
   pointer-events: none;
 }
@@ -952,7 +1063,15 @@
 
 .wl-footer {
   border-top: 0.0625rem solid var(--wl-border);
-  padding: 4rem 1.5rem 2rem;
+  border-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(37, 99, 235, 0.25) 30%,
+    rgba(79, 70, 229, 0.15) 50%,
+    rgba(37, 99, 235, 0.25) 70%,
+    transparent 100%
+  ) 1;
+  padding: 5rem 1.5rem 2.5rem;
 }
 
 .wl-footer-inner {
@@ -1148,6 +1267,66 @@
   100% { opacity: 1; transform: scale(1); }
 }
 
+@keyframes wl-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(2rem, -1rem) scale(1.05); }
+  66% { transform: translate(-1rem, 1.5rem) scale(0.95); }
+}
+
+@keyframes wl-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-1.5rem, 2rem) scale(0.97); }
+  66% { transform: translate(2.5rem, -0.5rem) scale(1.03); }
+}
+
+@keyframes wl-float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(1rem, -2rem) scale(1.02); }
+}
+
+@keyframes wl-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+
+/* ========== HERO FLOATING ORBS ========== */
+
+.wl-hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(4rem);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wl-hero-orb-1 {
+  width: 25rem;
+  height: 25rem;
+  top: -5rem;
+  right: -5rem;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.15), transparent 70%);
+  animation: wl-float-1 20s ease-in-out infinite;
+}
+
+.wl-hero-orb-2 {
+  width: 20rem;
+  height: 20rem;
+  bottom: -3rem;
+  left: -5rem;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.1), transparent 70%);
+  animation: wl-float-2 25s ease-in-out infinite;
+}
+
+.wl-hero-orb-3 {
+  width: 15rem;
+  height: 15rem;
+  top: 30%;
+  left: 60%;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.08), transparent 70%);
+  animation: wl-float-3 18s ease-in-out infinite;
+}
+
 
 /* ========== WHY NOW STATS ========== */
 
@@ -1165,12 +1344,14 @@
   background: var(--wl-bg-card);
   border: 0.0625rem solid var(--wl-border);
   border-radius: var(--wl-radius);
-  transition: border-color var(--wl-transition-fast), background var(--wl-transition-fast);
+  transition: border-color 0.25s ease, background var(--wl-transition-fast), transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .wl-why-now-card:hover {
-  border-color: var(--wl-border-strong);
+  border-color: rgba(37, 99, 235, 0.3);
   background: var(--wl-bg-card-hover);
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0 1.5rem rgba(37, 99, 235, 0.08);
 }
 
 .wl-why-now-value {
@@ -1276,13 +1457,14 @@
   background: var(--wl-bg-card);
   border: 0.0625rem solid var(--wl-border);
   border-radius: var(--wl-radius);
-  transition: border-color var(--wl-transition-fast), background var(--wl-transition-fast), transform var(--wl-transition-fast);
+  transition: border-color 0.25s ease, background var(--wl-transition-fast), transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .wl-audience-card:hover {
-  border-color: var(--wl-border-strong);
+  border-color: rgba(37, 99, 235, 0.3);
   background: var(--wl-bg-card-hover);
   transform: translateY(-0.125rem);
+  box-shadow: 0 0 1.5rem rgba(37, 99, 235, 0.08);
 }
 
 .wl-audience-card h3 {
@@ -1316,11 +1498,14 @@
   background: var(--wl-bg-card);
   border: 0.0625rem solid var(--wl-border);
   border-radius: var(--wl-radius-xl);
-  transition: border-color var(--wl-transition-fast);
+  transition: border-color 0.25s ease, background var(--wl-transition-fast), transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .wl-waitlist-col:hover {
-  border-color: var(--wl-border-strong);
+  border-color: rgba(37, 99, 235, 0.3);
+  background: var(--wl-bg-card-hover);
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0 1.5rem rgba(37, 99, 235, 0.08);
 }
 
 .wl-waitlist-col-heading {
@@ -1547,6 +1732,7 @@ html[data-theme="light"] .wl-hero h1 {
 
 html[data-theme="light"] .wl-hero::before {
   background-image:
+    radial-gradient(circle, rgba(0, 0, 0, 0.12) 0.0625rem, transparent 0.0625rem),
     repeating-linear-gradient(
       0deg,
       transparent, transparent 3.6875rem,
@@ -1557,16 +1743,8 @@ html[data-theme="light"] .wl-hero::before {
       transparent, transparent 3.6875rem,
       rgba(0, 0, 0, 0.08) 3.6875rem, rgba(0, 0, 0, 0.08) 3.75rem
     );
+  background-size: 3.75rem 3.75rem, 3.75rem 3.75rem, 3.75rem 3.75rem;
   opacity: 0.5;
-}
-
-html[data-theme="light"] .wl-hero::after {
-  background: radial-gradient(
-    ellipse at center,
-    rgba(37, 99, 235, 0.08) 0%,
-    rgba(37, 99, 235, 0.02) 40%,
-    transparent 70%
-  );
 }
 
 html[data-theme="light"] .wl-phase-number {
@@ -1600,6 +1778,94 @@ html[data-theme="light"] .wl-success-card {
 
 html[data-theme="light"] .wl-nav-mobile-overlay {
   background: rgba(248, 249, 251, 0.97);
+}
+
+/* Light mode: orbs less vivid */
+html[data-theme="light"] .wl-hero-orb-1 {
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.08), transparent 70%);
+}
+
+html[data-theme="light"] .wl-hero-orb-2 {
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.06), transparent 70%);
+}
+
+html[data-theme="light"] .wl-hero-orb-3 {
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.05), transparent 70%);
+}
+
+/* Light mode: alternating section backgrounds */
+html[data-theme="light"] .wl-section:nth-of-type(even) {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.01) 0%,
+    rgba(0, 0, 0, 0.02) 50%,
+    rgba(0, 0, 0, 0.01) 100%
+  );
+}
+
+html[data-theme="light"] .wl-section:nth-of-type(even)::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(37, 99, 235, 0.12) 30%,
+    rgba(79, 70, 229, 0.08) 50%,
+    rgba(37, 99, 235, 0.12) 70%,
+    transparent 100%
+  );
+}
+
+/* Light mode: card hover glow with adjusted opacity */
+html[data-theme="light"] .wl-feature-card:hover,
+html[data-theme="light"] .wl-why-now-card:hover,
+html[data-theme="light"] .wl-audience-card:hover,
+html[data-theme="light"] .wl-cost-card:hover,
+html[data-theme="light"] .wl-waitlist-col:hover {
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 0 1.5rem rgba(37, 99, 235, 0.06);
+}
+
+/* Light mode: badge glow */
+html[data-theme="light"] .wl-badge {
+  box-shadow: 0 0 1rem rgba(37, 99, 235, 0.1);
+}
+
+/* Light mode: hero glow toned down */
+html[data-theme="light"] .wl-hero::after {
+  background:
+    radial-gradient(
+      ellipse at 50% 40%,
+      rgba(37, 99, 235, 0.1) 0%,
+      rgba(79, 70, 229, 0.04) 30%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse at 65% 55%,
+      rgba(251, 146, 60, 0.04) 0%,
+      rgba(168, 85, 247, 0.02) 35%,
+      transparent 60%
+    );
+}
+
+/* Light mode: early access section */
+html[data-theme="light"] .wl-early-access {
+  background: linear-gradient(
+    180deg,
+    rgba(37, 99, 235, 0.02) 0%,
+    rgba(79, 70, 229, 0.015) 50%,
+    transparent 100%
+  );
+}
+
+/* Light mode: footer gradient top border */
+html[data-theme="light"] .wl-footer {
+  border-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(37, 99, 235, 0.15) 30%,
+    rgba(79, 70, 229, 0.1) 50%,
+    rgba(37, 99, 235, 0.15) 70%,
+    transparent 100%
+  ) 1;
 }
 
 
@@ -2154,6 +2420,7 @@ html[data-theme="light"] .wl-nav-mobile-overlay {
 .wl-sc-hero-btn {
   min-width: 16rem;
   font-size: var(--text-base, 1rem);
+  padding: 1.125rem 3rem;
 }
 .wl-hero-note {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
@@ -2273,6 +2540,11 @@ html[data-theme="light"] .wl-nav-mobile-overlay {
   .wl-sc-step-active,
   .wl-sc-bar-fill,
   .wl-sc-progress-fill,
+  .wl-hero-orb,
+  .wl-hero-orb-1,
+  .wl-hero-orb-2,
+  .wl-hero-orb-3,
+  .wl-submit-btn::after,
   [data-animate] {
     animation: none !important;
     transition: none !important;

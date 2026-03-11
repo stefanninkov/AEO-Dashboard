@@ -244,10 +244,27 @@ const [navSolid, setNavSolid] = useState(false)
     return () => root.removeEventListener('scroll', handler)
   }, [])
 
-  // Make all sections visible immediately — no scroll animations for leads
+  // Scroll-triggered reveal animations via IntersectionObserver
   useEffect(() => {
-    const elements = rootRef.current?.querySelectorAll('[data-animate]')
-    if (elements) elements.forEach((el) => el.classList.add('wl-visible'))
+    const root = rootRef.current
+    if (!root) return
+    const elements = root.querySelectorAll('[data-animate]')
+    if (!elements.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('wl-visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { root, threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    )
+
+    elements.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
   }, [])
 
   // JSON-LD injection
@@ -414,6 +431,10 @@ const [navSolid, setNavSolid] = useState(false)
 
         {/* ═══════════ 2. HERO ═══════════ */}
         <section id="hero" className="wl-hero">
+          {/* Floating gradient orbs for depth */}
+          <div className="wl-hero-orb wl-hero-orb-1" aria-hidden="true" />
+          <div className="wl-hero-orb wl-hero-orb-2" aria-hidden="true" />
+          <div className="wl-hero-orb wl-hero-orb-3" aria-hidden="true" />
           <div className="wl-hero-inner">
             <div className="wl-badge">
               <Sparkles size={14} />
