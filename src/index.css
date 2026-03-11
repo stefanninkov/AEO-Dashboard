@@ -301,6 +301,40 @@ html {
   color-scheme: dark;
 }
 
+/* ── Dark mode component refinements ── */
+
+[data-theme="dark"] .sidebar {
+  box-shadow: inset -0.5rem 0 1.5rem -0.5rem rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .card {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 6.25rem
+  );
+}
+
+[data-theme="dark"] .stat-card:hover {
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .stat-card-value {
+  text-shadow: 0 0 1.5rem rgba(230, 237, 243, 0.06);
+}
+
+[data-theme="dark"] .tab-segmented[data-active="true"] {
+  box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.2), inset 0 -0.125rem 0 0 var(--accent);
+}
+
+[data-theme="dark"] .btn-primary {
+  box-shadow: 0 0.125rem 0.5rem rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  box-shadow: 0 0.25rem 1rem rgba(37, 99, 235, 0.4);
+}
+
 /* ══════════════════════════════════════════════════
    GLOBAL TYPOGRAPHY & BASE
    ══════════════════════════════════════════════════ */
@@ -358,6 +392,7 @@ body {
   overflow: hidden;
   background: var(--bg-card);
   border-right: 0.0625rem solid var(--border-subtle);
+  box-shadow: inset -0.5rem 0 1rem -0.5rem rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
   transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -547,12 +582,13 @@ body {
   font-weight: 500;
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all var(--duration-fast) ease;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
   border: none;
   background: none;
   width: calc(100% - var(--space-4));
   text-align: left;
+  position: relative;
 }
 .sidebar-nav-item:hover {
   background: var(--hover-bg);
@@ -562,6 +598,7 @@ body {
   background: var(--accent-subtle);
   color: var(--accent);
   font-weight: 600;
+  box-shadow: inset 0.1875rem 0 0 0 var(--accent);
 }
 
 .sidebar-divider {
@@ -726,7 +763,7 @@ body {
   justify-content: center;
   gap: var(--space-2);
   padding: var(--btn-padding-md);
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent) 0%, #4F46E5 100%);
   color: white;
   border: none;
   border-radius: var(--radius-md);
@@ -734,13 +771,18 @@ body {
   font-weight: 600;
   font-family: var(--font-body);
   cursor: pointer;
-  transition: all var(--duration-fast) ease;
+  transition: all var(--duration-fast) ease, box-shadow 0.2s ease;
   white-space: nowrap;
   flex-shrink: 0;
+  box-shadow: 0 0.125rem 0.5rem rgba(37, 99, 235, 0.2);
 }
-.btn-primary:hover { background: var(--accent-hover); transform: translateY(-0.0313rem); }
-.btn-primary:active { transform: scale(0.98); }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, #4338CA 100%);
+  transform: translateY(-0.0313rem);
+  box-shadow: 0 0.25rem 0.75rem rgba(37, 99, 235, 0.3);
+}
+.btn-primary:active { transform: scale(0.97); box-shadow: 0 0.0625rem 0.25rem rgba(37, 99, 235, 0.15); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
 .btn-secondary {
   display: inline-flex;
@@ -1223,7 +1265,7 @@ body {
   100% { opacity: 0; pointer-events: none; }
 }
 @keyframes view-enter {
-  0% { opacity: 0; transform: translateY(0.375rem); }
+  0% { opacity: 0; transform: translateY(0.5rem); }
   100% { opacity: 1; transform: translateY(0); }
 }
 @keyframes backdrop-fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
@@ -1247,12 +1289,14 @@ body {
   100% { box-shadow: 0 0 0 0 var(--phase-pulse-color); }
 }
 @keyframes toastIn {
-  0% { transform: translateX(100%); opacity: 0; }
+  0% { transform: translateX(110%); opacity: 0; }
+  60% { transform: translateX(-0.25rem); opacity: 1; }
+  80% { transform: translateX(0.0625rem); }
   100% { transform: translateX(0); opacity: 1; }
 }
 @keyframes toastOut {
   0% { transform: translateX(0); opacity: 1; }
-  100% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(110%); opacity: 0; }
 }
 @keyframes fill-bar { 0% { width: 0%; } }
 @keyframes ring-pulse {
@@ -1297,7 +1341,13 @@ body {
   animation: shimmer 1.5s infinite;
   border-radius: 0.5rem;
 }
-.view-enter { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.view-enter {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  animation: view-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 .content-reveal { animation: content-reveal var(--duration-normal) ease-out both; }
 .check-bounce { animation: check-bounce var(--duration-normal) ease-out; }
 .fade-in-up { animation: fade-in-up var(--duration-slow) cubic-bezier(0.16, 1, 0.3, 1) both; }
@@ -5505,8 +5555,8 @@ body {
   position: relative;
   overflow: hidden;
 }
-.toast-entering { animation: toastIn 300ms ease both; }
-.toast-exiting { animation: toastOut 200ms ease both; }
+.toast-entering { animation: toastIn 400ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.toast-exiting { animation: toastOut 250ms ease-in both; }
 .toast-color-bar {
   position: absolute;
   left: 0;
@@ -6216,11 +6266,12 @@ body {
 
 .card-interactive {
   cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .card-interactive:hover {
-  border-color: var(--border-default);
+  border-color: var(--border-strong);
   box-shadow: var(--hover-shadow);
-  transform: var(--hover-lift);
+  transform: translateY(-0.0625rem);
 }
 .card-interactive:active {
   transform: translateY(0);
@@ -6252,6 +6303,7 @@ body {
 .stat-card:hover {
   border-color: var(--border-default);
   transform: var(--hover-lift-sm);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.04);
 }
 .stat-card:focus-visible {
   outline: 0.125rem solid var(--accent);
@@ -6327,7 +6379,7 @@ body {
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  transition: all var(--transition-fast);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .tab-segmented:hover {
   color: var(--text-primary);
@@ -6338,6 +6390,7 @@ body {
   background: var(--bg-card);
   font-weight: 600;
   border: 0.0625rem solid var(--border-subtle);
+  box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.06), inset 0 -0.125rem 0 0 var(--accent);
 }
 
 /* Tab badge — count indicator inside a tab button */
