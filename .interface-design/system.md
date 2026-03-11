@@ -439,7 +439,6 @@ The app dashboard and admin panel share `index.css` for a polished, professional
 
 ### Sidebar
 - Inner shadow for depth: `box-shadow: inset -1px 0 0 var(--border-subtle)`
-- Active nav item: left accent bar via `box-shadow: inset 0.1875rem 0 0 0 var(--accent)`
 - Dark mode: stronger shadow depth
 
 ### Primary Buttons
