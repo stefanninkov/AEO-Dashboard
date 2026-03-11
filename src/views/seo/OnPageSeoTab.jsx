@@ -63,10 +63,10 @@ const [expanded, setExpanded] = useState(false)
         max_tokens: 500,
       })
       try {
-        const parsed = JSON.parse(response)
+        const parsed = JSON.parse(response.text)
         setAiFix(parsed)
       } catch {
-        setAiFix({ explanation: response, code: '', language: 'text' })
+        setAiFix({ explanation: response.text || String(response), code: '', language: 'text' })
       }
     } catch (err) {
       setAiFix({ explanation: `Error: ${err.message}`, code: '', language: 'text' })

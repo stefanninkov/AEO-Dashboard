@@ -3,7 +3,7 @@
  *
  * Steps: 1) Select type → 2) Upload file → 3) Map columns → 4) Preview/validate → 5) Confirm
  */
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import {
   X, Upload, FileSpreadsheet, ArrowRight, ArrowLeft,
   CheckCircle2, AlertCircle, Table2, Users, Calendar, Search,
@@ -20,6 +20,13 @@ const IMPORT_TYPES = [
 const STEPS = ['type', 'upload', 'map', 'preview', 'done']
 
 export default function ImportWizard({ onComplete, onClose }) {
+// Escape key handler
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [onClose])
+
 const fileInputRef = useRef(null)
   const [step, setStep] = useState(0) // index into STEPS
   const [importType, setImportType] = useState(null)
@@ -125,7 +132,7 @@ const fileInputRef = useRef(null)
   }
 
   return (
-    <div style={{
+    <div role="dialog" aria-modal="true" style={{
       position: 'fixed', inset: 0, zIndex: 1000,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
@@ -220,10 +227,10 @@ const fileInputRef = useRef(null)
                         fontFamily: 'var(--font-heading)', fontSize: '0.8125rem',
                         fontWeight: 700, color: 'var(--text-primary)',
                       }}>
-                        {'Type_${key}'}
+                        {`Type_${key}`}
                       </div>
                       <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
-                        {'Type_${key}_desc'}
+                        {`Type_${key}_desc`}
                       </div>
                     </div>
                     <ArrowRight size={14} style={{ marginLeft: 'auto', color: 'var(--text-disabled)' }} />

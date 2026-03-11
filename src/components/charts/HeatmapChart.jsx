@@ -49,7 +49,7 @@ export default function HeatmapChart({
   const getColor = useCallback(
     (value) => {
       if (value == null) return isLight ? '#f3f4f6' : '#1f2937'
-      const ratio = Math.max(0, Math.min(1, (value - minValue) / (maxValue - minValue)))
+      const ratio = maxValue === minValue ? 0.5 : Math.max(0, Math.min(1, (value - minValue) / (maxValue - minValue)))
 
       const scales = {
         green: {

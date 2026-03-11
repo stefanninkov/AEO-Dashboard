@@ -217,7 +217,7 @@ const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProjec
   const [result, setResult] = useState(null)
   const [copied, setCopied] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
-  const apiKeySet = hasApiKey()
+  // Call inline where needed instead of caching in a potentially stale variable
 
   const CONTENT_TYPES = useMemo(() => buildContentTypes(), [])
   const TONE_OPTIONS = useMemo(() => buildToneOptions(), [])
@@ -408,7 +408,7 @@ Return ONLY valid JSON matching the requested format.`,
         <div className="cw-form-actions">
           <button
             onClick={generate}
-            disabled={loading || !topic.trim() || !apiKeySet}
+            disabled={loading || !topic.trim() || !hasApiKey()}
             className="metrics-run-btn"
           >
             {loading ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
@@ -427,7 +427,7 @@ Return ONLY valid JSON matching the requested format.`,
           )}
         </div>
 
-        {!apiKeySet && (
+        {!hasApiKey() && (
           <p className="text-[0.6875rem] text-warning mt-2">{'Set your API key in the Analyzer view to use the content writer.'}</p>
         )}
       </div>

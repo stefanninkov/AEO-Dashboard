@@ -200,7 +200,7 @@ function RoleBadge({ role, isOwner }) {
       whiteSpace: 'nowrap',
     }}>
       {isOwner ? <Crown size={11} /> : <Icon size={11} />}
-      {isOwner ? (t ? 'Owner' : 'Owner') : ROLE_LABELS[role]}
+      {isOwner ? 'Owner' : ROLE_LABELS[role]}
     </span>
   )
 }
@@ -308,7 +308,7 @@ const [inviteOpen, setInviteOpen] = useState(false)
     navigator.clipboard.writeText(link).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    })
+    }).catch(() => { /* clipboard API may not be available */ })
   }, [activeProject])
 
   return (

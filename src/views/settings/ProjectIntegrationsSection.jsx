@@ -90,9 +90,13 @@ const { addToast } = useToast()
   }
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(shareLink)
-    setLinkCopied(true)
-    setTimeout(() => setLinkCopied(false), 2000)
+    try {
+      navigator.clipboard.writeText(shareLink)
+      setLinkCopied(true)
+      setTimeout(() => setLinkCopied(false), 2000)
+    } catch {
+      /* clipboard API may not be available in all contexts */
+    }
   }
 
   const handleRevokeShare = async (token) => {

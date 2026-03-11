@@ -18,6 +18,8 @@ const CHECK_EVERY = 30 * 60 * 1000 // Check every 30 minutes
 export function useDigestScheduler({ activeProject, updateProject }) {
   const [sending, setSending] = useState(false)
   const intervalRef = useRef(null)
+  const shouldSendDigestRef = useRef(null)
+  const sendDigestRef = useRef(null)
 
   const shouldSendDigest = useCallback(() => {
     if (!activeProject) return false
@@ -59,20 +61,24 @@ export function useDigestScheduler({ activeProject, updateProject }) {
     }
   }, [activeProject, updateProject, sending])
 
-  // Periodic check
+  // Keep refs in sync so the interval always uses latest callbacks
+  shouldSendDigestRef.current = shouldSendDigest
+  sendDigestRef.current = sendDigest
+
+  // Periodic check — uses refs to avoid recreating the interval when callbacks change
   useEffect(() => {
     if (intervalRef.current) clearInterval(intervalRef.current)
 
     intervalRef.current = setInterval(() => {
-      if (shouldSendDigest()) {
-        sendDigest()
+      if (shouldSendDigestRef.current()) {
+        sendDigestRef.current()
       }
     }, CHECK_EVERY)
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current)
     }
-  }, [shouldSendDigest, sendDigest])
+  }, [])
 
   return { sending, shouldSendDigest, sendDigest }
 }

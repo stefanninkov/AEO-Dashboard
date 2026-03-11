@@ -11,7 +11,7 @@ const STUDIES = [
     quote: 'We went from zero AI citations to appearing in 60% of relevant ChatGPT answers within 3 weeks.',
     author: 'Sarah Chen',
     role: 'Head of SEO',
-    accentColor: '#2563EB',
+    accentColor: 'var(--accent)',
   },
   {
     company: 'GrowthLab',
@@ -21,7 +21,7 @@ const STUDIES = [
     quote: 'The multi-engine testing lab showed us exactly where we were missing citations across all AI platforms.',
     author: 'Emily Park',
     role: 'SEO Director',
-    accentColor: '#10B981',
+    accentColor: 'var(--color-success)',
   },
   {
     company: 'Apex Digital',
@@ -31,7 +31,7 @@ const STUDIES = [
     quote: 'The schema generator alone saved us 20+ hours per client. The most complete AEO toolkit available.',
     author: 'James Mitchell',
     role: 'Technical SEO Lead',
-    accentColor: '#F59E0B',
+    accentColor: 'var(--color-warning)',
   },
 ]
 

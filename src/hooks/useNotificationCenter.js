@@ -17,6 +17,15 @@ export function useNotificationCenter({ activeProject, user, updateProject }) {
   const [filter, setFilter] = useState('all') // 'all' | 'unread' | type
   const [toasts, setToasts] = useState([])
   const prevCountRef = useRef(0)
+  const toastTimersRef = useRef(new Set())
+
+  // Clean up toast timeouts on unmount
+  useEffect(() => {
+    return () => {
+      toastTimersRef.current.forEach(id => clearTimeout(id))
+      toastTimersRef.current.clear()
+    }
+  }, [])
 
   // User preferences (stored in project per-user)
   const prefs = useMemo(() => ({
@@ -113,9 +122,11 @@ export function useNotificationCenter({ activeProject, user, updateProject }) {
   const addToast = useCallback((notification) => {
     const toastId = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
     setToasts(prev => [...prev, { ...notification, toastId }])
-    setTimeout(() => {
+    const timerId = setTimeout(() => {
       setToasts(prev => prev.filter(t => t.toastId !== toastId))
+      toastTimersRef.current.delete(timerId)
     }, prefs.toastDuration)
+    toastTimersRef.current.add(timerId)
   }, [prefs.toastDuration])
 
   const dismissToast = useCallback((toastId) => {

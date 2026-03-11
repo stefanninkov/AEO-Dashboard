@@ -20,19 +20,21 @@ export default function PointsCounter({ points = 0, compact = false }) {
       const diff = points - start
       const duration = 600
       const startTime = performance.now()
+      const rafIdRef = { current: null }
 
       const animate = (time) => {
         const elapsed = time - startTime
         const progress = Math.min(elapsed / duration, 1)
         const eased = 1 - Math.pow(1 - progress, 3) // ease-out cubic
         setDisplay(Math.round(start + diff * eased))
-        if (progress < 1) requestAnimationFrame(animate)
+        if (progress < 1) rafIdRef.current = requestAnimationFrame(animate)
         else {
           setAnimating(false)
           prevRef.current = points
         }
       }
-      requestAnimationFrame(animate)
+      rafIdRef.current = requestAnimationFrame(animate)
+      return () => cancelAnimationFrame(rafIdRef.current)
     }
   }, [points])
 

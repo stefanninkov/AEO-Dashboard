@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState, useMemo } from 'react'
+import { useEffect, useCallback, useState, useMemo, useRef } from 'react'
 
 /**
  * useKeyboardShortcuts — Global keyboard shortcut manager.
@@ -34,6 +34,8 @@ const DEFAULT_SHORTCUTS = [
 
 export function useKeyboardShortcuts({ setActiveView, handlers = {} }) {
   const [cheatsheetOpen, setCheatsheetOpen] = useState(false)
+  const handlersRef = useRef(handlers)
+  handlersRef.current = handlers
 
   // Parse shortcut keys into matcher
   const matchers = useMemo(() =>
@@ -74,15 +76,15 @@ export function useKeyboardShortcuts({ setActiveView, handlers = {} }) {
             setCheatsheetOpen(prev => !prev)
           } else if (sc.action.id === 'escape') {
             setCheatsheetOpen(false)
-            handlers.onEscape?.()
-          } else if (handlers[sc.action.id]) {
-            handlers[sc.action.id]()
+            handlersRef.current.onEscape?.()
+          } else if (handlersRef.current[sc.action.id]) {
+            handlersRef.current[sc.action.id]()
           }
         }
         return
       }
     }
-  }, [matchers, setActiveView, handlers])
+  }, [matchers, setActiveView])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useRef } from 'react'
 import {
   Clock, Calendar, Plus, Trash2, ExternalLink,
   CheckCircle2, XCircle, MinusCircle, ChevronDown, SearchCheck,
@@ -54,6 +54,7 @@ export default function TestingView({ activeProject, updateProject }) {
   const [newQuery, setNewQuery] = useState('')
   const [expandedSections, setExpandedSections] = useState({ monitor: true, weekly: true, monthly: false, tracker: true, links: false, timeline: false })
   const [bouncingId, setBouncingId] = useState(null)
+  const bounceTimerRef = useRef(null)
 
   const PLATFORMS = getFilteredPlatforms(activeProject?.questionnaire, ALL_PLATFORMS)
 
@@ -91,8 +92,9 @@ export default function TestingView({ activeProject, updateProject }) {
 
   const handleWeeklyToggle = (taskId) => {
     if (!weeklyChecked[taskId]) {
+      clearTimeout(bounceTimerRef.current)
       setBouncingId(taskId)
-      setTimeout(() => setBouncingId(null), 350)
+      bounceTimerRef.current = setTimeout(() => setBouncingId(null), 350)
     }
     setRoutineChecked(prev => {
       const next = { ...prev, weekly: { ...prev.weekly, [taskId]: !prev.weekly[taskId] } }
@@ -103,8 +105,9 @@ export default function TestingView({ activeProject, updateProject }) {
 
   const handleMonthlyToggle = (taskId) => {
     if (!monthlyChecked[taskId]) {
+      clearTimeout(bounceTimerRef.current)
       setBouncingId(taskId)
-      setTimeout(() => setBouncingId(null), 350)
+      bounceTimerRef.current = setTimeout(() => setBouncingId(null), 350)
     }
     setRoutineChecked(prev => {
       const next = { ...prev, monthly: { ...prev.monthly, [taskId]: !prev.monthly[taskId] } }

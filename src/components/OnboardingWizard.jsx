@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import { Sparkles, ChevronRight, X, CheckCircle2, Circle, ArrowRight } from 'lucide-react'
 
 /**
@@ -8,10 +8,18 @@ function OnboardingWizard({
   isOpen, currentStep, wizardSteps = [], completedSteps = [],
   wizardProgress, nextStep, skipWizard, onNavigate,
 }) {
+  // Escape key handler
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKey = (e) => { if (e.key === 'Escape') skipWizard() }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [isOpen, skipWizard])
+
   if (!isOpen || !currentStep) return null
 
   return (
-    <div style={{
+    <div role="dialog" aria-modal="true" style={{
       position: 'fixed', inset: 0, zIndex: 50000,
       background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -37,7 +45,7 @@ function OnboardingWizard({
             </div>
             <div>
               <div style={{ fontSize: 'var(--text-2xs)', fontWeight: 600, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.04rem' }}>
-                Step {wizardSteps.indexOf(currentStep) + 1} of {wizardSteps.length}
+                Step {Math.max(0, wizardSteps.indexOf(currentStep)) + 1} of {wizardSteps.length}
               </div>
               <div style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.2 }}>
                 {currentStep.title}
@@ -132,7 +140,7 @@ function OnboardingWizard({
                 fontSize: 'var(--text-xs)', fontWeight: 600, color: '#fff',
               }}
             >
-              {wizardSteps.indexOf(currentStep) === wizardSteps.length - 1 ? 'Finish' : 'Next'}
+              {wizardSteps.indexOf(currentStep) >= wizardSteps.length - 1 ? 'Finish' : 'Next'}
               <ChevronRight size={14} />
             </button>
           </div>

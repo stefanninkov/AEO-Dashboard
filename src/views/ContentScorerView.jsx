@@ -83,14 +83,17 @@ const [scorerMode, setScorerMode] = useState('text') // 'text' | 'url'
   const [result, setResult] = useState(null)
   const [copied, setCopied] = useState(false)
 
+  const loadingRef = useRef(false)
+
   const scoreContent = useCallback(async () => {
-    if (!text.trim() || loading) return
+    if (!text.trim() || loadingRef.current) return
     if (!hasApiKey()) {
       setError('Please set your API key in Settings first.')
       return
     }
 
     setLoading(true)
+    loadingRef.current = true
     setError(null)
     setResult(null)
 
@@ -138,17 +141,19 @@ Return JSON:
       setError(err.message || 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
+      loadingRef.current = false
     }
-  }, [text, loading, activeProject])
+  }, [text, activeProject])
 
   const scoreUrl = useCallback(async () => {
-    if (!urlInput.trim() || loading) return
+    if (!urlInput.trim() || loadingRef.current) return
     if (!hasApiKey()) {
       setError('Please set your API key in Settings first.')
       return
     }
 
     setLoading(true)
+    loadingRef.current = true
     setError(null)
     setResult(null)
 
@@ -213,8 +218,9 @@ Return JSON:
       setError(err.message || 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
+      loadingRef.current = false
     }
-  }, [urlInput, loading, activeProject])
+  }, [urlInput, activeProject])
 
   const handleCopy = () => {
     if (!result) return
@@ -392,7 +398,7 @@ Return JSON:
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.125rem' }}>
                           <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>
-                            {'Key}'}
+                            {dim.key}
                           </span>
                           <span style={{
                             fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 'var(--text-xs)',

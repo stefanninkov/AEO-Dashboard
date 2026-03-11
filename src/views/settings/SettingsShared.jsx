@@ -46,8 +46,11 @@ export const labelStyle = {
   width: '8.125rem', flexShrink: 0,
 }
 
-/** Flash a boolean setter true for 1.5s (for "Saved" confirmation) */
-export function flash(setter) {
+/** Flash a boolean setter true for 1.5s (for "Saved" confirmation).
+ *  Pass a ref to track the timeout for cleanup on unmount. */
+export function flash(setter, timerRef) {
   setter(true)
-  setTimeout(() => setter(false), 1500)
+  if (timerRef?.current) clearTimeout(timerRef.current)
+  const id = setTimeout(() => setter(false), 1500)
+  if (timerRef) timerRef.current = id
 }

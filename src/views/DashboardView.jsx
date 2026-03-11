@@ -282,10 +282,11 @@ const [subTab, setSubTab] = useState('overview')
     if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const cards = grid.querySelectorAll('.stat-card')
     if (!cards.length) return
-    gsap.fromTo(cards,
+    const tween = gsap.fromTo(cards,
       { opacity: 0, y: 20, scale: 0.96 },
       { opacity: 1, y: 0, scale: 1, stagger: 0.08, duration: 0.45, ease: 'power2.out', clearProps: 'transform' }
     )
+    return () => tween.kill()
   }, [activeProject?.id, subTab])
 
   return (

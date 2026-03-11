@@ -359,3 +359,4 @@ Patterns:
 14. **No project badges in titles** — removed from ChecklistView, ContentWriterView
 15. **No icons in titles** — removed from SchemaGeneratorView, MonitoringView
 16. **Spacing grid: 4px base** — only use values from `--space-*` scale
+17. **Breathing room before CTAs** — always leave generous spacing (`≥ 3rem`) between body text and primary action buttons. Text and buttons must never feel cramped together.
