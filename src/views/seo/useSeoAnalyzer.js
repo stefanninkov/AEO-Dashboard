@@ -79,6 +79,16 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
   const auditHistory = seoData.auditHistory || []
   const competitorScans = seoData.competitorScans || {}
 
+  // Keep refs to latest derived data so async callbacks never capture stale values
+  const seoDataRef = useRef(seoData)
+  const scansRef = useRef(scans)
+  const auditHistoryRef = useRef(auditHistory)
+  const competitorScansRef = useRef(competitorScans)
+  seoDataRef.current = seoData
+  scansRef.current = scans
+  auditHistoryRef.current = auditHistory
+  competitorScansRef.current = competitorScans
+
   const scanUrl = useCallback(async (inputUrl) => {
     if (!inputUrl || scanning) return null
     setScanning(true)
@@ -90,8 +100,11 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
     try {
       const scanResult = await runSingleScan(url)
 
-      // Persist to project
-      const updatedScans = { ...scans, [url]: scanResult }
+      // Persist to project — read latest from refs to avoid stale closure
+      const currentScans = scansRef.current
+      const currentHistory = auditHistoryRef.current
+      const currentSeoData = seoDataRef.current
+      const updatedScans = { ...currentScans, [url]: scanResult }
       const historyEntry = {
         url,
         overall: scanResult.seoScore.overallScore,
@@ -103,12 +116,12 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
         passCount: scanResult.seoScore.checks.filter(c => c.status === 'pass').length,
         timestamp: scanResult.timestamp,
       }
-      const updatedHistory = [...auditHistory, historyEntry].slice(-50)
+      const updatedHistory = [...currentHistory, historyEntry].slice(-50)
 
       if (activeProject?.id) {
         await updateProject(activeProject.id, {
           seo: {
-            ...seoData,
+            ...currentSeoData,
             scans: updatedScans,
             auditHistory: updatedHistory,
             lastScanUrl: url,
@@ -127,7 +140,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
       setScanning(false)
       return null
     }
-  }, [scanning, scans, auditHistory, seoData, activeProject, updateProject, logAndDispatch])
+  }, [scanning, activeProject, updateProject, logAndDispatch])
 
   // ── Bulk URL Scanning ──
   const scanBulk = useCallback(async (urls) => {
@@ -143,7 +156,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
     setBulkProgress({ current: 0, total: cleaned.length, results: [] })
 
     const results = []
-    let updatedScans = { ...scans }
+    let updatedScans = { ...scansRef.current }
 
     for (let i = 0; i < cleaned.length; i++) {
       setBulkProgress(prev => ({ ...prev, current: i + 1 }))
@@ -160,7 +173,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
     // Persist all scans
     if (activeProject?.id) {
       await updateProject(activeProject.id, {
-        seo: { ...seoData, scans: updatedScans },
+        seo: { ...seoDataRef.current, scans: updatedScans },
       })
     }
 
@@ -169,7 +182,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
     setScanning(false)
     setBulkProgress(prev => ({ ...prev, current: prev.total }))
     return results
-  }, [scanning, scans, seoData, activeProject, updateProject, logAndDispatch])
+  }, [scanning, activeProject, updateProject, logAndDispatch])
 
   // ── Fix Re-check (re-scan URL, return updated results) ──
   const recheckUrl = useCallback(async (url) => {
@@ -177,10 +190,10 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
     setRecheckingId(url)
     try {
       const scanResult = await runSingleScan(url)
-      const updatedScans = { ...scans, [url]: scanResult }
+      const updatedScans = { ...scansRef.current, [url]: scanResult }
       if (activeProject?.id) {
         await updateProject(activeProject.id, {
-          seo: { ...seoData, scans: updatedScans, lastScanUrl: url },
+          seo: { ...seoDataRef.current, scans: updatedScans, lastScanUrl: url },
         })
       }
       setRecheckingId(null)
@@ -189,7 +202,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
       setRecheckingId(null)
       return null
     }
-  }, [recheckingId, scans, seoData, activeProject, updateProject])
+  }, [recheckingId, activeProject, updateProject])
 
   // ── Competitor Scan ──
   const scanCompetitor = useCallback(async (inputUrl) => {
@@ -202,7 +215,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
 
     try {
       const scanResult = await runSingleScan(url)
-      const updatedCompScans = { ...competitorScans, [url]: scanResult }
+      const updatedCompScans = { ...competitorScansRef.current, [url]: scanResult }
       // Keep last 5 competitor scans
       const keys = Object.keys(updatedCompScans)
       if (keys.length > 5) {
@@ -211,7 +224,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
 
       if (activeProject?.id) {
         await updateProject(activeProject.id, {
-          seo: { ...seoData, competitorScans: updatedCompScans },
+          seo: { ...seoDataRef.current, competitorScans: updatedCompScans },
         })
       }
 
@@ -224,7 +237,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
       setScanning(false)
       return null
     }
-  }, [scanning, competitorScans, seoData, activeProject, updateProject, logAndDispatch])
+  }, [scanning, activeProject, updateProject, logAndDispatch])
 
   // ── Sitemap Scan ──
   const scanSitemap = useCallback(async (sitemapUrl) => {
@@ -269,7 +282,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
 
       if (activeProject?.id) {
         await updateProject(activeProject.id, {
-          seo: { ...seoData, sitemapAudit },
+          seo: { ...seoDataRef.current, sitemapAudit },
         })
       }
 
@@ -283,7 +296,7 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
       setBulkProgress(null)
       return null
     }
-  }, [scanning, seoData, activeProject, updateProject, logAndDispatch])
+  }, [scanning, activeProject, updateProject, logAndDispatch])
 
   // ── Auto-scan (scheduled re-scans) ──
   useEffect(() => {
@@ -301,19 +314,20 @@ export function useSeoAnalyzer({ activeProject, updateProject, user }) {
 
   const setAutoScan = useCallback((enabled, interval) => {
     if (!activeProject?.id) return
+    const current = seoDataRef.current
     updateProject(activeProject.id, {
-      seo: { ...seoData, autoScanEnabled: enabled, autoScanInterval: interval || seoData.autoScanInterval || '7d' },
+      seo: { ...current, autoScanEnabled: enabled, autoScanInterval: interval || current.autoScanInterval || '7d' },
     })
-  }, [seoData, activeProject, updateProject])
+  }, [activeProject, updateProject])
 
   const clearScan = useCallback((url) => {
     if (!activeProject?.id) return
-    const updated = { ...scans }
+    const updated = { ...scansRef.current }
     delete updated[url]
     updateProject(activeProject.id, {
-      seo: { ...seoData, scans: updated },
+      seo: { ...seoDataRef.current, scans: updated },
     })
-  }, [scans, seoData, activeProject, updateProject])
+  }, [activeProject, updateProject])
 
   const lastScan = seoData.lastScanUrl ? scans[seoData.lastScanUrl] : null
 

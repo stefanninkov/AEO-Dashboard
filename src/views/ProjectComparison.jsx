@@ -195,9 +195,9 @@ function ProjectComparison({ projectSummaries = [], onSelectProject }) {
                     <td key={p.id} style={{ padding: 'var(--space-3) var(--space-4)', textAlign: 'center' }}>
                       <span style={{
                         fontSize: 'var(--text-xs)', fontWeight: 600,
-                        color: p.scoreTrend > 0 ? 'var(--color-success)' : p.scoreTrend < 0 ? 'var(--color-error)' : 'var(--text-disabled)',
+                        color: (p.scoreTrend ?? 0) > 0 ? 'var(--color-success)' : (p.scoreTrend ?? 0) < 0 ? 'var(--color-error)' : 'var(--text-disabled)',
                       }}>
-                        {p.scoreTrend > 0 ? '+' : ''}{p.scoreTrend} pts
+                        {(p.scoreTrend ?? 0) > 0 ? '+' : ''}{p.scoreTrend ?? 0} pts
                       </span>
                     </td>
                   ))}
@@ -210,7 +210,7 @@ function ProjectComparison({ projectSummaries = [], onSelectProject }) {
                   </td>
                   {compared.map(p => (
                     <td key={p.id} style={{ padding: 'var(--space-3) var(--space-4)', textAlign: 'center', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)' }}>
-                      {p.memberCount} member{p.memberCount !== 1 ? 's' : ''}
+                      {p.memberCount ?? 0} member{(p.memberCount ?? 0) !== 1 ? 's' : ''}
                     </td>
                   ))}
                 </tr>

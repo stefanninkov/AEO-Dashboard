@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import {
   X, MessageSquare, AtSign, UserPlus, Users,
   BarChart3, Check, AlertTriangle, Zap, Activity,
@@ -20,7 +20,18 @@ const TYPE_COLORS = {
 /**
  * ToastManager — Renders floating toast notifications.
  */
+const AUTO_DISMISS_MS = 5000
+
 function ToastManager({ toasts = [], dismissToast }) {
+  // Auto-dismiss toasts after timeout
+  useEffect(() => {
+    if (toasts.length === 0) return
+    const timers = toasts.map(toast =>
+      setTimeout(() => dismissToast(toast.toastId), AUTO_DISMISS_MS)
+    )
+    return () => timers.forEach(clearTimeout)
+  }, [toasts, dismissToast])
+
   if (toasts.length === 0) return null
 
   return (
@@ -70,6 +81,7 @@ function ToastManager({ toasts = [], dismissToast }) {
 
             <button
               onClick={() => dismissToast(toast.toastId)}
+              aria-label="Dismiss notification"
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 padding: 0, color: 'var(--text-disabled)', flexShrink: 0,

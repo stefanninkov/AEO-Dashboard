@@ -29,13 +29,13 @@ function getIntervalMs(intervalValue) {
   return INTERVAL_META.find(o => o.value === intervalValue)?.ms || 7 * 24 * 60 * 60 * 1000
 }
 
-function getIntervalLabel(intervalValue, t) {
+function getIntervalLabel(intervalValue) {
   const meta = INTERVAL_META.find(o => o.value === intervalValue)
   return meta ? meta.label : 'Weekly'
 }
 
 // ─── Time Helpers ────────────────────────────────────────────
-function timeAgo(dateStr, t) {
+function timeAgo(dateStr) {
   if (!dateStr) return 'Never'
   const diff = Date.now() - new Date(dateStr).getTime()
   const mins = Math.floor(diff / 60000)
@@ -123,15 +123,18 @@ const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({
     if (prevScore !== null && settings.notifyOnScoreChange) {
       const delta = lastResult.overallScore - prevScore
       const threshold = settings.notifyThreshold || 10
+      let timerId
       if (Math.abs(delta) >= threshold) {
         setNotification({
           type: delta > 0 ? 'positive' : 'negative',
           message: `Citation score ${delta > 0 ? 'increased' : 'decreased'} by ${Math.abs(delta)}% (${prevScore}% → ${lastResult.overallScore}%)`,
         })
-        setTimeout(() => setNotification(null), 8000)
+        timerId = setTimeout(() => setNotification(null), 8000)
       }
+      prevScoreRef.current = lastResult.overallScore
+      return () => clearTimeout(timerId)
     }
-    prevScoreRef.current = lastResult.overallScore
+    prevScoreRef.current = lastResult?.overallScore ?? null
   }, [lastResult, settings.notifyOnScoreChange, settings.notifyThreshold])
 
   // ── Run Monitor with activity logging ──
@@ -364,7 +367,7 @@ const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({
         {/* Last Run */}
         <StatCard
           label={'Last Check'}
-          value={timeAgo(activeProject?.lastMonitorRun, t)}
+          value={timeAgo(activeProject?.lastMonitorRun)}
           subValue={activeProject?.lastMonitorRun
             ? new Date(activeProject.lastMonitorRun).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
             : 'Never run'}

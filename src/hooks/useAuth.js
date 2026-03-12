@@ -358,10 +358,14 @@ function useFirebaseAuth() {
 }
 
 /* ── Export: auto-select based on config ── */
+// isFirebaseConfigured is a module-level constant (never changes at runtime),
+// so this conditional hook call is safe and won't violate Rules of Hooks.
 export function useAuth() {
   const result = isFirebaseConfigured ? useFirebaseAuth() : useLocalAuth()
   // Sync auth state into Zustand store so new components can access it
-  syncAuthStore(result.user, result.loading, result.error)
+  useEffect(() => {
+    syncAuthStore(result.user, result.loading, result.error)
+  }, [result.user, result.loading, result.error])
   return result
 }
 

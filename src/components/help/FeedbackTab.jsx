@@ -156,6 +156,9 @@ export default function FeedbackTab({ user, activeView, activeProject }) {
         adminNote: '',
       }
 
+      if (!db) {
+        throw new Error('Firebase not configured')
+      }
       await addDoc(collection(db, 'feedback'), feedbackData)
 
       localStorage.setItem(RATE_LIMIT_KEY, String(Date.now()))

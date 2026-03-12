@@ -1,4 +1,4 @@
-import { useState, useMemo, memo } from 'react'
+import { useState, useMemo, useEffect, memo } from 'react'
 import { Activity, X, Filter, MessageSquare, UserPlus, CheckCircle2, BarChart3, Shield, Sparkles, RefreshCw, FileText } from 'lucide-react'
 
 const ACTIVITY_ICONS = {
@@ -99,6 +99,16 @@ function GlobalActivityFeed({ isOpen, onClose, activities = [], currentUserUid }
     return list.slice(0, 50)
   }, [activities, filter])
 
+  // Close on Escape key
+  useEffect(() => {
+    if (!isOpen) return
+    const handler = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [isOpen, onClose])
+
   if (!isOpen) return null
 
   return (
@@ -115,6 +125,7 @@ function GlobalActivityFeed({ isOpen, onClose, activities = [], currentUserUid }
       {/* Panel */}
       <div
         role="dialog"
+        aria-modal="true"
         aria-label="Activity Feed"
         style={{
           position: 'fixed', right: 0, top: 0, bottom: 0, zIndex: 999,
@@ -185,6 +196,9 @@ function GlobalActivityFeed({ isOpen, onClose, activities = [], currentUserUid }
                 return (
                   <div
                     key={a.id}
+                    tabIndex={0}
+                    role="article"
+                    aria-label={`${isMe ? 'You' : (a.authorName || 'Someone')} ${getActivityMessage(a)}`}
                     style={{
                       display: 'flex', gap: 'var(--space-2)', alignItems: 'flex-start',
                       padding: 'var(--space-2)', borderRadius: 'var(--radius-md)',
@@ -192,6 +206,8 @@ function GlobalActivityFeed({ isOpen, onClose, activities = [], currentUserUid }
                     }}
                     onMouseEnter={e => e.currentTarget.style.background = 'var(--hover-bg)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                    onFocus={e => { e.currentTarget.style.background = 'var(--hover-bg)' }}
+                    onBlur={e => { e.currentTarget.style.background = 'transparent' }}
                   >
                     <div style={{
                       width: '1.75rem', height: '1.75rem', borderRadius: '50%', flexShrink: 0,

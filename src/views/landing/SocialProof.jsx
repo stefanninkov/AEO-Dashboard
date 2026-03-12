@@ -1,31 +1,20 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap, ScrollTrigger } from '../../lib/gsap'
 import { Building2, Rocket, ShoppingBag, Server, Newspaper } from 'lucide-react'
 
-const COMPANIES = [
-  { Icon: Building2, name: 'TechCorp' },
-  { Icon: Rocket, name: 'MediaHub' },
-  { Icon: ShoppingBag, name: 'DataSync' },
-  { Icon: Server, name: 'CloudBase' },
-  { Icon: Newspaper, name: 'NetFlow' },
+const INDUSTRIES = [
+  { Icon: Building2, label: 'Agencies' },
+  { Icon: Rocket, label: 'SaaS' },
+  { Icon: ShoppingBag, label: 'E-Commerce' },
+  { Icon: Server, label: 'Enterprise' },
+  { Icon: Newspaper, label: 'Publishers' },
 ]
 
 export default function SocialProof() {
   const sectionRef = useRef(null)
   const countRef = useRef(null)
-  const [count, setCount] = useState(2487)
-
-  // Live user count simulation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCount((prev) => {
-        const delta = Math.floor(Math.random() * 5) - 2
-        return Math.max(2467, Math.min(2517, prev + delta))
-      })
-    }, 4000)
-    return () => clearInterval(interval)
-  }, [])
+  const count = 2400
 
   useGSAP(() => {
     const section = sectionRef.current
@@ -57,16 +46,15 @@ export default function SocialProof() {
           Trusted by <span ref={countRef} className="lp-social-proof__count">{count.toLocaleString()}</span>+ SEO professionals worldwide
         </p>
         <div className="lp-social-proof__logos" data-reveal>
-          {COMPANIES.map((company, i) => (
+          {INDUSTRIES.map((industry, i) => (
             <div key={i} className="lp-social-proof__logo">
-              <company.Icon size={20} />
-              <span>{company.name}</span>
+              <industry.Icon size={20} />
+              <span>{industry.label}</span>
             </div>
           ))}
         </div>
         <div className="lp-social-proof__live" data-reveal>
-          <span className="lp-social-proof__live-dot" />
-          <span>{count.toLocaleString()} professionals optimizing right now</span>
+          <span>Join {count.toLocaleString()}+ professionals already optimizing for AI</span>
         </div>
       </div>
     </section>

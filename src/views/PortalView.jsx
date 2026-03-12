@@ -50,7 +50,19 @@ const phases = useChecklistTranslation(rawPhases)
     )
   }
 
-  const project = data.snapshot
+  const project = data?.snapshot
+
+  if (!project) {
+    return (
+      <div className="portal-loading">
+        <div className="portal-error-card">
+          <AlertCircle size={48} strokeWidth={1.5} />
+          <h2>{'No Data Available'}</h2>
+          <p>{'This shared report does not contain any project data.'}</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="portal-page">
@@ -63,7 +75,7 @@ const phases = useChecklistTranslation(rawPhases)
           </div>
           <div className="portal-banner-right">
             <Sparkles size={14} />
-            <span>{'app Name'}</span>
+            <span>{'AEO Dashboard'}</span>
           </div>
         </div>
       </div>
@@ -231,7 +243,7 @@ return (
                   <XCircle size={15} className="portal-status-fail" />
                 )}
                 <span className="portal-analyzer-item-name">{item.name}</span>
-                <span className={`portal-analyzer-badge portal-badge-${item.status}`}>{'Status}'}</span>
+                <span className={`portal-analyzer-badge portal-badge-${item.status}`}>{item.status}</span>
               </div>
             ))}
           </div>

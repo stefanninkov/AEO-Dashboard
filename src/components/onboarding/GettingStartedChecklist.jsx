@@ -151,8 +151,8 @@ const [expanded, setExpanded] = useState(false)
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             width: '2.25rem', height: '2.25rem',
             background: 'var(--accent)', color: '#fff',
-            border: 'none', borderRadius: '50%',
-            cursor: 'pointer', border: '0.125rem solid var(--border-subtle)',
+            border: '0.125rem solid var(--border-subtle)', borderRadius: '50%',
+            cursor: 'pointer',
             transition: 'transform 0.2s, box-shadow 0.2s',
             marginLeft: 'auto', position: 'relative',
           }}

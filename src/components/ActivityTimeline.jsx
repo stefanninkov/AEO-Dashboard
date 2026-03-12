@@ -68,7 +68,7 @@ const TYPE_I18N_KEYS = {
   generateFix: 'activity.typeGenerateFix',
 }
 
-function getDateLabel(dateStr, t) {
+function getDateLabel(dateStr) {
   const date = new Date(dateStr)
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -80,7 +80,7 @@ function getDateLabel(dateStr, t) {
   return date.toLocaleDateString('en', { month: 'short', day: 'numeric' })
 }
 
-function getRelativeTime(dateStr, t) {
+function getRelativeTime(dateStr) {
   const date = new Date(dateStr)
   const now = new Date()
   const diffMs = now - date
@@ -95,15 +95,15 @@ function getRelativeTime(dateStr, t) {
   return new Date(dateStr).toLocaleDateString('en', { month: 'short', day: 'numeric' })
 }
 
-function getAuthorLabel(activity, currentUserUid, t) {
+function getAuthorLabel(activity, currentUserUid) {
   if (!activity.authorUid && !activity.authorName) return null
   if (activity.authorUid === currentUserUid) return 'You'
   return activity.authorName || 'Someone'
 }
 
-function getDescription(activity, currentUserUid, t) {
+function getDescription(activity, currentUserUid) {
   const label = activity.type
-  const author = getAuthorLabel(activity, currentUserUid, t)
+  const author = getAuthorLabel(activity, currentUserUid)
   const prefix = author ? `${author} — ` : ''
 
   switch (activity.type) {
@@ -210,7 +210,7 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
     let currentLabel = null
 
     visibleActivities.forEach(activity => {
-      const label = getDateLabel(activity.timestamp, t)
+      const label = getDateLabel(activity.timestamp)
       if (label !== currentLabel) {
         currentLabel = label
         groups.push({ label, items: [] })
@@ -302,9 +302,9 @@ export default function ActivityTimeline({ activities = [], maxVisible = 10, cur
                             <Icon size={9} />
                           </span>
                         )}
-                        {getDescription(activity, currentUserUid, t)}
+                        {getDescription(activity, currentUserUid)}
                       </div>
-                      <div className="activity-time">{getRelativeTime(activity.timestamp, t)}</div>
+                      <div className="activity-time">{getRelativeTime(activity.timestamp)}</div>
                     </div>
                   </div>
                 )

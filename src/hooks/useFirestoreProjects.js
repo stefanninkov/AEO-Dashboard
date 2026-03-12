@@ -420,6 +420,8 @@ function useFirestoreProjectsImpl(user) {
 export function useFirestoreProjects(user) {
   const result = isFirebaseConfigured ? useFirestoreProjectsImpl(user) : useLocalProjects(user)
   // Sync project state into Zustand store so new components can access it
-  syncProjectStore(result.projects, result.activeProjectId, result.loading, result.firestoreError)
+  useEffect(() => {
+    syncProjectStore(result.projects, result.activeProjectId, result.loading, result.firestoreError)
+  }, [result.projects, result.activeProjectId, result.loading, result.firestoreError])
   return result
 }

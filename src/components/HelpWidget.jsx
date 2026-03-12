@@ -8,11 +8,22 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
   const [activeTab, setActiveTab] = useState('feedback')
   const panelRef = useRef(null)
   const btnRef = useRef(null)
+  const previousFocusRef = useRef(null)
 
   const TABS = [
     { id: 'feedback', label: 'Feedback', icon: MessageSquare },
     { id: 'help', label: 'Help', icon: Bot },
   ]
+
+  // Save previous focus on open, restore on close
+  useEffect(() => {
+    if (open) {
+      previousFocusRef.current = document.activeElement
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus()
+      previousFocusRef.current = null
+    }
+  }, [open])
 
   // Close on escape
   useEffect(() => {

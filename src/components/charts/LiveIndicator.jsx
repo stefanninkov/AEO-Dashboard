@@ -45,18 +45,11 @@ export default function LiveIndicator({
           width: s.dot,
           height: s.dot,
           background: dotColor,
-          animation: 'pulse 2s ease-in-out infinite',
+          animation: 'live-pulse 2s ease-in-out infinite',
           boxShadow: `0 0 0 0 ${dotColor}40`,
         }}
       />
       {showLabel && label}
-
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; box-shadow: 0 0 0 0 ${dotColor}40; }
-          50% { opacity: 0.7; box-shadow: 0 0 0 ${s.dot}px ${dotColor}00; }
-        }
-      `}</style>
     </span>
   )
 }

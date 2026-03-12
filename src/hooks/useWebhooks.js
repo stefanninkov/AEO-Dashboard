@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { fireWebhooks, testWebhook as testWebhookUrl } from '../utils/webhookDispatcher'
 
 /**
@@ -7,6 +7,14 @@ import { fireWebhooks, testWebhook as testWebhookUrl } from '../utils/webhookDis
 export function useWebhooks({ activeProject, updateProject }) {
   const [testing, setTesting] = useState(null) // id of webhook being tested
   const [testResult, setTestResult] = useState(null) // { webhookId, success, error }
+  const testResultTimerRef = useRef(null)
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (testResultTimerRef.current) clearTimeout(testResultTimerRef.current)
+    }
+  }, [])
 
   const webhooks = activeProject?.webhooks || []
 
@@ -72,7 +80,8 @@ export function useWebhooks({ activeProject, updateProject }) {
     setTestResult({ webhookId: id, success: result.success, error: result.error })
 
     // Clear test result after 5 seconds
-    setTimeout(() => setTestResult(null), 5000)
+    if (testResultTimerRef.current) clearTimeout(testResultTimerRef.current)
+    testResultTimerRef.current = setTimeout(() => setTestResult(null), 5000)
     return result
   }, [activeProject, webhooks, updateProject])
 

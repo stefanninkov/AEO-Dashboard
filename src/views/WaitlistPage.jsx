@@ -40,23 +40,6 @@ const FOOTER_HREFS = [
   ],
 ]
 
-const TOTAL_SPOTS = 500
-
-const RECENT_SIGNUP_META = [
-  { minutesAgo: 2 },
-  { minutesAgo: 5 },
-  { minutesAgo: 8 },
-  { minutesAgo: 12 },
-  { minutesAgo: 18 },
-  { minutesAgo: 23 },
-  { minutesAgo: 27 },
-  { minutesAgo: 34 },
-  { minutesAgo: 41 },
-  { minutesAgo: 55 },
-]
-
-const COUNTDOWN_TARGET = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-
 const BASE_PATH = import.meta.env.BASE_URL || '/AEO-Dashboard/'
 const SITE_URL = `https://stefanninkov.github.io${BASE_PATH}`
 
@@ -98,40 +81,6 @@ const [navSolid, setNavSolid] = useState(false)
     raf = requestAnimationFrame(step)
     return () => cancelAnimationFrame(raf)
   }, [targetCount])
-
-  // ── Countdown timer state ──
-  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-
-  useEffect(() => {
-    const tick = () => {
-      const now = Date.now()
-      const diff = Math.max(0, COUNTDOWN_TARGET - now)
-      setCountdown({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60),
-      })
-    }
-    tick()
-    const id = setInterval(tick, 1000)
-    return () => clearInterval(id)
-  }, [])
-
-  // ── Recent signups ticker ──
-  const [tickerIndex, setTickerIndex] = useState(0)
-  const [tickerVisible, setTickerVisible] = useState(true)
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setTickerVisible(false)
-      setTimeout(() => {
-        setTickerIndex((prev) => (prev + 1) % RECENT_SIGNUP_META.length)
-        setTickerVisible(true)
-      }, 400)
-    }, 4000)
-    return () => clearInterval(id)
-  }, [])
 
   // ── Translated data arrays (rebuilt when language changes) ──
 
@@ -238,15 +187,6 @@ const [navSolid, setNavSolid] = useState(false)
       { title: 'In-House Marketers', description: 'Make your site visible to AI without a big team. Follow clear steps. See results in weeks.' }
     ], [])
 
-  const RECENT_SIGNUPS = useMemo(() =>
-    RECENT_SIGNUP_META.map((meta, i) => ({
-      name: 'Name',
-      location: 'Location',
-      minutesAgo: meta.minutesAgo,
-    })), [])
-
-  // Derived urgency values
-  const spotsRemaining = Math.max(0, TOTAL_SPOTS - count)
   const queuePosition = count
 
   // JSON-LD schema
@@ -304,10 +244,27 @@ const [navSolid, setNavSolid] = useState(false)
     return () => root.removeEventListener('scroll', handler)
   }, [])
 
-  // Make all sections visible immediately — no scroll animations for leads
+  // Scroll-triggered reveal animations via IntersectionObserver
   useEffect(() => {
-    const elements = rootRef.current?.querySelectorAll('[data-animate]')
-    if (elements) elements.forEach((el) => el.classList.add('wl-visible'))
+    const root = rootRef.current
+    if (!root) return
+    const elements = root.querySelectorAll('[data-animate]')
+    if (!elements.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('wl-visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { root, threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    )
+
+    elements.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
   }, [])
 
   // JSON-LD injection
@@ -474,10 +431,14 @@ const [navSolid, setNavSolid] = useState(false)
 
         {/* ═══════════ 2. HERO ═══════════ */}
         <section id="hero" className="wl-hero">
+          {/* Floating gradient orbs for depth */}
+          <div className="wl-hero-orb wl-hero-orb-1" aria-hidden="true" />
+          <div className="wl-hero-orb wl-hero-orb-2" aria-hidden="true" />
+          <div className="wl-hero-orb wl-hero-orb-3" aria-hidden="true" />
           <div className="wl-hero-inner">
             <div className="wl-badge">
               <Sparkles size={14} />
-              {'Early Access Waitlist — Limited Spots'}
+              {'Early Access Waitlist'}
             </div>
 
             <h1>
@@ -487,39 +448,6 @@ const [navSolid, setNavSolid] = useState(false)
             <p className="wl-hero-sub">
               {'Check your AEO score for free. The full platform is coming soon — join the waitlist to get early access.'}
             </p>
-
-            {/* ── Countdown Timer ── */}
-            <div className="wl-countdown">
-              <span className="wl-countdown-label">{'Early access closes in'}</span>
-              <div className="wl-countdown-units">
-                <div className="wl-countdown-unit">
-                  <span className="wl-countdown-value">{countdown.days}</span>
-                  <span className="wl-countdown-suffix">{'d'}</span>
-                </div>
-                <span className="wl-countdown-sep">:</span>
-                <div className="wl-countdown-unit">
-                  <span className="wl-countdown-value">{String(countdown.hours).padStart(2, '0')}</span>
-                  <span className="wl-countdown-suffix">{'h'}</span>
-                </div>
-                <span className="wl-countdown-sep">:</span>
-                <div className="wl-countdown-unit">
-                  <span className="wl-countdown-value">{String(countdown.minutes).padStart(2, '0')}</span>
-                  <span className="wl-countdown-suffix">{'m'}</span>
-                </div>
-                <span className="wl-countdown-sep">:</span>
-                <div className="wl-countdown-unit">
-                  <span className="wl-countdown-value">{String(countdown.seconds).padStart(2, '0')}</span>
-                  <span className="wl-countdown-suffix">{'s'}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* ── Spots Remaining ── */}
-            {spotsRemaining > 0 && (
-              <p className="wl-spots-remaining">
-                {`Only ${spotsRemaining} spots remaining`}
-              </p>
-            )}
 
             {completedResults ? (
               <div className="wl-sc-success-inline">
@@ -565,10 +493,13 @@ const [navSolid, setNavSolid] = useState(false)
                 >
                   {'Get Your Free Score →'}
                 </button>
-                <p className="wl-hero-note">{'Free • 2 minutes • Instant results'}</p>
-                <p className="wl-hero-counter" style={{ marginTop: '1.5rem' }}>
-                  <strong>{displayCount}</strong> {'professionals have checked their score'}
+                <p className="wl-hero-counter">
+                  {count > 0
+                    ? <><strong>{displayCount}</strong>{' professionals have already joined'}</>
+                    : 'Join professionals already optimizing for AI'
+                  }
                 </p>
+                <p className="wl-hero-note">{'Free • 2 minutes • Instant results'}</p>
               </>
             )}
 
@@ -960,20 +891,6 @@ const [navSolid, setNavSolid] = useState(false)
               {'Close'}
             </button>
           </div>
-        </div>
-      )}
-
-      {/* ═══════════ RECENT SIGNUPS TICKER ═══════════ */}
-      {!submitted && !completedResults && RECENT_SIGNUPS.length > 0 && (
-        <div className={`wl-ticker ${tickerVisible ? 'wl-ticker-visible' : ''}`}>
-          <span className="wl-ticker-dot" />
-          <span className="wl-ticker-text">
-            {RECENT_SIGNUPS[tickerIndex].name} {'just joined'}{' '}
-            {`${RECENT_SIGNUPS[tickerIndex].minutesAgo} min ago`}
-          </span>
-          <span className="wl-ticker-location">
-            {RECENT_SIGNUPS[tickerIndex].location}
-          </span>
         </div>
       )}
 

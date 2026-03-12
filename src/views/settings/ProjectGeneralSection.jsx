@@ -1,7 +1,7 @@
 /**
  * ProjectGeneralSection — Project name/URL/notes, Google Data Sources, Cache, Project Profile.
  */
-import { useState, useCallback, lazy, Suspense } from 'react'
+import { useState, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
 import { FolderCog, Plug, Database, Save, Check, Trash2, ClipboardList, Pencil } from 'lucide-react'
 import { useToast } from '../../components/Toast'
 import GscPropertySelector from '../../components/GscPropertySelector'
@@ -22,6 +22,16 @@ const ProjectProfileForm = lazy(() => import('../../components/ProjectProfileFor
 export default function ProjectGeneralSection({ activeProject, updateProject, google, permission }) {
   const canEdit = permission?.hasPermission?.('project:edit') !== false
 const { addToast } = useToast()
+  const flashTimerRef = useRef(null)
+  const cacheTimerRef = useRef(null)
+
+  // Clean up flash/cache timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (flashTimerRef.current) clearTimeout(flashTimerRef.current)
+      if (cacheTimerRef.current) clearTimeout(cacheTimerRef.current)
+    }
+  }, [])
 
   // Project fields
   const [projectName, setProjectName] = useState(activeProject?.name || '')
@@ -43,31 +53,32 @@ const { addToast } = useToast()
   const handleSaveProjectName = useCallback(() => {
     if (!activeProject || !projectName.trim() || !canEdit) return
     updateProject(activeProject.id, { name: projectName.trim() })
-    flash(setProjectNameSaved)
-  }, [activeProject, projectName, updateProject])
+    flash(setProjectNameSaved, flashTimerRef)
+  }, [activeProject, projectName, canEdit, updateProject])
 
   const handleSaveProjectUrl = useCallback(() => {
     if (!activeProject || !canEdit) return
     updateProject(activeProject.id, { url: projectUrl.trim() })
-    flash(setProjectUrlSaved)
-  }, [activeProject, projectUrl, updateProject])
+    flash(setProjectUrlSaved, flashTimerRef)
+  }, [activeProject, projectUrl, canEdit, updateProject])
 
   const handleSaveWebflowId = useCallback(() => {
     if (!activeProject || !canEdit) return
     updateProject(activeProject.id, { webflowSiteId: webflowSiteId.trim() })
-    flash(setWebflowSaved)
-  }, [activeProject, webflowSiteId, updateProject])
+    flash(setWebflowSaved, flashTimerRef)
+  }, [activeProject, webflowSiteId, canEdit, updateProject])
 
   const handleSaveNotes = useCallback(() => {
     if (!activeProject || !canEdit) return
     updateProject(activeProject.id, { notes: projectNotes })
-    flash(setNotesSaved)
-  }, [activeProject, projectNotes, updateProject])
+    flash(setNotesSaved, flashTimerRef)
+  }, [activeProject, projectNotes, canEdit, updateProject])
 
   const handleClearGoogleCache = () => {
     if (!clearCacheConfirm) {
       setClearCacheConfirm(true)
-      setTimeout(() => setClearCacheConfirm(false), 3000)
+      if (cacheTimerRef.current) clearTimeout(cacheTimerRef.current)
+      cacheTimerRef.current = setTimeout(() => setClearCacheConfirm(false), 3000)
       return
     }
     clearAllCache()

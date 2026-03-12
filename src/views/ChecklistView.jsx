@@ -59,6 +59,7 @@ const keyPrinciples = useMemo(() => [
   const [celebratingPhase, setCelebratingPhase] = useState(null)
   const prevPhaseProgressRef = useRef({})
   const phaseCardsRef = useRef(null)
+  const bounceTimerRef = useRef(null)
 
   // GSAP: stagger phase cards entrance
   useEffect(() => {
@@ -66,10 +67,11 @@ const keyPrinciples = useMemo(() => [
     if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const cards = el.children
     if (!cards.length) return
-    gsap.fromTo(cards,
+    const tween = gsap.fromTo(cards,
       { opacity: 0, y: 16 },
       { opacity: 1, y: 0, stagger: 0.06, duration: 0.4, ease: 'power2.out', clearProps: 'transform' }
     )
+    return () => tween.kill()
   }, [activeProject?.id])
   const activeProjectIdRef = useRef(activeProject?.id)
 
@@ -154,7 +156,8 @@ const keyPrinciples = useMemo(() => [
     }
 
     setBouncingId(itemId)
-    setTimeout(() => setBouncingId(null), 450)
+    clearTimeout(bounceTimerRef.current)
+    bounceTimerRef.current = setTimeout(() => setBouncingId(null), 450)
     handleCloseVerify()
 
     // Toast with undo
@@ -377,19 +380,21 @@ const keyPrinciples = useMemo(() => [
 
   useEffect(() => {
     const prev = prevPhaseProgressRef.current
+    let timerId
     phases.forEach(phase => {
       const progress = getPhaseProgress(phase)
       const prevPercent = prev[phase.id]
       if (prevPercent !== undefined && prevPercent < 100 && progress.percent === 100) {
         setCelebratingPhase(phase.id)
         addToast('success', `Phase ${phase.number} complete: ${phase.title}`)
-        setTimeout(() => setCelebratingPhase(null), 650)
+        timerId = setTimeout(() => setCelebratingPhase(null), 650)
       }
     })
     const next = {}
     phases.forEach(phase => { next[phase.id] = getPhaseProgress(phase).percent })
     prevPhaseProgressRef.current = next
-  }, [checked])
+    return () => clearTimeout(timerId)
+  }, [checked, phases, addToast])
 
   // ── Filtering ──
 

@@ -359,3 +359,108 @@ Patterns:
 14. **No project badges in titles** — removed from ChecklistView, ContentWriterView
 15. **No icons in titles** — removed from SchemaGeneratorView, MonitoringView
 16. **Spacing grid: 4px base** — only use values from `--space-*` scale
+17. **Breathing room before CTAs** — always leave generous spacing (`≥ 3rem`) between body text and primary action buttons. Text and buttons must never feel cramped together.
+
+## Waitlist / Marketing Page Design (WaitlistPage-specific)
+
+The waitlist page follows the **frontend-design** plugin principles for distinctive, production-grade public-facing pages.
+
+### Typography Pairing
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--wl-font-heading` | `'Sora', sans-serif` | Waitlist page headings, hero title, section titles |
+| `--wl-font-body` | `'Plus Jakarta Sans', system-ui, sans-serif` | Waitlist page body text |
+
+**Note:** The dashboard app continues to use `Plus Jakarta Sans` for both headings and body. `Sora` is only used on the waitlist/marketing page for a more distinctive feel.
+
+### Hero Section
+- **Floating gradient orbs**: 3 animated `<div>` elements with `filter: blur(4rem)`, slow floating keyframes (`wl-float-1/2/3`), providing atmospheric depth
+- **Grid pattern**: Dot grid + line grid overlay at low opacity
+- **Radial glow**: Dual-layer — primary blue/indigo + secondary warm purple, centered behind the hero
+- **h1**: Font weight 800, 3.5rem, gradient text (white→gray in dark, dark→medium in light)
+
+### CTA Buttons (Waitlist)
+- **Gradient background**: `linear-gradient(135deg, #2563EB 0%, #4F46E5 100%)` instead of flat blue
+- **Hover glow**: `box-shadow: 0 0.5rem 2rem rgba(37, 99, 235, 0.4)`
+- **Active press**: `scale(0.97)`
+- **Shimmer effect**: `::after` pseudo-element with translating gradient on hover
+
+### Scroll Animations
+- `[data-animate]` elements start hidden (`opacity: 0; transform: translateY(1.5rem)`)
+- IntersectionObserver adds `.wl-visible` class on scroll into view
+- Smooth `0.6s cubic-bezier(0.16, 1, 0.3, 1)` transition
+- Respects `prefers-reduced-motion`
+
+### Card Hover Effects (Waitlist)
+All feature/stat/audience/cost cards get on hover:
+- `border-color: rgba(37, 99, 235, 0.3)` accent glow border
+- `box-shadow: 0 0 1.5rem rgba(37, 99, 235, 0.08)` soft glow
+- `translateY(-0.125rem)` lift
+
+### Section Visual Rhythm
+- Even-numbered sections get subtle alternating background gradients
+- Decorative gradient accent line at top of alternating sections
+- Early access section has enhanced radial glow background
+
+## Landing Page Design (LandingPage-specific)
+
+The landing page (`?/features`) follows the same **frontend-design** principles as the waitlist page for a cohesive marketing experience.
+
+### Typography
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--lp-font-heading` | `'Sora', 'Plus Jakarta Sans', sans-serif` | All landing page headings, hero title, section titles, card titles |
+
+### Hero Enhancement
+- **Triple-layer gradient glow**: Blue, indigo, and accent layers positioned behind hero content
+- **Breathing animation**: `lp-hero-glow-drift` keyframe for subtle movement
+- **Large h1**: Font weight 800 with gradient text effect in dark mode
+
+### CTA Buttons (Landing)
+- Same gradient pattern as waitlist: `linear-gradient(135deg, #2563EB 0%, #4F46E5 100%)`
+- Shimmer `::after` pseudo-element on hover
+- Glow shadow on hover: `0 0.5rem 2rem rgba(37, 99, 235, 0.4)`
+- Active press: `scale(0.97)`
+
+### Card Hover Effects (Landing)
+Applied to 6 card types (problem, feature grid, case study, pricing, testimonial, how-it-works):
+- `border-color: rgba(37, 99, 235, 0.3)` accent glow border
+- `box-shadow: 0 0 1.5rem rgba(37, 99, 235, 0.08)` soft glow
+- `translateY(-0.125rem)` lift
+
+### Section Visual Rhythm (Landing)
+- 5 sections get alternating background gradients via `::before` pseudo-elements
+- Gradient accent line at top of alternating sections
+- Full light and dark theme support for all effects
+
+## App Dashboard Design Enhancements (index.css)
+
+The app dashboard and admin panel share `index.css` for a polished, professional feel.
+
+### Sidebar
+- Inner shadow for depth: `box-shadow: inset -1px 0 0 var(--border-subtle)`
+- Dark mode: stronger shadow depth
+
+### Primary Buttons
+- Gradient background: `linear-gradient(135deg, var(--accent) 0%, #4F46E5 100%)`
+- Resting glow shadow on all `.btn-primary` elements
+- Stronger glow on hover
+- Active press: `scale(0.97)`
+
+### Card Interactions
+- `.card-interactive`: smoother 0.2s transitions, refined hover lift and shadow
+- Dark mode: subtle gradient top glow on cards
+
+### Stat Cards
+- Enhanced hover shadow for depth
+- Dark mode: text glow on stat values (`text-shadow`)
+
+### View Entry Animation
+- Spring-eased 0.35s animation: `translateY(0.5rem) → 0` with `cubic-bezier(0.34, 1.56, 0.64, 1)`
+
+### Tab Bar
+- `.tab-segmented[data-active="true"]`: accent bottom indicator + elevation shadow
+
+### Toast Animations
+- Enter: bounce overshoot for playful feel
+- Exit: clean 250ms slide-out

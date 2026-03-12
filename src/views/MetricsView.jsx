@@ -148,6 +148,7 @@ function DataTable({ columns, rows }) {
 
 /* ── Tabs ── */
 const TAB_IDS = ['overview', 'citations', 'prompts', 'engines', 'heatmap']
+const SCORE_MILESTONES = [50, 75, 90, 100]
 
 /* ── Main MetricsView ── */
 export default function MetricsView({ activeProject, updateProject, dateRange }) {
@@ -170,7 +171,6 @@ const { engineColors: themeEngineColors } = useChartColors()
   // Score milestone detection
   const [celebrating, setCelebrating] = useState(false)
   const prevScoreRef = useRef(null)
-  const SCORE_MILESTONES = [50, 75, 90, 100]
 
   useEffect(() => {
     const score = metrics?.overallScore || 0
@@ -178,12 +178,14 @@ const { engineColors: themeEngineColors } = useChartColors()
     prevScoreRef.current = score
     if (prev === null || prev === score) return
     const crossedMilestone = SCORE_MILESTONES.find(m => prev < m && score >= m)
+    let timerId
     if (crossedMilestone) {
       setCelebrating(true)
       addToast('success', `AEO Score reached ${crossedMilestone}!`)
-      setTimeout(() => setCelebrating(false), 1500)
+      timerId = setTimeout(() => setCelebrating(false), 1500)
     }
-  }, [metrics?.overallScore])
+    return () => clearTimeout(timerId)
+  }, [metrics?.overallScore, addToast])
 
   // AI Insight
   const metricsContext = useMemo(() => {
@@ -291,10 +293,10 @@ const { engineColors: themeEngineColors } = useChartColors()
         </>
       ) : metrics && (
         <div className="space-y-6">
-          {activeTab === 'overview' && <OverviewTab metrics={metrics} rangeMetrics={rangeMetrics} />}
+          {activeTab === 'overview' && <OverviewTab metrics={metrics} rangeMetrics={rangeMetrics} metricsGridRef={metricsGridRef} />}
           {activeTab === 'citations' && <CitationsTab metrics={metrics} />}
           {activeTab === 'prompts' && <PromptsTab metrics={metrics} />}
-          {activeTab === 'engines' && <EnginesTab metrics={metrics} questionnaire={activeProject?.questionnaire} />}
+          {activeTab === 'engines' && <EnginesTab metrics={metrics} questionnaire={activeProject?.questionnaire} celebrating={celebrating} />}
           {activeTab === 'heatmap' && <PerformanceHeatmapTab metrics={metrics} activeProject={activeProject} />}
         </div>
       )}
@@ -303,7 +305,7 @@ const { engineColors: themeEngineColors } = useChartColors()
 }
 
 /* ── Tab: Overview ── */
-function OverviewTab({ metrics, rangeMetrics }) {
+function OverviewTab({ metrics, rangeMetrics, metricsGridRef }) {
 const citationChange = metrics.citations?.change || 0
 
   return (
@@ -542,7 +544,7 @@ return (
 }
 
 /* ── Tab: AI Engines ── */
-function EnginesTab({ metrics, questionnaire }) {
+function EnginesTab({ metrics, questionnaire, celebrating }) {
 const engines = metrics.citations?.byEngine?.filter(e => e.citations > 0) || []
   const totalCitations = engines.reduce((s, e) => s + e.citations, 0)
   const filteredEngines = getFilteredEngines(questionnaire, AI_ENGINES)

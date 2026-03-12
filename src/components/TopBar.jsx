@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo, useCallback, memo, useLayoutEffect } from 'react'
+import { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react'
 import { gsap } from '../lib/gsap'
 import { useDebounce } from '../hooks/useDebounce'
 import {
@@ -317,17 +317,19 @@ export default memo(function TopBar({
   useEffect(() => {
     const el = progressFillRef.current
     if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    gsap.to(el, { width: `${pct}%`, duration: 0.6, ease: 'power2.out' })
+    const tween = gsap.to(el, { width: `${pct}%`, duration: 0.6, ease: 'power2.out' })
+    return () => tween.kill()
   }, [pct])
 
   // Stagger phase badges on mount
   useEffect(() => {
     const el = phaseBadgesRef.current
     if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    gsap.fromTo(el.children,
+    const tween = gsap.fromTo(el.children,
       { opacity: 0, scale: 0.8 },
       { opacity: 1, scale: 1, stagger: 0.04, duration: 0.3, ease: 'power2.out', clearProps: 'transform' }
     )
+    return () => tween.kill()
   }, [activeProject?.id])
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { hasApiKey } from '../../utils/aiProvider'
 import {
   Search, Globe, Loader2, AlertCircle, Copy, Check,
@@ -241,10 +241,12 @@ export default function BriefView({ activeProject, updateProject, user, initialQ
   const [pageUrl, setPageUrl] = useState('')
 
   // Pre-populate from template selection
-  if (initialQuery && query !== initialQuery) {
-    setQuery(initialQuery)
-    onConsumeQuery?.()
-  }
+  useEffect(() => {
+    if (initialQuery && query !== initialQuery) {
+      setQuery(initialQuery)
+      onConsumeQuery?.()
+    }
+  }, [initialQuery])
 
   const handleGenerate = async () => {
     if (!query.trim()) return

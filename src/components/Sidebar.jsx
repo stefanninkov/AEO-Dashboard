@@ -117,21 +117,22 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
 
     const activeBtn = nav.querySelector('[aria-current="page"]')
     if (!activeBtn) {
-      gsap.to(indicator, { opacity: 0, duration: 0.2 })
-      return
+      const tween = gsap.to(indicator, { opacity: 0, duration: 0.2 })
+      return () => tween.kill()
     }
 
     const navRect = nav.getBoundingClientRect()
     const btnRect = activeBtn.getBoundingClientRect()
     const top = btnRect.top - navRect.top + nav.scrollTop
 
-    gsap.to(indicator, {
+    const tween = gsap.to(indicator, {
       y: top,
       height: btnRect.height,
       opacity: 1,
       duration: 0.3,
       ease: 'power2.out',
     })
+    return () => tween.kill()
   }, [activeView, collapsed])
 
   const toggleGroup = useCallback((groupIndex) => {

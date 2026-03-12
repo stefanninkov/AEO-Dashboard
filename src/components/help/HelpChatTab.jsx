@@ -23,6 +23,8 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
   const [sessionDocId, setSessionDocId] = useState(null)
   const scrollRef = useRef(null)
   const inputRef = useRef(null)
+  const messagesRef = useRef(messages)
+  messagesRef.current = messages
 
   const apiKeyAvailable = typeof window !== 'undefined' ? hasApiKey() : false
 
@@ -72,7 +74,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
     if (!text.trim() || loading || !apiKeyAvailable) return
 
     const userMsg = { role: 'user', content: text.trim(), timestamp: new Date().toISOString() }
-    const updatedMessages = [...messages, userMsg]
+    const updatedMessages = [...messagesRef.current, userMsg]
     setMessages(updatedMessages)
     setInput('')
     setLoading(true)
@@ -112,7 +114,7 @@ export default function HelpChatTab({ user, activeView, activeProject, onNavigat
     } finally {
       setLoading(false)
     }
-  }, [messages, loading, apiKeyAvailable, saveChatSession])
+  }, [loading, apiKeyAvailable, saveChatSession])
 
   const handleSubmit = (e) => {
     e.preventDefault()

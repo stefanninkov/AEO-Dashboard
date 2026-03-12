@@ -65,9 +65,10 @@ export default function ScoreHistoryChart({
   }, [data])
 
   const toggleKey = (key) => {
-    setActiveKeys((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
-    )
+    setActiveKeys((prev) => {
+      if (prev.includes(key) && prev.length === 1) return prev // prevent deselecting last key
+      return prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    })
   }
 
   if (!data.length) {

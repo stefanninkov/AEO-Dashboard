@@ -21,39 +21,41 @@ function FeatureTour({ steps = [], onDismiss, onFeatureSeen }) {
     const el = document.querySelector(step.target)
     if (!el) { setPos(null); return }
 
-    const rect = el.getBoundingClientRect()
     const tooltipW = 260
     const tooltipH = 120
     const gap = 12
 
-    let top, left
-    switch (step.position) {
-      case 'bottom':
-        top = rect.bottom + gap
-        left = rect.left + rect.width / 2 - tooltipW / 2
-        break
-      case 'top':
-        top = rect.top - tooltipH - gap
-        left = rect.left + rect.width / 2 - tooltipW / 2
-        break
-      case 'left':
-        top = rect.top + rect.height / 2 - tooltipH / 2
-        left = rect.left - tooltipW - gap
-        break
-      case 'right':
-        top = rect.top + rect.height / 2 - tooltipH / 2
-        left = rect.right + gap
-        break
-      default:
-        top = rect.bottom + gap
-        left = rect.left
+    const updatePos = () => {
+      const rect = el.getBoundingClientRect()
+      let top, left
+      switch (step.position) {
+        case 'bottom':
+          top = rect.bottom + gap
+          left = rect.left + rect.width / 2 - tooltipW / 2
+          break
+        case 'top':
+          top = rect.top - tooltipH - gap
+          left = rect.left + rect.width / 2 - tooltipW / 2
+          break
+        case 'left':
+          top = rect.top + rect.height / 2 - tooltipH / 2
+          left = rect.left - tooltipW - gap
+          break
+        case 'right':
+          top = rect.top + rect.height / 2 - tooltipH / 2
+          left = rect.right + gap
+          break
+        default:
+          top = rect.bottom + gap
+          left = rect.left
+      }
+      // Clamp to viewport
+      left = Math.max(8, Math.min(left, window.innerWidth - tooltipW - 8))
+      top = Math.max(8, Math.min(top, window.innerHeight - tooltipH - 8))
+      setPos({ top, left })
     }
 
-    // Clamp to viewport
-    left = Math.max(8, Math.min(left, window.innerWidth - tooltipW - 8))
-    top = Math.max(8, Math.min(top, window.innerHeight - tooltipH - 8))
-
-    setPos({ top, left })
+    updatePos()
 
     // Highlight target
     el.style.outline = '2px solid var(--accent)'
@@ -61,9 +63,16 @@ function FeatureTour({ steps = [], onDismiss, onFeatureSeen }) {
     el.style.borderRadius = 'var(--radius-md)'
     el.style.transition = 'outline 200ms'
 
+    window.addEventListener('resize', updatePos)
+    window.addEventListener('scroll', updatePos, true)
+
     return () => {
       el.style.outline = ''
       el.style.outlineOffset = ''
+      el.style.borderRadius = ''
+      el.style.transition = ''
+      window.removeEventListener('resize', updatePos)
+      window.removeEventListener('scroll', updatePos, true)
     }
   }, [step])
 

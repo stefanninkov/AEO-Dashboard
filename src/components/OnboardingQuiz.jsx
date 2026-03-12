@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 import {
   ArrowRight, ArrowLeft, Rocket, X, Check,
   Briefcase, Users, Target, BookOpen, Share2,
@@ -19,6 +19,13 @@ export default function OnboardingQuiz({ onComplete, onSkip }) {
 const [step, setStep] = useState(0)
   const [animating, setAnimating] = useState(false)
   const trapRef = useFocusTrap(true)
+
+  // Escape key handler
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') onSkip?.() }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [onSkip])
 
   const [answers, setAnswers] = useState({
     role: null,
@@ -82,18 +89,20 @@ const [step, setStep] = useState(0)
   }
 
   // Auto-advance when user selects an option (except last step)
+  const advanceTimerRef = useRef(null)
   const handleSelect = useCallback((key, value) => {
     update(key, value)
-    if (step < TOTAL_STEPS - 1) {
-      setTimeout(() => {
+    if (step < TOTAL_STEPS - 1 && !animating) {
+      clearTimeout(advanceTimerRef.current)
+      advanceTimerRef.current = setTimeout(() => {
         setAnimating(true)
-        setTimeout(() => {
+        advanceTimerRef.current = setTimeout(() => {
           setStep(s => s + 1)
           setAnimating(false)
         }, 150)
       }, 200)
     }
-  }, [step, update])
+  }, [step, update, animating])
 
   const progressPercent = ((step + 1) / TOTAL_STEPS) * 100
   const StepIcon = STEP_ICONS[step]

@@ -28,6 +28,8 @@ export function usePresence({ user, activeProject, activeView, updateProject }) 
   const [onlineMembers, setOnlineMembers] = useState([])
   const heartbeatRef = useRef(null)
   const projectIdRef = useRef(null)
+  const sendHeartbeatRef = useRef(null)
+  const readPresenceRef = useRef(null)
 
   const projectId = activeProject?.id
   const presenceData = activeProject?.presence
@@ -106,6 +108,10 @@ export function usePresence({ user, activeProject, activeView, updateProject }) 
     setOnlineMembers(members)
   }, [projectId, presenceData])
 
+  // Keep refs in sync with latest callbacks to avoid stale closures in interval
+  sendHeartbeatRef.current = sendHeartbeat
+  readPresenceRef.current = readPresence
+
   // Start/stop heartbeat when project changes
   useEffect(() => {
     if (!user?.uid || !projectId) {
@@ -114,13 +120,13 @@ export function usePresence({ user, activeProject, activeView, updateProject }) 
     }
 
     // Immediate heartbeat on mount / project change
-    sendHeartbeat()
-    readPresence()
+    sendHeartbeatRef.current()
+    readPresenceRef.current()
 
-    // Periodic heartbeat
+    // Periodic heartbeat — use refs to avoid stale closures
     heartbeatRef.current = setInterval(() => {
-      sendHeartbeat()
-      if (!isFirebaseConfigured) readPresence() // dev mode: poll reads too
+      sendHeartbeatRef.current()
+      if (!isFirebaseConfigured) readPresenceRef.current() // dev mode: poll reads too
     }, HEARTBEAT_INTERVAL)
 
     projectIdRef.current = projectId

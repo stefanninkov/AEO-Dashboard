@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 
 /**
  * useThemeCustomizer — Custom theme colors, fonts, and branding.
@@ -130,7 +130,9 @@ export function useThemeCustomizer() {
   }, [config.preset, config.customAccent])
 
   // Apply on mount
-  useState(() => applyTheme(config))
+  useEffect(() => {
+    applyTheme(config)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     config,

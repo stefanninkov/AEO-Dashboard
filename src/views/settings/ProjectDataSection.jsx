@@ -87,7 +87,7 @@ const [clearMetricsConfirm, setClearMetricsConfirm] = useState(false)
     setDeleteConfirm(false)
     setDeleteTypedName('')
     setActiveView('dashboard')
-  }, [activeProject, deleteTypedName, deleteProject, setActiveView])
+  }, [activeProject, deleteTypedName, deleteProject, setActiveView, canDelete])
 
   const handleBulkImport = useCallback(async (importType, data) => {
     if (!activeProject || !canEdit) return

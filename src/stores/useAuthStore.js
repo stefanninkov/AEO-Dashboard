@@ -7,7 +7,7 @@ import { create } from 'zustand'
  * Components can read auth state from either the hook or this store.
  * The hook remains the source of truth and syncs into the store.
  */
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
   // ── User state ──
   user: null,
   loading: true,
@@ -20,9 +20,7 @@ export const useAuthStore = create((set) => ({
   clearError: () => set({ error: null }),
 
   // ── Derived ──
-  get isAuthenticated() {
-    return !!this.user
-  },
+  isAuthenticated: () => !!get().user,
 }))
 
 /**

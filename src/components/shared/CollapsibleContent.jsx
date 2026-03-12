@@ -7,6 +7,7 @@ export default function CollapsibleContent({ expanded, children }) {
   const [overflow, setOverflow] = useState(expanded ? 'visible' : 'hidden')
   const reducedMotion = useReducedMotion()
   const isFirstRender = useRef(true)
+  const rafRef = useRef(null)
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -31,11 +32,14 @@ export default function CollapsibleContent({ expanded, children }) {
       const h = contentRef.current?.scrollHeight || 0
       setHeight(h + 'px')
       setOverflow('hidden')
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = requestAnimationFrame(() => {
           setHeight('0')
         })
       })
+      return () => {
+        if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      }
     }
   }, [expanded, reducedMotion])
 
@@ -46,6 +50,7 @@ export default function CollapsibleContent({ expanded, children }) {
         height: height === 'auto' ? 'auto' : height,
         overflow,
         transition: reducedMotion ? 'none' : 'height 250ms ease-out',
+        willChange: height === 'auto' ? 'auto' : 'height',
       }}
     >
       {children}

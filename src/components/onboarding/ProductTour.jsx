@@ -71,20 +71,26 @@ const [step, setStep] = useState(0)
 
   const currentStep = TOUR_STEPS[step]
 
-  // Find and highlight target element
+  // Find and highlight target element, update on resize/scroll
   useEffect(() => {
     const el = document.querySelector(currentStep.target)
     if (el) {
-      const rect = el.getBoundingClientRect()
-      setTargetRect(rect)
+      const updateRect = () => setTargetRect(el.getBoundingClientRect())
+      updateRect()
       el.scrollIntoView({ behavior: 'smooth', block: 'center' })
       el.style.outline = '2px solid var(--accent)'
       el.style.outlineOffset = '4px'
       el.style.borderRadius = 'var(--radius-md)'
       el.style.transition = 'outline 0.3s ease'
+      window.addEventListener('resize', updateRect)
+      window.addEventListener('scroll', updateRect, true)
       return () => {
         el.style.outline = ''
         el.style.outlineOffset = ''
+        el.style.borderRadius = ''
+        el.style.transition = ''
+        window.removeEventListener('resize', updateRect)
+        window.removeEventListener('scroll', updateRect, true)
       }
     } else {
       // Target not found, skip to next
