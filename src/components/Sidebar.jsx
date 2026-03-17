@@ -105,35 +105,7 @@ function getInitialCollapsed() {
 export default memo(function Sidebar({ activeView, setActiveView, onNewProject, user, onSignOut, sidebarOpen, closeSidebar, onlineMembers }) {
   const { theme, toggleTheme } = useTheme()
   const [collapsed, setCollapsed] = useState(getInitialCollapsed)
-  const indicatorRef = useRef(null)
   const navRef = useRef(null)
-
-  // Slide active indicator to the current nav item
-  useEffect(() => {
-    const nav = navRef.current
-    const indicator = indicatorRef.current
-    if (!nav || !indicator) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const activeBtn = nav.querySelector('[aria-current="page"]')
-    if (!activeBtn) {
-      const tween = gsap.to(indicator, { opacity: 0, duration: 0.2 })
-      return () => tween.kill()
-    }
-
-    const navRect = nav.getBoundingClientRect()
-    const btnRect = activeBtn.getBoundingClientRect()
-    const top = btnRect.top - navRect.top + nav.scrollTop
-
-    const tween = gsap.to(indicator, {
-      y: top,
-      height: btnRect.height,
-      opacity: 1,
-      duration: 0.3,
-      ease: 'power2.out',
-    })
-    return () => tween.kill()
-  }, [activeView, collapsed])
 
   const toggleGroup = useCallback((groupIndex) => {
     setCollapsed(prev => {
@@ -180,21 +152,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
       </div>
 
       {/* Nav Groups */}
-      <nav ref={navRef} data-tour="sidebar" style={{ position: 'relative' }}>
-        <div
-          ref={indicatorRef}
-          className="sidebar-active-indicator"
-          style={{
-            position: 'absolute',
-            left: '0.5rem',
-            width: '3px',
-            borderRadius: '2px',
-            background: 'var(--color-phase-1)',
-            opacity: 0,
-            pointerEvents: 'none',
-            zIndex: 1,
-          }}
-        />
+      <nav ref={navRef} data-tour="sidebar">
         {navGroups.map((group, gi) => {
           const isCollapsed = !!collapsed[gi]
           const hasActiveChild = group.items.some(item => activeView === item.id)
