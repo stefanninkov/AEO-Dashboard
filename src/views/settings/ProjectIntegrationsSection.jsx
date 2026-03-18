@@ -269,7 +269,7 @@ const { addToast } = useToast()
 
         <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>{'Recipient'}</span>
-          <input className="input-field" type="email" value={digestEmail} onChange={(e) => handleDigestEmail(e.target.value)} placeholder="you@example.com" aria-label="Digest recipient email" style={{ flex: 1 }} />
+          <input className="input-field" type="email" autoComplete="off" value={digestEmail} onChange={(e) => handleDigestEmail(e.target.value)} placeholder="you@example.com" aria-label="Digest recipient email" style={{ flex: 1 }} />
         </div>
 
         <div className="settings-row-inline" style={settingsRowStyle}>

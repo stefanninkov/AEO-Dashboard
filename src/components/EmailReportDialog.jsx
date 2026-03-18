@@ -133,6 +133,7 @@ const [email, setEmail] = useState('')
             <input
               id="recipient-email"
               type="email"
+              autoComplete="off"
               placeholder={'name@example.com'}
               value={email}
               onChange={e => setEmail(e.target.value)}

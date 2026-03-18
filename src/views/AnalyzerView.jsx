@@ -886,6 +886,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
                       <div className="analyzer-url-row">
                         <input
                           type="password"
+                          autoComplete="new-password"
                           placeholder="sk-ant-..."
                           value={apiKey}
                           onChange={e => setApiKey(e.target.value)}
@@ -947,7 +948,7 @@ Then evaluate against these AEO criteria and return ONLY valid JSON:
                     {'API Key Required'}
                   </h4>
                   <div className="analyzer-url-row">
-                    <input type="password" placeholder="sk-ant-..." value={apiKey} onChange={e => setApiKey(e.target.value)} className="analyzer-url-input" />
+                    <input type="password" autoComplete="new-password" placeholder="sk-ant-..." value={apiKey} onChange={e => setApiKey(e.target.value)} className="analyzer-url-input" />
                     <button onClick={() => saveApiKey(apiKey)} className="metrics-run-btn">{'Save'}</button>
                   </div>
                 </div>

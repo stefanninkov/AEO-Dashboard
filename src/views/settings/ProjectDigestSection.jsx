@@ -148,6 +148,7 @@ const { addToast } = useToast()
           <input
             className="input-field"
             type="email"
+            autoComplete="off"
             value={digestEmail}
             onChange={e => handleEmail(e.target.value)}
             placeholder={user?.email || 'you@example.com'}

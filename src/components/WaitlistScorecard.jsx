@@ -294,6 +294,7 @@ const {
               />
               <input
                 type="email"
+                autoComplete="off"
                 className="wl-sc-input"
                 placeholder={'Your email'}
                 value={contactInfo.email}
