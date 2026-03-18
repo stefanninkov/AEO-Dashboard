@@ -210,7 +210,7 @@ export default function TestingView({ activeProject, updateProject }) {
                 <p className="text-xs text-warning mt-2">{'Set a project URL to enable monitoring.'}</p>
               )}
               {!activeProject?.queryTracker?.length && (
-                <p className="text-xs text-warning mt-2">{'Add queries in the tracker below first.'}</p>
+                <p className="text-xs text-warning mt-3">{'Add queries in the tracker below first.'}</p>
               )}
             </div>
             <button
@@ -317,11 +317,11 @@ export default function TestingView({ activeProject, updateProject }) {
 
           {/* Empty state */}
           {monitorHistory.length === 0 && !autoMonitoring && (
-            <div className="flex flex-col items-center justify-center py-10 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
+            <div className="flex flex-col items-center justify-center py-16 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--hover-bg)' }}>
                 <Activity size={20} className="text-text-tertiary" />
               </div>
-              <h3 className="font-heading text-sm font-bold mb-1">{'No monitoring data yet'}</h3>
+              <h3 className="font-heading text-sm font-bold mb-2">{'No monitoring data yet'}</h3>
               <p className="text-xs text-text-tertiary text-center max-w-xs">
                 {activeProject?.queryTracker?.length > 0
                   ? 'Click "Run Check Now" to see how your brand appears in AI search results.'
@@ -408,7 +408,7 @@ export default function TestingView({ activeProject, updateProject }) {
         onToggle={() => toggleSection('tracker')}
       >
         {/* Add Query */}
-        <div className="flex gap-2 mb-5 testing-query-input-row">
+        <div className="flex gap-2 mb-5 mt-1 testing-query-input-row">
           <input
             type="text"
             placeholder={'Add a target query...'}
@@ -492,11 +492,11 @@ export default function TestingView({ activeProject, updateProject }) {
           </div>
         ) : (
           /* Empty state */
-          <div className="flex flex-col items-center justify-center py-12 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
-            <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'var(--hover-bg)' }}>
+          <div className="flex flex-col items-center justify-center py-16 rounded-xl fade-in-up" style={{ border: '0.125rem dashed var(--border-subtle)' }}>
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--hover-bg)' }}>
               <SearchCheck size={20} className="text-text-tertiary" />
             </div>
-            <h3 className="font-heading text-sm font-bold mb-1">{'No queries tracked yet'}</h3>
+            <h3 className="font-heading text-sm font-bold mb-2">{'No queries tracked yet'}</h3>
             <p className="text-xs text-text-tertiary text-center max-w-xs">{'Add your target queries above to start tracking AEO visibility across all AI platforms.'}</p>
           </div>
         )}
