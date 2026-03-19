@@ -6593,7 +6593,16 @@ body {
   outline: none;
 }
 
-/* ── 2F. View Wrapper ── */
+/* ── 2F. Orphan Prevention (no single-word lines) ── */
+
+h1, h2, h3, h4, p,
+.view-header-text p,
+.stat-card-label,
+.empty-state p {
+  text-wrap: balance;
+}
+
+/* ── 2G. View Wrapper ── */
 
 .view-wrapper {
   padding: var(--space-6);

@@ -5,6 +5,16 @@
    ═══════════════════════════════════════════════════════════════ */
 
 
+/* ========== ORPHAN PREVENTION (no single-word lines) ========== */
+
+.wl-root h1, .wl-root h2, .wl-root h3, .wl-root h4,
+.wl-root p, .wl-root .wl-section-subtitle,
+.wl-root .wl-hero-sub, .wl-root .wl-sc-tier-desc,
+.wl-root .wl-card-desc, .wl-root .wl-feature-desc,
+.wl-root .wl-faq-answer p, .wl-root .wl-early-note {
+  text-wrap: balance;
+}
+
 /* ========== ROOT / VARIABLES ========== */
 
 .wl-root {
@@ -215,7 +225,6 @@
   align-items: center;
   justify-content: center;
   padding: 7rem 1.5rem 4rem;
-  overflow: hidden;
 }
 
 /* Grid pattern background */

@@ -4,6 +4,15 @@
    Self-contained dark theme with editorial aesthetics.
    ═══════════════════════════════════════════════════════════════ */
 
+/* ========== ORPHAN PREVENTION (no single-word lines) ========== */
+
+.lp-page h1, .lp-page h2, .lp-page h3, .lp-page h4,
+.lp-page p, .lp-section__subtitle, .lp-section__title,
+.lp-page .lp-pricing__plan-desc,
+.lp-page .lp-faq__answer p {
+  text-wrap: balance;
+}
+
 /* ========== CSS VARIABLES ========== */
 :root {
   --lp-bg: #06060A;

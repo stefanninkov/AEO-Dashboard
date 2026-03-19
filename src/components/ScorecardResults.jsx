@@ -237,7 +237,7 @@ const [converted, setConverted] = useState(false)
           onClick={handleConvert}
           disabled={converted}
         >
-          {converted ? '✓ You\'re In — We\'ll Email You When Access Opens' : 'Get Early Access + Your Action Plan'}
+          {converted ? '✓ You\'re In — We\'ll Email You When Access Opens' : 'Get Early Access'}
         </button>
       </div>
 
@@ -248,7 +248,7 @@ const [converted, setConverted] = useState(false)
           {[
             'Your score is saved and your 99-point checklist is ready',
             'We\'ll email you when early access opens',
-            'Get instant access to your personalized action plan',
+            'Get the full 99-point checklist tailored to your gaps',
           ].map((text, i) => (
             <div key={i} className="wl-sc-step-card">
               <span className="wl-sc-step-number">{i + 1}</span>
