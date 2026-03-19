@@ -356,7 +356,7 @@ const [navSolid, setNavSolid] = useState(false)
     <div className="wl-root" ref={rootRef}>
 
       {/* ═══════════ 1. NAV ═══════════ */}
-      <header className={`wl-nav ${navSolid ? 'wl-nav-solid' : ''}`}>
+      <header className={`wl-nav ${navSolid || mobileMenuOpen ? 'wl-nav-solid' : ''}`}>
         <nav className="wl-nav-inner" aria-label="Main navigation">
           <span className="wl-nav-logo" style={{ cursor: 'default' }}>
             <span className="wl-nav-logo-accent">AEO</span>&nbsp;Dashboard
