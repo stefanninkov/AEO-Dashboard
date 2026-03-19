@@ -119,13 +119,15 @@ const apiKeys = useSeoStore((s) => s.apiKeys)
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
               <div style={{ position: 'relative', flex: 1 }}>
                 <input
-                  type={visibleKeys[provider.id] ? 'text' : 'password'}
-                  autoComplete="new-password"
+                  type="text"
+                  autoComplete="off"
+                  data-1p-ignore
+                  data-lpignore="true"
                   className="input-field"
                   value={value}
                   onChange={(e) => handleChange(provider.id, e.target.value)}
                   placeholder={provider.placeholder}
-                  style={{ paddingRight: '2.5rem', fontSize: '0.8125rem' }}
+                  style={{ paddingRight: '2.5rem', fontSize: '0.8125rem', ...(visibleKeys[provider.id] ? {} : { WebkitTextSecurity: 'disc' }) }}
                 />
                 <button
                   onClick={() => toggleVisibility(provider.id)}

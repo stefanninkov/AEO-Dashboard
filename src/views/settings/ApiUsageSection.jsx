@@ -138,13 +138,15 @@ export default function ApiUsageSection() {
             <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
               <input
                 className="input-field"
-                type={showKey ? 'text' : 'password'}
-                autoComplete="new-password"
+                type="text"
+                autoComplete="off"
+                data-1p-ignore
+                data-lpignore="true"
                 value={apiKeyValue}
                 onChange={(e) => setApiKeyValue(e.target.value)}
                 placeholder={activeConfig.keyPlaceholder}
                 aria-label={`${activeConfig.name} API key`}
-                style={{ width: '100%', paddingRight: '2.5rem' }}
+                style={{ width: '100%', paddingRight: '2.5rem', ...(showKey ? {} : { WebkitTextSecurity: 'disc' }) }}
               />
               <button
                 type="button"
