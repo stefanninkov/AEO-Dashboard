@@ -147,10 +147,10 @@ const [navSolid, setNavSolid] = useState(false)
     ], [])
 
   const EARLY_ACCESS_BENEFITS = useMemo(() => [
-      'Full platform access before launch',
-      'Direct line to the founding team',
-      'Help shape the product with feedback',
-      'Free access during the early period'
+      'First-mover advantage before competitors catch on',
+      'Direct feedback line to the product team',
+      'Shape the tool to fit your agency\'s workflow',
+      'Locked-in free access during early period'
     ], [])
 
   const WHY_NOW_STATS = useMemo(() => [
@@ -167,10 +167,10 @@ const [navSolid, setNavSolid] = useState(false)
     ], [])
 
   const WAITLIST_NOW = useMemo(() => [
-      'Full platform access before launch',
-      'Direct line to the founding team',
-      'Help shape the product with feedback',
-      'Free access during the early period'
+      'First-mover advantage before competitors catch on',
+      'Direct feedback line to the product team',
+      'Shape the tool to fit your agency\'s workflow',
+      'Locked-in free access during early period'
     ], [])
 
   const WAITLIST_LAUNCH = useMemo(() => [
@@ -442,11 +442,11 @@ const [navSolid, setNavSolid] = useState(false)
             </div>
 
             <h1>
-              {'AI Answers Questions. '}<span>{'Is It Quoting You?'}</span>
+              {'AI Answers Questions.'}<br /><span>{'Is It Quoting You?'}</span>
             </h1>
 
             <p className="wl-hero-sub">
-              {'Check your AEO score for free. The full platform is coming soon — join the waitlist to get early access.'}
+              {'See how AI-ready your site is in 2 minutes — free. Get a personalized action plan and jump the early access waitlist.'}
             </p>
 
             {completedResults ? (
@@ -491,7 +491,7 @@ const [navSolid, setNavSolid] = useState(false)
                   className="wl-submit-btn wl-sc-hero-btn"
                   onClick={() => setShowScorecard(true)}
                 >
-                  {'Get Your Free Score →'}
+                  {'See Your Score in 2 Minutes →'}
                 </button>
                 <p className="wl-hero-counter">
                   {count > 0
@@ -601,7 +601,7 @@ const [navSolid, setNavSolid] = useState(false)
             <div className="wl-section-center">
               <span className="wl-section-label">{'Waitlist'}</span>
               <h2 className="wl-section-title">{'The Full Platform Is Coming Soon'}</h2>
-              <p className="wl-section-subtitle wl-centered">{'AEO Dashboard is in the final stages of development. Take the free score quiz to join the waitlist — we’ll let you in first when we launch.'}</p>
+              <p className="wl-section-subtitle wl-centered">{'AEO Dashboard is in the final stages of development. Take the free score quiz to join the waitlist — we\'ll let you in first when we launch.'}</p>
             </div>
             <div className="wl-waitlist-columns">
               <div className="wl-waitlist-col">
@@ -636,7 +636,7 @@ const [navSolid, setNavSolid] = useState(false)
                 className="wl-submit-btn wl-sc-hero-btn"
                 onClick={() => setShowScorecard(true)}
               >
-                {'Check Your Score & Join Waitlist →'}
+                {'Get Your Score & Join →'}
               </button>
               <p className="wl-waitlist-note">{'Free forever during early access. No credit card needed.'}</p>
             </div>
@@ -649,7 +649,7 @@ const [navSolid, setNavSolid] = useState(false)
             <div className="wl-section-center">
               <span className="wl-section-label">{'The Journey'}</span>
               <h2 className="wl-section-title">{'Your Path to AI Visibility'}</h2>
-              <p className="wl-section-subtitle wl-centered">{'7 phases that take you from invisible to cited. Each phase builds on the last — here’s what to expect.'}</p>
+              <p className="wl-section-subtitle wl-centered">{'7 phases that take you from invisible to cited. Each phase builds on the last — here\'s what to expect.'}</p>
             </div>
             <div className="wl-phases">
               {PHASES.map((phase) => (
@@ -706,8 +706,8 @@ const [navSolid, setNavSolid] = useState(false)
           <div className="wl-section-inner">
             <div className="wl-section-center">
               <span className="wl-section-label">{'Who It\'s For'}</span>
-              <h2 className="wl-section-title">{'Built for People Who Care About Traffic'}</h2>
-              <p className="wl-section-subtitle wl-centered">{'If you rely on search traffic, AEO is your next move.'}</p>
+              <h2 className="wl-section-title">{'Built for Agencies Ready to Lead AI Search'}</h2>
+              <p className="wl-section-subtitle wl-centered">{'If your clients depend on search traffic, AEO is your competitive edge.'}</p>
             </div>
             <div className="wl-audience-grid">
               {AUDIENCE_CARDS.map((card, i) => (
@@ -788,7 +788,7 @@ const [navSolid, setNavSolid] = useState(false)
         <section className="wl-early-access" data-animate>
           <h2>{'Want Early Access?'}</h2>
           <p>
-            {'Before we launch, we’re giving a select group of early supporters access to the full platform. Join the waitlist for a chance to be one of the first to try AEO Dashboard — and help shape the product with your feedback.'}
+            {'Before we launch, we\'re giving a select group of early supporters access to the full platform. Join the waitlist for a chance to be one of the first to try AEO Dashboard — and help shape the product with your feedback.'}
           </p>
 
           <div className="wl-early-benefits">
@@ -806,11 +806,11 @@ const [navSolid, setNavSolid] = useState(false)
             className="wl-submit-btn wl-sc-hero-btn"
             onClick={() => setShowScorecard(true)}
           >
-            {'Get Your Free Score →'}
+            {'See Your Score in 2 Minutes →'}
           </button>
 
           <p className="wl-early-note" style={{ marginTop: '1.5rem' }}>
-            {'We’ll select ~'}<strong>{'10'}</strong>{' early access users from the waitlist and reach out personally.'}
+            {'Only '}<strong>{'10 early access spots'}</strong>{' available. We review top scorers first and reach out personally.'}
           </p>
         </section>
 
@@ -856,11 +856,11 @@ const [navSolid, setNavSolid] = useState(false)
             <div className="wl-success-icon">
               <Check size={32} style={{ color: '#10B981' }} />
             </div>
-            <h2>{alreadySignedUp ? 'Already submitted!' : 'You\'re being considered!'}</h2>
+            <h2>{alreadySignedUp ? 'Already on the list!' : 'You\'re In — We\'re Reviewing Your Score'}</h2>
             <p>
               {alreadySignedUp
-                ? 'We already have your email. You\'ll hear from us about early access.'
-                : 'We\'ll review your submission and notify you about early access.'}
+                ? 'We already have your email. You\'ll hear from us when early access opens.'
+                : 'We review top scorers first. We\'ll email you when early access opens for you.'}
             </p>
             <p className="wl-success-position">
               {`#${count.toLocaleString()} on the waitlist`}

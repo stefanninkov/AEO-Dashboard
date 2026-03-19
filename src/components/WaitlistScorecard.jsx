@@ -285,6 +285,7 @@ const {
             <form className="wl-sc-capture-form" onSubmit={handleCapture}>
               <input
                 type="text"
+                autoComplete="off"
                 className="wl-sc-input"
                 placeholder={'Your name'}
                 value={contactInfo.name}

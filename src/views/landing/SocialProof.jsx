@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
-import { gsap, ScrollTrigger } from '../../lib/gsap'
+import { gsap } from '../../lib/gsap'
 import { Building2, Rocket, ShoppingBag, Server, Newspaper } from 'lucide-react'
 
 const INDUSTRIES = [
@@ -13,8 +13,6 @@ const INDUSTRIES = [
 
 export default function SocialProof() {
   const sectionRef = useRef(null)
-  const countRef = useRef(null)
-  const count = 2400
 
   useGSAP(() => {
     const section = sectionRef.current
@@ -27,23 +25,13 @@ export default function SocialProof() {
         scrollTrigger: { trigger: section, start: 'top 80%', once: true },
       }
     )
-
-    // Counter animation
-    if (countRef.current) {
-      gsap.from(countRef.current, {
-        textContent: 0,
-        duration: 2,
-        snap: { textContent: 1 },
-        scrollTrigger: { trigger: countRef.current, start: 'top 85%', once: true },
-      })
-    }
   }, { scope: sectionRef })
 
   return (
     <section ref={sectionRef} className="lp-social-proof" aria-label="Social proof">
       <div className="lp-social-proof__inner">
         <p className="lp-social-proof__headline" data-reveal>
-          Trusted by <span ref={countRef} className="lp-social-proof__count">{count.toLocaleString()}</span>+ SEO professionals worldwide
+          Built for SEO professionals across every industry
         </p>
         <div className="lp-social-proof__logos" data-reveal>
           {INDUSTRIES.map((industry, i) => (
@@ -54,7 +42,7 @@ export default function SocialProof() {
           ))}
         </div>
         <div className="lp-social-proof__live" data-reveal>
-          <span>Join {count.toLocaleString()}+ professionals already optimizing for AI</span>
+          <span>Join the waitlist — early access opening soon</span>
         </div>
       </div>
     </section>

@@ -6,6 +6,7 @@
  */
 import { useState, useEffect, useRef } from 'react'
 import { Share2, Copy, Check } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import {
   CATEGORIES, MAX_TOTAL_SCORE, getScoreTier,
 } from '../utils/scorecardScoring'
@@ -90,6 +91,7 @@ function priorityIcon(score, maxScore) {
 export default function ScorecardResults({
   totalScore, categoryScores, tier, priorities, count, docId, onConvert, onClose, onUpdateWebsite,
 }) {
+  const { t } = useTranslation('waitlist')
 const [converted, setConverted] = useState(false)
   const [copied, setCopied] = useState(false)
   const [websiteUrl, setWebsiteUrl] = useState('')
@@ -147,13 +149,13 @@ const [converted, setConverted] = useState(false)
           className="wl-sc-tier-badge"
           style={{ background: tierData.bgColor, color: tierData.color }}
         >
-          {'Label'}
+          {t(`scorecard.results.tiers.${tierData.id}.label`)}
         </span>
       </div>
 
       {/* Tier Description */}
       <p className="wl-sc-tier-desc">
-        {'Desc'}
+        {t(`scorecard.results.tiers.${tierData.id}.desc`)}
       </p>
 
       {/* Optional Website URL */}
@@ -163,6 +165,7 @@ const [converted, setConverted] = useState(false)
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <input
               type="url"
+              autoComplete="off"
               className="wl-sc-input"
               placeholder={'https://yourwebsite.com'}
               value={websiteUrl}
@@ -195,7 +198,7 @@ const [converted, setConverted] = useState(false)
         {CATEGORIES.map((cat, i) => (
           <CategoryBar
             key={cat.id}
-            label={'Id}'}
+            label={cat.label}
             score={categoryScores[cat.id] || 0}
             maxScore={cat.maxScore}
             color={cat.color}
@@ -216,8 +219,8 @@ const [converted, setConverted] = useState(false)
                 <div key={p.id} className="wl-sc-priority-card">
                   <span className="wl-sc-priority-icon">{priorityIcon(catScore, catMax)}</span>
                   <div className="wl-sc-priority-text">
-                    <strong>{'Title'}</strong>
-                    <span>{'Desc'}</span>
+                    <strong>{t(`scorecard.results.priorities.${p.id}.title`)}</strong>
+                    <span>{t(`scorecard.results.priorities.${p.id}.desc`)}</span>
                   </div>
                 </div>
               )
@@ -228,13 +231,13 @@ const [converted, setConverted] = useState(false)
 
       {/* CTA */}
       <div className="wl-sc-cta-section">
-        <p className="wl-sc-cta-title">{'AEO Dashboard fixes all of this — automatically.'}</p>
+        <p className="wl-sc-cta-title">{'AEO Dashboard fixes every gap above — automatically.'}</p>
         <button
           className={`wl-submit-btn wl-sc-cta-btn ${converted ? 'wl-sc-cta-done' : ''}`}
           onClick={handleConvert}
           disabled={converted}
         >
-          {converted ? '✓ You\'re on the list!' : 'Get Early Access'}
+          {converted ? '✓ You\'re In — We\'ll Email You When Access Opens' : 'Get Early Access + Your Action Plan'}
         </button>
       </div>
 
@@ -242,10 +245,14 @@ const [converted, setConverted] = useState(false)
       <div className="wl-sc-next-steps">
         <h3 className="wl-sc-section-heading">{'What Happens Next'}</h3>
         <div className="wl-sc-steps-grid">
-          {[1, 2, 3].map(i => (
+          {[
+            'Your score is saved and your 99-point checklist is ready',
+            'We\'ll email you when early access opens',
+            'Get instant access to your personalized action plan',
+          ].map((text, i) => (
             <div key={i} className="wl-sc-step-card">
-              <span className="wl-sc-step-number">{i}</span>
-              <span className="wl-sc-step-text">{'Step${i}'}</span>
+              <span className="wl-sc-step-number">{i + 1}</span>
+              <span className="wl-sc-step-text">{text}</span>
             </div>
           ))}
         </div>
