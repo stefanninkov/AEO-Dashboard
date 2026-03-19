@@ -1,12 +1,25 @@
 import { useState, useEffect, useMemo } from 'react'
 import {
   Loader2, AlertCircle, ExternalLink, Shield, Sparkles, TrendingUp,
-  TrendingDown, Minus, CheckCircle2, XCircle, ChartColumnIncreasing, Clock
+  TrendingDown, Minus, CheckCircle2, XCircle, ChartColumnIncreasing, Clock,
+  LayoutDashboard, Users, Search, BarChart3, FileText
 } from 'lucide-react'
 import { fetchSharedProject } from '../hooks/useShareLink'
 import { safeHref } from '../utils/sanitizeUrl'
 import { phases as rawPhases } from '../data/aeo-checklist'
 import { useChecklistTranslation } from '../hooks/useChecklistTranslation'
+import PortalCompetitors from './portal/PortalCompetitors'
+import PortalSeo from './portal/PortalSeo'
+import PortalMetrics from './portal/PortalMetrics'
+import PortalContent from './portal/PortalContent'
+
+const PORTAL_TABS = [
+  { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+  { id: 'competitors', label: 'Competitors', icon: Users },
+  { id: 'seo', label: 'SEO', icon: Search },
+  { id: 'metrics', label: 'Metrics', icon: BarChart3 },
+  { id: 'content', label: 'Content', icon: FileText },
+]
 
 // ─── Portal View (standalone, no auth) ───────────────────────
 export default function PortalView({ shareToken }) {
@@ -14,6 +27,7 @@ const phases = useChecklistTranslation(rawPhases)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [activeTab, setActiveTab] = useState('overview')
 
   useEffect(() => {
     async function load() {
@@ -100,14 +114,34 @@ const phases = useChecklistTranslation(rawPhases)
         {/* Stats */}
         <PortalStats project={project} />
 
-        {/* Checklist Progress */}
-        <PortalPhaseProgress project={project} />
+        {/* Tab Navigation */}
+        <div className="tab-bar-underline" style={{ marginBottom: '1.5rem' }}>
+          {PORTAL_TABS.map(tab => (
+            <button
+              key={tab.id}
+              className={`tab-underline ${activeTab === tab.id ? 'tab-underline--active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+              aria-selected={activeTab === tab.id}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}
+            >
+              <tab.icon size={14} />
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-        {/* Analyzer Results */}
-        {project.analyzerResults && <PortalAnalyzerResults results={project.analyzerResults} />}
-
-        {/* Monitoring History */}
-        {project.monitorHistory?.length > 0 && <PortalMonitorHistory history={project.monitorHistory} />}
+        {/* Tab Content */}
+        {activeTab === 'overview' && (
+          <>
+            <PortalPhaseProgress project={project} />
+            {project.analyzerResults && <PortalAnalyzerResults results={project.analyzerResults} />}
+            {project.monitorHistory?.length > 0 && <PortalMonitorHistory history={project.monitorHistory} />}
+          </>
+        )}
+        {activeTab === 'competitors' && <PortalCompetitors project={project} />}
+        {activeTab === 'seo' && <PortalSeo project={project} />}
+        {activeTab === 'metrics' && <PortalMetrics project={project} />}
+        {activeTab === 'content' && <PortalContent project={project} />}
       </div>
 
       {/* Footer */}

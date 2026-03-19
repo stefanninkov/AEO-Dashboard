@@ -34,6 +34,8 @@ import ProjectDataSection from './settings/ProjectDataSection'
 import ProjectDigestSection from './settings/ProjectDigestSection'
 import AutomationRulesPanel from '../components/AutomationRulesPanel'
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
+import PortalBrandingSection from './settings/PortalBrandingSection'
+import PushNotificationSettings from '../components/PushNotificationSettings'
 
 /* ── Project settings sub-tab definitions ── */
 const PROJECT_SUB_TABS = [
@@ -43,6 +45,7 @@ const PROJECT_SUB_TABS = [
   { id: 'webflow', label: 'Webflow', icon: Globe2 },
   { id: 'webhooks', label: 'Webhooks', icon: Webhook },
   { id: 'digest', label: 'Digest', icon: Mail },
+  { id: 'portal', label: 'Portal', icon: Globe2 },
   { id: 'automations', label: 'Automations', icon: Workflow },
   { id: 'data', label: 'Data', icon: HardDrive },
 ]
@@ -297,6 +300,9 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
           {activeProjectSubTab === 'digest' && (
             <ProjectDigestSection activeProject={resolvedProject} updateProject={updateProject} user={user} />
           )}
+          {activeProjectSubTab === 'portal' && (
+            <PortalBrandingSection activeProject={resolvedProject} updateProject={updateProject} />
+          )}
           {activeProjectSubTab === 'automations' && (
             <ProjectAutomationsSection activeProject={resolvedProject} updateProject={updateProject} user={user} />
           )}
@@ -304,6 +310,11 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <ProjectDataSection activeProject={resolvedProject} updateProject={updateProject} deleteProject={deleteProject} setActiveView={setActiveView} permission={permission} />
           )}
         </>
+      )}
+
+      {/* Notifications tab */}
+      {activeTab === 'notifications' && (
+        <PushNotificationSettings />
       )}
 
       {/* Achievements tab */}

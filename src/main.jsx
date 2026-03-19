@@ -1,6 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { initErrorTracking } from './utils/errorTracking'
 import './i18n' // Initialize i18next before any component renders
+
+// Initialize Sentry error tracking (disabled in dev, needs VITE_SENTRY_DSN in prod)
+initErrorTracking({ dsn: import.meta.env.VITE_SENTRY_DSN || '' })
 import { ThemeProvider } from './contexts/ThemeContext'
 import { ToastProvider } from './components/Toast'
 import App from './App.jsx'

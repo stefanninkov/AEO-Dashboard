@@ -14,6 +14,7 @@ import { useGlobalSearch } from './hooks/useGlobalSearch'
 import { usePortfolio } from './hooks/usePortfolio'
 import { useReducedMotion } from './hooks/useReducedMotion'
 import { useBreakpoint } from './hooks/useBreakpoint'
+import { useSwipeGesture } from './hooks/useSwipeGesture'
 import { useAutoMonitor } from './hooks/useAutoMonitor'
 import { useDigestScheduler } from './hooks/useDigestScheduler'
 import { trackFeature, FEATURES } from './utils/featureTracker'
@@ -423,6 +424,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
 
   const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), [])
   const closeSidebar = useCallback(() => setSidebarOpen(false), [])
+  const openSidebar = useCallback(() => setSidebarOpen(true), [])
 
   const {
     projects,
@@ -448,6 +450,13 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const savedViews = useSavedViews({ activeProject, updateProject, user })
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false)
   const { isMobile, isMobileOrTablet } = useBreakpoint()
+
+  // Mobile: swipe right from left edge to open sidebar, swipe left to close
+  useSwipeGesture({
+    onSwipeRight: openSidebar,
+    onSwipeLeft: closeSidebar,
+    enabled: isMobileOrTablet,
+  })
 
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)

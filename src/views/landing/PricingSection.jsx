@@ -112,9 +112,9 @@ export default function PricingSection() {
             {getSavings(plan) && (
               <span className="lp-pricing__savings">Save {getSavings(plan)}%</span>
             )}
-            <a href="/AEO-Dashboard/app" className={`lp-btn ${plan.featured ? 'lp-btn--primary' : 'lp-btn--secondary'}`}>
-              <span className="lp-btn__text">Start 14-Day Free Trial</span>
-              <span className="lp-btn__text lp-btn__text--clone">Start 14-Day Free Trial</span>
+            <a href="/AEO-Dashboard/?/waitlist" className={`lp-btn ${plan.featured ? 'lp-btn--primary' : 'lp-btn--secondary'}`}>
+              <span className="lp-btn__text">Join Waitlist</span>
+              <span className="lp-btn__text lp-btn__text--clone">Join Waitlist</span>
             </a>
             <ul className="lp-pricing__features">
               {plan.features.map((f, fi) => (

@@ -1,37 +1,7 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from '../../lib/gsap'
-
-const TESTIMONIALS = [
-  {
-    avatar: 'SC',
-    text: 'We went from zero AI citations to appearing in 60% of relevant ChatGPT answers within 3 weeks. The checklist alone is worth 10x the price.',
-    name: 'Sarah Chen',
-    role: 'Head of SEO, DigitalFirst Agency',
-    stars: 5,
-  },
-  {
-    avatar: 'MR',
-    text: 'The client portal changed our workflow completely. Clients can see their AEO progress in real-time without us creating manual reports every week.',
-    name: 'Marcus Rodriguez',
-    role: 'Founder, SearchWave Marketing',
-    stars: 5,
-  },
-  {
-    avatar: 'EP',
-    text: 'Finally, a tool that understands the difference between SEO and AEO. The schema generator and content writer save us hours per client.',
-    name: 'Emily Park',
-    role: 'SEO Director, GrowthLab',
-    stars: 5,
-  },
-  {
-    avatar: 'JM',
-    text: 'The competitor analysis feature revealed gaps we never knew existed. Within a month, our client\'s AI citations increased by 200%.',
-    name: 'James Mitchell',
-    role: 'Technical SEO Lead, Apex Digital',
-    stars: 5,
-  },
-]
+import { MessageSquareQuote } from 'lucide-react'
 
 export default function TestimonialsSection() {
   const sectionRef = useRef(null)
@@ -48,11 +18,11 @@ export default function TestimonialsSection() {
       }
     )
 
-    gsap.fromTo(section.querySelectorAll('.lp-testi__card'),
+    gsap.fromTo(section.querySelector('.lp-testi__placeholder'),
       { opacity: 0, y: 40, scale: 0.96 },
       {
-        opacity: 1, y: 0, scale: 1, stagger: 0.12, duration: 0.7,
-        scrollTrigger: { trigger: section.querySelector('.lp-testi__grid'), start: 'top 80%', once: true },
+        opacity: 1, y: 0, scale: 1, duration: 0.7,
+        scrollTrigger: { trigger: section, start: 'top 80%', once: true },
       }
     )
   }, { scope: sectionRef })
@@ -61,31 +31,60 @@ export default function TestimonialsSection() {
     <section ref={sectionRef} className="lp-section lp-testi" aria-label="Testimonials">
       <div className="lp-section__header">
         <span className="lp-section__label">Testimonials</span>
-        <h2 className="lp-section__title">Loved by SEO Professionals</h2>
+        <h2 className="lp-section__title">What Early Users Are Saying</h2>
       </div>
 
-      <div className="lp-testi__grid">
-        {TESTIMONIALS.map((t, i) => (
-          <div key={i} className="lp-testi__card">
-            <div className="lp-testi__stars">
-              {Array.from({ length: t.stars }, (_, si) => (
-                <svg key={si} width="16" height="16" viewBox="0 0 16 16" fill="#F59E0B">
-                  <path d="M8 1l2.2 4.5L15 6.3l-3.5 3.4.8 4.8L8 12.3 3.7 14.5l.8-4.8L1 6.3l4.8-.8z" />
-                </svg>
-              ))}
-            </div>
-            <blockquote className="lp-testi__text">
-              &ldquo;{t.text}&rdquo;
-            </blockquote>
-            <div className="lp-testi__author">
-              <div className="lp-testi__avatar">{t.avatar}</div>
-              <div>
-                <div className="lp-testi__name">{t.name}</div>
-                <div className="lp-testi__role">{t.role}</div>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="lp-testi__placeholder" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '1.5rem',
+        padding: '4rem 2rem',
+        borderRadius: 'var(--radius-xl, 0.75rem)',
+        border: '0.0625rem dashed var(--border-default, rgba(0,0,0,0.10))',
+        textAlign: 'center',
+        maxWidth: '36rem',
+        margin: '0 auto',
+      }}>
+        <div style={{
+          width: '3.5rem',
+          height: '3.5rem',
+          borderRadius: 'var(--radius-lg, 0.5rem)',
+          background: 'var(--accent-subtle, rgba(37,99,235,0.08))',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <MessageSquareQuote size={24} style={{ color: 'var(--accent, #2563EB)' }} />
+        </div>
+        <div>
+          <h3 style={{
+            fontSize: '1.125rem',
+            fontWeight: 700,
+            color: 'var(--text-primary, #0F1419)',
+            marginBottom: '0.5rem',
+            fontFamily: 'var(--lp-font-heading, Sora, sans-serif)',
+          }}>
+            Beta tester feedback coming soon
+          </h3>
+          <p style={{
+            fontSize: '0.875rem',
+            color: 'var(--text-secondary, #536471)',
+            lineHeight: 1.6,
+          }}>
+            We're collecting feedback from our early access users.
+            Be among the first to share your experience.
+          </p>
+        </div>
+        <a
+          href="/AEO-Dashboard/?/waitlist"
+          className="lp-btn lp-btn--secondary"
+          style={{ marginTop: '0.5rem' }}
+        >
+          <span className="lp-btn__text">Join Early Access</span>
+          <span className="lp-btn__text lp-btn__text--clone">Join Early Access</span>
+        </a>
       </div>
     </section>
   )

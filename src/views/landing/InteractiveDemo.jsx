@@ -241,6 +241,13 @@ export default function InteractiveDemo() {
           {activeTab === 'writer' && <WriterContent content={tab.content} />}
         </div>
       </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+        <a href="/AEO-Dashboard/?/waitlist" className="lp-btn lp-btn--primary">
+          <span className="lp-btn__text">Take the Free AEO Quiz →</span>
+          <span className="lp-btn__text lp-btn__text--clone">Take the Free AEO Quiz →</span>
+        </a>
+      </div>
     </section>
   )
 }

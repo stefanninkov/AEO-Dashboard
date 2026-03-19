@@ -174,7 +174,7 @@
     "0": {
       "name": "Starter",
       "description": "For individuals starting with AEO",
-      "cta": "Start 14-Day Free Trial",
+      "cta": "Join Waitlist",
       "features": {
         "0": "1 project",
         "1": "Phase 1-2 checklist",
@@ -187,7 +187,7 @@
     "1": {
       "name": "Professional",
       "description": "For agencies & SEO professionals",
-      "cta": "Start 14-Day Free Trial",
+      "cta": "Join Waitlist",
       "features": {
         "0": "10 projects",
         "1": "All 7 checklist phases",
@@ -204,7 +204,7 @@
     "2": {
       "name": "Enterprise",
       "description": "For teams & large agencies",
-      "cta": "Start 14-Day Free Trial",
+      "cta": "Join Waitlist",
       "features": {
         "0": "Unlimited projects",
         "1": "Everything in Professional",
@@ -220,27 +220,10 @@
 
   "testimonials": {
     "sectionLabel": "Testimonials",
-    "title": "Loved by SEO Professionals",
-    "0": {
-      "text": "We went from zero AI citations to appearing in 60% of relevant ChatGPT answers within 3 weeks. The checklist alone is worth 10x the price.",
-      "name": "Sarah Chen",
-      "role": "Head of SEO, DigitalFirst Agency"
-    },
-    "1": {
-      "text": "The client portal changed our workflow completely. Clients can see their AEO progress in real-time without us creating manual reports every week.",
-      "name": "Marcus Rodriguez",
-      "role": "Founder, SearchWave Marketing"
-    },
-    "2": {
-      "text": "Finally, a tool that treats AI search as a first-class channel. The multi-engine testing lab showed us exactly where we were missing citations.",
-      "name": "Emily Park",
-      "role": "SEO Director, GrowthLab"
-    },
-    "3": {
-      "text": "The schema generator alone saved us 20+ hours per client. Combined with the analyzer, it's the most complete AEO toolkit available.",
-      "name": "James Mitchell",
-      "role": "Technical SEO Lead, Apex Digital"
-    }
+    "title": "What Early Users Are Saying",
+    "placeholderTitle": "Beta tester feedback coming soon",
+    "placeholderDesc": "We're collecting feedback from our early access users. Be among the first to share your experience.",
+    "placeholderCta": "Join Early Access"
   },
 
   "faq": {
