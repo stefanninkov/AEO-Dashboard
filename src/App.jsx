@@ -458,6 +458,19 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
     enabled: isMobileOrTablet,
   })
 
+  // Prevent browser autofill on non-login inputs throughout the app
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('input:not([data-login])').forEach(input => {
+        if (!input.hasAttribute('autocomplete')) {
+          input.setAttribute('autocomplete', 'off')
+        }
+      })
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+    return () => observer.disconnect()
+  }, [])
+
   // Translated checklist phases (rawPhases is null until dynamic import resolves)
   const phases = useChecklistTranslation(rawPhases)
   const { projectSummaries, portfolioStats, scoreDistribution } = usePortfolio({ projects, phases })
