@@ -308,7 +308,8 @@ export default function CommandPalette({
           <SearchCheck size={16} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
           <input
             ref={inputRef}
-            type="text"
+            type="search"
+            autoComplete="off"
             placeholder={'Type a command or search...'}
             value={query}
             onChange={e => setQuery(e.target.value)}

@@ -65,6 +65,8 @@ function GlobalSearchOverlay({
           <Search size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />
           <input
             ref={inputRef}
+            type="search"
+            autoComplete="off"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Search everything..."

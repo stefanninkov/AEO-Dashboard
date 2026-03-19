@@ -395,6 +395,7 @@ export default memo(function TopBar({
                       <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.25rem', minWidth: 0 }}>
                         <input
                           type="text"
+                          autoComplete="off"
                           value={editName}
                           onChange={e => setEditName(e.target.value)}
                           onKeyDown={e => e.key === 'Enter' && handleRename(project.id)}
@@ -472,7 +473,8 @@ export default memo(function TopBar({
             <SearchCheck size={14} style={{ color: 'var(--text-disabled)', flexShrink: 0 }} />
             <input
               ref={searchInputRef}
-              type="text"
+              type="search"
+              autoComplete="off"
               placeholder={'Search... (Ctrl+K)'}
               value={searchQuery}
               onChange={e => { setSearchQuery(e.target.value); setSearchOpen(true); setSelectedIndex(0) }}

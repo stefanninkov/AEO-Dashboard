@@ -139,6 +139,7 @@ export default function ApiUsageSection() {
               <input
                 className="input-field"
                 type={showKey ? 'text' : 'password'}
+                autoComplete="new-password"
                 value={apiKeyValue}
                 onChange={(e) => setApiKeyValue(e.target.value)}
                 placeholder={activeConfig.keyPlaceholder}
