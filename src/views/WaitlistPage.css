@@ -977,8 +977,9 @@ html[data-theme="light"] body:has(.wl-root) {
   position: relative;
   background: linear-gradient(
     180deg,
-    rgba(37, 99, 235, 0.03) 0%,
-    rgba(79, 70, 229, 0.02) 50%,
+    transparent 0%,
+    rgba(37, 99, 235, 0.02) 30%,
+    rgba(79, 70, 229, 0.015) 60%,
     transparent 100%
   );
 }
@@ -989,7 +990,8 @@ html[data-theme="light"] body:has(.wl-root) {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 62.5rem;
+  width: 100%;
+  max-width: 62.5rem;
   height: 31.25rem;
   background:
     radial-gradient(
@@ -1006,25 +1008,6 @@ html[data-theme="light"] body:has(.wl-root) {
   pointer-events: none;
 }
 
-/* Faint top border for early access */
-.wl-early-access::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(90%, 56.25rem);
-  height: 0.0625rem;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(37, 99, 235, 0.2) 30%,
-    rgba(79, 70, 229, 0.15) 50%,
-    rgba(37, 99, 235, 0.2) 70%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
 
 .wl-early-access h2 {
   font-family: var(--wl-font-heading);
@@ -1870,8 +1853,9 @@ html[data-theme="light"] .wl-hero::after {
 html[data-theme="light"] .wl-early-access {
   background: linear-gradient(
     180deg,
-    rgba(37, 99, 235, 0.02) 0%,
-    rgba(79, 70, 229, 0.015) 50%,
+    transparent 0%,
+    rgba(37, 99, 235, 0.015) 30%,
+    rgba(79, 70, 229, 0.01) 60%,
     transparent 100%
   );
 }
