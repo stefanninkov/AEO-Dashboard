@@ -446,7 +446,7 @@ const [navSolid, setNavSolid] = useState(false)
             </h1>
 
             <p className="wl-hero-sub">
-              {'See how AI-ready your site is in 2 minutes — free. Get a personalized action plan and jump the early access waitlist.'}
+              {'See how AI-ready your site is in 2 minutes — free. Get your score, see your weakest areas, and jump the early access waitlist.'}
             </p>
 
             {completedResults ? (
@@ -810,7 +810,7 @@ const [navSolid, setNavSolid] = useState(false)
           </button>
 
           <p className="wl-early-note" style={{ marginTop: '1.5rem' }}>
-            {'Only '}<strong>{'10 early access spots'}</strong>{' available. We review top scorers first and reach out personally.'}
+            <strong>{'Early access spots are limited.'}</strong>{' We review top scorers first and reach out personally.'}
           </p>
         </section>
 

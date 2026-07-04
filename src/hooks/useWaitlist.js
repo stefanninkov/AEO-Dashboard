@@ -133,11 +133,15 @@ export function useWaitlist() {
       return fakeId
     }
 
-    // Check for duplicate
-    const q = query(collection(db, 'waitlist'), where('email', '==', email))
-    const existing = await getDocs(q)
-    if (!existing.empty) {
-      throw new Error('already_signed_up')
+    // Check for duplicate (skip if Firestore denies read access)
+    try {
+      const q = query(collection(db, 'waitlist'), where('email', '==', email))
+      const existing = await getDocs(q)
+      if (!existing.empty) {
+        throw new Error('already_signed_up')
+      }
+    } catch (err) {
+      if (err.message === 'already_signed_up') throw err
     }
 
     const docRef = await addDoc(collection(db, 'waitlist'), {

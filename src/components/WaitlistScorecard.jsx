@@ -73,7 +73,7 @@ const {
       if (err.message === 'already_signed_up') {
         setError('This email is already on our list!')
       } else {
-        setError('This email is already on our list!')
+        setError('Something went wrong. Please try again.')
       }
     } finally {
       setIsSubmitting(false)
