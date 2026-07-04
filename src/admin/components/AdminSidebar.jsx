@@ -27,20 +27,52 @@ function getAvatarColor(name) {
   return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length]
 }
 
+/* Primary items for the current waitlist phase */
 const ADMIN_NAV_ITEMS = [
   { id: 'dashboard', label: 'Overview', icon: Gauge },
   { id: 'waitlist', label: 'Waitlist CRM', icon: UserPlus },
   { id: 'tasks', label: 'Tasks', icon: CheckSquare },
+  { id: 'activity', label: 'Activity Log', icon: Activity },
+  { id: 'settings', label: 'Settings', icon: SlidersHorizontal },
+]
+
+/* App/user views — relevant once early access users are in the product */
+const ADMIN_POST_LAUNCH_ITEMS = [
   { id: 'users', label: 'Users', icon: Users },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
-  { id: 'activity', label: 'Activity Log', icon: Activity },
+  { id: 'analytics', label: 'Analytics', icon: ChartColumnIncreasing },
   { id: 'feedback', label: 'Feedback', icon: MessageSquare },
   { id: 'chatlogs', label: 'Chat Logs', icon: BotMessageSquare },
   { id: 'revenue', label: 'Revenue', icon: DollarSign },
-  { id: 'analytics', label: 'Analytics', icon: ChartColumnIncreasing },
   { id: 'churn', label: 'Churn & Retention', icon: UserX },
-  { id: 'settings', label: 'Settings', icon: SlidersHorizontal },
 ]
+
+function renderNavItem(item, activeView, setActiveView, closeSidebar, overdueCount) {
+  const Icon = item.icon
+  const isActive = activeView === item.id
+  const showBadge = item.id === 'tasks' && overdueCount > 0
+  return (
+    <button
+      key={item.id}
+      onClick={() => { setActiveView(item.id); closeSidebar?.() }}
+      className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+      style={{ width: '100%', position: 'relative' }}
+    >
+      <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+      {item.label}
+      {showBadge && (
+        <span style={{
+          marginLeft: 'auto', fontSize: '0.5rem', fontWeight: 700,
+          fontFamily: 'var(--font-mono)',
+          padding: '0.0625rem 0.3125rem', borderRadius: 99,
+          background: '#EF4444', color: '#fff', lineHeight: 1.4,
+        }}>
+          {overdueCount}
+        </span>
+      )}
+    </button>
+  )
+}
 
 export default memo(function AdminSidebar({ activeView, setActiveView, user, onSignOut, overdueCount = 0, sidebarOpen, closeSidebar }) {
   const { theme, toggleTheme } = useTheme()
@@ -60,32 +92,13 @@ export default memo(function AdminSidebar({ activeView, setActiveView, user, onS
 
         {/* Nav Items */}
         <nav>
-          {ADMIN_NAV_ITEMS.map(item => {
-            const Icon = item.icon
-            const isActive = activeView === item.id
-            const showBadge = item.id === 'tasks' && overdueCount > 0
-            return (
-              <button
-                key={item.id}
-                onClick={() => { setActiveView(item.id); closeSidebar?.() }}
-                className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-                style={{ width: '100%', position: 'relative' }}
-              >
-                <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
-                {item.label}
-                {showBadge && (
-                  <span style={{
-                    marginLeft: 'auto', fontSize: '0.5rem', fontWeight: 700,
-                    fontFamily: 'var(--font-mono)',
-                    padding: '0.0625rem 0.3125rem', borderRadius: 99,
-                    background: '#EF4444', color: '#fff', lineHeight: 1.4,
-                  }}>
-                    {overdueCount}
-                  </span>
-                )}
-              </button>
-            )
-          })}
+          {ADMIN_NAV_ITEMS.map(item => renderNavItem(item, activeView, setActiveView, closeSidebar, overdueCount))}
+        </nav>
+
+        {/* Section: Post-launch (app/user management) */}
+        <div className="sidebar-section-label">Post-Launch</div>
+        <nav>
+          {ADMIN_POST_LAUNCH_ITEMS.map(item => renderNavItem(item, activeView, setActiveView, closeSidebar, overdueCount))}
         </nav>
 
         {/* Section: Tools */}

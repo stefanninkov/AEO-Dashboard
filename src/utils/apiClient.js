@@ -192,4 +192,38 @@ export async function callAI({
   return normalized
 }
 
+/**
+ * Verify an API key with a minimal 1-token request against the provider's
+ * cheapest (fast) model. Costs a fraction of a cent.
+ *
+ * @param {string} providerId - 'anthropic' | 'openai'
+ * @param {string} apiKey - the key to test
+ * @returns {Promise<{ok: boolean, error?: string}>}
+ */
+export async function verifyApiKey(providerId, apiKey) {
+  if (!apiKey?.trim()) return { ok: false, error: 'No key entered' }
+  const config = getProviderConfig(providerId)
+  const fastModel = config.models.find(m => m.fast)?.id || config.defaultModel
+  const call = providerId === 'openai' ? callOpenAiApi : callAnthropicApi
+  try {
+    await call({
+      apiKey: apiKey.trim(),
+      messages: [{ role: 'user', content: 'Hi' }],
+      maxTokens: 1,
+      model: fastModel,
+      retries: 0,
+    })
+    return { ok: true }
+  } catch (err) {
+    const msg = String(err?.message || err)
+    if (msg.includes('401') || msg.toLowerCase().includes('authentication') || msg.toLowerCase().includes('invalid')) {
+      return { ok: false, error: 'Invalid key — check that you copied it fully' }
+    }
+    if (msg.includes('429')) {
+      return { ok: false, error: 'Key is valid but rate-limited or out of credits' }
+    }
+    return { ok: false, error: 'Could not verify — check your connection and try again' }
+  }
+}
+
 export { ANTHROPIC_API_URL, ANTHROPIC_API_VERSION, ANTHROPIC_MODEL }

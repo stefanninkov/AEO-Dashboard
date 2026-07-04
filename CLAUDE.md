@@ -94,7 +94,7 @@ Guard check in AdminApp.jsx against Firestore `superAdmins` collection. Never re
 | `src/utils/referralSystem.js` | Referral codes + tracking |
 | `src/utils/gamification.js` | Points, badges, levels logic |
 | `.interface-design/system.md` | Canonical design system |
-| `public/robots.txt` | AI crawler access rules |
+| `public/robots.txt` | Currently blocks ALL crawlers (`Disallow: /`) — must open before public launch |
 | `public/sitemap.xml` | Sitemap |
 | `public/sw.js` | Service worker (PWA + caching) |
 
@@ -131,7 +131,7 @@ waitlist/{docId}: {
 
 ## Known Outstanding Issues
 
-1. **Lead Detail Panel** — verify all 14 scorecard answers are shown in AdminWaitlist.jsx detail panel, not just qualification + category scores
+1. ~~Lead Detail Panel~~ — VERIFIED FIXED (May 2026): all 11 scored answers render grouped by category in the Answers tab; 3 qualification answers in the Qualification tab
 2. **Confirmation email** — no email sending client found. Firebase Function → Resend not built yet.
 3. **Client Portal expansion** — Sprint 4 of IMPROVEMENT_PLAN not done (no PortalCompetitorsTab, PortalContentTab, PortalSeoTab, PortalMetricsTab, PortalBrandingSection)
 4. **Push Notifications** — Sprint 5 not done (no pushNotifications.js)

@@ -56,13 +56,10 @@ const NAV_KEYS = [
   { id: 'docs', label: 'Docs' },
   { id: 'testing', label: 'Testing' },
   { id: 'analytics', label: 'Analytics' },
-  { id: 'custom-dashboard', label: 'Custom Dashboard' },
   { id: 'portfolio', label: 'Portfolio' },
   { id: 'comparison', label: 'Comparison' },
   { id: 'executive', label: 'Executive' },
-  { id: 'compliance', label: 'Compliance' },
   { id: 'integrations', label: 'Integrations' },
-  { id: 'health', label: 'Health' },
   { id: 'settings', label: 'Settings' },
 ]
 

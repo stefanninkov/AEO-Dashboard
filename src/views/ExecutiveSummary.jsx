@@ -4,6 +4,7 @@ import {
   CheckCircle2, AlertTriangle, Download, BarChart3, Users,
 } from 'lucide-react'
 import Sparkline from '../components/Sparkline'
+import EmptyState from '../components/EmptyState'
 
 /**
  * ExecutiveSummary — Clean, printable stakeholder report.
@@ -82,6 +83,24 @@ function ExecutiveSummary({ projectSummaries = [], portfolioStats = {}, userName
   const handlePrint = () => window.print()
 
   const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+
+  if (projectSummaries.length === 0) {
+    return (
+      <div className="view-wrapper" style={{ maxWidth: '52rem' }}>
+        <div className="view-header">
+          <div className="view-header-text">
+            <h1 className="view-title">AEO Executive Summary</h1>
+            <p className="view-subtitle">{today}</p>
+          </div>
+        </div>
+        <EmptyState
+          icon={BarChart3}
+          title="No project data yet"
+          description="The executive summary is generated from your projects' scores, citations, and checklist progress. Create a project and run your first analysis to see it here."
+        />
+      </div>
+    )
+  }
 
   return (
     <div ref={containerRef} className="view-wrapper" style={{ maxWidth: '52rem' }}>

@@ -35,7 +35,6 @@ import ProjectDigestSection from './settings/ProjectDigestSection'
 import AutomationRulesPanel from '../components/AutomationRulesPanel'
 import { useGoogleIntegration } from '../hooks/useGoogleIntegration'
 import PortalBrandingSection from './settings/PortalBrandingSection'
-import PushNotificationSettings from '../components/PushNotificationSettings'
 
 /* ── Project settings sub-tab definitions ── */
 const PROJECT_SUB_TABS = [
@@ -133,7 +132,9 @@ function ProjectAutomationsSection({ activeProject, updateProject, user }) {
 
 export default function SettingsView({ activeProject, updateProject, deleteProject, user, setActiveView, permission, projects = [], updateUserProfile }) {
   const [activeTab, setActiveTab] = useState(() => {
-    return localStorage.getItem('aeo-settings-tab') || 'profile'
+    const stored = localStorage.getItem('aeo-settings-tab')
+    // 'notifications' tab was removed (push backend never built)
+    return stored && stored !== 'notifications' ? stored : 'profile'
   })
   // Auto-select the active project when entering the Projects tab
   const [selectedProjectForSettings, setSelectedProjectForSettings] = useState(activeProject || null)
@@ -310,11 +311,6 @@ export default function SettingsView({ activeProject, updateProject, deleteProje
             <ProjectDataSection activeProject={resolvedProject} updateProject={updateProject} deleteProject={deleteProject} setActiveView={setActiveView} permission={permission} />
           )}
         </>
-      )}
-
-      {/* Notifications tab */}
-      {activeTab === 'notifications' && (
-        <PushNotificationSettings />
       )}
 
       {/* Achievements tab */}

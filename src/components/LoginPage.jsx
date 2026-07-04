@@ -140,8 +140,8 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-phase-1/10">
-                <Sparkles size={20} className="text-phase-1" />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent/10">
+                <Sparkles size={20} className="text-accent" />
               </div>
               <h1 className="text-xl font-semibold text-text-primary font-heading tracking-tight">
                 {'AEO Dashboard'}
@@ -155,7 +155,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           <div className="space-y-8">
             <h2 className="text-3xl xl:text-[2.375rem] font-semibold text-text-primary font-heading leading-[1.15] tracking-tight">
               Optimize your website<br />
-              for <span className="text-phase-1">AI search engines</span>
+              for <span className="text-accent">AI search engines</span>
             </h2>
 
             <div className="space-y-4">
@@ -165,7 +165,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                 { num: '03', text: '99-point checklist covering all optimization phases' },
               ].map((item) => (
                 <div key={item.num} className="flex items-start gap-4">
-                  <span className="font-mono text-[0.6875rem] font-bold shrink-0 mt-0.5 text-phase-1 opacity-70">{item.num}</span>
+                  <span className="font-mono text-[0.6875rem] font-bold shrink-0 mt-0.5 text-accent opacity-70">{item.num}</span>
                   <p className="text-[0.8125rem] leading-relaxed text-text-secondary">{item.text}</p>
                 </div>
               ))}
@@ -191,8 +191,8 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
           {/* Mobile brand */}
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center gap-2.5 mb-2">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-phase-1/10">
-                <Sparkles size={18} className="text-phase-1" />
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-accent/10">
+                <Sparkles size={18} className="text-accent" />
               </div>
               <h1 className="font-heading text-xl font-semibold text-text-primary tracking-tight">
                 {'AEO Dashboard'}
@@ -236,7 +236,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                   </p>
                   <button
                     onClick={() => { setForgotPassword(false); setResetSent(false); setLocalError(null); clearError?.() }}
-                    className="text-phase-1 text-[0.8125rem] font-medium hover:underline transition-all"
+                    className="text-accent text-[0.8125rem] font-medium hover:underline transition-all"
                   >
                     {'← Back to sign in'}
                   </button>
@@ -276,7 +276,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                 <p className="text-center text-[0.8125rem] text-text-tertiary mt-6">
                   <button
                     onClick={() => { setForgotPassword(false); setLocalError(null); clearError?.() }}
-                    className="text-phase-1 font-medium hover:underline transition-all"
+                    className="text-accent font-medium hover:underline transition-all"
                   >
                     {'← Back to sign in'}
                   </button>
@@ -374,7 +374,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                   <button
                     type="button"
                     onClick={() => { setForgotPassword(true); setResetEmail(email); setResetSent(false); setLocalError(null); clearError?.() }}
-                    className="text-[0.6875rem] text-text-disabled hover:text-phase-1 transition-colors"
+                    className="text-[0.6875rem] text-text-disabled hover:text-accent transition-colors"
                   >
                     {'Forgot password?'}
                   </button>
@@ -458,7 +458,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                 {'Don\'t have an account?'}{' '}
                 <button
                   onClick={() => switchMode('signup')}
-                  className="text-phase-1 font-medium hover:underline transition-all"
+                  className="text-accent font-medium hover:underline transition-all"
                 >
                   {'Sign Up'}
                 </button>
@@ -468,7 +468,7 @@ export default function LoginPage({ onSignIn, onSignUp, onGoogleSignIn, onResetP
                 {'Already have an account?'}{' '}
                 <button
                   onClick={() => switchMode('signin')}
-                  className="text-phase-1 font-medium hover:underline transition-all"
+                  className="text-accent font-medium hover:underline transition-all"
                 >
                   {'Sign In'}
                 </button>

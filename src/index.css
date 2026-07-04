@@ -70,6 +70,9 @@ html {
   --color-text-tertiary: var(--text-tertiary);
   --color-text-disabled: var(--text-disabled);
 
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+
   --color-phase-1: #FF6B35;
   --color-phase-2: #7C3AED;
   --color-phase-3: #0EA5E9;

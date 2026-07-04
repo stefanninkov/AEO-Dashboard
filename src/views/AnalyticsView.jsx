@@ -1,8 +1,9 @@
 import { memo, useState } from 'react'
 import {
   Download, FileJson, FileSpreadsheet, FileText,
-  LayoutGrid, ChevronDown,
+  ChevronDown, BarChart3,
 } from 'lucide-react'
+import EmptyState from '../components/EmptyState'
 import { useTrendAnalysis } from '../hooks/useTrendAnalysis'
 import { useBulkExport } from '../hooks/useBulkExport'
 import TrendAnalysisPanel from '../components/TrendAnalysisPanel'
@@ -55,6 +56,23 @@ function AnalyticsView({
     { id: 'export', label: 'Export Data' },
   ]
 
+  if (!activeProject) {
+    return (
+      <div className="view-wrapper">
+        <div className="view-header">
+          <div className="view-header-text">
+            <h1 className="view-title">Analytics</h1>
+          </div>
+        </div>
+        <EmptyState
+          icon={BarChart3}
+          title="No project selected"
+          description="Analytics are built from a project's metrics history. Create or select a project, then log some metrics to see trends, digests, and exports here."
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="view-wrapper">
       {/* Header */}
@@ -62,20 +80,6 @@ function AnalyticsView({
         <div className="view-header-text">
           <h1 className="view-title">Analytics</h1>
         </div>
-        {setActiveView && (
-          <button
-            onClick={() => setActiveView('custom-dashboard')}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 'var(--space-1)',
-              padding: 'var(--space-1) var(--space-2)',
-              background: 'var(--accent)', border: 'none',
-              borderRadius: 'var(--radius-md)', cursor: 'pointer',
-              fontSize: 'var(--text-2xs)', fontWeight: 600, color: '#fff',
-            }}
-          >
-            <LayoutGrid size={10} /> Custom Dashboard
-          </button>
-        )}
       </div>
 
       {/* Tab bar */}

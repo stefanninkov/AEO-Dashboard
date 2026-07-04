@@ -2,11 +2,12 @@
  * ApiUsageSection — Provider selector, API key management, model selection, and usage dashboard.
  */
 import { useState, useCallback } from 'react'
-import { Key, Eye, EyeOff, Save, Check, AlertTriangle, ChartColumnIncreasing, Sparkles, Cpu, Trash2 } from 'lucide-react'
+import { Key, Eye, EyeOff, Save, Check, AlertTriangle, ChartColumnIncreasing, Sparkles, Cpu, Trash2, ShieldCheck, Loader2 } from 'lucide-react'
 import {
   getActiveProvider, setActiveProvider, getProviderConfig, getAllProviders,
   getApiKey, setApiKey as setProviderApiKey, hasApiKey, getModel, setModel,
 } from '../../utils/aiProvider'
+import { verifyApiKey } from '../../utils/apiClient'
 import { useUsageStats } from '../../hooks/useUsageStats'
 import { resetUsage, formatTokens, formatCost } from '../../utils/usageTracker'
 import {
@@ -24,6 +25,7 @@ export default function ApiUsageSection() {
   const [apiKeyValue, setApiKeyValue] = useState(() => getApiKey(activeProviderId))
   const [showKey, setShowKey] = useState(false)
   const [keySaved, setKeySaved] = useState(false)
+  const [verifyState, setVerifyState] = useState(null) // null | 'testing' | {ok, error}
 
   // Model state
   const [selectedModel, setSelectedModel] = useState(() => getModel(activeProviderId))
@@ -38,11 +40,19 @@ export default function ApiUsageSection() {
     setApiKeyValue(getApiKey(providerId))
     setSelectedModel(getModel(providerId))
     setShowKey(false)
+    setVerifyState(null)
   }, [])
 
   const handleSaveKey = useCallback(() => {
     setProviderApiKey(activeProviderId, apiKeyValue)
     flash(setKeySaved)
+    setVerifyState(null)
+  }, [activeProviderId, apiKeyValue])
+
+  const handleVerifyKey = useCallback(async () => {
+    setVerifyState('testing')
+    const result = await verifyApiKey(activeProviderId, apiKeyValue)
+    setVerifyState(result)
   }, [activeProviderId, apiKeyValue])
 
   const handleModelChange = useCallback((modelId) => {
@@ -165,8 +175,34 @@ export default function ApiUsageSection() {
               {keySaved ? <Check size={13} /> : <Save size={13} />}
               {keySaved ? 'Saved' : 'Save'}
             </button>
+            <button
+              className="btn-secondary btn-sm"
+              style={{ flexShrink: 0 }}
+              onClick={handleVerifyKey}
+              disabled={verifyState === 'testing' || !keyExists}
+              title="Sends a tiny 1-token request to check the key works (costs a fraction of a cent)"
+            >
+              {verifyState === 'testing'
+                ? <Loader2 size={13} className="animate-spin" />
+                : <ShieldCheck size={13} />}
+              {verifyState === 'testing' ? 'Testing…' : 'Test'}
+            </button>
           </div>
         </div>
+
+        {verifyState && verifyState !== 'testing' && (
+          <div className="settings-row-inline" style={settingsRowStyle}>
+            <span style={labelStyle} />
+            <span style={{
+              fontSize: '0.8125rem',
+              display: 'flex', alignItems: 'center', gap: '0.375rem',
+              color: verifyState.ok ? 'var(--color-success)' : 'var(--color-error)',
+            }}>
+              {verifyState.ok ? <Check size={13} /> : <AlertTriangle size={13} />}
+              {verifyState.ok ? 'Key verified — you’re good to go' : verifyState.error}
+            </span>
+          </div>
+        )}
 
         <div className="settings-row-inline" style={settingsRowStyle}>
           <span style={labelStyle}>Status</span>
