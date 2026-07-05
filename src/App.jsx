@@ -24,7 +24,6 @@ import TopBar from './components/TopBar'
 import ErrorBoundary from './components/ErrorBoundary'
 import ConnectionBanner from './components/ConnectionBanner'
 import ToastManager from './components/ToastManager'
-import OnboardingWizard from './components/OnboardingWizard'
 import FeatureTour from './components/FeatureTour'
 import KeyboardCheatsheet from './components/KeyboardCheatsheet'
 import SkipToContent from './components/SkipToContent'
@@ -70,7 +69,6 @@ const SeoView = lazy(() => import('./views/seo/SeoView'))
 // Lazy-loaded modals (only loaded when opened)
 const DocOverlay = lazy(() => import('./components/DocOverlay'))
 const NewProjectModal = lazy(() => import('./components/NewProjectModal'))
-const OnboardingTutorial = lazy(() => import('./components/OnboardingTutorial'))
 const OnboardingQuiz = lazy(() => import('./components/OnboardingQuiz'))
 const ProjectQuestionnaire = lazy(() => import('./components/ProjectQuestionnaire'))
 const EmailReportDialog = lazy(() => import('./components/EmailReportDialog'))
@@ -82,7 +80,6 @@ const HelpWidget = lazy(() => import('./components/HelpWidget'))
 const AiChatPanel = lazy(() => import('./components/AiChatPanel'))
 import { AiChatButton } from './components/AiChatPanel'
 const GlobalActivityFeed = lazy(() => import('./components/GlobalActivityFeed'))
-const ProductTour = lazy(() => import('./components/onboarding/ProductTour'))
 const GettingStartedChecklist = lazy(() => import('./components/onboarding/GettingStartedChecklist'))
 
 /* ── Suspense Fallback — picks the right skeleton per view ── */
@@ -334,11 +331,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [aiChatOpen, setAiChatOpen] = useState(false)
   const [activityFeedOpen, setActivityFeedOpen] = useState(false)
-  const [showOnboarding, setShowOnboarding] = useState(() => {
-    return localStorage.getItem('aeo-onboarding-completed') !== 'true'
-  })
-
-  // Onboarding quiz — shown once after first login (before tutorial)
+  // Onboarding quiz — shown once after first login
   const [showQuiz, setShowQuiz] = useState(false)
   const quizChecked = useRef(false)
 
@@ -963,17 +956,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
           <ConnectionBanner error={firestoreError} />
           <KeyboardCheatsheet open={keyboard.cheatsheetOpen} onClose={() => keyboard.setCheatsheetOpen(false)} groupedShortcuts={keyboard.groupedShortcuts} />
           <ToastManager toasts={notifCenter.toasts} dismissToast={notifCenter.dismissToast} />
-          <OnboardingWizard
-            isOpen={onboarding.isWizardOpen}
-            currentStep={onboarding.currentWizardStep}
-            wizardSteps={onboarding.wizardSteps}
-            completedSteps={onboarding.completedSteps}
-            wizardProgress={onboarding.wizardProgress}
-            nextStep={onboarding.nextStep}
-            skipWizard={onboarding.skipWizard}
-            onNavigate={setActiveView}
-          />
-          {onboarding.onboardingCompleted && onboarding.getTour(activeView) && (
+          {!splashVisible && !showQuiz && onboarding.getTour(activeView) && (
             <FeatureTour
               steps={onboarding.getTour(activeView)}
               onDismiss={() => onboarding.dismissTour(activeView)}
@@ -1021,14 +1004,6 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             onSkip={handleQuizSkip}
           />
         </Suspense>
-      )}
-
-      {!splashVisible && !showQuiz && showOnboarding && (
-        <OnboardingTutorial
-          onComplete={() => setShowOnboarding(false)}
-          onSkip={() => setShowOnboarding(false)}
-          setActiveView={setActiveView}
-        />
       )}
 
       {newProjectModalOpen && (
@@ -1109,18 +1084,6 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
         />
       )}
 
-      {/* Product Tour — shown after onboarding quiz + tutorial are done */}
-      {!splashVisible && !showQuiz && !showOnboarding && (() => {
-        const tourDone = localStorage.getItem('aeo-product-tour-completed') === 'true'
-        if (tourDone) return null
-        return (
-          <ProductTour
-            onComplete={() => {}}
-            onSkip={() => {}}
-          />
-        )
-      })()}
-
       {/* Global Activity Feed */}
       {activityFeedOpen && (
         <GlobalActivityFeed
@@ -1155,7 +1118,7 @@ function AuthenticatedApp({ user, onSignOut, updateUserProfile }) {
             setActiveView={setActiveView}
           />
         </div>
-        {!splashVisible && !showQuiz && !showOnboarding && (
+        {!splashVisible && !showQuiz && (
           <GettingStartedChecklist
             activeProject={activeProject}
             projects={projects}

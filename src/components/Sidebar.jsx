@@ -135,7 +135,7 @@ export default memo(function Sidebar({ activeView, setActiveView, onNewProject, 
       <div className="sidebar-scroll">
       {/* Logo */}
       <div className="sidebar-logo">
-        <Sparkles size={20} className="text-phase-1" style={{ flexShrink: 0 }} />
+        <Sparkles size={20} className="text-accent" style={{ flexShrink: 0 }} />
         <span className="sidebar-logo-text">{'AEO Dashboard'}</span>
       </div>
 

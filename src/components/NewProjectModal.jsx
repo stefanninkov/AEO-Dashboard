@@ -77,6 +77,7 @@ const [name, setName] = useState('')
   const [urlError, setUrlError] = useState('')
   const [urlTouched, setUrlTouched] = useState(false)
   const [checking, setChecking] = useState(false)
+  const [unreachableWarning, setUnreachableWarning] = useState(false)
   const trapRef = useFocusTrap(true)
 
   const validateUrl = useCallback((value) => {
@@ -97,6 +98,7 @@ const [name, setName] = useState('')
   const handleUrlChange = (e) => {
     const val = e.target.value
     setUrl(val)
+    setUnreachableWarning(false)
     if (urlTouched) validateUrl(val)
   }
 
@@ -120,13 +122,20 @@ const [name, setName] = useState('')
       return
     }
 
-    // Check reachability
+    // Second submit after an unreachable warning — user chose to create anyway
+    if (unreachableWarning) {
+      onCreate(name.trim(), finalUrl)
+      return
+    }
+
+    // Check reachability — warn but never hard-block (VPNs, ad-blockers,
+    // and strict proxies produce false negatives)
     setChecking(true)
     const reachable = await checkUrlReachable(finalUrl)
     setChecking(false)
 
     if (!reachable) {
-      setUrlError('This website doesn\'t seem to exist. Please check the URL and try again.')
+      setUnreachableWarning(true)
       return
     }
 
@@ -209,6 +218,14 @@ const [name, setName] = useState('')
                 <span style={{ fontSize: 11, color: 'var(--color-error)' }}>{urlError}</span>
               </div>
             )}
+            {unreachableWarning && (
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 4, marginTop: 6 }}>
+                <AlertCircle size={12} style={{ color: 'var(--color-warning)', flexShrink: 0, marginTop: 2 }} />
+                <span style={{ fontSize: 11, color: 'var(--color-warning)' }}>
+                  {"We couldn't reach this site — it may be blocking automated checks. Submit again to create the project anyway."}
+                </span>
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
@@ -225,7 +242,7 @@ const [name, setName] = useState('')
               ) : (
                 <Plus size={14} />
               )}
-              {checking ? 'Verifying...' : required ? 'Get Started' : 'Create Project'}
+              {checking ? 'Verifying...' : unreachableWarning ? 'Create Anyway' : required ? 'Get Started' : 'Create Project'}
             </button>
             {!required && (
               <button

@@ -189,8 +189,9 @@ const [subTab, setSubTab] = useState('overview')
 
   // Memoize all derived metrics data
   const { totalCitations, totalPrompts, activeEngines, aeoScore, citationsTrend, promptsTrend, scoreTrend } = useMemo(() => {
+    // null = no previous period to compare — StatCard hides the trend line
     const calcTrend = (curr, prev) => {
-      if (!curr || !prev || prev === 0) return 0
+      if (curr == null || prev == null || prev === 0) return null
       return Math.round(((curr - prev) / prev) * 100 * 10) / 10
     }
     const tc = latestMetrics?.citations?.total || 0

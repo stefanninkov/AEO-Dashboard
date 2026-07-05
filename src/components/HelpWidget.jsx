@@ -64,7 +64,7 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
           width: 36, height: 36,
           borderRadius: 10,
           border: 'none',
-          background: open ? 'var(--text-secondary)' : 'var(--color-phase-1)',
+          background: open ? 'var(--text-secondary)' : 'var(--accent)',
           color: '#fff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer',
@@ -118,8 +118,8 @@ export default function HelpWidget({ user, activeView, activeProject, setActiveV
                       background: 'none', border: 'none', cursor: 'pointer',
                       fontFamily: 'var(--font-body)',
                       fontSize: 12, fontWeight: isActive ? 600 : 500,
-                      color: isActive ? 'var(--color-phase-1)' : 'var(--text-tertiary)',
-                      borderBottom: isActive ? '0.125rem solid var(--color-phase-1)' : '0.125rem solid transparent',
+                      color: isActive ? 'var(--accent)' : 'var(--text-tertiary)',
+                      borderBottom: isActive ? '0.125rem solid var(--accent)' : '0.125rem solid transparent',
                       transition: 'all 150ms',
                     }}
                   >

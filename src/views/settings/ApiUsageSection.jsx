@@ -89,8 +89,8 @@ export default function ApiUsageSection() {
                   flex: 1,
                   padding: '0.75rem 1rem',
                   borderRadius: '0.625rem',
-                  border: `0.0938rem solid ${isActive ? 'var(--color-phase-1)' : 'var(--border-subtle)'}`,
-                  background: isActive ? 'rgba(99,102,241,0.06)' : 'var(--bg-input)',
+                  border: `0.0938rem solid ${isActive ? 'var(--accent)' : 'var(--border-subtle)'}`,
+                  background: isActive ? 'var(--accent-subtle)' : 'var(--bg-input)',
                   cursor: 'pointer',
                   textAlign: 'left',
                   transition: 'all 0.15s ease',
@@ -101,7 +101,7 @@ export default function ApiUsageSection() {
                 }}>
                   <div style={{
                     width: '0.5rem', height: '0.5rem', borderRadius: '50%',
-                    background: isActive ? 'var(--color-phase-1)' : 'var(--border-default)',
+                    background: isActive ? 'var(--accent)' : 'var(--border-default)',
                   }} />
                   <span style={{
                     fontFamily: 'var(--font-heading)', fontSize: '0.8125rem',
@@ -284,7 +284,7 @@ export default function ApiUsageSection() {
               </div>
               <div style={{
                 fontSize: '0.75rem', fontWeight: 600,
-                color: data.costEstimate > 0 ? 'var(--color-phase-1)' : 'var(--text-disabled)',
+                color: data.costEstimate > 0 ? 'var(--accent)' : 'var(--text-disabled)',
                 marginTop: '0.375rem',
               }}>
                 {formatCost(data.costEstimate)}
@@ -315,7 +315,7 @@ export default function ApiUsageSection() {
                   style={{
                     flex: 1,
                     height: `${height}%`,
-                    background: day.calls > 0 ? 'var(--color-phase-1)' : 'var(--border-subtle)',
+                    background: day.calls > 0 ? 'var(--accent)' : 'var(--border-subtle)',
                     borderRadius: '0.125rem 0.125rem 0 0',
                     transition: 'height 0.2s ease',
                     opacity: day.calls > 0 ? 1 : 0.3,
@@ -349,7 +349,7 @@ export default function ApiUsageSection() {
                   </span>
                   <span style={{ color: 'var(--text-tertiary)' }}>{data.calls} calls</span>
                   <span style={{ color: 'var(--text-tertiary)' }}>{formatTokens(data.inputTokens + data.outputTokens)} tokens</span>
-                  <span style={{ color: 'var(--color-phase-1)', fontWeight: 600 }}>{formatCost(data.costEstimate)}</span>
+                  <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{formatCost(data.costEstimate)}</span>
                 </div>
               ))}
             </div>

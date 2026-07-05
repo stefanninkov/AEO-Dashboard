@@ -499,10 +499,27 @@ const { monitoring, progress, error, lastResult, runMonitor } = useAutoMonitor({
                 <div className="mon-result-info">
                   <span className="mon-result-query">{r.query}</span>
                   <span className="mon-result-excerpt">{r.excerpt}</span>
+                  {r.competitors?.length > 0 && (
+                    <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', marginTop: '0.125rem' }}>
+                      {'Also cited: '}{r.competitors.join(', ')}
+                    </span>
+                  )}
                 </div>
-                <span className={`mon-result-badge ${r.cited ? 'mon-badge-cited' : 'mon-badge-not-cited'}`}>
-                  {r.cited ? 'Cited' : 'Not Cited'}
-                </span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.25rem', flexShrink: 0 }}>
+                  <span className={`mon-result-badge ${r.cited ? 'mon-badge-cited' : 'mon-badge-not-cited'}`}>
+                    {r.cited ? 'Cited' : 'Not Cited'}
+                  </span>
+                  {r.cited && r.sentiment && r.sentiment !== 'neutral' && (
+                    <span style={{
+                      fontSize: '0.625rem', fontWeight: 600, padding: '0.0625rem 0.375rem',
+                      borderRadius: '999px', textTransform: 'capitalize',
+                      background: r.sentiment === 'positive' ? 'color-mix(in srgb, var(--color-success) 12%, transparent)' : 'color-mix(in srgb, var(--color-error) 12%, transparent)',
+                      color: r.sentiment === 'positive' ? 'var(--color-success)' : 'var(--color-error)',
+                    }}>
+                      {r.sentiment}
+                    </span>
+                  )}
+                </div>
               </div>
             ))}
           </div>

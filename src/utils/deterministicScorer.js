@@ -14,7 +14,7 @@
  * Total: 100 points
  */
 
-export function scorePage(pageData, robotsData, sitemapData) {
+export function scorePage(pageData, robotsData, sitemapData, extraSignals = {}) {
   const checks = []
 
   // === 1. CONTENT STRUCTURE (25 points) ===
@@ -255,6 +255,32 @@ export function scorePage(pageData, robotsData, sitemapData) {
       points: sitemapData.freshness?.fresh > 5 ? 3 : sitemapData.freshness?.fresh > 0 ? 1.5 : 0,
       maxPoints: 3,
       detail: sitemapData.freshness ? `${sitemapData.freshness.fresh} pages updated in last 30 days` : 'Unknown',
+    })
+  }
+
+  // llms.txt — emerging standard for AI-readable site indexes (2 pts)
+  if (extraSignals.llmsTxt) {
+    checks.push({
+      category: 'AI Discoverability',
+      item: 'llms.txt present (emerging standard)',
+      status: extraSignals.llmsTxt.found ? 'pass' : 'partial',
+      points: extraSignals.llmsTxt.found ? 2 : 0,
+      maxPoints: 2,
+      detail: extraSignals.llmsTxt.found
+        ? `Found at ${extraSignals.llmsTxt.url}`
+        : 'Not found — a markdown index at /llms.txt helps AI systems navigate your site. Generate one in the Schema tool.',
+    })
+  }
+
+  // Cloudflare warning — informational, does not affect score
+  if (extraSignals.cloudflare) {
+    checks.push({
+      category: 'AI Discoverability',
+      item: 'Cloudflare detected — verify AI bot access',
+      status: 'partial',
+      points: 0,
+      maxPoints: 0,
+      detail: 'Cloudflare blocks known AI crawlers by default since 2025. Even with a permissive robots.txt, check your Cloudflare dashboard (Security → Bots → AI crawlers) to ensure GPTBot, ClaudeBot, and PerplexityBot are allowed.',
     })
   }
 

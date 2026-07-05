@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Code2, Loader2, Copy, Check, ChevronDown, ChevronUp, Sparkles, Trash2, Clock, AlertCircle, Plus, FileJson, HelpCircle, ClipboardList, Newspaper, ShoppingBag, MapPin, Building2, Link2, Clapperboard, FileText, ShieldCheck, CheckCircle2, AlertTriangle, XCircle, ClipboardPaste, Layout } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
 import TemplatesBrowser from '../components/TemplatesBrowser'
+import LlmsTxtGenerator from '../components/LlmsTxtGenerator'
 import { callAI } from '../utils/apiClient'
 import { hasApiKey } from '../utils/aiProvider'
 import { validateSchema } from '../utils/validateSchema'
@@ -144,6 +145,7 @@ const SCHEMA_TYPE_META = [
   { id: 'organization',  Icon: Building2,      schemaType: 'Organization',   label: 'Organization' },
   { id: 'breadcrumb',    Icon: Link2,          schemaType: 'BreadcrumbList', label: 'Breadcrumb' },
   { id: 'video',         Icon: Clapperboard,   schemaType: 'VideoObject',    label: 'Video' },
+  { id: 'llmsTxt',       Icon: FileText,       schemaType: 'llms.txt',       label: 'llms.txt' },
 ]
 
 // ─── Main Component ──────────────────────────────────────────
@@ -403,7 +405,13 @@ const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProjec
         ))}
       </div>
 
+      {/* llms.txt — deterministic generator, replaces the AI form */}
+      {selectedType === 'llmsTxt' && (
+        <LlmsTxtGenerator activeProject={activeProject} />
+      )}
+
       {/* Form */}
+      {selectedType !== 'llmsTxt' && (
       <div className="schema-form-card">
         <div className="schema-form-row">
           <div className="schema-form-field schema-form-field-wide">
@@ -450,6 +458,7 @@ const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProjec
           )}
         </button>
       </div>
+      )}
 
       {/* Error */}
       {error && (
@@ -469,7 +478,7 @@ const { logAndDispatch } = useActivityWithWebhooks({ activeProject, updateProjec
       )}
 
       {/* Result */}
-      {result && !loading && (
+      {result && !loading && selectedType !== 'llmsTxt' && (
         <div className="schema-result">
           <div className="schema-result-header">
             <div>

@@ -24,6 +24,7 @@ import PageHealthTab from './analyzer/PageHealthTab'
 import { fetchPageHtml, parsePageData } from '../utils/htmlCrawler'
 import { checkRobotsTxt, AI_CRAWLERS } from '../utils/robotsChecker'
 import { checkSitemap } from '../utils/sitemapChecker'
+import { checkLlmsTxt, detectCloudflare } from '../utils/llmsTxtChecker'
 import { scorePage } from '../utils/deterministicScorer'
 import { useScoreHistory } from '../hooks/useScoreHistory'
 import { useGamification } from '../hooks/useGamification'
@@ -311,18 +312,22 @@ Provide a specific, implementable fix with code that can be directly copied and 
       const parsed = parsePageData(html, targetUrl)
       setPageData(parsed)
 
-      // Phase 2: Check robots.txt (in parallel with sitemap)
+      // Phase 2: Check robots.txt (in parallel with sitemap + llms.txt)
       setScanPhase('robots')
-      const [robots, sitemap] = await Promise.all([
+      const [robots, sitemap, llmsTxt] = await Promise.all([
         checkRobotsTxt(targetUrl).catch(() => null),
         checkSitemap(targetUrl).catch(() => ({ found: false, pageCount: 0, hasLastmod: false, freshness: null })),
+        checkLlmsTxt(targetUrl).catch(() => null),
       ])
       setRobotsData(robots)
       setSitemapData(sitemap)
 
       // Phase 3: Score
       setScanPhase('scoring')
-      const score = scorePage(parsed, robots, sitemap)
+      const score = scorePage(parsed, robots, sitemap, {
+        llmsTxt,
+        cloudflare: detectCloudflare(html),
+      })
       setDeterministicScore(score)
 
       // Persist to project

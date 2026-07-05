@@ -8,11 +8,16 @@
 
 const AI_CRAWLERS = [
   { id: 'gptbot', name: 'GPTBot', engine: 'ChatGPT / OpenAI', docs: 'https://platform.openai.com/docs/gptbot' },
+  { id: 'oai-searchbot', name: 'OAI-SearchBot', engine: 'ChatGPT Search', docs: 'https://platform.openai.com/docs/bots' },
   { id: 'chatgpt-user', name: 'ChatGPT-User', engine: 'ChatGPT browsing', docs: 'https://platform.openai.com/docs/plugins/bot' },
   { id: 'google-extended', name: 'Google-Extended', engine: 'Gemini / Google AI', docs: 'https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers' },
   { id: 'perplexitybot', name: 'PerplexityBot', engine: 'Perplexity', docs: 'https://docs.perplexity.ai/guides/bots' },
+  { id: 'perplexity-user', name: 'Perplexity-User', engine: 'Perplexity browsing', docs: 'https://docs.perplexity.ai/guides/bots' },
   { id: 'claudebot', name: 'ClaudeBot', engine: 'Claude / Anthropic', docs: 'https://docs.anthropic.com/en/docs/claude-ai-bot' },
   { id: 'anthropic-ai', name: 'anthropic-ai', engine: 'Anthropic training', docs: 'https://docs.anthropic.com/en/docs/claude-ai-bot' },
+  { id: 'applebot-extended', name: 'Applebot-Extended', engine: 'Apple Intelligence / Siri', docs: 'https://support.apple.com/en-us/119829' },
+  { id: 'meta-externalagent', name: 'meta-externalagent', engine: 'Meta AI', docs: 'https://developers.facebook.com/docs/sharing/webmasters/web-crawlers' },
+  { id: 'amazonbot', name: 'Amazonbot', engine: 'Amazon Alexa / Rufus', docs: 'https://developer.amazon.com/amazonbot' },
   { id: 'ccbot', name: 'CCBot', engine: 'Common Crawl (training data)', docs: 'https://commoncrawl.org/ccbot' },
   { id: 'bytespider', name: 'Bytespider', engine: 'TikTok / Doubao', docs: null },
   { id: 'cohere-ai', name: 'cohere-ai', engine: 'Cohere', docs: null },

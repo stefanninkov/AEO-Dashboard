@@ -66,7 +66,9 @@ Look at the search results. Does the response mention, cite, or reference the we
 Return ONLY valid JSON:
 {
   "cited": true or false,
-  "excerpt": "Brief excerpt of how the brand/URL was mentioned, or 'Not found in results' if not cited"
+  "excerpt": "Brief excerpt of how the brand/URL was mentioned, or 'Not found in results' if not cited",
+  "sentiment": "positive" or "neutral" or "negative" — tone of the mention (use "neutral" if not cited),
+  "competitors": ["up to 3 other domains that ARE cited prominently for this query"]
 }`
           }],
           extraBody: {
@@ -83,6 +85,8 @@ Return ONLY valid JSON:
             query: q.query,
             cited: !!parsed.cited,
             excerpt: parsed.excerpt || '',
+            sentiment: ['positive', 'neutral', 'negative'].includes(parsed.sentiment) ? parsed.sentiment : 'neutral',
+            competitors: Array.isArray(parsed.competitors) ? parsed.competitors.slice(0, 3).map(String) : [],
           }
           if (parsed.cited) citedCount++
           totalChecks++
