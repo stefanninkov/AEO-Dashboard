@@ -5,22 +5,87 @@ import {
 } from 'lucide-react'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
-/* Non-translatable step metadata — icons, targets, views stay module-scope */
+const SECTIONS = {
+  gettingStarted: 'Getting Started',
+  coreTools: 'Core Tools',
+  creationTools: 'Creation Tools',
+  measurement: 'Measurement',
+  resources: 'Resources',
+  letsGo: "Let's Go",
+}
+
 const STEP_META = [
-  { id: 'welcome',           icon: Sparkles,        sectionKey: 'gettingStarted', target: null,                                view: null },
-  { id: 'sidebar',           icon: Compass,         sectionKey: 'gettingStarted', target: '.sidebar',                          view: 'dashboard' },
-  { id: 'project-switcher',  icon: Gauge, sectionKey: 'gettingStarted', target: '.top-bar-row-1 .relative',          view: 'dashboard' },
-  { id: 'progress',          icon: ChartColumnIncreasing, sectionKey: 'gettingStarted', target: '.top-bar-progress',                 view: 'dashboard' },
-  { id: 'dashboard',         icon: Gauge, sectionKey: 'coreTools',      target: '.stat-card',                        view: 'dashboard' },
-  { id: 'checklist',         icon: CheckSquare,     sectionKey: 'coreTools',      target: '.checklist-stats-grid',             view: 'checklist' },
-  { id: 'analyzer',          icon: Sparkles,        sectionKey: 'coreTools',      target: 'input[placeholder="https://example.com"]', view: 'analyzer' },
-  { id: 'writer',            icon: PenTool,         sectionKey: 'creationTools',  target: null,                                view: 'writer' },
-  { id: 'schema',            icon: Code2,           sectionKey: 'creationTools',  target: null,                                view: 'schema' },
-  { id: 'testing',           icon: FlaskConical,    sectionKey: 'measurement',    target: null,                                view: 'testing' },
-  { id: 'metrics-monitoring', icon: Activity,       sectionKey: 'measurement',    target: null,                                view: 'metrics' },
-  { id: 'docs',              icon: BookOpen,        sectionKey: 'resources',      target: null,                                view: 'docs' },
-  { id: 'settings',          icon: SlidersHorizontal, sectionKey: 'resources',      target: null,                                view: 'settings' },
-  { id: 'get-started',       icon: Rocket,          sectionKey: 'letsGo',        target: null,                                view: null, hasCta: true },
+  {
+    id: 'welcome', icon: Sparkles, sectionKey: 'gettingStarted', target: null, view: null,
+    title: 'Welcome to AEO Dashboard',
+    description: 'Answer Engine Optimization (AEO) helps your website appear in AI-generated answers — from ChatGPT and Google AI Overviews to Perplexity and Bing Copilot. This tour will walk you through every tool so you know exactly how to use each one.',
+  },
+  {
+    id: 'sidebar', icon: Compass, sectionKey: 'gettingStarted', target: '.sidebar', view: 'dashboard',
+    title: 'Sidebar Navigation',
+    description: 'Use the sidebar to switch between all the tools in the app. Each tool handles a specific part of your AEO workflow. Pro tip: press number keys 1–9 to jump between views instantly, or press ⌘K (Ctrl+K) to open the Command Palette for fast search and navigation.',
+  },
+  {
+    id: 'project-switcher', icon: Gauge, sectionKey: 'gettingStarted', target: '.top-bar-row-1 .relative', view: 'dashboard',
+    title: 'Your Project',
+    description: 'Each project tracks one website’s AEO optimization. All your checklist progress, metrics, and settings are project-scoped. You can create multiple projects for different websites and switch between them here.',
+  },
+  {
+    id: 'progress', icon: ChartColumnIncreasing, sectionKey: 'gettingStarted', target: '.top-bar-progress', view: 'dashboard',
+    title: 'Progress Tracking',
+    description: 'The progress bar shows your overall AEO completion percentage across all 7 phases. The colored phase badges below break it down — aim to get all phases to 100%. This gives you a quick snapshot of where you stand and what needs attention.',
+  },
+  {
+    id: 'dashboard', icon: Gauge, sectionKey: 'coreTools', target: '.stat-card', view: 'dashboard',
+    title: 'Dashboard',
+    description: 'Your command center for AEO. View key stat cards, progress charts, and phase breakdowns at a glance. Switch between sub-tabs (Overview, Citations, Prompts, Chatbots) to see different metric angles. This is where you check your overall AEO health.',
+  },
+  {
+    id: 'checklist', icon: CheckSquare, sectionKey: 'coreTools', target: '.checklist-stats-grid', view: 'checklist',
+    title: 'AEO Guide',
+    description: 'Your step-by-step roadmap with 99 tasks across 7 phases. Check items off as you complete them — progress saves automatically. Each task has a "Learn more" button with detailed documentation and an action button that takes you directly to the relevant tool. Start with Phase 1 to audit your technical foundation.',
+  },
+  {
+    id: 'analyzer', icon: Sparkles, sectionKey: 'coreTools', target: 'input[placeholder="https://example.com"]', view: 'analyzer',
+    title: 'Analyzer',
+    description: 'Enter any URL for an instant 100-point AEO score — no API key needed. The deterministic engine checks schema markup, content structure, AI crawler access, sitemap health, and 20+ signals. Optionally layer on AI analysis for deeper recommendations. This should be your starting point: analyze your site to get a baseline score.',
+  },
+  {
+    id: 'writer', icon: PenTool, sectionKey: 'creationTools', target: null, view: 'writer',
+    title: 'Content Writer',
+    description: 'AI-powered content creation specifically optimized for AEO. Generate FAQ pages, how-to guides, product descriptions, and other content formats that AI engines love to cite. The writer structures content with clear headings, concise answers, and proper formatting for maximum AI visibility.',
+  },
+  {
+    id: 'schema', icon: Code2, sectionKey: 'creationTools', target: null, view: 'schema',
+    title: 'Schema Generator',
+    description: 'Generate JSON-LD structured data markup for your pages. Schema is one of the most important AEO factors — it tells AI engines exactly what your content means. Select a schema type (FAQPage, HowTo, Article, Product, etc.), fill in the fields, and get valid JSON-LD ready to paste into your site.',
+  },
+  {
+    id: 'testing', icon: FlaskConical, sectionKey: 'measurement', target: null, view: 'testing',
+    title: 'Testing',
+    description: 'Test real queries against AI engines (ChatGPT, Perplexity, Google AI, Bing Copilot, Claude) to see if your content appears in their answers. Track which queries you’re winning and which need work. This is how you validate that your optimizations are actually working.',
+  },
+  {
+    id: 'metrics-monitoring', icon: Activity, sectionKey: 'measurement', target: null, view: 'metrics',
+    title: 'Metrics & Monitoring',
+    description: 'Track your AEO performance over time with detailed analytics. The Monitoring tab watches for issues in real-time, while Metrics shows trends in citations, visibility, and traffic. Connect Google Search Console and GA4 in Settings to pull in real performance data from your website.',
+  },
+  {
+    id: 'docs', icon: BookOpen, sectionKey: 'resources', target: null, view: 'docs',
+    title: 'Documentation',
+    description: 'Full documentation for every feature and every checklist task. The App Guide tab explains each tool in detail, AEO Reference has comprehensive docs for all 99 tasks, and FAQ answers common questions. Search across everything or browse by phase.',
+  },
+  {
+    id: 'settings', icon: SlidersHorizontal, sectionKey: 'resources', target: null, view: 'settings',
+    title: 'Settings',
+    description: 'Configure your project details, invite team members with role-based access (Owner, Admin, Editor, Viewer), and connect integrations — Google Search Console, Google Analytics 4, and Webflow. Set your API key here — it’s required for the AI-powered features.',
+  },
+  {
+    id: 'get-started', icon: Rocket, sectionKey: 'letsGo', target: null, view: null, hasCta: true,
+    title: 'You’re Ready!',
+    description: 'Here’s your game plan: First, go to Settings and set your API key. Then open the AEO Guide and start with Phase 1 to audit your technical foundation. Use the Analyzer to scan your website and get a baseline score. From there, work through the phases — each task links directly to the tool you need. Good luck!',
+    cta: 'Start with AEO Guide',
+  },
 ]
 
 export default function OnboardingTutorial({ onComplete, onSkip, setActiveView }) {
@@ -34,10 +99,7 @@ const [step, setStep] = useState(0)
     return {
       ...meta,
       icon: <Icon size={24} />,
-      title: 'Title',
-      description: 'Desc',
-      section: 'Section Key}',
-      cta: meta.hasCta ? 'Cta' : undefined,
+      section: SECTIONS[meta.sectionKey],
     }
   }), [])
 

@@ -12,8 +12,15 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 
 const TOTAL_STEPS = 5
 
-/* Step metadata — icons for each step */
+/* Step metadata — icons and question titles for each step */
 const STEP_ICONS = [Briefcase, Users, Target, BookOpen, Share2]
+const STEP_TITLES = [
+  'What best describes your role?',
+  'How big is your team?',
+  "What's your primary goal with AEO?",
+  'How familiar are you with AEO?',
+  'How did you find us?',
+]
 
 export default function OnboardingQuiz({ onComplete, onSkip }) {
 const [step, setStep] = useState(0)
@@ -214,7 +221,7 @@ const [step, setStep] = useState(0)
                 color: 'var(--text-primary)', margin: 0,
               }}
             >
-              {'Title'}
+              {STEP_TITLES[step]}
             </h3>
           </div>
 
