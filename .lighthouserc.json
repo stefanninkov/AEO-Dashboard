@@ -1,7 +1,7 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": "./dist",
+      "staticDistDir": "./lhci-public",
       "url": ["/AEO-Dashboard/"],
       "numberOfRuns": 1
     },
